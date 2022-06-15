@@ -1,0 +1,7 @@
+{
+    "_comment": "mock offer response",
+    "title": "Офферта тестовая",
+    "message": "",
+    "service_id": 42,
+    "file": "user_privacy.mock.html"
+}

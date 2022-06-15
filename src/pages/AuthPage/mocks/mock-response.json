@@ -1,0 +1,6 @@
+{
+    "_comment": "mock response after redirect to the AuthPage",
+    "id": 42,
+    "service_name": "Билайн аналитика",
+    "reffer": "/"
+}
