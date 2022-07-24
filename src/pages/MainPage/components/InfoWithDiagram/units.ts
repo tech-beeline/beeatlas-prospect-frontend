@@ -1,0 +1,40 @@
+import styled from '@emotion/styled';
+
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    max-width: 294px;
+
+    text-align: center;
+`;
+
+export const Diagram = styled.img`
+    width: 180px;
+    height: 239px;
+
+    margin-bottom: 40px;
+`;
+
+export const TitleFirst = styled.h2`
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 56px;
+`;
+
+export const TitleSecond = styled.h4`
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 32px;
+`;
+
+export const Description = styled.p`
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 24px;
+
+    margin-top: 12px;
+
+    color: rgba(25, 28, 52, 0.7);
+`;
