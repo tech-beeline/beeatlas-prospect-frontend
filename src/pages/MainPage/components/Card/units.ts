@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 
-import pic from './images/pic.png';
+import card1 from './images/card-1.png';
+import card2 from './images/card-2.png';
+import card3 from './images/card-3.png';
 
 export const CardContainer = styled.div`
     margin-top: 61px;
@@ -16,20 +18,27 @@ export const Card = styled.div<any>`
     border-radius: 12px;
 
     background-color: ${({ colorType }) =>
-        colorType === 'pink'
+        colorType === 'green'
+            ? '#E1F5F0;'
+            : colorType === 'pink'
             ? '#FAE4F7'
-            : colorType === 'green'
-            ? '#E1F5F0'
-            : colorType === 'yellow'
-            ? '#FFF7D7'
+            : colorType === 'blue'
+            ? '#E0F7FB;'
             : 'gray'};
 
     &::before {
         position: absolute;
         top: -61px;
-        right: 19px;
+        right: -25px;
 
-        content: url(${pic});
+        content: ${({ colorType }) =>
+            colorType === 'green'
+                ? `url(${card1})`
+                : colorType === 'pink'
+                ? `url(${card2})`
+                : colorType === 'blue'
+                ? `url(${card3})`
+                : 'null'};
     }
 `;
 

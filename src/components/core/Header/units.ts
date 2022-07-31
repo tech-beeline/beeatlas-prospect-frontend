@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 
 // TODO: с токенами
 export const Container = styled.div`
+    display: flex;
+    align-items: center;
+
     width: 100%;
     height: 64px;
     padding: 18px 24px;

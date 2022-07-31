@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
     align-items: center;
     flex-direction: column; */
 
-    padding: 60px 96px;
+    padding: 0 96px 60px 96px;
 
     height: 100%;
 

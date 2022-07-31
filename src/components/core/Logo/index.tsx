@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import logoBeeline from './images/logo-beeline.png';
+import logoBeeline from './images/logo-beeline.svg';
 
 import { ILogo } from './types';
 import * as S from './units';

@@ -19,7 +19,7 @@ export const MainPage = () => {
         <>
             <Header />
 
-            <SPages.PageWrapper>
+            <S.GeneralBlock>
                 <S.Title>переиспользуйте существующие возможности</S.Title>
 
                 <S.H3>
@@ -28,11 +28,14 @@ export const MainPage = () => {
                 </S.H3>
 
                 <Button>Узнать подробнее</Button>
+            </S.GeneralBlock>
 
+            {/* из-за блока с картинкой убран верхний паддинг -- не подходит под все страницы */}
+            <SPages.PageWrapper>
                 <S.H1>из чего состоит витрина</S.H1>
 
                 <S.CardsContainer>
-                    <Card colorType="yellow" title="модели">
+                    <Card colorType="green" title="модели">
                         Функционально-доменная модель позволяет узнать о существующих в компании
                         возможностях, переиспользовать их, и заказать необходимую возможность
                         у вдалельца домена, а также получить информацию о состоянии ИТ–ландшафта.
@@ -44,7 +47,7 @@ export const MainPage = () => {
                         за помощью, узнать опыт коллег
                     </Card>
 
-                    <Card colorType="green" title="личный кабинет">
+                    <Card colorType="blue" title="личный кабинет">
                         С помощью личного кабинета отслеживайте стадии жизненного цикла
                         возможностей, храните документацию по проекту, работайте с техническим
                         долгом, погружайте команду, делитесь опытом
@@ -71,16 +74,22 @@ export const MainPage = () => {
                     </InfoWithDiagram>
                 </S.InfoContainer>
 
-                <S.CallbackContainer>
-                    <S.H1ForCallbackStyled>всегда на связи</S.H1ForCallbackStyled>
+                <S.H1>у нас спрашивали</S.H1>
 
-                    <S.Text>
-                        Напишите нам, если у вас есть вопросы или предложения по улучшению
-                        существующих материалов.
-                    </S.Text>
+                <S.AccordionStyled />
 
-                    <Button>Связаться с нами</Button>
-                </S.CallbackContainer>
+                <S.CallbackWrapper>
+                    <S.CallbackContainer>
+                        <S.H1ForCallbackStyled>всегда на связи</S.H1ForCallbackStyled>
+
+                        <S.Text>
+                            Напишите нам, если у вас есть вопросы или предложения по улучшению
+                            существующих материалов.
+                        </S.Text>
+
+                        <Button>Связаться с нами</Button>
+                    </S.CallbackContainer>
+                </S.CallbackWrapper>
             </SPages.PageWrapper>
         </>
     );
