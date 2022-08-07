@@ -31,19 +31,28 @@ export const Accordion = (props: any) => {
         },
     ];
 
-    const [dataOfAccordion, setDataOfAccordion] = useState(data);
+    // const [dataOfAccordion, setDataOfAccordion] = useState(data);
+    const [isActive, setActive] = useState<number | null>(null);
 
     // TODO: открытие только одного айтема
-    const toggleHandler = (index: number) => {
-        setDataOfAccordion((prevState) =>
-            prevState.map((item) => {
-                if (item.id === index) {
-                    return { ...item, isOpen: !item.isOpen };
-                }
+    // const toggleHandler = (index: number) => {
+    //     setDataOfAccordion((prevState) =>
+    //         prevState.map((item) => {
+    //             if (item.id === index) {
+    //                 return { ...item, isOpen: !item.isOpen };
+    //             }
 
-                return item;
-            }),
-        );
+    //             return item;
+    //         }),
+    //     );
+    // };
+
+    const toggleHandler = (index: number) => {
+        if (isActive === index) {
+            setActive(null);
+        } else {
+            setActive(index);
+        }
     };
 
     return (
@@ -51,12 +60,12 @@ export const Accordion = (props: any) => {
             {data.map((item, index) => (
                 <S.Item key={index} onClick={() => toggleHandler(index)}>
                     <S.TitleBlock>
-                        {item.title} <S.ArrowIcon isOpen={dataOfAccordion[index].isOpen} />
+                        {/* {item.title} <S.ArrowIcon isOpen={dataOfAccordion[index].isOpen} /> */}
+                        {item.title} <S.ArrowIcon isOpen={isActive === index} />
                     </S.TitleBlock>
 
-                    <S.ExpandStyled isOpen={dataOfAccordion[index].isOpen}>
-                        {item.text}
-                    </S.ExpandStyled>
+                    {/* <S.ExpandStyled isOpen={dataOfAccordion[index].isOpen}> */}
+                    <S.ExpandStyled isOpen={isActive === index}>{item.text}</S.ExpandStyled>
                 </S.Item>
             ))}
         </S.Container>
