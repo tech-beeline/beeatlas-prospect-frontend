@@ -14,6 +14,7 @@ export const Card = styled.div<any>`
     min-width: 612px;
     height: 300px;
     padding: 32px;
+    margin-right: 24px;
 
     border-radius: 12px;
 

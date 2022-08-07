@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Header } from 'components/core';
-import { Button } from 'components/interaction';
+import { Button, Slider } from 'components/interaction';
 
 import * as SPages from 'pages/units';
 
@@ -10,7 +10,7 @@ import diagram2 from './images/diagram2.svg';
 import diagram3 from './images/diagram3.svg';
 import diagram4 from './images/diagram4.svg';
 
-import { Card, InfoWithDiagram } from './components';
+import { InfoWithDiagram } from './components';
 import * as S from './units';
 
 // TODO: рефакторинг - раскидать по блокам/виджетам, использовать компоненты
@@ -34,7 +34,9 @@ export const MainPage = () => {
             <SPages.PageWrapper>
                 <S.H1>из чего состоит витрина</S.H1>
 
-                <S.CardsContainer>
+                <Slider />
+
+                {/* <S.CardsContainer>
                     <Card colorType="green" title="модели">
                         Функционально-доменная модель позволяет узнать о существующих в компании
                         возможностях, переиспользовать их, и заказать необходимую возможность
@@ -52,7 +54,7 @@ export const MainPage = () => {
                         возможностей, храните документацию по проекту, работайте с техническим
                         долгом, погружайте команду, делитесь опытом
                     </Card>
-                </S.CardsContainer>
+                </S.CardsContainer> */}
 
                 <S.H1>используя наш продукт</S.H1>
 

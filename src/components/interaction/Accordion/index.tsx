@@ -33,6 +33,7 @@ export const Accordion = (props: any) => {
 
     const [dataOfAccordion, setDataOfAccordion] = useState(data);
 
+    // TODO: открытие только одного айтема
     const toggleHandler = (index: number) => {
         setDataOfAccordion((prevState) =>
             prevState.map((item) => {
