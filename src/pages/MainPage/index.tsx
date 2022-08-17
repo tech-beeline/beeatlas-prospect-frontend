@@ -1,7 +1,8 @@
 import React from 'react';
+import { Button } from '@beeline/lk-ui';
 
 import { Header } from 'components/core';
-import { Button, Slider } from 'components/interaction';
+import { Button as MyButton, Slider } from 'components/interaction';
 
 import * as SPages from 'pages/units';
 
@@ -27,7 +28,9 @@ export const MainPage = () => {
                     создания продукта
                 </S.H3>
 
-                <Button>Узнать подробнее</Button>
+                <Button variant="contained" size="medium">
+                    Узнать подробнее
+                </Button>
             </S.GeneralBlock>
 
             {/* из-за блока с картинкой убран верхний паддинг -- не подходит под все страницы */}
@@ -89,7 +92,7 @@ export const MainPage = () => {
                             существующих материалов.
                         </S.Text>
 
-                        <Button>Связаться с нами</Button>
+                        <MyButton>Связаться с нами</MyButton>
                     </S.CallbackContainer>
                 </S.CallbackWrapper>
             </SPages.PageWrapper>
