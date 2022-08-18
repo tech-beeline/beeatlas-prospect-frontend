@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@beeline/lk-ui';
+import { Button, Icon, Icons } from '@beeline/lk-ui';
 
 import { Header } from 'components/core';
 import { Button as MyButton, Slider } from 'components/interaction';
@@ -21,6 +21,8 @@ export const MainPage = () => {
             <Header />
 
             <S.GeneralBlock>
+                <Icon iconName={Icons.Alarm} />
+
                 <S.Title>переиспользуйте существующие возможности</S.Title>
 
                 <S.H3>
@@ -28,7 +30,7 @@ export const MainPage = () => {
                     создания продукта
                 </S.H3>
 
-                <Button variant="contained" size="medium">
+                <Button variant="contained" size="medium" onClick={() => console.log('test')}>
                     Узнать подробнее
                 </Button>
             </S.GeneralBlock>
