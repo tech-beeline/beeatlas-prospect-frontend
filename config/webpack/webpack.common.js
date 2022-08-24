@@ -64,20 +64,20 @@ module.exports = {
                     },
                 ],
             },
-            {
-                test: /\.woff(2)?(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: '[hash].[ext]',
-                    mimeType: 'application/font-woff',
-                    outputPath: 'fonts',
-                },
-            },
-            {
-                test: /\.(eot|ttf|otf)(\?.*)?$/,
-                loader: 'file-loader',
-            },
+            // {
+            //     test: /\.woff(2)?(\?.*)?$/,
+            //     loader: 'url-loader',
+            //     options: {
+            //         limit: 10000,
+            //         name: '[hash].[ext]',
+            //         mimeType: 'application/font-woff',
+            //         outputPath: 'fonts',
+            //     },
+            // },
+            // {
+            //     test: /\.(eot|ttf|otf)(\?.*)?$/,
+            //     loader: 'file-loader',
+            // },
         ],
     },
     plugins: [

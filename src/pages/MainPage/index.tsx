@@ -1,4 +1,5 @@
 import React from 'react';
+import VKITAuth from '@beeline/lk-auth';
 import { Button, Icon, Icons } from '@beeline/lk-ui';
 
 import { Header } from 'components/core';
@@ -16,6 +17,12 @@ import * as S from './units';
 
 // TODO: рефакторинг - раскидать по блокам/виджетам, использовать компоненты
 export const MainPage = () => {
+    const handleAuthTest = () => {
+        const auth = new VKITAuth();
+
+        auth.startAuth();
+    };
+
     return (
         <>
             <Header />
@@ -30,7 +37,7 @@ export const MainPage = () => {
                     создания продукта
                 </S.H3>
 
-                <Button variant="contained" size="medium" onClick={() => console.log('test')}>
+                <Button variant="contained" size="medium" onClick={handleAuthTest}>
                     Узнать подробнее
                 </Button>
             </S.GeneralBlock>
