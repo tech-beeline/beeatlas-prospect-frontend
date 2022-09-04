@@ -1,12 +1,13 @@
 import React from 'react';
-import VKITAuth from '@beeline/lk-auth';
-import { Button, Icon, Icons } from '@beeline/lk-ui';
+import { Button } from '@beeline/lk-ui';
+import { observer } from 'mobx-react';
 
 import { Header } from 'components/core';
-import { Button as MyButton, Slider } from 'components/interaction';
+import { Slider } from 'components/interaction';
 
 import * as SPages from 'pages/units';
 
+// import { useRootStore } from 'stores/initStore';
 import diagram1 from './images/diagram1.svg';
 import diagram2 from './images/diagram2.svg';
 import diagram3 from './images/diagram3.svg';
@@ -16,19 +17,20 @@ import { InfoWithDiagram } from './components';
 import * as S from './units';
 
 // TODO: рефакторинг - раскидать по блокам/виджетам, использовать компоненты
-export const MainPage = () => {
-    const handleAuthTest = () => {
-        const auth = new VKITAuth();
+export const MainPage = observer(() => {
+    // const {
+    //     generalStore: { themeIsDark },
+    // } = useRootStore();
 
-        auth.startAuth();
-    };
+    // console.log(themeIsDark);
 
     return (
-        <>
+        // TODO: вынести в общее
+        <S.PageWrapper>
             <Header />
 
             <S.GeneralBlock>
-                <Icon iconName={Icons.Alarm} />
+                {/* <Icon iconName={Icons.Alarm} /> */}
 
                 <S.Title>переиспользуйте существующие возможности</S.Title>
 
@@ -37,7 +39,7 @@ export const MainPage = () => {
                     создания продукта
                 </S.H3>
 
-                <Button variant="contained" size="medium" onClick={handleAuthTest}>
+                <Button variant="contained" size="medium">
                     Узнать подробнее
                 </Button>
             </S.GeneralBlock>
@@ -47,26 +49,6 @@ export const MainPage = () => {
                 <S.H1>из чего состоит витрина</S.H1>
 
                 <Slider />
-
-                {/* <S.CardsContainer>
-                    <Card colorType="green" title="модели">
-                        Функционально-доменная модель позволяет узнать о существующих в компании
-                        возможностях, переиспользовать их, и заказать необходимую возможность
-                        у вдалельца домена, а также получить информацию о состоянии ИТ–ландшафта.
-                    </Card>
-
-                    <Card colorType="pink" title="база знаний">
-                        В базе знаний вы можете найти все документы для подготовки к архитектурному
-                        комитету, организации производственного процесса, а также обратиться
-                        за помощью, узнать опыт коллег
-                    </Card>
-
-                    <Card colorType="blue" title="личный кабинет">
-                        С помощью личного кабинета отслеживайте стадии жизненного цикла
-                        возможностей, храните документацию по проекту, работайте с техническим
-                        долгом, погружайте команду, делитесь опытом
-                    </Card>
-                </S.CardsContainer> */}
 
                 <S.H1>используя наш продукт</S.H1>
 
@@ -101,10 +83,12 @@ export const MainPage = () => {
                             существующих материалов.
                         </S.Text>
 
-                        <MyButton>Связаться с нами</MyButton>
+                        <Button variant="contained" size="medium">
+                            Связаться с нами
+                        </Button>
                     </S.CallbackContainer>
                 </S.CallbackWrapper>
             </SPages.PageWrapper>
-        </>
+        </S.PageWrapper>
     );
-};
+});

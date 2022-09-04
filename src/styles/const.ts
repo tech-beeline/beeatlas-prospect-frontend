@@ -21,6 +21,17 @@ export const theme = {
     },
 
     colors: {
+        backgroundLow: 'var(--color-background-base)',
+        backgroundInverse: 'var(--color-background-inverse)',
+        backgroundControl: 'var(--color-control-background)',
+        divider: 'var(--color-divider)',
+        textActive: 'var(--color-text-active)',
+        textActiveNoTheme: 'rgba(9, 11, 22, 0.94)',
+        textActiveInverse: 'var(--color-text-active-inverse)',
+        textInactive: 'var(--color-text-inactive)',
+        textLogo: 'var(--color-text-logo)',
+
+        // TODO: удалить после удаления страницы аутентификации
         primary: '#FDD835',
         primaryDarker: '#FCCF03',
         primaryDisabled: '#FEEC9E',

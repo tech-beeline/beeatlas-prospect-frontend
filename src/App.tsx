@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { dark, light } from '@beeline/lk-ui';
 import { theme } from '@beeline/lk-ui/core/theme';
 import { ThemeProvider } from '@emotion/react';
 
+// import { observer } from 'mobx-react';
 // import styled from '@emotion/styled';
 import { ErrorBoundary } from 'components/core';
 
@@ -54,34 +55,36 @@ import '@beeline/lk-ui/core/css/globals.css';
 // `;
 
 const App = () => {
-    const [themeValue, setTheme] = useState('light');
+    // const [themeValue, setTheme] = useState('light');
 
-    // console.log(setTheme);
+    // const {
+    //     generalStore: { themeIsDark },
+    // } = useRootStore();
+
+    // console.log(themeIsDark);
 
     // const l = document.querySelector('.lightTheme')?.style.height;
 
     // console.log(l);
 
-    const handleTheme = () => {
-        if (themeValue === 'light') {
-            setTheme('dark');
-        } else {
-            setTheme('light');
-        }
-    };
+    // const handleTheme = () => {
+    //     if (themeValue === 'light') {
+    //         setTheme('dark');
+    //     } else {
+    //         setTheme('light');
+    //     }
+    // };
 
     return (
         <>
             <StoreProvider>
                 <ErrorBoundary>
                     <ThemeProvider theme={theme}>
-                        {/* {themeValue === light ? <LightTheme /> : <DarkTheme />} */}
+                        {/* <div className={!themeIsDark ? 'lightTheme' : 'darkTheme'}> */}
+                        {/* <button onClick={handleTheme}>test</button> */}
 
-                        <div className={themeValue === 'light' ? 'lightTheme' : 'darkTheme'}>
-                            <button onClick={handleTheme}>test</button>
-
-                            <NavigationRouter />
-                        </div>
+                        <NavigationRouter />
+                        {/* </div> */}
                     </ThemeProvider>
                 </ErrorBoundary>
             </StoreProvider>

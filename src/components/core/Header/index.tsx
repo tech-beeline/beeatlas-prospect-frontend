@@ -1,29 +1,48 @@
 import React from 'react';
-import { Search } from '@beeline/lk-ui';
+import VKITAuth from '@beeline/lk-auth';
+import { observer } from 'mobx-react';
+
+import { useRootStore } from 'stores/initStore';
 
 import { Logo } from '..';
 
-import profileSVG from './images/profile.svg';
-
 import * as S from './units';
 
-export const Header = () => {
+export const Header = observer(() => {
+    const {
+        generalStore: { toggleTheme },
+    } = useRootStore();
+
+    const handleAuthTest = () => {
+        const auth = new VKITAuth();
+
+        auth.startAuth();
+    };
+
     return (
         <>
             <S.Container>
-                <p style={{ marginRight: '20px' }}>корп. архитектура</p>
+                <S.Title>корп. архитектура</S.Title>
 
-                <Logo height={25} />
+                <Logo />
 
-                <Search
-                    onClear={() => console.log('clear')}
-                    // onSearch={() => console.log('search')}
-                    placeholder="Поиск"
-                    size="small"
-                />
+                <S.ControlPanel>
+                    <S.SearchStyled
+                        onClear={() => console.log('clear')}
+                        // onSearch={() => console.log('search')}
+                        placeholder="Поиск"
+                        size="small"
+                    />
 
-                <img src={profileSVG} style={{ marginLeft: 'auto' }} />
+                    <S.ThemeIcon onClick={toggleTheme} />
+
+                    <S.NotificationIcon />
+
+                    <S.DashboardIcon />
+
+                    <S.ProfileIcon onClick={handleAuthTest} />
+                </S.ControlPanel>
             </S.Container>
         </>
     );
-};
+});
