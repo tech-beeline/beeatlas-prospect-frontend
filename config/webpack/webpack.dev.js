@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge');
 
 const commonConfig = require('./webpack.common');
 
-const APP_PORT = 3003;
+const APP_PORT = 3000;
 
 module.exports = merge(commonConfig, {
     mode: 'development',

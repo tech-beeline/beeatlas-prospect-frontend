@@ -56,7 +56,11 @@ import '@beeline/lk-ui/core/css/globals.css';
 const App = () => {
     const [themeValue, setTheme] = useState('light');
 
-    console.log(setTheme);
+    // console.log(setTheme);
+
+    // const l = document.querySelector('.lightTheme')?.style.height;
+
+    // console.log(l);
 
     const handleTheme = () => {
         if (themeValue === 'light') {

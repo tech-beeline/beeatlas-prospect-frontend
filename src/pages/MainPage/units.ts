@@ -18,6 +18,7 @@ export const GeneralBlock = styled.div`
     background-size: 653px 588px;
     background-repeat: no-repeat;
     background-position: 112% 100%;
+    background-color: var(--color-background-base);
 `;
 
 export const Title = styled.h1`
