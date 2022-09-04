@@ -16,7 +16,10 @@ export const Header = observer(() => {
     const handleAuthTest = () => {
         const auth = new VKITAuth();
 
+        // auth.hasNecessaryParams();
         auth.startAuth();
+
+        // const act = auth.getAccessToken();
     };
 
     return (

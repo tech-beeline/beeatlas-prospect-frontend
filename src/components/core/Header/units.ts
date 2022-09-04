@@ -84,4 +84,8 @@ export const ProfileIcon = styled(ProfileSVG)`
     & > path:nth-child(1) {
         fill: ${theme.colors.backgroundControl};
     }
+
+    & > path:nth-child(2) {
+        fill: ${theme.colors.textInactive};
+    }
 `;
