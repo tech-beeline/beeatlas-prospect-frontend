@@ -1,0 +1,14 @@
+env:
+  ENVIRONMENT: "test"
+securityContext:
+  readOnlyRootFilesystem: false
+podAnnotations:
+  vault.security.banzaicloud.io/vault-role: "false"
+  vault.security.banzaicloud.io/vault-path: "false"
+  vault.security.banzaicloud.io/vault-addr: "false"
+  vault.security.banzaicloud.io/vault-skip-verify: "false"
+  vault.security.banzaicloud.io/vault-agent: "false"
+  prometheus.io/path: "false"
+  prometheus.io/scheme: "false"
+  prometheus.io/scrape: "false"
+  prometheus.io/port: "false"
