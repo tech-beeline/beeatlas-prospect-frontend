@@ -18,12 +18,16 @@ export const GeneralBlock = styled.div`
     background-size: 653px 588px;
     background-repeat: no-repeat;
     background-position: 112% 100%;
+    background-color: var(--color-background-base);
 `;
 
 export const Title = styled.h1`
     font-weight: 500;
     font-size: 100px;
     line-height: 110px;
+
+    color: var(--color-text-active);
+    background-color: var(--button-background-color);
 `;
 
 export const H1 = styled.h1`
@@ -32,6 +36,8 @@ export const H1 = styled.h1`
     line-height: 66px;
 
     margin-top: 120px;
+
+    background-color: var(--button-background-color);
 `;
 
 export const H2 = styled.h2`

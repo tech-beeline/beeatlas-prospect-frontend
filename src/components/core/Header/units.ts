@@ -13,6 +13,7 @@ export const Container = styled.div`
     font-size: 25px;
     line-height: 28px;
 
+    background-color: var(--color-background-base);
     color: rgba(25, 28, 52, 0.7);
 
     border-bottom: 1px solid rgba(25, 28, 52, 0.12);
