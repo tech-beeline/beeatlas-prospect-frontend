@@ -1,6 +1,13 @@
 import styled from '@emotion/styled';
 
-export const Logo = styled.img`
+import { theme } from 'styles';
+
+import { ReactComponent as LogoSVG } from './images/logo-beeline.svg';
+
+export const LogoIcon = styled(LogoSVG)`
     height: ${({ height }) => `${height}px`};
-    width: fit-content;
+
+    & > path {
+        fill: ${theme.colors.textLogo};
+    }
 `;

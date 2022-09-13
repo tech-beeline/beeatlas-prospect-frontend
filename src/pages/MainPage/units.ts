@@ -1,24 +1,24 @@
-// узнать про готовые компоненты
-// import { button } from '@beeline/design-tokens/js/tokens';
 import styled from '@emotion/styled';
 
 import { Accordion } from 'components/interaction';
 
+import { theme } from 'styles';
+
 import callback from './images/callback.png';
 import general from './images/general.png';
 
-// export const Button = styled.button`
-//     border-radius: ${button.borderRadius};
-// `;
+export const PageWrapper = styled.div`
+    background-color: ${theme.colors.backgroundLow};
+    color: ${theme.colors.textActive};
+`;
 
 export const GeneralBlock = styled.div`
-    padding: 60px 96px 0 96px;
+    padding: 124px 96px 0 96px;
 
     background-image: url(${general});
     background-size: 653px 588px;
     background-repeat: no-repeat;
     background-position: 112% 100%;
-    background-color: var(--color-background-base);
 `;
 
 export const Title = styled.h1`
@@ -104,6 +104,7 @@ export const CallbackContainer = styled.div`
     margin: 120px 0;
 
     background-color: #e3f2ff;
+    color: ${theme.colors.textActiveNoTheme};
 
     border-radius: 24px;
 `;

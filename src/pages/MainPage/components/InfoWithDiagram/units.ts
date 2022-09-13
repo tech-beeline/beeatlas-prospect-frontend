@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { theme } from 'styles';
+
 export const FlexContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -36,5 +38,5 @@ export const Description = styled.p`
 
     margin-top: 12px;
 
-    color: rgba(25, 28, 52, 0.7);
+    color: ${theme.colors.textInactive};
 `;

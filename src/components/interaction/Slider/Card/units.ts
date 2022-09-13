@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { theme } from 'styles';
+
 import card1 from './images/card-1.png';
 import card2 from './images/card-2.png';
 import card3 from './images/card-3.png';
@@ -18,6 +20,7 @@ export const Card = styled.div<any>`
 
     border-radius: 12px;
 
+    color: ${theme.colors.textActiveNoTheme};
     background-color: ${({ colorType }) =>
         colorType === 'green'
             ? '#E1F5F0;'

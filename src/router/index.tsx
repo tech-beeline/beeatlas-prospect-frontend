@@ -4,6 +4,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 // import { AuthPage, MainPage } from 'pages';
 import { MainPage } from 'pages';
+import { Theme } from 'styles';
 
 import * as C from './const';
 import { RouteAdapter } from './utils';
@@ -16,7 +17,14 @@ export const NavigationRouter = () => {
                     {/* TODO: delete this - mock*/}
                     {/* <Route path={C.TEST_PAGE} element={<TestPage />} /> */}
                     {/* <Route path={C.AUTH_PAGE_PATH} element={<AuthPage />} /> */}
-                    <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
+                    <Route
+                        path={C.MAIN_PAGE_PATH}
+                        element={
+                            <Theme>
+                                <MainPage />
+                            </Theme>
+                        }
+                    />
                 </Routes>
             </QueryParamProvider>
         </Router>

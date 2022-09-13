@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
 
+import { theme } from 'styles';
+
 import { ReactComponent as ArrowSVG } from './images/arrow.svg';
 
 export const Container = styled.div`
@@ -9,11 +11,11 @@ export const Container = styled.div`
     width: 100%;
     /* padding: 24px 0; */
 
-    border: 1px solid rgba(25, 28, 52, 0.18);
+    border: 1px solid ${theme.colors.divider};
     border-radius: 16px;
 
     & > *:not(:last-child) {
-        border-bottom: 1px solid rgba(25, 28, 52, 0.18);
+        border-bottom: 1px solid ${theme.colors.divider};
     }
 `;
 
@@ -43,6 +45,10 @@ export const ArrowIcon = styled(ArrowSVG)<{ isOpen: boolean }>`
     transform: ${({ isOpen }) => (isOpen ? 'rotate(-180deg)' : 'rotate(0deg)')};
 
     transition: transform 0.2s ease-in-out;
+
+    & > * {
+        fill: ${theme.colors.textActive};
+    }
 `;
 
 export const ExpandStyled = styled(Expand)`

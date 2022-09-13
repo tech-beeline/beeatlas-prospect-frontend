@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { theme } from 'styles';
+
 import { ReactComponent as ArrowSVG } from './images/arrow.svg';
 
 export const PageWrapper = styled.div`
@@ -24,7 +26,7 @@ export const SliderContainer = styled.div`
     max-width: 1460px;
     height: 400px;
 
-    background-color: white;
+    background-color: ${theme.colors.backgroundLow};
 
     overflow-x: hidden;
 
@@ -77,9 +79,9 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
 
     /* box-shadow: 0 4px 12px 0 rgb(0 0 0 / 10%); */
 
-    z-index: 100;
+    z-index: 90;
 
-    background-color: black;
+    background-color: ${theme.colors.backgroundInverse};
 
     cursor: ${({ isVisible }) => (isVisible ? 'pointer' : 'default')};
 
@@ -88,14 +90,16 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
     transition: opacity 0.3s ease-in-out;
 
     & * path {
-        transition: fill 0.2s ease-in-out;
+        fill: ${theme.colors.textActiveInverse};
+
+        /* transition: fill 0.2s ease-in-out; */
     }
 
-    &:hover {
+    /* &:hover {
         & * path {
             fill: #fdd835;
         }
-    }
+    } */
 `;
 
 export const LeftArrow = styled(ArrowSVG)`
