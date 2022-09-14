@@ -13,12 +13,13 @@ export const Header = observer(() => {
         generalStore: { toggleTheme },
     } = useRootStore();
 
-    const auth = new VKITAuth();
+    // const auth = new VKITAuth();
+    const auth = new VKITAuth('http://localhost:3000');
 
-    const handleAuthTest = () => {
+    const handleAuthTest = async () => {
         // auth.hasNecessaryParams();
         // auth.clean();
-        auth.startAuth();
+        // auth.startAuth();
 
         // console.log('getAccessToken', auth.getAccessToken());
         // console.log('getCodeParam', auth.getCodeParam());
@@ -27,6 +28,18 @@ export const Header = observer(() => {
         // console.log('getStateParam', auth.getStateParam());
 
         // const act = auth.getAccessToken();
+
+        // Get tokens or error if all params present
+        if (auth.hasNecessaryParams()) {
+            const { access_token } = await auth.exchangeCode();
+
+            console.log('access_token', access_token);
+
+            console.log('auth.getClaims(access_token)', auth.getClaims(access_token));
+        }
+
+        // Initiate the auth flow
+        auth.startAuth();
     };
 
     // const handleEmail = () => {
@@ -54,9 +67,10 @@ export const Header = observer(() => {
                     <S.ThemeIcon onClick={toggleTheme} />
 
                     <S.NotificationIcon
-                        onClick={() =>
-                            console.log('getClaims', auth.getClaims(auth.getAccessToken()))
-                        }
+                        onClick={() => {
+                            console.log('getClaims', auth.getClaims(auth.getAccessToken()));
+                            // console.log('auth.getAccessToken()', auth.getAccessToken());
+                        }}
                     />
 
                     <S.DashboardIcon
@@ -74,7 +88,6 @@ export const Header = observer(() => {
                 >
                     Mail me!
                 </Mailto> */}
-                ,
             </S.Container>
         </>
     );
