@@ -1,5 +1,3 @@
-env:
-  ENVIRONMENT: "dev"
 securityContext:
   readOnlyRootFilesystem: false
 podAnnotations:
