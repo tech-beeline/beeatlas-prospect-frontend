@@ -20,14 +20,14 @@ export const Card = styled.div<any>`
 
     border-radius: 12px;
 
-    color: ${theme.colors.textActiveNoTheme};
+    color: ${theme.colors.textActive};
     background-color: ${({ colorType }) =>
         colorType === 'green'
-            ? '#E1F5F0;'
+            ? theme.colors.lemon
             : colorType === 'pink'
-            ? '#FAE4F7'
+            ? theme.colors.magenta
             : colorType === 'blue'
-            ? '#E0F7FB;'
+            ? theme.colors.teal
             : 'gray'};
 
     &::before {

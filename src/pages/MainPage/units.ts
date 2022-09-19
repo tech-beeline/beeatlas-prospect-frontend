@@ -103,8 +103,8 @@ export const CallbackContainer = styled.div`
     padding: 48px;
     margin: 120px 0;
 
-    background-color: #e3f2ff;
-    color: ${theme.colors.textActiveNoTheme};
+    background-color: ${theme.colors.info};
+    color: ${theme.colors.textActive};
 
     border-radius: 24px;
 `;
