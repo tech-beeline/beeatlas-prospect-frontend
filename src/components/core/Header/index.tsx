@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import VKITAuth from '@beeline/lk-auth';
 import { observer } from 'mobx-react';
 
@@ -6,59 +6,42 @@ import { useRootStore } from 'stores/initStore';
 
 import { Logo } from '..';
 
+import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
 
 export const Header = observer(() => {
     const {
-        generalStore: { toggleTheme },
+        generalStore: { isAuth, setAuth, clearAuth, userInfo, setUserInfo, toggleTheme },
     } = useRootStore();
 
-    // const auth = new VKITAuth();
-    const auth = new VKITAuth('http://localhost:3000');
+    const isProd = process.env.NODE_ENV !== 'development';
 
-    const handleAuthTest = async () => {
-        // auth.hasNecessaryParams();
-        // auth.clean();
-        // auth.startAuth();
+    console.log('isProd', isProd);
 
-        // console.log('getAccessToken', auth.getAccessToken());
-        // console.log('getCodeParam', auth.getCodeParam());
-        // console.log('getProviderParam', auth.getProviderParam()); // adfs
-        // console.log('getProviderToken', auth.getProviderToken()); // adfs
-        // console.log('getStateParam', auth.getStateParam());
+    // TODO: check this in prod
+    const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
 
-        // const act = auth.getAccessToken();
+    useEffect(() => {
+        (async () => {
+            if (auth.hasNecessaryParams()) {
+                const { access_token } = await auth.exchangeCode();
 
-        // Get tokens or error if all params present
-        if (auth.hasNecessaryParams()) {
-            const { access_token } = await auth.exchangeCode();
-
-            console.log('access_token', access_token);
-
-            console.log('auth.getClaims(access_token)', auth.getClaims(access_token));
-        }
-
-        // Initiate the auth flow
-        auth.startAuth();
-    };
-
-    // const handleEmail = () => {
-    // const Mailto = ({ email, subject = '', body = '', children }: any) => {
-    //     let params = subject || body ? '?' : '';
-    //     if (subject) params += `subject=${encodeURIComponent(subject)}`;
-    //     if (body) params += `${subject ? '&' : ''}body=${encodeURIComponent(body)}`;
-
-    //     return <a href={`mailto:${email}${params}`}>{children}</a>;
-    // };
+                setAuth(true);
+                setUserInfo(auth.getClaims(access_token));
+            }
+        })();
+    }, []);
 
     return (
         <>
             <S.Container>
                 <S.Title>корп. архитектура</S.Title>
+
                 <Logo />
+
                 <S.ControlPanel>
                     <S.SearchStyled
-                        onClear={() => console.log('clear')}
+                        onClear={() => console.log(isAuth)}
                         // onSearch={() => console.log('search')}
                         placeholder="Поиск"
                         size="small"
@@ -74,13 +57,25 @@ export const Header = observer(() => {
                     />
 
                     <S.DashboardIcon
-                        onClick={() =>
-                            window.open(`mailto:email@example.com?subject=Subject&body=test`)
-                        }
+                    // onClick={() =>
+                    //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
+                    // }
                     />
 
-                    <S.ProfileIcon onClick={handleAuthTest} />
+                    {isAuth ? (
+                        <ProfileIcon
+                            initials={userInfo.family_name[0] + userInfo.given_name[0]}
+                            clearAuth={() => {
+                                auth.clean();
+
+                                clearAuth();
+                            }}
+                        />
+                    ) : (
+                        <S.ProfileIcon onClick={() => auth.startAuth()} />
+                    )}
                 </S.ControlPanel>
+
                 {/* <Mailto
                     email="foo@bar.baz"
                     subject="Hello & Welcome"
