@@ -2,8 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
+import { Header } from 'components/core';
+
 // import { AuthPage, MainPage } from 'pages';
-import { MainPage } from 'pages';
+import { AppInfoPage, MainPage } from 'pages';
 import { Theme } from 'styles';
 
 import * as C from './const';
@@ -11,22 +13,36 @@ import { RouteAdapter } from './utils';
 
 export const NavigationRouter = () => {
     return (
-        <Router>
-            <QueryParamProvider ReactRouterRoute={RouteAdapter}>
-                <Routes>
-                    {/* TODO: delete this - mock*/}
-                    {/* <Route path={C.TEST_PAGE} element={<TestPage />} /> */}
-                    {/* <Route path={C.AUTH_PAGE_PATH} element={<AuthPage />} /> */}
-                    <Route
-                        path={C.MAIN_PAGE_PATH}
-                        element={
-                            <Theme>
-                                <MainPage />
-                            </Theme>
-                        }
-                    />
-                </Routes>
-            </QueryParamProvider>
-        </Router>
+        <>
+            <Theme>
+                <Header />
+            </Theme>
+
+            <Router>
+                <QueryParamProvider ReactRouterRoute={RouteAdapter}>
+                    <Routes>
+                        {/* TODO: delete this - mock*/}
+                        {/* <Route path={C.TEST_PAGE} element={<TestPage />} /> */}
+                        {/* <Route path={C.AUTH_PAGE_PATH} element={<AuthPage />} /> */}
+                        <Route
+                            path={C.MAIN_PAGE_PATH}
+                            element={
+                                <Theme>
+                                    <MainPage />
+                                </Theme>
+                            }
+                        />
+                        <Route
+                            path={C.APPIFO_PAGE_PATH}
+                            element={
+                                <Theme>
+                                    <AppInfoPage />
+                                </Theme>
+                            }
+                        />
+                    </Routes>
+                </QueryParamProvider>
+            </Router>
+        </>
     );
 };
