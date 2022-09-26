@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
@@ -22,6 +23,13 @@ export const MainPage = observer(() => {
     // } = useRootStore();
 
     // console.log(themeIsDark);
+    const navigate = useNavigate();
+
+    const handleRedirectTest = () => {
+        console.log('test');
+
+        navigate('/app-info');
+    };
 
     return (
         <>
@@ -37,7 +45,7 @@ export const MainPage = observer(() => {
                         процесса создания продукта
                     </S.H3>
 
-                    <Button variant="contained" size="medium">
+                    <Button variant="contained" size="medium" onClick={handleRedirectTest}>
                         Узнать подробнее
                     </Button>
                 </S.GeneralBlock>

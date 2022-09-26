@@ -74,10 +74,10 @@ module.exports = {
             //         outputPath: 'fonts',
             //     },
             // },
-            // {
-            //     test: /\.(eot|ttf|otf)(\?.*)?$/,
-            //     loader: 'file-loader',
-            // },
+            {
+                test: /\.(eot|ttf|otf)(\?.*)?$/,
+                loader: 'file-loader',
+            },
         ],
     },
     plugins: [
