@@ -34,12 +34,14 @@ export const GlobalStyles = () => {
                     box-sizing: border-box;
                     -webkit-font-smoothing: antialiased;
                     -webkit-tap-highlight-color: transparent;
+                    /* transition: all 0.2s ease-in-out; */
                 }
 
                 html,
                 body,
                 #root {
                     height: 100%;
+                    /* background-color: var(--color-background-base); */
                 }
 
                 body,
@@ -168,6 +170,11 @@ export const GlobalStyles = () => {
 
                 [contenteditable] {
                     outline: none;
+                }
+
+                /* ---------TODO: bug in library-------- */
+                .lk-ui_sidesheet {
+                    background-color: var(--color-background-base);
                 }
             `}
         />

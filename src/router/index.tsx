@@ -4,8 +4,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 import { Header } from 'components/core';
 
-// import { AuthPage, MainPage } from 'pages';
-import { AppInfoPage, MainPage } from 'pages';
+import { AppInfoPage, DataBasePage, MainPage } from 'pages';
 import { Theme } from 'styles';
 
 import * as C from './const';
@@ -13,36 +12,22 @@ import { RouteAdapter } from './utils';
 
 export const NavigationRouter = () => {
     return (
-        <>
-            <Theme>
-                <Header />
-            </Theme>
+        <Theme>
+            <Header />
 
             <Router>
                 <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                     <Routes>
-                        {/* TODO: delete this - mock*/}
-                        {/* <Route path={C.TEST_PAGE} element={<TestPage />} /> */}
-                        {/* <Route path={C.AUTH_PAGE_PATH} element={<AuthPage />} /> */}
-                        <Route
-                            path={C.MAIN_PAGE_PATH}
-                            element={
-                                <Theme>
-                                    <MainPage />
-                                </Theme>
-                            }
-                        />
-                        <Route
-                            path={C.APPIFO_PAGE_PATH}
-                            element={
-                                <Theme>
-                                    <AppInfoPage />
-                                </Theme>
-                            }
-                        />
+                        <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
+
+                        <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
+
+                        <Route path={C.DATA_BASE} element={<DataBasePage />}>
+                            <Route path="data-base/test" element={<AppInfoPage />} />
+                        </Route>
                     </Routes>
                 </QueryParamProvider>
             </Router>
-        </>
+        </Theme>
     );
 };

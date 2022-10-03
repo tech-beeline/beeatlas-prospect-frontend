@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import VKITAuth from '@beeline/lk-auth';
+import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { useRootStore } from 'stores/initStore';
@@ -11,16 +12,23 @@ import * as S from './units';
 
 export const Header = observer(() => {
     const {
-        generalStore: { isAuth, setAuth, clearAuth, userInfo, setUserInfo, toggleTheme },
+        generalStore: {
+            isAuth,
+            setAuth,
+            clearAuth,
+            userInfo,
+            setUserInfo,
+            toggleTheme,
+            themeIsDark,
+        },
     } = useRootStore();
 
     const isProd = process.env.NODE_ENV !== 'development';
 
-    console.log('isProd', isProd);
-
     // TODO: check this in prod
     const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
 
+    // TODO: useMountEffect
     useEffect(() => {
         (async () => {
             if (auth.hasNecessaryParams()) {
@@ -40,26 +48,32 @@ export const Header = observer(() => {
                 <Logo />
 
                 <S.ControlPanel>
-                    <S.SearchStyled
+                    {/* TODO: Пока убрана */}
+                    {/* <S.SearchStyled
                         onClear={() => console.log(isAuth)}
                         // onSearch={() => console.log('search')}
                         placeholder="Поиск"
                         size="small"
+                    /> */}
+
+                    <S.BaseIcon
+                        iconName={!themeIsDark ? Icons.HalfMoon : Icons.Sun}
+                        onClick={toggleTheme}
                     />
 
-                    <S.ThemeIcon onClick={toggleTheme} />
-
-                    <S.NotificationIcon
+                    <S.BaseIcon
+                        iconName={Icons.NotificationNew}
                         onClick={() => {
                             console.log('getClaims', auth.getClaims(auth.getAccessToken()));
                             // console.log('auth.getAccessToken()', auth.getAccessToken());
                         }}
                     />
 
-                    <S.DashboardIcon
-                    // onClick={() =>
-                    //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
-                    // }
+                    <S.BaseIcon
+                        iconName={Icons.Grid}
+                        // onClick={() =>
+                        //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
+                        // }
                     />
 
                     {isAuth ? (
@@ -72,7 +86,11 @@ export const Header = observer(() => {
                             }}
                         />
                     ) : (
-                        <S.ProfileIcon onClick={() => auth.startAuth()} />
+                        <S.BaseIcon
+                            iconName={Icons.User}
+                            type="default"
+                            onClick={() => auth.startAuth()}
+                        />
                     )}
                 </S.ControlPanel>
 
