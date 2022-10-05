@@ -28,8 +28,13 @@ export const Table = styled.table`
 
     & > * > th {
         width: 200px;
+        padding: 10px;
 
         border: 1px solid ${theme.colors.divider};
+    }
+
+    & > * > th:nth-child(2) {
+        width: 500px;
     }
 `;
 
