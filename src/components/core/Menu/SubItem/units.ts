@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 import { theme } from 'styles';
 
 export const Wrapper = styled.div<{ isActive: boolean }>`
-    position: relative;
-
     display: flex;
     align-items: center;
     gap: 16px;
@@ -20,15 +18,4 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
 
     cursor: pointer;
     user-select: none;
-
-    &::before {
-        position: absolute;
-        left: 0;
-        content: '';
-
-        height: 100%;
-        width: 2px;
-
-        background-color: ${({ isActive }) => (isActive ? 'yellow' : 'transparent')};
-    }
 `;

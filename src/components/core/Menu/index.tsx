@@ -25,6 +25,7 @@ export const Menu = () => {
             <Item
                 iconName={Icons.Group}
                 title="Арх. комитет"
+                url="arch-comm"
                 subItems={[
                     <SubItem
                         title="Общая информация"

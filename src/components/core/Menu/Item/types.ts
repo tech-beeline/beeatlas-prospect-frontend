@@ -3,4 +3,5 @@ export interface IItem {
     iconName: any;
     title: string;
     subItems?: any[];
+    url?: string;
 }

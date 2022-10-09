@@ -13,7 +13,10 @@ export const Item: FC<IItem> = (props) => {
 
     return (
         <>
-            <S.Wrapper onClick={() => setOpen(!isOpen)}>
+            <S.Wrapper
+                isActive={props.url?.includes(location.pathname)}
+                onClick={() => setOpen(!isOpen)}
+            >
                 <S.LeftWrapper>
                     <BaseIcon iconName={props.iconName} />
 

@@ -34,6 +34,7 @@ export const theme = {
         teal: 'var(--color-accent-teal-background)',
         lemon: 'var(--color-accent-lemon-background)',
         info: 'var(--color-status-info-background)',
+        brandYellow: 'var(--color-palette-yellow-600)',
 
         // TODO: удалить после удаления страницы аутентификации
         primary: '#FDD835',
