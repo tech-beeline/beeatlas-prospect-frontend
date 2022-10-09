@@ -24,6 +24,7 @@ export const theme = {
         backgroundLow: 'var(--color-background-base)',
         backgroundInverse: 'var(--color-background-inverse)',
         backgroundControl: 'var(--color-control-background)',
+        backgroundSelected: 'var(--color-background-base-selected)',
         divider: 'var(--color-divider)',
         textActive: 'var(--color-text-active)',
         textActiveNoTheme: 'rgba(9, 11, 22, 0.94)',

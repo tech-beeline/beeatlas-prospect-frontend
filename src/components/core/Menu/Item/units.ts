@@ -10,20 +10,20 @@ export const Wrapper = styled.div<{ isActive?: boolean }>`
     justify-content: space-between;
 
     height: 48px;
-    padding: 0 32px;
+    padding: 0 16px;
 
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
 
-    color: ${theme.colors.textInactive};
+    color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
 
     cursor: pointer;
     user-select: none;
 
     &::before {
         position: absolute;
-        left: 0;
+        left: -16px;
         content: '';
 
         height: 100%;

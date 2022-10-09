@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 
+// import { useNavigate } from 'react-router-dom';
 import { BaseIcon } from 'components/core';
 import { Expand, PivotArrow } from 'components/other';
 
@@ -11,12 +12,18 @@ import * as S from './units';
 export const Item: FC<IItem> = (props) => {
     const [isOpen, setOpen] = useState(false);
 
+    // const navigate = useNavigate();
+
+    const handleClick = () => {
+        setOpen(!isOpen);
+
+        // TODO: сделать обязательным
+        // navigate(props.url!);
+    };
+
     return (
         <>
-            <S.Wrapper
-                isActive={props.url?.includes(location.pathname)}
-                onClick={() => setOpen(!isOpen)}
-            >
+            <S.Wrapper isActive={location.pathname?.includes(props.url!)} onClick={handleClick}>
                 <S.LeftWrapper>
                     <BaseIcon iconName={props.iconName} />
 

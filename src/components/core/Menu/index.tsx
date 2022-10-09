@@ -22,6 +22,7 @@ export const Menu = () => {
 
     return (
         <S.Wrapper>
+            {/* TODO: занести константы */}
             <Item
                 iconName={Icons.Group}
                 title="Арх. комитет"
