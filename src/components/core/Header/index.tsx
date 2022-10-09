@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 
 import { useRootStore } from 'stores/initStore';
 
-import { Logo } from '..';
+import { BaseIcon, Logo } from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
@@ -56,12 +56,12 @@ export const Header = observer(() => {
                         size="small"
                     /> */}
 
-                    <S.BaseIcon
+                    <BaseIcon
                         iconName={!themeIsDark ? Icons.HalfMoon : Icons.Sun}
                         onClick={toggleTheme}
                     />
 
-                    <S.BaseIcon
+                    <BaseIcon
                         iconName={Icons.NotificationNew}
                         onClick={() => {
                             console.log('getClaims', auth.getClaims(auth.getAccessToken()));
@@ -69,7 +69,7 @@ export const Header = observer(() => {
                         }}
                     />
 
-                    <S.BaseIcon
+                    <BaseIcon
                         iconName={Icons.Grid}
                         // onClick={() =>
                         //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
@@ -86,7 +86,7 @@ export const Header = observer(() => {
                             }}
                         />
                     ) : (
-                        <S.BaseIcon
+                        <BaseIcon
                             iconName={Icons.User}
                             type="default"
                             onClick={() => auth.startAuth()}

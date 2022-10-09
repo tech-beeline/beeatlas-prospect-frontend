@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { PivotArrow } from 'components/other';
+
 import * as S from './units';
 
 // TODO: add props
@@ -60,11 +62,9 @@ export const Accordion = (props: any) => {
             {data.map((item, index) => (
                 <S.Item key={index} onClick={() => toggleHandler(index)}>
                     <S.TitleBlock>
-                        {/* {item.title} <S.ArrowIcon isOpen={dataOfAccordion[index].isOpen} /> */}
-                        {item.title} <S.ArrowIcon isOpen={isActive === index} />
+                        {item.title} <PivotArrow isOpen={isActive === index} />
                     </S.TitleBlock>
 
-                    {/* <S.ExpandStyled isOpen={dataOfAccordion[index].isOpen}> */}
                     <S.ExpandStyled isOpen={isActive === index}>{item.text}</S.ExpandStyled>
                 </S.Item>
             ))}

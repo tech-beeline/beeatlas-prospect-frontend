@@ -15,6 +15,7 @@ export const PageWrapper = styled.div`
 
 export const SideMenu = styled.div`
     width: 256px;
+    height: 100vh;
     padding-top: 24px;
 
     border-right: 1px solid red;
