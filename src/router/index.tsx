@@ -4,7 +4,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 import { Header, Menu } from 'components/core';
 
-import { AppInfoPage, ArchCommPage, DataBasePage, MainPage } from 'pages';
+import { AppInfoPage, ArchCommPage, DataBasePage, HowToPage, MainPage } from 'pages';
 import { Theme } from 'styles';
 
 import * as C from './const';
@@ -32,11 +32,20 @@ export const NavigationRouter = () => {
                             }
                         />
                         <Route
-                            path={`${C.DATA_BASE_PATH}/${C.ARCH_COMM_PATH}`}
+                            path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}`}
                             element={
                                 <div style={{ paddingLeft: '256px' }}>
                                     <Menu />
                                     <ArchCommPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path={`${C.DATA_BASE_PATH}${C.ARCH_HOW_TO_PATH}`}
+                            element={
+                                <div style={{ paddingLeft: '256px' }}>
+                                    <Menu />
+                                    <HowToPage />
                                 </div>
                             }
                         />

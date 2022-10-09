@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Card } from './Card';
+// import { Card } from './Card';
+import { Card } from 'components/interaction/Card';
+
 import * as C from './const';
 import * as S from './units';
 
@@ -54,8 +56,8 @@ export const Slider = () => {
     const [isLeftActive, setLeftActive] = useState(false);
     const [isRightActive, setRightActive] = useState(true);
 
-    const [isScrolling, setScrolling] = useState(false);
-    const [clientX, setClientX] = useState(0);
+    // const [isScrolling, setScrolling] = useState(false);
+    // const [clientX, setClientX] = useState(0);
     const [transformX, setTransformX] = useState(0);
 
     const [visibleElements, setVisibleElements] = useState(1);
@@ -136,65 +138,65 @@ export const Slider = () => {
         }
     }, [transformX, slideSize]);
 
-    useEffect(() => {
-        const activeSlide = Math.round(+(transformX / slideSize).toFixed(1));
+    // useEffect(() => {
+    //     const activeSlide = Math.round(+(transformX / slideSize).toFixed(1));
 
-        activeSlide && setActiveSlide(Math.abs(activeSlide));
+    //     activeSlide && setActiveSlide(Math.abs(activeSlide));
 
-        if (activeSlide <= -penultimateElement) {
-            if (visibleElements === 1 && sliderWidth && activeSlide <= -(2 - 1)) {
-                setTransformX(
-                    -slideSize * penultimateElement + (-C.MAX_SLIDER_WIDTH + sliderWidth),
-                );
-            } else {
-                setTransformX(-slideSize * penultimateElement);
-            }
-        } else if (activeSlide >= 0) {
-            setTransformX(0);
-        } else {
-            !isScrolling &&
-                typeof activeSlide === 'number' &&
-                setTransformX(activeSlide * slideSize);
-        }
-    }, [isScrolling]);
+    //     if (activeSlide <= -penultimateElement) {
+    //         if (visibleElements === 1 && sliderWidth && activeSlide <= -(2 - 1)) {
+    //             setTransformX(
+    //                 -slideSize * penultimateElement + (-C.MAX_SLIDER_WIDTH + sliderWidth),
+    //             );
+    //         } else {
+    //             setTransformX(-slideSize * penultimateElement);
+    //         }
+    //     } else if (activeSlide >= 0) {
+    //         setTransformX(0);
+    //     } else {
+    //         !isScrolling &&
+    //             typeof activeSlide === 'number' &&
+    //             setTransformX(activeSlide * slideSize);
+    //     }
+    // }, [isScrolling]);
 
-    const onMouseDown = (e: any) => {
-        setScrolling(true);
+    // const onMouseDown = (e: any) => {
+    //     setScrolling(true);
 
-        setClientX(e.clientX);
-    };
+    //     setClientX(e.clientX);
+    // };
 
-    const onMouseUp = () => {
-        setScrolling(false);
-    };
+    // const onMouseUp = () => {
+    //     setScrolling(false);
+    // };
 
-    const onMouseMove = (e: any) => {
-        if (isScrolling) {
-            const newTransform = transformX + e.clientX - clientX;
+    // const onMouseMove = (e: any) => {
+    //     if (isScrolling) {
+    //         const newTransform = transformX + e.clientX - clientX;
 
-            setTransformX(newTransform);
+    //         setTransformX(newTransform);
 
-            setClientX(e.clientX);
-        }
-    };
+    //         setClientX(e.clientX);
+    //     }
+    // };
 
-    const onTouchStart = (e: any) => {
-        setScrolling(true);
+    // const onTouchStart = (e: any) => {
+    //     setScrolling(true);
 
-        setClientX(e.touches[0].clientX);
-    };
+    //     setClientX(e.touches[0].clientX);
+    // };
 
-    const onTouchEnd = () => {
-        setScrolling(false);
-    };
+    // const onTouchEnd = () => {
+    //     setScrolling(false);
+    // };
 
-    const onTouchMove = (e: any) => {
-        const newTransform = transformX + e.touches[0].clientX - clientX;
+    // const onTouchMove = (e: any) => {
+    //     const newTransform = transformX + e.touches[0].clientX - clientX;
 
-        setTransformX(newTransform);
+    //     setTransformX(newTransform);
 
-        setClientX(e.touches[0].clientX);
-    };
+    //     setClientX(e.touches[0].clientX);
+    // };
 
     return (
         <S.SliderWrapper>
@@ -203,29 +205,31 @@ export const Slider = () => {
             </S.ArrowWrapper>
 
             <S.SliderContainer
-                onMouseDown={onMouseDown}
-                onMouseUp={onMouseUp}
-                onMouseLeave={onMouseUp}
-                onMouseMove={onMouseMove}
-                onTouchStart={onTouchStart}
-                onTouchEnd={onTouchEnd}
-                onTouchMove={onTouchMove}
+            // TODO: только для мобилки
+            // onMouseDown={onMouseDown}
+            // onMouseUp={onMouseUp}
+            // onMouseLeave={onMouseUp}
+            // onMouseMove={onMouseMove}
+            // onTouchStart={onTouchStart}
+            // onTouchEnd={onTouchEnd}
+            // onTouchMove={onTouchMove}
             >
-                <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}>
+                <S.Slider ref={sliderRef} {...{ transformX }}>
+                    {/* <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}> */}
                     {/* TODO: убрать этот хардкод */}
-                    <Card colorType="green" title="модели">
+                    <Card colorType="green" title="модели" withImage>
                         Функционально-доменная модель позволяет узнать о существующих в компании
                         возможностях, переиспользовать их, и заказать необходимую возможность
                         у вдалельца домена, а также получить информацию о состоянии ИТ–ландшафта.
                     </Card>
 
-                    <Card colorType="pink" title="база знаний">
+                    <Card colorType="pink" title="база знаний" withImage to="data-base/arch-comm">
                         В базе знаний вы можете найти все документы для подготовки к архитектурному
                         комитету, организации производственного процесса, а также обратиться
                         за помощью, узнать опыт коллег
                     </Card>
 
-                    <Card colorType="blue" title="личный кабинет">
+                    <Card colorType="blue" title="личный кабинет" withImage>
                         С помощью личного кабинета отслеживайте стадии жизненного цикла
                         возможностей, храните документацию по проекту, работайте с техническим
                         долгом, погружайте команду, делитесь опытом

@@ -31,6 +31,7 @@ export const theme = {
         textActiveInverse: 'var(--color-text-active-inverse)',
         textInactive: 'var(--color-text-inactive)',
         textLogo: 'var(--color-text-logo)',
+        textLink: 'var(--color-text-link)',
         magenta: 'var(--color-accent-magenta-background)',
         teal: 'var(--color-accent-teal-background)',
         lemon: 'var(--color-accent-lemon-background)',

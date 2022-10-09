@@ -12,7 +12,7 @@ export const OuterLink = styled.a`
 
     color: inherit;
 
-    transition: color 0.2s ease-in-out;
+    transition: color 0.25s ease-out;
 
     &:hover {
         color: ${theme.colors.primary};

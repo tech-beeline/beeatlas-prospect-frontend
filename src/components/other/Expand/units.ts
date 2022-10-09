@@ -12,7 +12,7 @@ export const ExpandWrapper = styled.div<T.IExpandWrapper>`
 
     cursor: ${({ isClickable }) => isClickable && 'pointer'};
 
-    transition: height ${({ transition }) => `${transition}s`} ease-in-out;
+    transition: height ${({ transition }) => `${transition}s`} ease-out;
 `;
 
 export const ChildrenContainer = styled.div<{

@@ -1,15 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './units';
 
 export const Card = (props: any) => {
-    return (
-        <S.Wrapper>
-            <S.Card colorType={props.colorType}>
-                <S.Title>{props.title}</S.Title>
+    const navigate = useNavigate();
 
-                <S.Text>{props.children}</S.Text>
-            </S.Card>
-        </S.Wrapper>
+    return (
+        <S.Card
+            colorType={props.colorType}
+            withImage={props.withImage}
+            onClick={() => props.to && navigate(props.to)}
+            {...props}
+        >
+            <S.Title withImage={props.withImage}>{props.title}</S.Title>
+
+            <S.Text withImage={props.withImage}>{props.children}</S.Text>
+        </S.Card>
     );
 };

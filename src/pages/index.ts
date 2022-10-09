@@ -3,6 +3,7 @@ export { AppInfoPage } from './AppInfoPage';
 export { ArchCommPage } from './ArchCommPage';
 export { AuthPage } from './AuthPage';
 export { DataBasePage } from './DataBasePage';
+export { HowToPage } from './HowToPage';
 export { MainPage } from './MainPage';
 export { ServicesPage } from './ServicesPage';
 // TODO: MOCK

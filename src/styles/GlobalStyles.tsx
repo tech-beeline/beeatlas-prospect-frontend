@@ -34,7 +34,7 @@ export const GlobalStyles = () => {
                     box-sizing: border-box;
                     -webkit-font-smoothing: antialiased;
                     -webkit-tap-highlight-color: transparent;
-                    /* transition: all 0.2s ease-in-out; */
+                    /* transition: all 0.25s ease-out; */
                 }
 
                 html,
@@ -119,7 +119,7 @@ export const GlobalStyles = () => {
                     background-color: #fdd835;
                     font-weight: 500;
                     white-space: nowrap;
-                    transition: all 0.2s ease-in-out;
+                    transition: all 0.25s ease-out;
                     user-select: none;
                     border-radius: 12px;
                     font-size: 17px;

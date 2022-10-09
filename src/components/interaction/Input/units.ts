@@ -30,7 +30,7 @@ const inputStyles = css`
 
     cursor: pointer;
 
-    transition: all 0.2s ease-in-out;
+    transition: all 0.25s ease-out;
 `;
 
 export const InputStyled = styled.input<T.IInput>`
@@ -67,7 +67,7 @@ export const InputPhoneStyled = styled(Input)<T.IInput>`
 
     text-overflow: ellipsis;
 
-    transition: all 0.2s ease-in-out;
+    transition: all 0.25s ease-out;
 `;
 
 export const Label = styled.label`

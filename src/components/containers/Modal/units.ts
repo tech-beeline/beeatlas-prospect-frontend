@@ -19,7 +19,7 @@ export const ModalOverlay = styled.div<IModalOverlayProps>`
     justify-content: center;
     align-items: center;
 
-    transition: all ${({ isVisible }) => (isVisible ? '0.2s' : '0s')} ease-in-out;
+    transition: all ${({ isVisible }) => (isVisible ? '0.25s' : '0s')} ease-out;
     opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
     visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
     overflow: hidden;

@@ -18,6 +18,8 @@ export const Wrapper = styled.div<{ isActive?: boolean }>`
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
 
+    transition: 0.25s color ease-out;
+
     cursor: pointer;
     user-select: none;
 
@@ -34,7 +36,7 @@ export const Wrapper = styled.div<{ isActive?: boolean }>`
         background-color: ${({ isActive }) =>
             isActive ? theme.colors.brandYellow : 'transparent'};
 
-        transition: 0.2s background-color ease-in-out;
+        transition: 0.25s background-color ease-out;
     }
 `;
 

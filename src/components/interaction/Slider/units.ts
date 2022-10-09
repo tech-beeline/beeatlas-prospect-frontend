@@ -15,6 +15,8 @@ export const PageWrapper = styled.div`
 
 export const SliderWrapper = styled.div`
     position: relative;
+
+    margin-top: 60px;
 `;
 
 export const SliderContainer = styled.div`
@@ -23,7 +25,7 @@ export const SliderContainer = styled.div`
     display: flex;
 
     width: 100%;
-    max-width: 1460px;
+    /* max-width: 1460px; */
     height: 400px;
 
     background-color: ${theme.colors.backgroundLow};
@@ -50,20 +52,20 @@ export const SliderContainer = styled.div`
     } */
 `;
 
-export const Slider = styled.div<{ transformX: number; isScrolling: boolean }>`
+export const Slider = styled.div<{ transformX: number; isScrolling?: boolean }>`
     display: flex;
     align-items: center;
 
     width: 100%;
 
-    transition: ${({ isScrolling }) => !isScrolling && 'all 0.4s ease-in-out'};
+    transition: ${({ isScrolling }) => !isScrolling && 'all 0.4s ease-out'};
 
     transform: ${({ transformX }) => `translate3d(${transformX}px, 0px, 0px)`};
 `;
 
 export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean }>`
     position: absolute;
-    top: 58%;
+    top: 50%;
     left: ${({ isRight }) => (isRight ? '100%' : 0)};
 
     transform: translate(-50%, -50%);
@@ -87,12 +89,12 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
 
     opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
 
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-out;
 
     & * path {
         fill: ${theme.colors.textActiveInverse};
 
-        /* transition: fill 0.2s ease-in-out; */
+        /* transition: fill 0.25s ease-out; */
     }
 
     /* &:hover {

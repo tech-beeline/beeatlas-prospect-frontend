@@ -20,6 +20,8 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
 
     border-radius: ${theme.borderRadius};
 
+    transition: all 0.25s ease-out;
+
     cursor: pointer;
     user-select: none;
 `;

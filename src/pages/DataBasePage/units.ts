@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { Card } from 'components/interaction';
+
 import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
@@ -30,4 +32,13 @@ export const H2 = styled.h2`
     font-weight: 500;
     font-size: 44px;
     line-height: 56px;
+`;
+
+export const CardContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+export const CardStyled = styled(Card)`
+    margin-top: 24px;
 `;

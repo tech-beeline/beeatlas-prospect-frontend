@@ -1,6 +1,8 @@
 import React from 'react';
 import { Icons } from '@beeline/lk-ui';
 
+import * as C from 'router/const';
+
 import { Item } from './Item';
 import { SubItem } from './SubItem';
 import * as S from './units';
@@ -26,15 +28,20 @@ export const Menu = () => {
             <Item
                 iconName={Icons.Group}
                 title="Арх. комитет"
-                url="arch-comm"
+                url={C.ARCH_COMM_PATH}
                 subItems={[
                     <SubItem
                         title="Общая информация"
-                        to="/data-base/arch-comm"
-                        parentURL="data-base"
+                        to={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}`}
+                        parentURL={C.DATA_BASE_PATH}
                         key="1"
                     />,
-                    <SubItem title="Как подготовиться" key="2" />,
+                    <SubItem
+                        title="Как подготовиться"
+                        to={`${C.DATA_BASE_PATH}${C.ARCH_HOW_TO_PATH}`}
+                        parentURL={C.DATA_BASE_PATH}
+                        key="2"
+                    />,
                     <SubItem title="Календарь заседаний" key="3" />,
                     <SubItem title="Шаблоны материалов" key="4" />,
                 ]}
