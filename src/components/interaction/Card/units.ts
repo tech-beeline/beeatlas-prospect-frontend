@@ -63,7 +63,8 @@ export const Card = styled.div<any>`
 
     transition: all 0.25s ease-out;
 
-    cursor: ${({ withImage }) => !withImage && 'pointer'};
+    /* cursor: ${({ withImage }) => !withImage && 'pointer'}; */
+    cursor: pointer;
 
     &:hover {
         border-radius: 24px;

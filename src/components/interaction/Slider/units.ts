@@ -37,7 +37,7 @@ export const SliderContainer = styled.div`
         height: 0;
     }
 
-    cursor: grab;
+    /* cursor: grab; */
 
     /* @media only screen and (max-width: 1500px) {
         max-width: 1000px;

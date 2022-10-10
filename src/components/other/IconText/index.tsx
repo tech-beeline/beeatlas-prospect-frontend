@@ -14,7 +14,7 @@ export const IconText: FC<IIconText> = ({ isSecondary = false, ...props }) => {
                 <Icon iconName={Icons[props.icon]} type={props.color || 'default'} />
             )}
 
-            {props.text}
+            <p style={{ whiteSpace: 'pre-line' }}>{props.text}</p>
         </S.Wrapper>
     );
 };
