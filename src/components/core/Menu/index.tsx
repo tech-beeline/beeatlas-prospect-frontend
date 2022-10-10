@@ -24,7 +24,6 @@ export const Menu = () => {
 
     return (
         <S.Wrapper>
-            {/* TODO: занести константы */}
             <Item
                 iconName={Icons.Group}
                 title="Арх. комитет"
@@ -38,7 +37,7 @@ export const Menu = () => {
                     />,
                     <SubItem
                         title="Как подготовиться"
-                        to={`${C.DATA_BASE_PATH}${C.ARCH_HOW_TO_PATH}`}
+                        to={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_HOW_TO_PATH}`}
                         parentURL={C.DATA_BASE_PATH}
                         key="2"
                     />,

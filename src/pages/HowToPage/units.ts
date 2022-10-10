@@ -1,13 +1,29 @@
 import styled from '@emotion/styled';
 
+import { BorderContainer } from 'components/containers';
+
 import { theme } from 'styles';
 
+// TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
-    height: 100vh;
+    /* height: 100vh; */
     padding: 72px 52px;
 
     background-color: ${theme.colors.backgroundLow};
     color: ${theme.colors.textActive};
+`;
+
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    width: 50%;
+`;
+
+export const BorderContainerStyled = styled(BorderContainer)`
+    flex-direction: column;
+    gap: 32px;
 `;
 
 export const Title = styled.h1`
@@ -63,6 +79,8 @@ export const BoldTitle = styled.h5`
     font-weight: 700;
     font-size: 20px;
     line-height: 28px;
+
+    margin-bottom: 8px;
 `;
 
 export const BoldText = styled.p`

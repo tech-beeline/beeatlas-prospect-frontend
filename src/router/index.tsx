@@ -41,7 +41,7 @@ export const NavigationRouter = () => {
                             }
                         />
                         <Route
-                            path={`${C.DATA_BASE_PATH}${C.ARCH_HOW_TO_PATH}`}
+                            path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_HOW_TO_PATH}`}
                             element={
                                 <div style={{ paddingLeft: '256px' }}>
                                     <Menu />

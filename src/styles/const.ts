@@ -32,6 +32,7 @@ export const theme = {
         textInactive: 'var(--color-text-inactive)',
         textLogo: 'var(--color-text-logo)',
         textLink: 'var(--color-text-link)',
+        textInfo: 'var(--color-status-info)',
         magenta: 'var(--color-accent-magenta-background)',
         teal: 'var(--color-accent-teal-background)',
         lemon: 'var(--color-accent-lemon-background)',
