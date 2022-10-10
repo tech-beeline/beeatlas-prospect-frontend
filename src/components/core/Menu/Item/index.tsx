@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { BaseIcon } from 'components/core';
 import { Expand } from 'components/other';
-import { PivotArrow } from 'components/other/PivotArrow';
+import { PivotArrow } from 'components/other';
 
 import { theme } from 'styles';
 
