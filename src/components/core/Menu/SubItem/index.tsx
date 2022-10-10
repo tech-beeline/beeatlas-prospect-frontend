@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './units';
@@ -10,15 +10,6 @@ export const SubItem = (props: any) => {
     const handleClick = () => {
         navigate(props.to);
     };
-
-    useEffect(() => {
-        // !activeMenuItem && setActiveMenuItem(location.pathname);
-        // if (location.pathname !== activeMenuItem) {
-        //     setActiveMenuItem('');
-        // }
-
-        console.log('location', location.pathname);
-    }, [location]);
 
     return (
         <S.Wrapper isActive={props.to === location.pathname} onClick={handleClick}>

@@ -2,7 +2,8 @@ import React, { FC, useState } from 'react';
 
 // import { useNavigate } from 'react-router-dom';
 import { BaseIcon } from 'components/core';
-import { Expand, PivotArrow } from 'components/other';
+import { Expand } from 'components/other';
+import { PivotArrow } from 'components/other/PivotArrow';
 
 import { theme } from 'styles';
 
