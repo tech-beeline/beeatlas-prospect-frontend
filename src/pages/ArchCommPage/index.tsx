@@ -77,7 +77,7 @@ export const ArchCommPage = () => {
 
                     <IconText icon="Notification" text="Принятие решений" color="info" />
                     <IconText icon="Suitcase" text="Развитие ИТ-ландшафта" color="warning" />
-                    <IconText icon="Flash" text="Разрешение конфликтов" color="teal" />
+                    <IconText icon="Flash" text="Разрешение конфликтов" color="error" />
                     <IconText icon="PagesMultipleAdd" text="Инициация проектов" color="magenta" />
                     <IconText icon="PageSearch" text="Утверждение техполитики" color="purple" />
                 </S.Container>
@@ -89,22 +89,24 @@ export const ArchCommPage = () => {
 
                     <HumanCard
                         firstName="Руководитель центра"
-                        description="Вице-президент по информационным технологиям. 
-Блок по информационным технологиям"
+                        //                         description="Вице-президент по информационным технологиям.
+                        // Блок по информационным технологиям"
+                        style={{ gap: '0' }}
                     />
 
                     <HumanCard
                         firstName="Корпоративные архитекторы"
-                        description="Вице-президент по работе с данными. 
-Блок по работе с данными"
+                        //                         description="Вице-президент по работе с данными.
+                        // Блок по работе с данными"
+                        style={{ gap: '0' }}
                     />
                 </S.Container>
 
                 <S.Container>
                     <S.BoldTitle>Функции</S.BoldTitle>
 
-                    <IconText icon="Notification" text="Оппонирование" color="info" />
-                    <IconText icon="Suitcase" text="Консультирование" color="warning" />
+                    <IconText icon="UserVerified" text="Оппонирование" color="success" />
+                    <IconText icon="QuestionCircled" text="Консультирование" color="teal" />
                 </S.Container>
             </BorderContainer>
 
@@ -124,7 +126,7 @@ export const ArchCommPage = () => {
                 <S.Container>
                     <S.BoldTitle>Функции</S.BoldTitle>
 
-                    <IconText icon="Notification" text="Проведение заседаний" color="info" />
+                    <IconText icon="Megaphone" text="Проведение заседаний" />
                 </S.Container>
             </BorderContainer>
         </S.PageWrapper>

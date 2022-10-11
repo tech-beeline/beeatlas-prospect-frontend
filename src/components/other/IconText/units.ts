@@ -3,11 +3,21 @@ import styled from '@emotion/styled';
 
 import { theme } from 'styles';
 
-export const Wrapper = styled.div<{ isSecondary: boolean }>`
+export const Wrapper = styled.div<{ isSecondary: boolean; number?: number }>`
     display: flex;
 
-    ${({ isSecondary }) =>
-        !isSecondary
+    ${({ isSecondary, number }) =>
+        number
+            ? css`
+                  align-items: center;
+                  gap: 12px;
+
+                  font-weight: 700;
+                  font-size: 20px;
+                  line-height: 28px;
+                  letter-spacing: 0.2px;
+              `
+            : !isSecondary
             ? css`
                   align-items: center;
                   gap: 12px;

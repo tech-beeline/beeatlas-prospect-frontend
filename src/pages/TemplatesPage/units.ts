@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
 
-import { BorderContainer } from 'components/containers';
-
 import { theme } from 'styles';
 
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
     /* height: 100vh; */
-    width: 902px;
     padding: 72px 52px;
 
     background-color: ${theme.colors.backgroundLow};
@@ -20,11 +17,6 @@ export const Container = styled.div`
     gap: 16px;
 
     width: 50%;
-`;
-
-export const BorderContainerStyled = styled(BorderContainer)`
-    flex-direction: column;
-    gap: 32px;
 `;
 
 export const Title = styled.h1`
@@ -58,7 +50,7 @@ export const H3 = styled.h3`
     line-height: 44px;
 
     width: 798px;
-    margin: 40px 0 12px;
+    margin: 40px 0 32px;
 `;
 
 export const H4 = styled.h4`
@@ -68,16 +60,12 @@ export const H4 = styled.h4`
     letter-spacing: 0.2px;
 `;
 
-export const GrayText = styled.p`
+export const SmallText = styled.p`
     font-weight: 400;
     font-size: 19px;
     line-height: 24px;
 
-    color: ${theme.colors.textInactive};
-`;
-
-export const SubTitle = styled(GrayText)`
-    font-weight: 500;
+    margin-bottom: 24px;
 `;
 
 export const BoldTitle = styled.h5`
@@ -93,4 +81,15 @@ export const BoldText = styled.p`
     font-size: 17px;
     line-height: 22px;
     letter-spacing: 0.2px;
+`;
+
+export const AdaptiveCardContainer = styled.div`
+    display: flex;
+    gap: 24px;
+
+    margin-bottom: 24px;
+
+    @media only screen and (max-width: 1100px) {
+        flex-direction: column;
+    }
 `;

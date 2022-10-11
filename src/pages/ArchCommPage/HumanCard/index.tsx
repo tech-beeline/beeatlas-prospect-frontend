@@ -7,7 +7,7 @@ import * as S from './units';
 
 export const HumanCard: FC<IHumanCard> = (props) => {
     return (
-        <S.Wrapper>
+        <S.Wrapper {...props}>
             <S.FlexContainer>
                 <S.Avatar src={props.avatar || defaultImg} />
 

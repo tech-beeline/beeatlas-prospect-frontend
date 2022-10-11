@@ -6,7 +6,7 @@ import * as S from './units';
 
 export const IconText: FC<IIconText> = ({ isSecondary = false, ...props }) => {
     return (
-        <S.Wrapper {...{ isSecondary }} {...props}>
+        <S.Wrapper number={props.number} {...{ isSecondary }} {...props}>
             {props.number ? (
                 <S.Background>{props.number}</S.Background>
             ) : (
