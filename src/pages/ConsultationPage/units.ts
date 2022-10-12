@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 
+import { BorderContainer } from 'components/containers';
+
 import { theme } from 'styles';
 
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
     height: 100vh;
-    padding: 72px 52px;
+    padding: 72px 180px;
 
     background-color: ${theme.colors.backgroundLow};
     color: ${theme.colors.textActive};
@@ -17,6 +19,11 @@ export const Container = styled.div`
     gap: 16px;
 
     width: 50%;
+`;
+
+export const BorderContainerStyled = styled(BorderContainer)`
+    flex-direction: column;
+    gap: 32px;
 `;
 
 export const Title = styled.h1`
@@ -45,12 +52,18 @@ export const H2 = styled.h2`
 `;
 
 export const H3 = styled.h3`
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
     font-weight: 400;
     font-size: 34px;
     line-height: 44px;
 
     width: 798px;
-    margin: 40px 0 32px;
+    margin: 40px 0 12px;
+
+    cursor: pointer;
 `;
 
 export const H4 = styled.h4`
@@ -58,14 +71,24 @@ export const H4 = styled.h4`
     font-size: 26px;
     line-height: 32px;
     letter-spacing: 0.2px;
+
+    margin-bottom: 32px;
 `;
 
-export const SmallText = styled.p`
+export const GrayText = styled.p`
     font-weight: 400;
-    font-size: 19px;
-    line-height: 24px;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: 0.2px;
 
-    margin-bottom: 24px;
+    color: ${theme.colors.textInactive};
+`;
+
+export const SubTitle = styled(GrayText)`
+    max-width: 784px;
+    margin-bottom: 56px;
+
+    font-weight: 500;
 `;
 
 export const BoldTitle = styled.h5`
@@ -76,12 +99,12 @@ export const BoldTitle = styled.h5`
     margin-bottom: 8px;
 `;
 
-export const BoldText = styled.p`
-    font-weight: 700;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
-`;
+// export const BoldText = styled.p`
+//     font-weight: 400;
+//     font-size: 17px;
+//     line-height: 22px;
+//     letter-spacing: 0.2px;
+// `;
 
 export const AdaptiveCardContainer = styled.div`
     display: flex;

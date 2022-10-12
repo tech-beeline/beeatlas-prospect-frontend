@@ -9,63 +9,71 @@ export const Accordion = (props: any) => {
     const data = [
         {
             id: 0,
-            title: 'Как подготовиться к защите на архитектурном комитете?',
-            text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed c',
+            title: 'Что нужно для выхода и защиты на АК?',
+            text: 'Мы подготовили для вас инструкцию по выходу на АК, шаблоны и чеклисты для материалов, требуемых на Архитектурном комитете. А еще можно проконсультироваться у корпоративного архитектора по вопросам подготовки концепции, позиционирования и другим вопросам в рамках сервиса Корпоративной архитектуры.',
             isOpen: false,
         },
         {
             id: 1,
-            title: 'Как подготовиться к защите на архитектурном комитете?',
-            text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed c',
+            title: 'Какие возможности на ландшафте можно переиспользовать?',
+            text: 'На этот вопрос дает ответ Функционально-Доменная модель ИТ-ландшафта ВК. По ней есть поиск, а можно просмотреть интересующие группировки и возможности доменов. По каждой возможности можно посмотреть детали – владельца, ИТ-продукт, API который можно вызвать.',
             isOpen: false,
         },
         {
             id: 2,
-            title: 'Как подготовиться к защите на архитектурном комитете?',
-            text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed c',
+            title: 'Как описать возможности моего продукта?',
+            text: 'Можно сделать это самостоятельно, ознакомившись с методикой описания возможностей, а если приходится делать это впервые – можно воспользоваться консультацией корпоративного архитектора, который подскажет правильные формулировки, и провалидирует подготовленный список.',
             isOpen: false,
         },
         {
             id: 3,
-            title: 'Как подготовиться к защите на архитектурном комитете?',
-            text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed c',
+            title: 'В какие домены на ФДМ спозиционировать мой продукт?',
+            text: 'В Функционально-Доменной модели позиционируются не сами продукты, а возможности, которые продукт предоставляет потребителям. Для позиционирования можно просмотреть ФДМ и описание ее доменов, и на основе этих данных подготовить предложения по позиционированию возможностей и обсудить его с корпоративным архитектором. Если предложений нет, корпоративный архитектор предложит позиционирование самостоятельно исходя из предоставленной концепции продукта. Воспользоваться сервисом позиционирования корпоративной архитектуры можно тут.',
+            isOpen: false,
+        },
+        {
+            id: 4,
+            title: 'Какие сведения составляют Концепцию продукта?',
+            text: 'Концепцию продукта составляет набор разных сведений – начиная от ценностей, предоставляемых продуктом и описания потребителей этих ценностей, заканчивая архитектурой и роадмапом продукта. Чтобы не запутаться и ничего не забыть, можно воспользоваться подготовленной инструкцией, шаблоном, или посмотреть примеры концепций продуктов, которые уже прошли защиту на Архитектурном комитете.',
             isOpen: false,
         },
     ];
 
-    // const [dataOfAccordion, setDataOfAccordion] = useState(data);
-    const [isActive, setActive] = useState<number | null>(null);
+    const [dataOfAccordion, setDataOfAccordion] = useState(data);
+    // const [isActive, setActive] = useState<number | null>(null);
 
     // TODO: открытие только одного айтема
-    // const toggleHandler = (index: number) => {
-    //     setDataOfAccordion((prevState) =>
-    //         prevState.map((item) => {
-    //             if (item.id === index) {
-    //                 return { ...item, isOpen: !item.isOpen };
-    //             }
-
-    //             return item;
-    //         }),
-    //     );
-    // };
-
     const toggleHandler = (index: number) => {
-        if (isActive === index) {
-            setActive(null);
-        } else {
-            setActive(index);
-        }
+        setDataOfAccordion((prevState) =>
+            prevState.map((item) => {
+                if (item.id === index) {
+                    return { ...item, isOpen: !item.isOpen };
+                }
+
+                return item;
+            }),
+        );
     };
+
+    // const toggleHandler = (index: number) => {
+    //     if (isActive === index) {
+    //         setActive(null);
+    //     } else {
+    //         setActive(index);
+    //     }
+    // };
 
     return (
         <S.Container {...props}>
             {data.map((item, index) => (
                 <S.Item key={index} onClick={() => toggleHandler(index)}>
                     <S.TitleBlock>
-                        {item.title} <PivotArrow isOpen={isActive === index} />
+                        {item.title} <PivotArrow isOpen={dataOfAccordion[index].isOpen} />
                     </S.TitleBlock>
 
-                    <S.ExpandStyled isOpen={isActive === index}>{item.text}</S.ExpandStyled>
+                    <S.ExpandStyled isOpen={dataOfAccordion[index].isOpen}>
+                        {item.text}
+                    </S.ExpandStyled>
                 </S.Item>
             ))}
         </S.Container>

@@ -4,8 +4,17 @@ import { QueryParamProvider } from 'use-query-params';
 
 import { Header, Menu } from 'components/core';
 
-import { AppInfoPage, ArchCommPage, DataBasePage, HowToPage, MainPage, TemplatesPage } from 'pages';
-import { Theme } from 'styles';
+import {
+    AppInfoPage,
+    ArchCommPage,
+    ConsultationPage,
+    DataBasePage,
+    HowToPage,
+    MainPage,
+    ServicesPage,
+    TemplatesPage,
+} from 'pages';
+import { Theme, theme } from 'styles';
 
 import * as C from './const';
 import { RouteAdapter } from './utils';
@@ -25,7 +34,12 @@ export const NavigationRouter = () => {
                         <Route
                             path={C.DATA_BASE_PATH}
                             element={
-                                <div style={{ paddingLeft: '256px' }}>
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
                                     <Menu />
                                     <DataBasePage />
                                 </div>
@@ -34,7 +48,12 @@ export const NavigationRouter = () => {
                         <Route
                             path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}`}
                             element={
-                                <div style={{ paddingLeft: '256px' }}>
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
                                     <Menu />
                                     <ArchCommPage />
                                 </div>
@@ -43,7 +62,12 @@ export const NavigationRouter = () => {
                         <Route
                             path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_HOW_TO_PATH}`}
                             element={
-                                <div style={{ paddingLeft: '256px' }}>
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
                                     <Menu />
                                     <HowToPage />
                                 </div>
@@ -52,11 +76,35 @@ export const NavigationRouter = () => {
                         <Route
                             path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_TEMPLATES_PATH}`}
                             element={
-                                <div style={{ paddingLeft: '256px' }}>
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
                                     <Menu />
                                     <TemplatesPage />
                                 </div>
                             }
+                        />
+
+                        <Route
+                            path={C.SERVICES_PATH}
+                            element={
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <Menu />
+                                    <ServicesPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path={`${C.SERVICES_PATH}${C.CONSULTATION_PATH}`}
+                            element={<ConsultationPage />}
                         />
                     </Routes>
                 </QueryParamProvider>

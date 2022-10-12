@@ -95,6 +95,7 @@ export const ArchCommPage = () => {
                     />
 
                     <HumanCard
+                        avatar="group"
                         firstName="Корпоративные архитекторы"
                         //                         description="Вице-президент по работе с данными.
                         // Блок по работе с данными"

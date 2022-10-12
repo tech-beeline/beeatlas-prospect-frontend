@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { BorderContainer } from 'components/containers';
+
 import { theme } from 'styles';
 
 // TODO: сделать у боди бэкграунд темы
@@ -17,6 +19,11 @@ export const Container = styled.div`
     gap: 16px;
 
     width: 50%;
+`;
+
+export const BorderContainerStyled = styled(BorderContainer)`
+    flex-direction: column;
+    gap: 32px;
 `;
 
 export const Title = styled.h1`
@@ -60,12 +67,16 @@ export const H4 = styled.h4`
     letter-spacing: 0.2px;
 `;
 
-export const SmallText = styled.p`
+export const GrayText = styled.p`
     font-weight: 400;
     font-size: 19px;
     line-height: 24px;
 
-    margin-bottom: 24px;
+    color: ${theme.colors.textInactive};
+`;
+
+export const SubTitle = styled(GrayText)`
+    font-weight: 500;
 `;
 
 export const BoldTitle = styled.h5`
@@ -83,11 +94,9 @@ export const BoldText = styled.p`
     letter-spacing: 0.2px;
 `;
 
-export const AdaptiveCardContainer = styled.div`
+export const FlexContainer = styled.div`
     display: flex;
     gap: 24px;
-
-    margin-bottom: 24px;
 
     @media only screen and (max-width: 1100px) {
         flex-direction: column;

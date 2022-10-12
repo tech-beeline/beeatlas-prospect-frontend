@@ -1,5 +1,5 @@
 export interface IHumanCard {
-    avatar?: string;
+    avatar?: string | 'group';
     firstName: string;
     secondName?: string;
     description?: string;

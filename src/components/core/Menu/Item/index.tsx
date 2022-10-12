@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// import { useNavigate } from 'react-router-dom';
 import { BaseIcon } from 'components/core';
 import { Expand } from 'components/other';
 import { PivotArrow } from 'components/other';
@@ -13,13 +13,15 @@ import * as S from './units';
 export const Item: FC<IItem> = (props) => {
     const [isOpen, setOpen] = useState(false);
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleClick = () => {
         setOpen(!isOpen);
 
         // TODO: сделать обязательным
-        // navigate(props.url!);
+        if (!props.subItems) {
+            navigate(props.url!);
+        }
     };
 
     return (

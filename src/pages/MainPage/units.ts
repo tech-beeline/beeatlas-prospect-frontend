@@ -22,6 +22,8 @@ export const GeneralBlock = styled.div`
 `;
 
 export const Title = styled.h1`
+    width: 832px;
+
     font-weight: 500;
     font-size: 100px;
     line-height: 110px;

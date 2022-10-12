@@ -9,3 +9,4 @@ export const ARCH_HOW_TO_PATH = '/how-to';
 export const ARCH_TEMPLATES_PATH = '/templates';
 // Сервисы
 export const SERVICES_PATH = '/services';
+export const CONSULTATION_PATH = '/consultation';

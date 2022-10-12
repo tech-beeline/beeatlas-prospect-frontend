@@ -1,3 +1,4 @@
+import { Icon } from '@beeline/lk-ui';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
@@ -43,4 +44,17 @@ export const Description = styled.p`
     padding-left: 52px;
 
     color: ${theme.colors.textInactive};
+`;
+
+export const IconStyled = styled(Icon)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+
+    font-size: 20px;
+
+    border-radius: 50%;
 `;
