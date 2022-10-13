@@ -4,7 +4,7 @@ import { theme } from 'styles';
 
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
-    height: 100vh;
+    height: max-content;
     padding: 72px 52px;
 
     background-color: ${theme.colors.backgroundLow};

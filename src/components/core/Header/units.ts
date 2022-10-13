@@ -26,6 +26,15 @@ export const Container = styled.div`
     z-index: 100;
 `;
 
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    margin-right: 48px;
+
+    cursor: pointer;
+`;
+
 export const BaseIcon = styled(Icon)`
     color: ${theme.colors.textInactive};
 

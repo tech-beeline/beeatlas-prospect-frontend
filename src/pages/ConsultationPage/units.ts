@@ -6,7 +6,7 @@ import { theme } from 'styles';
 
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
-    height: 100vh;
+    height: max-content;
     padding: 72px 180px;
 
     background-color: ${theme.colors.backgroundLow};
@@ -60,10 +60,21 @@ export const H3 = styled.h3`
     font-size: 34px;
     line-height: 44px;
 
-    width: 798px;
+    width: max-content;
     margin: 40px 0 12px;
 
+    transition: color 0.25s ease-out;
+
     cursor: pointer;
+
+    & > * {
+        transition: color 0.25s ease-out;
+    }
+
+    &:hover > *,
+    &:hover {
+        color: ${theme.colors.textLink};
+    }
 `;
 
 export const H4 = styled.h4`
@@ -106,6 +117,18 @@ export const BoldTitle = styled.h5`
 //     letter-spacing: 0.2px;
 // `;
 
+export const BoldText = styled.p`
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 24px;
+`;
+
+export const GraySecondText = styled(BoldText)`
+    font-weight: 400;
+
+    color: ${theme.colors.textInactive};
+`;
+
 export const AdaptiveCardContainer = styled.div`
     display: flex;
     gap: 24px;
@@ -115,4 +138,18 @@ export const AdaptiveCardContainer = styled.div`
     @media only screen and (max-width: 1100px) {
         flex-direction: column;
     }
+`;
+
+export const FlexBottomContainer = styled.div`
+    display: flex;
+    gap: 25px;
+
+    margin-top: 26px;
+`;
+
+export const EmailLink = styled.a`
+    text-decoration: none;
+    margin-left: 6px;
+
+    color: ${theme.colors.textLink};
 `;

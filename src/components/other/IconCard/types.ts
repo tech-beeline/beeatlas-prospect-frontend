@@ -3,4 +3,6 @@ export interface IIconCard {
     title: string;
     text: string;
     color?: 'error' | 'success' | 'warning' | 'info' | 'purple' | 'teal' | 'magenta';
+    deadlineText?: string;
+    buttonText?: string;
 }

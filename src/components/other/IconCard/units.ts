@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
 
+import { theme } from 'styles';
+
 export const BorderContainerStyled = styled(BorderContainer)`
     display: flex;
     flex-direction: column;
@@ -24,6 +26,24 @@ export const Text = styled.p`
 `;
 
 export const ButtonWrapper = styled.div`
-    width: 142px;
+    width: max-content;
     margin-left: auto;
+`;
+
+export const DeadlineBlock = styled.div``;
+
+export const DeadlineTitle = styled.p`
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+
+    color: ${theme.colors.textInactive};
+`;
+
+export const FlexBottomWrapper = styled.div`
+    display: flex;
+    align-items: center;
+
+    height: 64px;
 `;

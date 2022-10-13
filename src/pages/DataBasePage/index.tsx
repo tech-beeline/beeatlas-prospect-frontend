@@ -18,7 +18,7 @@ export const DataBasePage = () => {
                             Познакомиться с основными принципами компании
                         </S.CardStyled>
 
-                        <S.CardStyled colorType="green" title="Сервисные услуги">
+                        <S.CardStyled colorType="green" title="Сервисные услуги" to="services">
                             Узнать подробнее об услугах Энтерпрайз архитектуры и воспользоваться ими
                         </S.CardStyled>
                     </S.CardContainer>

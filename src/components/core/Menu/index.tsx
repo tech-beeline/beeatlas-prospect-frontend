@@ -53,7 +53,11 @@ export const Menu = () => {
 
             <Item iconName={Icons.PagesMultiple} title="Техполитика" />
 
-            <Item iconName={Icons.Services} title="Услуги" url={C.SERVICES_PATH} />
+            <Item
+                iconName={Icons.Services}
+                title="Услуги"
+                url={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}`}
+            />
         </S.Wrapper>
     );
 };

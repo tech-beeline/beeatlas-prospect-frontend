@@ -19,7 +19,9 @@ export const ServicesPage = () => {
                     text="Обратитесь за консультацией к корпоративным архитекторам по вопросам, связанным с подготовкой к защите на Архитектурном комитете, позиционировании продукта, выборе технологий, а также по любым другим вопросам, связанным с архитектурой ИТ-ландшафта"
                     ownerName="Филатова О.И."
                     buttonText="Выбрать направление"
-                    onClick={() => navigate(`${C.SERVICES_PATH}${C.CONSULTATION_PATH}`)}
+                    onClick={() =>
+                        navigate(`${C.DATA_BASE_PATH}${C.SERVICES_PATH}${C.CONSULTATION_PATH}`)
+                    }
                 />
 
                 <ServiceCard

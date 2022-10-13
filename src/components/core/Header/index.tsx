@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import VKITAuth from '@beeline/lk-auth';
 import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+import { MAIN_PAGE_PATH } from 'router/const';
 // import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
-import { BaseIcon, Logo } from '..';
+import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
@@ -27,10 +28,17 @@ export const Header = observer(() => {
 
     const isProd = process.env.NODE_ENV !== 'development';
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // TODO: check this in prod
     const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
+
+    // tabs
+    const tabs = [
+        { name: 'ФДМ', url: 'fdm/' },
+        { name: 'База знаний', url: 'data-base/' },
+        { name: 'Продукты', url: 'products/' },
+    ];
 
     // TODO: useMountEffect
     useEffect(() => {
@@ -47,10 +55,26 @@ export const Header = observer(() => {
     return (
         <>
             <S.Container>
-                {/* onClick={() => navigate(MAIN_PAGE_PATH)} */}
-                <S.Title>корп. архитектура</S.Title>
+                <S.FlexContainer onClick={() => navigate(MAIN_PAGE_PATH)}>
+                    <S.Title>корп. архитектура</S.Title>
+                    <Logo />
+                </S.FlexContainer>
 
-                <Logo />
+                <Tabs>
+                    {tabs.map((tab, index) => (
+                        <Tab
+                            isActive={location.pathname?.includes(tab.url)}
+                            key={index}
+                            onClick={() => {
+                                console.log(tab.url);
+
+                                navigate(tab.url);
+                            }}
+                        >
+                            {tab.name}
+                        </Tab>
+                    ))}
+                </Tabs>
 
                 <S.ControlPanel>
                     {/* TODO: Пока убрана */}
@@ -98,7 +122,6 @@ export const Header = observer(() => {
                         />
                     )}
                 </S.ControlPanel>
-
                 {/* <Mailto
                     email="foo@bar.baz"
                     subject="Hello & Welcome"

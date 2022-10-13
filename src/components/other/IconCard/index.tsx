@@ -14,9 +14,17 @@ export const IconCard: FC<IIconCard> = (props) => {
 
             <S.Text>{props.text}</S.Text>
 
-            <S.ButtonWrapper>
-                <Button>Скачать шаблон</Button>
-            </S.ButtonWrapper>
+            <S.FlexBottomWrapper>
+                {props.deadlineText && (
+                    <S.DeadlineBlock>
+                        <S.DeadlineTitle>срок выполнения</S.DeadlineTitle> {props.deadlineText}
+                    </S.DeadlineBlock>
+                )}
+
+                <S.ButtonWrapper>
+                    <Button>{props.buttonText || 'Скачать шаблон'}</Button>
+                </S.ButtonWrapper>
+            </S.FlexBottomWrapper>
         </S.BorderContainerStyled>
     );
 };

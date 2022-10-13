@@ -22,9 +22,9 @@ import { RouteAdapter } from './utils';
 export const NavigationRouter = () => {
     return (
         <Theme>
-            <Header />
-
             <Router>
+                <Header />
+
                 <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                     <Routes>
                         <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
@@ -89,7 +89,7 @@ export const NavigationRouter = () => {
                         />
 
                         <Route
-                            path={C.SERVICES_PATH}
+                            path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}`}
                             element={
                                 <div
                                     style={{
@@ -103,7 +103,7 @@ export const NavigationRouter = () => {
                             }
                         />
                         <Route
-                            path={`${C.SERVICES_PATH}${C.CONSULTATION_PATH}`}
+                            path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}${C.CONSULTATION_PATH}`}
                             element={<ConsultationPage />}
                         />
                     </Routes>
