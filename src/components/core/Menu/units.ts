@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 
     width: 256px;
     height: 100vh;
-    padding: calc(64px + 24px) 16px 0;
+    padding: calc(64px + 24px) 16px 0 0;
 
     background-color: ${theme.colors.backgroundLow};
 `;

@@ -1,7 +1,10 @@
 export const MAIN_PAGE_PATH = '/';
 export const APP_INFO_PAGE_PATH = '/app-info';
 
-// Общая страница
+// Страница поиска
+export const FDM_PATH = '/fdm';
+
+// Общая страница (ниже входящие страницы)
 export const DATA_BASE_PATH = '/data-base';
 // Архитектурный коммитет
 export const ARCH_COMM_PATH = '/arch-comm';

@@ -58,7 +58,7 @@ export const Slider = styled.div<{ transformX: number; isScrolling?: boolean }>`
 
     width: 100%;
 
-    transition: ${({ isScrolling }) => !isScrolling && 'all 0.4s ease-out'};
+    transition: ${({ isScrolling }) => !isScrolling && 'all 0.25s ease-out'};
 
     transform: ${({ transformX }) => `translate3d(${transformX}px, 0px, 0px)`};
 `;

@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BaseIcon } from 'components/core';
-import { Expand } from 'components/other';
 import { PivotArrow } from 'components/other';
 
 import { theme } from 'styles';
@@ -26,7 +25,11 @@ export const Item: FC<IItem> = (props) => {
 
     return (
         <>
-            <S.Wrapper isActive={location.pathname?.includes(props.url!)} onClick={handleClick}>
+            <S.Wrapper
+                isActive={location.pathname?.includes(props.url!)}
+                isSubItems={!!props.subItems}
+                onClick={handleClick}
+            >
                 <S.LeftWrapper>
                     <BaseIcon iconName={props.iconName} />
 
@@ -36,7 +39,9 @@ export const Item: FC<IItem> = (props) => {
                 {props.subItems && <PivotArrow {...{ isOpen }} color={theme.colors.textInactive} />}
             </S.Wrapper>
 
-            <Expand {...{ isOpen }}>{props.subItems && props.subItems.map((item) => item)}</Expand>
+            <S.ExpandStyled {...{ isOpen }}>
+                {props.subItems && props.subItems.map((item) => item)}
+            </S.ExpandStyled>
         </>
     );
 };

@@ -54,6 +54,8 @@ export const GlobalStyles = () => {
                     -webkit-font-smoothing: antialiased;
                     -moz-osx-font-smoothing: grayscale;
                     text-rendering: optimizeSpeed;
+
+                    transition: all 0.25s ease-out !important;
                 }
 
                 body {

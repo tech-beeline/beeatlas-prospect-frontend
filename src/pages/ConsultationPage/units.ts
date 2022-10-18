@@ -66,15 +66,15 @@ export const H3 = styled.h3`
     transition: color 0.25s ease-out;
 
     cursor: pointer;
-
+    /* 
     & > * {
         transition: color 0.25s ease-out;
-    }
+    } */
 
-    &:hover > *,
+    /* &:hover > *,
     &:hover {
         color: ${theme.colors.textLink};
-    }
+    } */
 `;
 
 export const H4 = styled.h4`

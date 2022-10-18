@@ -10,7 +10,7 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
     height: 48px;
     padding: 0 16px 0 56px;
 
-    font-weight: 400;
+    font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
     font-size: 15px;
     line-height: 18px;
 
@@ -24,4 +24,12 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
 
     cursor: pointer;
     user-select: none;
+
+    &:hover {
+        background-color: ${theme.colors.backgroundHover};
+    }
+
+    &:active {
+        background-color: ${theme.colors.backgroundSelected};
+    }
 `;

@@ -9,6 +9,7 @@ import {
     ArchCommPage,
     ConsultationPage,
     DataBasePage,
+    FDMPage,
     HowToPage,
     MainPage,
     ServicesPage,
@@ -30,6 +31,8 @@ export const NavigationRouter = () => {
                         <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
 
                         <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
+
+                        <Route path={C.FDM_PATH} element={<FDMPage />} />
 
                         <Route
                             path={C.DATA_BASE_PATH}
