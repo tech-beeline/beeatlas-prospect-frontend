@@ -19,12 +19,17 @@ export const Title = styled.p`
     letter-spacing: 0.2px;
 
     color: ${theme.colors.textLink};
+
+    cursor: pointer;
 `;
 
 export const Text = styled(Title)`
     font-weight: 400;
+    white-space: pre-wrap;
 
     color: ${theme.colors.textActive};
+
+    cursor: inherit;
 `;
 
 export const TitleSecond = styled.p`

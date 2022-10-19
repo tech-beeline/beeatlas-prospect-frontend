@@ -174,6 +174,10 @@ export const GlobalStyles = () => {
                     outline: none;
                 }
 
+                a {
+                    all: unset;
+                }
+
                 /* ---------TODO: bug in library-------- */
                 .lk-ui_sidesheet {
                     background-color: var(--color-background-base);

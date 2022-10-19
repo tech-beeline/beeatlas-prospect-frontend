@@ -65,11 +65,7 @@ export const Header = observer(() => {
                         <Tab
                             isActive={location.pathname?.includes(tab.url)}
                             key={index}
-                            onClick={() => {
-                                console.log(tab.url);
-
-                                navigate(tab.url);
-                            }}
+                            onClick={() => navigate(tab.url)}
                         >
                             {tab.name}
                         </Tab>

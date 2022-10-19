@@ -4,17 +4,40 @@ import { Skeleton } from '@beeline/lk-ui';
 import { IResultCard } from './types';
 import * as S from './units';
 
+// http://ms-seaapp001/?guid=XXXXXXX
+
 export const ResultCard: FC<IResultCard> = (props) => {
+    const NewlineText = ({ str }: any) => {
+        return str
+            .split('\\r\\n' || '\\n' || '\\r' || '\n')
+            .map((st: any, index: number) => <p key={index}>{st}</p>);
+    };
+
     return (
         <S.Wrapper>
             {props.data ? (
                 <>
-                    <S.Title>{props.data.name}</S.Title>
+                    <a
+                        href={`http://ms-seaapp001/?guid=${props.data.guid}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        <S.Title>{props.data.name}</S.Title>
+                    </a>
 
-                    <S.Text>{props.data.descr}</S.Text>
+                    <S.Text>
+                        <NewlineText str={props.data.descr} />
+                        {/* {props.data.descr} */}
+                    </S.Text>
 
                     <S.TitleSecond>Домен</S.TitleSecond>
-                    <S.DomenText>{props.data.domainRef.name}</S.DomenText>
+                    <a
+                        href={`http://ms-seaapp001/?guid=${props.data.domainRef.guid}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        <S.DomenText>{props.data.domainRef.name}</S.DomenText>
+                    </a>
 
                     <S.FlexBlock>
                         <div>
