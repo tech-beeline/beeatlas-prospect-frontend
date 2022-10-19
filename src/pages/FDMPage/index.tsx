@@ -37,6 +37,12 @@ export const FDMPage = observer(() => {
                 </S.GrayText>
 
                 <Expand isOpen={isOpenDescription}>
+                    <iframe
+                        id="iFrameExample"
+                        title="test"
+                        src="http://ms-seaapp001/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
+                    ></iframe>
+
                     <S.GrayText>
                         <br />
                         Созданная в интересах всего ИТ-ландшафта ВК ФДМ объединяет как общие
