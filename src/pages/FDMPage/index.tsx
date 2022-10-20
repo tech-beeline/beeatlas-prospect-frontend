@@ -38,9 +38,9 @@ export const FDMPage = observer(() => {
 
                 <Expand isOpen={isOpenDescription}>
                     <iframe
-                        id="iFrameExample"
+                        id="iFrameTest"
                         title="test"
-                        src="http://ms-seaapp001/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
+                        src="https://ms-seaapp001.bee.vimpelcom.ru/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
                     ></iframe>
 
                     <S.GrayText>
