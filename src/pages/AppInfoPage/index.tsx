@@ -35,6 +35,18 @@ export const AppInfoPage = () => {
                     );
                 })}
             </S.Table>
+
+            <hr />
+
+            <iframe
+                id="iFrameTest"
+                title="test"
+                height="500"
+                style={{ padding: '10px' }}
+                frameBorder="0"
+                // style={{ height: '500px' }}
+                src="https://ms-seaapp001.bee.vimpelcom.ru/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
+            ></iframe>
         </S.PageWrapper>
     );
 };
