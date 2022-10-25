@@ -1,3 +1,4 @@
+import { getSearchResult } from 'api/fdm';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
 import { IGeneralStore } from './types';
@@ -17,6 +18,9 @@ export const GeneralStore = (): IGeneralStore => {
         isAuth: isAuth || false,
         themeIsDark: themeIsDark || false,
         userInfo: userInfo || {},
+
+        isLoadingSearch: false,
+        resultSearch: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -41,6 +45,38 @@ export const GeneralStore = (): IGeneralStore => {
             this.themeIsDark = !this.themeIsDark;
 
             persistStorage(themeIsDarkKey, this.themeIsDark.toString());
+        },
+
+        // ПОИСК
+
+        setLoadingSearch(isLoadingSearch) {
+            this.isLoadingSearch = isLoadingSearch;
+        },
+
+        async getResultSearch(value) {
+            this.resultSearch = [];
+
+            this.setLoadingSearch(true);
+
+            try {
+                const res = await getSearchResult(value);
+
+                if (res) {
+                    this.resultSearch = await res.data;
+                } else {
+                    // TODO: убрать
+                    this.resultSearch = 'nodata';
+                }
+
+                return res.data;
+            } catch (error) {
+                console.error((error as Error).message);
+
+                // TODO: убрать
+                this.resultSearch = 'nodata';
+            } finally {
+                this.setLoadingSearch(false);
+            }
         },
     };
 };

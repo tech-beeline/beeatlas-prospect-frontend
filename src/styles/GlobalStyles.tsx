@@ -34,12 +34,14 @@ export const GlobalStyles = () => {
                     box-sizing: border-box;
                     -webkit-font-smoothing: antialiased;
                     -webkit-tap-highlight-color: transparent;
+                    /* transition: all 0.25s ease-out; */
                 }
 
                 html,
                 body,
                 #root {
                     height: 100%;
+                    /* background-color: var(--color-background-base); */
                 }
 
                 body,
@@ -52,6 +54,8 @@ export const GlobalStyles = () => {
                     -webkit-font-smoothing: antialiased;
                     -moz-osx-font-smoothing: grayscale;
                     text-rendering: optimizeSpeed;
+
+                    transition: all 0.25s ease-out !important;
                 }
 
                 body {
@@ -117,7 +121,7 @@ export const GlobalStyles = () => {
                     background-color: #fdd835;
                     font-weight: 500;
                     white-space: nowrap;
-                    transition: all 0.2s ease-in-out;
+                    transition: all 0.25s ease-out;
                     user-select: none;
                     border-radius: 12px;
                     font-size: 17px;
@@ -168,6 +172,15 @@ export const GlobalStyles = () => {
 
                 [contenteditable] {
                     outline: none;
+                }
+
+                a {
+                    all: unset;
+                }
+
+                /* ---------TODO: bug in library-------- */
+                .lk-ui_sidesheet {
+                    background-color: var(--color-background-base);
                 }
             `}
         />

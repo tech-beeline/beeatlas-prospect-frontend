@@ -4,8 +4,6 @@ import { Expand } from 'components/other';
 
 import { theme } from 'styles';
 
-import { ReactComponent as ArrowSVG } from './images/arrow.svg';
-
 export const Container = styled.div`
     height: max-content;
     width: 100%;
@@ -39,16 +37,6 @@ export const TitleBlock = styled.p`
     line-height: 24px;
 
     cursor: pointer;
-`;
-
-export const ArrowIcon = styled(ArrowSVG)<{ isOpen: boolean }>`
-    transform: ${({ isOpen }) => (isOpen ? 'rotate(-180deg)' : 'rotate(0deg)')};
-
-    transition: transform 0.2s ease-in-out;
-
-    & > * {
-        fill: ${theme.colors.textActive};
-    }
 `;
 
 export const ExpandStyled = styled(Expand)`

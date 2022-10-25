@@ -7,4 +7,10 @@ export interface IGeneralStore {
     setUserInfo(user: any): void;
     clearAuth(): void;
     toggleTheme: () => void;
+
+    // ПОИСК
+    resultSearch: any[] | 'nodata';
+    isLoadingSearch: boolean;
+    setLoadingSearch: (bool: boolean) => void;
+    getResultSearch: (value: string) => Promise<any> | unknown;
 }

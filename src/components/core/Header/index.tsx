@@ -1,26 +1,46 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import VKITAuth from '@beeline/lk-auth';
+import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+import { MAIN_PAGE_PATH } from 'router/const';
+// import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
-import { Logo } from '..';
+import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
 
 export const Header = observer(() => {
     const {
-        generalStore: { isAuth, setAuth, clearAuth, userInfo, setUserInfo, toggleTheme },
+        generalStore: {
+            isAuth,
+            setAuth,
+            clearAuth,
+            userInfo,
+            setUserInfo,
+            toggleTheme,
+            themeIsDark,
+        },
     } = useRootStore();
 
     const isProd = process.env.NODE_ENV !== 'development';
 
-    console.log('isProd', isProd);
+    const navigate = useNavigate();
 
     // TODO: check this in prod
     const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
 
+    // tabs
+    const tabs = [
+        { name: 'ФДМ', url: 'fdm/' },
+        { name: 'База знаний', url: 'data-base/' },
+        { name: 'Продукты', url: 'products/' },
+    ];
+
+    // TODO: useMountEffect
     useEffect(() => {
         (async () => {
             if (auth.hasNecessaryParams()) {
@@ -35,31 +55,50 @@ export const Header = observer(() => {
     return (
         <>
             <S.Container>
-                <S.Title>корп. архитектура</S.Title>
+                <S.FlexContainer onClick={() => navigate(MAIN_PAGE_PATH)}>
+                    <S.Title>корп. архитектура</S.Title>
+                    <Logo />
+                </S.FlexContainer>
 
-                <Logo />
+                <Tabs>
+                    {tabs.map((tab, index) => (
+                        <Tab
+                            isActive={location.pathname?.includes(tab.url)}
+                            key={index}
+                            onClick={() => navigate(tab.url)}
+                        >
+                            {tab.name}
+                        </Tab>
+                    ))}
+                </Tabs>
 
                 <S.ControlPanel>
-                    <S.SearchStyled
+                    {/* TODO: Пока убрана */}
+                    {/* <S.SearchStyled
                         onClear={() => console.log(isAuth)}
                         // onSearch={() => console.log('search')}
                         placeholder="Поиск"
                         size="small"
+                    /> */}
+
+                    <BaseIcon
+                        iconName={!themeIsDark ? Icons.HalfMoon : Icons.Sun}
+                        onClick={toggleTheme}
                     />
 
-                    <S.ThemeIcon onClick={toggleTheme} />
-
-                    <S.NotificationIcon
+                    <BaseIcon
+                        iconName={Icons.NotificationNew}
                         onClick={() => {
                             console.log('getClaims', auth.getClaims(auth.getAccessToken()));
                             // console.log('auth.getAccessToken()', auth.getAccessToken());
                         }}
                     />
 
-                    <S.DashboardIcon
-                    // onClick={() =>
-                    //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
-                    // }
+                    <BaseIcon
+                        iconName={Icons.Grid}
+                        // onClick={() =>
+                        //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
+                        // }
                     />
 
                     {isAuth ? (
@@ -72,10 +111,13 @@ export const Header = observer(() => {
                             }}
                         />
                     ) : (
-                        <S.ProfileIcon onClick={() => auth.startAuth()} />
+                        <BaseIcon
+                            iconName={Icons.User}
+                            type="default"
+                            onClick={() => auth.startAuth()}
+                        />
                     )}
                 </S.ControlPanel>
-
                 {/* <Mailto
                     email="foo@bar.baz"
                     subject="Hello & Welcome"

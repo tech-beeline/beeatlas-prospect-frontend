@@ -1,13 +1,7 @@
-import { Search } from '@beeline/lk-ui';
-import { css } from '@emotion/react';
+import { Icon, Search } from '@beeline/lk-ui';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
-
-import { ReactComponent as DashboardSVG } from './images/dashboard.svg';
-import { ReactComponent as NotificationSVG } from './images/notification.svg';
-import { ReactComponent as ProfileSVG } from './images/profile.svg';
-import { ReactComponent as ThemeSVG } from './images/theme.svg';
 
 // TODO: с токенами
 export const Container = styled.div`
@@ -32,6 +26,28 @@ export const Container = styled.div`
     z-index: 100;
 `;
 
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    margin-right: 48px;
+
+    cursor: pointer;
+`;
+
+export const BaseIcon = styled(Icon)`
+    color: ${theme.colors.textInactive};
+
+    user-select: none;
+    cursor: pointer;
+`;
+
+export const MenuIconStyled = styled(BaseIcon)`
+    position: fixed;
+    top: 86px;
+    left: 24px;
+`;
+
 export const Title = styled.p`
     margin-right: 20px;
 
@@ -48,44 +64,4 @@ export const ControlPanel = styled.div`
 
 export const SearchStyled = styled(Search)`
     margin-right: 16px;
-`;
-
-const controlButtonStyle = css`
-    cursor: pointer;
-    user-select: none;
-`;
-
-export const ThemeIcon = styled(ThemeSVG)`
-    ${controlButtonStyle};
-
-    & > path {
-        fill: ${theme.colors.textInactive};
-    }
-`;
-export const NotificationIcon = styled(NotificationSVG)`
-    ${controlButtonStyle};
-
-    & > path {
-        fill: ${theme.colors.textInactive};
-    }
-`;
-
-export const DashboardIcon = styled(DashboardSVG)`
-    ${controlButtonStyle};
-
-    & > path {
-        fill: ${theme.colors.textInactive};
-    }
-`;
-
-export const ProfileIcon = styled(ProfileSVG)`
-    ${controlButtonStyle};
-
-    & > path:nth-child(1) {
-        fill: ${theme.colors.backgroundControl};
-    }
-
-    & > path:nth-child(2) {
-        fill: ${theme.colors.textInactive};
-    }
 `;

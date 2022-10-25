@@ -20,7 +20,7 @@ const ButtonBase = styled.button<IButton>`
 
     border-radius: ${theme.borderRadius};
 
-    transition: all 0.2s ease-in-out;
+    transition: all 0.25s ease-out;
 
     user-select: none;
 
@@ -61,7 +61,7 @@ export const IconButton = styled.button`
     border-color: ${theme.colors.borderGray};
     border-radius: ${theme.borderRadius};
 
-    transition: border-color 0.2s ease-in-out;
+    transition: border-color 0.25s ease-out;
 
     &:hover {
         border-color: ${theme.colors.black};

@@ -26,8 +26,6 @@ export const MainPage = observer(() => {
     const navigate = useNavigate();
 
     const handleRedirectTest = () => {
-        console.log('test');
-
         navigate('/app-info');
     };
 
