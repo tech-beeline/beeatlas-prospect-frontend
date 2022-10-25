@@ -98,18 +98,20 @@ export const ConsultationPage = () => {
             <S.BoldText>Филатова Ольга Ивановна</S.BoldText>
 
             <S.GrayText>
-                Руководитель центра компетенции по дизайну и пользовательским интерфейсам
+                Руководитель проекта, Центр компетенции по проектному управлению,
                 <br />
-                Центр компетенции по дизайну и пользовательским интерфейсам
+                Департамент разработки платформенных решений
             </S.GrayText>
 
             <S.FlexBottomContainer>
                 <S.GraySecondText>
                     Email:{' '}
-                    <S.EmailLink href="mailto: email@beeline.ru">email@beeline.ru</S.EmailLink>
+                    <S.EmailLink href="mailto: OlIFilatova@beeline.ru">
+                        OlIFilatova@beeline.ru
+                    </S.EmailLink>
                 </S.GraySecondText>
 
-                <S.GraySecondText>Телефон: +7 900 650-75-55</S.GraySecondText>
+                <S.GraySecondText>Телефон: +7 968 762-68-13</S.GraySecondText>
             </S.FlexBottomContainer>
         </S.PageWrapper>
     );

@@ -2,9 +2,13 @@ import React from 'react';
 
 import { IconText } from 'components/other';
 
+// import { useAutoOpenMenuItem } from 'hooks';
+// import * as ROUTER_CONST from 'router/const';
 import * as S from './units';
 
 export const HowToPage = () => {
+    // useAutoOpenMenuItem(ROUTER_CONST.ARCH_COMM_PATH, );
+
     return (
         <S.PageWrapper>
             <S.H3>

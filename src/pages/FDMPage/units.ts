@@ -41,7 +41,7 @@ export const GrayText = styled.p`
     color: ${theme.colors.textInactive};
 `;
 
-export const SearchContainer = styled.div`
+export const SearchContainer = styled.form`
     display: flex;
     justify-content: space-between;
     gap: 16px;

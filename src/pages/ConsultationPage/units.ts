@@ -152,4 +152,6 @@ export const EmailLink = styled.a`
     margin-left: 6px;
 
     color: ${theme.colors.textLink};
+
+    cursor: pointer;
 `;

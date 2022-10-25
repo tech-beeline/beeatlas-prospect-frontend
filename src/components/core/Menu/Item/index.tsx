@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { BaseIcon } from 'components/core';
 import { PivotArrow } from 'components/other';
@@ -13,6 +13,13 @@ export const Item: FC<IItem> = (props) => {
     const [isOpen, setOpen] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname.includes(props.url!)) {
+            setOpen(true);
+        }
+    }, [location.pathname]);
 
     const handleClick = () => {
         setOpen(!isOpen);

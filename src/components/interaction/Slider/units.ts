@@ -97,6 +97,10 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
         /* transition: fill 0.25s ease-out; */
     }
 
+    @media only screen and (min-width: 2075px) {
+        display: none;
+    }
+
     /* &:hover {
         & * path {
             fill: #fdd835;
@@ -114,6 +118,8 @@ export const LeftArrow = styled(ArrowSVG)`
 
 export const RightArrow = styled(LeftArrow)`
     transform: rotate(0deg);
+
+    /* 2075 */
 `;
 
 export const SliderBlock = styled.div`
