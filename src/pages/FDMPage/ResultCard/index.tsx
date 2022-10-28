@@ -18,7 +18,7 @@ export const ResultCard: FC<IResultCard> = (props) => {
             {props.data ? (
                 <>
                     <a
-                        href={`http://ms-seaapp001/?guid=${props.data.guid}`}
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
@@ -32,7 +32,7 @@ export const ResultCard: FC<IResultCard> = (props) => {
 
                     <S.TitleSecond>Домен</S.TitleSecond>
                     <a
-                        href={`http://ms-seaapp001/?guid=${props.data.domainRef.guid}`}
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.domainRef.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
