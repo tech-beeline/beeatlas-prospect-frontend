@@ -16,14 +16,15 @@ export const FDMPage = observer(() => {
     } = useRootStore();
 
     const [isOpenDescription, setOpenDescription] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     // const [result, setResult] = useState({ data: [] });
 
-    const getFindResult = async (e: FormEvent, value: string) => {
+    const getFindResult = async (e: FormEvent) => {
         // setResult(await getSearchResult(value));
         e.preventDefault();
 
         // console.log(result);
-        getResultSearch(value);
+        getResultSearch(searchValue);
     };
 
     return (
@@ -38,12 +39,6 @@ export const FDMPage = observer(() => {
                 </S.GrayText>
 
                 <Expand isOpen={isOpenDescription}>
-                    {/* <iframe
-                        id="iFrameTest"
-                        title="test"
-                        src="https://ms-seaapp001.bee.vimpelcom.ru/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
-                    ></iframe> */}
-
                     <S.GrayText>
                         <br />
                         Созданная в интересах всего ИТ-ландшафта ВК ФДМ объединяет как общие
@@ -77,8 +72,12 @@ export const FDMPage = observer(() => {
                     {isOpenDescription ? 'Скрыть' : 'Подробнее'}
                 </Button>
 
-                <S.SearchContainer onSubmit={(e) => getFindResult(e, 'тест')}>
-                    <Search fullWidth placeholder="Поиск" />
+                <S.SearchContainer onSubmit={getFindResult}>
+                    <Search
+                        fullWidth
+                        placeholder="Поиск"
+                        onChange={({ target: { value } }) => setSearchValue(value)}
+                    />
 
                     <Button variant="contained">Найти</Button>
                 </S.SearchContainer>
