@@ -21,6 +21,7 @@ export const GeneralStore = (): IGeneralStore => {
 
         isLoadingSearch: false,
         resultSearch: [],
+        resultTitle: '',
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -83,6 +84,10 @@ export const GeneralStore = (): IGeneralStore => {
             } finally {
                 this.setLoadingSearch(false);
             }
+        },
+
+        setResultTitle(title: string) {
+            this.resultTitle = title;
         },
     };
 };

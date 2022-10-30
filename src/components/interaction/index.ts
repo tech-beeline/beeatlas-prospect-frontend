@@ -5,3 +5,4 @@ export { Input } from './Input';
 export { OuterLink } from './OuterLink';
 export { Slider } from './Slider';
 export { TextButton } from './TextButton';
+export { TitleBack } from './TitleBack';

@@ -9,4 +9,5 @@ interface IDataForResult {
 
 export interface IResultCard {
     data?: IDataForResult;
+    search?: string | any;
 }

@@ -1,19 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Icon, Icons } from '@beeline/lk-ui';
 
+import { TitleBack } from 'components/interaction';
 import { IconCard } from 'components/other';
 
 import * as S from './units';
 
 export const ConsultationPage = () => {
-    const navigate = useNavigate();
-
     return (
         <S.PageWrapper>
-            <S.H3 onClick={() => navigate(-1)}>
-                <Icon iconName={Icons.ArrowLeft} /> Консультирование
-            </S.H3>
+            <TitleBack title="Консультирование" />
 
             <S.SubTitle>
                 Обратитесь за консультацией к корпоративным архитекторам по вопросам, связанным

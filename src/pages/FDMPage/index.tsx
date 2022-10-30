@@ -1,6 +1,7 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
+import { StringParam, useQueryParam } from 'use-query-params';
 
 import { Expand } from 'components/other';
 
@@ -15,16 +16,25 @@ export const FDMPage = observer(() => {
         generalStore: { isLoadingSearch, getResultSearch, resultSearch },
     } = useRootStore();
 
+    const [search, setSearch] = useQueryParam('search', StringParam);
+
     const [isOpenDescription, setOpenDescription] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
-    // const [result, setResult] = useState({ data: [] });
+    const [searchInput, setSearchInput] = useState('');
+    // const [boldValue, setBoldValue] = useState('');
+
+    useEffect(() => {
+        if (search) {
+            getResultSearch(search);
+
+            // для того чтобы сохранить значение только при запросе, но не при onChange
+            // setBoldValue(search);
+        }
+    }, [search]);
 
     const getFindResult = async (e: FormEvent) => {
-        // setResult(await getSearchResult(value));
         e.preventDefault();
 
-        // console.log(result);
-        getResultSearch(searchValue);
+        setSearch(searchInput);
     };
 
     return (
@@ -76,7 +86,7 @@ export const FDMPage = observer(() => {
                     <Search
                         fullWidth
                         placeholder="Поиск"
-                        onChange={({ target: { value } }) => setSearchValue(value)}
+                        onChange={({ target: { value } }) => setSearchInput(value)}
                     />
 
                     <Button variant="contained">Найти</Button>
@@ -84,6 +94,7 @@ export const FDMPage = observer(() => {
 
                 <S.ResultContainer>
                     {isLoadingSearch ? (
+                        // skeleton
                         <>
                             <ResultCard />
                             <ResultCard />
@@ -95,7 +106,9 @@ export const FDMPage = observer(() => {
                             запрос.
                         </S.NoFoundBlock>
                     ) : (
-                        resultSearch.map((item, index) => <ResultCard data={item} key={index} />)
+                        resultSearch.map((item, index) => (
+                            <ResultCard data={item} key={index} {...{ search }} />
+                        ))
                     )}
                 </S.ResultContainer>
             </S.Container>
