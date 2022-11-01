@@ -1,38 +1,80 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Skeleton } from '@beeline/lk-ui';
+import { observer } from 'mobx-react';
+
+// import { StringParam, useQueryParam } from 'use-query-params';
+import { useRootStore } from 'stores/initStore';
 
 import { IResultCard } from './types';
 import * as S from './units';
 
-// http://ms-seaapp001/?guid=XXXXXXX
+export const ResultCard: FC<IResultCard> = observer((props) => {
+    const {
+        generalStore: { setResultTitle },
+    } = useRootStore();
 
-export const ResultCard: FC<IResultCard> = (props) => {
+    const navigate = useNavigate();
+
+    // const [, setTitle] = useQueryParam('title', StringParam);
+
+    const handleTextToBold = (text: string) => {
+        if (props.search) {
+            // const regEx = new RegExp(props.search, 'ig');
+
+            return (
+                text
+                    .replaceAll(props.search.toLowerCase(), `<b>${props.search.toLowerCase()}</b>`)
+                    // для слов с первой заглавной буквой
+                    // toLowerCase если юзер допускает капс в запросе
+                    .replaceAll(
+                        props.search.charAt(0).toUpperCase() + props.search.slice(1).toLowerCase(),
+                        `<b>${
+                            props.search.charAt(0).toUpperCase() +
+                            props.search.slice(1).toLowerCase()
+                        }</b>`,
+                    )
+            );
+        }
+
+        return '';
+    };
+
     const NewlineText = ({ str }: any) => {
         return str
             .split('\\r\\n' || '\\n' || '\\r' || '\n')
-            .map((st: any, index: number) => <p key={index}>{st}</p>);
+            .map((st: any, index: number) => (
+                <p dangerouslySetInnerHTML={{ __html: handleTextToBold(st) }} key={index} />
+            ));
     };
 
     return (
         <S.Wrapper>
             {props.data ? (
                 <>
-                    <a
-                        href={`http://ms-seaapp001/?guid=${props.data.guid}`}
+                    {/* <a
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
-                    >
-                        <S.Title>{props.data.name}</S.Title>
-                    </a>
+                    > */}
+                    <S.Title
+                        onClick={() => {
+                            navigate(props.data!.guid);
+                            // setTitle(props.data!.name);
+
+                            setResultTitle(props.data!.name);
+                        }}
+                        dangerouslySetInnerHTML={{ __html: handleTextToBold(props.data.name) }}
+                    />
+                    {/* </a> */}
 
                     <S.Text>
                         <NewlineText str={props.data.descr} />
-                        {/* {props.data.descr} */}
                     </S.Text>
 
                     <S.TitleSecond>Домен</S.TitleSecond>
                     <a
-                        href={`http://ms-seaapp001/?guid=${props.data.domainRef.guid}`}
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.domainRef.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
@@ -74,4 +116,4 @@ export const ResultCard: FC<IResultCard> = (props) => {
             )}
         </S.Wrapper>
     );
-};
+});

@@ -10,6 +10,7 @@ import {
     ConsultationPage,
     DataBasePage,
     FDMPage,
+    FDMResultPage,
     HowToPage,
     MainPage,
     ServicesPage,
@@ -33,6 +34,10 @@ export const NavigationRouter = () => {
                         <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 
                         <Route path={C.FDM_PATH} element={<FDMPage />} />
+                        <Route
+                            path={`${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
+                            element={<FDMResultPage />}
+                        />
 
                         <Route
                             path={C.DATA_BASE_PATH}

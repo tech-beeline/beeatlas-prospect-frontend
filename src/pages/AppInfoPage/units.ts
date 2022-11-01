@@ -5,6 +5,9 @@ import { theme } from 'styles';
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: center;
+    /* TODO: temp */
+    flex-direction: column;
+    gap: 50px;
 
     height: 100vh;
     padding-top: 160px;

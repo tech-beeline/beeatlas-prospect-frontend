@@ -3,6 +3,7 @@ export const APP_INFO_PAGE_PATH = '/app-info';
 
 // Страница поиска
 export const FDM_PATH = '/fdm';
+export const FDM_RESULT_ID_PATH = '/:guid';
 
 // Общая страница (ниже входящие страницы)
 export const DATA_BASE_PATH = '/data-base';

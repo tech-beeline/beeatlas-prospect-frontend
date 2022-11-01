@@ -18,7 +18,8 @@ export const GeneralBlock = styled.div`
     background-image: url(${general});
     background-size: 653px 588px;
     background-repeat: no-repeat;
-    background-position: 112% 100%;
+    /* background-position: 112% 100%; */
+    background-position: 894px 129px;
 `;
 
 export const Title = styled.h1`

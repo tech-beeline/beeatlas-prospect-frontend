@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
+import { StringParam, useQueryParam } from 'use-query-params';
 
 import { Expand } from 'components/other';
 
@@ -15,14 +16,25 @@ export const FDMPage = observer(() => {
         generalStore: { isLoadingSearch, getResultSearch, resultSearch },
     } = useRootStore();
 
+    const [search, setSearch] = useQueryParam('search', StringParam);
+
     const [isOpenDescription, setOpenDescription] = useState(false);
-    // const [result, setResult] = useState({ data: [] });
+    const [searchInput, setSearchInput] = useState('');
+    // const [boldValue, setBoldValue] = useState('');
 
-    const getFindResult = async (value: string) => {
-        // setResult(await getSearchResult(value));
+    useEffect(() => {
+        if (search) {
+            getResultSearch(search);
 
-        // console.log(result);
-        getResultSearch(value);
+            // для того чтобы сохранить значение только при запросе, но не при onChange
+            // setBoldValue(search);
+        }
+    }, [search]);
+
+    const getFindResult = async (e: FormEvent) => {
+        e.preventDefault();
+
+        setSearch(searchInput);
     };
 
     return (
@@ -37,12 +49,6 @@ export const FDMPage = observer(() => {
                 </S.GrayText>
 
                 <Expand isOpen={isOpenDescription}>
-                    <iframe
-                        id="iFrameTest"
-                        title="test"
-                        src="https://ms-seaapp001.bee.vimpelcom.ru/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
-                    ></iframe>
-
                     <S.GrayText>
                         <br />
                         Созданная в интересах всего ИТ-ландшафта ВК ФДМ объединяет как общие
@@ -76,16 +82,19 @@ export const FDMPage = observer(() => {
                     {isOpenDescription ? 'Скрыть' : 'Подробнее'}
                 </Button>
 
-                <S.SearchContainer>
-                    <Search fullWidth placeholder="Поиск" />
+                <S.SearchContainer onSubmit={getFindResult}>
+                    <Search
+                        fullWidth
+                        placeholder="Поиск"
+                        onChange={({ target: { value } }) => setSearchInput(value)}
+                    />
 
-                    <Button variant="contained" onClick={() => getFindResult('тест')}>
-                        Найти
-                    </Button>
+                    <Button variant="contained">Найти</Button>
                 </S.SearchContainer>
 
                 <S.ResultContainer>
                     {isLoadingSearch ? (
+                        // skeleton
                         <>
                             <ResultCard />
                             <ResultCard />
@@ -97,7 +106,9 @@ export const FDMPage = observer(() => {
                             запрос.
                         </S.NoFoundBlock>
                     ) : (
-                        resultSearch.map((item, index) => <ResultCard data={item} key={index} />)
+                        resultSearch.map((item, index) => (
+                            <ResultCard data={item} key={index} {...{ search }} />
+                        ))
                     )}
                 </S.ResultContainer>
             </S.Container>

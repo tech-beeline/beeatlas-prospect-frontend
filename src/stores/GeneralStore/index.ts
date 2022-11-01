@@ -21,6 +21,7 @@ export const GeneralStore = (): IGeneralStore => {
 
         isLoadingSearch: false,
         resultSearch: [],
+        resultTitle: '',
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -58,17 +59,23 @@ export const GeneralStore = (): IGeneralStore => {
 
             this.setLoadingSearch(true);
 
+            let data;
+
             try {
                 const res = await getSearchResult(value);
 
                 if (res) {
-                    this.resultSearch = await res.data;
+                    data = await res.data;
+
+                    console.log('data', data);
+
+                    data.length === 0 ? (this.resultSearch = 'nodata') : (this.resultSearch = data);
                 } else {
                     // TODO: убрать
                     this.resultSearch = 'nodata';
                 }
 
-                return res.data;
+                // return data;
             } catch (error) {
                 console.error((error as Error).message);
 
@@ -77,6 +84,10 @@ export const GeneralStore = (): IGeneralStore => {
             } finally {
                 this.setLoadingSearch(false);
             }
+        },
+
+        setResultTitle(title: string) {
+            this.resultTitle = title;
         },
     };
 };
