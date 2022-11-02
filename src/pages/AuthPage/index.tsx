@@ -5,7 +5,7 @@ import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
 
 import { Modal } from 'components/containers';
 import { Logo } from 'components/core';
-import { Button, Input, OuterLink, TextButton } from 'components/interaction';
+import { Button, Input, Link, TextButton } from 'components/interaction';
 import { ProgressBar, Title } from 'components/other';
 
 import { useMountEffect, useTimer } from 'hooks';
@@ -187,8 +187,8 @@ export const AuthPage = observer(() => {
             <S.FooterBlock>
                 При входе на ресурс ты принимаешь{' '}
                 <TextButton onClick={() => setVisibleModal(true)}>условия доступа</TextButton>,{' '}
-                <OuterLink path="https://google.com">оферту сервиса</OuterLink> и{' '}
-                <OuterLink path="https://google.com">услуги</OuterLink>
+                <Link path="https://google.com">оферту сервиса</Link> и{' '}
+                <Link path="https://google.com">услуги</Link>
             </S.FooterBlock>
 
             <Modal isVisible={isVisibleModal} setVisible={setVisibleModal} isHTML>

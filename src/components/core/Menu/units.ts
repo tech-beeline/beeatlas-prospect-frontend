@@ -11,4 +11,6 @@ export const Wrapper = styled.div`
     padding: calc(64px + 24px) 16px 0 0;
 
     background-color: ${theme.colors.backgroundLow};
+
+    z-index: 10;
 `;

@@ -3,6 +3,7 @@ interface IDataForResult {
     descr: string;
     guid: string;
     author: string;
+    owner: string;
     lastModified: string;
     domainRef: { name: string; guid: string };
 }

@@ -38,15 +38,6 @@ export const FlexContainer = styled.div`
     margin-top: 4px;
 `;
 
-export const OwnerNameBlock = styled.div`
-    height: 32px;
-    padding: 7px 12px;
-
-    background-color: ${theme.colors.backgroundControl};
-
-    border-radius: 32px;
-`;
-
 export const ButtonStyled = styled(Button)`
     width: max-content;
 `;
