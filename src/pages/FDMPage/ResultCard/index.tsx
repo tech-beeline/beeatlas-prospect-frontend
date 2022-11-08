@@ -83,7 +83,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                     <S.FlexBlock>
                         <div>
                             <S.TitleSecond>Владелец</S.TitleSecond>
-                            <S.Text>{props.data.owner || 'Неизвестно'}</S.Text>
+                            <S.Text>{props.data.owner || ''}</S.Text>
                         </div>
 
                         <div>
