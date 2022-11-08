@@ -17,11 +17,13 @@ ingress:
       paths:
       - path: /
         pathType: ImplementationSpecific
-    - host: "eafdmmart-func.apps.mn-kp01.vimpelcom.ru"
+    - host: "eafdmmart-nt.apps.mn-kp01.vimpelcom.ru"
       paths:
       - path: /eafdmmart-backend/
         pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-func-service
+        serviceName: eafdmmart-backend-nt-service
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
+
+replicaCount: 3
