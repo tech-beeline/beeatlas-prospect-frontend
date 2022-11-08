@@ -15,4 +15,7 @@ export interface IGeneralStore {
     setLoadingSearch: (bool: boolean) => void;
     getResultSearch: (value: string) => Promise<any> | unknown;
     setResultTitle: (value: string) => void;
+
+    // СТРАНИЦА КАЛЕНДАРЯ
+    setCalendarData: () => void;
 }

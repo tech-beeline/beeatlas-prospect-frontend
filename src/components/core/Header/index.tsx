@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import { MAIN_PAGE_PATH } from 'router/const';
 // import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
+import { persistStorage } from 'stores/utils';
 
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
@@ -46,7 +47,12 @@ export const Header = observer(() => {
             if (auth.hasNecessaryParams()) {
                 const { access_token } = await auth.exchangeCode();
 
+                console.log('access_token', access_token);
+
+                persistStorage('token', access_token);
+
                 setAuth(true);
+
                 setUserInfo(auth.getClaims(access_token));
             }
         })();

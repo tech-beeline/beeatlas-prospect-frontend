@@ -1,23 +1,79 @@
-import React, { useState } from 'react';
-import { Select } from '@beeline/lk-ui';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Autocomplete, Select } from '@beeline/lk-ui';
+import { observer } from 'mobx-react';
+
+import { useRootStore } from 'stores/initStore';
 
 import { CalendarCard } from './CalendarCard';
 import { TOption } from './types';
 import * as S from './units';
 
-export const CalendarPage = () => {
-    const [selectOptions, setSelectOptions] = useState<TOption<string>[]>([]);
+export const CalendarPage = observer(() => {
+    // const [selectOptions, setSelectOptions] = useState<TOption<string>[]>([]);
 
-    const onSelectItem = (values: TOption<string>[]) => {
-        setSelectOptions(values);
-    };
+    const {
+        generalStore: { setCalendarData },
+    } = useRootStore();
 
-    const renderValue = (values: TOption<string>[]) => {
-        return values.map((v) => v.value).join(', ');
-    };
+    const options = ['test1', 'test2', 'test3'];
+
+    const [value, setValue] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+
+    useEffect(() => {
+        // console.log('value', value);
+    }, [value]);
+
+    useEffect(() => {
+        setCalendarData();
+    }, []);
+
+    // const onSelectItem = (values: TOption<string>[]) => {
+    //     setSelectOptions(values);
+    // };
+
+    // const renderValue = (values: TOption<string>[]) => {
+    //     return values.map((v) => v.value).join(', ');
+    // };
 
     const makeOption = (option: TOption<string>) => {
         return <span>{option.value}</span>;
+    };
+
+    const handleOpen = () => {
+        setIsOpen(true);
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+    };
+
+    const convertedOptions = useMemo(
+        () =>
+            options.map((value, index) => ({
+                id: index,
+                value,
+            })),
+        [options],
+    );
+
+    const handleInputChange = (value: string) => {
+        setInputValue(value);
+    };
+
+    const handleChange = (option: TOption<string>) => {
+        setValue(option as any);
+
+        if (handleInputChange) {
+            handleInputChange(option.value);
+        }
+    };
+
+    const handleRenderValue = (option: TOption<string>) => option.value;
+
+    const handleClear = () => {
+        setInputValue('');
     };
 
     return (
@@ -25,8 +81,26 @@ export const CalendarPage = () => {
             <S.H3>Календарь заседаний Архитектурного комитета</S.H3>
 
             <S.SelectContainer>
-                <Select
+                <Autocomplete
+                    // className={styles.input}
+                    // error={error}
+                    // helperText={helperText}
+                    label={'test'}
+                    makeOption={makeOption}
+                    onChange={handleChange}
+                    onClose={handleClose}
+                    onInputChange={handleInputChange}
+                    onInputClear={handleClear}
+                    onOpen={handleOpen}
+                    open={isOpen}
+                    options={convertedOptions}
+                    renderValue={handleRenderValue}
+                    type="select"
+                    value={inputValue as any}
+                />
+                {/* <Autocomplete
                     label="Выберите значение"
+                    // placeholder="test"
                     options={[
                         {
                             id: 1,
@@ -46,7 +120,7 @@ export const CalendarPage = () => {
                     makeOption={makeOption}
                     onChange={onSelectItem}
                     size="small"
-                />
+                /> */}
                 <Select
                     label="sds"
                     options={[
@@ -133,4 +207,4 @@ export const CalendarPage = () => {
             </S.CardContainer>
         </S.PageWrapper>
     );
-};
+});

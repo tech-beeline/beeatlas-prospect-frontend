@@ -1,4 +1,5 @@
 import React from 'react';
+import { DropdownContext } from '@beeline/lk-ui';
 import { theme } from '@beeline/lk-ui/core/theme';
 import { ThemeProvider } from '@emotion/react';
 
@@ -22,7 +23,16 @@ const App = () => {
             <StoreProvider>
                 <ErrorBoundary>
                     <ThemeProvider theme={theme}>
-                        <NavigationRouter />
+                        {/* <PopupsContext.Provider> */}
+                        <DropdownContext.Provider
+                            value={{
+                                applicationRootElementID: 'test',
+                                dropdownElementID: 'lk-ui__dropdown-root',
+                            }}
+                        >
+                            <NavigationRouter />
+                        </DropdownContext.Provider>
+                        {/* </PopupsContext.Provider> */}
                     </ThemeProvider>
                 </ErrorBoundary>
             </StoreProvider>

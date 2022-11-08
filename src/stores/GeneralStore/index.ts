@@ -1,3 +1,4 @@
+import { getCalendarData } from 'api/calendar';
 import { getSearchResult } from 'api/fdm';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
@@ -67,8 +68,6 @@ export const GeneralStore = (): IGeneralStore => {
                 if (res) {
                     data = await res.data;
 
-                    console.log('data', data);
-
                     data.length === 0 ? (this.resultSearch = 'nodata') : (this.resultSearch = data);
                 } else {
                     // TODO: убрать
@@ -86,8 +85,21 @@ export const GeneralStore = (): IGeneralStore => {
             }
         },
 
+        // TODO: убрать
         setResultTitle(title: string) {
             this.resultTitle = title;
+        },
+
+        // Страница с календарем
+
+        async setCalendarData() {
+            // TODO: сделать лоудер
+
+            try {
+                const res = await getCalendarData();
+
+                console.log('res', res);
+            } catch (error) {}
         },
     };
 };

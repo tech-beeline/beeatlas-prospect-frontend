@@ -1,3 +1,4 @@
+import { Select } from '@beeline/lk-ui';
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
@@ -56,4 +57,8 @@ export const CardContainer = styled.div`
     gap: 24px;
 
     margin-top: 24px;
+`;
+
+export const SelectStyled = styled(Select)`
+    height: 40px;
 `;
