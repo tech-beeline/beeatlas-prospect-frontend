@@ -21,7 +21,7 @@ ingress:
       paths:
       - path: /eafdmmart-backend/
         pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-func-service
+        serviceName: eafdmmart-backend-e2e-service
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
