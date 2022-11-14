@@ -68,24 +68,6 @@ export const AppInfoPage = () => {
             <hr />
 
             {/* <div style={{ position: 'relative', width: '100%' }}> */}
-            <iframe
-                id="iFrameTest"
-                title="test"
-                height="500"
-                // width="100%"
-                // width="calc(100% + 267px)"
-                style={{
-                    padding: '10px',
-                    width: 'calc(100% + 267px)',
-                    position: 'absolute',
-                    left: '-267px',
-                }}
-                frameBorder="0"
-                // style={{ height: '500px' }}
-                src="https://ms-seaapp001.bee.vimpelcom.ru/?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
-                // src="http://127.0.0.1:8080/index.htm?guid=443A0FEE-EE47-4014-B9FD-9AFB06634E74"
-                ref={iframeRef}
-            />
 
             <div style={{ position: 'absolute', width: '100px', height: '100%', left: 0 }} />
             {/* </div> */}
