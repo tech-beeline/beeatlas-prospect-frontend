@@ -1,5 +1,3 @@
-// /api/fdm/v1/capabilities/findByText?text=возможность подключения
-
 import Api from 'utils/api/axiosWrapper';
 
 import { API_URL } from '../const';

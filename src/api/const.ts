@@ -2,6 +2,6 @@ const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const DEV_API = 'https://eafdmmart-backend-dev-eafdmmart.apps.mn-kp01.vimpelcom.ru/api';
 
-const PROD_API = '/eafdmmart-backend';
+const PROD_API = '/eafdmmart-backend/api';
 
 export const API_URL = IS_DEV ? DEV_API : PROD_API;
