@@ -37,6 +37,10 @@ export const FDMPage = observer(() => {
         setSearch(searchInput);
     };
 
+    console.log('isLoadingSearch', isLoadingSearch);
+
+    console.log('resultSearch', resultSearch);
+
     return (
         <S.PageWrapper>
             <S.Container>
