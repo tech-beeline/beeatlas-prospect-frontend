@@ -17,13 +17,13 @@ export const CalendarPage = observer(() => {
 
     const options = ['test1', 'test2', 'test3'];
 
-    const [value, setValue] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
+    const [value, setValue] = useState(null);
     const [inputValue, setInputValue] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        // console.log('value', value);
-    }, [value]);
+    // useEffect(() => {
+    //     // console.log('value', value);
+    // }, [value]);
 
     useEffect(() => {
         setCalendarData();
@@ -43,29 +43,41 @@ export const CalendarPage = observer(() => {
 
     const handleOpen = () => {
         setIsOpen(true);
+
+        setInputValue('');
     };
 
     const handleClose = () => {
         setIsOpen(false);
+
+        console.log('inputValue', inputValue);
     };
 
     const convertedOptions = useMemo(
         () =>
-            options.map((value, index) => ({
-                id: index,
-                value,
-            })),
-        [options],
+            options
+                .map((value, index) => ({
+                    id: index,
+                    value,
+                }))
+                .filter((item) => item.value.includes(inputValue)),
+        [options, inputValue],
     );
 
     const handleInputChange = (value: string) => {
+        console.log('value', value);
+
         setInputValue(value);
     };
 
     const handleChange = (option: TOption<string>) => {
+        console.log('option', option);
+
         setValue(option as any);
 
-        if (handleInputChange) {
+        if (!!handleInputChange) {
+            console.log('option', option);
+
             handleInputChange(option.value);
         }
     };
@@ -85,7 +97,7 @@ export const CalendarPage = observer(() => {
                     // className={styles.input}
                     // error={error}
                     // helperText={helperText}
-                    label={'test'}
+                    // label={'test'}
                     makeOption={makeOption}
                     onChange={handleChange}
                     onClose={handleClose}
@@ -96,7 +108,9 @@ export const CalendarPage = observer(() => {
                     options={convertedOptions}
                     renderValue={handleRenderValue}
                     type="select"
-                    value={inputValue as any}
+                    value={value}
+                    size="small"
+                    placeholder="place"
                 />
                 {/* <Autocomplete
                     label="Выберите значение"
