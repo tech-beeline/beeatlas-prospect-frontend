@@ -41,7 +41,12 @@ export const Menu = () => {
                         parentURL={C.DATA_BASE_PATH}
                         key="2"
                     />,
-                    <SubItem title="Календарь заседаний" key="3" />,
+                    <SubItem
+                        title="Календарь заседаний"
+                        to={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_CALENDAR_PATH}`}
+                        parentURL={C.DATA_BASE_PATH}
+                        key="3"
+                    />,
                     <SubItem
                         title="Шаблоны материалов"
                         to={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_TEMPLATES_PATH}`}

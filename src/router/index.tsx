@@ -7,6 +7,7 @@ import { Header, Menu } from 'components/core';
 import {
     AppInfoPage,
     ArchCommPage,
+    CalendarPage,
     ConsultationPage,
     DataBasePage,
     FDMPage,
@@ -78,6 +79,20 @@ export const NavigationRouter = () => {
                                 >
                                     <Menu />
                                     <HowToPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_CALENDAR_PATH}`}
+                            element={
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <Menu />
+                                    <CalendarPage />
                                 </div>
                             }
                         />

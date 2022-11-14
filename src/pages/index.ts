@@ -2,6 +2,7 @@ export { AppInfoPage } from './AppInfoPage';
 // TODO: убрать
 export { ArchCommPage } from './ArchCommPage';
 export { AuthPage } from './AuthPage';
+export { CalendarPage } from './CalendarPage';
 export { ConsultationPage } from './ConsultationPage';
 export { DataBasePage } from './DataBasePage';
 export { FDMPage } from './FDMPage';

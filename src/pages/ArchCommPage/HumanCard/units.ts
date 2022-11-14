@@ -34,7 +34,7 @@ export const FirstName = styled(SecondName)`
 `;
 
 export const Description = styled.p`
-    font-weight: 400;
+    font-weight: 410;
     font-size: 13px;
     line-height: 16px;
     letter-spacing: 0.2px;

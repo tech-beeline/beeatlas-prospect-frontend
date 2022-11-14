@@ -9,8 +9,8 @@ module.exports = merge(commonConfig, {
     plugins: [new CleanWebpackPlugin()],
     // https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
     optimization: {
-        minimize: true,
-        minimizer: [new TerserPlugin()],
+        minimize: false,
+        // minimizer: [new TerserPlugin()],
         runtimeChunk: 'single',
         splitChunks: {
             chunks: 'all',

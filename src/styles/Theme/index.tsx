@@ -8,5 +8,9 @@ export const Theme = observer(({ children }: any) => {
         generalStore: { themeIsDark },
     } = useRootStore();
 
-    return <div className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>{children}</div>;
+    return (
+        <div id="test" className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>
+            {children}
+        </div>
+    );
 });

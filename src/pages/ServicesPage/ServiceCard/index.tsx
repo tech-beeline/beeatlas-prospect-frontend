@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { BadgeName } from 'components/containers';
+
 import { IServiceCard } from './types';
 import * as S from './units';
 
@@ -16,7 +18,7 @@ export const ServiceCard: FC<IServiceCard> = (props) => {
                 {props.ownerName && <S.Text>Владелец</S.Text>}
 
                 <S.FlexContainer>
-                    <S.OwnerNameBlock>{props.ownerName}</S.OwnerNameBlock>
+                    <BadgeName>{props.ownerName}</BadgeName>
 
                     <S.ButtonStyled variant="contained" onClick={props?.onClick}>
                         {props.buttonText}

@@ -182,6 +182,11 @@ export const GlobalStyles = () => {
                 .lk-ui_sidesheet {
                     background-color: var(--color-background-base);
                 }
+
+                /* position in Autocomplete dropdown */
+                .lk-ui__positioner {
+                    position: fixed;
+                }
             `}
         />
     );

@@ -1,20 +1,19 @@
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 // import { StringParam, useQueryParam } from 'use-query-params';
-import { useRootStore } from 'stores/initStore';
-
+// import { useRootStore } from 'stores/initStore';
 import { IResultCard } from './types';
 import * as S from './units';
 
 export const ResultCard: FC<IResultCard> = observer((props) => {
-    const {
-        generalStore: { setResultTitle },
-    } = useRootStore();
+    // const {
+    //     generalStore: { setResultTitle },
+    // } = useRootStore();
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // const [, setTitle] = useQueryParam('title', StringParam);
 
@@ -52,21 +51,21 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
         <S.Wrapper>
             {props.data ? (
                 <>
-                    {/* <a
+                    <a
                         href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
-                    > */}
-                    <S.Title
-                        onClick={() => {
-                            navigate(props.data!.guid);
-                            // setTitle(props.data!.name);
+                    >
+                        <S.Title
+                            // onClick={() => {
+                            //     navigate(props.data!.guid);
+                            //     // setTitle(props.data!.name);
 
-                            setResultTitle(props.data!.name);
-                        }}
-                        dangerouslySetInnerHTML={{ __html: handleTextToBold(props.data.name) }}
-                    />
-                    {/* </a> */}
+                            //     setResultTitle(props.data!.name);
+                            // }}
+                            dangerouslySetInnerHTML={{ __html: handleTextToBold(props.data.name) }}
+                        />
+                    </a>
 
                     <S.Text>
                         <NewlineText str={props.data.descr} />
@@ -84,7 +83,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                     <S.FlexBlock>
                         <div>
                             <S.TitleSecond>Владелец</S.TitleSecond>
-                            <S.Text>{props.data.author}</S.Text>
+                            <S.Text>{props.data.owner || ''}</S.Text>
                         </div>
 
                         <div>
