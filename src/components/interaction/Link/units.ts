@@ -39,7 +39,7 @@ export const OuterLink = styled.a`
 
         transform: scaleX(0);
         transform-origin: bottom right;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.25s ease-in-out;
     }
 
     @media (hover: hover) {

@@ -15,9 +15,9 @@ export const PageWrapper = styled.div`
 `;
 
 export const Container = styled.div`
-    width: 717px;
+    /* width: 717px; */
     height: 100%;
-    min-width: 700px;
+    /* min-width: 700px; */
 
     text-align: justify;
 `;
@@ -29,6 +29,13 @@ export const H4 = styled.h4`
     letter-spacing: 0.2px;
 
     margin-bottom: 8px;
+`;
+
+export const JustText = styled.p`
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
 `;
 
 export const GrayText = styled.p`
@@ -68,4 +75,22 @@ export const NoFoundBlock = styled.div`
     line-height: 22px;
     letter-spacing: 0.2px;
     text-align: center;
+`;
+
+export const TreeContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-basis: 0;
+    gap: 24px;
+
+    margin: 24px 0;
+
+    /* & > *:nth-child(1n) {
+        order: 1;
+    }
+
+    & > *:nth-child(2n) {
+        order: 2;
+    } */
 `;

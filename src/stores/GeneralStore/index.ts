@@ -1,8 +1,10 @@
 import { getCalendarData } from 'api/calendar';
 import { getSearchResult } from 'api/fdm';
+// TODO: вынести
+import menuStaticData from 'pages/FDMPage/NestingMenu/groups.json';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
-import { IGeneralStore } from './types';
+import { IGeneralStore, INestingMenuItem } from './types';
 
 export * from './types';
 
@@ -23,6 +25,9 @@ export const GeneralStore = (): IGeneralStore => {
         isLoadingSearch: false,
         resultSearch: [],
         resultTitle: '',
+
+        activeFDMItem: {} as INestingMenuItem,
+        treeExpandArray: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -100,6 +105,33 @@ export const GeneralStore = (): IGeneralStore => {
 
                 console.log('res', res);
             } catch (error) {}
+        },
+
+        // @ts-ignore
+        handleCheckTreeExpandId(parent: number) {
+            console.log('parent', parent);
+
+            const topId = menuStaticData.find((item) => item.id === parent);
+
+            !!topId && this.treeExpandArray.push(topId.id);
+
+            if (topId?.parent) {
+                this.handleCheckTreeExpandId(topId?.parent);
+            } else {
+                return;
+            }
+
+            // console.log('topId', topId);
+        },
+
+        setActiveFDMItem(item) {
+            this.activeFDMItem = item;
+
+            this.treeExpandArray = [];
+
+            this.handleCheckTreeExpandId(item.parent);
+
+            console.log('this.treeExpandArray', this.treeExpandArray);
         },
     };
 };

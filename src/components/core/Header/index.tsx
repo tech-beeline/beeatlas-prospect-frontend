@@ -36,7 +36,7 @@ export const Header = observer(() => {
 
     // tabs
     const tabs = [
-        { name: 'ФДМ', url: 'fdm/' },
+        { name: 'Модели', url: 'fdm/' },
         { name: 'База знаний', url: 'data-base/' },
         { name: 'Продукты', url: 'products/' },
     ];
@@ -47,7 +47,7 @@ export const Header = observer(() => {
             if (auth.hasNecessaryParams()) {
                 const { access_token } = await auth.exchangeCode();
 
-                console.log('access_token', access_token);
+                // console.log('access_token', access_token);
 
                 persistStorage('token', access_token);
 
