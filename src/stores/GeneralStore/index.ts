@@ -1,5 +1,5 @@
 import { getCalendarData } from 'api/calendar';
-import { getSearchResult } from 'api/fdm';
+import { getItemChildren, getSearchResult } from 'api/fdm';
 // TODO: вынести
 import menuStaticData from 'pages/FDMPage/NestingMenu/groups.json';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
@@ -28,6 +28,8 @@ export const GeneralStore = (): IGeneralStore => {
 
         activeFDMItem: {} as INestingMenuItem,
         treeExpandArray: [],
+        itemChildren: [],
+        isLoadingChildren: false,
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -107,10 +109,7 @@ export const GeneralStore = (): IGeneralStore => {
             } catch (error) {}
         },
 
-        // @ts-ignore
         handleCheckTreeExpandId(parent: number) {
-            console.log('parent', parent);
-
             const topId = menuStaticData.find((item) => item.id === parent);
 
             !!topId && this.treeExpandArray.push(topId.id);
@@ -120,8 +119,6 @@ export const GeneralStore = (): IGeneralStore => {
             } else {
                 return;
             }
-
-            // console.log('topId', topId);
         },
 
         setActiveFDMItem(item) {
@@ -130,8 +127,44 @@ export const GeneralStore = (): IGeneralStore => {
             this.treeExpandArray = [];
 
             this.handleCheckTreeExpandId(item.parent);
+        },
 
-            console.log('this.treeExpandArray', this.treeExpandArray);
+        setLoadingChildren(isLoadingChildren) {
+            this.isLoadingChildren = isLoadingChildren;
+        },
+
+        async getItemChildren(id) {
+            this.itemChildren = [];
+
+            this.setLoadingChildren(true);
+
+            let data;
+
+            try {
+                const res = await getItemChildren(id);
+
+                if (res) {
+                    data = await res.data;
+
+                    this.itemChildren = data;
+
+                    // data.length === 0 ? (this.resultSearch = 'nodata') : (this.resultSearch = data);
+                } else {
+                    // TODO: убрать
+                    // this.resultSearch = 'nodata';
+                }
+
+                // return data;
+            } catch (error) {
+                console.error((error as Error).message);
+
+                // TODO: убрать
+                // this.resultSearch = 'nodata';
+            } finally {
+                this.setLoadingChildren(false);
+            }
         },
     };
 };
+
+// getItemChildren

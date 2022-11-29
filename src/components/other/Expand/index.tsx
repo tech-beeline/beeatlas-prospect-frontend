@@ -43,6 +43,15 @@ export const Expand: FC<T.IExpand> = ({
         setWidth(childrenRef.current?.clientWidth || 0);
     }, [childrenRef.current?.clientHeight]);
 
+    // только для открытия меню
+    useEffect(() => {
+        if (props.menuId && !!props.setOpen) {
+            if (props.treeExpandArray?.find((item) => item === props.menuId)) {
+                props.setOpen(true);
+            }
+        }
+    }, [props.treeExpandArray, props.setOpen]);
+
     const handleClick = () => {
         props.isClickable && !!props.setOpen && props.setOpen(false);
     };

@@ -9,6 +9,10 @@ interface ICoomonTypes {
     isAutoHeight?: boolean;
     /* надо чтобы указать должна ли ширина считаться автоматически */
     isAutoWidth?: boolean;
+
+    // для раскрытия в меню
+    menuId?: number;
+    treeExpandArray?: number[];
 }
 
 export interface IExpand extends ICoomonTypes {

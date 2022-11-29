@@ -12,7 +12,13 @@ export const NestingMenu = observer(() => {
     const menuData = formatMenuData();
 
     const {
-        generalStore: { activeFDMItem, setActiveFDMItem },
+        generalStore: {
+            activeFDMItem,
+            setActiveFDMItem,
+            treeExpandArray,
+            getItemChildren,
+            itemChildren,
+        },
     } = useRootStore();
 
     const [activeLeftItem, setActiveLeftItem] = useState(0);
@@ -31,9 +37,17 @@ export const NestingMenu = observer(() => {
 
             <S.RightSide>
                 {menuData.map((item, index) => (
-                    <Item key={index} {...{ activeFDMItem, setActiveFDMItem }} {...item}>
-                        {item.children}
-                    </Item>
+                    <Item
+                        key={index}
+                        {...{
+                            activeFDMItem,
+                            setActiveFDMItem,
+                            treeExpandArray,
+                            getItemChildren,
+                            itemChildren,
+                        }}
+                        {...item}
+                    />
                 ))}
             </S.RightSide>
         </S.Wrapper>

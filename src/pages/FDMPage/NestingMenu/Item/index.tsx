@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { observer } from 'mobx-react';
 
 // import { useLocation, useNavigate } from 'react-router-dom';
 // import { BaseIcon } from 'components/core';
@@ -9,7 +10,7 @@ import { theme } from 'styles';
 
 import * as S from './units';
 
-export const Item: FC<INestingMenuItem> = (props) => {
+export const Item: FC<INestingMenuItem> = observer((props) => {
     const [isOpen, setOpen] = useState(false);
 
     // const navigate = useNavigate();
@@ -21,26 +22,51 @@ export const Item: FC<INestingMenuItem> = (props) => {
     //     }
     // }, [location.pathname]);
 
+    // const children = props.itemChildren.length > 0 ? props.itemChildren : props.children;
+    // let children = props.level > 2 ? props.itemChildren : props.children;
+    const children = props.children;
+
     const showChildHandler = (e: any) => {
         e.stopPropagation();
 
         setOpen(!isOpen);
+
+        if (props.level === 3) {
+            props.getItemChildren(props.id);
+        }
+
+        console.log('props', props);
     };
+
+    const activeItemAndGetChild = () => {
+        props.setActiveFDMItem(props);
+    };
+
+    // TODO: test
+
+    // useEffect(() => {
+    //     console.log('children use', children);
+
+    //     children = props.itemChildren;
+
+    //     console.log('props', props);
+    // }, [props.itemChildren]);
 
     return (
         <>
             <S.Wrapper
                 isActive={props.activeFDMItem.id === props.id}
-                onClick={() => props.setActiveFDMItem(props)}
+                onClick={activeItemAndGetChild}
             >
-                {!!props.children && props.children.length > 0 && (
-                    <PivotArrow
-                        onClick={showChildHandler}
-                        position={props.activeFDMItem.id === props.id && 'right'}
-                        color={theme.colors.textInactive}
-                        {...{ isOpen }}
-                    />
-                )}
+                {/* {!!props.children && props.children.length > 0 && ( */}
+
+                <PivotArrow
+                    onClick={showChildHandler}
+                    position={props.activeFDMItem.id === props.id && 'right'}
+                    color={theme.colors.textInactive}
+                    {...{ isOpen }}
+                />
+                {/* )} */}
 
                 <S.LeftWrapper>
                     {/* <BaseIcon iconName={props.iconName} /> */}
@@ -49,19 +75,25 @@ export const Item: FC<INestingMenuItem> = (props) => {
                 </S.LeftWrapper>
             </S.Wrapper>
 
-            <S.ExpandStyled {...{ isOpen }} isAutoHeight>
-                {props.children &&
-                    props.children.map((item, index) => (
-                        <Item
-                            key={index}
-                            activeFDMItem={props.activeFDMItem}
-                            setActiveFDMItem={props.setActiveFDMItem}
-                            {...item}
-                        >
-                            {item.children}
-                        </Item>
-                    ))}
+            <S.ExpandStyled
+                {...{ isOpen, setOpen }}
+                menuId={props.id}
+                treeExpandArray={props.treeExpandArray}
+                isAutoHeight
+            >
+                {children?.map((item, index) => (
+                    <Item
+                        key={index}
+                        activeFDMItem={props.activeFDMItem}
+                        setActiveFDMItem={props.setActiveFDMItem}
+                        treeExpandArray={props.treeExpandArray}
+                        getItemChildren={props.getItemChildren}
+                        itemChildren={props.itemChildren}
+                        {...item}
+                    />
+                    // {/* {props.itemChildren.length > 0 ? props.itemChildren : item.children} */}
+                ))}
             </S.ExpandStyled>
         </>
     );
-};
+});

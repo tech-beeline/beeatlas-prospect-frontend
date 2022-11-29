@@ -21,6 +21,11 @@ export interface IGeneralStore {
     setActiveFDMItem: (item: INestingMenuItem) => void;
     treeExpandArray: number[];
     handleCheckTreeExpandId: (id: number) => void;
+    // TODO: type
+    itemChildren: any[];
+    getItemChildren: (id: number) => Promise<any> | unknown;
+    isLoadingChildren: boolean;
+    setLoadingChildren: (bool: boolean) => void;
 
     // СТРАНИЦА КАЛЕНДАРЯ
     setCalendarData: () => void;
@@ -38,4 +43,8 @@ export interface INestingMenuItem {
 
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem(props: INestingMenuItem): void;
+    treeExpandArray: number[];
+    getItemChildren(id: number): Promise<any> | unknown;
+    // TODO: type
+    itemChildren: any[];
 }
