@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon, Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+// import menuStaticData from './groups.json';
+import menuStaticData from 'stores/GeneralStore/groups.json';
 import { useRootStore } from 'stores/initStore';
 
 import { Item } from './Item';
 import * as S from './units';
-import { formatMenuData } from './utils';
+import { test } from './utils';
 
 export const NestingMenu = observer(() => {
-    const menuData = formatMenuData();
+    const menuData = test(menuStaticData);
 
     const {
         generalStore: {
@@ -18,10 +20,19 @@ export const NestingMenu = observer(() => {
             treeExpandArray,
             getItemChildren,
             itemChildren,
+            // @ts-ignore
+            setMenuConfig,
+            // @ts-ignore
+            menuConfig,
         },
     } = useRootStore();
 
     const [activeLeftItem, setActiveLeftItem] = useState(0);
+
+    useEffect(() => {
+        setMenuConfig(menuData);
+        // console.log('menuData', menuData);
+    }, []);
 
     return (
         <S.Wrapper>
@@ -36,7 +47,8 @@ export const NestingMenu = observer(() => {
             </S.LeftSide>
 
             <S.RightSide>
-                {menuData.map((item, index) => (
+                {/* @ts-ignore */}
+                {menuConfig.map((item, index) => (
                     <Item
                         key={index}
                         {...{
@@ -45,6 +57,8 @@ export const NestingMenu = observer(() => {
                             treeExpandArray,
                             getItemChildren,
                             itemChildren,
+                            setMenuConfig,
+                            menuConfig,
                         }}
                         {...item}
                     />

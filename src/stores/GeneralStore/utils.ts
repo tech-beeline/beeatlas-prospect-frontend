@@ -11,7 +11,7 @@
 //     children?: any;
 // }
 
-export const test = (config: any[]) => {
+export const formatMenuData = (config: any[]) => {
     const startArr: any[] = config;
 
     let lastLevel = startArr[startArr.length - 1].level;

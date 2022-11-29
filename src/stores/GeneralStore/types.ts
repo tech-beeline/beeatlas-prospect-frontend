@@ -23,7 +23,7 @@ export interface IGeneralStore {
     handleCheckTreeExpandId: (id: number) => void;
     // TODO: type
     itemChildren: any[];
-    getItemChildren: (id: number) => Promise<any> | unknown;
+    getItemChildren: (id: number, level: number) => Promise<any> | unknown;
     isLoadingChildren: boolean;
     setLoadingChildren: (bool: boolean) => void;
 
@@ -44,7 +44,7 @@ export interface INestingMenuItem {
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem(props: INestingMenuItem): void;
     treeExpandArray: number[];
-    getItemChildren(id: number): Promise<any> | unknown;
+    getItemChildren(id: number, level: number): Promise<any> | unknown;
     // TODO: type
     itemChildren: any[];
 }

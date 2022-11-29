@@ -12,7 +12,8 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     align-items: center;
     gap: 16px;
 
-    height: 48px;
+    /* height: 48px; */
+    min-height: 48px;
     padding: 6px 16px;
 
     font-weight: ${({ isActive }) => (isActive ? 500 : 400)};

@@ -24,7 +24,6 @@ export const Item: FC<INestingMenuItem> = observer((props) => {
 
     // const children = props.itemChildren.length > 0 ? props.itemChildren : props.children;
     // let children = props.level > 2 ? props.itemChildren : props.children;
-    const children = props.children;
 
     const showChildHandler = (e: any) => {
         e.stopPropagation();
@@ -32,15 +31,18 @@ export const Item: FC<INestingMenuItem> = observer((props) => {
         setOpen(!isOpen);
 
         if (props.level === 3) {
-            props.getItemChildren(props.id);
+            props.getItemChildren(props.id, props.level + 1);
         }
-
-        console.log('props', props);
     };
 
     const activeItemAndGetChild = () => {
         props.setActiveFDMItem(props);
     };
+
+    // useEffect(() => {
+    //     // @ts-ignore
+    //     props.setMenuConfig(menuData);
+    // }, [props.itemChildren]);
 
     // TODO: test
 
@@ -54,6 +56,8 @@ export const Item: FC<INestingMenuItem> = observer((props) => {
 
     return (
         <>
+            {/* {console.log('children', props.itemChildren)} */}
+
             <S.Wrapper
                 isActive={props.activeFDMItem.id === props.id}
                 onClick={activeItemAndGetChild}
@@ -81,17 +85,16 @@ export const Item: FC<INestingMenuItem> = observer((props) => {
                 treeExpandArray={props.treeExpandArray}
                 isAutoHeight
             >
-                {children?.map((item, index) => (
+                {props.children?.map((item, index) => (
                     <Item
                         key={index}
                         activeFDMItem={props.activeFDMItem}
                         setActiveFDMItem={props.setActiveFDMItem}
                         treeExpandArray={props.treeExpandArray}
                         getItemChildren={props.getItemChildren}
-                        itemChildren={props.itemChildren}
+                        // itemChildren={props.itemChildren}
                         {...item}
                     />
-                    // {/* {props.itemChildren.length > 0 ? props.itemChildren : item.children} */}
                 ))}
             </S.ExpandStyled>
         </>

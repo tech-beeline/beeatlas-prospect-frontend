@@ -1,10 +1,13 @@
+import { runInAction } from 'mobx';
+
 import { getCalendarData } from 'api/calendar';
 import { getItemChildren, getSearchResult } from 'api/fdm';
-// TODO: вынести
-import menuStaticData from 'pages/FDMPage/NestingMenu/groups.json';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
+// TODO: вынести
+import menuStaticData from './groups.json';
 import { IGeneralStore, INestingMenuItem } from './types';
+import { formatMenuData } from './utils';
 
 export * from './types';
 
@@ -30,6 +33,9 @@ export const GeneralStore = (): IGeneralStore => {
         treeExpandArray: [],
         itemChildren: [],
         isLoadingChildren: false,
+
+        // @ts-ignore
+        menuConfig: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -133,20 +139,32 @@ export const GeneralStore = (): IGeneralStore => {
             this.isLoadingChildren = isLoadingChildren;
         },
 
-        async getItemChildren(id) {
+        async getItemChildren(parentId, level) {
             this.itemChildren = [];
 
             this.setLoadingChildren(true);
 
-            let data;
+            // let data;
 
             try {
-                const res = await getItemChildren(id);
+                const res = await getItemChildren(parentId);
 
                 if (res) {
-                    data = await res.data;
+                    const data = await res.data;
 
-                    this.itemChildren = data;
+                    const resArr = data.map((item: any) => ({
+                        ...item,
+                        id: item.objectId,
+                        parent: parentId,
+                        level,
+                    }));
+
+                    // @ts-ignore
+                    this.setMenuConfig(formatMenuData([...menuStaticData, ...resArr]));
+
+                    runInAction(() => {
+                        this.itemChildren = resArr;
+                    });
 
                     // data.length === 0 ? (this.resultSearch = 'nodata') : (this.resultSearch = data);
                 } else {
@@ -163,6 +181,12 @@ export const GeneralStore = (): IGeneralStore => {
             } finally {
                 this.setLoadingChildren(false);
             }
+        },
+
+        // @ts-ignore
+        setMenuConfig(data) {
+            // @ts-ignore
+            this.menuConfig = data;
         },
     };
 };
