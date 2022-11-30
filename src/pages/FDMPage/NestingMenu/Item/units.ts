@@ -1,4 +1,5 @@
 // import { css } from '@emotion/react';
+import { Icon } from '@beeline/lk-ui';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
@@ -15,6 +16,7 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     /* height: 48px; */
     min-height: 48px;
     padding: 6px 16px;
+    margin-bottom: 4px;
 
     font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
     font-size: 15px;
@@ -54,4 +56,8 @@ export const LeftWrapper = styled.div`
 
 export const ExpandStyled = styled(Expand)`
     padding-left: 36px;
+`;
+
+export const IconStyled = styled(Icon)`
+    color: ${({ type }) => !type && theme.colors.textInactive};
 `;

@@ -1,11 +1,10 @@
 import { runInAction } from 'mobx';
 
 import { getCalendarData } from 'api/calendar';
-import { getItemChildren, getSearchResult } from 'api/fdm';
+import { getGeneralItems, getItemChildren, getSearchResult } from 'api/fdm';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
 // TODO: вынести
-import menuStaticData from './groups.json';
 import { IGeneralStore, INestingMenuItem } from './types';
 import { formatMenuData } from './utils';
 
@@ -29,13 +28,13 @@ export const GeneralStore = (): IGeneralStore => {
         resultSearch: [],
         resultTitle: '',
 
+        generalMenuItems: [],
         activeFDMItem: {} as INestingMenuItem,
         treeExpandArray: [],
         itemChildren: [],
-        isLoadingChildren: false,
-
-        // @ts-ignore
-        menuConfig: [],
+        isItemChildren: true,
+        isLoadingMenuItems: false,
+        menuTreeItems: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -115,8 +114,28 @@ export const GeneralStore = (): IGeneralStore => {
             } catch (error) {}
         },
 
-        handleCheckTreeExpandId(parent: number) {
-            const topId = menuStaticData.find((item) => item.id === parent);
+        async getGeneralMenuItems() {
+            try {
+                this.setLoadingChildren(true);
+
+                const res = await getGeneralItems();
+
+                if (res.data.length > 0) {
+                    this.generalMenuItems = res.data;
+
+                    this.setMenuTreeItems(formatMenuData(this.generalMenuItems));
+                }
+            } catch (error) {
+                console.error((error as Error).message);
+            } finally {
+                this.setLoadingChildren(false);
+            }
+        },
+
+        async handleCheckTreeExpandId(parent: number) {
+            const topId = this.generalMenuItems.find(
+                (item: INestingMenuItem) => item.id === parent,
+            );
 
             !!topId && this.treeExpandArray.push(topId.id);
 
@@ -135,14 +154,12 @@ export const GeneralStore = (): IGeneralStore => {
             this.handleCheckTreeExpandId(item.parent);
         },
 
-        setLoadingChildren(isLoadingChildren) {
-            this.isLoadingChildren = isLoadingChildren;
+        setLoadingChildren(isLoadingMenuItems) {
+            this.isLoadingMenuItems = isLoadingMenuItems;
         },
 
         async getItemChildren(parentId, level) {
             this.itemChildren = [];
-
-            this.setLoadingChildren(true);
 
             // let data;
 
@@ -150,20 +167,25 @@ export const GeneralStore = (): IGeneralStore => {
                 const res = await getItemChildren(parentId);
 
                 if (res) {
-                    const data = await res.data;
-
-                    const resArr = data.map((item: any) => ({
+                    // TODO: убрать
+                    if (!res.data.length) {
+                        runInAction(() => {
+                            this.isItemChildren = false;
+                        });
+                    }
+                    const resArr = res.data.map((item: any) => ({
                         ...item,
                         id: item.objectId,
                         parent: parentId,
                         level,
                     }));
 
-                    // @ts-ignore
-                    this.setMenuConfig(formatMenuData([...menuStaticData, ...resArr]));
+                    this.setMenuTreeItems(formatMenuData([...this.generalMenuItems, ...resArr]));
 
                     runInAction(() => {
                         this.itemChildren = resArr;
+
+                        return resArr;
                     });
 
                     // data.length === 0 ? (this.resultSearch = 'nodata') : (this.resultSearch = data);
@@ -178,15 +200,11 @@ export const GeneralStore = (): IGeneralStore => {
 
                 // TODO: убрать
                 // this.resultSearch = 'nodata';
-            } finally {
-                this.setLoadingChildren(false);
             }
         },
 
-        // @ts-ignore
-        setMenuConfig(data) {
-            // @ts-ignore
-            this.menuConfig = data;
+        setMenuTreeItems(data) {
+            this.menuTreeItems = data;
         },
     };
 };

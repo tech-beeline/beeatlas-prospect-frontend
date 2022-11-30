@@ -17,15 +17,20 @@ export interface IGeneralStore {
     setResultTitle: (value: string) => void;
 
     // FDM
+    generalMenuItems: INestingMenuItem[];
+    getGeneralMenuItems: () => void;
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem: (item: INestingMenuItem) => void;
     treeExpandArray: number[];
     handleCheckTreeExpandId: (id: number) => void;
     // TODO: type
     itemChildren: any[];
+    isItemChildren: boolean;
     getItemChildren: (id: number, level: number) => Promise<any> | unknown;
-    isLoadingChildren: boolean;
+    isLoadingMenuItems: boolean;
     setLoadingChildren: (bool: boolean) => void;
+    setMenuTreeItems: (data: INestingMenuItem[]) => void;
+    menuTreeItems: INestingMenuItem[];
 
     // СТРАНИЦА КАЛЕНДАРЯ
     setCalendarData: () => void;
@@ -37,9 +42,10 @@ export interface INestingMenuItem {
     guid: string;
     descr: string;
     parent: number;
-    alias: string;
+    alias?: string;
     level: number;
     children?: any[];
+    stereotype?: 'TECHNICAL' | 'BUSINESS';
 
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem(props: INestingMenuItem): void;
@@ -47,4 +53,5 @@ export interface INestingMenuItem {
     getItemChildren(id: number, level: number): Promise<any> | unknown;
     // TODO: type
     itemChildren: any[];
+    isItemChildren: boolean;
 }

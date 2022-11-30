@@ -1,8 +1,6 @@
 import React, { FC, useState } from 'react';
-import { observer } from 'mobx-react';
+import { Icons } from '@beeline/lk-ui';
 
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { BaseIcon } from 'components/core';
 import { PivotArrow } from 'components/other';
 
 import { INestingMenuItem } from 'stores/GeneralStore';
@@ -10,27 +8,19 @@ import { theme } from 'styles';
 
 import * as S from './units';
 
-export const Item: FC<INestingMenuItem> = observer((props) => {
+export const Item: FC<INestingMenuItem> = (props) => {
     const [isOpen, setOpen] = useState(false);
+    const [isShownArrow] = useState(
+        (!!props.children && props.children.length > 0) || props.level > 2,
+    );
 
-    // const navigate = useNavigate();
-    // const location = useLocation();
-
-    // useEffect(() => {
-    //     if (location.pathname.includes(props.url!)) {
-    //         setOpen(true);
-    //     }
-    // }, [location.pathname]);
-
-    // const children = props.itemChildren.length > 0 ? props.itemChildren : props.children;
-    // let children = props.level > 2 ? props.itemChildren : props.children;
-
-    const showChildHandler = (e: any) => {
+    const showChildHandler = (e: Event) => {
         e.stopPropagation();
 
         setOpen(!isOpen);
 
-        if (props.level === 3) {
+        // TODO: поменять условие
+        if (props.level === 3 && !isOpen) {
             props.getItemChildren(props.id, props.level + 1);
         }
     };
@@ -39,41 +29,55 @@ export const Item: FC<INestingMenuItem> = observer((props) => {
         props.setActiveFDMItem(props);
     };
 
-    // useEffect(() => {
-    //     // @ts-ignore
-    //     props.setMenuConfig(menuData);
-    // }, [props.itemChildren]);
+    const iconItemHandler = () => {
+        let icon = Icons.Folder;
+        let type = '';
+        const aliasType = props.alias?.split('.')[0];
 
-    // TODO: test
+        switch (true) {
+            case aliasType === 'GRP':
+                icon = Icons.Folder;
+                break;
 
-    // useEffect(() => {
-    //     console.log('children use', children);
+            case aliasType === 'DMN':
+                icon = Icons.PagesMultipleEmpty;
+                break;
 
-    //     children = props.itemChildren;
+            case props.stereotype === 'TECHNICAL':
+                icon = Icons.Reports;
+                type = 'info';
+                break;
 
-    //     console.log('props', props);
-    // }, [props.itemChildren]);
+            case props.stereotype === 'BUSINESS':
+                icon = Icons.Reports;
+                type = 'warning';
+                break;
+
+            default:
+                icon = Icons.Folder;
+        }
+
+        // @ts-ignore
+        return <S.IconStyled iconName={icon} type={type} />;
+    };
 
     return (
         <>
-            {/* {console.log('children', props.itemChildren)} */}
-
             <S.Wrapper
                 isActive={props.activeFDMItem.id === props.id}
                 onClick={activeItemAndGetChild}
             >
-                {/* {!!props.children && props.children.length > 0 && ( */}
-
-                <PivotArrow
-                    onClick={showChildHandler}
-                    position={props.activeFDMItem.id === props.id && 'right'}
-                    color={theme.colors.textInactive}
-                    {...{ isOpen }}
-                />
-                {/* )} */}
+                {isShownArrow && (
+                    <PivotArrow
+                        onClick={showChildHandler}
+                        position={props.activeFDMItem.id === props.id && 'right'}
+                        color={theme.colors.textInactive}
+                        {...{ isOpen }}
+                    />
+                )}
 
                 <S.LeftWrapper>
-                    {/* <BaseIcon iconName={props.iconName} /> */}
+                    {iconItemHandler()}
 
                     {props.name}
                 </S.LeftWrapper>
@@ -92,11 +96,11 @@ export const Item: FC<INestingMenuItem> = observer((props) => {
                         setActiveFDMItem={props.setActiveFDMItem}
                         treeExpandArray={props.treeExpandArray}
                         getItemChildren={props.getItemChildren}
-                        // itemChildren={props.itemChildren}
+                        isItemChildren={props.isItemChildren}
                         {...item}
                     />
                 ))}
             </S.ExpandStyled>
         </>
     );
-});
+};

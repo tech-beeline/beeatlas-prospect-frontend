@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Icon, Icons } from '@beeline/lk-ui';
+import React, { useState } from 'react';
+import { Icon, Icons, Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
-// import menuStaticData from './groups.json';
-import menuStaticData from 'stores/GeneralStore/groups.json';
+import { useMountEffect } from 'hooks';
 import { useRootStore } from 'stores/initStore';
 
 import { Item } from './Item';
 import * as S from './units';
-import { test } from './utils';
 
 export const NestingMenu = observer(() => {
-    const menuData = test(menuStaticData);
-
     const {
         generalStore: {
             activeFDMItem,
@@ -20,19 +16,19 @@ export const NestingMenu = observer(() => {
             treeExpandArray,
             getItemChildren,
             itemChildren,
-            // @ts-ignore
-            setMenuConfig,
-            // @ts-ignore
-            menuConfig,
+            setMenuTreeItems,
+            menuTreeItems,
+            isItemChildren,
+            getGeneralMenuItems,
+            isLoadingMenuItems,
         },
     } = useRootStore();
 
     const [activeLeftItem, setActiveLeftItem] = useState(0);
 
-    useEffect(() => {
-        setMenuConfig(menuData);
-        // console.log('menuData', menuData);
-    }, []);
+    useMountEffect(() => {
+        getGeneralMenuItems();
+    });
 
     return (
         <S.Wrapper>
@@ -47,22 +43,34 @@ export const NestingMenu = observer(() => {
             </S.LeftSide>
 
             <S.RightSide>
-                {/* @ts-ignore */}
-                {menuConfig.map((item, index) => (
-                    <Item
-                        key={index}
-                        {...{
-                            activeFDMItem,
-                            setActiveFDMItem,
-                            treeExpandArray,
-                            getItemChildren,
-                            itemChildren,
-                            setMenuConfig,
-                            menuConfig,
-                        }}
-                        {...item}
-                    />
-                ))}
+                {isLoadingMenuItems ? (
+                    <>
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                        <Skeleton height={32} margin={{ bottom: 8 }} />
+                    </>
+                ) : (
+                    menuTreeItems.map((item, index) => (
+                        <Item
+                            key={index}
+                            {...{
+                                activeFDMItem,
+                                setActiveFDMItem,
+                                treeExpandArray,
+                                getItemChildren,
+                                itemChildren,
+                                setMenuTreeItems,
+                                menuTreeItems,
+                                isItemChildren,
+                            }}
+                            {...item}
+                        />
+                    ))
+                )}
             </S.RightSide>
         </S.Wrapper>
     );
