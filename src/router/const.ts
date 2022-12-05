@@ -2,6 +2,7 @@ export const MAIN_PAGE_PATH = '/';
 export const APP_INFO_PAGE_PATH = '/app-info';
 
 // Страница поиска
+export const SEARCH_PATH = '/search';
 export const FDM_PATH = '/fdm';
 export const FDM_RESULT_ID_PATH = '/:guid';
 

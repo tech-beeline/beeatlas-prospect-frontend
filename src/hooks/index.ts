@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 export const useMountEffect = (effectCallback: () => (() => void) | void) => {
     useEffect(effectCallback, []);
@@ -22,4 +22,22 @@ export const useTimer = (
             return () => clearInterval(timer as ReturnType<typeof setInterval>);
         }
     }, [seconds, condition]);
+};
+
+export const useWindowResize = () => {
+    const [width, setWidth] = useState<number>(window.innerWidth);
+
+    const onResize = () => {
+        setWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            window.removeEventListener('resize', onResize);
+        };
+    }, []);
+
+    return width;
 };

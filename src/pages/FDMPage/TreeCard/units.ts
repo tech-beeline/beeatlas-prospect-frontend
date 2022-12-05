@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 
+import { Expand } from 'components/other';
+
 import { theme } from 'styles';
 
-export const Wrapper = styled.div`
-    flex: 0 1 48%;
+export const Wrapper = styled.div<{ isFullWidthCard: boolean }>`
+    flex: ${({ isFullWidthCard }) => (isFullWidthCard ? '0 1 100%' : '0 1 48%')};
 
-    width: 50%;
     min-width: 300px;
+    min-height: 160px;
+    height: min-content;
     /* max-width: 450px; */
     padding: 24px;
 
@@ -57,4 +60,27 @@ export const DomenText = styled(Title)`
 export const FlexBlock = styled.div`
     display: flex;
     justify-content: space-between;
+`;
+
+export const ExpandStyled = styled(Expand)`
+    padding-top: 24px;
+`;
+
+export const ChildrenExpandTitle = styled(FlexBlock)`
+    /* align-self: flex-end; */
+    align-items: center;
+
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+
+    cursor: pointer;
+`;
+
+export const InnerFlex = styled.div`
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: 100%; */
 `;

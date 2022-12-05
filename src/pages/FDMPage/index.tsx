@@ -1,8 +1,9 @@
 // import React, { FormEvent, useEffect, useState } from 'react';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+import { useWindowResize } from 'hooks';
 // import { StringParam, useQueryParam } from 'use-query-params';
 // import { Expand } from 'components/other';
 // import { getSearchResult } from 'api/fdm';
@@ -17,8 +18,10 @@ import * as S from './units';
 export const FDMPage = observer(() => {
     const {
         // generalStore: { isLoadingSearch, getSearchResult, resultSearch, activeFDMItem },
-        generalStore: { activeFDMItem, setActiveFDMItem },
+        generalStore: { activeFDMItem, setActiveFDMItem, isLoadingChildren },
     } = useRootStore();
+
+    const [isFullWidthCard, setFullWidthCard] = useState(false);
 
     // const [search, setSearch] = useQueryParam('search', StringParam);
 
@@ -41,6 +44,23 @@ export const FDMPage = observer(() => {
     //     setSearch(searchInput);
     // };
 
+    const refTreeContainer = useRef(null);
+
+    const windowWidth = useWindowResize();
+
+    useEffect(() => {
+        if (!!activeFDMItem && refTreeContainer.current) {
+            const { current } = refTreeContainer;
+
+            // @ts-ignore
+            const { width } = current.getBoundingClientRect();
+
+            console.log('width', width);
+
+            setFullWidthCard(width <= 623);
+        }
+    }, [windowWidth, activeFDMItem]);
+
     return (
         <div style={{ display: 'flex' }}>
             <NestingMenu />
@@ -51,10 +71,18 @@ export const FDMPage = observer(() => {
 
                     <S.JustText dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }} />
 
-                    <S.TreeContainer>
-                        {activeFDMItem.children?.map((item, index) => (
-                            <TreeCard key={index} data={item} {...{ setActiveFDMItem }} />
-                        ))}
+                    <S.TreeContainer ref={refTreeContainer}>
+                        {/* {menuTreeItems.} */}
+
+                        {isLoadingChildren
+                            ? 'LOADING...'
+                            : activeFDMItem.children?.map((item, index) => (
+                                  <TreeCard
+                                      key={index}
+                                      data={item}
+                                      {...{ setActiveFDMItem, isFullWidthCard }}
+                                  />
+                              ))}
                     </S.TreeContainer>
 
                     {/* <S.H4>ФДМ</S.H4>

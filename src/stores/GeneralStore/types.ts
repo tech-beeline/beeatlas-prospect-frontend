@@ -28,6 +28,8 @@ export interface IGeneralStore {
     isItemChildren: boolean;
     getItemChildren: (id: number, level: number) => Promise<any> | unknown;
     isLoadingMenuItems: boolean;
+    isLoadingChildren: boolean;
+    setLoadingMenuItems: (bool: boolean) => void;
     setLoadingChildren: (bool: boolean) => void;
     setMenuTreeItems: (data: INestingMenuItem[]) => void;
     menuTreeItems: INestingMenuItem[];

@@ -26,9 +26,14 @@ export const Item: FC<INestingMenuItem> = (props) => {
     };
 
     const activeItemAndGetChild = () => {
+        // if (props.level === 3) {
+        //     props.getItemChildren(props.id, props.level + 1);
+        // }
+
         props.setActiveFDMItem(props);
     };
 
+    // TODO: useMemo
     const iconItemHandler = () => {
         let icon = Icons.Folder;
         let type = '';

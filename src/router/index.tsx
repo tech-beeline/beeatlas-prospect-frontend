@@ -14,6 +14,7 @@ import {
     FDMResultPage,
     HowToPage,
     MainPage,
+    SearchPage,
     ServicesPage,
     TemplatesPage,
 } from 'pages';
@@ -34,6 +35,7 @@ export const NavigationRouter = () => {
 
                         <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 
+                        <Route path={C.SEARCH_PATH} element={<SearchPage />} />
                         <Route path={C.FDM_PATH} element={<FDMPage />} />
                         <Route
                             path={`${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
