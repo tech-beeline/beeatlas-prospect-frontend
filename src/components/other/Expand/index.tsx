@@ -50,7 +50,7 @@ export const Expand: FC<T.IExpand> = ({
                 props.setOpen(true);
             }
         }
-    }, [props.treeExpandArray, props.setOpen]);
+    }, [props.treeExpandArray]);
 
     const handleClick = () => {
         props.isClickable && !!props.setOpen && props.setOpen(false);

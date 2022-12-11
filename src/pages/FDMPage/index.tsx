@@ -1,5 +1,6 @@
 // import React, { FormEvent, useEffect, useState } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
+import { Breadcrumbs } from '@beeline/lk-ui';
 // import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
@@ -9,6 +10,7 @@ import { useWindowResize } from 'hooks';
 // import { getSearchResult } from 'api/fdm';
 import { useRootStore } from 'stores/initStore';
 
+import { BreadCrumbsItem } from './BreadCrumbsItem';
 // TODO: в компоненты
 import { NestingMenu } from './NestingMenu';
 import { TreeCard } from './TreeCard';
@@ -18,7 +20,7 @@ import * as S from './units';
 export const FDMPage = observer(() => {
     const {
         // generalStore: { isLoadingSearch, getSearchResult, resultSearch, activeFDMItem },
-        generalStore: { activeFDMItem, setActiveFDMItem, isLoadingChildren },
+        generalStore: { activeFDMItem, setActiveFDMItem, isLoadingChildren, breadCrumbsItems },
     } = useRootStore();
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
@@ -71,6 +73,17 @@ export const FDMPage = observer(() => {
 
                     <S.JustText dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }} />
 
+                    {breadCrumbsItems.length > 1 && (
+                        <Breadcrumbs collapsed={breadCrumbsItems.length > 2}>
+                            {breadCrumbsItems.map((item, index) => (
+                                <BreadCrumbsItem
+                                    key={index}
+                                    {...{ item, activeFDMItem, setActiveFDMItem }}
+                                />
+                            ))}
+                        </Breadcrumbs>
+                    )}
+
                     <S.TreeContainer ref={refTreeContainer}>
                         {/* {menuTreeItems.} */}
 
@@ -84,7 +97,6 @@ export const FDMPage = observer(() => {
                                   />
                               ))}
                     </S.TreeContainer>
-
                     {/* <S.H4>ФДМ</S.H4>
 
                     <S.GrayText>
@@ -127,7 +139,6 @@ export const FDMPage = observer(() => {
                     >
                         {isOpenDescription ? 'Скрыть' : 'Подробнее'}
                     </Button> */}
-
                     {/* <S.SearchContainer onSubmit={getFindResult}>
                         <Search
                             fullWidth
@@ -137,7 +148,6 @@ export const FDMPage = observer(() => {
 
                         <Button variant="contained">Найти</Button>
                     </S.SearchContainer> */}
-
                     {/* <S.ResultContainer>
                         {isLoadingSearch ? (
                             // skeleton

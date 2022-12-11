@@ -36,6 +36,7 @@ export const GeneralStore = (): IGeneralStore => {
         isLoadingMenuItems: false,
         isLoadingChildren: false,
         menuTreeItems: [],
+        breadCrumbsItems: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -140,6 +141,8 @@ export const GeneralStore = (): IGeneralStore => {
 
             !!topId && this.treeExpandArray.push(topId.id);
 
+            console.log('this.treeExpandArray', this.treeExpandArray);
+
             if (topId?.parent) {
                 this.handleCheckTreeExpandId(topId?.parent);
             } else {
@@ -147,11 +150,26 @@ export const GeneralStore = (): IGeneralStore => {
             }
         },
 
+        breadCrumbsFormat(id: number) {
+            const element = this.generalMenuItems.find((item: INestingMenuItem) => item.id === id);
+
+            !!element &&
+                element?.id !== 352 &&
+                this.breadCrumbsItems.unshift({ id: element.id, name: element.name });
+
+            if (element?.parent) {
+                this.breadCrumbsFormat(element?.parent);
+            } else {
+                return;
+            }
+            // this.breadCrumbsItems;
+        },
+
         async setActiveFDMItem(item) {
             if (item.level === 3) {
                 const res = await this.getItemChildren(item.id, item.level + 1);
 
-                console.log('res', res);
+                // console.log('res', res);
 
                 // @ts-ignore
                 this.activeFDMItem = { ...item, children: await res };
@@ -159,9 +177,15 @@ export const GeneralStore = (): IGeneralStore => {
                 this.activeFDMItem = item;
             }
 
+            // TODO: сделать из двух функций одну и вынести в utils
+
             // только для Экспанда
             this.treeExpandArray = [];
             this.handleCheckTreeExpandId(item.parent);
+
+            // хлебные крошки
+            this.breadCrumbsItems = [];
+            this.breadCrumbsFormat(item.id);
         },
 
         setLoadingMenuItems(bool) {
