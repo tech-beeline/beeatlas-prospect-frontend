@@ -19,18 +19,23 @@ export interface IGeneralStore {
     // FDM
     generalMenuItems: INestingMenuItem[];
     getGeneralMenuItems: () => void;
+
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem: (item: INestingMenuItem) => void;
+
     treeExpandArray: number[];
     handleCheckTreeExpandId: (id: number) => void;
+
     // TODO: type
     itemChildren: any[];
     isItemChildren: boolean;
     getItemChildren: (id: number, level: number) => Promise<any> | unknown;
+
     isLoadingMenuItems: boolean;
     isLoadingChildren: boolean;
     setLoadingMenuItems: (bool: boolean) => void;
     setLoadingChildren: (bool: boolean) => void;
+
     setMenuTreeItems: (data: INestingMenuItem[]) => void;
     menuTreeItems: INestingMenuItem[];
 
