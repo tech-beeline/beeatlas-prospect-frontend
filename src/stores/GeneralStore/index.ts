@@ -37,6 +37,7 @@ export const GeneralStore = (): IGeneralStore => {
         isLoadingChildren: false,
         menuTreeItems: [],
         breadCrumbsItems: [],
+        alreadyResponse: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -116,6 +117,10 @@ export const GeneralStore = (): IGeneralStore => {
             } catch (error) {}
         },
 
+        setGeneralMenuItems(data: any[]) {
+            this.generalMenuItems = data;
+        },
+
         async getGeneralMenuItems() {
             try {
                 this.setLoadingMenuItems(true);
@@ -123,7 +128,7 @@ export const GeneralStore = (): IGeneralStore => {
                 const res = await getGeneralItems();
 
                 if (res.data.length > 0) {
-                    this.generalMenuItems = res.data;
+                    this.setGeneralMenuItems(res.data);
 
                     this.setMenuTreeItems(formatMenuData(this.generalMenuItems));
                 }
@@ -140,8 +145,6 @@ export const GeneralStore = (): IGeneralStore => {
             );
 
             !!topId && this.treeExpandArray.push(topId.id);
-
-            console.log('this.treeExpandArray', this.treeExpandArray);
 
             if (topId?.parent) {
                 this.handleCheckTreeExpandId(topId?.parent);
@@ -169,10 +172,13 @@ export const GeneralStore = (): IGeneralStore => {
             if (item.level === 3) {
                 const res = await this.getItemChildren(item.id, item.level + 1);
 
-                // console.log('res', res);
-
-                // @ts-ignore
-                this.activeFDMItem = { ...item, children: await res };
+                this.activeFDMItem = {
+                    ...item,
+                    // @ts-ignore
+                    // isChildren: res?.length > 0,
+                    // @ts-ignore
+                    children: await res,
+                };
             } else {
                 this.activeFDMItem = item;
             }
@@ -202,8 +208,16 @@ export const GeneralStore = (): IGeneralStore => {
             // let data;
             // this.setLoadingChildren(true);
 
+            if (this.alreadyResponse.includes(parentId)) {
+                return;
+            }
+
             try {
                 const res = await getItemChildren(parentId);
+
+                this.alreadyResponse.push(parentId);
+
+                console.log('getItemChildren', res);
 
                 if (res) {
                     // TODO: убрать
@@ -214,16 +228,16 @@ export const GeneralStore = (): IGeneralStore => {
                     // }
                     const resArr = res.data.map((item: any) => ({
                         ...item,
-                        id: item.objectId,
                         parent: parentId,
+                        // isChildren: true,
                         level,
                     }));
 
                     // TODO: resArr взаимодействует только с первоначальным деревом
                     if (resArr.length > 0) {
-                        this.setMenuTreeItems(
-                            formatMenuData([...this.generalMenuItems, ...resArr]),
-                        );
+                        this.setGeneralMenuItems([...this.generalMenuItems, ...resArr]);
+
+                        this.setMenuTreeItems(formatMenuData(this.generalMenuItems));
                     }
                     // else {
                     //     this.setMenuTreeItems(formatMenuData([...this.menuTreeItems, ...resArr]));
@@ -236,10 +250,10 @@ export const GeneralStore = (): IGeneralStore => {
                     return resArr;
 
                     // data.length === 0 ? (this.resultSearch = 'nodata') : (this.resultSearch = data);
-                } else {
-                    // TODO: убрать
-                    // this.resultSearch = 'nodata';
                 }
+                // else {
+                //     this.isChildren = false;
+                // }
 
                 // return data;
             } catch (error) {
@@ -253,8 +267,6 @@ export const GeneralStore = (): IGeneralStore => {
         },
 
         setMenuTreeItems(data) {
-            console.log('data', data);
-
             this.menuTreeItems = data;
         },
     };

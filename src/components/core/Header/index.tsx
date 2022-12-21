@@ -5,7 +5,6 @@ import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { MAIN_PAGE_PATH } from 'router/const';
-// import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 import { persistStorage } from 'stores/utils';
 

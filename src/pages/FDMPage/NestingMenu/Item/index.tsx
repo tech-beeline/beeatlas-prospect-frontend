@@ -10,18 +10,23 @@ import * as S from './units';
 
 export const Item: FC<INestingMenuItem> = (props) => {
     const [isOpen, setOpen] = useState(false);
-    const [isShownArrow] = useState(
+    const [isShownArrow, setShownArrow] = useState(
         (!!props.children && props.children.length > 0) || props.level > 2,
     );
 
-    const showChildHandler = (e: Event) => {
+    const showChildHandler = async (e: Event) => {
         e.stopPropagation();
 
         setOpen(!isOpen);
 
         // TODO: поменять условие
         if (props.level === 3 && !isOpen) {
-            props.getItemChildren(props.id, props.level + 1);
+            const res = await props.getItemChildren(props.id, props.level + 1);
+
+            // @ts-ignore
+            if (res.length === 0) {
+                setShownArrow(false);
+            }
         }
     };
 

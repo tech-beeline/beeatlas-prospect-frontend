@@ -19,6 +19,7 @@ export interface IGeneralStore {
     // FDM
     generalMenuItems: INestingMenuItem[];
     getGeneralMenuItems: () => void;
+    setGeneralMenuItems: (arr: any[]) => void;
 
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem: (item: INestingMenuItem) => void;
@@ -44,6 +45,8 @@ export interface IGeneralStore {
 
     // СТРАНИЦА КАЛЕНДАРЯ
     setCalendarData: () => void;
+
+    alreadyResponse: number[];
 }
 
 export interface INestingMenuItem {
@@ -63,5 +66,7 @@ export interface INestingMenuItem {
     getItemChildren(id: number, level: number): Promise<any> | unknown;
     // TODO: type
     itemChildren: any[];
+    // TODO: убрать
     isItemChildren: boolean;
+    isChildren: boolean;
 }

@@ -8,8 +8,6 @@ import { useIconOfItem } from 'hooks/useIconOfItem';
 import * as S from './units';
 
 export const TreeCard: FC<any> = observer((props) => {
-    console.log('props.isFullWidthCard', props.isFullWidthCard);
-
     const [isOpen, setOpen] = useState(false);
 
     const icon = useIconOfItem(props.data.alias, props.data.stereotype);
