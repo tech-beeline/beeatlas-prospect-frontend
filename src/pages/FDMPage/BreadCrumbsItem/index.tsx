@@ -10,7 +10,7 @@ export const BreadCrumbsItem: FC<IBreadCrumbsItem> = (props) => {
         <S.Wrapper
             // TODO: доделать
             // @ts-ignore
-            onClick={() => props.setActiveFDMItem(props.item)}
+            onClick={() => props.setActiveFDMItem(props.item.element)}
             isActive={props.activeFDMItem.id === id}
         >
             {name}

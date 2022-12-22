@@ -4,11 +4,16 @@ import VKITAuth from '@beeline/lk-auth';
 import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
-import { MAIN_PAGE_PATH } from 'router/const';
+// import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 import { persistStorage } from 'stores/utils';
 
-import { BaseIcon, Logo, Tab, Tabs } from '..';
+import {
+    BaseIcon,
+    // Logo,
+    Tab,
+    Tabs,
+} from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
@@ -60,10 +65,10 @@ export const Header = observer(() => {
     return (
         <>
             <S.Container>
-                <S.FlexContainer onClick={() => navigate(MAIN_PAGE_PATH)}>
+                {/* <S.FlexContainer onClick={() => navigate(MAIN_PAGE_PATH)}>
                     <S.Title>корп. архитектура</S.Title>
                     <Logo />
-                </S.FlexContainer>
+                </S.FlexContainer> */}
 
                 <Tabs>
                     {tabs.map((tab, index) => (

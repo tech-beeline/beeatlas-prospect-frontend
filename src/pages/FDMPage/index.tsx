@@ -57,11 +57,13 @@ export const FDMPage = observer(() => {
             // @ts-ignore
             const { width } = current.getBoundingClientRect();
 
-            console.log('width', width);
-
             setFullWidthCard(width <= 623);
         }
     }, [windowWidth, activeFDMItem]);
+
+    // useEffect(() => {
+    //     console.log('breadCrumbsItems', breadCrumbsItems);
+    // }, [activeFDMItem]);
 
     return (
         <div style={{ display: 'flex' }}>

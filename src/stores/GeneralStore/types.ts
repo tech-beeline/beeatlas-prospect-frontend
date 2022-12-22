@@ -40,8 +40,9 @@ export interface IGeneralStore {
     setMenuTreeItems: (data: INestingMenuItem[]) => void;
     menuTreeItems: INestingMenuItem[];
 
-    breadCrumbsFormat: (id: number) => void;
+    breadCrumbsFormat: (id: number, item: INestingMenuItem) => void;
     breadCrumbsItems: { id: number; name: string }[];
+    breadCrumbsChildrenArr: any[];
 
     // СТРАНИЦА КАЛЕНДАРЯ
     setCalendarData: () => void;

@@ -11,7 +11,7 @@ import * as S from './units';
 export const Item: FC<INestingMenuItem> = (props) => {
     const [isOpen, setOpen] = useState(false);
     const [isShownArrow, setShownArrow] = useState(
-        (!!props.children && props.children.length > 0) || props.level > 2,
+        (!!props.children && props.children.length > 0) || props.level === 3,
     );
 
     const showChildHandler = async (e: Event) => {
@@ -34,6 +34,8 @@ export const Item: FC<INestingMenuItem> = (props) => {
         // if (props.level === 3) {
         //     props.getItemChildren(props.id, props.level + 1);
         // }
+
+        console.log('props', props);
 
         props.setActiveFDMItem(props);
     };
