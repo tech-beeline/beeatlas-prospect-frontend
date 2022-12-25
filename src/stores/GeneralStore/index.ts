@@ -38,7 +38,7 @@ export const GeneralStore = (): IGeneralStore => {
         menuTreeItems: [],
         breadCrumbsItems: [],
         alreadyResponse: [],
-        breadCrumbsChildrenArr: [],
+        breadCrumbsIds: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -154,71 +154,55 @@ export const GeneralStore = (): IGeneralStore => {
             }
         },
 
-        async breadCrumbsFormat(id: number, item: INestingMenuItem) {
-            const element = this.generalMenuItems.find((item: INestingMenuItem) => item.id === id);
-
-            // const testA = [];
-
-            console.log('id', id, this.activeFDMItem.id);
-
-            console.log('item.level', item.level);
-            console.log('this.breadCrumbsChildrenArr.length', this.breadCrumbsChildrenArr?.length);
-
-            if (
-                this.breadCrumbsChildrenArr.length === 0 ||
-                this.breadCrumbsChildrenArr[0].parent !== this.activeFDMItem.id
-            ) {
-                if (item.level === 3) {
-                    const res = await this.getItemChildren(item.id, item.level + 1);
-
-                    console.log('res', res);
-
-                    // @ts-ignore
-                    // this.breadCrumbsChildrenArr = await res;
-                    this.breadCrumbsChildrenArr = res;
-                } else {
-                    this.breadCrumbsChildrenArr = this.generalMenuItems.filter(
-                        (item: any) => item.parent === id,
-                    );
-
-                    console.log(' this.breadCrumbsChildrenArr else', this.breadCrumbsChildrenArr);
-                }
-            }
-
-            // Если мы так запишем - тогда потеряем связанные возможности (то есть чилдрены в чилдренах)
-            // this.activeFDMItem.children = this.breadCrumbsChildrenArr;
-
-            console.log('this.breadCrumbsChildrenArr', this.breadCrumbsChildrenArr);
-
-            if (!element) {
-                this.breadCrumbsItems.unshift({
-                    id: item.id,
-                    name: item.name,
-                    // @ts-ignore
-                    item,
-                });
-
-                this.breadCrumbsFormat(item?.parent, item);
-            }
-
-            !!element &&
-                element?.id !== 352 &&
-                // @ts-ignore
-                this.breadCrumbsItems.unshift({ id: element.id, name: element.name, element });
-
-            if (element?.parent) {
-                this.breadCrumbsFormat(element?.parent, element);
+        async breadCrumbsFormat(id: number) {
+            if (id !== 352) {
+                this.breadCrumbsIds.unshift(id);
             } else {
                 return;
             }
+
+            const foundItem = this.generalMenuItems.find(
+                (item: INestingMenuItem) => item.id === id,
+            );
+
+            if (foundItem) {
+                this.breadCrumbsFormat(foundItem.parent);
+            }
+
+            // console.log('breadCrumbsFormat: menuTreeItems', this.menuTreeItems);
+            console.log('breadCrumbsFormat: this.breadCrumbsItems', this.breadCrumbsItems);
+
+            let tempArr = [...this.menuTreeItems];
+            let actualItem = {};
+
+            this.breadCrumbsIds.forEach((breadCrumbsId) => {
+                tempArr.forEach((menuItem) => {
+                    if (breadCrumbsId === menuItem.id) {
+                        // пушу в массив найденный объект
+                        this.breadCrumbsItems.push(menuItem);
+
+                        actualItem = menuItem;
+
+                        return;
+                        // break из цикла
+                        // подставить children найденного элемента
+                        // вместо menuTreeItems
+                    }
+                });
+
+                // @ts-ignore
+                tempArr = [...actualItem.children];
+
+                return;
+            });
+
+            const res = [...new Set(this.breadCrumbsItems)];
+
+            this.breadCrumbsItems = res;
         },
 
         async setActiveFDMItem(item) {
-            console.log('activeitem', item);
-
             if (item.level === 3) {
-                // console.log('activeitem level', item.level);
-
                 const res = await this.getItemChildren(item.id, item.level + 1);
 
                 this.activeFDMItem = {
@@ -238,7 +222,8 @@ export const GeneralStore = (): IGeneralStore => {
 
             // хлебные крошки
             this.breadCrumbsItems = [];
-            this.breadCrumbsFormat(item.id, item);
+            // this.breadCrumbsFormat(item.id, item);
+            this.breadCrumbsFormat(this.activeFDMItem.id);
         },
 
         setLoadingMenuItems(bool) {

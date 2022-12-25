@@ -35,8 +35,6 @@ export const Item: FC<INestingMenuItem> = (props) => {
         //     props.getItemChildren(props.id, props.level + 1);
         // }
 
-        console.log('props', props);
-
         props.setActiveFDMItem(props);
     };
 
