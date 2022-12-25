@@ -162,27 +162,33 @@ export const GeneralStore = (): IGeneralStore => {
             console.log('id', id, this.activeFDMItem.id);
 
             console.log('item.level', item.level);
+            console.log('this.breadCrumbsChildrenArr.length', this.breadCrumbsChildrenArr?.length);
 
             if (
                 this.breadCrumbsChildrenArr.length === 0 ||
                 this.breadCrumbsChildrenArr[0].parent !== this.activeFDMItem.id
             ) {
                 if (item.level === 3) {
-                    // const res = await this.getItemChildren(id, item.level + 1);
+                    const res = await this.getItemChildren(item.id, item.level + 1);
+
+                    console.log('res', res);
+
                     // @ts-ignore
-                    // this.breadCrumbsChildrenArr = res;
+                    // this.breadCrumbsChildrenArr = await res;
+                    this.breadCrumbsChildrenArr = res;
                 } else {
                     this.breadCrumbsChildrenArr = this.generalMenuItems.filter(
                         (item: any) => item.parent === id,
                     );
+
+                    console.log(' this.breadCrumbsChildrenArr else', this.breadCrumbsChildrenArr);
                 }
             }
 
-            this.activeFDMItem.children = this.breadCrumbsChildrenArr;
+            // Если мы так запишем - тогда потеряем связанные возможности (то есть чилдрены в чилдренах)
+            // this.activeFDMItem.children = this.breadCrumbsChildrenArr;
 
             console.log('this.breadCrumbsChildrenArr', this.breadCrumbsChildrenArr);
-
-            console.log('element', element);
 
             if (!element) {
                 this.breadCrumbsItems.unshift({
@@ -217,8 +223,6 @@ export const GeneralStore = (): IGeneralStore => {
 
                 this.activeFDMItem = {
                     ...item,
-                    // @ts-ignore
-                    // isChildren: res?.length > 0,
                     // @ts-ignore
                     children: await res,
                 };
