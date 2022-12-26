@@ -8,8 +8,6 @@ export const BreadCrumbsItem: FC<IBreadCrumbsItem> = (props) => {
 
     return (
         <S.Wrapper
-            // TODO: доделать
-            // @ts-ignore
             onClick={() => props.setActiveFDMItem(props.item)}
             isActive={props.activeFDMItem.id === id}
         >

@@ -1,7 +1,7 @@
 import { INestingMenuItem } from 'stores/GeneralStore';
 
 export interface IBreadCrumbsItem {
-    item: { id: number; name: string };
+    item: INestingMenuItem;
     activeFDMItem: INestingMenuItem;
     setActiveFDMItem: (item: INestingMenuItem) => void;
 }

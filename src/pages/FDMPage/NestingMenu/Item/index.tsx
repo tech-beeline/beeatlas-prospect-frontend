@@ -35,6 +35,7 @@ export const Item: FC<INestingMenuItem> = (props) => {
         //     props.getItemChildren(props.id, props.level + 1);
         // }
 
+        // TODO: сюда и кладем activeFDMItem (ни на что не влияет сейчас, но стоит убрать)
         props.setActiveFDMItem(props);
     };
 
@@ -77,14 +78,12 @@ export const Item: FC<INestingMenuItem> = (props) => {
                 isActive={props.activeFDMItem.id === props.id}
                 onClick={activeItemAndGetChild}
             >
-                {isShownArrow && (
-                    <PivotArrow
-                        onClick={showChildHandler}
-                        position={props.activeFDMItem.id === props.id && 'right'}
-                        color={theme.colors.textInactive}
-                        {...{ isOpen }}
-                    />
-                )}
+                <PivotArrow
+                    onClick={showChildHandler}
+                    position={props.activeFDMItem.id === props.id && 'right'}
+                    color={isShownArrow ? theme.colors.textInactive : 'transparent'}
+                    {...{ isOpen }}
+                />
 
                 <S.LeftWrapper>
                     {iconItemHandler()}

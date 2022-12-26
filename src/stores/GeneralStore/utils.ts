@@ -54,7 +54,8 @@ export const formatMenuData = (config: any[]) => {
         lastLevel = lastLevel - 1;
     }
 
-    return resultArr;
+    return [...new Set(resultArr)];
+    // return resultArr;
 };
 
 // export const formatMenuData = () => {

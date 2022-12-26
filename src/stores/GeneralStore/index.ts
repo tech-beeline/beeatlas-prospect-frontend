@@ -31,6 +31,7 @@ export const GeneralStore = (): IGeneralStore => {
         generalMenuItems: [],
         activeFDMItem: {} as INestingMenuItem,
         treeExpandArray: [],
+        // TODO: нужно ли уже?
         itemChildren: [],
         isItemChildren: true,
         isLoadingMenuItems: false,
@@ -154,7 +155,7 @@ export const GeneralStore = (): IGeneralStore => {
             }
         },
 
-        async breadCrumbsFormat(id: number) {
+        breadCrumbsFormat(id: number) {
             if (id !== 352) {
                 this.breadCrumbsIds.unshift(id);
             } else {
@@ -169,9 +170,6 @@ export const GeneralStore = (): IGeneralStore => {
                 this.breadCrumbsFormat(foundItem.parent);
             }
 
-            // console.log('breadCrumbsFormat: menuTreeItems', this.menuTreeItems);
-            console.log('breadCrumbsFormat: this.breadCrumbsItems', this.breadCrumbsItems);
-
             let tempArr = [...this.menuTreeItems];
             let actualItem = {};
 
@@ -181,49 +179,57 @@ export const GeneralStore = (): IGeneralStore => {
                         // пушу в массив найденный объект
                         this.breadCrumbsItems.push(menuItem);
 
-                        actualItem = menuItem;
+                        actualItem = { ...menuItem };
 
-                        return;
                         // break из цикла
-                        // подставить children найденного элемента
-                        // вместо menuTreeItems
+                        return;
                     }
                 });
 
+                // подставить children найденного элемента
+                // вместо menuTreeItems
                 // @ts-ignore
                 tempArr = [...actualItem.children];
 
                 return;
             });
 
+            // убираю повторяющиеся элемента
+            // TODO: фикс чтоб из не возникало
             const res = [...new Set(this.breadCrumbsItems)];
 
             this.breadCrumbsItems = res;
         },
 
         async setActiveFDMItem(item) {
-            if (item.level === 3) {
-                const res = await this.getItemChildren(item.id, item.level + 1);
+            console.log('setActiveFDMItem: item.level', item.level);
 
-                this.activeFDMItem = {
-                    ...item,
-                    // @ts-ignore
-                    children: await res,
-                };
-            } else {
-                this.activeFDMItem = item;
+            try {
+                if (item.level === 3) {
+                    const res = await this.getItemChildren(item.id, item.level + 1);
+
+                    this.activeFDMItem = {
+                        ...item,
+                        // @ts-ignore
+                        children: res,
+                    };
+                } else {
+                    this.activeFDMItem = item;
+                }
+
+                // TODO: сделать из двух функций одну и вынести в utils
+
+                // только для Экспанда
+                this.treeExpandArray = [];
+                this.handleCheckTreeExpandId(item.parent);
+
+                // хлебные крошки
+                this.breadCrumbsIds = [];
+                this.breadCrumbsItems = [];
+                this.breadCrumbsFormat(this.activeFDMItem.id);
+            } catch (e) {
+                console.log('CATCH:', e);
             }
-
-            // TODO: сделать из двух функций одну и вынести в utils
-
-            // только для Экспанда
-            this.treeExpandArray = [];
-            this.handleCheckTreeExpandId(item.parent);
-
-            // хлебные крошки
-            this.breadCrumbsItems = [];
-            // this.breadCrumbsFormat(item.id, item);
-            this.breadCrumbsFormat(this.activeFDMItem.id);
         },
 
         setLoadingMenuItems(bool) {
@@ -234,22 +240,15 @@ export const GeneralStore = (): IGeneralStore => {
             this.isLoadingChildren = bool;
         },
 
+        // TODO: рефакторинг
         async getItemChildren(parentId, level) {
             this.itemChildren = [];
 
             // let data;
             // this.setLoadingChildren(true);
 
-            if (this.alreadyResponse.includes(parentId)) {
-                return;
-            }
-
             try {
                 const res = await getItemChildren(parentId);
-
-                this.alreadyResponse.push(parentId);
-
-                console.log('getItemChildren', res);
 
                 if (res) {
                     // TODO: убрать
@@ -258,16 +257,22 @@ export const GeneralStore = (): IGeneralStore => {
                     //         this.isItemChildren = false;
                     //     });
                     // }
-                    const resArr = res.data.map((item: any) => ({
+                    const resArr = res.data.map((item: INestingMenuItem) => ({
                         ...item,
                         parent: parentId,
-                        // isChildren: true,
                         level,
                     }));
 
                     // TODO: resArr взаимодействует только с первоначальным деревом
                     if (resArr.length > 0) {
-                        this.setGeneralMenuItems([...this.generalMenuItems, ...resArr]);
+                        // проверка на (1)
+                        this.alreadyResponse.includes(parentId)
+                            ? this.setGeneralMenuItems([...this.generalMenuItems])
+                            : this.setGeneralMenuItems([...this.generalMenuItems, ...resArr]);
+
+                        // (1): пушим айди того элемента, чьи чилдрены уже добавлялись в общий массив
+                        // чтобы не делать этого снова и избежать дублирования элементов
+                        this.alreadyResponse.push(parentId);
 
                         this.setMenuTreeItems(formatMenuData(this.generalMenuItems));
                     }
@@ -276,7 +281,8 @@ export const GeneralStore = (): IGeneralStore => {
                     // }
 
                     runInAction(() => {
-                        this.itemChildren = resArr;
+                        // const res = [...new Set(this.breadCrumbsItems)];
+                        // this.itemChildren = resArr;
                     });
 
                     return resArr;
@@ -303,5 +309,3 @@ export const GeneralStore = (): IGeneralStore => {
         },
     };
 };
-
-// getItemChildren
