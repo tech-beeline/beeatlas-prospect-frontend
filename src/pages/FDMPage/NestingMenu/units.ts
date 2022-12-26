@@ -66,9 +66,9 @@ export const LeftTab = styled.div<{ isActive: boolean }>`
 `;
 
 export const RightSide = styled.div`
-    min-width: 396px;
+    width: 100%;
     min-height: calc(100vh - 64px);
-    padding: 64px 16px 16px 0;
+    padding: 24px 16px 16px 0;
 
     border-right: 1px solid ${theme.colors.divider};
 `;

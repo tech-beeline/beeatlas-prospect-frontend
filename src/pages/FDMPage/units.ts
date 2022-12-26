@@ -19,7 +19,7 @@ export const Container = styled.div`
     height: 100%;
     /* min-width: 700px; */
 
-    text-align: justify;
+    /* text-align: justify; */
 `;
 
 export const H4 = styled.h4`

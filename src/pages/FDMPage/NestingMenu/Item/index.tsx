@@ -88,7 +88,7 @@ export const Item: FC<INestingMenuItem> = (props) => {
                 <S.LeftWrapper>
                     {iconItemHandler()}
 
-                    {props.name}
+                    <S.Name>{props.name}</S.Name>
                 </S.LeftWrapper>
             </S.Wrapper>
 

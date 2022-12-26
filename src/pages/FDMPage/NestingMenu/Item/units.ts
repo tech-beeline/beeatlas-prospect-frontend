@@ -61,3 +61,12 @@ export const ExpandStyled = styled(Expand)`
 export const IconStyled = styled(Icon)`
     color: ${({ type }) => !type && theme.colors.textInactive};
 `;
+
+export const Name = styled.p`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+`;

@@ -39,10 +39,6 @@ export const FDMPage = observer(() => {
         }
     }, [windowWidth, activeFDMItem]);
 
-    useEffect(() => {
-        console.log('breadCrumbsItems', breadCrumbsItems);
-    }, [activeFDMItem]);
-
     return (
         <div style={{ display: 'flex' }}>
             <NestingMenu />
