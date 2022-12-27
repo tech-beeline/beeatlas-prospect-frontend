@@ -4,6 +4,12 @@ import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
     display: flex;
+
+    padding-left: 56px;
+`;
+
+export const Wrapper = styled.div`
+    display: flex;
     justify-content: center;
 
     width: 100%;

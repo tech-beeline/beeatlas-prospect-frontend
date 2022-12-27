@@ -67,6 +67,8 @@ export const ExpandStyled = styled(Expand)`
 `;
 
 export const ChildrenExpandTitle = styled(FlexBlock)`
+    margin-top: 24px;
+
     /* align-self: flex-end; */
     align-items: center;
 

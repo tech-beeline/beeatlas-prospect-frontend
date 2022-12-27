@@ -85,7 +85,14 @@ export const MainPage = observer(() => {
                                 существующих материалов.
                             </S.Text>
 
-                            <Button variant="contained" size="medium">
+                            <Button
+                                variant="contained"
+                                size="medium"
+                                onClick={() =>
+                                    (window.location.href =
+                                        'mailto:OlIFilatova@beeline.ru?subject=Вопросы по работе с витриной')
+                                }
+                            >
                                 Связаться с нами
                             </Button>
                         </S.CallbackContainer>

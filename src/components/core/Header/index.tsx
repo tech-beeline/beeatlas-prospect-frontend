@@ -35,7 +35,7 @@ export const Header = observer(() => {
 
     // tabs
     const tabs = [
-        { name: 'Модели', url: 'fdm' },
+        { name: 'Модели', url: 'models' },
         { name: 'База знаний', url: 'data-base' },
         { name: 'Продукты', url: 'products' },
     ];

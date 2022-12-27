@@ -3,8 +3,10 @@ import React from 'react';
 import { BorderContainer } from 'components/containers';
 import { IconText } from 'components/other';
 
+import * as ROUTER from 'router/const';
+
 import human1 from './images/human1.jpg';
-import human2 from './images/human2.jpg';
+// import human2 from './images/human2.jpg';
 import human3 from './images/human3.jpg';
 import human4 from './images/human4.jpg';
 import { HumanCard } from './HumanCard';
@@ -55,13 +57,13 @@ export const ArchCommPage = () => {
 Блок по информационным технологиям"
                     />
 
-                    <HumanCard
+                    {/* <HumanCard
                         avatar={human2}
                         secondName="Бардинцев"
                         firstName="Игорь Юрьевич"
                         description="Вице-президент по работе с данными. 
 Блок по работе с данными"
-                    />
+                    /> */}
 
                     <HumanCard
                         avatar={human3}
@@ -106,8 +108,18 @@ export const ArchCommPage = () => {
                 <S.Container>
                     <S.BoldTitle>Функции</S.BoldTitle>
 
-                    <IconText icon="UserVerified" text="Оппонирование" color="success" />
-                    <IconText icon="QuestionCircled" text="Консультирование" color="teal" />
+                    <IconText
+                        icon="UserVerified"
+                        text="Оппонирование"
+                        color="success"
+                        to={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
+                    />
+                    <IconText
+                        icon="QuestionCircled"
+                        text="Консультирование"
+                        color="teal"
+                        to={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                    />
                 </S.Container>
             </BorderContainer>
 

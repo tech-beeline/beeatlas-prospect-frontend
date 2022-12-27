@@ -40,10 +40,10 @@ export const FDMPage = observer(() => {
     }, [windowWidth, activeFDMItem]);
 
     return (
-        <div style={{ display: 'flex' }}>
+        <S.PageWrapper>
             <NestingMenu />
 
-            <S.PageWrapper>
+            <S.Wrapper>
                 <S.Container>
                     <S.H4>{activeFDMItem.name}</S.H4>
 
@@ -74,7 +74,7 @@ export const FDMPage = observer(() => {
                               ))}
                     </S.TreeContainer>
                 </S.Container>
-            </S.PageWrapper>
-        </div>
+            </S.Wrapper>
+        </S.PageWrapper>
     );
 });

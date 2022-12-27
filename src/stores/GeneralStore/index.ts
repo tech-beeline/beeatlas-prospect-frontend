@@ -202,11 +202,15 @@ export const GeneralStore = (): IGeneralStore => {
         },
 
         async setActiveFDMItem(item) {
-            console.log('setActiveFDMItem: item.level', item.level);
+            const aliasType = item.alias?.split('.')[0];
+
+            console.log('setActiveFDMItem: item', item);
 
             try {
-                if (item.level === 3) {
+                if (item.level === 3 || aliasType === 'DMN') {
                     const res = await this.getItemChildren(item.id, item.level + 1);
+
+                    console.log('setActiveFDMItem: res', res);
 
                     this.activeFDMItem = {
                         ...item,

@@ -30,6 +30,10 @@ export const ServicesPage = () => {
                     У вас должна быть готова презентация решения.`}
                     ownerName="Филатова О.И."
                     buttonText="Заказать"
+                    onClick={() =>
+                        (window.location.href =
+                            'mailto:OlIFilatova@beeline.ru?subject=Подготовка оппонирующей позиции')
+                    }
                 />
             </S.FlexContainer>
         </S.PageWrapper>

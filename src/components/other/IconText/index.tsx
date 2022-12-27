@@ -1,12 +1,20 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon, Icons } from '@beeline/lk-ui';
 
 import { IIconText } from './types';
 import * as S from './units';
 
 export const IconText: FC<IIconText> = ({ isSecondary = false, ...props }) => {
+    const navigate = useNavigate();
+
     return (
-        <S.Wrapper number={props.number} {...{ isSecondary }} {...props}>
+        <S.Wrapper
+            number={props.number}
+            onClick={() => !!props.to && navigate(props.to)}
+            {...{ isSecondary }}
+            {...props}
+        >
             {props.number ? (
                 <S.Background>{props.number}</S.Background>
             ) : (
@@ -14,7 +22,7 @@ export const IconText: FC<IIconText> = ({ isSecondary = false, ...props }) => {
                 <Icon iconName={Icons[props.icon]} type={props.color || 'default'} />
             )}
 
-            <p style={{ whiteSpace: 'pre-line' }}>{props.text}</p>
+            <S.Text to={props.to}>{props.text}</S.Text>
         </S.Wrapper>
     );
 };

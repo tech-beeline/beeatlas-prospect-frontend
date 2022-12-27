@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Icon, Icons, Skeleton } from '@beeline/lk-ui';
+import React from 'react';
+import { Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 import { Resizable } from 're-resizable';
 
@@ -26,34 +25,12 @@ export const NestingMenu = observer(() => {
         },
     } = useRootStore();
 
-    const [activeLeftItem, setActiveLeftItem] = useState(1);
-
-    const navigate = useNavigate();
-
     useMountEffect(() => {
         getGeneralMenuItems();
     });
 
-    useEffect(() => {
-        activeLeftItem === 0 && navigate('/search');
-    }, [activeLeftItem]);
-
     return (
         <S.Wrapper>
-            <S.LeftSide>
-                <S.LeftTab onClick={() => setActiveLeftItem(0)} isActive={activeLeftItem === 0}>
-                    <Icon iconName={Icons.Search} />
-                </S.LeftTab>
-
-                <S.LeftTab onClick={() => setActiveLeftItem(1)} isActive={activeLeftItem === 1}>
-                    <Icon iconName={Icons.NetworkAlt} />
-                </S.LeftTab>
-
-                <S.LeftTab onClick={() => setActiveLeftItem(2)} isActive={activeLeftItem === 2}>
-                    <Icon iconName={Icons.DashboardDots} />
-                </S.LeftTab>
-            </S.LeftSide>
-
             <Resizable
                 defaultSize={{
                     width: 396,
