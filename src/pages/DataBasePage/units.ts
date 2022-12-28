@@ -24,6 +24,7 @@ export const SideMenu = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
+    height: 100vh;
     width: 100%;
     padding: 32px 52px;
 `;

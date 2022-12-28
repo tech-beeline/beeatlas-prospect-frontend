@@ -33,11 +33,12 @@ export const NestingMenu = observer(() => {
         <S.Wrapper>
             <Resizable
                 defaultSize={{
-                    width: 396,
-                    height: '100%',
+                    width: 410,
+                    height: '100vh',
                 }}
-                minWidth={396}
+                minWidth={300}
                 maxWidth={640}
+                style={{ overflow: 'auto' }}
             >
                 <S.RightSide>
                     {isLoadingMenuItems ? (

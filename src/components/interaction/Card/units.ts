@@ -103,7 +103,12 @@ export const Text = styled.p<{ withImage: boolean }>`
     font-weight: 400;
     font-size: 19px;
     line-height: 24px;
-    /* or 126% */
-
     letter-spacing: 0.2px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
 `;

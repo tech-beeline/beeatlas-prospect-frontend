@@ -13,11 +13,15 @@ export const Wrapper = styled.div`
     justify-content: center;
 
     width: 100%;
-    min-height: 100vh;
-    padding: 124px 52px;
+    height: 100vh;
+    padding: 124px 52px 0;
 
     background-color: ${theme.colors.backgroundLow};
     color: ${theme.colors.textActive};
+
+    border-left: 1px solid ${theme.colors.divider};
+
+    overflow: auto;
 `;
 
 export const Container = styled.div`

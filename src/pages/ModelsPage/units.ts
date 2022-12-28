@@ -36,9 +36,16 @@ export const H2 = styled.h2`
 
 export const CardContainer = styled.div`
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
+
+    @media only screen and (max-width: 960px) {
+        flex-direction: column;
+    }
 `;
 
 export const CardStyled = styled(Card)`
+    width: 100%;
+    min-width: 300px;
     margin-top: 24px;
 `;

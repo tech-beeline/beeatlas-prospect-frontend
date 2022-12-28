@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
-    height: max-content;
+    height: 100vh;
     padding: 124px 308px;
 
     background-color: ${theme.colors.backgroundLow};
