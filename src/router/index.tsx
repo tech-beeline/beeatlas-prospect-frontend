@@ -18,6 +18,7 @@ import {
     ProductsPage,
     SearchPage,
     ServicesPage,
+    TechPolicyPage,
     TemplatesPage,
 } from 'pages';
 import { Theme, theme } from 'styles';
@@ -157,6 +158,21 @@ export const NavigationRouter = () => {
                                 >
                                     <Menu />
                                     <TemplatesPage />
+                                </div>
+                            }
+                        />
+
+                        <Route
+                            path={`${C.DATA_BASE_PATH}${C.TECH_POLICY_PATH}`}
+                            element={
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <Menu />
+                                    <TechPolicyPage />
                                 </div>
                             }
                         />

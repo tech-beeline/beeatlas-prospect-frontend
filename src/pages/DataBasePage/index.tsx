@@ -13,7 +13,7 @@ export const DataBasePage = () => {
                         Раздел поможет подготовиться к защите концепции или продукта
                     </S.CardStyled>
 
-                    <S.CardStyled colorType="blue" title="Техническая политика">
+                    <S.CardStyled colorType="blue" title="Техническая политика" to="tech-policy">
                         Познакомиться с основными принципами компании
                     </S.CardStyled>
 
