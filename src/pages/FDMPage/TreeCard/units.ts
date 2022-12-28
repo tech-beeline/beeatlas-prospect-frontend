@@ -63,6 +63,10 @@ export const FlexBlock = styled.div`
 `;
 
 export const ExpandStyled = styled(Expand)`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
     padding-top: 24px;
 `;
 

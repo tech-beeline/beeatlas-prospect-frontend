@@ -3,6 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 // import { Card } from './Card';
 import { Card } from 'components/interaction/Card';
 
+import * as ROUTER from 'router/const';
+
+import { Link } from '..';
+
 import * as C from './const';
 import * as S from './units';
 
@@ -225,9 +229,17 @@ export const Slider = () => {
 
                     {/* TODO: const */}
                     <Card colorType="pink" title="база знаний" withImage to="data-base">
-                        В базе знаний вы можете найти все документы для подготовки к архитектурному
-                        комитету, организации производственного процесса, а также обратиться
-                        за помощью, узнать опыт коллег
+                        В базе знаний вы можете найти все{' '}
+                        <Link
+                            path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+                            fontSize={19}
+                            isInner
+                            noLine
+                        >
+                            документы для подготовки к архитектурному комитету,
+                        </Link>
+                        организации производственного процесса, а также обратиться за помощью,
+                        узнать опыт коллег
                     </Card>
 
                     <Card colorType="blue" title="личный кабинет" withImage to="products">

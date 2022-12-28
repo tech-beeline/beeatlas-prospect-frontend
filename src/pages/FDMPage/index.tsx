@@ -10,6 +10,8 @@ import { useWindowResize } from 'hooks';
 // import { getSearchResult } from 'api/fdm';
 import { useRootStore } from 'stores/initStore';
 
+import boxImg from './images/box.png';
+
 import { BreadCrumbsItem } from './BreadCrumbsItem';
 // TODO: в компоненты
 import { NestingMenu } from './NestingMenu';
@@ -19,7 +21,7 @@ import * as S from './units';
 
 export const FDMPage = observer(() => {
     const {
-        generalStore: { activeFDMItem, setActiveFDMItem, isLoadingChildren, breadCrumbsItems },
+        generalStore: { activeFDMItem, setActiveFDMItem, breadCrumbsItems },
     } = useRootStore();
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
@@ -45,10 +47,6 @@ export const FDMPage = observer(() => {
 
             <S.Wrapper>
                 <S.Container>
-                    <S.H4>{activeFDMItem.name}</S.H4>
-
-                    <S.JustText dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }} />
-
                     {breadCrumbsItems.length > 1 && (
                         <Breadcrumbs collapsed={breadCrumbsItems.length > 2}>
                             {breadCrumbsItems.map((item, index) => (
@@ -60,19 +58,38 @@ export const FDMPage = observer(() => {
                         </Breadcrumbs>
                     )}
 
-                    <S.TreeContainer ref={refTreeContainer}>
-                        {/* {menuTreeItems.} */}
+                    <S.H4>{activeFDMItem.name}</S.H4>
 
-                        {isLoadingChildren
-                            ? 'LOADING...'
-                            : activeFDMItem.children?.map((item, index) => (
-                                  <TreeCard
-                                      key={index}
-                                      data={item}
-                                      {...{ setActiveFDMItem, isFullWidthCard }}
-                                  />
-                              ))}
-                    </S.TreeContainer>
+                    <S.JustText dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }} />
+
+                    {JSON.stringify(activeFDMItem) !== '{}' ? (
+                        <S.TreeContainer ref={refTreeContainer}>
+                            {/* TODO: убрать */}
+
+                            {activeFDMItem.children && activeFDMItem.children.length > 0 ? (
+                                activeFDMItem.level > 1 &&
+                                activeFDMItem.children.map((item, index) => (
+                                    <TreeCard
+                                        key={index}
+                                        data={item}
+                                        {...{ setActiveFDMItem, isFullWidthCard }}
+                                    />
+                                ))
+                            ) : (
+                                <S.MockWrapperNoChild>
+                                    <S.Image src={boxImg} />
+
+                                    <S.MockText>Возможностей пока нет</S.MockText>
+                                </S.MockWrapperNoChild>
+                            )}
+                        </S.TreeContainer>
+                    ) : (
+                        <S.MockWrapper>
+                            <S.Image src={boxImg} />
+
+                            <S.MockText>Начните поиск или выберите сущность из списка</S.MockText>
+                        </S.MockWrapper>
+                    )}
                 </S.Container>
             </S.Wrapper>
         </S.PageWrapper>

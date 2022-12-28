@@ -25,6 +25,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Container = styled.div`
+    position: relative;
     /* width: 717px; */
     height: 100%;
     /* min-width: 700px; */
@@ -38,7 +39,7 @@ export const H4 = styled.h4`
     line-height: 32px;
     letter-spacing: 0.2px;
 
-    margin-bottom: 8px;
+    margin: 8px 0;
 `;
 
 export const JustText = styled.p`
@@ -103,4 +104,33 @@ export const TreeContainer = styled.div`
     & > *:nth-child(2n) {
         order: 2;
     } */
+`;
+
+export const MockWrapperNoChild = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 400px;
+    margin: 20px auto;
+`;
+
+export const MockWrapper = styled(MockWrapperNoChild)`
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    margin-top: 0;
+`;
+
+export const Image = styled.img`
+    width: 200px;
+    height: 200px;
+`;
+
+export const MockText = styled(GrayText)`
+    font-weight: 500;
 `;

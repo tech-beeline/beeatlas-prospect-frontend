@@ -78,6 +78,10 @@ module.exports = {
                 test: /\.(eot|ttf|otf)(\?.*)?$/,
                 loader: 'file-loader',
             },
+            {
+                test: /\.(pptx)(\?.*)?$/,
+                loader: 'file-loader',
+            },
         ],
     },
     plugins: [

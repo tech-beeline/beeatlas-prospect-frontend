@@ -22,7 +22,7 @@ export const IconCard: FC<IIconCard> = (props) => {
                 )}
 
                 <S.ButtonWrapper>
-                    <Button>{props.buttonText || 'Скачать шаблон'}</Button>
+                    <Button onClick={props.onClick}>{props.buttonText || 'Скачать шаблон'}</Button>
                 </S.ButtonWrapper>
             </S.FlexBottomWrapper>
         </S.BorderContainerStyled>
