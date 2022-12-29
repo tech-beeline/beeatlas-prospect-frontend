@@ -56,7 +56,7 @@ export const OuterLink = styled.a<{ fontSize?: number }>`
 export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean }>`
     position: relative;
 
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;

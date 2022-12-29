@@ -105,10 +105,14 @@ export const Text = styled.p<{ withImage: boolean }>`
     line-height: 24px;
     letter-spacing: 0.2px;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
+    ${({ withImage }) =>
+        !withImage &&
+        css`
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            line-clamp: 4;
+            -webkit-box-orient: vertical;
+        `}
 `;

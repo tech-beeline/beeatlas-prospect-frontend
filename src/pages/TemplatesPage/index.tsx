@@ -23,7 +23,12 @@ export const TemplatesPage = () => {
                 color="teal"
                 title="Концепция продукта"
                 text="Презентация идеи создания или развития ИТ-продукта или решения сложной проблемы (сложного коммунального элемента)"
-                // onClick={() => downloadFile(fileFirst)}
+                onClick={() =>
+                    window.open(
+                        'https://confluence.veon.com/pages/viewpage.action?pageId=132433700',
+                        '_blank',
+                    )
+                }
             />
 
             {/* <LinkRR to="./file_AK.pptx" target="_blank" download>

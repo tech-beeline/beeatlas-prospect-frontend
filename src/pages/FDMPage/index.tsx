@@ -66,22 +66,25 @@ export const FDMPage = observer(() => {
                         <S.TreeContainer ref={refTreeContainer}>
                             {/* TODO: убрать */}
 
-                            {activeFDMItem.children && activeFDMItem.children.length > 0 ? (
-                                activeFDMItem.level > 1 &&
-                                activeFDMItem.children.map((item, index) => (
+                            {activeFDMItem.level > 1 &&
+                                activeFDMItem.children?.map((item, index) => (
                                     <TreeCard
                                         key={index}
                                         data={item}
                                         {...{ setActiveFDMItem, isFullWidthCard }}
                                     />
-                                ))
+                                ))}
+
+                            {/* {activeFDMItem.children && activeFDMItem.children.length > 0 ? (
+                                // activeFDMItem.level > 1 &&
+                               
                             ) : (
                                 <S.MockWrapperNoChild>
                                     <S.Image src={boxImg} />
 
                                     <S.MockText>Возможностей пока нет</S.MockText>
                                 </S.MockWrapperNoChild>
-                            )}
+                            )} */}
                         </S.TreeContainer>
                     ) : (
                         <S.MockWrapper>
