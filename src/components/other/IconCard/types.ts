@@ -5,4 +5,5 @@ export interface IIconCard {
     color?: 'error' | 'success' | 'warning' | 'info' | 'purple' | 'teal' | 'magenta';
     deadlineText?: string;
     buttonText?: string;
+    onClick?: () => void;
 }

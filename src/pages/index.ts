@@ -9,7 +9,11 @@ export { FDMPage } from './FDMPage';
 export { FDMResultPage } from './FDMResultPage';
 export { HowToPage } from './HowToPage';
 export { MainPage } from './MainPage';
+export { ModelsPage } from './ModelsPage';
+export { ProductsPage } from './ProductsPage';
+export { SearchPage } from './SearchPage';
 export { ServicesPage } from './ServicesPage';
+export { TechPolicyPage } from './TechPolicyPage';
 export { TemplatesPage } from './TemplatesPage';
 // TODO: MOCK
 export { TestPage } from './TestPage';

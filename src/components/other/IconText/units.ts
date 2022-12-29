@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { theme } from 'styles';
 
-export const Wrapper = styled.div<{ isSecondary: boolean; number?: number }>`
+export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: string }>`
     display: flex;
 
     ${({ isSecondary, number }) =>
@@ -37,6 +37,8 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number }>`
 
                   color: ${theme.colors.textInactive};
               `}
+
+    cursor: ${({ to }) => to && 'pointer'}
 `;
 
 export const Background = styled.div`
@@ -57,4 +59,10 @@ export const Background = styled.div`
     color: ${theme.colors.textInfo};
 
     border-radius: 12px;
+`;
+
+export const Text = styled.p<{ to?: string }>`
+    white-space: pre-line;
+
+    color: ${({ to }) => !!to && theme.colors.textLink};
 `;

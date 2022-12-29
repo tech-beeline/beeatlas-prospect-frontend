@@ -4,22 +4,33 @@ import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
     display: flex;
+
+    padding-left: 56px;
+`;
+
+export const Wrapper = styled.div`
+    display: flex;
     justify-content: center;
 
     width: 100%;
-    min-height: 100vh;
-    padding: 124px 52px;
+    height: 100vh;
+    padding: 124px 52px 0;
 
     background-color: ${theme.colors.backgroundLow};
     color: ${theme.colors.textActive};
+
+    border-left: 1px solid ${theme.colors.divider};
+
+    overflow: auto;
 `;
 
 export const Container = styled.div`
-    width: 717px;
+    position: relative;
+    /* width: 717px; */
     height: 100%;
-    min-width: 700px;
+    /* min-width: 700px; */
 
-    text-align: justify;
+    /* text-align: justify; */
 `;
 
 export const H4 = styled.h4`
@@ -28,7 +39,14 @@ export const H4 = styled.h4`
     line-height: 32px;
     letter-spacing: 0.2px;
 
-    margin-bottom: 8px;
+    margin: 8px 0;
+`;
+
+export const JustText = styled.p`
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
 `;
 
 export const GrayText = styled.p`
@@ -68,4 +86,51 @@ export const NoFoundBlock = styled.div`
     line-height: 22px;
     letter-spacing: 0.2px;
     text-align: center;
+`;
+
+export const TreeContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-basis: 0;
+    gap: 24px;
+
+    margin: 24px 0;
+
+    /* & > *:nth-child(1n) {
+        order: 1;
+    }
+
+    & > *:nth-child(2n) {
+        order: 2;
+    } */
+`;
+
+export const MockWrapperNoChild = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 400px;
+    margin: 20px auto;
+`;
+
+export const MockWrapper = styled(MockWrapperNoChild)`
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    margin-top: 0;
+`;
+
+export const Image = styled.img`
+    width: 200px;
+    height: 200px;
+`;
+
+export const MockText = styled(GrayText)`
+    font-weight: 500;
 `;

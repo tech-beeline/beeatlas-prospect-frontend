@@ -5,7 +5,6 @@ import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { MAIN_PAGE_PATH } from 'router/const';
-// import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 import { persistStorage } from 'stores/utils';
 
@@ -36,9 +35,9 @@ export const Header = observer(() => {
 
     // tabs
     const tabs = [
-        { name: 'ФДМ', url: 'fdm/' },
-        { name: 'База знаний', url: 'data-base/' },
-        { name: 'Продукты', url: 'products/' },
+        { name: 'Модели', url: 'models' },
+        { name: 'База знаний', url: 'data-base' },
+        { name: 'Продукты', url: 'products' },
     ];
 
     // TODO: useMountEffect
@@ -47,7 +46,7 @@ export const Header = observer(() => {
             if (auth.hasNecessaryParams()) {
                 const { access_token } = await auth.exchangeCode();
 
-                console.log('access_token', access_token);
+                // console.log('access_token', access_token);
 
                 persistStorage('token', access_token);
 

@@ -5,4 +5,5 @@ export interface IIconText {
     isSecondary?: boolean;
     style?: any;
     number?: number;
+    to?: string;
 }

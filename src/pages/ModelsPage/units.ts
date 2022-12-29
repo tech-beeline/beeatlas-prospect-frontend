@@ -1,0 +1,51 @@
+import styled from '@emotion/styled';
+
+import { Card } from 'components/interaction';
+
+import { theme } from 'styles';
+
+export const PageWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    height: 100vh;
+    padding-top: 64px;
+
+    background-color: ${theme.colors.backgroundLow};
+    color: ${theme.colors.textActive};
+`;
+
+export const SideMenu = styled.div`
+    width: 256px;
+    height: 100vh;
+    padding-top: 24px;
+
+    border-right: 1px solid red;
+`;
+
+export const ContentWrapper = styled.div`
+    width: 100%;
+    padding: 32px 52px 0 108px;
+`;
+
+export const H2 = styled.h2`
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 56px;
+`;
+
+export const CardContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
+
+    @media only screen and (max-width: 960px) {
+        flex-direction: column;
+    }
+`;
+
+export const CardStyled = styled(Card)`
+    width: 100%;
+    min-width: 300px;
+    margin-top: 24px;
+`;

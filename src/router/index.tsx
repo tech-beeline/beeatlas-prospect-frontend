@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, Menu } from 'components/core';
+import { Header, Menu, MenuModels } from 'components/core';
 
 import {
     AppInfoPage,
@@ -14,7 +14,11 @@ import {
     FDMResultPage,
     HowToPage,
     MainPage,
+    ModelsPage,
+    ProductsPage,
+    SearchPage,
     ServicesPage,
+    TechPolicyPage,
     TemplatesPage,
 } from 'pages';
 import { Theme, theme } from 'styles';
@@ -34,10 +38,59 @@ export const NavigationRouter = () => {
 
                         <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 
-                        <Route path={C.FDM_PATH} element={<FDMPage />} />
                         <Route
-                            path={`${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
-                            element={<FDMResultPage />}
+                            path={C.MODELS_PATH}
+                            element={
+                                <div
+                                    style={{
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <MenuModels />
+                                    <ModelsPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path={`${C.MODELS_PATH}${C.SEARCH_PATH}`}
+                            element={
+                                <div
+                                    style={{
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <MenuModels />
+                                    <SearchPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path={`${C.MODELS_PATH}${C.FDM_PATH}`}
+                            element={
+                                <div
+                                    style={{
+                                        overflow: 'hidden',
+                                        height: '100%',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <MenuModels />
+                                    <FDMPage />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path={`${C.MODELS_PATH}${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
+                            element={
+                                <div
+                                    style={{
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <MenuModels />
+                                    <FDMResultPage />
+                                </div>
+                            }
                         />
 
                         <Route
@@ -112,6 +165,21 @@ export const NavigationRouter = () => {
                         />
 
                         <Route
+                            path={`${C.DATA_BASE_PATH}${C.TECH_POLICY_PATH}`}
+                            element={
+                                <div
+                                    style={{
+                                        paddingLeft: '256px',
+                                        backgroundColor: theme.colors.backgroundLow,
+                                    }}
+                                >
+                                    <Menu />
+                                    <TechPolicyPage />
+                                </div>
+                            }
+                        />
+
+                        <Route
                             path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}`}
                             element={
                                 <div
@@ -129,6 +197,8 @@ export const NavigationRouter = () => {
                             path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}${C.CONSULTATION_PATH}`}
                             element={<ConsultationPage />}
                         />
+
+                        <Route path={C.PRODUCTS_PATH} element={<ProductsPage />} />
                     </Routes>
                 </QueryParamProvider>
             </Router>

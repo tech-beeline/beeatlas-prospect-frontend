@@ -1,7 +1,14 @@
 import React from 'react';
 
+// import { Link as LinkRR } from 'react-router-dom';
+import { Link } from 'components/interaction';
 import { IconCard } from 'components/other';
 
+import * as ROUTER from 'router/const';
+
+// import { downloadFile } from 'utils/downloadFile';
+// @ts-ignore
+// import fileFirst from './files/file_AK.pptx';
 import * as S from './units';
 
 export const TemplatesPage = () => {
@@ -16,9 +23,22 @@ export const TemplatesPage = () => {
                 color="teal"
                 title="Концепция продукта"
                 text="Презентация идеи создания или развития ИТ-продукта или решения сложной проблемы (сложного коммунального элемента)"
+                onClick={() =>
+                    window.open(
+                        'https://confluence.veon.com/pages/viewpage.action?pageId=132433700',
+                        '_blank',
+                    )
+                }
             />
 
-            <S.H4 style={{ marginTop: '40px' }}>Повторный выход на защиту</S.H4>
+            {/* <LinkRR to="./file_AK.pptx" target="_blank" download>
+                Download
+            </LinkRR> */}
+            {/* <a href="./files/file_AK.pptx" download>
+                Download
+            </a> */}
+
+            {/* <S.H4 style={{ marginTop: '40px' }}>Повторный выход на защиту</S.H4>
             <S.SmallText>или защита части концепции (например, если продукт не новый)</S.SmallText>
 
             <S.AdaptiveCardContainer>
@@ -60,10 +80,19 @@ export const TemplatesPage = () => {
                     title="Использование новой технологии"
                     text="Презентация нового решения по использованию новой(-ых) технологии(-ий)"
                 />
-            </S.AdaptiveCardContainer>
+            </S.AdaptiveCardContainer> */}
 
             <S.H4 style={{ marginTop: '54px' }}>Не нашли подходящий шаблон?</S.H4>
-            <S.SmallText>Обратитесь за консультацией</S.SmallText>
+            <S.SmallText>
+                Обратитесь за&nbsp;
+                <Link
+                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+                    fontSize={19}
+                    isInner
+                >
+                    консультацией
+                </Link>
+            </S.SmallText>
         </S.PageWrapper>
     );
 };

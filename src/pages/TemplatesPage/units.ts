@@ -61,6 +61,8 @@ export const H4 = styled.h4`
 `;
 
 export const SmallText = styled.p`
+    display: flex;
+
     font-weight: 400;
     font-size: 19px;
     line-height: 24px;

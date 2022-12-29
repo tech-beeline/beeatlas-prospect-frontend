@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 // import { Card } from './Card';
 import { Card } from 'components/interaction/Card';
 
+// import * as ROUTER from 'router/const';
+// import { Link } from '..';
 import * as C from './const';
 import * as S from './units';
 
@@ -217,20 +219,28 @@ export const Slider = () => {
                 <S.Slider ref={sliderRef} {...{ transformX }}>
                     {/* <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}> */}
                     {/* TODO: убрать этот хардкод */}
-                    <Card colorType="green" title="модели" withImage>
+                    <Card colorType="green" title="модели" withImage to="models">
                         Функционально-доменная модель позволяет узнать о существующих в компании
                         возможностях, переиспользовать их, и заказать необходимую возможность
-                        у вдалельца домена, а также получить информацию о состоянии ИТ–ландшафта.
+                        у владельца домена, а также получить информацию о состоянии ИТ–ландшафта.
                     </Card>
 
                     {/* TODO: const */}
                     <Card colorType="pink" title="база знаний" withImage to="data-base">
-                        В базе знаний вы можете найти все документы для подготовки к архитектурному
-                        комитету, организации производственного процесса, а также обратиться
-                        за помощью, узнать опыт коллег
+                        В базе знаний вы можете найти все{' '}
+                        {/* <Link
+                            path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+                            fontSize={19}
+                            isInner
+                            noLine
+                        > */}
+                        документы для подготовки к архитектурному комитету,
+                        {/* </Link> */}
+                        организации производственного процесса, а также обратиться за помощью,
+                        узнать опыт коллег
                     </Card>
 
-                    <Card colorType="blue" title="личный кабинет" withImage>
+                    <Card colorType="blue" title="личный кабинет" withImage to="products">
                         С помощью личного кабинета отслеживайте стадии жизненного цикла
                         возможностей, храните документацию по проекту, работайте с техническим
                         долгом, погружайте команду, делитесь опытом

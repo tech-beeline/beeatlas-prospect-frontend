@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { Link } from 'components/interaction';
 import { IconText } from 'components/other';
 
 // import { useAutoOpenMenuItem } from 'hooks';
-// import * as ROUTER_CONST from 'router/const';
+import * as ROUTER from 'router/const';
+
 import * as S from './units';
 
 export const HowToPage = () => {
@@ -29,8 +31,14 @@ export const HowToPage = () => {
                 Чтобы подготовка заняла минимум времени и сил, изучите алгоритм подготовки к выходу
                 на защиту.
                 <br />
-                Если вопросы ещё остались, можно изучить опыт коллег, а также обратиться
-                за консультацией.
+                Если вопросы ещё остались, можно изучить опыт коллег, а также обратиться за 
+                <Link
+                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                    fontSize={19}
+                    isInner
+                >
+                    консультацией.
+                </Link>
             </S.GrayText>
 
             <IconText
@@ -47,8 +55,23 @@ export const HowToPage = () => {
                 <br />
                 <br />
                 В зависимости от вопроса, который вам необходимо решить на заседании, нужно
-                использовать подходящий шаблон для составления презентации. Убедитесь, что ваша
-                концепция/продукт соответствует всем принципам Технической политики.
+                использовать подходящий{' '}
+                <Link
+                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+                    fontSize={19}
+                    isInner
+                >
+                    шаблон
+                </Link>{' '}
+                для составления презентации. Убедитесь, что ваша концепция/продукт соответствует
+                всем{' '}
+                <Link
+                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
+                    fontSize={19}
+                    isInner
+                >
+                    принципам Технической политики.
+                </Link>
             </S.GrayText>
 
             <IconText
@@ -58,7 +81,15 @@ export const HowToPage = () => {
                 style={{ marginBottom: '12px' }}
             />
             <S.GrayText style={{ marginBottom: '40px' }}>
-                Воспользуйтесь сервисом заказа услуги по составлению оппонирующей позиции.
+                Воспользуйтесь сервисом{' '}
+                <Link
+                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
+                    fontSize={19}
+                    isInner
+                >
+                    заказа услуги
+                </Link>{' '}
+                по составлению оппонирующей позиции.
                 <br />
                 Этот шаг обязателен.
             </S.GrayText>

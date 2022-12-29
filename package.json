@@ -36,6 +36,7 @@
         "mobx": "6.6.0",
         "mobx-react": "7.5.0",
         "query-string": "7.1.1",
+        "re-resizable": "6.9.9",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-phone-number-input": "3.2.2",
