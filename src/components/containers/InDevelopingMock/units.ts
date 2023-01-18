@@ -16,8 +16,10 @@ export const Wrapper = styled.div`
 `;
 
 export const Image = styled.img`
-    width: 400px;
-    height: 400px;
+    min-width: 400px;
+    min-height: 400px;
+    max-width: 400px;
+    max-height: 400px;
 `;
 
 export const Text = styled.p`
