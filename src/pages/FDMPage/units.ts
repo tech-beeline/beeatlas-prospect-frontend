@@ -28,6 +28,8 @@ export const Container = styled.div`
     position: relative;
     /* width: 717px; */
     height: 100%;
+    width: 100%;
+    /* margin-right: auto; */
     /* min-width: 700px; */
 
     /* text-align: justify; */
@@ -92,6 +94,8 @@ export const TreeContainer = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
     flex-basis: 0;
     gap: 24px;
 

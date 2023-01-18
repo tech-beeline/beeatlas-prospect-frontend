@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { DropdownContext } from '@beeline/lk-ui';
 import { theme } from '@beeline/lk-ui/core/theme';
 import { ThemeProvider } from '@emotion/react';
@@ -30,7 +31,9 @@ const App = () => {
                                 dropdownElementID: 'lk-ui__dropdown-root',
                             }}
                         >
-                            <NavigationRouter />
+                            <Router>
+                                <NavigationRouter />
+                            </Router>
                         </DropdownContext.Provider>
                         {/* </PopupsContext.Provider> */}
                     </ThemeProvider>
