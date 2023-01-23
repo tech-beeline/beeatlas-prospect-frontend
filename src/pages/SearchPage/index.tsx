@@ -8,6 +8,8 @@ import { Expand } from 'components/other';
 // import { getSearchResult } from 'api/fdm';
 import { useRootStore } from 'stores/initStore';
 
+import image from './images/not-found.png';
+
 import { ResultCard } from './ResultCard';
 import * as S from './units';
 
@@ -102,6 +104,7 @@ export const SearchPage = observer(() => {
                         </>
                     ) : resultSearch === 'nodata' ? (
                         <S.NoFoundBlock>
+                            <S.Image src={image} />
                             Нет результатов, подходящих под параметры поиска. Попробуйте изменить
                             запрос.
                         </S.NoFoundBlock>

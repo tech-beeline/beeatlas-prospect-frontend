@@ -44,13 +44,13 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
         transition: 0.25s background-color ease-out;
     }
 
+    &:hover {
+        background-color: ${theme.colors.backgroundHover};
+    }
+
     ${({ isSubItems }) =>
         !isSubItems &&
         css`
-            &:hover {
-                background-color: ${theme.colors.backgroundHover};
-            }
-
             &:active {
                 background-color: ${theme.colors.backgroundSelected};
             }
