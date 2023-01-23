@@ -59,8 +59,12 @@ export const ResultContainer = styled.div`
 `;
 
 export const NoFoundBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
     width: 410px;
-    height: 44px;
     margin-top: 30px;
 
     font-weight: 500;
@@ -68,4 +72,11 @@ export const NoFoundBlock = styled.div`
     line-height: 22px;
     letter-spacing: 0.2px;
     text-align: center;
+`;
+
+export const Image = styled.img`
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
 `;

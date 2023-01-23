@@ -156,6 +156,7 @@ export const GeneralStore = (): IGeneralStore => {
         },
 
         breadCrumbsFormat(id: number) {
+            // отсеиваем корневой элемент
             if (id !== 352) {
                 this.breadCrumbsIds.unshift(id);
             } else {
@@ -169,6 +170,10 @@ export const GeneralStore = (): IGeneralStore => {
             if (foundItem) {
                 this.breadCrumbsFormat(foundItem.parent);
             }
+            // else {
+            //     // для последнего вложенного элемента, тк его не может быть в общем списке
+            //     this.breadCrumbsFormat(this.activeFDMItem.parent);
+            // }
 
             let tempArr = [...this.menuTreeItems];
             let actualItem = {};
@@ -189,7 +194,12 @@ export const GeneralStore = (): IGeneralStore => {
                 // подставить children найденного элемента
                 // вместо menuTreeItems
                 // @ts-ignore
-                tempArr = [...actualItem.children];
+                if (actualItem.children) {
+                    // @ts-ignore
+                    tempArr = [...actualItem.children];
+                }
+
+                // console.log('breadCrumbsFormat:tempArr', tempArr);
 
                 return;
             });
@@ -204,13 +214,13 @@ export const GeneralStore = (): IGeneralStore => {
         async setActiveFDMItem(item) {
             const aliasType = item.alias?.split('.')[0];
 
-            console.log('setActiveFDMItem: item', item);
+            // console.log('setActiveFDMItem: item', item);
 
             try {
-                if (item.level === 3 || aliasType === 'DMN') {
+                if (aliasType === 'DMN') {
                     const res = await this.getItemChildren(item.id, item.level + 1);
 
-                    console.log('setActiveFDMItem: res', res);
+                    // console.log('setActiveFDMItem: res', res);
 
                     this.activeFDMItem = {
                         ...item,
