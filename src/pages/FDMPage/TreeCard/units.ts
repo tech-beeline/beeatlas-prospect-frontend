@@ -6,12 +6,14 @@ import { theme } from 'styles';
 
 export const Wrapper = styled.div<{ isFullWidthCard: boolean }>`
     flex: ${({ isFullWidthCard }) => (isFullWidthCard ? '0 1 100%' : '0 1 48%')};
+    break-inside: avoid;
 
     min-width: 300px;
     min-height: 160px;
     height: min-content;
     /* max-width: 450px; */
     padding: 24px;
+    margin-bottom: 24px;
 
     border: 1px solid ${theme.colors.divider};
     border-radius: ${theme.borderRadius};

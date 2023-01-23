@@ -18,6 +18,7 @@ import { NestingMenu } from './NestingMenu';
 import { TreeCard } from './TreeCard';
 // import { ResultCard } from './ResultCard';
 import * as S from './units';
+import { ViewItemSwitcher } from './ViewItemSwitcher';
 
 export const FDMPage = observer(() => {
     const {
@@ -25,6 +26,7 @@ export const FDMPage = observer(() => {
     } = useRootStore();
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
+    const [activeViewList, setActiveViewList] = useState(0);
 
     const refTreeContainer = useRef(null);
 
@@ -63,19 +65,29 @@ export const FDMPage = observer(() => {
                     <S.JustText dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }} />
 
                     {JSON.stringify(activeFDMItem) !== '{}' ? (
-                        <S.TreeContainer ref={refTreeContainer}>
-                            {/* TODO: убрать */}
-
-                            {activeFDMItem.level > 1 &&
-                                activeFDMItem.children?.map((item, index) => (
-                                    <TreeCard
-                                        key={index}
-                                        data={item}
-                                        {...{ setActiveFDMItem, isFullWidthCard }}
+                        <>
+                            {activeFDMItem.level > 1 && activeFDMItem.children!.length > 0 && (
+                                <S.ListSwitcherWrapper>
+                                    <ViewItemSwitcher
+                                        activeElement={activeViewList}
+                                        setActiveElement={setActiveViewList}
                                     />
-                                ))}
+                                </S.ListSwitcherWrapper>
+                            )}
 
-                            {/* {activeFDMItem.children && activeFDMItem.children.length > 0 ? (
+                            <S.TreeContainer {...{ activeViewList }} ref={refTreeContainer}>
+                                {/* TODO: убрать */}
+
+                                {activeFDMItem.level > 1 &&
+                                    activeFDMItem.children?.map((item, index) => (
+                                        <TreeCard
+                                            key={index}
+                                            data={item}
+                                            {...{ setActiveFDMItem, isFullWidthCard }}
+                                        />
+                                    ))}
+
+                                {/* {activeFDMItem.children && activeFDMItem.children.length > 0 ? (
                                 // activeFDMItem.level > 1 &&
                                
                             ) : (
@@ -85,7 +97,8 @@ export const FDMPage = observer(() => {
                                     <S.MockText>Возможностей пока нет</S.MockText>
                                 </S.MockWrapperNoChild>
                             )} */}
-                        </S.TreeContainer>
+                            </S.TreeContainer>
+                        </>
                     ) : (
                         <S.MockWrapper>
                             <S.Image src={boxImg} />
