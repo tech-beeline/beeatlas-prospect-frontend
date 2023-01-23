@@ -1,0 +1,57 @@
+import styled from '@emotion/styled';
+
+import { theme } from 'styles';
+
+export const Wrapper = styled.div`
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 80px;
+    height: 40px;
+    margin-left: auto;
+
+    border: 1px solid rgba(25, 28, 52, 0.18);
+    border-radius: 12px;
+
+    & > div:nth-child(1) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    & > div:nth-child(2) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+
+        height: 100%;
+        width: 1px;
+
+        background-color: ${theme.colors.backgroundSelected};
+    }
+`;
+
+export const Element = styled.div<any>`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 50%;
+    height: 100%;
+
+    border-radius: 12px;
+
+    background-color: ${({ id, activeElement }) =>
+        activeElement === id ? theme.colors.backgroundSelected : theme.colors.backgroundLow};
+
+    transition: background-color 0.25s ease-in-out;
+
+    cursor: pointer;
+`;
