@@ -14,6 +14,7 @@ export { ProductsPage } from './ProductsPage';
 export { SearchPage } from './SearchPage';
 export { ServicesPage } from './ServicesPage';
 export { TechPolicyPage } from './TechPolicyPage';
+export { TechRadarPage } from './TechRadarPage';
 export { TemplatesPage } from './TemplatesPage';
 // TODO: MOCK
 export { TestPage } from './TestPage';
