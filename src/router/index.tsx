@@ -19,6 +19,7 @@ import {
     SearchPage,
     ServicesPage,
     TechPolicyPage,
+    TechRadarPage,
     TemplatesPage,
 } from 'pages';
 import { Theme, theme } from 'styles';
@@ -84,6 +85,21 @@ export const NavigationRouter = () => {
                             >
                                 <MenuModels />
                                 <FDMPage />
+                            </div>
+                        }
+                    />
+                    <Route
+                        path={`${C.MODELS_PATH}${C.TECH_RADAR_PATH}`}
+                        element={
+                            <div
+                                style={{
+                                    overflow: 'hidden',
+                                    height: '100%',
+                                    backgroundColor: theme.colors.backgroundLow,
+                                }}
+                            >
+                                <MenuModels />
+                                <TechRadarPage />
                             </div>
                         }
                     />
