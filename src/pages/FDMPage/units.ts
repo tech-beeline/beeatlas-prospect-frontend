@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 
     width: 100%;
     height: 100vh;
-    padding: 124px 52px 0;
+    padding: 124px 32px 0;
 
     background-color: ${theme.colors.backgroundLow};
     color: ${theme.colors.textActive};
@@ -90,16 +90,19 @@ export const NoFoundBlock = styled.div`
     text-align: center;
 `;
 
-export const TreeContainer = styled.div`
-    display: flex;
+export const TreeContainer = styled.div<{ activeViewList: number }>`
+    /* display: flex; */
     justify-content: space-between;
     flex-wrap: wrap;
     align-content: flex-start;
     justify-content: flex-start;
     flex-basis: 0;
-    gap: 24px;
+    /* gap: 24px; */
 
-    margin: 24px 0;
+    columns: ${({ activeViewList }) => (activeViewList === 0 ? 2 : 1)};
+    column-gap: 24px;
+
+    margin: 16px 0;
 
     /* & > *:nth-child(1n) {
         order: 1;
@@ -108,6 +111,10 @@ export const TreeContainer = styled.div`
     & > *:nth-child(2n) {
         order: 2;
     } */
+
+    @media only screen and (max-width: 1130px) {
+        columns: 1;
+    }
 `;
 
 export const MockWrapperNoChild = styled.div`
@@ -119,9 +126,13 @@ export const MockWrapperNoChild = styled.div`
 
     width: 400px;
     margin: 20px auto;
+
+    text-align: center;
 `;
 
 export const MockWrapper = styled(MockWrapperNoChild)`
+    display: inline-block;
+
     position: absolute;
     top: 40%;
     left: 50%;
@@ -137,4 +148,11 @@ export const Image = styled.img`
 
 export const MockText = styled(GrayText)`
     font-weight: 500;
+`;
+
+export const ListSwitcherWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 20px;
 `;
