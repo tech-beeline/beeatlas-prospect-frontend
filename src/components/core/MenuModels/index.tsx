@@ -16,6 +16,8 @@ export const MenuModels = () => {
         activeLeftItem === 0 && navigate(`${ROUTER.MODELS_PATH}${ROUTER.SEARCH_PATH}`);
 
         activeLeftItem === 1 && navigate(`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`);
+
+        activeLeftItem === 2 && navigate(`${ROUTER.MODELS_PATH}${ROUTER.TECH_RADAR_PATH}`);
     }, [activeLeftItem]);
 
     // isActive={location.pathname?.includes(tab.url)}
@@ -34,6 +36,13 @@ export const MenuModels = () => {
                 isActive={location.pathname?.includes(ROUTER.FDM_PATH)}
             >
                 <Icon iconName={Icons.NetworkAlt} />
+            </S.Tab>
+
+            <S.Tab
+                onClick={() => setActiveLeftItem(2)}
+                isActive={location.pathname?.includes(ROUTER.TECH_RADAR_PATH)}
+            >
+                <Icon iconName={Icons.Lifebelt} />
             </S.Tab>
 
             {/* <S.Tab onClick={() => setActiveLeftItem(2)} isActive={activeLeftItem === 2}>
