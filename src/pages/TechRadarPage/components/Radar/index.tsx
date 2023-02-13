@@ -14,7 +14,6 @@ import * as T from './types';
 
 export const Radar: FC<T.IRadar> = (props) => {
     /* данные для расположения тултивов внутри свг */
-    // @ts-ignore
     const [referenceElement, setReferenceElement] = useState<SVGCircleElement | null>(null);
     const refs = useRef<React.RefObject<SVGCircleElement>[]>([]);
 
@@ -49,13 +48,13 @@ export const Radar: FC<T.IRadar> = (props) => {
             .on('tick', ticked);
     }, []);
 
-    // useEffect(() => {
-    //     if (refs.current) {
-    //         const activeItemIndex = formatedData.findIndex((item) => item.label === props.hintText);
+    useEffect(() => {
+        if (refs.current) {
+            const activeItemIndex = formatedData.findIndex((item) => item.label === props.hintText);
 
-    //         activeItemIndex >= 0 && setReferenceElement(refs.current[activeItemIndex].current);
-    //     }
-    // }, [props.hintText]);
+            activeItemIndex >= 0 && setReferenceElement(refs.current[activeItemIndex].current);
+        }
+    }, [props.hintText]);
 
     /* показывает тултип */
     const onHintShow = (label: string) => {
@@ -104,6 +103,10 @@ export const Radar: FC<T.IRadar> = (props) => {
                             ref={refs.current[i]}
                             onMouseEnter={() => onHintShow(point.label)}
                             onMouseLeave={onHintHide}
+                            onClick={() => {
+                                props.setShowInMenu(true);
+                                // onHintShow(point.label);
+                            }}
                         />
                     );
                 })}

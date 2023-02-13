@@ -26,7 +26,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
             const selectedElement = menuItems.find((item) => item.innerHTML === props.hintText);
 
-            if (!!selectedElement) {
+            if (!!selectedElement && props.showInMenu) {
                 const parentElement = selectedElement.closest('.menuBlock');
 
                 const activeBlockIndex = !!parentElement
@@ -71,16 +71,20 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                 }
 
                 setTimeout(
-                    () =>
+                    () => {
                         selectedElement.scrollIntoView({
                             behavior: 'smooth',
                             block: 'center',
-                        }),
+                        });
+
+                        props.setShowInMenu(false);
+                    },
+
                     450,
                 );
             }
         }
-    }, [menuRef, props.hintText]);
+    }, [menuRef, props.hintText, props.showInMenu]);
 
     return (
         <S.Wrapper ref={menuRef}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Adopt, Assess, Hold, Radar, TopMenu, Trial } from './components';
+import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
@@ -18,6 +18,9 @@ export const TechRadarPage = () => {
 
     /* говорит приближенли квадрант */
     const [isZoomed, setZoomed] = useState(false);
+
+    /* это надо чтобы поиск элемента в меню происходил только после клика по кружку на радаре */
+    const [showInMenu, setShowInMenu] = useState(false);
 
     /* данные для расположения названий кругов */
     const [topTitlesPosition, setTopTitlesPosition] = useState(C.defautltTitlesTop);
@@ -39,28 +42,28 @@ export const TechRadarPage = () => {
         setTopTitlesPosition(C.defautltTitlesTop);
     };
 
-    // useEffect(() => {
-    //     switch (activeRing) {
-    //         case 'hold':
-    //             setActiveMenuItem(5);
-    //             break;
+    useEffect(() => {
+        switch (activeRing) {
+            case 'hold':
+                setActiveMenuItem(5);
+                break;
 
-    //         case 'assess':
-    //             setActiveMenuItem(6);
-    //             break;
+            case 'assess':
+                setActiveMenuItem(6);
+                break;
 
-    //         case 'trial':
-    //             setActiveMenuItem(7);
-    //             break;
+            case 'trial':
+                setActiveMenuItem(7);
+                break;
 
-    //         case 'adopt':
-    //             setActiveMenuItem(8);
-    //             break;
+            case 'adopt':
+                setActiveMenuItem(8);
+                break;
 
-    //         default:
-    //             setActiveMenuItem(0);
-    //     }
-    // }, [activeRing]);
+            default:
+                setActiveMenuItem(0);
+        }
+    }, [activeRing]);
 
     /* в зависимости от меню приближается нужный квадрант */
     useEffect(() => {
@@ -112,19 +115,19 @@ export const TechRadarPage = () => {
     }, [activeMenuItem]);
 
     /* выбор определеноого круга */
-    // const handleRing = (ring: 'hold' | 'assess' | 'trial' | 'adopt') => {
-    //     if (ring === activeRing) {
-    //         setActiveRing(null);
+    const handleRing = (ring: 'hold' | 'assess' | 'trial' | 'adopt') => {
+        if (ring === activeRing) {
+            setActiveRing(null);
 
-    //         setSubMenu(false);
-    //     } else {
-    //         setActiveRing(ring);
+            setSubMenu(false);
+        } else {
+            setActiveRing(ring);
 
-    //         setSubMenu(true);
+            setSubMenu(true);
 
-    //         setZoomed(false);
-    //     }
-    // };
+            setZoomed(false);
+        }
+    };
 
     return (
         <S.PageWrapper>
@@ -141,42 +144,41 @@ export const TechRadarPage = () => {
             </S.Header>
 
             <S.ContentWrapper>
-                {/* <LeftMenu
+                <LeftMenu
                     data={C.testData}
-                    {...{ hintText, setHintText, activeRing, activeMenuItem, isZoomed }}
-                /> */}
+                    {...{
+                        hintText,
+                        setHintText,
+                        activeRing,
+                        activeMenuItem,
+                        isZoomed,
+                        showInMenu,
+                        setShowInMenu,
+                    }}
+                />
 
                 <S.RadarWrapper>
                     {activeRing === 'hold' ? (
-                        // @ts-ignore
-
                         <Hold
                             data={C.testData.filter((item) => item.ring === 3)}
-                            // {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText }}
                         />
                     ) : activeRing === 'assess' ? (
-                        // @ts-ignore
-
                         <Assess
                             data={C.testData.filter((item) => item.ring === 2)}
-                            // {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText }}
                         />
                     ) : activeRing === 'trial' ? (
-                        // @ts-ignore
-
                         <Trial
                             data={C.testData.filter((item) => item.ring === 1)}
-                            // {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText }}
                         />
                     ) : activeRing === 'adopt' ? (
-                        // @ts-ignore
-
                         <Adopt
                             data={C.testData.filter((item) => item.ring === 0)}
-                            // {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText }}
                         />
                     ) : (
-                        // @ts-ignore
                         <Radar
                             data={C.testData}
                             {...{
@@ -184,9 +186,10 @@ export const TechRadarPage = () => {
                                 isZoomed,
                                 topTitlesPosition,
                                 leftTitlesPosition,
-                                // handleRing,
+                                handleRing,
                                 hintText,
                                 setHintText,
+                                setShowInMenu,
                             }}
                         />
                     )}
