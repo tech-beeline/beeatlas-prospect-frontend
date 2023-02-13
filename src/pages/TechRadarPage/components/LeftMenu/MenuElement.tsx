@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Expand } from 'components/other';
 
@@ -9,6 +9,8 @@ import * as T from './types';
 import * as S from './units';
 
 export const MenuElement: FC<T.IMenuElement> = (props) => {
+    const [hintTextActive, setHintTextActive] = useState('0');
+
     const formatData = (quadrantData: IData[]) => {
         const hold = quadrantData.filter((item) => item.ring === 3);
         const assess = quadrantData.filter((item) => item.ring === 2);
@@ -42,6 +44,11 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
             },
         ];
     };
+
+    useEffect(() => {
+        // console.log(props.hintText);
+        !!props.hintText && setHintTextActive(props.hintText);
+    }, [props.hintText]);
 
     /* показывает тултип */
     const onHintShow = (label: string) => {
@@ -91,7 +98,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                           className="menuItem"
                                           onMouseEnter={() => onHintShow(item.label)}
                                           onMouseLeave={onHintHide}
-                                          isActive={item.label === props.hintText}
+                                          isActive={item.label === hintTextActive}
                                       >
                                           {item.label}
                                       </S.Item>
@@ -112,7 +119,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                           className="menuItem"
                                           onMouseEnter={() => onHintShow(item.label)}
                                           onMouseLeave={onHintHide}
-                                          isActive={item.label === props.hintText}
+                                          isActive={item.label === hintTextActive}
                                       >
                                           {item.label}
                                       </S.Item>

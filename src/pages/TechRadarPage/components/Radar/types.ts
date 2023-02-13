@@ -10,6 +10,7 @@ export interface IRadar {
 
     setHintText: (value: string) => void;
     handleRing: (ring: 'hold' | 'assess' | 'trial' | 'adopt') => void;
+    setShowInMenu: (bool: boolean) => void;
 }
 
 type TViewBox = {

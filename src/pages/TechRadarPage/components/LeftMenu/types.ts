@@ -6,8 +6,10 @@ export interface ILeftMenu {
     activeRing?: TRing | null;
     activeMenuItem: number;
     isZoomed: boolean;
+    showInMenu: boolean;
 
     setHintText: (value: string) => void;
+    setShowInMenu: (bool: boolean) => void;
 }
 
 export interface IHint {
