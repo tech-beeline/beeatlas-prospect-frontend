@@ -13,13 +13,13 @@ import { BaseIcon, Logo, Tab, Tabs } from '..';
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
 
-export const Header = observer(() => {
+export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean }) => {
     const {
         generalStore: {
-            isAuth,
+            // isAuth,
             setAuth,
             clearAuth,
-            userInfo,
+            // userInfo,
             setUserInfo,
             toggleTheme,
             themeIsDark,
@@ -61,21 +61,26 @@ export const Header = observer(() => {
         <>
             <S.Container>
                 <S.FlexContainer onClick={() => navigate(MAIN_PAGE_PATH)}>
-                    <S.Title>корп. архитектура</S.Title>
+                    <S.Title>
+                        {!isPersonalArea ? 'корп. архитектура' : 'корп. архитектура/админка'}
+                    </S.Title>
+
                     <Logo />
                 </S.FlexContainer>
 
-                <Tabs>
-                    {tabs.map((tab, index) => (
-                        <Tab
-                            isActive={location.pathname?.includes(tab.url)}
-                            key={index}
-                            onClick={() => navigate(tab.url)}
-                        >
-                            {tab.name}
-                        </Tab>
-                    ))}
-                </Tabs>
+                {!isPersonalArea && (
+                    <Tabs>
+                        {tabs.map((tab, index) => (
+                            <Tab
+                                isActive={location.pathname?.includes(tab.url)}
+                                key={index}
+                                onClick={() => navigate(tab.url)}
+                            >
+                                {tab.name}
+                            </Tab>
+                        ))}
+                    </Tabs>
+                )}
 
                 <S.ControlPanel>
                     {/* TODO: Пока убрана */}
@@ -106,14 +111,16 @@ export const Header = observer(() => {
                         // }
                     />
 
-                    {isAuth ? (
+                    {true ? (
                         <ProfileIcon
-                            initials={userInfo.family_name[0] + userInfo.given_name[0]}
+                            initials={'KO'}
+                            // initials={userInfo.family_name[0] + userInfo.given_name[0]}
                             clearAuth={() => {
                                 auth.clean();
 
                                 clearAuth();
                             }}
+                            {...{ isPersonalArea }}
                         />
                     ) : (
                         <BaseIcon

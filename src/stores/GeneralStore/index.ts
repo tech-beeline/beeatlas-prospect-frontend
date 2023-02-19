@@ -321,5 +321,7 @@ export const GeneralStore = (): IGeneralStore => {
         setMenuTreeItems(data) {
             this.menuTreeItems = data;
         },
+
+        // ------PERSONAL AREA------------------------
     };
 };

@@ -22,6 +22,7 @@
         }
     },
     "dependencies": {
+        "@beeline/design-system-react": "1.0.0-alpha.20",
         "@beeline/design-tokens": "1.0.0-beta.53",
         "@beeline/lk-auth": "2.1.0",
         "@beeline/lk-ui": "0.10.3",
