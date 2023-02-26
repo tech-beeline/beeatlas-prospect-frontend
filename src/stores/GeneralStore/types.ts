@@ -48,6 +48,9 @@ export interface IGeneralStore {
     setCalendarData: () => void;
 
     alreadyResponse: number[];
+
+    // ЛИЧНЫЙ КАБИНЕТ
+    getRoles: () => void;
 }
 
 export interface INestingMenuItem {

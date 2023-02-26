@@ -10,11 +10,23 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+import { observer } from 'mobx-react';
+
+import { useMountEffect } from 'hooks';
+import { useRootStore } from 'stores/initStore';
 
 // import { TablePagination } from '@beeline/design-system-react';
 import * as S from './units';
 
-export const PersonalArea = () => {
+export const PersonalArea = observer(() => {
+    const {
+        generalStore: { getRoles },
+    } = useRootStore();
+
+    useMountEffect(() => {
+        getRoles();
+    });
+
     return (
         <S.PageWrapper>
             <S.Title>
@@ -79,4 +91,4 @@ export const PersonalArea = () => {
             </Table>
         </S.PageWrapper>
     );
-};
+});
