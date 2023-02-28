@@ -22,7 +22,7 @@ export const MenuPersonalArea = () => {
     // }, [location]);
 
     return (
-        <S.Wrapper>
+        <S.Wrapper className="MenuPersonalAreaWrapper">
             <Item
                 iconName={Icons.Group}
                 title="Управление ролями"

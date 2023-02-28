@@ -4,5 +4,9 @@ import { IPaper } from './types';
 import * as S from './units';
 
 export const Paper = forwardRef<HTMLDivElement, IPaper>(({ isRounded = true, ...props }, ref) => {
-    return <S.Paper {...{ ref, isRounded, ...props }}>{props.children}</S.Paper>;
+    return (
+        <S.Paper className="Paper" {...{ ref, isRounded, ...props }}>
+            {props.children}
+        </S.Paper>
+    );
 });

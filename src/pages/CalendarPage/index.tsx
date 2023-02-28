@@ -89,10 +89,10 @@ export const CalendarPage = observer(() => {
     };
 
     return (
-        <S.PageWrapper>
-            <S.H3>Календарь заседаний Архитектурного комитета</S.H3>
+        <S.PageWrapper className="PageWrapper">
+            <S.H3 className="H3">Календарь заседаний Архитектурного комитета</S.H3>
 
-            <S.SelectContainer>
+            <S.SelectContainer className="SelectContainer">
                 <Autocomplete
                     // className={styles.input}
                     // error={error}
@@ -200,7 +200,7 @@ export const CalendarPage = observer(() => {
                 />
             </S.SelectContainer>
 
-            <S.CardContainer>
+            <S.CardContainer className="CardContainer">
                 <CalendarCard
                     date={'12 ноября 2021'}
                     title={'Дизайн-система (Отчёт о поручениях АК от 21.12.2021)'}

@@ -30,7 +30,7 @@ export const NestingMenu = observer(() => {
     });
 
     return (
-        <S.Wrapper>
+        <S.Wrapper className="NestingMenuWrapper">
             <Resizable
                 defaultSize={{
                     width: 410,
@@ -40,7 +40,7 @@ export const NestingMenu = observer(() => {
                 maxWidth={640}
                 style={{ overflow: 'auto' }}
             >
-                <S.RightSide>
+                <S.RightSide className="NestingMenuRightSide">
                     {isLoadingMenuItems ? (
                         <>
                             <Skeleton height={32} margin={{ bottom: 8 }} />

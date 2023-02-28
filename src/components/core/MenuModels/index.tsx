@@ -23,8 +23,9 @@ export const MenuModels = () => {
     // isActive={location.pathname?.includes(tab.url)}
 
     return (
-        <S.Wrapper>
+        <S.Wrapper className="MenuModelsWrapper">
             <S.Tab
+                className="MenuModelsTab"
                 onClick={() => setActiveLeftItem(0)}
                 isActive={location.pathname?.includes(ROUTER.SEARCH_PATH)}
             >
@@ -32,6 +33,7 @@ export const MenuModels = () => {
             </S.Tab>
 
             <S.Tab
+                className="MenuModelsTab"
                 onClick={() => setActiveLeftItem(1)}
                 isActive={location.pathname?.includes(ROUTER.FDM_PATH)}
             >
@@ -39,6 +41,7 @@ export const MenuModels = () => {
             </S.Tab>
 
             <S.Tab
+                className="MenuModelsTab"
                 onClick={() => setActiveLeftItem(2)}
                 isActive={location.pathname?.includes(ROUTER.TECH_RADAR_PATH)}
             >

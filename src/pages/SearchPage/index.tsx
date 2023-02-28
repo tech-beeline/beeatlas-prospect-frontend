@@ -40,18 +40,18 @@ export const SearchPage = observer(() => {
     };
 
     return (
-        <S.PageWrapper>
-            <S.Container>
-                <S.H4>ФДМ</S.H4>
+        <S.PageWrapper className="PageWrapper">
+            <S.Container className="Container">
+                <S.H4 className="H4">ФДМ</S.H4>
 
-                <S.GrayText>
+                <S.GrayText className="GrayText">
                     Функционально-Доменная Модель — это модель бизнес-возможностей ИТ-ландшафта ВК,
                     разработанная для обеспечения простой и удобной навигации в пространстве
                     возможностей по функциональному признаку.
                 </S.GrayText>
 
                 <Expand isOpen={isOpenDescription}>
-                    <S.GrayText>
+                    <S.GrayText className="GrayText">
                         <br />
                         Созданная в интересах всего ИТ-ландшафта ВК ФДМ объединяет как общие
                         возможности, так и возможности, создаваемые в рамках отдельных продуктовых
@@ -84,7 +84,7 @@ export const SearchPage = observer(() => {
                     {isOpenDescription ? 'Скрыть' : 'Подробнее'}
                 </Button>
 
-                <S.SearchContainer onSubmit={getFindResult}>
+                <S.SearchContainer className="SearchContainer" onSubmit={getFindResult}>
                     <Search
                         fullWidth
                         placeholder="Поиск"
@@ -94,7 +94,7 @@ export const SearchPage = observer(() => {
                     <Button variant="contained">Найти</Button>
                 </S.SearchContainer>
 
-                <S.ResultContainer>
+                <S.ResultContainer className="ResultContainer">
                     {isLoadingSearch ? (
                         // skeleton
                         <>
@@ -103,7 +103,7 @@ export const SearchPage = observer(() => {
                             <ResultCard />
                         </>
                     ) : resultSearch === 'nodata' ? (
-                        <S.NoFoundBlock>
+                        <S.NoFoundBlock className="NoFoundBlock">
                             <S.Image src={image} />
                             Нет результатов, подходящих под параметры поиска. Попробуйте изменить
                             запрос.

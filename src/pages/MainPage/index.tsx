@@ -26,13 +26,13 @@ export const MainPage = observer(() => {
     return (
         <>
             {/* // TODO: вынести в общее */}
-            <S.PageWrapper>
-                <S.GeneralBlock>
+            <S.PageWrapper className="PageWrapper">
+                <S.GeneralBlock className="GeneralBlock">
                     {/* <Icon iconName={Icons.Alarm} /> */}
 
-                    <S.Title>переиспользуйте существующие возможности</S.Title>
+                    <S.Title className="Title">переиспользуйте существующие возможности</S.Title>
 
-                    <S.H3>
+                    <S.H3 className="H3">
                         воспользуйтесь возможностями витрины на всех этапах производственного
                         процесса создания продукта
                     </S.H3>
@@ -43,14 +43,14 @@ export const MainPage = observer(() => {
                 </S.GeneralBlock>
 
                 {/* из-за блока с картинкой убран верхний паддинг -- не подходит под все страницы */}
-                <SPages.PageWrapper>
-                    <S.H1>из чего состоит витрина</S.H1>
+                <SPages.PageWrapper className="SPageWrapper">
+                    <S.H1 className="H1">из чего состоит витрина</S.H1>
 
                     <Slider />
 
-                    <S.H1>используя наш продукт</S.H1>
+                    <S.H1 className="H1">используя наш продукт</S.H1>
 
-                    <S.InfoContainer>
+                    <S.InfoContainer className="InfoContainer">
                         <InfoWithDiagram diagram={diagram1} titleFirst="60%" titleSecond="времени">
                             экономит команда продукта на создании артефактов
                         </InfoWithDiagram>
@@ -72,15 +72,17 @@ export const MainPage = observer(() => {
                         </InfoWithDiagram>
                     </S.InfoContainer>
 
-                    <S.H1>у нас спрашивали</S.H1>
+                    <S.H1 className="H1">у нас спрашивали</S.H1>
 
                     <S.AccordionStyled />
 
-                    <S.CallbackWrapper>
-                        <S.CallbackContainer>
-                            <S.H1ForCallbackStyled>всегда на связи</S.H1ForCallbackStyled>
+                    <S.CallbackWrapper className="CallbackWrapper">
+                        <S.CallbackContainer className="CallbackContainer">
+                            <S.H1ForCallbackStyled className="H1ForCallbackStyled">
+                                всегда на связи
+                            </S.H1ForCallbackStyled>
 
-                            <S.Text>
+                            <S.Text className="Text">
                                 Напишите нам, если у вас есть вопросы или предложения по улучшению
                                 существующих материалов.
                             </S.Text>

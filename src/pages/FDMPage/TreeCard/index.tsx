@@ -13,30 +13,41 @@ export const TreeCard: FC<any> = observer((props) => {
     const icon = useIconOfItem(props.data.alias, props.data.stereotype);
 
     return (
-        <S.Wrapper isFullWidthCard={props.isFullWidthCard}>
-            <S.InnerFlex>
+        <S.Wrapper className="TreeCardWrapper" isFullWidthCard={props.isFullWidthCard}>
+            <S.InnerFlex className="TreeCardInnerFlex">
                 <div>
-                    <S.TitleContainer onClick={() => props.setActiveFDMItem(props.data)}>
+                    <S.TitleContainer
+                        className="TreeCardTitleContainer"
+                        onClick={() => props.setActiveFDMItem(props.data)}
+                    >
                         {icon}
 
                         <div>
-                            <S.Title>{props.data.name}</S.Title>
+                            <S.Title className="TreeCardTitle">{props.data.name}</S.Title>
 
-                            <S.TitleSecond>{props.data.alias}</S.TitleSecond>
+                            <S.TitleSecond className="TreeCardTitleSecond">
+                                {props.data.alias}
+                            </S.TitleSecond>
                         </div>
                     </S.TitleContainer>
 
-                    <S.Text dangerouslySetInnerHTML={{ __html: props.data.descr }} />
+                    <S.Text
+                        className="TreeCardText"
+                        dangerouslySetInnerHTML={{ __html: props.data.descr }}
+                    />
 
                     <div>
                         {props.data.owner && <S.TitleSecond>Владелец</S.TitleSecond>}
 
-                        <S.Text>{props.data.owner || ''}</S.Text>
+                        <S.Text className="TreeCardText">{props.data.owner || ''}</S.Text>
                     </div>
                 </div>
 
                 {props.data.children && (
-                    <S.ChildrenExpandTitle onClick={() => setOpen(!isOpen)}>
+                    <S.ChildrenExpandTitle
+                        className="TreeCardChildrenExpandTitle"
+                        onClick={() => setOpen(!isOpen)}
+                    >
                         Связанные возможности
                         <PivotArrow {...{ isOpen }} />
                     </S.ChildrenExpandTitle>
@@ -45,7 +56,11 @@ export const TreeCard: FC<any> = observer((props) => {
 
             <S.ExpandStyled {...{ isOpen }} isAutoHeight>
                 {props.data.children?.map((item: any, index: number) => (
-                    <S.Title key={index} onClick={() => props.setActiveFDMItem(item)}>
+                    <S.Title
+                        className="TreeCardTitle"
+                        key={index}
+                        onClick={() => props.setActiveFDMItem(item)}
+                    >
                         {item.name}
                     </S.Title>
                 ))}

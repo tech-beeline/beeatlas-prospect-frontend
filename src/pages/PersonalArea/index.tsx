@@ -28,8 +28,8 @@ export const PersonalArea = observer(() => {
     });
 
     return (
-        <S.PageWrapper>
-            <S.Title>
+        <S.PageWrapper className="PageWrapper">
+            <S.Title className="Title">
                 Управление ролями <Icon iconName={Icons.Settings} />
             </S.Title>
 

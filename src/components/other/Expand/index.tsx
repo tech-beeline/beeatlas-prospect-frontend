@@ -58,6 +58,7 @@ export const Expand: FC<T.IExpand> = ({
 
     return (
         <S.ExpandWrapper
+            className="ExpandWrapper"
             isOpen={props.isOpen}
             isClickable={props.isClickable}
             onClick={handleClick}
@@ -73,7 +74,11 @@ export const Expand: FC<T.IExpand> = ({
                 isAutoHeightClose,
             }}
         >
-            <S.ChildrenContainer ref={childrenRef} {...{ isHorizontal, ...props }}>
+            <S.ChildrenContainer
+                className="ChildrenContainer"
+                ref={childrenRef}
+                {...{ isHorizontal, ...props }}
+            >
                 {props.children}
             </S.ChildrenContainer>
         </S.ExpandWrapper>

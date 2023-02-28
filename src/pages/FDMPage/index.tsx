@@ -44,11 +44,11 @@ export const FDMPage = observer(() => {
     }, [windowWidth, activeFDMItem]);
 
     return (
-        <S.PageWrapper>
+        <S.PageWrapper className="PageWrapper">
             <NestingMenu />
 
-            <S.Wrapper>
-                <S.Container>
+            <S.Wrapper className="Wrapper">
+                <S.Container className="Container">
                     {breadCrumbsItems.length > 1 && (
                         <Breadcrumbs collapsed={breadCrumbsItems.length > 2}>
                             {breadCrumbsItems.map((item, index) => (
@@ -60,14 +60,17 @@ export const FDMPage = observer(() => {
                         </Breadcrumbs>
                     )}
 
-                    <S.H4>{activeFDMItem.name}</S.H4>
+                    <S.H4 className="H4">{activeFDMItem.name}</S.H4>
 
-                    <S.JustText dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }} />
+                    <S.JustText
+                        className="JustText"
+                        dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }}
+                    />
 
                     {JSON.stringify(activeFDMItem) !== '{}' ? (
                         <>
                             {activeFDMItem.level > 1 && activeFDMItem.children!.length > 0 && (
-                                <S.ListSwitcherWrapper>
+                                <S.ListSwitcherWrapper className="ListSwitcherWrapper">
                                     <ViewItemSwitcher
                                         activeElement={activeViewList}
                                         setActiveElement={setActiveViewList}
@@ -75,7 +78,11 @@ export const FDMPage = observer(() => {
                                 </S.ListSwitcherWrapper>
                             )}
 
-                            <S.TreeContainer {...{ activeViewList }} ref={refTreeContainer}>
+                            <S.TreeContainer
+                                className="TreeContainer"
+                                {...{ activeViewList }}
+                                ref={refTreeContainer}
+                            >
                                 {/* TODO: убрать */}
 
                                 {activeFDMItem.level > 1 &&
@@ -100,10 +107,12 @@ export const FDMPage = observer(() => {
                             </S.TreeContainer>
                         </>
                     ) : (
-                        <S.MockWrapper>
-                            <S.Image src={boxImg} />
+                        <S.MockWrapper className="MockWrapper">
+                            <S.Image className="Image" src={boxImg} />
 
-                            <S.MockText>Начните поиск или выберите сущность из списка</S.MockText>
+                            <S.MockText className="MockText">
+                                Начните поиск или выберите сущность из списка
+                            </S.MockText>
                         </S.MockWrapper>
                     )}
                 </S.Container>

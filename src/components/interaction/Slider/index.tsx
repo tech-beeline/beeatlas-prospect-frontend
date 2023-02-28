@@ -201,22 +201,23 @@ export const Slider = () => {
     // };
 
     return (
-        <S.SliderWrapper>
-            <S.ArrowWrapper onClick={prev} isVisible={isLeftActive}>
-                <S.LeftArrow />
+        <S.SliderWrapper className="SliderWrapper">
+            <S.ArrowWrapper className="ArrowWrapper" onClick={prev} isVisible={isLeftActive}>
+                <S.LeftArrow className="LeftArrow" />
             </S.ArrowWrapper>
 
             <S.SliderContainer
-            // TODO: только для мобилки
-            // onMouseDown={onMouseDown}
-            // onMouseUp={onMouseUp}
-            // onMouseLeave={onMouseUp}
-            // onMouseMove={onMouseMove}
-            // onTouchStart={onTouchStart}
-            // onTouchEnd={onTouchEnd}
-            // onTouchMove={onTouchMove}
+                className="SliderContainer"
+                // TODO: только для мобилки
+                // onMouseDown={onMouseDown}
+                // onMouseUp={onMouseUp}
+                // onMouseLeave={onMouseUp}
+                // onMouseMove={onMouseMove}
+                // onTouchStart={onTouchStart}
+                // onTouchEnd={onTouchEnd}
+                // onTouchMove={onTouchMove}
             >
-                <S.Slider ref={sliderRef} {...{ transformX }}>
+                <S.Slider className="Slider" ref={sliderRef} {...{ transformX }}>
                     {/* <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}> */}
                     {/* TODO: убрать этот хардкод */}
                     <Card colorType="green" title="модели" withImage to="models">

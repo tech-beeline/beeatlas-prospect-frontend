@@ -18,19 +18,25 @@ export const Modal: FC<IModalProps> = ({ isHTML = false, ...props }) => {
     const CloseButton = () => <Button onClick={() => props.setVisible(false)}>Закрыть</Button>;
 
     return ReactDOM.createPortal(
-        <S.ModalOverlay onMouseDown={handleModalClose} isVisible={props.isVisible} {...{ ref }}>
-            <S.ModalPaper {...{ isHTML, props }}>
+        <S.ModalOverlay
+            className="ModalOverlay"
+            onMouseDown={handleModalClose}
+            isVisible={props.isVisible}
+            {...{ ref }}
+        >
+            <S.ModalPaper className="ModalPaper" {...{ isHTML, props }}>
                 {isHTML ? (
                     <>
                         <S.InnerHTMLContainer
+                            className="InnerHTMLContainer"
                             dangerouslySetInnerHTML={{
                                 // __html: props.children?.replace(/<html .*?>/g, ''),
                                 // https://blog.logrocket.com/using-dangerouslysetinnerhtml-in-a-react-application/#:~:text=What%20is%20dangerouslySetInnerHTML%20%3F,property%20directly%20on%20the%20element.
                                 __html: props.children,
                             }}
                         />
-                        <S.FooterModalContainer>
-                            <S.ShadowLine />
+                        <S.FooterModalContainer className="FooterModalContainer">
+                            <S.ShadowLine className="ShadowLine" />
 
                             <CloseButton />
                         </S.FooterModalContainer>

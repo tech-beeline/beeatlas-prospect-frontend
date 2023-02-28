@@ -12,12 +12,12 @@ export const HowToPage = () => {
     // useAutoOpenMenuItem(ROUTER_CONST.ARCH_COMM_PATH, );
 
     return (
-        <S.PageWrapper>
-            <S.H3>
+        <S.PageWrapper className="PageWrapper">
+            <S.H3 className="H3">
                 Как подготовиться
                 <br />к защите на архитектурном комитете
             </S.H3>
-            <S.SubTitle style={{ marginBottom: '48px' }}>
+            <S.SubTitle className="SubTitle" style={{ marginBottom: '48px' }}>
                 Продукт, который был защищен на АК, имеет свое место в ИТ-ландшафте компании.
             </S.SubTitle>
 
@@ -27,7 +27,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ marginBottom: '12px' }}
             />
-            <S.GrayText style={{ marginBottom: '40px' }}>
+            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Чтобы подготовка заняла минимум времени и сил, изучите алгоритм подготовки к выходу
                 на защиту.
                 <br />
@@ -47,7 +47,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ marginBottom: '12px' }}
             />
-            <S.GrayText style={{ marginBottom: '40px' }}>
+            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Архитектурный комитет рассматривает разные вопросы, например, по определению контура
                 ответственности продукта, о применении новой технологии, о внесении изменения
                 в модель данных, о способе построения архитектуры продукта, об изменении процесса
@@ -80,7 +80,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ marginBottom: '12px' }}
             />
-            <S.GrayText style={{ marginBottom: '40px' }}>
+            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Воспользуйтесь сервисом{' '}
                 <Link
                     path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
@@ -95,7 +95,7 @@ export const HowToPage = () => {
             </S.GrayText>
 
             <S.BorderContainerStyled>
-                <S.BoldTitle>После заказа услуги:</S.BoldTitle>
+                <S.BoldTitle className="BoldTitle">После заказа услуги:</S.BoldTitle>
 
                 <IconText
                     icon="User"
@@ -126,7 +126,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ margin: '40px 0 12px' }}
             />
-            <S.GrayText>
+            <S.GrayText className="GrayText">
                 На заседании комиссия рассмотрит ваш запрос и даст резолюцию. На выступление у вас
                 будет 15 минут (по 1 минуте на слайд). После защиты — блок ответов на вопросы.
                 Результатом встречи является протокол заседания.

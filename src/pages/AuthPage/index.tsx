@@ -117,11 +117,12 @@ export const AuthPage = observer(() => {
     // };
 
     return (
-        <SPage.PageWrapper>
-            <S.AuthPageWrapper>
+        <SPage.PageWrapper className="PageWrapper">
+            <S.AuthPageWrapper className="AuthPageWrapper">
                 <Logo height={45} />
 
                 <S.IconButtonStyled
+                    className="IconButtonStyled"
                     icon={ArrowInButtonSVG}
                     onClick={() => {
                         displayOptionsHandler('');
@@ -130,12 +131,12 @@ export const AuthPage = observer(() => {
                     }}
                 />
 
-                <S.PaperStyled>
+                <S.PaperStyled className="PaperStyled">
                     <Title>Вход</Title>
 
                     {optionDisplay === T.OptionsDisplay.MobileId ? (
-                        <S.MobileIdContainer>
-                            <S.PhoneTimeContainer>
+                        <S.MobileIdContainer className="MobileIdContainer">
+                            <S.PhoneTimeContainer className="PhoneTimeContainer">
                                 <span>{phone}</span>
                                 <span>{time} сек</span>
                             </S.PhoneTimeContainer>
@@ -164,7 +165,7 @@ export const AuthPage = observer(() => {
                     ) : Object.values(ErrorOptionsDisplay as any).includes(optionDisplay) ? (
                         <ErrorDisplay error={optionDisplay} />
                     ) : (
-                        <S.AuthForm onSubmit={onSubmitForm}>
+                        <S.AuthForm onSubmit={onSubmitForm} className="AuthForm">
                             <Input
                                 value={phone}
                                 onChange={setPhone}
@@ -184,7 +185,7 @@ export const AuthPage = observer(() => {
                 {!optionDisplay && <S.SimpleText>Ты входишь в {serviceName}</S.SimpleText>}
             </S.AuthPageWrapper>
 
-            <S.FooterBlock>
+            <S.FooterBlock className="FooterBlock">
                 При входе на ресурс ты принимаешь{' '}
                 <TextButton onClick={() => setVisibleModal(true)}>условия доступа</TextButton>,{' '}
                 <Link path="https://google.com">оферту сервиса</Link> и{' '}

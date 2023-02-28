@@ -10,19 +10,22 @@ export const IconText: FC<IIconText> = ({ isSecondary = false, ...props }) => {
 
     return (
         <S.Wrapper
+            className="IconTextWrapper"
             number={props.number}
             onClick={() => !!props.to && navigate(props.to)}
             {...{ isSecondary }}
             {...props}
         >
             {props.number ? (
-                <S.Background>{props.number}</S.Background>
+                <S.Background className="IconTextBackground">{props.number}</S.Background>
             ) : (
                 // @ts-ignore
                 <Icon iconName={Icons[props.icon]} type={props.color || 'default'} />
             )}
 
-            <S.Text to={props.to}>{props.text}</S.Text>
+            <S.Text className="IconTextText" to={props.to}>
+                {props.text}
+            </S.Text>
         </S.Wrapper>
     );
 };

@@ -77,6 +77,7 @@ export const Item: FC<INestingMenuItem> = (props) => {
     return (
         <>
             <S.Wrapper
+                className="ItemWrapper"
                 isActive={props.activeFDMItem.id === props.id}
                 onClick={activeItemAndGetChild}
             >
@@ -87,10 +88,10 @@ export const Item: FC<INestingMenuItem> = (props) => {
                     {...{ isOpen }}
                 />
 
-                <S.LeftWrapper>
+                <S.LeftWrapper className="ItemLeftWrapper">
                     {iconItemHandler()}
 
-                    <S.Name>{props.name}</S.Name>
+                    <S.Name className="ItemName">{props.name}</S.Name>
                 </S.LeftWrapper>
             </S.Wrapper>
 

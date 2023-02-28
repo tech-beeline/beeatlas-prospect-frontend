@@ -48,7 +48,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
     };
 
     return (
-        <S.Wrapper>
+        <S.Wrapper className="ResultCardWrapper">
             {props.data ? (
                 <>
                     <a
@@ -67,28 +67,34 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                         />
                     </a>
 
-                    <S.Text>
+                    <S.Text className="ResultCardText">
                         <NewlineText str={props.data.descr} />
                     </S.Text>
 
-                    <S.TitleSecond>Домен</S.TitleSecond>
+                    <S.TitleSecond className="ResultCardTitleSecond">Домен</S.TitleSecond>
                     <a
                         href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.domainRef.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
-                        <S.DomenText>{props.data.domainRef.name}</S.DomenText>
+                        <S.DomenText className="ResultCardDomenText">
+                            {props.data.domainRef.name}
+                        </S.DomenText>
                     </a>
 
-                    <S.FlexBlock>
+                    <S.FlexBlock className="ResultCardFlexBlock">
                         <div>
-                            <S.TitleSecond>Владелец</S.TitleSecond>
-                            <S.Text>{props.data.owner || ''}</S.Text>
+                            <S.TitleSecond className="ResultCardTitleSecond">
+                                Владелец
+                            </S.TitleSecond>
+                            <S.Text className="ResultCardText">{props.data.owner || ''}</S.Text>
                         </div>
 
                         <div>
-                            <S.TitleSecond>Дата последнего изменения</S.TitleSecond>
-                            <S.Text>{props.data.lastModified}</S.Text>
+                            <S.TitleSecond className="ResultCardTitleSecond">
+                                Дата последнего изменения
+                            </S.TitleSecond>
+                            <S.Text className="ResultCardText">{props.data.lastModified}</S.Text>
                         </div>
                     </S.FlexBlock>
                 </>
@@ -100,7 +106,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                     <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
                     <Skeleton height={37} width={663} margin={{ bottom: 16 }} />
 
-                    <S.FlexBlock>
+                    <S.FlexBlock className="ResultCardFlexBlock">
                         <div>
                             <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
                             <Skeleton height={37} width={323} />
