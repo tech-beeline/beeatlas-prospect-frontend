@@ -1,3 +1,4 @@
+import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
@@ -27,11 +28,12 @@ export const Wrapper = styled.div`
 
 export const Dropdown = styled.div`
     position: absolute;
-    top: 64px;
+    top: 52px;
     right: 24px;
 
     width: 280px;
-    height: 125px;
+    height: 171px;
+    padding: 8px 0;
 
     border-radius: ${theme.borderRadius};
 
@@ -43,10 +45,6 @@ export const Dropdown = styled.div`
     cursor: pointer;
 
     z-index: 10;
-
-    & > *:first-child {
-        border-bottom: 1px solid ${theme.colors.divider};
-    }
 `;
 
 export const DropdownItem = styled.p`
@@ -54,12 +52,31 @@ export const DropdownItem = styled.p`
     justify-content: space-between;
     align-items: center;
 
-    height: 50%;
-    padding: 20px 16px;
+    height: 46px;
+    padding: 12px 16px;
 
     color: ${theme.colors.backgroundInverse};
 
     font-weight: 400;
     font-size: 17px;
     line-height: 22px;
+
+    &:hover {
+        background-color: ${theme.colors.backgroundHover};
+    }
+`;
+
+export const DividerStyled = styled(Divider)`
+    margin: 8px 0;
+`;
+
+export const BlurContainer = styled.div`
+    position: fixed;
+    top: 64px;
+
+    height: 100vh;
+    /* width: 100vw; */
+
+    background: rgba(217, 217, 217, 0.4);
+    backdrop-filter: blur(2px);
 `;

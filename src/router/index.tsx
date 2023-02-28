@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, Menu, MenuModels } from 'components/core';
+import { Header, Menu, MenuModels, MenuPersonalArea } from 'components/core';
 
 import {
     AppInfoPage,
@@ -15,6 +15,7 @@ import {
     HowToPage,
     MainPage,
     ModelsPage,
+    PersonalArea,
     ProductsPage,
     SearchPage,
     ServicesPage,
@@ -22,12 +23,15 @@ import {
     TechRadarPage,
     TemplatesPage,
 } from 'pages';
+import * as ROUTER from 'router/const';
 import { Theme, theme } from 'styles';
 
 import * as C from './const';
 import { RouteAdapter } from './utils';
 
 export const NavigationRouter = () => {
+    const [isPersonalArea, setIsPersonalArea] = useState(false);
+
     const location = useLocation();
 
     useEffect(() => {
@@ -35,17 +39,39 @@ export const NavigationRouter = () => {
             top: 0,
             behavior: 'smooth',
         });
+
+        if (location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH)) {
+            setIsPersonalArea(true);
+        } else {
+            setIsPersonalArea(false);
+        }
     }, [location]);
 
     return (
         <Theme>
-            <Header />
+            <Header {...{ isPersonalArea }} />
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
                     <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
 
                     <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
+
+                    <Route
+                        path={C.PERSONAL_AREA_PATH}
+                        element={
+                            <div
+                                style={{
+                                    height: '100vh',
+                                    paddingLeft: '256px',
+                                    backgroundColor: theme.colors.backgroundLow,
+                                }}
+                            >
+                                <MenuPersonalArea />
+                                <PersonalArea />
+                            </div>
+                        }
+                    />
 
                     <Route
                         path={C.MODELS_PATH}

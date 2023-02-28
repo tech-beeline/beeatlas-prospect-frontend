@@ -2,6 +2,7 @@ import { runInAction } from 'mobx';
 
 import { getCalendarData } from 'api/calendar';
 import { getGeneralItems, getItemChildren, getSearchResult } from 'api/fdm';
+import { getRoles } from 'api/personal-area';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
 // TODO: вынести
@@ -320,6 +321,16 @@ export const GeneralStore = (): IGeneralStore => {
 
         setMenuTreeItems(data) {
             this.menuTreeItems = data;
+        },
+
+        // ------PERSONAL AREA------------------------
+
+        async getRoles() {
+            try {
+                const res = await getRoles();
+
+                console.log(res);
+            } catch (error) {}
         },
     };
 };
