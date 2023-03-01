@@ -46,3 +46,7 @@ export const ExpandStyled = styled(Expand)`
     font-size: 19px;
     line-height: 24px;
 `;
+
+export const TextBlock = styled.div`
+    display: inline;
+`;
