@@ -21,12 +21,13 @@ export const FDMResultPage = observer(() => {
     const { guid } = useParams();
 
     return (
-        <S.PageWrapper>
-            <S.Container>
+        <S.PageWrapper className="PageWrapper">
+            <S.Container className="Container">
                 {/* TODO: исправить */}
                 <TitleBack title={resultTitle} />
 
                 <S.Iframe
+                    className="string"
                     id="iFrameTest"
                     title="test"
                     height="500"

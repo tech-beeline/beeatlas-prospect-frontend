@@ -33,11 +33,12 @@ export const Item: FC<IItem> = (props) => {
     return (
         <>
             <S.Wrapper
+                className="ItemWrapper"
                 isActive={location.pathname?.includes(props.url!)}
                 isSubItems={!!props.subItems}
                 onClick={handleClick}
             >
-                <S.LeftWrapper>
+                <S.LeftWrapper className="ItemLeftWrapper">
                     <BaseIcon iconName={props.iconName} />
 
                     {props.title}

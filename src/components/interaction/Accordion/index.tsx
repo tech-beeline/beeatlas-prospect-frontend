@@ -63,10 +63,10 @@ export const Accordion = (props: any) => {
     };
 
     return (
-        <S.Container {...props}>
+        <S.Container className="AccordionContainer" {...props}>
             {data.map((item, index) => (
-                <S.Item key={index} onClick={() => toggleHandler(index)}>
-                    <S.TitleBlock>
+                <S.Item className="AccordionItem" key={index} onClick={() => toggleHandler(index)}>
+                    <S.TitleBlock className="AccordionTitleBlock">
                         {item.title} <PivotArrow isOpen={isActive === index} />
                     </S.TitleBlock>
 

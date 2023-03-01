@@ -46,12 +46,13 @@ export const Input = forwardRef<HTMLInputElement, T.IInput>((props, ref) => {
     };
 
     return (
-        <S.InputWrapper className={props.className} {...{ isFocused }}>
-            {props.label && <S.Label>{props.label}</S.Label>}
+        <S.InputWrapper className={props.className || 'InputWrapper'} {...{ isFocused }}>
+            {props.label && <S.Label className="InputLabel">{props.label}</S.Label>}
 
             {props.type === 'phone' ? (
                 // @ts-ignore
                 <S.InputPhoneStyled
+                    className="InputPhoneStyled"
                     {...props}
                     isValid={isValidOnBlur}
                     onChange={handleChange}
@@ -61,6 +62,7 @@ export const Input = forwardRef<HTMLInputElement, T.IInput>((props, ref) => {
                 />
             ) : (
                 <S.InputStyled
+                    className="InputStyled"
                     {...props}
                     onChange={handleChange}
                     onClick={props.onClick}

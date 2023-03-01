@@ -4,11 +4,11 @@ import * as S from './units';
 
 export const ModelsPage = () => {
     return (
-        <S.PageWrapper>
-            <S.ContentWrapper>
-                <S.H2>Модели</S.H2>
+        <S.PageWrapper className="PageWrapper">
+            <S.ContentWrapper className="ContentWrapper">
+                <S.H2 className="H2">Модели</S.H2>
 
-                <S.CardContainer>
+                <S.CardContainer className="CardContainer">
                     <S.CardStyled colorType="blue" title="Поиск возможностей в ФДМ" to="search">
                         Полнотекстовый поиск бизнес и технических возможностей на ландшафте компании
                     </S.CardStyled>

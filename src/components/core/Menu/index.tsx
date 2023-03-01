@@ -23,7 +23,7 @@ export const Menu = () => {
     // }, [location]);
 
     return (
-        <S.Wrapper>
+        <S.Wrapper className="MenuWrapper">
             <Item
                 iconName={Icons.Group}
                 title="Арх. комитет"

@@ -7,12 +7,12 @@ import * as S from './units';
 
 export const InDevelopingMock = () => {
     return (
-        <S.Wrapper>
-            <S.Image src={image} />
+        <S.Wrapper className="Wrapper">
+            <S.Image className="Image" src={image} />
 
-            <S.Text>Раздел в разработке</S.Text>
+            <S.Text className="Text">Раздел в разработке</S.Text>
 
-            <S.Description>
+            <S.Description className="Description">
                 Актуальную версию технической политики вы можете найти на конфлюенсе
             </S.Description>
 

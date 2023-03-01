@@ -11,13 +11,13 @@ export const CalendarCard: FC<ICalendarCard> = (props) => {
     return (
         <BorderContainer style={{ minWidth: '620px' }}>
             <div>
-                <S.Date>{props.date}</S.Date>
+                <S.Date className="CalendarCardDate">{props.date}</S.Date>
 
-                <S.Title>{props.title}</S.Title>
+                <S.Title className="CalendarCardTitle">{props.title}</S.Title>
 
-                <S.SubTitle>{props.subTitle}</S.SubTitle>
+                <S.SubTitle className="CalendarCardSubTitle">{props.subTitle}</S.SubTitle>
 
-                <S.LinkContainer>
+                <S.LinkContainer className="CalendarCardLinkContainer">
                     {/* TODO: название файла из апи + ссылка + скачивание */}
                     <Link type="file" path="">
                         Презентация.pttx
@@ -29,7 +29,7 @@ export const CalendarCard: FC<ICalendarCard> = (props) => {
                 </S.LinkContainer>
             </div>
 
-            <S.ButtonContainer>
+            <S.ButtonContainer className="CalendarCardButtonContainer">
                 <Button variant="contained" endIcon={<Icon iconName={Icons.Download} />}>
                     Скачать протокол
                 </Button>

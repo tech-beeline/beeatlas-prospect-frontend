@@ -10,10 +10,10 @@ export const ServicesPage = () => {
     const navigate = useNavigate();
 
     return (
-        <S.PageWrapper>
-            <S.H3>Сервисные услуги корпоративной архитектуры</S.H3>
+        <S.PageWrapper className="PageWrapper">
+            <S.H3 className="H3">Сервисные услуги корпоративной архитектуры</S.H3>
 
-            <S.FlexContainer>
+            <S.FlexContainer className="FlexContainer">
                 <ServiceCard
                     title="Консультирование"
                     text="Обратитесь за консультацией к корпоративным архитекторам по вопросам, связанным с подготовкой к защите на Архитектурном комитете, позиционировании продукта, выборе технологий, а также по любым другим вопросам, связанным с архитектурой ИТ-ландшафта"

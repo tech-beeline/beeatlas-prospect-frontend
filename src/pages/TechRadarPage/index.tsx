@@ -130,8 +130,8 @@ export const TechRadarPage = () => {
     };
 
     return (
-        <S.PageWrapper>
-            <S.Header>
+        <S.PageWrapper className="PageWrapper">
+            <S.Header className="TechHeader">
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
 

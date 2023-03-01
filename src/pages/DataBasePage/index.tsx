@@ -4,11 +4,11 @@ import * as S from './units';
 
 export const DataBasePage = () => {
     return (
-        <S.PageWrapper>
-            <S.ContentWrapper>
-                <S.H2>База знаний</S.H2>
+        <S.PageWrapper className="PageWrapper">
+            <S.ContentWrapper className="ContentWrapper">
+                <S.H2 className="H2">База знаний</S.H2>
 
-                <S.CardContainer>
+                <S.CardContainer className="CardContainer">
                     <S.CardStyled colorType="pink" title="Архитектурный комитет" to="arch-comm">
                         Раздел поможет подготовиться к защите концепции или продукта
                     </S.CardStyled>

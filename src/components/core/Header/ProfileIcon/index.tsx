@@ -20,7 +20,12 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
 
     return (
         <>
-            <S.Wrapper onClick={() => setShowDropdown(!isShowDropdown)}>{initials}</S.Wrapper>
+            <S.Wrapper
+                className="ProfileIconWrapper"
+                onClick={() => setShowDropdown(!isShowDropdown)}
+            >
+                {initials}
+            </S.Wrapper>
 
             {/* <S.ExpandStyled isOpen={isShowDropdown}>
                 <p onClick={() => clearAuth()}>Выход</p>
@@ -28,9 +33,10 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
 
             {isShowDropdown && (
                 // <S.BlurContainer onClick={() => setShowDropdown(false)}>
-                <S.Dropdown ref={dropdownRef}>
-                    <S.DropdownItem>Профиль</S.DropdownItem>
+                <S.Dropdown className="Dropdown" ref={dropdownRef}>
+                    <S.DropdownItem className="DropdownItem">Профиль</S.DropdownItem>
                     <S.DropdownItem
+                        className="DropdownItem"
                         onClick={() =>
                             navigate(
                                 !isPersonalArea ? ROUTER.PERSONAL_AREA_PATH : ROUTER.MAIN_PAGE_PATH,
@@ -41,9 +47,9 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
                         <Icon iconName={Icons.OpenInWindow} />
                     </S.DropdownItem>
 
-                    <S.DividerStyled />
+                    <S.DividerStyled className="DividerStyled" />
 
-                    <S.DropdownItem onClick={() => clearAuth()}>
+                    <S.DropdownItem className="DropdownItem" onClick={() => clearAuth()}>
                         Выход <Icon iconName={Icons.NavArrowRight} />
                     </S.DropdownItem>
                 </S.Dropdown>

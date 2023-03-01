@@ -6,25 +6,30 @@ import * as S from './units';
 
 export const HumanCard: FC<IHumanCard> = (props) => {
     return (
-        <S.Wrapper {...props}>
-            <S.FlexContainer>
+        <S.Wrapper className="HumanCardWrapper" {...props}>
+            <S.FlexContainer className="HumanCardFlexContainer">
                 {props.avatar && props.avatar !== 'group' ? (
-                    <S.Avatar src={props.avatar} />
+                    <S.Avatar className="HumanCardAvatar" src={props.avatar} />
                 ) : (
                     <S.IconStyled
+                        className="HumanCardIconStyled"
                         iconName={props.avatar === 'group' ? Icons.Group : Icons.User}
                         type="default"
                     />
                 )}
 
                 <div>
-                    {props.secondName && <S.SecondName>{props.secondName}</S.SecondName>}
+                    {props.secondName && (
+                        <S.SecondName className="HumanCardSecondName">
+                            {props.secondName}
+                        </S.SecondName>
+                    )}
 
-                    <S.FirstName>{props.firstName}</S.FirstName>
+                    <S.FirstName className="HumanCardFirstName">{props.firstName}</S.FirstName>
                 </div>
             </S.FlexContainer>
 
-            <S.Description>{props.description}</S.Description>
+            <S.Description className="HumanCardDescription">{props.description}</S.Description>
         </S.Wrapper>
     );
 };

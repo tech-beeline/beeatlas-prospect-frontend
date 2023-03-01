@@ -8,7 +8,7 @@ export const TitleBack = ({ title }: { title: string }) => {
     const navigate = useNavigate();
 
     return (
-        <S.Title onClick={() => navigate(-1)}>
+        <S.Title className="TitleBack" onClick={() => navigate(-1)}>
             <Icon iconName={Icons.ArrowLeft} /> {title}
         </S.Title>
     );

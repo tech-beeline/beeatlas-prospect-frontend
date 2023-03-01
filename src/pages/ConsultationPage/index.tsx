@@ -7,18 +7,18 @@ import * as S from './units';
 
 export const ConsultationPage = () => {
     return (
-        <S.PageWrapper>
+        <S.PageWrapper className="PageWrapper">
             <TitleBack title="Консультирование" />
 
-            <S.SubTitle>
+            <S.SubTitle className="SubTitle">
                 Обратитесь за консультацией к корпоративным архитекторам по вопросам, связанным
                 с подготовкой к защите на Архитектурном комитете, позиционировании продукта, выборе
                 технологий, а также по любым другим вопросам, связанным с архитектурой ИТ-ландшафта
             </S.SubTitle>
 
-            <S.H4>Выберите нужное направление</S.H4>
+            <S.H4 className="H4">Выберите нужное направление</S.H4>
 
-            <S.AdaptiveCardContainer>
+            <S.AdaptiveCardContainer className="AdaptiveCardContainer">
                 <IconCard
                     icon="Chat"
                     color="teal"
@@ -44,7 +44,7 @@ export const ConsultationPage = () => {
                 />
             </S.AdaptiveCardContainer>
 
-            <S.AdaptiveCardContainer>
+            <S.AdaptiveCardContainer className="AdaptiveCardContainer">
                 <IconCard
                     icon="Building"
                     color="info"
@@ -70,7 +70,7 @@ export const ConsultationPage = () => {
                 />
             </S.AdaptiveCardContainer>
 
-            <S.AdaptiveCardContainer>
+            <S.AdaptiveCardContainer className="AdaptiveCardContainer">
                 <IconCard
                     icon="Position"
                     color="success"
@@ -96,7 +96,7 @@ export const ConsultationPage = () => {
                 />
             </S.AdaptiveCardContainer>
 
-            <S.AdaptiveCardContainer>
+            <S.AdaptiveCardContainer className="AdaptiveCardContainer">
                 <IconCard
                     icon="QuestionCircled"
                     color="magenta"
@@ -110,24 +110,28 @@ export const ConsultationPage = () => {
                 />
             </S.AdaptiveCardContainer>
 
-            <S.H4 style={{ margin: '56px 0 26px' }}>Владелец сервиса</S.H4>
-            <S.BoldText>Филатова Ольга Ивановна</S.BoldText>
+            <S.H4 className="H4" style={{ margin: '56px 0 26px' }}>
+                Владелец сервиса
+            </S.H4>
+            <S.BoldText className="BoldText">Филатова Ольга Ивановна</S.BoldText>
 
-            <S.GrayText>
+            <S.GrayText className="GrayText">
                 Руководитель проекта, Центр компетенции по проектному управлению,
                 <br />
                 Департамент разработки платформенных решений
             </S.GrayText>
 
-            <S.FlexBottomContainer>
-                <S.GraySecondText>
+            <S.FlexBottomContainer className="FlexBottomContainer">
+                <S.GraySecondText className="GraySecondText">
                     Email:{' '}
-                    <S.EmailLink href="mailto: OlIFilatova@beeline.ru">
+                    <S.EmailLink className="EmailLink" href="mailto: OlIFilatova@beeline.ru">
                         OlIFilatova@beeline.ru
                     </S.EmailLink>
                 </S.GraySecondText>
 
-                <S.GraySecondText>Телефон: +7 968 762-68-13</S.GraySecondText>
+                <S.GraySecondText className="GraySecondText">
+                    Телефон: +7 968 762-68-13
+                </S.GraySecondText>
             </S.FlexBottomContainer>
         </S.PageWrapper>
     );

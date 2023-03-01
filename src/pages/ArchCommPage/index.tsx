@@ -14,40 +14,45 @@ import * as S from './units';
 
 export const ArchCommPage = () => {
     return (
-        <S.PageWrapper>
-            <S.H3>Архитектурный комитет</S.H3>
-            <S.GrayText style={{ marginBottom: '32px' }}>
+        <S.PageWrapper className="PageWrapper">
+            <S.H3 className="H3">Архитектурный комитет</S.H3>
+            <S.GrayText className="GrayText" style={{ marginBottom: '32px' }}>
                 — коллегиальный орган, состоящий из вице-президентов компании и корпоративных
                 архитекторов.
             </S.GrayText>
 
-            <S.H4 style={{ marginBottom: '12px' }}>Для чего был создан</S.H4>
+            <S.H4 className="H4" style={{ marginBottom: '12px' }}>
+                Для чего был создан
+            </S.H4>
             <ul style={{ marginBottom: '50px' }}>
-                <S.GrayText>
+                <S.GrayText className="GrayText">
                     <li>обеспечить гибкость и консистентность ИТ-ландшафта</li>
                 </S.GrayText>
 
-                <S.GrayText>
+                <S.GrayText className="GrayText">
                     <li>ускорить time-to-market новых возможностей на уровне компании</li>
                 </S.GrayText>
 
-                <S.GrayText>
+                <S.GrayText className="GrayText">
                     <li>обеспечить баланс между стоимостью разработки и гибкостью решения</li>
                 </S.GrayText>
 
-                <S.GrayText>
+                <S.GrayText className="GrayText">
                     <li>улучшить возможности масштабирования, нагрузки, безопасности</li>
                 </S.GrayText>
 
-                <S.GrayText>
+                <S.GrayText className="GrayText">
                     <li>обеспечить переиспользование знаний и технологий в компании</li>
                 </S.GrayText>
             </ul>
 
-            <S.H4 style={{ marginBottom: '40px' }}>Состав и функции Архитектурного комитета</S.H4>
+            <S.H4 className="H4" style={{ marginBottom: '40px' }}>
+                Состав и функции Архитектурного комитета
+            </S.H4>
+
             <BorderContainer style={{ marginBottom: '24px' }}>
-                <S.Container>
-                    <S.BoldTitle>Лица принимающие решения</S.BoldTitle>
+                <S.Container className="Container">
+                    <S.BoldTitle className="BoldTitle">Лица принимающие решения</S.BoldTitle>
 
                     <HumanCard
                         avatar={human1}
@@ -74,8 +79,8 @@ export const ArchCommPage = () => {
                     />
                 </S.Container>
 
-                <S.Container>
-                    <S.BoldTitle>Функции</S.BoldTitle>
+                <S.Container className="Container">
+                    <S.BoldTitle className="BoldTitle">Функции</S.BoldTitle>
 
                     <IconText icon="Notification" text="Принятие решений" color="info" />
                     <IconText icon="Suitcase" text="Развитие ИТ-ландшафта" color="warning" />
@@ -86,8 +91,10 @@ export const ArchCommPage = () => {
             </BorderContainer>
 
             <BorderContainer style={{ marginBottom: '24px' }}>
-                <S.Container>
-                    <S.BoldTitle>Центр развития корпоративной архитектуры</S.BoldTitle>
+                <S.Container className="Container">
+                    <S.BoldTitle className="BoldTitle">
+                        Центр развития корпоративной архитектуры
+                    </S.BoldTitle>
 
                     <HumanCard
                         firstName="Руководитель центра"
@@ -105,8 +112,8 @@ export const ArchCommPage = () => {
                     />
                 </S.Container>
 
-                <S.Container>
-                    <S.BoldTitle>Функции</S.BoldTitle>
+                <S.Container className="Container">
+                    <S.BoldTitle className="BoldTitle">Функции</S.BoldTitle>
 
                     <IconText
                         icon="UserVerified"
@@ -124,8 +131,8 @@ export const ArchCommPage = () => {
             </BorderContainer>
 
             <BorderContainer>
-                <S.Container>
-                    <S.BoldTitle>Секретарь комитета</S.BoldTitle>
+                <S.Container className="Container">
+                    <S.BoldTitle className="BoldTitle">Секретарь комитета</S.BoldTitle>
 
                     <HumanCard
                         avatar={human4}
@@ -136,8 +143,8 @@ export const ArchCommPage = () => {
                     />
                 </S.Container>
 
-                <S.Container>
-                    <S.BoldTitle>Функции</S.BoldTitle>
+                <S.Container className="Container">
+                    <S.BoldTitle className="BoldTitle">Функции</S.BoldTitle>
 
                     <IconText icon="Megaphone" text="Проведение заседаний" />
                 </S.Container>

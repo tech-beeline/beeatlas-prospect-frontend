@@ -8,14 +8,19 @@ export const Card = (props: any) => {
 
     return (
         <S.Card
+            className="Card"
             colorType={props.colorType}
             withImage={props.withImage}
             onClick={() => props.to && navigate(props.to)}
             {...props}
         >
-            <S.Title withImage={props.withImage}>{props.title}</S.Title>
+            <S.Title className="CardTitle" withImage={props.withImage}>
+                {props.title}
+            </S.Title>
 
-            <S.Text withImage={props.withImage}>{props.children}</S.Text>
+            <S.Text className="CardText" withImage={props.withImage}>
+                {props.children}
+            </S.Text>
         </S.Card>
     );
 };

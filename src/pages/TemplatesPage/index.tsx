@@ -13,10 +13,12 @@ import * as S from './units';
 
 export const TemplatesPage = () => {
     return (
-        <S.PageWrapper>
-            <S.H3>Шаблоны материалов</S.H3>
+        <S.PageWrapper className="PageWrapper">
+            <S.H3 className="H3">Шаблоны материалов</S.H3>
 
-            <S.H4 style={{ marginBottom: '32px' }}>Выходите на защиту впервые</S.H4>
+            <S.H4 className="H4" style={{ marginBottom: '32px' }}>
+                Выходите на защиту впервые
+            </S.H4>
 
             <IconCard
                 icon="Chat"
@@ -82,8 +84,10 @@ export const TemplatesPage = () => {
                 />
             </S.AdaptiveCardContainer> */}
 
-            <S.H4 style={{ marginTop: '54px' }}>Не нашли подходящий шаблон?</S.H4>
-            <S.SmallText>
+            <S.H4 className="H4" style={{ marginTop: '54px' }}>
+                Не нашли подходящий шаблон?
+            </S.H4>
+            <S.SmallText className="SmallText">
                 Обратитесь за&nbsp;
                 <Link
                     path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}

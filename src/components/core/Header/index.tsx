@@ -59,9 +59,12 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
 
     return (
         <>
-            <S.Container>
-                <S.FlexContainer onClick={() => navigate(MAIN_PAGE_PATH)}>
-                    <S.Title>
+            <S.Container className="HeaderContainer">
+                <S.FlexContainer
+                    className="HeaderFlexContainer"
+                    onClick={() => navigate(MAIN_PAGE_PATH)}
+                >
+                    <S.Title className="HeaderTitle">
                         {!isPersonalArea ? 'корп. архитектура' : 'корп. архитектура/админка'}
                     </S.Title>
 
@@ -82,7 +85,7 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                     </Tabs>
                 )}
 
-                <S.ControlPanel>
+                <S.ControlPanel className="HeaderControlPanel">
                     {/* TODO: Пока убрана */}
                     {/* <S.SearchStyled
                         onClear={() => console.log(isAuth)}

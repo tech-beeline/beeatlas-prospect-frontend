@@ -12,7 +12,11 @@ export const SubItem = (props: any) => {
     };
 
     return (
-        <S.Wrapper isActive={props.to === location.pathname} onClick={handleClick}>
+        <S.Wrapper
+            className="SubItemWrapper"
+            isActive={props.to === location.pathname}
+            onClick={handleClick}
+        >
             {props.title}
         </S.Wrapper>
     );

@@ -7,8 +7,8 @@ import * as S from './units';
 
 export const Button = forwardRef<HTMLButtonElement, T.IButton>((props, ref) => {
     return (
-        <S.FlexContainer>
-            <S.Button {...props} ref={ref}>
+        <S.FlexContainer className="ButtonFlexContainer">
+            <S.Button className="Button" {...props} ref={ref}>
                 {props.children}
             </S.Button>
 
@@ -19,7 +19,7 @@ export const Button = forwardRef<HTMLButtonElement, T.IButton>((props, ref) => {
 
 export const IconButton: FC<T.IOutlineButton> = ({ icon, ...props }) => {
     return (
-        <S.IconButton {...props}>
+        <S.IconButton className="IconButton" {...props}>
             <img src={icon} />
         </S.IconButton>
     );
