@@ -53,10 +53,10 @@ export const OuterLink = styled.a<{ fontSize?: number }>`
     }
 `;
 
-export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean }>`
+export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline?: boolean }>`
     position: relative;
 
-    display: inline-flex;
+    display: ${({ isInline }) => (isInline ? 'inline' : 'inline-flex')};
     align-items: center;
     justify-content: center;
     gap: 8px;

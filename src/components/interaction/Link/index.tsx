@@ -8,7 +8,12 @@ import * as S from './units';
 export const Link: FC<ILink> = ({ type = 'default', ...props }) => {
     return props.isInner ? (
         <LinkRR className="LinkRR" to={props.path}>
-            <S.LinkText className="LinkText" fontSize={props.fontSize} noLine={props.noLine}>
+            <S.LinkText
+                className="LinkText"
+                fontSize={props.fontSize}
+                noLine={props.noLine}
+                isInline={props.isInline}
+            >
                 {props.children}
             </S.LinkText>
         </LinkRR>

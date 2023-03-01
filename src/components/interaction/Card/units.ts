@@ -37,6 +37,18 @@ export const Title = styled.h2<{ withImage: boolean }>`
         transition: all 0.25s ease-out;
     }
 
+    &:hover {
+        color: ${theme.colors.textLink};
+
+        &::after {
+            transform: translateX(24px);
+
+            opacity: 1;
+        }
+    }
+
+    cursor: pointer;
+
     transition: all 0.25s ease-out;
 `;
 
@@ -63,13 +75,12 @@ export const Card = styled.div<any>`
 
     transition: all 0.25s ease-out;
 
-    /* cursor: ${({ withImage }) => !withImage && 'pointer'}; */
-    cursor: pointer;
+    cursor: ${({ withImage }) => !withImage && 'pointer'};
 
     &:hover {
         border-radius: 24px;
 
-        ${Title} {
+        /* ${Title} {
             color: ${theme.colors.textLink};
 
             &::after {
@@ -77,7 +88,7 @@ export const Card = styled.div<any>`
 
                 opacity: 1;
             }
-        }
+        } */
     }
 
     &::before {
@@ -98,6 +109,8 @@ export const Card = styled.div<any>`
 `;
 
 export const Text = styled.p<{ withImage: boolean }>`
+    display: inline-block;
+
     width: ${({ withImage }) => (withImage ? '340px' : '100%')};
 
     font-weight: 400;

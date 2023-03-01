@@ -7,14 +7,12 @@ export const Card = (props: any) => {
     const navigate = useNavigate();
 
     return (
-        <S.Card
-            className="Card"
-            colorType={props.colorType}
-            withImage={props.withImage}
-            onClick={() => props.to && navigate(props.to)}
-            {...props}
-        >
-            <S.Title className="CardTitle" withImage={props.withImage}>
+        <S.Card className="Card" colorType={props.colorType} withImage={props.withImage} {...props}>
+            <S.Title
+                className="CardTitle"
+                withImage={props.withImage}
+                onClick={() => props.to && navigate(props.to)}
+            >
                 {props.title}
             </S.Title>
 

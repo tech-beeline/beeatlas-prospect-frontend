@@ -5,4 +5,5 @@ export interface ILink {
     isInner?: boolean;
     fontSize?: number;
     noLine?: boolean;
+    isInline?: boolean;
 }
