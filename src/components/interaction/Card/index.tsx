@@ -19,7 +19,7 @@ export const Card = (props: any) => {
                     {props.title}
                 </S.Title>
 
-                <Icon iconName={Icons.ArrowRight} />
+                {props.withImage && <Icon iconName={Icons.ArrowRight} />}
             </S.TitleWrapper>
 
             <S.Text className="CardText" withImage={props.withImage}>

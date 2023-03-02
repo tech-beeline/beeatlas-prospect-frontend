@@ -111,7 +111,7 @@ export const FDMPage = observer(() => {
                             <S.Image className="Image" src={boxImg} />
 
                             <S.MockText className="MockText">
-                                Начните поиск или выберите сущность из списка
+                                Выберите сущность из списка
                             </S.MockText>
                         </S.MockWrapper>
                     )}
