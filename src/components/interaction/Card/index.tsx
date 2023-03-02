@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import * as S from './units';
 
@@ -8,13 +10,17 @@ export const Card = (props: any) => {
 
     return (
         <S.Card className="Card" colorType={props.colorType} withImage={props.withImage} {...props}>
-            <S.Title
-                className="CardTitle"
-                withImage={props.withImage}
-                onClick={() => props.to && navigate(props.to)}
-            >
-                {props.title}
-            </S.Title>
+            <S.TitleWrapper>
+                <S.Title
+                    className="CardTitle"
+                    withImage={props.withImage}
+                    onClick={() => props.to && navigate(props.to)}
+                >
+                    {props.title}
+                </S.Title>
+
+                <Icon iconName={Icons.ArrowRight} />
+            </S.TitleWrapper>
 
             <S.Text className="CardText" withImage={props.withImage}>
                 {props.children}
