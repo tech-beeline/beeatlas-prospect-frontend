@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
@@ -17,11 +17,7 @@ import * as S from './units';
 
 // TODO: рефакторинг - раскидать по блокам/виджетам, использовать компоненты
 export const MainPage = observer(() => {
-    // const {
-    //     generalStore: { themeIsDark },
-    // } = useRootStore();
-
-    // console.log(themeIsDark);
+    const refH1 = useRef(null);
 
     return (
         <>
@@ -37,7 +33,13 @@ export const MainPage = observer(() => {
                         процесса создания продукта
                     </S.H3>
 
-                    <Button variant="contained" size="medium">
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        ref={refH1}
+                        // @ts-ignore
+                        onClick={() => refH1.current?.scrollIntoView({ behavior: 'smooth' })}
+                    >
                         Узнать подробнее
                     </Button>
                 </S.GeneralBlock>

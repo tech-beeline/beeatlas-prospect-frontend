@@ -170,11 +170,10 @@ export const GeneralStore = (): IGeneralStore => {
 
             if (foundItem) {
                 this.breadCrumbsFormat(foundItem.parent);
+            } else {
+                // для последнего вложенного элемента, тк его не может быть в общем списке
+                this.breadCrumbsFormat(this.activeFDMItem.parent);
             }
-            // else {
-            //     // для последнего вложенного элемента, тк его не может быть в общем списке
-            //     this.breadCrumbsFormat(this.activeFDMItem.parent);
-            // }
 
             let tempArr = [...this.menuTreeItems];
             let actualItem = {};
