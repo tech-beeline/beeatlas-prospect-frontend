@@ -62,6 +62,14 @@ export const FDMPage = observer(() => {
 
                     <S.H4 className="H4">{activeFDMItem.name}</S.H4>
 
+                    {!activeFDMItem.descr && activeFDMItem.children?.length === 0 && (
+                        <S.MockWrapper className="MockWrapper">
+                            <S.Image className="Image" src={boxImg} />
+
+                            <S.MockText className="MockText">Возможностей пока нет</S.MockText>
+                        </S.MockWrapper>
+                    )}
+
                     <S.JustText
                         className="JustText"
                         dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }}
