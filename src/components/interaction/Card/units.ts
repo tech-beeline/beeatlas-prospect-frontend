@@ -7,6 +7,33 @@ import card1 from './images/card-1.png';
 import card2 from './images/card-2.png';
 import card3 from './images/card-3.png';
 
+export const TitleWrapper = styled.div`
+    display: flex;
+    align-items: center;
+
+    & > span {
+        font-size: 32px;
+
+        padding-bottom: 8px;
+
+        opacity: 0;
+
+        transition: all 0.25s ease-out;
+    }
+
+    &:hover > span {
+        transform: translateX(18px);
+
+        opacity: 1;
+    }
+
+    &:hover > * {
+        color: ${theme.colors.textLink};
+    }
+
+    cursor: pointer;
+`;
+
 export const Title = styled.h2<{ withImage: boolean }>`
     ${({ withImage }) =>
         withImage
@@ -22,32 +49,6 @@ export const Title = styled.h2<{ withImage: boolean }>`
               `}
 
     margin-bottom: 16px;
-
-    &::after {
-        content: '→';
-        position: absolute;
-        top: 35px;
-
-        width: 20px;
-        height: 20px;
-        margin-left: 8px;
-
-        opacity: 0;
-
-        transition: all 0.25s ease-out;
-    }
-
-    &:hover {
-        color: ${theme.colors.textLink};
-
-        &::after {
-            transform: translateX(24px);
-
-            opacity: 1;
-        }
-    }
-
-    cursor: pointer;
 
     transition: all 0.25s ease-out;
 `;
