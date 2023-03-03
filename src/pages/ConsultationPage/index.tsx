@@ -22,24 +22,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Chat"
                     color="teal"
-                    title="Создание концепции продукта"
+                    title="Создание концепции продукта (200)"
                     text="Помощь команде при разработкеконцепции создания/развития ИТ-продукта, концепции решения сложной проблемы"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=%D2%E5%EC%E0%20%EF%E8%F1%FC%EC%E0&body=%D2%E5%EA%F1%F2%20%EF%E8%F1%FC%EC%E0%2C%20%E2%F1%E5%20%EA%E8%F0%E8%EB%E8%F6%E5%E9%20%3A%29`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=%D2%E5%EC%E0%20%EF%E8%F1%FC%EC%E0&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext`)
                     }
                 />
 
                 <IconCard
                     icon="Edit"
                     color="warning"
-                    title="Создание материалов для выхода на АК"
+                    title="Создание материалов для выхода на АК (249)"
                     text="Консультирование/кураторство в создании презентации к АК"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание материалов для выхода на АК&body=Наименование продукта, сервиса или платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием, которое включает в себя суть продукта, сервиса или платформы.%0D%0AОписание архитектуры решения:%0D%0AАнализ аналогичных продуктов: Проанализируйте и опишите существующие на ландшафте и решающих такие же задачи продукты с обоснованием целесообразности нового продукта%0D%0AПозиционирование на ИТ-ландшафте:%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо%0D%0A%0D%0AСрок выполнения обращения - 3 дня.%0D%0AПосле получения консультации пройдите опрос на удовлетворенность сервисом. Мы стремимся сделать его для вас как можно лучше.`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание материалов для выхода на АК&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextt`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -48,24 +48,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Building"
                     color="info"
-                    title="Использование рекомендуемых технологий"
+                    title="Использование рекомендуемых технологий (299)"
                     text="Определение рекомендуемых технологий для создания продукта"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Использование рекомендуемых технологий&body=Наименование продукта, сервиса или платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием продукта, которое включает в себя суть продукта, включая требования и ограничения.%0D%0AОписание вариантов выбора технологии и/или инструмента:%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо%0D%0A%0D%0AСрок выполнения обращения - 3 дня.%0D%0AПосле получения консультации пройдите опрос на удовлетворенность сервисом. Мы стремимся сделать его для вас как можно лучше.`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Использование рекомендуемых технологий&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttex`)
                     }
                 />
 
                 <IconCard
                     icon="PagesMultiple"
                     color="purple"
-                    title="Применение документа Техническая политика"
+                    title="Применение документа Техническая политика (349)"
                     text="Консультация по применению документа, пояснения по тексту, результату"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Применение документа Техническая политика&body=Зафиксируйте описание решаемой задачи или вопросов, возникших при ознакомлении с документом.%0D%0A%0D%0AСрок выполнения обращения - 3 дня.%0D%0AПосле получения консультации пройдите опрос на удовлетворенность сервисом. Мы стремимся сделать его для вас как можно лучше.%0D%0A%0D%0AContent-Type:%20text/plain;%20charset=UTF-8`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Применение документа Техническая политика&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextt`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -74,24 +74,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Position"
                     color="success"
-                    title="Первичное позиционирование"
+                    title="Первичное позиционирование (399)"
                     text="Определение места позиционирования Техно-возможностей, определение ценности ИТ-продукта (сервиса) для ИТ-ландшафта и/или потребителей"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Первичное позиционирование&body=Наименование продукта, сервиса или платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием продукта, которое включает в себя суть продукта, включая требования и ограничения.%0D%0AНаличие моделей ИТ-продукта(решения) в SPARX EA – желательно%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо%0D%0A%0D%0AСрок выполнения обращения - 3 дня.%0D%0AПосле получения консультации пройдите опрос на удовлетворенность сервисом. Мы стремимся сделать его для вас как можно лучше.`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Первичное позиционирование&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttex`)
                     }
                 />
 
                 <IconCard
                     icon="Position"
                     color="error"
-                    title="Верификация позиционирования"
+                    title="Верификация позиционирования (449)"
                     text="Подтверждение полноты, непротиворечивости, корректности позиционирования техно-возможностей. В ряде случаев может быть так же необходим при подготовке к АК"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Верификация позиционирования&body=Наименование продукта, сервиса или платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием продукта, которое включает в себя суть продукта, включая требования и ограничения.%0D%0AНаличие моделей ИТ-продукта(решения) в SPARX EA – желательно%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо%0D%0A%0D%0AСрок выполнения обращения - 3 дня.%0D%0AПосле получения консультации пройдите опрос на удовлетворенность сервисом. Мы стремимся сделать его для вас как можно лучше.`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Верификация позиционирования&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextexttexttexttexttexttexttexttexttextexttexttexttex`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -100,12 +100,12 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="QuestionCircled"
                     color="magenta"
-                    title="Другое"
+                    title="Другое (600)"
                     text="Если запрос не подпадает ни под одно из направлений"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Другое&body=Наименование продукта, сервиса или платформы:%0D%0AОписание продукта: Прикрепите ссылку на страницу с описанием продукта, которое включает в себя суть продукта, или опишите проблематику.%0D%0AЖелаемый результат от консультации: Напишите, какой артефакт вы ожидаете увидеть по результатам консультирования%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо%0D%0A%0D%0AСрок выполнения обращения - 3 дня.%0D%0AПосле получения консультации пройдите опрос на удовлетворенность сервисом. Мы стремимся сделать его для вас как можно лучше.`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Другое&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextexttexttexttexttexttexttexttexttextexttexttexttextexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttex`)
                     }
                 />
             </S.AdaptiveCardContainer>
