@@ -22,24 +22,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Chat"
                     color="teal"
-                    title="Создание концепции продукта (200)"
+                    title="Создание концепции продукта (526)"
                     text="Помощь команде при разработкеконцепции создания/развития ИТ-продукта, концепции решения сложной проблемы"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=%D2%E5%EC%E0%20%EF%E8%F1%FC%EC%E0&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=%D2%E5%EC%E0%20%EF%E8%F1%FC%EC%E0&body=Медленно, но верно. Осмысленный подход к принятию решений способствует достижению успеха. Внимательно анализируйте каждую ситуацию и делайте обдуманные выводы. Не спешите с принятием решений, но и не откладывайте их на потом. Сосредоточьтесь на цели и действуйте последовательно. Только так можно добиться успеха в любой области жизни. Помните, что терпение и настойчивость являются важными качествами, которые помогают преодолеть любые препятствия. Верьте в себя и свои силы, и вы обязательно достигнете желаемого результата!`)
                     }
                 />
 
                 <IconCard
                     icon="Edit"
                     color="warning"
-                    title="Создание материалов для выхода на АК (249)"
+                    title="Создание материалов для выхода на АК (477)"
                     text="Консультирование/кураторство в создании презентации к АК"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание материалов для выхода на АК&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextt`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание материалов для выхода на АК&body=Лучше сделать и пожалеть, чем не сделать и всю жизнь жалеть. Жизнь коротка, и каждый миг на ней должен быть заполнен яркими событиями. Не бойтесь рисковать и не отказывайтесь от возможностей, которые даются вам судьбой. Не стоит ждать чуда – лучше самому его создать. Уважайте себя и свои желания, иначе никто не будет уважать вас. Доверьтесь своей интуиции и не бойтесь ошибаться, ибо ошибки делают нас сильнее. Не забывайте наслаждаться жизнью, и она ответит вам взаимностью!`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -48,24 +48,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Building"
                     color="info"
-                    title="Использование рекомендуемых технологий (299)"
+                    title="Использование рекомендуемых технологий (442)"
                     text="Определение рекомендуемых технологий для создания продукта"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Использование рекомендуемых технологий&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttex`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Использование рекомендуемых технологий&body=Работайте усердно и с умом, и успех не заставит себя долго ждать. В жизни нет ничего невозможного, если вы настойчиво идете к своей цели. Не бойтесь неудач, их можно использовать как уроки на пути к успеху. Помните, что каждая проблема имеет решение, и каждое препятствие можно преодолеть. Не забывайте наслаждаться каждым моментом жизни, ибо она прекрасна и коротка. Доверяйте своим мечтам и стремитесь к ним, и вы обязательно их достигнете!`)
                     }
                 />
 
                 <IconCard
                     icon="PagesMultiple"
                     color="purple"
-                    title="Применение документа Техническая политика (349)"
+                    title="Применение документа Техническая политика (920)"
                     text="Консультация по применению документа, пояснения по тексту, результату"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Применение документа Техническая политика&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextt`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Применение документа Техническая политика&body=Работайте усердно и с умом, и успех не заставит себя долго ждать. В жизни нет ничего невозможного, если вы настойчиво идете к своей цели. Не бойтесь неудач, их можно использовать как уроки на пути к успеху. Помните, что каждая проблема имеет решение, и каждое препятствие можно преодолеть. Не забывайте наслаждаться каждым моментом жизни, ибо она прекрасна и коротка. Доверяйте своим мечтам и стремитесь к ним, и вы обязательно их достигнете! Лучше сделать и пожалеть, чем не сделать и всю жизнь жалеть. Жизнь коротка, и каждый миг на ней должен быть заполнен яркими событиями. Не бойтесь рисковать и не отказывайтесь от возможностей, которые даются вам судьбой. Не стоит ждать чуда – лучше самому его создать. Уважайте себя и свои желания, иначе никто не будет уважать вас. Доверьтесь своей интуиции и не бойтесь ошибаться, ибо ошибки делают нас сильнее. Не забывайте наслаждаться жизнью, и она ответит вам взаимностью!`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -74,12 +74,12 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Position"
                     color="success"
-                    title="Первичное позиционирование (399)"
+                    title="Первичное позиционирование (662)"
                     text="Определение места позиционирования Техно-возможностей, определение ценности ИТ-продукта (сервиса) для ИТ-ландшафта и/или потребителей"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Первичное позиционирование&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttex`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Первичное позиционирование&body=Работайте усердно и с умом, и успех не заставит себя долго ждать. В жизни нет ничего невозможного, если вы настойчиво идете к своей цели. Не бойтесь неудач, их можно использовать как уроки на пути к успеху. Помните, что каждая проблема имеет решение, и каждое препятствие можно преодолеть. Не забывайте наслаждаться каждым моментом жизни, ибо она прекрасна и коротка. Доверяйте своим мечтам и стремитесь к ним, и вы обязательно их достигнете! Лучше сделать и пожалеть, чем не сделать и всю жизнь жалеть. Жизнь коротка, и каждый миг на ней должен быть заполнен яркими событиями. Не бойтесь рисковать и не отказывайтесь от возможностей, которые даются вам судьбой.`)
                     }
                 />
 
