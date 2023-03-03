@@ -19,7 +19,7 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
             // isAuth,
             setAuth,
             clearAuth,
-            // userInfo,
+            userInfo,
             setUserInfo,
             toggleTheme,
             themeIsDark,
@@ -116,8 +116,8 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
 
                     {true ? (
                         <ProfileIcon
-                            initials={'KO'}
-                            // initials={userInfo.family_name[0] + userInfo.given_name[0]}
+                            // initials={'KO'}
+                            initials={userInfo.family_name[0] + userInfo.given_name[0]}
                             clearAuth={() => {
                                 auth.clean();
 
