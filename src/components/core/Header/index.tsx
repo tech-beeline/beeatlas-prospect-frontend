@@ -16,7 +16,7 @@ import * as S from './units';
 export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean }) => {
     const {
         generalStore: {
-            // isAuth,
+            isAuth,
             setAuth,
             clearAuth,
             userInfo,
@@ -114,10 +114,10 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                         // }
                     />
 
-                    {true ? (
+                    {isAuth ? (
                         <ProfileIcon
                             // initials={'KO'}
-                            initials={userInfo.family_name[0] + userInfo.given_name[0]}
+                            initials={userInfo?.family_name[0] + userInfo?.given_name[0]}
                             clearAuth={() => {
                                 auth.clean();
 
