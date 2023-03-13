@@ -3,6 +3,7 @@ import { runInAction } from 'mobx';
 import { getCalendarData } from 'api/calendar';
 import { getGeneralItems, getItemChildren, getSearchResult } from 'api/fdm';
 import { getRoles } from 'api/personal-area';
+import { getTechRadar } from 'api/tech-radar';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
 // TODO: вынести
@@ -329,6 +330,16 @@ export const GeneralStore = (): IGeneralStore => {
                 const res = await getRoles();
 
                 console.log(res);
+            } catch (error) {}
+        },
+
+        // ------TECH RADAR------------------------
+
+        async getTechRadar() {
+            try {
+                const res = await getTechRadar();
+
+                return res.data;
             } catch (error) {}
         },
     };
