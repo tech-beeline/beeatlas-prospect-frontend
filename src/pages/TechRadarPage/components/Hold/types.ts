@@ -2,6 +2,9 @@ import { IData, TRing } from 'pages/TechRadarPage/types';
 
 export interface IHold {
     data: IData[];
+    hintText: string;
 
     handleRing: (ring: TRing) => void;
+    setHintText: (value: string) => void;
+    setShowInMenu: (bool: boolean) => void;
 }

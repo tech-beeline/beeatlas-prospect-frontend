@@ -6,4 +6,5 @@ export interface IAdopt {
 
     setHintText: (value: string) => void;
     handleRing: (ring: TRing) => void;
+    setShowInMenu: (bool: boolean) => void;
 }

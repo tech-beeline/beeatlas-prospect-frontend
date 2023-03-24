@@ -119,7 +119,7 @@ export const NavigationRouter = () => {
                         element={
                             <div
                                 style={{
-                                    overflow: 'hidden',
+                                    // overflow: 'hidden',
                                     height: '100%',
                                     backgroundColor: theme.colors.backgroundLow,
                                 }}

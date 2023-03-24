@@ -13,8 +13,6 @@ import { RingTitles } from '../RingTitles';
 import * as T from './types';
 
 export const Hold: FC<T.IHold> = (props) => {
-    /* данные для расположения тултивов внутри свг */
-    const [hintText, setHintText] = useState('');
     const [referenceElement, setReferenceElement] = useState<SVGCircleElement | null>(null);
     const refs = useRef<React.RefObject<SVGCircleElement>[]>([]);
 
@@ -47,16 +45,22 @@ export const Hold: FC<T.IHold> = (props) => {
             .on('tick', ticked);
     }, []);
 
-    /* показывает тултип */
-    const onHintShow = (label: string, index: number) => {
-        setReferenceElement(refs.current[index].current);
+    useEffect(() => {
+        if (refs.current) {
+            const activeItemIndex = formatedData.findIndex((item) => item.label === props.hintText);
 
-        setHintText(label);
+            activeItemIndex >= 0 && setReferenceElement(refs.current[activeItemIndex].current);
+        }
+    }, [props.hintText]);
+
+    /* показывает тултип */
+    const onHintShow = (label: string) => {
+        props.setHintText(label);
     };
 
     /* скрывает тултип */
     const onHintHide = () => {
-        setHintText('');
+        props.setHintText('');
     };
 
     return (
@@ -83,8 +87,9 @@ export const Hold: FC<T.IHold> = (props) => {
                                 r={1}
                                 fill="#B6B7BF"
                                 ref={refs.current[i]}
-                                onMouseEnter={() => onHintShow(point.label, i)}
+                                onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}
+                                onClick={() => props.setShowInMenu(true)}
                             />
                         );
                     })}
@@ -109,9 +114,9 @@ export const Hold: FC<T.IHold> = (props) => {
                             ref={ref}
                             style={style}
                             data-placement={placement}
-                            isVisibleHint={!!hintText}
+                            isVisibleHint={!!props.hintText}
                         >
-                            <STYLE.HintText>{hintText}</STYLE.HintText>
+                            <STYLE.HintText>{props.hintText}</STYLE.HintText>
                         </STYLE.TooltipContainer>
                     )}
                 </Popper>

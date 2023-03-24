@@ -90,6 +90,7 @@ export const Assess: FC<T.IAssess> = (props) => {
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}
+                                onClick={() => props.setShowInMenu(true)}
                             />
                         );
                     })}

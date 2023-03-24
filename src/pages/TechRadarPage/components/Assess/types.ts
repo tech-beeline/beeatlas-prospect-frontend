@@ -6,4 +6,5 @@ export interface IAssess {
 
     setHintText: (value: string) => void;
     handleRing: (ring: TRing) => void;
+    setShowInMenu: (bool: boolean) => void;
 }

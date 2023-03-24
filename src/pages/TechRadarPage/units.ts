@@ -5,6 +5,7 @@ import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
     width: 100%;
+    max-width: 1400px;
     height: 100%;
     padding: 0 88px 96px;
 `;
@@ -54,14 +55,14 @@ export const ContentWrapper = styled.div`
     gap: 100px;
 
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin-top: 20px;
 `;
 
 export const RadarWrapper = styled.div`
     position: sticky;
     top: 226px;
-    right: 0;
+    right: 24px;
 
     width: 700px;
     height: 700px;

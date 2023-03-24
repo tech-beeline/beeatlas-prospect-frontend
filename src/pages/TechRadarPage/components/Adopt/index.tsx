@@ -90,6 +90,7 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}
+                                onClick={() => props.setShowInMenu(true)}
                             />
                         );
                     })}

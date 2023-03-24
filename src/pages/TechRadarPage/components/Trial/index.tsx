@@ -90,6 +90,7 @@ export const Trial: FC<T.ITrial> = (props) => {
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}
+                                onClick={() => props.setShowInMenu(true)}
                             />
                         );
                     })}

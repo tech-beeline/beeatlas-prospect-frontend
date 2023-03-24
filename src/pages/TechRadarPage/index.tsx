@@ -161,22 +161,22 @@ export const TechRadarPage = () => {
                     {activeRing === 'hold' ? (
                         <Hold
                             data={C.testData.filter((item) => item.ring === 3)}
-                            {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
                         />
                     ) : activeRing === 'assess' ? (
                         <Assess
                             data={C.testData.filter((item) => item.ring === 2)}
-                            {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
                         />
                     ) : activeRing === 'trial' ? (
                         <Trial
                             data={C.testData.filter((item) => item.ring === 1)}
-                            {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
                         />
                     ) : activeRing === 'adopt' ? (
                         <Adopt
                             data={C.testData.filter((item) => item.ring === 0)}
-                            {...{ handleRing, hintText, setHintText }}
+                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
                         />
                     ) : (
                         <Radar
