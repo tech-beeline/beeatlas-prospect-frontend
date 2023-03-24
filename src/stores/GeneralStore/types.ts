@@ -51,6 +51,9 @@ export interface IGeneralStore {
 
     // ЛИЧНЫЙ КАБИНЕТ
     getRoles: () => void;
+
+    // ТЕХ РАДАР
+    getTechRadar: () => void;
 }
 
 export interface INestingMenuItem {

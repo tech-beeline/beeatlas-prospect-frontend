@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+
+import { useMountEffect } from 'hooks';
+import { useRootStore } from 'stores/initStore';
 
 import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
 
-export const TechRadarPage = () => {
+export const TechRadarPage = observer(() => {
+    const {
+        // generalStore: { getTechRadar },
+    } = useRootStore();
+
     const [isSubMenu, setSubMenu] = useState(false);
 
     const [activeMenuItem, setActiveMenuItem] = useState(0);
@@ -25,6 +33,13 @@ export const TechRadarPage = () => {
     /* данные для расположения названий кругов */
     const [topTitlesPosition, setTopTitlesPosition] = useState(C.defautltTitlesTop);
     const [leftTitlesPosition, setLeftTitlesPosition] = useState(50);
+
+    useMountEffect(() => {
+        (async () => {
+            // const res = await getTechRadar();
+            // console.log('res', res.content);
+        })();
+    });
 
     const clearFilters = () => {
         setViewBox(C.defautltViewBox);
@@ -197,4 +212,4 @@ export const TechRadarPage = () => {
             </S.ContentWrapper>
         </S.PageWrapper>
     );
-};
+});
