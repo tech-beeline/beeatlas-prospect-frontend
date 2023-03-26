@@ -26,6 +26,23 @@ export const TechRadarPage = () => {
     const [topTitlesPosition, setTopTitlesPosition] = useState(C.defautltTitlesTop);
     const [leftTitlesPosition, setLeftTitlesPosition] = useState(50);
 
+    const [isElementSelected, setElementSelected] = useState(false);
+    const [prevHintText, setPrevHintText] = useState('');
+
+    useEffect(() => {
+        if (showInMenu) {
+            setPrevHintText(hintText);
+
+            setElementSelected(true);
+        }
+    }, [showInMenu]);
+
+    useEffect(() => {
+        if (hintText !== prevHintText) {
+            setElementSelected(false);
+        }
+    }, [hintText]);
+
     const clearFilters = () => {
         setViewBox(C.defautltViewBox);
 
@@ -160,25 +177,25 @@ export const TechRadarPage = () => {
                 <Hold
                     data={C.testData.filter((item) => item.ring === 3)}
                     isActive={activeRing === 'hold'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                 />
 
                 <Assess
                     data={C.testData.filter((item) => item.ring === 2)}
                     isActive={activeRing === 'assess'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                 />
 
                 <Trial
                     data={C.testData.filter((item) => item.ring === 1)}
                     isActive={activeRing === 'trial'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                 />
 
                 <Adopt
                     data={C.testData.filter((item) => item.ring === 0)}
                     isActive={activeRing === 'adopt'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                 />
 
                 <Radar
@@ -193,6 +210,7 @@ export const TechRadarPage = () => {
                         hintText,
                         setHintText,
                         setShowInMenu,
+                        isElementSelected,
                     }}
                 />
             </S.ContentWrapper>

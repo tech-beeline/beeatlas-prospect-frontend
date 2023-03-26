@@ -60,8 +60,12 @@ export const Adopt: FC<T.IAdopt> = (props) => {
     };
 
     /* скрывает тултип */
+    // const onHintHide = () => {
+    //     props.setHintText('');
+    // };
+
     const onHintHide = () => {
-        props.setHintText('');
+        !props.isElementSelected && props.setHintText('');
     };
 
     return (

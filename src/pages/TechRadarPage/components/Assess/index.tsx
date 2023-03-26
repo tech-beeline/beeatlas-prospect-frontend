@@ -60,8 +60,12 @@ export const Assess: FC<T.IAssess> = (props) => {
     };
 
     /* скрывает тултип */
+    // const onHintHide = () => {
+    //     props.setHintText('');
+    // };
+
     const onHintHide = () => {
-        props.setHintText('');
+        !props.isElementSelected && props.setHintText('');
     };
 
     return (

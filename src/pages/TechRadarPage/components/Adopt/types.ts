@@ -4,6 +4,7 @@ export interface IAdopt {
     data: IData[];
     hintText: string;
     isActive: boolean;
+    isElementSelected: boolean;
 
     handleRing: (ring: TRing) => void;
     setHintText: (value: string) => void;

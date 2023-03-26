@@ -16,6 +16,7 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
     ${({ withScroll }) =>
         withScroll &&
         css`
+            width: 318px;
             max-height: 500px;
 
             overflow: hidden scroll;

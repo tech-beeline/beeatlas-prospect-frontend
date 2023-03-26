@@ -22,6 +22,7 @@ export const Hint: FC<T.IHint> = ({ text }) => {
 
     const popper = usePopper(target, content, {
         placement: 'right',
+        strategy: 'fixed',
         modifiers: [
             {
                 name: 'offset',
