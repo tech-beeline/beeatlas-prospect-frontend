@@ -13,6 +13,7 @@ import { RingTitles } from '../RingTitles';
 import * as T from './types';
 
 export const Hold: FC<T.IHold> = (props) => {
+    /* данные для расположения тултивов внутри свг */
     const [referenceElement, setReferenceElement] = useState<SVGCircleElement | null>(null);
     const refs = useRef<React.RefObject<SVGCircleElement>[]>([]);
 
@@ -64,7 +65,7 @@ export const Hold: FC<T.IHold> = (props) => {
     };
 
     return (
-        <>
+        <STYLE.RadarWrapper isActive={props.isActive}>
             <RingTitles type="hold" handleRing={props.handleRing} />
 
             <svg ref={svgRef} viewBox="-45 -45 90 90">
@@ -121,6 +122,6 @@ export const Hold: FC<T.IHold> = (props) => {
                     )}
                 </Popper>
             )}
-        </>
+        </STYLE.RadarWrapper>
     );
 };

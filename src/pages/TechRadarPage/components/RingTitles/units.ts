@@ -30,6 +30,8 @@ export const RingTitle = styled.p<{
 
     border-radius: 12px;
 
+    transition: all 0.4s ease-in-out;
+
     text-transform: uppercase;
 
     user-select: none;

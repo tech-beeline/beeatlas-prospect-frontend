@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-
-import { useMountEffect } from 'hooks';
-import { useRootStore } from 'stores/initStore';
 
 import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
 
-export const TechRadarPage = observer(() => {
-    const {
-        // generalStore: { getTechRadar },
-    } = useRootStore();
-
+export const TechRadarPage = () => {
     const [isSubMenu, setSubMenu] = useState(false);
 
     const [activeMenuItem, setActiveMenuItem] = useState(0);
@@ -33,13 +25,6 @@ export const TechRadarPage = observer(() => {
     /* данные для расположения названий кругов */
     const [topTitlesPosition, setTopTitlesPosition] = useState(C.defautltTitlesTop);
     const [leftTitlesPosition, setLeftTitlesPosition] = useState(50);
-
-    useMountEffect(() => {
-        (async () => {
-            // const res = await getTechRadar();
-            // console.log('res', res.content);
-        })();
-    });
 
     const clearFilters = () => {
         setViewBox(C.defautltViewBox);
@@ -145,14 +130,14 @@ export const TechRadarPage = observer(() => {
     };
 
     return (
-        <S.PageWrapper className="PageWrapper">
-            <S.Header className="TechHeader">
+        <S.PageWrapper>
+            <S.Header>
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
 
                     <S.SubTitle>(версия от 10.2022)</S.SubTitle>
 
-                    <S.SelectIcon />
+                    {/* <S.SelectIcon /> */}
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
@@ -172,44 +157,45 @@ export const TechRadarPage = observer(() => {
                     }}
                 />
 
-                <S.RadarWrapper>
-                    {activeRing === 'hold' ? (
-                        <Hold
-                            data={C.testData.filter((item) => item.ring === 3)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : activeRing === 'assess' ? (
-                        <Assess
-                            data={C.testData.filter((item) => item.ring === 2)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : activeRing === 'trial' ? (
-                        <Trial
-                            data={C.testData.filter((item) => item.ring === 1)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : activeRing === 'adopt' ? (
-                        <Adopt
-                            data={C.testData.filter((item) => item.ring === 0)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : (
-                        <Radar
-                            data={C.testData}
-                            {...{
-                                viewBox,
-                                isZoomed,
-                                topTitlesPosition,
-                                leftTitlesPosition,
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                            }}
-                        />
-                    )}
-                </S.RadarWrapper>
+                <Hold
+                    data={C.testData.filter((item) => item.ring === 3)}
+                    isActive={activeRing === 'hold'}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                />
+
+                <Assess
+                    data={C.testData.filter((item) => item.ring === 2)}
+                    isActive={activeRing === 'assess'}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                />
+
+                <Trial
+                    data={C.testData.filter((item) => item.ring === 1)}
+                    isActive={activeRing === 'trial'}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                />
+
+                <Adopt
+                    data={C.testData.filter((item) => item.ring === 0)}
+                    isActive={activeRing === 'adopt'}
+                    {...{ handleRing, hintText, setHintText, setShowInMenu }}
+                />
+
+                <Radar
+                    data={C.testData}
+                    isActive={!activeRing}
+                    {...{
+                        viewBox,
+                        isZoomed,
+                        topTitlesPosition,
+                        leftTitlesPosition,
+                        handleRing,
+                        hintText,
+                        setHintText,
+                        setShowInMenu,
+                    }}
+                />
             </S.ContentWrapper>
         </S.PageWrapper>
     );
-});
+};

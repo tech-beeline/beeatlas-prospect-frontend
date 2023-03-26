@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import * as STYLE from 'pages/TechRadarPage/units';
@@ -5,12 +6,30 @@ import * as STYLE from 'pages/TechRadarPage/units';
 import { ReactComponent as ArrowSVG } from './images/arrow-icon.svg';
 import { ReactComponent as InfoSVG } from './images/info-icon.svg';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ withScroll?: boolean }>`
     display: flex;
     flex-direction: column;
     gap: 4px;
 
     width: 310px;
+
+    ${({ withScroll }) =>
+        withScroll &&
+        css`
+            max-height: 500px;
+
+            overflow: hidden scroll;
+        `}
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #b6b7bf;
+
+        border-radius: 16px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
 `;
 
 export const TitleWrapper = styled.div`

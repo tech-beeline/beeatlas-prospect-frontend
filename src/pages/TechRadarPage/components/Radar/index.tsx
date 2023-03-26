@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Popper } from 'react-popper';
+import { animated, easings, useSpring } from 'react-spring';
 import * as d3 from 'd3';
 
 import { IData } from 'pages/TechRadarPage/types';
@@ -26,6 +27,11 @@ export const Radar: FC<T.IRadar> = (props) => {
         const coords = itemSegment.random();
 
         return { ...item, segment: itemSegment, x: coords.x, y: coords.y };
+    });
+
+    const spring = useSpring({
+        viewBox: `${props.viewBox.x} ${props.viewBox.y} ${props.viewBox.width} ${props.viewBox.height}`,
+        config: { duration: 400, easing: easings.easeInOutQuad },
     });
 
     /* тут запускается симуляция D3 для избежания пересечений между точками */
@@ -67,17 +73,14 @@ export const Radar: FC<T.IRadar> = (props) => {
     };
 
     return (
-        <>
+        <STYLE.RadarWrapper isActive={props.isActive}>
             <RingTitles
                 topTitlesPosition={props.topTitlesPosition}
                 leftTitlesPosition={props.leftTitlesPosition}
                 handleRing={props.handleRing}
             />
 
-            <svg
-                ref={svgRef}
-                viewBox={`${props.viewBox.x} ${props.viewBox.y} ${props.viewBox.width} ${props.viewBox.height}`}
-            >
+            <animated.svg ref={svgRef} viewBox={spring.viewBox}>
                 <QuadrantTitles isZoomed={props.isZoomed} />
 
                 <g>
@@ -103,14 +106,11 @@ export const Radar: FC<T.IRadar> = (props) => {
                             ref={refs.current[i]}
                             onMouseEnter={() => onHintShow(point.label)}
                             onMouseLeave={onHintHide}
-                            onClick={() => {
-                                props.setShowInMenu(true);
-                                // onHintShow(point.label);
-                            }}
+                            onClick={() => props.setShowInMenu(true)}
                         />
                     );
                 })}
-            </svg>
+            </animated.svg>
 
             {referenceElement && (
                 <Popper
@@ -137,6 +137,6 @@ export const Radar: FC<T.IRadar> = (props) => {
                     )}
                 </Popper>
             )}
-        </>
+        </STYLE.RadarWrapper>
     );
 };

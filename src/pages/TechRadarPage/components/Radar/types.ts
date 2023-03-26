@@ -7,6 +7,7 @@ export interface IRadar {
     topTitlesPosition: TTopTitlesPosition;
     leftTitlesPosition: number;
     hintText: string;
+    isActive: boolean;
 
     setHintText: (value: string) => void;
     handleRing: (ring: 'hold' | 'assess' | 'trial' | 'adopt') => void;

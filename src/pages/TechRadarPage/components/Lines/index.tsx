@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { theme } from 'styles';
+
+// ${theme.colors.backgroundLow}
+
 export const Lines = () => {
     return (
         <>
@@ -8,7 +12,7 @@ export const Lines = () => {
                 y1="1"
                 x2="0"
                 y2="45"
-                style={{ stroke: 'rgba(25, 28, 52, 0.18)', strokeWidth: '0.2' }}
+                style={{ stroke: theme.colors.divider, strokeWidth: '0.2' }}
                 strokeDasharray="1"
             />
             <line
@@ -16,7 +20,7 @@ export const Lines = () => {
                 y1="-45"
                 x2="0"
                 y2="-1"
-                style={{ stroke: 'rgba(25, 28, 52, 0.18)', strokeWidth: '0.2' }}
+                style={{ stroke: theme.colors.divider, strokeWidth: '0.2' }}
                 strokeDasharray="1"
             />
             <line
@@ -24,7 +28,7 @@ export const Lines = () => {
                 y1="0"
                 x2="45"
                 y2="0"
-                style={{ stroke: 'rgba(25, 28, 52, 0.18)', strokeWidth: '0.2' }}
+                style={{ stroke: theme.colors.divider, strokeWidth: '0.2' }}
                 strokeDasharray="1"
             />
             <line
@@ -32,7 +36,7 @@ export const Lines = () => {
                 y1="0"
                 x2="-1"
                 y2="0"
-                style={{ stroke: 'rgba(25, 28, 52, 0.18)', strokeWidth: '0.2' }}
+                style={{ stroke: theme.colors.divider, strokeWidth: '0.2' }}
                 strokeDasharray="1"
             />
         </>

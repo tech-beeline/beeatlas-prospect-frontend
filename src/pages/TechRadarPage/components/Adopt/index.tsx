@@ -65,7 +65,7 @@ export const Adopt: FC<T.IAdopt> = (props) => {
     };
 
     return (
-        <>
+        <STYLE.RadarWrapper isActive={props.isActive}>
             <RingTitles type="adopt" handleRing={props.handleRing} />
 
             <svg ref={svgRef} viewBox="-45 -45 90 90">
@@ -122,6 +122,6 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                     )}
                 </Popper>
             )}
-        </>
+        </STYLE.RadarWrapper>
     );
 };

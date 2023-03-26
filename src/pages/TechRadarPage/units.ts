@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { theme } from 'styles';
+
 import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
@@ -8,6 +10,8 @@ export const PageWrapper = styled.div`
     max-width: 1400px;
     height: 100%;
     padding: 0 88px 96px;
+
+    background-color: ${theme.colors.backgroundLow};
 `;
 
 export const Header = styled.div`
@@ -18,7 +22,7 @@ export const Header = styled.div`
     width: 100%;
     padding: 96px 0 30px;
 
-    background-color: white;
+    background-color: ${theme.colors.backgroundLow};
 
     z-index: 2;
 `;
@@ -59,13 +63,18 @@ export const ContentWrapper = styled.div`
     margin-top: 20px;
 `;
 
-export const RadarWrapper = styled.div`
-    position: sticky;
-    top: 226px;
-    right: 24px;
+export const RadarWrapper = styled.div<{ isActive?: boolean }>`
+    position: absolute;
+    top: 0;
+    right: 0;
 
     width: 700px;
     height: 700px;
+
+    opacity: ${({ isActive }) => (isActive ? '1' : '0')};
+    visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
+
+    transition: all 0.25s ease-in-out;
 
     svg {
         width: 700px;
