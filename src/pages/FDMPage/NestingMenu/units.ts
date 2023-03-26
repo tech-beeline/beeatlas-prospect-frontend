@@ -1,6 +1,24 @@
 import styled from '@emotion/styled';
+import { Resizable } from 're-resizable';
 
 import { theme } from 'styles';
+
+// @ts-ignore
+export const ResizableStyled = styled(Resizable)`
+    position: static !important;
+
+    overflow: hidden auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #b6b7bf;
+
+        border-radius: 16px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+`;
 
 export const Wrapper = styled.div`
     position: sticky;
@@ -10,6 +28,9 @@ export const Wrapper = styled.div`
 
     width: max-content;
     height: 100%;
+
+    /* overflow: hidden auto; */
+
     /* тк хэдер */
     /* padding-top: 64px; */
 

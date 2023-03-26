@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { BaseIcon } from 'components/core';
-import { PivotArrow } from 'components/other';
+import { CustomRadarLogo, PivotArrow } from 'components/other';
 
 import { theme } from 'styles';
 
@@ -41,7 +41,11 @@ export const Item: FC<IItem> = (props) => {
                 onClick={handleClick}
             >
                 <S.LeftWrapper className="ItemLeftWrapper">
-                    <BaseIcon iconName={props.iconName} />
+                    {props.isRadar ? (
+                        <CustomRadarLogo isActive={location.pathname?.includes(props.url!)} />
+                    ) : (
+                        <BaseIcon iconName={props.iconName} />
+                    )}
 
                     {props.title}
                 </S.LeftWrapper>

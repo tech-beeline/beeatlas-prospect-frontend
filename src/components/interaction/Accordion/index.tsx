@@ -29,7 +29,7 @@ const TextBlock1 = () => {
             </Link>{' '}
             требуемых на Архитектурном комитете. А еще можно{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.CONSULTATION_PATH}`}
+                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
                 fontSize={19}
                 isInner
             >
@@ -61,7 +61,7 @@ const TextBlock3 = () => {
             Можно сделать это самостоятельно, ознакомившись с методикой описания возможностей, а
             если приходится делать это впервые – можно воспользоваться{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.CONSULTATION_PATH}`}
+                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
                 fontSize={19}
                 isInner
             >
@@ -84,7 +84,7 @@ const TextBlock4 = () => {
             предоставленной концепции продукта. Воспользоваться сервисом позиционирования
             корпоративной архитектуры можно{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.CONSULTATION_PATH}`}
+                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
                 fontSize={19}
                 isInner
             >

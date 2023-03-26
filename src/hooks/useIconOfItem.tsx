@@ -1,5 +1,7 @@
 import React from 'react';
-import { Icon, Icons } from '@beeline/lk-ui';
+import { Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+// import { Icon, Icons } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
@@ -23,12 +25,12 @@ export const useIconOfItem = (alias: string, stereotype = '') => {
             break;
 
         case stereotype === 'TECHNICAL':
-            icon = Icons.Reports;
+            icon = Icons.Capability;
             type = 'info';
             break;
 
         case stereotype === 'BUSINESS':
-            icon = Icons.Reports;
+            icon = Icons.Capability;
             type = 'warning';
             break;
 

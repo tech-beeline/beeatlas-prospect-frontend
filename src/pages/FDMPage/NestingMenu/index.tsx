@@ -1,8 +1,8 @@
 import React from 'react';
 import { Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
-import { Resizable } from 're-resizable';
 
+// import { Resizable } from 're-resizable';
 import { useMountEffect } from 'hooks';
 import { useRootStore } from 'stores/initStore';
 
@@ -31,14 +31,14 @@ export const NestingMenu = observer(() => {
 
     return (
         <S.Wrapper className="NestingMenuWrapper">
-            <Resizable
+            <S.ResizableStyled
                 defaultSize={{
                     width: 410,
                     height: '100vh',
                 }}
                 minWidth={300}
                 maxWidth={640}
-                style={{ overflow: 'auto' }}
+                // style={{ overflow: 'hidden auto' }}
             >
                 <S.RightSide className="NestingMenuRightSide">
                     {isLoadingMenuItems ? (
@@ -70,7 +70,7 @@ export const NestingMenu = observer(() => {
                         ))
                     )}
                 </S.RightSide>
-            </Resizable>
+            </S.ResizableStyled>
         </S.Wrapper>
     );
 });

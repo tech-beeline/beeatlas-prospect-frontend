@@ -11,8 +11,6 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.div`
-    margin-bottom: 12px;
-
     font-weight: 500;
     font-size: 17px;
     line-height: 22px;

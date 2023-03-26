@@ -12,11 +12,14 @@ import { GlobalStyles } from 'styles';
 
 import '@beeline/design-tokens/css/tokens/globals/fonts.css';
 import '@beeline/lk-ui/core/css/index.css';
-import '@beeline/lk-ui/core/css/themes/light.css';
-import '@beeline/lk-ui/core/css/themes/dark.css';
+// import '@beeline/lk-ui/core/css/themes/light.css';
+// import '@beeline/lk-ui/core/css/themes/dark.css';
 import '@beeline/lk-ui/core/css/font-face.css';
-import '@beeline/lk-ui/core/css/iconfont.css';
+// import '@beeline/lk-ui/core/css/iconfont.css';
 import '@beeline/lk-ui/core/css/globals.css';
+import '@beeline/design-tokens/css/tokens/themes/light.css';
+import '@beeline/design-tokens/css/tokens/themes/dark.css';
+import '@beeline/design-tokens/css/iconfont/iconfont.css';
 
 const App = () => {
     return (

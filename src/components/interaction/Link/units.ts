@@ -72,11 +72,18 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
 
     color: ${theme.colors.textLink};
 
-    transition: color 0.25s ease-out;
+    border-bottom: 1px solid;
+    border-color: transparent;
+
+    transition: color 0.25s ease-out, border-color 0.15s ease-in-out;
 
     cursor: pointer;
 
-    &::after {
+    &:hover {
+        border-color: ${theme.colors.textLink};
+    }
+
+    /* &::after {
         content: '';
 
         position: absolute;
@@ -91,7 +98,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
         transform: scaleX(0);
         transform-origin: bottom right;
         transition: transform 0.25s ease-in-out;
-    }
+    } */
 
     @media (hover: hover) {
         ${true &&

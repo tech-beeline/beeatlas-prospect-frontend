@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
 import * as UTILS from 'pages/TechRadarPage/utils';
+import { theme } from 'styles';
 
 import { Lines } from '../Lines';
 import { QuadrantTitles } from '../QuadrantTitles';
@@ -90,10 +91,38 @@ export const Radar: FC<T.IRadar> = (props) => {
                 <g>
                     <Lines />
 
-                    <circle cx={0} cy={0} r={15} stroke="#78CE8E" strokeWidth="0.2" fill="none" />
-                    <circle cx={0} cy={0} r={25} stroke="#FF9193" strokeWidth="0.2" fill="none" />
-                    <circle cx={0} cy={0} r={35} stroke="#5CB5FF" strokeWidth="0.2" fill="none" />
-                    <circle cx={0} cy={0} r={45} stroke="#B6B7BF" strokeWidth="0.2" fill="none" />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={15}
+                        stroke={theme.colors.chartGreen}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={25}
+                        stroke={theme.colors.chartRed}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={35}
+                        stroke={theme.colors.chartBlue}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={45}
+                        stroke={theme.colors.chartGrey}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
                 </g>
 
                 {formatedData.map((point, i) => {

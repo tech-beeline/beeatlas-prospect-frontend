@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
 import * as UTILS from 'pages/TechRadarPage/utils';
+import { theme } from 'styles';
 
 import { Lines } from '../Lines';
 import { QuadrantTitles } from '../QuadrantTitles';
@@ -78,7 +79,14 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                 <g>
                     <Lines />
 
-                    <circle cx={0} cy={0} r={45} stroke="#78CE8E" strokeWidth="0.2" fill="none" />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={45}
+                        stroke={theme.colors.chartGreen}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
 
                     {formatedData.map((point, i) => {
                         refs.current[i] = useRef(null);
@@ -90,7 +98,7 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                                 cx={0}
                                 cy={0}
                                 r={1}
-                                fill="#78CE8E"
+                                fill={theme.colors.chartGreen}
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}

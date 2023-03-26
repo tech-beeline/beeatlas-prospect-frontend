@@ -36,6 +36,9 @@ export const Title = styled.div`
 
     cursor: pointer;
 `;
+export const ChildrenLinkTitle = styled(Title)`
+    font-weight: 400;
+`;
 
 export const Text = styled(Title)`
     font-weight: 400;

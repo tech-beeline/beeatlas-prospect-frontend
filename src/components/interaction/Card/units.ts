@@ -7,14 +7,14 @@ import card1 from './images/card-1.png';
 import card2 from './images/card-2.png';
 import card3 from './images/card-3.png';
 
-export const TitleWrapper = styled.div`
+export const TitleWrapper = styled.div<{ withImage: boolean }>`
     display: flex;
     align-items: center;
 
     & > span {
         font-size: 32px;
 
-        padding-bottom: 8px;
+        padding-bottom: ${({ withImage }) => (withImage ? '8px' : '16px')};
 
         opacity: 0;
 

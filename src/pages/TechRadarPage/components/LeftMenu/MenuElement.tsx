@@ -80,7 +80,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                           !!item.data.length && (
                               <S.Wrapper key={index}>
                                   <S.TitleWrapper>
-                                      <S.Title>{item.title}</S.Title>
+                                      <S.TitleSmaller>{item.title}</S.TitleSmaller>
 
                                       <Hint text={item.hintText} />
                                   </S.TitleWrapper>
@@ -101,7 +101,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                         : !!item.data.length && (
                               <S.Wrapper key={index}>
                                   <S.TitleWrapper>
-                                      <S.Title>{item.title}</S.Title>
+                                      <S.TitleSmaller>{item.title}</S.TitleSmaller>
 
                                       <Hint text={item.hintText} />
                                   </S.TitleWrapper>

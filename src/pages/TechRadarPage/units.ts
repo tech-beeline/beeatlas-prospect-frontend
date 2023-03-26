@@ -8,7 +8,7 @@ import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 export const PageWrapper = styled.div`
     width: 100%;
     max-width: 1400px;
-    height: 100%;
+    height: 100vh;
     padding: 0 88px 96px;
 
     background-color: ${theme.colors.backgroundLow};
@@ -19,12 +19,12 @@ export const Header = styled.div`
     top: 0;
     left: 0;
 
-    width: 100%;
-    padding: 96px 0 30px;
+    width: fit-content;
+    padding: 96px 0 8px;
 
     background-color: ${theme.colors.backgroundLow};
 
-    z-index: 2;
+    z-index: 4;
 `;
 
 export const TitleWrapper = styled.div`
@@ -41,10 +41,12 @@ export const Title = styled.h1`
     font-weight: 500;
     font-size: 26px;
     line-height: 32px;
+
+    color: ${theme.colors.textActive};
 `;
 
 export const SubTitle = styled(Title)`
-    color: rgba(25, 28, 52, 0.7);
+    color: ${theme.colors.textInactive};
 `;
 
 export const SelectIcon = styled(SelectSVG)`
@@ -91,7 +93,7 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
     width: max-content;
     padding: 4px 8px;
 
-    background-color: #141414;
+    background-color: ${theme.colors.backgroundInverse};
 
     border-radius: 8px;
 
@@ -118,7 +120,7 @@ export const HintText = styled.p`
     font-size: 13px;
     line-height: 16px;
 
-    color: white;
+    color: ${theme.colors.textActiveInverse};
 
     user-select: none;
 

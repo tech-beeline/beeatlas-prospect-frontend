@@ -63,6 +63,16 @@ export const GlobalStyles = () => {
                     background-color: #ffffff;
                     color: #212121;
                     font-family: 'Beeline', sans-serif;
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: #b6b7bf;
+
+                        border-radius: 16px;
+                    }
+
+                    &::-webkit-scrollbar {
+                        width: 8px;
+                    }
                 }
 
                 h1,

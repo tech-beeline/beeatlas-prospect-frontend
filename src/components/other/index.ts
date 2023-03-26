@@ -1,3 +1,4 @@
+export { CustomRadarLogo } from './CustomRadarLogo';
 export { Expand } from './Expand';
 export { IconCard } from './IconCard';
 export { IconText } from './IconText';

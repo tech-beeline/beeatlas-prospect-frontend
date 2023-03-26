@@ -22,24 +22,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Chat"
                     color="teal"
-                    title="Создание концепции продукта (400 кир)"
+                    title="Создание концепции продукта"
                     text="Помощь команде при разработкеконцепции создания/развития ИТ-продукта, концепции решения сложной проблемы"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=%D2%E5%EC%E0%20%EF%E8%F1%FC%EC%E0&body=Медленно, но верно. Осмысленный подход к принятию решений способствует достижению успеха. Внимательно анализируйте каждую ситуацию и делайте обдуманные выводы. Не спешите с принятием решений, но и не откладывайте их на потом. Сосредоточьтесь на цели и действуйте последовательно. Только так можно добиться успеха в любой области жизни. Помните, что терпение и настойчивость являются важными качествам`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание концепции продукта&body=Наименование продукта/сервиса/платформы:%0D%0AОписание продукта: Прикрепите ссылку на страницу с описанием продукта, включающее в себя суть продукта.%0D%0AЖелаемый результат от консультации: Напишите, какой артефакт вы ожидаете увидеть%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо`)
                     }
                 />
 
                 <IconCard
                     icon="Edit"
                     color="warning"
-                    title="Создание материалов для выхода на АК (300 кир)"
+                    title="Создание материалов для выхода на АК"
                     text="Консультирование/кураторство в создании презентации к АК"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание материалов для выхода на АК&body=Медленно, но верно. Осмысленный подход к принятию решений способствует достижению успеха. Внимательно анализируйте каждую ситуацию и делайте обдуманные выводы. Не спешите с принятием решений, но и не откладывайте их на потом. Сосредоточьтесь на цели и действуйте последовательно. Только так можнннннн`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Создание материалов для выхода на АК&body=Наименование продукта/сервиса/платформы:%0D%0AПрикрепите ссылку с описанием продукта/сервиса/платформы%0D%0AОписание архитектуры решения:%0D%0AОпишите существующие на ландшафте и решающих такие же задачи продукты с обоснованием целесообразности%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -48,24 +48,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Building"
                     color="info"
-                    title="Использование рекомендуемых технологий (200 кир)"
+                    title="Использование рекомендуемых технологий"
                     text="Определение рекомендуемых технологий для создания продукта"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Использование рекомендуемых технологий&body=Медленно, но верно. Осмысленный подход к принятию решений способствует достижению успеха. Внимательно анализируйте каждую ситуацию и делайте обдуманные выводы. Не спешите с принятием решений, но и иии`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Использование рекомендуемых технологий&body=Наименование продукта, сервиса или платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием продукта, включая требования и ограничения.%0D%0AОписание вариантов выбора технологии и/или инструмента:%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо`)
                     }
                 />
 
                 <IconCard
                     icon="PagesMultiple"
                     color="purple"
-                    title="Применение документа Техническая политика (920)"
+                    title="Применение документа Техническая политика"
                     text="Консультация по применению документа, пояснения по тексту, результату"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Применение документа Техническая политика&body=Работайте усердно и с умом, и успех не заставит себя долго ждать. В жизни нет ничего невозможного, если вы настойчиво идете к своей цели. Не бойтесь неудач, их можно использовать как уроки на пути к успеху. Помните, что каждая проблема имеет решение, и каждое препятствие можно преодолеть. Не забывайте наслаждаться каждым моментом жизни, ибо она прекрасна и коротка. Доверяйте своим мечтам и стремитесь к ним, и вы обязательно их достигнете! Лучше сделать и пожалеть, чем не сделать и всю жизнь жалеть. Жизнь коротка, и каждый миг на ней должен быть заполнен яркими событиями. Не бойтесь рисковать и не отказывайтесь от возможностей, которые даются вам судьбой. Не стоит ждать чуда – лучше самому его создать. Уважайте себя и свои желания, иначе никто не будет уважать вас. Доверьтесь своей интуиции и не бойтесь ошибаться, ибо ошибки делают нас сильнее. Не забывайте наслаждаться жизнью, и она ответит вам взаимностью!`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Применение документа Техническая политика&body=Зафиксируйте описание решаемой задачи или вопросов, возникших при ознакомлении с документом.`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -74,24 +74,24 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="Position"
                     color="success"
-                    title="Первичное позиционирование (662)"
+                    title="Первичное позиционирование"
                     text="Определение места позиционирования Техно-возможностей, определение ценности ИТ-продукта (сервиса) для ИТ-ландшафта и/или потребителей"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Первичное позиционирование&body=Работайте усердно и с умом, и успех не заставит себя долго ждать. В жизни нет ничего невозможного, если вы настойчиво идете к своей цели. Не бойтесь неудач, их можно использовать как уроки на пути к успеху. Помните, что каждая проблема имеет решение, и каждое препятствие можно преодолеть. Не забывайте наслаждаться каждым моментом жизни, ибо она прекрасна и коротка. Доверяйте своим мечтам и стремитесь к ним, и вы обязательно их достигнете! Лучше сделать и пожалеть, чем не сделать и всю жизнь жалеть. Жизнь коротка, и каждый миг на ней должен быть заполнен яркими событиями. Не бойтесь рисковать и не отказывайтесь от возможностей, которые даются вам судьбой.`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Первичное позиционирование&body=Наименование продукта/сервиса/платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием продукта, включающее в себя суть продукта/сервиса/платформы%0D%0AНаличие моделей ИТ-продукта(решения) в SPARX EA – желательно%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо`)
                     }
                 />
 
                 <IconCard
                     icon="Position"
                     color="error"
-                    title="Верификация позиционирования (449)"
+                    title="Верификация позиционирования"
                     text="Подтверждение полноты, непротиворечивости, корректности позиционирования техно-возможностей. В ряде случаев может быть так же необходим при подготовке к АК"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Верификация позиционирования&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextexttexttexttexttexttexttexttexttextexttexttexttex`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Верификация позиционирования&body=Наименование продукта/сервиса/платформы:%0D%0AОписание: Прикрепите ссылку на страницу с описанием продукта, включающее в себя суть продукта/сервиса/платформы%0D%0AНаличие моделей ИТ-продукта(решения) в SPARX EA – желательно%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо`)
                     }
                 />
             </S.AdaptiveCardContainer>
@@ -100,14 +100,16 @@ export const ConsultationPage = () => {
                 <IconCard
                     icon="QuestionCircled"
                     color="magenta"
-                    title="Другое (600)"
+                    title="Другое"
                     text="Если запрос не подпадает ни под одно из направлений"
                     deadlineText="3 рабочих дня"
                     buttonText="Обратиться"
                     onClick={() =>
-                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Другое&body=texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextexttexttexttexttexttexttexttexttextexttexttexttextexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttex`)
+                        (window.location.href = `mailto:OlIFilatova@beeline.ru?subject=Другое&body=Наименование продукта/сервиса/платформы:%0D%0AОписание продукта: Прикрепите ссылку на страницу с описанием продукта или опишите проблематику.%0D%0AЖелаемый результат от консультации: Напишите, какой артефакт вы ожидаете увидеть%0D%0AПрикрепите дополнительные материалы к письму, если это необходимо`)
                     }
                 />
+
+                <div style={{ width: '100%', padding: '24px' }}></div>
             </S.AdaptiveCardContainer>
 
             <S.H4 className="H4" style={{ margin: '56px 0 26px' }}>
