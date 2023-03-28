@@ -16,7 +16,7 @@ export const Hint: FC<T.IHint> = ({ text, tooltipId }) => {
                 /* у каждой подсказки должен быть уникальный id */
                 id={tooltipId}
                 place="right"
-                // noArrow
+                noArrow
             >
                 <STYLE.HintText>{text}</STYLE.HintText>
             </S.TooltipStyled>

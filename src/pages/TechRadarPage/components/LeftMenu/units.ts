@@ -1,4 +1,4 @@
-import Tooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
