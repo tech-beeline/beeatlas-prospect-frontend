@@ -82,7 +82,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                   <S.TitleWrapper>
                                       <S.TitleSmaller>{item.title}</S.TitleSmaller>
 
-                                      <Hint text={item.hintText} />
+                                      <Hint text={item.hintText} tooltipId={`${index}`} />
                                   </S.TitleWrapper>
 
                                   {item.data.map((item, index) => (
@@ -103,7 +103,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                   <S.TitleWrapper>
                                       <S.TitleSmaller>{item.title}</S.TitleSmaller>
 
-                                      <Hint text={item.hintText} />
+                                      <Hint text={item.hintText} tooltipId={`${index}`} />
                                   </S.TitleWrapper>
 
                                   {item.data.map((item, index) => (

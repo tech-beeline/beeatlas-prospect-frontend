@@ -14,6 +14,7 @@ export interface ILeftMenu {
 
 export interface IHint {
     text: string;
+    tooltipId: string;
 }
 
 export interface IMenuElement {

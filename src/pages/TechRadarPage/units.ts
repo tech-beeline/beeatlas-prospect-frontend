@@ -12,6 +12,8 @@ export const PageWrapper = styled.div`
     padding: 0 88px 96px;
 
     background-color: ${theme.colors.backgroundLow};
+
+    overflow: hidden;
 `;
 
 export const Header = styled.div`
@@ -19,7 +21,8 @@ export const Header = styled.div`
     top: 0;
     left: 0;
 
-    width: fit-content;
+    /* width: fit-content; */
+    width: 100%;
     padding: 96px 0 8px;
 
     background-color: ${theme.colors.backgroundLow};
@@ -89,6 +92,9 @@ export const CircleStyled = styled.circle`
 `;
 
 export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
+    /* left: initial !important;
+    top: initial !important; */
+
     max-width: 360px;
     width: max-content;
     padding: 4px 8px;
@@ -99,7 +105,7 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
 
     text-align: start;
 
-    z-index: 3;
+    z-index: 30;
 
     transition: opacity ${({ isVisibleHint }) => (isVisibleHint ? '0.2s' : '0s')} ease-in-out;
 

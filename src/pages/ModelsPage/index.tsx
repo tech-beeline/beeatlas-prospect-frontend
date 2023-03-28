@@ -19,7 +19,7 @@ export const ModelsPage = () => {
                         возможностей по функциональному признаку.
                     </S.CardStyled>
 
-                    <S.CardStyled colorType="blue" title="Технорадар" to="tech-radar">
+                    <S.CardStyled colorType="green" title="Технорадар" to="tech-radar">
                         Диаграмма, на которой можно увидеть технологии и инструменты, которые
                         используются в компании
                     </S.CardStyled>

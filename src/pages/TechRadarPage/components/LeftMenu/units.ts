@@ -1,3 +1,4 @@
+import { Tooltip } from 'react-tooltip';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -18,7 +19,7 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
         withScroll &&
         css`
             width: 318px;
-            max-height: 500px;
+            max-height: 700px;
 
             overflow: hidden scroll;
         `}
@@ -119,6 +120,10 @@ export const InfoIcon = styled(InfoSVG)`
     & > * {
         fill: ${theme.colors.textActive};
     }
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 export const HintWrapper = styled.div`
@@ -129,10 +134,30 @@ export const HintWrapper = styled.div`
     width: max-content;
 
     cursor: pointer;
+
+    &:focus-visible {
+        outline: none;
+    }
 `;
 
 export const TooltipContainerStyled = styled(STYLE.TooltipContainer)`
     padding: 16px;
 
     background-color: ${theme.colors.textActive};
+`;
+
+export const TooltipStyled = styled(Tooltip)`
+    position: fixed;
+
+    max-width: 360px;
+    width: max-content;
+    padding: 4px 8px;
+
+    background-color: ${theme.colors.backgroundInverse};
+
+    border-radius: 8px;
+
+    text-align: start;
+
+    z-index: 5;
 `;
