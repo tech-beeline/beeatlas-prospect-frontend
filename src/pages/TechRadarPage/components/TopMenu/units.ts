@@ -1,4 +1,8 @@
+import { Chip } from '@beeline/design-system-react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { theme } from 'styles';
 
 export const MenuWrapper = styled.div`
     display: flex;
@@ -27,4 +31,14 @@ export const MenuButton = styled.button<{ isActive: boolean }>`
             background-color: ${({ isActive }) => !isActive && 'rgba(253, 216, 53, 0.5)'};
         }
     }
+`;
+
+export const ChipStyled = styled(Chip)<{ active: boolean }>`
+    ${({ active }) =>
+        active &&
+        css`
+            & > p {
+                color: ${theme.colors.textActiveNoTheme} !important;
+            }
+        `}
 `;
