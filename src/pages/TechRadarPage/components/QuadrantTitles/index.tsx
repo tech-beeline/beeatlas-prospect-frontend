@@ -23,7 +23,7 @@ export const QuadrantTitles: FC<T.IQuadrantTitles> = ({ isZoomed }) => {
                 >
                     <textPath href="#text1">Техники и принципы</textPath>
                     <textPath href="#text2">Языки и фреймворки</textPath>
-                    <textPath href="#text3">Платформы и инфракструктура</textPath>
+                    <textPath href="#text3">Платформы и инфраструктура</textPath>
                     <textPath href="#text4">Инструменты</textPath>
                 </text>
             )}

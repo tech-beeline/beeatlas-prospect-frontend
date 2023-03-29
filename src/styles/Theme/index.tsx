@@ -12,7 +12,7 @@ export const Theme = observer(({ children }: any) => {
         const html = document.getElementsByTagName('html')[0];
 
         themeIsDark
-            ? (html.style.backgroundColor = '#121212')
+            ? (html.style.backgroundColor = '#141414')
             : (html.style.backgroundColor = '#FFFFFF');
     }, [themeIsDark]);
 

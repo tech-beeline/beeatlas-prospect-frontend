@@ -13,7 +13,7 @@ export const PageWrapper = styled.div`
 
     background-color: ${theme.colors.backgroundLow};
 
-    overflow: hidden;
+    /* overflow: hidden; */
 `;
 
 export const Header = styled.div`
