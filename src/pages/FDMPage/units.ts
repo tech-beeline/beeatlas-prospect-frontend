@@ -21,6 +21,16 @@ export const Wrapper = styled.div`
 
     border-left: 1px solid ${theme.colors.divider};
 
+    &::-webkit-scrollbar-thumb {
+        background-color: #b6b7bf;
+
+        border-radius: 16px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
     overflow: auto;
 `;
 
@@ -153,6 +163,17 @@ export const MockText = styled(GrayText)`
 export const ListSwitcherWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+`;
+
+export const FlexBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     margin-top: 20px;
+
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: 0.2px;
 `;

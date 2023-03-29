@@ -5,9 +5,6 @@ import { Breadcrumbs } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { useWindowResize } from 'hooks';
-// import { StringParam, useQueryParam } from 'use-query-params';
-// import { Expand } from 'components/other';
-// import { getSearchResult } from 'api/fdm';
 import { useRootStore } from 'stores/initStore';
 
 import boxImg from './images/box.png';
@@ -42,6 +39,8 @@ export const FDMPage = observer(() => {
             setFullWidthCard(width <= 623);
         }
     }, [windowWidth, activeFDMItem]);
+
+    console.log('activeFDMItem', activeFDMItem);
 
     return (
         <S.PageWrapper className="PageWrapper">
@@ -78,12 +77,17 @@ export const FDMPage = observer(() => {
                     {JSON.stringify(activeFDMItem) !== '{}' ? (
                         <>
                             {activeFDMItem.level > 1 && activeFDMItem.children!.length > 0 && (
-                                <S.ListSwitcherWrapper className="ListSwitcherWrapper">
-                                    <ViewItemSwitcher
-                                        activeElement={activeViewList}
-                                        setActiveElement={setActiveViewList}
-                                    />
-                                </S.ListSwitcherWrapper>
+                                <S.FlexBlock>
+                                    {activeFDMItem.alias?.includes('DMN')
+                                        ? 'Все бизнес возможности домена'
+                                        : 'Связанные технические возможности'}
+                                    <S.ListSwitcherWrapper className="ListSwitcherWrapper">
+                                        <ViewItemSwitcher
+                                            activeElement={activeViewList}
+                                            setActiveElement={setActiveViewList}
+                                        />
+                                    </S.ListSwitcherWrapper>
+                                </S.FlexBlock>
                             )}
 
                             <S.TreeContainer

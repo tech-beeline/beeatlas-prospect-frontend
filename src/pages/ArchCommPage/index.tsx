@@ -5,8 +5,7 @@ import { IconText } from 'components/other';
 
 import * as ROUTER from 'router/const';
 
-import human5 from './images/human5.png';
-
+// import human5 from './images/human5.png';
 import human1 from './images/human1.jpg';
 // import human2 from './images/human2.jpg';
 import human3 from './images/human3.jpg';
@@ -72,12 +71,12 @@ export const ArchCommPage = () => {
 Технический блок"
                     />
 
-                    <HumanCard
+                    {/* <HumanCard
                         avatar={human5}
                         secondName="Евдокимов"
                         firstName="Андрей Александрович"
                         description="Вице-президент по безопасности"
-                    />
+                    /> */}
                 </S.Container>
 
                 <S.Container className="Container">

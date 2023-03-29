@@ -65,7 +65,7 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                     onClick={() => navigate(MAIN_PAGE_PATH)}
                 >
                     <S.Title className="HeaderTitle">
-                        {!isPersonalArea ? 'корп. архитектура' : 'корп. архитектура/админка'}
+                        {!isPersonalArea ? 'витрина ФДМ' : 'витрина ФДМ/админка'}
                     </S.Title>
 
                     <Logo />
