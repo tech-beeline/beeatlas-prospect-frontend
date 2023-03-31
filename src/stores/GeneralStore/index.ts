@@ -42,6 +42,7 @@ export const GeneralStore = (): IGeneralStore => {
         breadCrumbsItems: [],
         alreadyResponse: [],
         breadCrumbsIds: [],
+        techRadarData: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -339,8 +340,12 @@ export const GeneralStore = (): IGeneralStore => {
             try {
                 const res = await getTechRadar();
 
-                return res.data;
-            } catch (error) {}
+                console.log('res', res);
+
+                this.techRadarData = res.data?.content;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
         },
     };
 };

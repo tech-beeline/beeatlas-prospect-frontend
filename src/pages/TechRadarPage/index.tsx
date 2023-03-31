@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+
+import { useMountEffect } from 'hooks';
+import { useRootStore } from 'stores/initStore';
 
 import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
 
-export const TechRadarPage = () => {
+export const TechRadarPage = observer(() => {
+    const {
+        generalStore: { techRadarData, getTechRadar },
+    } = useRootStore();
+
     const [isSubMenu, setSubMenu] = useState(false);
 
     const [activeMenuItem, setActiveMenuItem] = useState(0);
@@ -16,7 +24,7 @@ export const TechRadarPage = () => {
 
     const [hintText, setHintText] = useState('');
 
-    /* говорит приближенли квадрант */
+    /* говорит приближен ли квадрант */
     const [isZoomed, setZoomed] = useState(false);
 
     /* это надо чтобы поиск элемента в меню происходил только после клика по кружку на радаре */
@@ -28,6 +36,14 @@ export const TechRadarPage = () => {
 
     const [isElementSelected, setElementSelected] = useState(false);
     const [prevHintText, setPrevHintText] = useState('');
+
+    useMountEffect(() => {
+        getTechRadar();
+    });
+
+    // useEffect(() => {
+    //     console.log('techRadarData', techRadarData);
+    // }, [techRadarData]);
 
     useEffect(() => {
         if (showInMenu) {
@@ -160,60 +176,62 @@ export const TechRadarPage = () => {
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
             </S.Header>
 
-            <S.ContentWrapper>
-                <LeftMenu
-                    data={C.testData}
-                    {...{
-                        hintText,
-                        setHintText,
-                        activeRing,
-                        activeMenuItem,
-                        isZoomed,
-                        showInMenu,
-                        setShowInMenu,
-                    }}
-                />
+            {techRadarData.length > 0 && (
+                <S.ContentWrapper>
+                    <LeftMenu
+                        data={techRadarData}
+                        {...{
+                            hintText,
+                            setHintText,
+                            activeRing,
+                            activeMenuItem,
+                            isZoomed,
+                            showInMenu,
+                            setShowInMenu,
+                        }}
+                    />
 
-                <Hold
-                    data={C.testData.filter((item) => item.ring === 3)}
-                    isActive={activeRing === 'hold'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                />
+                    <Hold
+                        data={techRadarData.filter((item) => item.ring === 3)}
+                        isActive={activeRing === 'hold'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
 
-                <Assess
-                    data={C.testData.filter((item) => item.ring === 2)}
-                    isActive={activeRing === 'assess'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                />
+                    <Assess
+                        data={techRadarData.filter((item) => item.ring === 2)}
+                        isActive={activeRing === 'assess'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
 
-                <Trial
-                    data={C.testData.filter((item) => item.ring === 1)}
-                    isActive={activeRing === 'trial'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                />
+                    <Trial
+                        data={techRadarData.filter((item) => item.ring === 1)}
+                        isActive={activeRing === 'trial'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
 
-                <Adopt
-                    data={C.testData.filter((item) => item.ring === 0)}
-                    isActive={activeRing === 'adopt'}
-                    {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                />
+                    <Adopt
+                        data={techRadarData.filter((item) => item.ring === 0)}
+                        isActive={activeRing === 'adopt'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
 
-                <Radar
-                    data={C.testData}
-                    isActive={!activeRing}
-                    {...{
-                        viewBox,
-                        isZoomed,
-                        topTitlesPosition,
-                        leftTitlesPosition,
-                        handleRing,
-                        hintText,
-                        setHintText,
-                        setShowInMenu,
-                        isElementSelected,
-                    }}
-                />
-            </S.ContentWrapper>
+                    <Radar
+                        data={techRadarData}
+                        isActive={!activeRing}
+                        {...{
+                            viewBox,
+                            isZoomed,
+                            topTitlesPosition,
+                            leftTitlesPosition,
+                            handleRing,
+                            hintText,
+                            setHintText,
+                            setShowInMenu,
+                            isElementSelected,
+                        }}
+                    />
+                </S.ContentWrapper>
+            )}
         </S.PageWrapper>
     );
-};
+});

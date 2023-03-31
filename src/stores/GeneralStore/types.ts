@@ -54,6 +54,7 @@ export interface IGeneralStore {
 
     // ТЕХ РАДАР
     getTechRadar: () => void;
+    techRadarData: any[];
 }
 
 export interface INestingMenuItem {
