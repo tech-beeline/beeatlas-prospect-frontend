@@ -1,5 +1,6 @@
 export { AppInfoPage } from './AppInfoPage';
 // TODO: убрать
+export { AddRollPage } from './AddRollPage';
 export { ArchCommPage } from './ArchCommPage';
 export { AuthPage } from './AuthPage';
 export { CalendarPage } from './CalendarPage';
@@ -12,6 +13,7 @@ export { MainPage } from './MainPage';
 export { ModelsPage } from './ModelsPage';
 export { PersonalArea } from './PersonalArea';
 export { ProductsPage } from './ProductsPage';
+export { RollSettingsPage } from './RollSettingsPage';
 export { SearchPage } from './SearchPage';
 export { ServicesPage } from './ServicesPage';
 export { TechPolicyPage } from './TechPolicyPage';

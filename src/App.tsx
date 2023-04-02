@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { DropdownContext } from '@beeline/lk-ui';
+import { DropdownContext } from '@beeline/design-system-react';
+// import { DropdownContext } from '@beeline/lk-ui';
 import { theme } from '@beeline/lk-ui/core/theme';
 import { ThemeProvider } from '@emotion/react';
 
@@ -30,8 +31,8 @@ const App = () => {
                         {/* <PopupsContext.Provider> */}
                         <DropdownContext.Provider
                             value={{
-                                applicationRootElementID: 'test',
-                                dropdownElementID: 'lk-ui__dropdown-root',
+                                applicationRootElementID: 'theme-class',
+                                dropdownElementID: 'dsb__positioner',
                             }}
                         >
                             <Router>
