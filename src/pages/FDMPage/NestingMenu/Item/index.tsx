@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/lk-ui';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { PivotArrow } from 'components/other';
 
@@ -57,12 +57,12 @@ export const Item: FC<INestingMenuItem> = (props) => {
                 break;
 
             case props.stereotype === 'TECHNICAL':
-                icon = Icons.Reports;
+                icon = Icons.Capability;
                 type = 'info';
                 break;
 
             case props.stereotype === 'BUSINESS':
-                icon = Icons.Reports;
+                icon = Icons.Capability;
                 type = 'warning';
                 break;
 
@@ -83,7 +83,7 @@ export const Item: FC<INestingMenuItem> = (props) => {
             >
                 <PivotArrow
                     onClick={showChildHandler}
-                    position={props.activeFDMItem.id === props.id && 'right'}
+                    position={(props.activeFDMItem.id === props.id || isOpen) && 'right'}
                     color={isShownArrow ? theme.colors.textInactive : 'transparent'}
                     {...{ isOpen }}
                 />

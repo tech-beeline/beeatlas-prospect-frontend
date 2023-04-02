@@ -56,13 +56,13 @@ export const TreeCard: FC<any> = observer((props) => {
 
             <S.ExpandStyled {...{ isOpen }} isAutoHeight>
                 {props.data.children?.map((item: any, index: number) => (
-                    <S.Title
-                        className="TreeCardTitle"
+                    <S.ChildrenLinkTitle
+                        className="TreeCardChildrenLinkTitle"
                         key={index}
                         onClick={() => props.setActiveFDMItem(item)}
                     >
                         {item.name}
-                    </S.Title>
+                    </S.ChildrenLinkTitle>
                 ))}
             </S.ExpandStyled>
         </S.Wrapper>

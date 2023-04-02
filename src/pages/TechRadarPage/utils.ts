@@ -1,3 +1,5 @@
+import { theme } from 'styles';
+
 const quadrants = [
     { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },
     { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1 },
@@ -121,12 +123,12 @@ export const segment = (quadrant: number, ring: number, isOneRing?: boolean) => 
 export const getColor = (ring: number) => {
     switch (ring) {
         case 0:
-            return '#78CE8E';
+            return theme.colors.chartGreen;
         case 1:
-            return '#FF9193';
+            return theme.colors.chartRed;
         case 2:
-            return '#5CB5FF';
+            return theme.colors.chartBlue;
         default:
-            return '#B6B7BF';
+            return theme.colors.chartGrey;
     }
 };

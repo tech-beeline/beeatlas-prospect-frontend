@@ -36,7 +36,8 @@ export const H2 = styled.h2`
 
 export const CardContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
     /* flex-wrap: wrap; */
 
     @media only screen and (max-width: 960px) {
@@ -45,7 +46,7 @@ export const CardContainer = styled.div`
 `;
 
 export const CardStyled = styled(Card)`
-    width: 100%;
+    width: 45%;
     min-width: 300px;
     margin-top: 24px;
 `;

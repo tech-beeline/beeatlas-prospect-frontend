@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
 import * as UTILS from 'pages/TechRadarPage/utils';
+import { theme } from 'styles';
 
 import { Lines } from '../Lines';
 import { QuadrantTitles } from '../QuadrantTitles';
@@ -60,12 +61,16 @@ export const Adopt: FC<T.IAdopt> = (props) => {
     };
 
     /* скрывает тултип */
+    // const onHintHide = () => {
+    //     props.setHintText('');
+    // };
+
     const onHintHide = () => {
-        props.setHintText('');
+        !props.isElementSelected && props.setHintText('');
     };
 
     return (
-        <>
+        <STYLE.RadarWrapper isActive={props.isActive}>
             <RingTitles type="adopt" handleRing={props.handleRing} />
 
             <svg ref={svgRef} viewBox="-45 -45 90 90">
@@ -74,7 +79,14 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                 <g>
                     <Lines />
 
-                    <circle cx={0} cy={0} r={45} stroke="#78CE8E" strokeWidth="0.2" fill="none" />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={45}
+                        stroke={theme.colors.chartGreen}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
 
                     {formatedData.map((point, i) => {
                         refs.current[i] = useRef(null);
@@ -86,7 +98,7 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                                 cx={0}
                                 cy={0}
                                 r={1}
-                                fill="#78CE8E"
+                                fill={theme.colors.chartGreen}
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}
@@ -122,6 +134,6 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                     )}
                 </Popper>
             )}
-        </>
+        </STYLE.RadarWrapper>
     );
 };

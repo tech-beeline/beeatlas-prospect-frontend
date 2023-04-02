@@ -37,10 +37,11 @@ export const MenuPersonalArea = () => {
             />
 
             <Item
-                iconName={Icons.Tune}
+                // iconName={Icons.Radar}
                 title="Технорадар"
                 url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
                 disabled
+                isRadar
             />
         </S.Wrapper>
     );

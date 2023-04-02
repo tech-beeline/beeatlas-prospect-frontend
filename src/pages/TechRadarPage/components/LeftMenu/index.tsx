@@ -87,7 +87,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
     }, [menuRef, props.hintText, props.showInMenu]);
 
     return (
-        <S.Wrapper ref={menuRef}>
+        <S.Wrapper ref={menuRef} withScroll>
             {(props.isZoomed ? props.activeMenuItem === 1 : true) && (
                 <MenuElement
                     title="Техники и принципы"
@@ -129,7 +129,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
             {(props.isZoomed ? props.activeMenuItem === 4 : true) && (
                 <MenuElement
-                    title="Платформы и инфракструктура"
+                    title="Платформы и инфраструктура"
                     isOpen={isFourOpen}
                     setOpen={setFourOpen}
                     data={fourQuadrant}

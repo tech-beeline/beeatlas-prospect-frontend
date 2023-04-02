@@ -13,8 +13,8 @@ export const Wrapper = styled.div`
     width: 40px;
     height: 40px;
 
-    background-color: #fff4e1;
-    color: #ff9419;
+    color: ${theme.colors.warning};
+    background-color: ${theme.colors.backgroundWarning};
 
     font-weight: 500;
     font-size: 15px;

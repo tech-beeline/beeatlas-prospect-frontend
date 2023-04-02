@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon, Icons } from '@beeline/lk-ui';
+import { Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { Nullable } from '@beeline/lk-ui/core/components/Calendar/types';
+
+import { CustomRadarLogo } from 'components/other';
 
 import * as ROUTER from 'router/const';
 
@@ -45,7 +48,8 @@ export const MenuModels = () => {
                 onClick={() => setActiveLeftItem(2)}
                 isActive={location.pathname?.includes(ROUTER.TECH_RADAR_PATH)}
             >
-                <Icon iconName={Icons.Lifebelt} />
+                {/* <Icon iconName={Icons.Radar} /> */}
+                <CustomRadarLogo isActive={location.pathname?.includes(ROUTER.TECH_RADAR_PATH)} />
             </S.Tab>
 
             {/* <S.Tab onClick={() => setActiveLeftItem(2)} isActive={activeLeftItem === 2}>

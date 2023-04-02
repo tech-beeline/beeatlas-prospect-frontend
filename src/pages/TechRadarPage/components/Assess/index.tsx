@@ -60,12 +60,16 @@ export const Assess: FC<T.IAssess> = (props) => {
     };
 
     /* скрывает тултип */
+    // const onHintHide = () => {
+    //     props.setHintText('');
+    // };
+
     const onHintHide = () => {
-        props.setHintText('');
+        !props.isElementSelected && props.setHintText('');
     };
 
     return (
-        <>
+        <STYLE.RadarWrapper isActive={props.isActive}>
             <RingTitles type="assess" handleRing={props.handleRing} />
 
             <svg ref={svgRef} viewBox="-45 -45 90 90">
@@ -122,6 +126,6 @@ export const Assess: FC<T.IAssess> = (props) => {
                     )}
                 </Popper>
             )}
-        </>
+        </STYLE.RadarWrapper>
     );
 };

@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { theme } from 'styles';
+
 import * as T from './types';
 
 export const QuadrantTitles: FC<T.IQuadrantTitles> = ({ isZoomed }) => {
@@ -15,13 +17,13 @@ export const QuadrantTitles: FC<T.IQuadrantTitles> = ({ isZoomed }) => {
             {!isZoomed && (
                 <text
                     fontSize="2.5"
-                    fill="rgba(25, 28, 52, 0.48)"
+                    fill={theme.colors.textDisabled}
                     letterSpacing="0.3"
                     style={{ userSelect: 'none' }}
                 >
                     <textPath href="#text1">Техники и принципы</textPath>
                     <textPath href="#text2">Языки и фреймворки</textPath>
-                    <textPath href="#text3">Платформы и инфракструктура</textPath>
+                    <textPath href="#text3">Платформы и инфраструктура</textPath>
                     <textPath href="#text4">Инструменты</textPath>
                 </text>
             )}

@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Popper } from 'react-popper';
+import { animated, easings, useSpring } from 'react-spring';
 import * as d3 from 'd3';
 
 import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
 import * as UTILS from 'pages/TechRadarPage/utils';
+import { theme } from 'styles';
 
 import { Lines } from '../Lines';
 import { QuadrantTitles } from '../QuadrantTitles';
@@ -26,6 +28,11 @@ export const Radar: FC<T.IRadar> = (props) => {
         const coords = itemSegment.random();
 
         return { ...item, segment: itemSegment, x: coords.x, y: coords.y };
+    });
+
+    const spring = useSpring({
+        viewBox: `${props.viewBox.x} ${props.viewBox.y} ${props.viewBox.width} ${props.viewBox.height}`,
+        config: { duration: 400, easing: easings.easeInOutQuad },
     });
 
     /* тут запускается симуляция D3 для избежания пересечений между точками */
@@ -62,31 +69,60 @@ export const Radar: FC<T.IRadar> = (props) => {
     };
 
     /* скрывает тултип */
+    // const onHintHide = () => {
+    //     props.setHintText('');
+    // };
+
     const onHintHide = () => {
-        props.setHintText('');
+        !props.isElementSelected && props.setHintText('');
     };
 
     return (
-        <>
+        <STYLE.RadarWrapper isActive={props.isActive}>
             <RingTitles
                 topTitlesPosition={props.topTitlesPosition}
                 leftTitlesPosition={props.leftTitlesPosition}
                 handleRing={props.handleRing}
             />
 
-            <svg
-                ref={svgRef}
-                viewBox={`${props.viewBox.x} ${props.viewBox.y} ${props.viewBox.width} ${props.viewBox.height}`}
-            >
+            <animated.svg ref={svgRef} viewBox={spring.viewBox}>
                 <QuadrantTitles isZoomed={props.isZoomed} />
 
                 <g>
                     <Lines />
 
-                    <circle cx={0} cy={0} r={15} stroke="#78CE8E" strokeWidth="0.2" fill="none" />
-                    <circle cx={0} cy={0} r={25} stroke="#FF9193" strokeWidth="0.2" fill="none" />
-                    <circle cx={0} cy={0} r={35} stroke="#5CB5FF" strokeWidth="0.2" fill="none" />
-                    <circle cx={0} cy={0} r={45} stroke="#B6B7BF" strokeWidth="0.2" fill="none" />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={15}
+                        stroke={theme.colors.chartGreen}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={25}
+                        stroke={theme.colors.chartRed}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={35}
+                        stroke={theme.colors.chartBlue}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
+                    <circle
+                        cx={0}
+                        cy={0}
+                        r={45}
+                        stroke={theme.colors.chartGrey}
+                        strokeWidth="0.2"
+                        fill="none"
+                    />
                 </g>
 
                 {formatedData.map((point, i) => {
@@ -103,14 +139,11 @@ export const Radar: FC<T.IRadar> = (props) => {
                             ref={refs.current[i]}
                             onMouseEnter={() => onHintShow(point.label)}
                             onMouseLeave={onHintHide}
-                            onClick={() => {
-                                props.setShowInMenu(true);
-                                // onHintShow(point.label);
-                            }}
+                            onClick={() => props.setShowInMenu(true)}
                         />
                     );
                 })}
-            </svg>
+            </animated.svg>
 
             {referenceElement && (
                 <Popper
@@ -137,6 +170,6 @@ export const Radar: FC<T.IRadar> = (props) => {
                     )}
                 </Popper>
             )}
-        </>
+        </STYLE.RadarWrapper>
     );
 };

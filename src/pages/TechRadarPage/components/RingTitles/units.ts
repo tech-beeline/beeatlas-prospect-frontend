@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { theme } from 'styles';
+
 export const RingTitle = styled.p<{
     top: number;
     left: number;
@@ -17,18 +19,20 @@ export const RingTitle = styled.p<{
     font-size: 14px;
     line-height: 14px;
 
-    color: white;
+    color: ${theme.colors.textActiveInverse};
 
     background-color: ${({ type }) =>
         type === 'adopt'
-            ? '#78CE8E'
+            ? theme.colors.chartGreen
             : type === 'trial'
-            ? '#FF9193'
+            ? theme.colors.chartRed
             : type === 'assess'
-            ? '#5cb5ff'
-            : '#B6B7BF'};
+            ? theme.colors.chartBlue
+            : theme.colors.chartGrey};
 
     border-radius: 12px;
+
+    transition: all 0.4s ease-in-out;
 
     text-transform: uppercase;
 

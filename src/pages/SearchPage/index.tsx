@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-import { Button, Search } from '@beeline/lk-ui';
+import { Button, Search } from '@beeline/design-system-react';
+// import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 import { StringParam, useQueryParam } from 'use-query-params';
 
@@ -91,7 +92,9 @@ export const SearchPage = observer(() => {
                         onChange={({ target: { value } }) => setSearchInput(value)}
                     />
 
-                    <Button variant="contained">Найти</Button>
+                    <Button variant="contained" style={{ padding: '0 20px' }}>
+                        Найти
+                    </Button>
                 </S.SearchContainer>
 
                 <S.ResultContainer className="ResultContainer">

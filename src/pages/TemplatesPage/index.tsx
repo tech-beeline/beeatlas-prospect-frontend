@@ -90,7 +90,7 @@ export const TemplatesPage = () => {
             <S.SmallText className="SmallText">
                 Обратитесь за&nbsp;
                 <Link
-                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
                     fontSize={19}
                     isInner
                 >

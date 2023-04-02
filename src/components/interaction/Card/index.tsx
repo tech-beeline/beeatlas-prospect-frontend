@@ -10,7 +10,7 @@ export const Card = (props: any) => {
 
     return (
         <S.Card className="Card" colorType={props.colorType} withImage={props.withImage} {...props}>
-            <S.TitleWrapper>
+            <S.TitleWrapper withImage={props.withImage}>
                 <S.Title
                     className="CardTitle"
                     withImage={props.withImage}
@@ -19,7 +19,8 @@ export const Card = (props: any) => {
                     {props.title}
                 </S.Title>
 
-                {props.withImage && <Icon iconName={Icons.ArrowRight} />}
+                {/* @ts-ignore */}
+                <Icon size={24} iconName={Icons.ArrowRight} />
             </S.TitleWrapper>
 
             <S.Text className="CardText" withImage={props.withImage}>

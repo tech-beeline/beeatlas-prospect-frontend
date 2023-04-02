@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import { Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+import { useIconOfItem } from 'hooks/useIconOfItem';
+
 // import { StringParam, useQueryParam } from 'use-query-params';
 // import { useRootStore } from 'stores/initStore';
 import { IResultCard } from './types';
@@ -16,6 +18,9 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
     // const navigate = useNavigate();
 
     // const [, setTitle] = useQueryParam('title', StringParam);
+
+    const icon = props.data && useIconOfItem(props.data.alias, props.data.stereotype);
+    // console.log(props);
 
     const handleTextToBold = (text: string) => {
         if (props.search) {
@@ -51,27 +56,41 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
         <S.Wrapper className="ResultCardWrapper">
             {props.data ? (
                 <>
-                    <a
-                        href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                    >
-                        <S.Title
-                            // onClick={() => {
-                            //     navigate(props.data!.guid);
-                            //     // setTitle(props.data!.name);
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        {icon}
 
-                            //     setResultTitle(props.data!.name);
-                            // }}
-                            dangerouslySetInnerHTML={{ __html: handleTextToBold(props.data.name) }}
-                        />
-                    </a>
+                        <div style={{ marginBottom: '12px' }}>
+                            <a
+                                href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                <S.Title
+                                    // onClick={() => {
+                                    //     navigate(props.data!.guid);
+                                    //     // setTitle(props.data!.name);
+
+                                    //     setResultTitle(props.data!.name);
+                                    // }}
+                                    dangerouslySetInnerHTML={{
+                                        __html: handleTextToBold(props.data.name),
+                                    }}
+                                />
+                            </a>
+
+                            <S.TitleSecond className="TreeCardTitleSecond">
+                                {props.data.alias}
+                            </S.TitleSecond>
+                        </div>
+                    </div>
 
                     <S.Text className="ResultCardText">
                         <NewlineText str={props.data.descr} />
                     </S.Text>
 
-                    <S.TitleSecond className="ResultCardTitleSecond">Домен</S.TitleSecond>
+                    <S.TitleSecond className="ResultCardTitleSecond" style={{ marginTop: '24px' }}>
+                        Домен
+                    </S.TitleSecond>
                     <a
                         href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.domainRef.guid}`}
                         rel="noopener noreferrer"
@@ -85,12 +104,12 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                     <S.FlexBlock className="ResultCardFlexBlock">
                         <div>
                             <S.TitleSecond className="ResultCardTitleSecond">
-                                Владелец
+                                {props.data.owner && 'Владелец'}
                             </S.TitleSecond>
                             <S.Text className="ResultCardText">{props.data.owner || ''}</S.Text>
                         </div>
 
-                        <div>
+                        <div style={{ marginTop: '24px' }}>
                             <S.TitleSecond className="ResultCardTitleSecond">
                                 Дата последнего изменения
                             </S.TitleSecond>

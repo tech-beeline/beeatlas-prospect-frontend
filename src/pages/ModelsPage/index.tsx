@@ -18,6 +18,11 @@ export const ModelsPage = () => {
                         ВК, разработанная для обеспечения простой и удобной навигации в пространстве
                         возможностей по функциональному признаку.
                     </S.CardStyled>
+
+                    <S.CardStyled colorType="green" title="Технорадар" to="tech-radar">
+                        Диаграмма, на которой можно увидеть технологии и инструменты, которые
+                        используются в компании
+                    </S.CardStyled>
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>

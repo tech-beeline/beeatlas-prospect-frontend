@@ -11,7 +11,7 @@ import * as S from './units';
 
 export const TechRadarPage = observer(() => {
     const {
-        // generalStore: { getTechRadar },
+        generalStore: { techRadarData, getTechRadar },
     } = useRootStore();
 
     const [isSubMenu, setSubMenu] = useState(false);
@@ -24,7 +24,7 @@ export const TechRadarPage = observer(() => {
 
     const [hintText, setHintText] = useState('');
 
-    /* говорит приближенли квадрант */
+    /* говорит приближен ли квадрант */
     const [isZoomed, setZoomed] = useState(false);
 
     /* это надо чтобы поиск элемента в меню происходил только после клика по кружку на радаре */
@@ -34,12 +34,30 @@ export const TechRadarPage = observer(() => {
     const [topTitlesPosition, setTopTitlesPosition] = useState(C.defautltTitlesTop);
     const [leftTitlesPosition, setLeftTitlesPosition] = useState(50);
 
+    const [isElementSelected, setElementSelected] = useState(false);
+    const [prevHintText, setPrevHintText] = useState('');
+
     useMountEffect(() => {
-        (async () => {
-            // const res = await getTechRadar();
-            // console.log('res', res.content);
-        })();
+        getTechRadar();
     });
+
+    // useEffect(() => {
+    //     console.log('techRadarData', techRadarData);
+    // }, [techRadarData]);
+
+    useEffect(() => {
+        if (showInMenu) {
+            setPrevHintText(hintText);
+
+            setElementSelected(true);
+        }
+    }, [showInMenu]);
+
+    useEffect(() => {
+        if (hintText !== prevHintText) {
+            setElementSelected(false);
+        }
+    }, [hintText]);
 
     const clearFilters = () => {
         setViewBox(C.defautltViewBox);
@@ -145,71 +163,75 @@ export const TechRadarPage = observer(() => {
     };
 
     return (
-        <S.PageWrapper className="PageWrapper">
-            <S.Header className="TechHeader">
+        <S.PageWrapper>
+            <S.Header>
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
 
                     <S.SubTitle>(версия от 10.2022)</S.SubTitle>
 
-                    <S.SelectIcon />
+                    {/* <S.SelectIcon /> */}
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
             </S.Header>
 
-            <S.ContentWrapper>
-                <LeftMenu
-                    data={C.testData}
-                    {...{
-                        hintText,
-                        setHintText,
-                        activeRing,
-                        activeMenuItem,
-                        isZoomed,
-                        showInMenu,
-                        setShowInMenu,
-                    }}
-                />
+            {techRadarData.length > 0 && (
+                <S.ContentWrapper>
+                    <LeftMenu
+                        data={techRadarData}
+                        {...{
+                            hintText,
+                            setHintText,
+                            activeRing,
+                            activeMenuItem,
+                            isZoomed,
+                            showInMenu,
+                            setShowInMenu,
+                        }}
+                    />
 
-                <S.RadarWrapper>
-                    {activeRing === 'hold' ? (
-                        <Hold
-                            data={C.testData.filter((item) => item.ring === 3)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : activeRing === 'assess' ? (
-                        <Assess
-                            data={C.testData.filter((item) => item.ring === 2)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : activeRing === 'trial' ? (
-                        <Trial
-                            data={C.testData.filter((item) => item.ring === 1)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : activeRing === 'adopt' ? (
-                        <Adopt
-                            data={C.testData.filter((item) => item.ring === 0)}
-                            {...{ handleRing, hintText, setHintText, setShowInMenu }}
-                        />
-                    ) : (
-                        <Radar
-                            data={C.testData}
-                            {...{
-                                viewBox,
-                                isZoomed,
-                                topTitlesPosition,
-                                leftTitlesPosition,
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                            }}
-                        />
-                    )}
-                </S.RadarWrapper>
-            </S.ContentWrapper>
+                    <Hold
+                        data={techRadarData.filter((item) => item.ring === 3)}
+                        isActive={activeRing === 'hold'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
+
+                    <Assess
+                        data={techRadarData.filter((item) => item.ring === 2)}
+                        isActive={activeRing === 'assess'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
+
+                    <Trial
+                        data={techRadarData.filter((item) => item.ring === 1)}
+                        isActive={activeRing === 'trial'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
+
+                    <Adopt
+                        data={techRadarData.filter((item) => item.ring === 0)}
+                        isActive={activeRing === 'adopt'}
+                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
+                    />
+
+                    <Radar
+                        data={techRadarData}
+                        isActive={!activeRing}
+                        {...{
+                            viewBox,
+                            isZoomed,
+                            topTitlesPosition,
+                            leftTitlesPosition,
+                            handleRing,
+                            hintText,
+                            setHintText,
+                            setShowInMenu,
+                            isElementSelected,
+                        }}
+                    />
+                </S.ContentWrapper>
+            )}
         </S.PageWrapper>
     );
 });

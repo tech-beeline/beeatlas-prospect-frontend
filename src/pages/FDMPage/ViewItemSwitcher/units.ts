@@ -12,7 +12,8 @@ export const Wrapper = styled.div`
     height: 40px;
     margin-left: auto;
 
-    border: 1px solid rgba(25, 28, 52, 0.18);
+    border: 1px solid;
+    border-color: ${theme.colors.divider};
     border-radius: 12px;
 
     & > div:nth-child(1) {

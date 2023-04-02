@@ -201,7 +201,6 @@ export const Slider = () => {
                             fontSize={19}
                             isInner
                             isInline
-                            noLine
                         >
                             узнать о существующих в компании возможностях,
                         </Link>{' '}
