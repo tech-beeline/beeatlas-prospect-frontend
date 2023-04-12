@@ -8,6 +8,8 @@ export const Wrapper = styled.div`
 
     border: 1px solid ${theme.colors.divider};
     border-radius: ${theme.borderRadius};
+
+    /* overflow: hidden; */
 `;
 
 export const Title = styled.div`

@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import { Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+import { Link } from 'components/interaction';
+
 import { useIconOfItem } from 'hooks/useIconOfItem';
 
 // import { StringParam, useQueryParam } from 'use-query-params';
@@ -23,6 +25,8 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
     // console.log(props);
 
     const handleTextToBold = (text: string) => {
+        // console.log('text', text);
+
         if (props.search) {
             // const regEx = new RegExp(props.search, 'ig');
 
@@ -46,10 +50,14 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
 
     const NewlineText = ({ str }: any) => {
         return str
-            .split('\\r\\n' || '\\n' || '\\r' || '\n')
-            .map((st: any, index: number) => (
-                <p dangerouslySetInnerHTML={{ __html: handleTextToBold(st) }} key={index} />
-            ));
+            .split(/(https?:\/\/\S+)/ || '\\r\\n' || '\\n' || '\\r' || '\n')
+            .map((st: any, index: number) => {
+                return st.startsWith('https') ? (
+                    <Link path={st}>{st}</Link>
+                ) : (
+                    <p dangerouslySetInnerHTML={{ __html: handleTextToBold(st) }} key={index} />
+                );
+            });
     };
 
     return (
@@ -66,12 +74,6 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                                 target="_blank"
                             >
                                 <S.Title
-                                    // onClick={() => {
-                                    //     navigate(props.data!.guid);
-                                    //     // setTitle(props.data!.name);
-
-                                    //     setResultTitle(props.data!.name);
-                                    // }}
                                     dangerouslySetInnerHTML={{
                                         __html: handleTextToBold(props.data.name),
                                     }}
@@ -106,6 +108,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                             <S.TitleSecond className="ResultCardTitleSecond">
                                 {props.data.owner && 'Владелец'}
                             </S.TitleSecond>
+
                             <S.Text className="ResultCardText">{props.data.owner || ''}</S.Text>
                         </div>
 

@@ -23,7 +23,9 @@ export const Link: FC<ILink> = ({ type = 'default', ...props }) => {
             rel="noopener noreferrer"
             href={props.path}
             target="_blank"
-            {...props}
+            fontSize={props.fontSize}
+            noLine={props.noLine}
+            isInline={props.isInline}
         >
             {type === 'file' && <Icon iconName={Icons.Attachment} size="small" />}
 
