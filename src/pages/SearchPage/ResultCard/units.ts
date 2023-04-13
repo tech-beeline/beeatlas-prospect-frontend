@@ -30,6 +30,8 @@ export const Text = styled(Title)`
     color: ${theme.colors.textActive};
 
     cursor: inherit;
+
+    overflow: hidden;
 `;
 
 export const TitleSecond = styled.p`
