@@ -7,10 +7,17 @@ import * as S from './units';
 
 import 'react-tooltip/dist/react-tooltip.css';
 
-export const Hint: FC<T.IHint> = ({ text, tooltipId }) => {
+// TODO: вынести + добавить пропс позиции
+export const Hint: FC<T.IHint> = ({ text, tooltipId, children, ...props }) => {
     return (
-        <S.HintWrapper>
-            <S.InfoIcon onClick={(e: any) => e.stopPropagation()} data-tooltip-id={tooltipId} />
+        <S.HintWrapper {...props}>
+            {(
+                <span onClick={(e: any) => e.stopPropagation()} data-tooltip-id={tooltipId}>
+                    {children}
+                </span>
+            ) || (
+                <S.InfoIcon onClick={(e: any) => e.stopPropagation()} data-tooltip-id={tooltipId} />
+            )}
 
             <S.TooltipStyled
                 /* у каждой подсказки должен быть уникальный id */

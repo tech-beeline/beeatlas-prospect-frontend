@@ -17,7 +17,7 @@ export const Theme = observer(({ children }: any) => {
     }, [themeIsDark]);
 
     return (
-        <div id="test" className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>
+        <div id="theme-class" className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>
             {children}
         </div>
     );

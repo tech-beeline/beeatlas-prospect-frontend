@@ -5,6 +5,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { Header, Menu, MenuModels, MenuPersonalArea } from 'components/core';
 
 import {
+    AddRollPage,
     AppInfoPage,
     ArchCommPage,
     CalendarPage,
@@ -17,6 +18,7 @@ import {
     ModelsPage,
     PersonalArea,
     ProductsPage,
+    RollSettingsPage,
     SearchPage,
     ServicesPage,
     TechPolicyPage,
@@ -69,6 +71,38 @@ export const NavigationRouter = () => {
                             >
                                 <MenuPersonalArea />
                                 <PersonalArea />
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}`}
+                        element={
+                            <div
+                                style={{
+                                    height: '100vh',
+                                    paddingLeft: '256px',
+                                    backgroundColor: theme.colors.backgroundLow,
+                                }}
+                            >
+                                <MenuPersonalArea />
+                                <RollSettingsPage />
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}${C.ADD_PATH}`}
+                        element={
+                            <div
+                                style={{
+                                    height: '100vh',
+                                    paddingLeft: '256px',
+                                    backgroundColor: theme.colors.backgroundLow,
+                                }}
+                            >
+                                <MenuPersonalArea />
+                                <AddRollPage />
                             </div>
                         }
                     />

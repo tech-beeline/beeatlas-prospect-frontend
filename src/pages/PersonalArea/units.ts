@@ -1,6 +1,7 @@
 import { Search } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { Hint } from 'pages/TechRadarPage/components/LeftMenu/Hint';
 import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
@@ -8,8 +9,8 @@ export const PageWrapper = styled.div`
     justify-content: space-between; */
 
     height: 100vh;
-    width: calc(100% - 50px);
-    padding-top: 64px;
+    width: 100%;
+    padding: 64px 54px;
 
     background-color: ${theme.colors.backgroundLow};
     color: ${theme.colors.textActive};
@@ -30,4 +31,8 @@ export const Title = styled.h3`
 
 export const SearchStyled = styled(Search)`
     margin: 20px 0 16px 0;
+`;
+
+export const HintStyled = styled(Hint)`
+    margin-top: 6px;
 `;

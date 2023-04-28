@@ -15,6 +15,8 @@ export interface ILeftMenu {
 export interface IHint {
     text: string;
     tooltipId: string;
+
+    children?: React.ReactElement;
 }
 
 export interface IMenuElement {

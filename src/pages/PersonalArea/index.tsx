@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Icon,
     Table,
@@ -8,20 +9,28 @@ import {
     TableHeaderData,
     TablePagination,
     TableRow,
+    // Tooltip,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { observer } from 'mobx-react';
 
 import { useMountEffect } from 'hooks';
+import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
 // import { TablePagination } from '@beeline/design-system-react';
 import * as S from './units';
 
+import 'react-tooltip/dist/react-tooltip.css';
+
 export const PersonalArea = observer(() => {
     const {
         generalStore: { getRoles },
     } = useRootStore();
+
+    const [filterOption, setFilterOption] = useState({ id: 1, value: 'Везде' });
+
+    const navigate = useNavigate();
 
     useMountEffect(() => {
         getRoles();
@@ -30,10 +39,32 @@ export const PersonalArea = observer(() => {
     return (
         <S.PageWrapper className="PageWrapper">
             <S.Title className="Title">
-                Управление ролями <Icon iconName={Icons.Settings} />
+                Управление ролями {/* <Tooltip title="test test"> */}
+                <S.HintStyled text="Настройки ролей" tooltipId={`100`}>
+                    <Icon
+                        iconName={Icons.Settings}
+                        onClick={() =>
+                            navigate(`${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}`)
+                        }
+                    />
+                </S.HintStyled>
+                {/* <Hint text={'test'} tooltipId={`100`} /> */}
+                {/* </Tooltip> */}
             </S.Title>
 
-            <S.SearchStyled placeholder="Поиск" />
+            <S.SearchStyled
+                placeholder="Поиск"
+                filterItems={[
+                    { id: 0, value: 'Везде' },
+                    { id: 1, value: 'ФИО' },
+                    { id: 2, value: 'Роль' },
+                    { id: 3, value: 'E-mail' },
+                    { id: 4, value: 'Логин' },
+                ]}
+                selectedFilter={filterOption}
+                // @ts-ignore
+                onFilterChange={(option) => setFilterOption(option)}
+            />
 
             <Table
                 style={{

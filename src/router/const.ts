@@ -25,3 +25,5 @@ export const FDM_RESULT_ID_PATH = '/:guid';
 export const TECH_RADAR_PATH = '/tech-radar';
 // личный кабинет
 export const PERSONAL_AREA_PATH = '/personal-area';
+export const ROLL_SETTINGS_PATH = '/roll-settings';
+export const ADD_PATH = '/add';

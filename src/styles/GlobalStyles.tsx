@@ -197,6 +197,20 @@ export const GlobalStyles = () => {
                 .lk-ui__positioner {
                     position: fixed;
                 }
+
+                /* search and filter component */
+
+                /* .dsb__select__options {
+                    color: var(--color-background-base);
+                } */
+
+                .dsb__select__options__item {
+                    color: var(--color-text-active);
+                }
+
+                .dsb_divider--horizontal {
+                    width: 1px;
+                }
             `}
         />
     );
