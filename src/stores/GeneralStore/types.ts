@@ -1,3 +1,5 @@
+import { IRole } from 'api/personal-area/types';
+
 export interface IGeneralStore {
     isAuth: boolean;
     themeIsDark: boolean;
@@ -49,8 +51,14 @@ export interface IGeneralStore {
 
     alreadyResponse: number[];
 
-    // ЛИЧНЫЙ КАБИНЕТ
+    // АДМИНКА
     getRoles: () => void;
+    createRole: (data: IRole) => void;
+    changeRole: (data: IRole) => void;
+    getCurrentRole: (id: number) => void;
+    deleteRole: (id: number) => void;
+    getRolePermission: (id: number) => void;
+    saveChangeRolePermission: (id: number) => void;
 
     // ТЕХ РАДАР
     getTechRadar: () => void;

@@ -2,7 +2,15 @@ import { runInAction } from 'mobx';
 
 import { getCalendarData } from 'api/calendar';
 import { getGeneralItems, getItemChildren, getSearchResult } from 'api/fdm';
-import { getRoles } from 'api/personal-area';
+import {
+    deleteRole,
+    getCurrentRole,
+    getRolePermission,
+    getRoles,
+    postRole,
+    putRole,
+    putRolePermission,
+} from 'api/personal-area';
 import { getTechRadar } from 'api/tech-radar';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
@@ -331,7 +339,89 @@ export const GeneralStore = (): IGeneralStore => {
                 const res = await getRoles();
 
                 console.log(res);
-            } catch (error) {}
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
+        },
+
+        // id: number
+        // name?: string;
+        // alias?: string;
+        // descr?: string;
+        // deleted?: boolean;
+
+        async createRole(data) {
+            try {
+                const res = await postRole(data);
+
+                console.log(res);
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
+        },
+
+        async changeRole(data) {
+            try {
+                const res = await putRole(data);
+
+                console.log(res);
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
+        },
+
+        async getCurrentRole(id: number) {
+            try {
+                const res = await getCurrentRole(id);
+
+                console.log(res);
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
+        },
+
+        async deleteRole(id: number) {
+            try {
+                const res = await deleteRole(id);
+
+                console.log(res);
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
+        },
+
+        async getRolePermission(id: number) {
+            try {
+                const res = await getRolePermission(id);
+
+                console.log(res);
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
+        },
+
+        async saveChangeRolePermission(id: number) {
+            try {
+                const res = await putRolePermission(id);
+
+                console.log(res);
+
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
         },
 
         // ------TECH RADAR------------------------

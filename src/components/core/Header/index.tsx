@@ -53,6 +53,8 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                 setAuth(true);
 
                 setUserInfo(auth.getClaims(access_token));
+
+                // console.log('auth.getClaims(access_token)', auth.getClaims(access_token));
             }
         })();
     }, []);

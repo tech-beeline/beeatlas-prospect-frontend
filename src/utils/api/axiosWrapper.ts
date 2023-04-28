@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // import { postRefreshToken } from 'api/auth';
-// import { clearStorage, getStorage, persistStorage } from 'stores/utils';
+import { getStorage } from 'stores/utils';
+
 import Api from './Api';
 // import { HOST } from './env';
 
@@ -18,11 +19,12 @@ const instanceOfAxios = axios.create({
 
 instanceOfAxios.interceptors.request.use(
     (config) => {
-        // const accessToken = getStorage('accessToken');
+        const accessToken = getStorage('accessToken');
 
-        // if (accessToken && config.url !== 'auth/v2/refresh') {
-        //     config.headers.Authorization = `Bearer ${accessToken}`;
-        // }
+        if (accessToken) {
+            // @ts-ignore
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
 
         // return { ...config, cancelToken };
         return config;
