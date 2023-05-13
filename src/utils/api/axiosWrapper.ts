@@ -19,7 +19,7 @@ const instanceOfAxios = axios.create({
 
 instanceOfAxios.interceptors.request.use(
     (config) => {
-        const accessToken = getStorage('accessToken');
+        const accessToken = getStorage('token');
 
         if (accessToken) {
             // @ts-ignore
