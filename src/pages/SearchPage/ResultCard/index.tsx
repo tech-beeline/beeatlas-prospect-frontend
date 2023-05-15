@@ -25,21 +25,23 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
     // console.log(props);
 
     const handleTextToBold = (text: string) => {
-        // console.log('text', text);
-
-        if (props.search) {
-            // const regEx = new RegExp(props.search, 'ig');
+        if (props.request) {
+            // const regEx = new RegExp(props.request, 'ig');
 
             return (
                 text
-                    .replaceAll(props.search.toLowerCase(), `<b>${props.search.toLowerCase()}</b>`)
+                    .replaceAll(
+                        props.request.toLowerCase(),
+                        `<b>${props.request.toLowerCase()}</b>`,
+                    )
                     // для слов с первой заглавной буквой
                     // toLowerCase если юзер допускает капс в запросе
                     .replaceAll(
-                        props.search.charAt(0).toUpperCase() + props.search.slice(1).toLowerCase(),
+                        props.request.charAt(0).toUpperCase() +
+                            props.request.slice(1).toLowerCase(),
                         `<b>${
-                            props.search.charAt(0).toUpperCase() +
-                            props.search.slice(1).toLowerCase()
+                            props.request.charAt(0).toUpperCase() +
+                            props.request.slice(1).toLowerCase()
                         }</b>`,
                     )
             );
