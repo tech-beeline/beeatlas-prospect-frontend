@@ -357,8 +357,6 @@ export const GeneralStore = (): IGeneralStore => {
             try {
                 const res = await postRole(data);
 
-                console.log(res);
-
                 return res;
             } catch (error) {
                 console.error((error as Error).message);
