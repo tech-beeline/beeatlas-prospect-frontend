@@ -6,8 +6,10 @@ import { StringParam, useQueryParam } from 'use-query-params';
 
 import { Expand } from 'components/other';
 
+import { useMountEffect } from 'hooks';
 // import { getSearchResult } from 'api/fdm';
 import { useRootStore } from 'stores/initStore';
+import { getStorage, persistStorage } from 'stores/utils';
 
 import image from './images/not-found.png';
 
@@ -19,25 +21,35 @@ export const SearchPage = observer(() => {
         generalStore: { isLoadingSearch, getResultSearch, resultSearch },
     } = useRootStore();
 
-    const [search, setSearch] = useQueryParam('search', StringParam);
+    const [request, setRequest] = useQueryParam('request', StringParam);
 
     const [isOpenDescription, setOpenDescription] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     // const [boldValue, setBoldValue] = useState('');
 
+    useMountEffect(() => {
+        const savedRequest = getStorage('requestKey');
+
+        if (savedRequest) {
+            setRequest(savedRequest, 'replaceIn');
+        }
+    });
+
     useEffect(() => {
-        if (search) {
-            getResultSearch(search);
+        if (request) {
+            getResultSearch(request);
+
+            persistStorage('requestKey', request);
 
             // для того чтобы сохранить значение только при запросе, но не при onChange
             // setBoldValue(search);
         }
-    }, [search]);
+    }, [request]);
 
     const getFindResult = async (e: FormEvent) => {
         e.preventDefault();
 
-        setSearch(searchInput);
+        setRequest(searchInput, 'replaceIn');
     };
 
     return (
@@ -113,7 +125,7 @@ export const SearchPage = observer(() => {
                         </S.NoFoundBlock>
                     ) : (
                         resultSearch.map((item, index) => (
-                            <ResultCard data={item} key={index} {...{ search }} />
+                            <ResultCard data={item} key={index} {...{ request }} />
                         ))
                     )}
                 </S.ResultContainer>

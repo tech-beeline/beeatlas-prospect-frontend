@@ -35,8 +35,6 @@ export const AppInfoPage = () => {
         // setTimeout(() => {
         // @ts-ignore
 
-        console.log('toc', iframeId?.contentWindow.document.getElementsByTagName('iframe'));
-
         // console.log(
         //     'w3',
         // @ts-ignore
