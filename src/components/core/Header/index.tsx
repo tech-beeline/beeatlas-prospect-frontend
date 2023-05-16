@@ -8,7 +8,7 @@ import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 import { persistStorage } from 'stores/utils';
 
-import { BaseIcon, Tab, Tabs } from '..';
+import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
@@ -70,7 +70,7 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                         {!isPersonalArea ? 'витрина ФДМ' : 'витрина ФДМ/админка'}
                     </S.Title>
 
-                    {/* <Logo /> */}
+                    <Logo />
                 </S.FlexContainer>
 
                 {!isPersonalArea && (
