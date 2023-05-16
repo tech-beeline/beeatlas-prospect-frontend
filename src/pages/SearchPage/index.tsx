@@ -31,7 +31,9 @@ export const SearchPage = observer(() => {
         const savedRequest = getStorage('requestKey');
 
         if (savedRequest) {
-            setRequest(savedRequest, 'replaceIn');
+            setTimeout(() => {
+                setRequest(savedRequest, 'replaceIn');
+            }, 100);
         }
     });
 
