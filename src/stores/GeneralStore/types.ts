@@ -52,8 +52,12 @@ export interface IGeneralStore {
     alreadyResponse: number[];
 
     // АДМИНКА
+    currentRole: any;
+    roles: Record<string, any>[];
+    setCurrentRole: (role: any | IRole) => void;
+
     getRoles: () => void;
-    createRole: (data: IRole) => void;
+    createRole: (data: IRole) => Promise<Record<string, any>> | unknown;
     changeRole: (data: IRole) => void;
     getCurrentRole: (id: number) => void;
     deleteRole: (id: number) => void;

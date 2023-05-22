@@ -31,7 +31,9 @@ export const SearchPage = observer(() => {
         const savedRequest = getStorage('requestKey');
 
         if (savedRequest) {
-            setRequest(savedRequest);
+            setTimeout(() => {
+                setRequest(savedRequest, 'replaceIn');
+            }, 100);
         }
     });
 
@@ -49,7 +51,7 @@ export const SearchPage = observer(() => {
     const getFindResult = async (e: FormEvent) => {
         e.preventDefault();
 
-        setRequest(searchInput, 'pushIn');
+        setRequest(searchInput, 'replaceIn');
     };
 
     return (

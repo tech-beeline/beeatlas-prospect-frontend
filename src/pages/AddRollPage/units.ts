@@ -20,6 +20,21 @@ export const TitleFlex = styled.div`
     align-items: center;
 `;
 
+export const TitleFlexGap = styled(TitleFlex)`
+    position: relative;
+
+    display: flex;
+    justify-content: initial;
+    align-items: center;
+    gap: 8px;
+
+    & > span {
+        padding-top: 16px;
+
+        cursor: pointer;
+    }
+`;
+
 export const BottomBlock = styled.div<{ isShown: boolean }>`
     position: fixed;
     bottom: ${({ isShown }) => (isShown ? 0 : '-95px')};
@@ -42,3 +57,53 @@ export const ButtonContainer = styled.div`
 //     /* height: 95px; */
 //     margin-top: auto;
 // `;
+
+export const Dropdown = styled.div`
+    position: absolute;
+    top: 70px;
+    left: 300px;
+
+    width: 280px;
+    height: 62px;
+    padding: 8px 0;
+
+    border-radius: ${theme.borderRadius};
+
+    background-color: ${theme.colors.backgroundLow};
+
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
+
+    user-select: none;
+    cursor: pointer;
+
+    z-index: 10;
+`;
+
+export const DropdownItem = styled.p`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    height: 46px;
+    padding: 12px 16px;
+
+    color: ${theme.colors.borderError};
+
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+
+    &:hover {
+        background-color: ${theme.colors.backgroundHover};
+    }
+
+    &:hover {
+        & > .dsb_icon--red {
+            background: transparent;
+        }
+    }
+
+    & > .dsb_icon--red {
+        background: ${theme.colors.backgroundLow};
+    }
+`;

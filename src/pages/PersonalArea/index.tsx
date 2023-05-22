@@ -51,7 +51,6 @@ export const PersonalArea = observer(() => {
                 {/* <Hint text={'test'} tooltipId={`100`} /> */}
                 {/* </Tooltip> */}
             </S.Title>
-
             <S.SearchStyled
                 placeholder="Поиск"
                 filterItems={[
@@ -65,7 +64,6 @@ export const PersonalArea = observer(() => {
                 // @ts-ignore
                 onFilterChange={(option) => setFilterOption(option)}
             />
-
             <Table
                 style={{
                     width: '100%',
@@ -120,6 +118,8 @@ export const PersonalArea = observer(() => {
                     </TableRow>
                 </TableBody>
             </Table>
+            <br />
+            ^^^ В работе ^^^
         </S.PageWrapper>
     );
 });

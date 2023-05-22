@@ -3,8 +3,6 @@ import React, { FC } from 'react';
 import * as S from './units';
 
 export const TextWithLinks: FC<{ text: string }> = ({ text }) => {
-    console.log('text', text);
-
     const isLink = (word: string) => word.startsWith('http://') || word.startsWith('https://');
 
     const processText = (text: string) => {

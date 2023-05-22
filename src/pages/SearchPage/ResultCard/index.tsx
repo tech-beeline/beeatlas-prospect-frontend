@@ -71,7 +71,8 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
 
                         <div style={{ marginBottom: '12px' }}>
                             <a
-                                href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
+                                href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.guid}`}
+                                // href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
                                 rel="noopener noreferrer"
                                 target="_blank"
                             >

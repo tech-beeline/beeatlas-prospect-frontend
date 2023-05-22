@@ -4,9 +4,10 @@ import VKITAuth from '@beeline/lk-auth';
 import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
+import { postSession } from 'api/sessions';
 import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
-import { persistStorage } from 'stores/utils';
+import { getStorage, persistStorage } from 'stores/utils';
 
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
@@ -44,20 +45,49 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
     useEffect(() => {
         (async () => {
             if (auth.hasNecessaryParams()) {
-                const { access_token } = await auth.exchangeCode();
+                const res = await auth.exchangeCode();
 
-                // console.log('access_token', access_token);
+                console.log('res', res);
 
-                persistStorage('token', access_token);
+                persistStorage('token', res.access_token);
+                persistStorage('rtoken', res.refresh_token);
 
                 setAuth(true);
 
-                setUserInfo(auth.getClaims(access_token));
+                setUserInfo(auth.getClaims(res.access_token));
 
                 // console.log('auth.getClaims(access_token)', auth.getClaims(access_token));
             }
         })();
     }, []);
+
+    useEffect(() => {
+        console.log('userInfo', userInfo);
+
+        // login_time: string;
+        // id_profile: number;
+        // session: string;
+        // atoken: string;
+        // rtoken: string;
+        // code: string;
+        // state: string;
+        // auth_code: string;
+        // login: string;
+
+        if (Object.keys(userInfo).length > 0) {
+            postSession({
+                login_time: userInfo.iat,
+                // id_profile: 0,
+                session: '',
+                atoken: getStorage('token') || '',
+                rtoken: getStorage('rtoken') || '',
+                code: auth.getCodeParam() || '',
+                state: auth.getStateParam() || '',
+                auth_code: '',
+                login: userInfo.winaccountname,
+            });
+        }
+    }, [userInfo]);
 
     return (
         <>

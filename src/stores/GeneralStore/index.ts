@@ -29,6 +29,8 @@ export const GeneralStore = (): IGeneralStore => {
     const isAuth = getStorage(isAuthKey) === 'true';
     const userInfo = getStorage(userInfoKey, true);
 
+    const currentRole = getStorage('currentRole', true);
+
     return {
         isAuth: isAuth || false,
         themeIsDark: themeIsDark || false,
@@ -51,6 +53,9 @@ export const GeneralStore = (): IGeneralStore => {
         alreadyResponse: [],
         breadCrumbsIds: [],
         techRadarData: [],
+
+        currentRole: currentRole || null,
+        roles: [],
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -335,12 +340,17 @@ export const GeneralStore = (): IGeneralStore => {
 
         // ------PERSONAL AREA------------------------
 
+        setCurrentRole(role) {
+            this.currentRole = role;
+
+            persistStorage('currentRole', this.currentRole, true);
+        },
+
         async getRoles() {
             try {
                 const res = await getRoles();
 
-                console.log(res);
-
+                this.roles = res.data;
                 return res;
             } catch (error) {
                 console.error((error as Error).message);
@@ -357,8 +367,6 @@ export const GeneralStore = (): IGeneralStore => {
             try {
                 const res = await postRole(data);
 
-                console.log(res);
-
                 return res;
             } catch (error) {
                 console.error((error as Error).message);
@@ -368,8 +376,6 @@ export const GeneralStore = (): IGeneralStore => {
         async changeRole(data) {
             try {
                 const res = await putRole(data);
-
-                console.log(res);
 
                 return res;
             } catch (error) {
@@ -381,8 +387,6 @@ export const GeneralStore = (): IGeneralStore => {
             try {
                 const res = await getCurrentRole(id);
 
-                console.log(res);
-
                 return res;
             } catch (error) {
                 console.error((error as Error).message);
@@ -392,8 +396,6 @@ export const GeneralStore = (): IGeneralStore => {
         async deleteRole(id: number) {
             try {
                 const res = await deleteRole(id);
-
-                console.log(res);
 
                 return res;
             } catch (error) {
