@@ -14,7 +14,7 @@ import * as S from './units';
 
 export const RollSettingsPage = observer(() => {
     const {
-        generalStore: { getRoles },
+        generalStore: { roles, getRoles, setCurrentRole },
     } = useRootStore();
 
     const navigate = useNavigate();
@@ -23,25 +23,43 @@ export const RollSettingsPage = observer(() => {
         getRoles();
     });
 
+    const openCurrentRoleHandler = (role: any) => {
+        setCurrentRole(role);
+
+        navigate(`${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}${ROUTER.ADD_PATH}`);
+    };
+
     return (
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlex>
-                <TitleBack title="Настройки ролей" />
+                <TitleBack title="Настройки ролей" fontSize="26px" />
 
                 <Button
                     variant="contained"
                     size="medium"
                     endIcon={<Icon iconName={Icons.Add} />}
-                    onClick={() =>
+                    onClick={() => {
+                        setCurrentRole(null);
+
                         navigate(
                             `${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}${ROUTER.ADD_PATH}`,
-                        )
-                    }
+                        );
+                    }}
                     style={{ marginTop: '30px' }}
                 >
                     Создать роль
                 </Button>
             </S.TitleFlex>
+
+            <S.RolesContainer>
+                {roles.map((role) => (
+                    <S.Role key={role.id} onClick={() => openCurrentRoleHandler(role)}>
+                        <p>{role.name}</p>
+                        {/* @ts-ignore */}
+                        <Icon size={24} iconName={Icons.ArrowRight} />
+                    </S.Role>
+                ))}
+            </S.RolesContainer>
         </S.PageWrapper>
     );
 });

@@ -1,5 +1,6 @@
 export interface IRole {
-    name: string;
+    id?: string;
+    name?: string;
     alias?: string;
     descr?: string;
 }

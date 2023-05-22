@@ -48,6 +48,7 @@ export const theme = {
         chartBlue: 'var(--color-chart-blue-active)',
         chartGrey: 'var(--color-chart-grey-active)',
         scroll: 'var(--color-utilities-scroll)',
+        borderError: 'var(--color-border-error)',
 
         // TODO: удалить после удаления страницы аутентификации
         primary: '#FDD835',
@@ -57,7 +58,7 @@ export const theme = {
         backgroundGray: '#F1F3F5',
         disabledGray: '#908E84',
         borderGray: '#E0E0E0',
-        borderError: '#FF5555',
+        // borderError: '#FF5555',
         backgroundError: '#FFECEF',
         black: '#212121',
         white: '#FFFFFF',

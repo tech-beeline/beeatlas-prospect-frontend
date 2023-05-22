@@ -4,12 +4,12 @@ import { Icon, Icons } from '@beeline/lk-ui';
 
 import * as S from './units';
 
-export const TitleBack = ({ title }: { title: string }) => {
+export const TitleBack = (props: any) => {
     const navigate = useNavigate();
 
     return (
-        <S.Title className="TitleBack" onClick={() => navigate(-1)}>
-            <Icon iconName={Icons.ArrowLeft} /> {title}
+        <S.Title className="TitleBack" onClick={() => navigate(-1)} {...props}>
+            <Icon iconName={Icons.ArrowLeft} /> {props.title}
         </S.Title>
     );
 };
