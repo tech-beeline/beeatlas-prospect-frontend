@@ -78,7 +78,9 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                             >
                                 <S.Title
                                     dangerouslySetInnerHTML={{
-                                        __html: handleTextToBold(props.data.name),
+                                        __html: DOMPurify.sanitize(
+                                            handleTextToBold(props.data.name),
+                                        ),
                                     }}
                                 />
                             </a>
@@ -91,7 +93,9 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
 
                     <S.Text
                         className="ResultCardText"
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.data.descr) }}
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(handleTextToBold(props.data.descr)),
+                        }}
                     >
                         {/* <NewlineText str={props.data.descr} /> */}
                     </S.Text>
