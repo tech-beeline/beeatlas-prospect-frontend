@@ -47,7 +47,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
                         <Icon iconName={Icons.OpenInWindow} />
                     </S.DropdownItem>
 
-                    <S.DividerStyled className="DividerStyled" />
+                    <S.DividerStyled className="DividerStyled" type="horizontal" />
 
                     <S.DropdownItem className="DropdownItem" onClick={() => clearAuth()}>
                         Выход <Icon iconName={Icons.NavArrowRight} />

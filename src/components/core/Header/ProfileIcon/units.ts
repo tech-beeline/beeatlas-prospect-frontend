@@ -67,6 +67,7 @@ export const DropdownItem = styled.p`
 `;
 
 export const DividerStyled = styled(Divider)`
+    width: 100%;
     margin: 8px 0;
 `;
 
