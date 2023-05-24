@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { Skeleton } from '@beeline/lk-ui';
+// import { Link } from 'components/interaction';
+import DOMPurify from 'dompurify';
 import { observer } from 'mobx-react';
-
-import { Link } from 'components/interaction';
 
 import { useIconOfItem } from 'hooks/useIconOfItem';
 
@@ -50,17 +50,17 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
         return '';
     };
 
-    const NewlineText = ({ str }: any) => {
-        return str
-            .split(/(https?:\/\/\S+)/ || '\\r\\n' || '\\n' || '\\r' || '\n')
-            .map((st: any, index: number) => {
-                return st.startsWith('https') ? (
-                    <Link path={st}>{st}</Link>
-                ) : (
-                    <p dangerouslySetInnerHTML={{ __html: handleTextToBold(st) }} key={index} />
-                );
-            });
-    };
+    // const NewlineText = ({ str }: any) => {
+    //     return str
+    //         .split(/(https?:\/\/\S+)/ || '\\r\\n' || '\\n' || '\\r' || '\n')
+    //         .map((st: any, index: number) => {
+    //             return st.startsWith('https') ? (
+    //                 <Link path={st}>{st}</Link>
+    //             ) : (
+    //                 <p dangerouslySetInnerHTML={{ __html: handleTextToBold(st) }} key={index} />
+    //             );
+    //         });
+    // };
 
     return (
         <S.Wrapper className="ResultCardWrapper">
@@ -78,7 +78,9 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                             >
                                 <S.Title
                                     dangerouslySetInnerHTML={{
-                                        __html: handleTextToBold(props.data.name),
+                                        __html: DOMPurify.sanitize(
+                                            handleTextToBold(props.data.name),
+                                        ),
                                     }}
                                 />
                             </a>
@@ -89,15 +91,20 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                         </div>
                     </div>
 
-                    <S.Text className="ResultCardText">
-                        <NewlineText str={props.data.descr} />
+                    <S.Text
+                        className="ResultCardText"
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(handleTextToBold(props.data.descr)),
+                        }}
+                    >
+                        {/* <NewlineText str={props.data.descr} /> */}
                     </S.Text>
 
                     <S.TitleSecond className="ResultCardTitleSecond" style={{ marginTop: '24px' }}>
                         Домен
                     </S.TitleSecond>
                     <a
-                        href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.domainRef.guid}`}
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domainRef.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
