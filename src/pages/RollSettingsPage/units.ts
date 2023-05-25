@@ -41,7 +41,7 @@ export const Role = styled.div`
     line-height: 28px;
 
     border: 1px solid;
-    border-color: rgba(25, 28, 52, 0.12);
+    border-color: ${theme.colors.divider};
     border-radius: 12px;
 
     transition: all 0.25s ease-in-out;
