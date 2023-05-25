@@ -52,10 +52,12 @@ export interface IGeneralStore {
     alreadyResponse: number[];
 
     // АДМИНКА
+    profiles: Record<string, any>[];
     currentRole: any;
     roles: Record<string, any>[];
     setCurrentRole: (role: any | IRole) => void;
 
+    getProfiles: () => void;
     getRoles: () => void;
     createRole: (data: IRole) => Promise<Record<string, any>> | unknown;
     changeRole: (data: IRole) => void;

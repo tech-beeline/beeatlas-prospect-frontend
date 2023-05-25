@@ -5,6 +5,7 @@ import { getGeneralItems, getItemChildren, getSearchResult } from 'api/fdm';
 import {
     deleteRole,
     getCurrentRole,
+    getProfiles,
     getRolePermission,
     getRoles,
     postRole,
@@ -54,6 +55,7 @@ export const GeneralStore = (): IGeneralStore => {
         breadCrumbsIds: [],
         techRadarData: [],
 
+        profiles: [],
         currentRole: currentRole || null,
         roles: [],
 
@@ -344,6 +346,17 @@ export const GeneralStore = (): IGeneralStore => {
             this.currentRole = role;
 
             persistStorage('currentRole', this.currentRole, true);
+        },
+
+        async getProfiles() {
+            try {
+                const res = await getProfiles();
+
+                this.profiles = res.data;
+                return res;
+            } catch (error) {
+                console.error((error as Error).message);
+            }
         },
 
         async getRoles() {

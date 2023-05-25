@@ -62,7 +62,7 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
     }, []);
 
     useEffect(() => {
-        console.log('userInfo', userInfo);
+        // console.log('userInfo', userInfo);
 
         // login_time: string;
         // id_profile: number;

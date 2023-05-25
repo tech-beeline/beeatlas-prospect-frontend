@@ -4,6 +4,35 @@ import { API_URL } from '../const';
 
 import * as T from './types';
 
+// получение юзеров
+export const getProfiles = () => {
+    return Api.get({
+        url: `${API_URL}admin/v1/profiles`,
+    });
+};
+
+// [
+//     {
+//         id: 0,
+//         id_ext: 'string',
+//         full_name: 'string',
+//         login: 'string',
+//         last_login: 'string',
+//         email: 'string',
+//         roles: [
+//             {
+//                 id: 0,
+//                 name: 'string',
+//                 alias: 'string',
+//                 descr: 'string',
+//                 deleted: true,
+//             },
+//         ],
+//     },
+// ];
+
+// ---------------------------
+
 // получение списка всех ролей
 export const getRoles = () => {
     return Api.get({
