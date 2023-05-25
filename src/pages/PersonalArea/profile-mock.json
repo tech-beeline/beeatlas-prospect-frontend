@@ -1,0 +1,138 @@
+[
+    {
+        "id": 0,
+        "id_ext": "string",
+        "full_name": "Константин Константинопольский",
+        "login": "Константин Константинопольский",
+        "last_login": "12.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 1,
+        "id_ext": "string",
+        "full_name": "Константин Константинопольский",
+        "login": "Константин Константинопольский",
+        "last_login": "12.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "id_ext": "string",
+        "full_name": "Василий Пушкин",
+        "login": "Василий Пушкин",
+        "last_login": "13.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "id_ext": "string",
+        "full_name": "Джон Сноу",
+        "login": "Джон Сноу",
+        "last_login": "14.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "id_ext": "string",
+        "full_name": "Бенджамин Баттон",
+        "login": "Бенджамин Баттон",
+        "last_login": "14.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "id_ext": "string",
+        "full_name": "Альберт Эйнштейн",
+        "login": "Альберт Эйнштейн",
+        "last_login": "12.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "id_ext": "string",
+        "full_name": "Никола Тесла",
+        "login": "Никола Тесла",
+        "last_login": "10.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "id_ext": "string",
+        "full_name": "Мария Склодовская-Кюри",
+        "login": "Мария Склодовская-Кюри",
+        "last_login": "17.10.2022",
+        "email": "example_mail@beeline.ru",
+        "roles": [
+            {
+                "id": 0,
+                "name": "Архитектор",
+                "alias": "string",
+                "descr": "string",
+                "deleted": true
+            }
+        ]
+    }
+]

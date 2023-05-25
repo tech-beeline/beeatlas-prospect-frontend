@@ -1,4 +1,4 @@
-import { Search } from '@beeline/design-system-react';
+import { Search, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Hint } from 'pages/TechRadarPage/components/LeftMenu/Hint';
@@ -35,4 +35,14 @@ export const SearchStyled = styled(Search)`
 
 export const HintStyled = styled(Hint)`
     margin-top: 6px;
+`;
+
+export const TableHeaderFlexWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+export const TableHeaderDataStyled = styled(TableHeaderData)`
+    user-select: none;
+    cursor: pointer;
 `;

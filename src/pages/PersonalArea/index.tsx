@@ -18,23 +18,60 @@ import { useMountEffect } from 'hooks';
 import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
-// import { TablePagination } from '@beeline/design-system-react';
+import MOCK_PROFILES from './profile-mock.json';
+import { SortIndicator } from './SortIndicator';
 import * as S from './units';
+import { UserTableProfile } from './UserTableProfile';
 
 import 'react-tooltip/dist/react-tooltip.css';
 
 export const PersonalArea = observer(() => {
     const {
-        generalStore: { getRoles },
+        generalStore: { getProfiles, getRoles },
     } = useRootStore();
 
     const [filterOption, setFilterOption] = useState({ id: 1, value: 'Везде' });
 
+    const [itemsCountOnPage, setItemsCountOnPage] = useState(5);
+    const [countPage, setCountPage] = useState(1);
+
+    const [profiles, setProfiles] = useState(MOCK_PROFILES);
+    const [sortKey, setSortKey] = useState('');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
     const navigate = useNavigate();
 
     useMountEffect(() => {
+        // (async () => {
+        getProfiles();
+
         getRoles();
+        // })();
     });
+
+    // useEffect(() => {}, [itemsCountOnPage]);
+
+    const sortTableTest = (key: string) => {
+        setSortKey(key);
+
+        setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' ? 'desc' : 'asc'));
+
+        setProfiles((prevProfiles) => {
+            return prevProfiles.sort((a: any, b: any) => {
+                if (a[key] < b[key]) {
+                    return sortOrder === 'asc' ? -1 : 1;
+                } else if (a[key] > b[key]) {
+                    return sortOrder === 'asc' ? 1 : -1;
+                }
+
+                return 0;
+            });
+        });
+    };
+
+    const startIndex = (countPage - 1) * itemsCountOnPage;
+    const endIndex = countPage * itemsCountOnPage;
+    const displayedProfiles = profiles.slice(startIndex, endIndex);
 
     return (
         <S.PageWrapper className="PageWrapper">
@@ -71,55 +108,65 @@ export const PersonalArea = observer(() => {
             >
                 <TableHead>
                     <TableRow>
-                        <TableHeaderData>ФИО</TableHeaderData>
+                        <S.TableHeaderDataStyled onClick={() => sortTableTest('full_name')}>
+                            <S.TableHeaderFlexWrapper>
+                                <p>ФИО</p>{' '}
+                                {sortKey === 'full_name' && <SortIndicator order={sortOrder} />}
+                            </S.TableHeaderFlexWrapper>
+                        </S.TableHeaderDataStyled>
+
                         <TableHeaderData>Продукт</TableHeaderData>
                         <TableHeaderData>Роль</TableHeaderData>
-                        <TableHeaderData alignRight>Дата активности</TableHeaderData>
+
+                        <S.TableHeaderDataStyled
+                            onClick={() => sortTableTest('last_login')}
+                            alignRight
+                        >
+                            <S.TableHeaderFlexWrapper style={{ justifyContent: 'right' }}>
+                                <p>Дата активности</p>{' '}
+                                {sortKey === 'last_login' && <SortIndicator order={sortOrder} />}
+                            </S.TableHeaderFlexWrapper>
+                        </S.TableHeaderDataStyled>
                     </TableRow>
                 </TableHead>
+
                 <TableBody>
-                    <React.Fragment key=".0">
-                        <TableRow>
-                            <TableData>item 1</TableData>
-                            <TableData>item 1</TableData>
-                            <TableData>item 1</TableData>
-                            <TableData alignRight>item 1</TableData>
-                        </TableRow>
-                        <TableRow>
-                            <TableData>item 2</TableData>
-                            <TableData>item 2</TableData>
-                            <TableData>item 2</TableData>
-                            <TableData alignRight>item 2</TableData>
-                        </TableRow>
-                        <TableRow>
-                            <TableData>item 3</TableData>
-                            <TableData>item 3</TableData>
-                            <TableData>item 3</TableData>
-                            <TableData alignRight>item 3</TableData>
-                        </TableRow>
-                    </React.Fragment>
+                    {displayedProfiles.map((profile) => {
+                        return (
+                            <TableRow key={profile.id}>
+                                <TableData>
+                                    <UserTableProfile
+                                        fullName={profile.full_name}
+                                        email={profile.email}
+                                    />
+                                </TableData>
+                                <TableData>Нет данных (бэк)</TableData>
+                                {/* TODO: сделать списком */}
+                                <TableData>{profile.roles[0].name}</TableData>
+                                <TableData alignRight>{profile.last_login}</TableData>
+                            </TableRow>
+                        );
+                    })}
+
                     <TableRow>
-                        <TableData
-                            colSpan={7}
-                            style={{
-                                fontSize: 'unset',
-                            }}
-                        >
+                        <TableData colSpan={7}>
                             <TablePagination
-                                onPageChange={() => console.log('onPageChange')}
-                                onRowsPerPageChange={() => console.log('onRowsPerPageChange')}
-                                page={1}
-                                rowsCount={19}
-                                rowsPerPage={5}
-                                rowsPerPageOptions={[2, 5, 10, 15, 30]}
+                                onPageChange={setCountPage}
+                                onRowsPerPageChange={(perPage) => {
+                                    setItemsCountOnPage(perPage);
+
+                                    setCountPage(1);
+                                }}
+                                page={countPage}
+                                rowsCount={profiles.length}
+                                rowsPerPage={itemsCountOnPage}
+                                rowsPerPageOptions={[5, 10, 30, 50]}
                                 showFirstAndLastButtons
                             />
                         </TableData>
                     </TableRow>
                 </TableBody>
             </Table>
-            <br />
-            ^^^ В работе ^^^
         </S.PageWrapper>
     );
 });
