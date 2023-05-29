@@ -11,12 +11,12 @@ import 'react-tooltip/dist/react-tooltip.css';
 export const Hint: FC<T.IHint> = ({ text, tooltipId, children, ...props }) => {
     return (
         <S.HintWrapper {...props}>
-            {(
+            {props.isInfo ? (
+                <S.InfoIcon onClick={(e: any) => e.stopPropagation()} data-tooltip-id={tooltipId} />
+            ) : (
                 <span onClick={(e: any) => e.stopPropagation()} data-tooltip-id={tooltipId}>
                     {children}
                 </span>
-            ) || (
-                <S.InfoIcon onClick={(e: any) => e.stopPropagation()} data-tooltip-id={tooltipId} />
             )}
 
             <S.TooltipStyled
