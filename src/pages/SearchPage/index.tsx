@@ -32,8 +32,10 @@ export const SearchPage = observer(() => {
 
         if (savedRequest) {
             setTimeout(() => {
-                setRequest(savedRequest, 'replaceIn');
-            }, 100);
+                setRequest(request || savedRequest, 'replaceIn');
+
+                setSearchInput(request || savedRequest);
+            }, 200);
         }
     });
 
@@ -104,6 +106,7 @@ export const SearchPage = observer(() => {
                         fullWidth
                         placeholder="Поиск"
                         onChange={({ target: { value } }) => setSearchInput(value)}
+                        value={searchInput}
                     />
 
                     <Button variant="contained" style={{ padding: '0 20px' }}>
