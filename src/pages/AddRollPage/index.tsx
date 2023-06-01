@@ -19,7 +19,7 @@ export const AddRollPage = observer(() => {
     } = useRootStore();
 
     const [isShowDropdown, setShowDropdown] = useState(false);
-    const [isShowSnackbar, setShowSnackbar] = useState(false);
+    // const [isShowSnackbar, setShowSnackbar] = useState(false);
 
     const [name, setName] = useState('');
 

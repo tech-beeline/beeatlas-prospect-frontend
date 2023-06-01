@@ -117,7 +117,7 @@ export const InfoIcon = styled(InfoSVG)`
     min-width: 24px;
     min-height: 24px;
 
-    z-index: 1000;
+    z-index: 5;
 
     & > * {
         fill: ${theme.colors.textActive};

@@ -63,7 +63,7 @@ export const postRole = (data: T.IRole) => {
 // изменение роли
 // отправляем id и поля которые хотим изменить, обязательное поле только id
 export const putRole = (data: T.IRole) => {
-    return Api.put({
+    return Api.patch({
         url: `${API_URL}admin/v1/roles`,
         data,
     });
