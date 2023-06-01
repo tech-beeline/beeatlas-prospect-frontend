@@ -4,5 +4,6 @@ export { Card } from './Card';
 export { Input } from './Input';
 export { Link } from './Link';
 export { Slider } from './Slider';
+export { Snackbar } from './Snackbar';
 export { TextButton } from './TextButton';
 export { TitleBack } from './TitleBack';
