@@ -19,6 +19,7 @@ export const AddRollPage = observer(() => {
     } = useRootStore();
 
     const [isShowDropdown, setShowDropdown] = useState(false);
+    const [isShowSnackbar, setShowSnackbar] = useState(false);
 
     const [name, setName] = useState('');
 
@@ -111,6 +112,10 @@ export const AddRollPage = observer(() => {
                     </Button>
                 </S.ButtonContainer>
             </S.BottomBlock>
+
+            {/* <button onClick={() => setShowSnackbar(true)}>SHOW SNACKBAR</button> */}
+
+            {/* <Snackbar isOpen={isShowSnackbar} setOpen={setShowSnackbar} message="Роль создана" /> */}
         </S.PageWrapper>
     );
 });
