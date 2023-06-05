@@ -1,7 +1,7 @@
 export interface ISessionData {
     login_time: string;
     id_profile?: number;
-    session: string;
+    session?: string;
     atoken: string;
     rtoken: string;
     code: string;
