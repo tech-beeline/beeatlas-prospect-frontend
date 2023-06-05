@@ -78,7 +78,8 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
             postSession({
                 login_time: userInfo.iat,
                 // id_profile: 0,
-                session: '',
+                // она вернется потом (спросить у бэка)
+                // session: '',
                 atoken: getStorage('token') || '',
                 rtoken: getStorage('rtoken') || '',
                 code: auth.getCodeParam() || '',
