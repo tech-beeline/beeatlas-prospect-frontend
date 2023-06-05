@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
@@ -17,6 +18,10 @@ export const Wrapper = styled.div`
     border-right: 1px solid ${theme.colors.divider};
 
     z-index: 10;
+`;
+
+export const LinkStyled = styled(Link)<{ isActive: boolean }>`
+    pointer-events: ${({ isActive }) => (isActive ? 'none' : 'initial')};
 `;
 
 export const Tab = styled.div<{ isActive: boolean }>`
@@ -39,6 +44,8 @@ export const Tab = styled.div<{ isActive: boolean }>`
 
         transition: color 0.25s ease-out;
     }
+
+    pointer-events: ${({ isActive }) => (isActive ? 'none' : 'initial')};
 
     &::after {
         position: absolute;
