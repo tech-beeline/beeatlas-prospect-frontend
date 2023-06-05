@@ -27,7 +27,7 @@ export const Header = styled.div`
 
     background-color: ${theme.colors.backgroundLow};
 
-    z-index: 4;
+    z-index: 6;
 `;
 
 export const TitleWrapper = styled.div`

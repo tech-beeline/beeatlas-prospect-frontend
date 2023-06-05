@@ -4,6 +4,8 @@ export interface ISnackbar {
     isOpen: boolean;
     message: string;
     messageButton?: string;
+    textButton?: string;
+
     setOpen: Dispatch<SetStateAction<boolean>>;
-    onClick?: () => void;
+    onClickButton?: () => void;
 }
