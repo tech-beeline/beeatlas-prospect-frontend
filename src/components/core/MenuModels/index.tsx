@@ -26,7 +26,10 @@ export const MenuModels = () => {
 
     return (
         <S.Wrapper className="MenuModelsWrapper">
-            <Link to={`${ROUTER.MODELS_PATH}${ROUTER.SEARCH_PATH}`}>
+            <S.LinkStyled
+                to={`${ROUTER.MODELS_PATH}${ROUTER.SEARCH_PATH}`}
+                isActive={location.pathname?.includes(ROUTER.SEARCH_PATH)}
+            >
                 <S.Tab
                     className="MenuModelsTab"
                     // onClick={() => setActiveLeftItem(0)}
@@ -34,7 +37,7 @@ export const MenuModels = () => {
                 >
                     <Icon iconName={Icons.Search} />
                 </S.Tab>
-            </Link>
+            </S.LinkStyled>
 
             <Link to={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`}>
                 <S.Tab

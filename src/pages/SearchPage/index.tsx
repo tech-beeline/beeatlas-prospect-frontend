@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { Button, Search } from '@beeline/design-system-react';
 // import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
@@ -25,7 +25,8 @@ export const SearchPage = observer(() => {
 
     const [isOpenDescription, setOpenDescription] = useState(false);
     const [searchInput, setSearchInput] = useState('');
-    // const [boldValue, setBoldValue] = useState('');
+
+    const searchRef = useRef(null);
 
     useMountEffect(() => {
         const savedRequest = getStorage('requestKey');
@@ -39,6 +40,20 @@ export const SearchPage = observer(() => {
         }
     });
 
+    const getFindResult = async (e: FormEvent) => {
+        e.preventDefault();
+
+        setRequest(searchInput, 'replaceIn');
+    };
+
+    // костыль чтобы навесить событие на иконку в готовом компоненте
+    useEffect(() => {
+        // @ts-ignore
+        searchRef.current?.children[0].children[0].addEventListener('click', (e) =>
+            getFindResult(e),
+        );
+    }, [searchRef.current]);
+
     useEffect(() => {
         if (request) {
             getResultSearch(request);
@@ -49,12 +64,6 @@ export const SearchPage = observer(() => {
             // setBoldValue(search);
         }
     }, [request]);
-
-    const getFindResult = async (e: FormEvent) => {
-        e.preventDefault();
-
-        setRequest(searchInput, 'replaceIn');
-    };
 
     return (
         <S.PageWrapper className="PageWrapper">
@@ -101,7 +110,11 @@ export const SearchPage = observer(() => {
                     {isOpenDescription ? 'Скрыть' : 'Подробнее'}
                 </Button>
 
-                <S.SearchContainer className="SearchContainer" onSubmit={getFindResult}>
+                <S.SearchContainer
+                    className="SearchContainer"
+                    onSubmit={getFindResult}
+                    ref={searchRef}
+                >
                     <Search
                         fullWidth
                         placeholder="Поиск"
