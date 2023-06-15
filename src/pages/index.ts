@@ -4,6 +4,7 @@ export { AddRollPage } from './AddRollPage';
 export { ArchCommPage } from './ArchCommPage';
 export { AuthPage } from './AuthPage';
 export { CalendarPage } from './CalendarPage';
+export { CJPage } from './CJPage';
 export { ConsultationPage } from './ConsultationPage';
 export { DataBasePage } from './DataBasePage';
 export { FDMPage } from './FDMPage';
