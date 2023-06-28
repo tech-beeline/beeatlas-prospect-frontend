@@ -1,6 +1,17 @@
+import { Divider, Icon } from '@beeline/design-system-react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
+
+// import { ReactComponent as CrossSVG } from 'images/cross-icon.svg';
+
+export const PageWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+`;
 
 export const TableWrapper = styled.div`
     position: relative;
@@ -8,7 +19,7 @@ export const TableWrapper = styled.div`
     display: flex;
 
     width: 100%;
-    max-height: calc(100vh - 128px);
+    max-height: calc(100vh - 212px);
 
     color: ${theme.colors.textActive};
 
@@ -50,10 +61,12 @@ export const Tbody = styled.tbody`
     width: 100%;
 `;
 
-export const Row = styled.tr`
+export const Row = styled.tr<{ isHidden?: boolean }>`
     width: 100%;
 
     background-color: ${theme.colors.backgroundLow};
+
+    color: ${({ isHidden }) => isHidden && '#a9a9a9'};
 `;
 
 export const Th = styled.th<{ backgroundColor?: string }>`
@@ -72,8 +85,10 @@ export const Th = styled.th<{ backgroundColor?: string }>`
         position: sticky;
         left: 0;
 
-        min-width: auto;
-        padding: 0 24px;
+        min-width: 150px;
+        /* padding: 0 24px; */
+
+        z-index: 10;
     }
 
     &:last-of-type {
@@ -81,7 +96,7 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     }
 `;
 
-export const Td = styled.td`
+export const Td = styled.td<{ isClickable?: boolean }>`
     min-width: 320px;
     height: 52px;
     padding: 18px 16px;
@@ -94,17 +109,119 @@ export const Td = styled.td`
         position: sticky;
         left: 0;
 
-        min-width: auto;
-        padding: 0 24px;
+        min-width: 100px;
+        padding: 10px 16px;
     }
 
     &:last-of-type {
         padding-right: 24px;
     }
+
+    ${({ isClickable }) =>
+        isClickable &&
+        css`
+            cursor: pointer;
+
+            transition: color 0.25s ease-in-out;
+
+            @media (hover: hover) {
+                &:hover {
+                    /* TODO: change */
+                    color: #1976d2;
+                }
+            }
+        `}
 `;
 
+// -----------------------------------------------------------
+
 export const FlexWrapper = styled.div`
+    position: relative;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+
+export const MenuBlock = styled.div`
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    transform: translateY(100%);
+
+    flex-direction: column;
+
+    padding: 8px 0px;
+    width: 280px;
+
+    background-color: ${theme.colors.backgroundLow};
+
+    border-radius: 12px;
+
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
+`;
+
+export const MenuItem = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 16px;
+
+    transition: background-color 0.25s ease-in-out;
+
+    cursor: pointer;
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: ${theme.colors.backgroundHover};
+        }
+    }
+`;
+
+export const MenuItemText = styled.div`
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+`;
+
+export const MenuItemRemoveText = styled(MenuItemText)`
+    color: ${theme.colors.borderError};
+`;
+
+export const MenuDivider = styled(Divider)`
+    width: 100%;
+    margin: 8px 0;
+`;
+
+export const AlignItemsCenterWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    width: 100%;
+`;
+
+export const HideOrShowButton = styled.button`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    width: max-content;
+    margin-top: 24px;
+    padding: 6px 16px;
+
+    color: ${theme.colors.textLink};
+
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
+`;
+
+export const IconStyled = styled(Icon)`
+    color: ${theme.colors.textLink};
 `;

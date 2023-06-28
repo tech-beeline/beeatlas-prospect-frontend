@@ -41,9 +41,18 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
         { name: 'Продукты', url: 'products' },
     ];
 
+    // TODO: использовать getAccessToken вместо storage
+    // есть requestTokenRefresh
+
     // TODO: useMountEffect
     useEffect(() => {
         (async () => {
+            // @ts-ignore
+            localStorage.setItem('1', auth.getCodeParam());
+            console.log('1', auth.getCodeParam());
+            // @ts-ignore
+            localStorage.setItem('2', auth.getStateParam());
+
             if (auth.hasNecessaryParams()) {
                 const res = await auth.exchangeCode();
 
