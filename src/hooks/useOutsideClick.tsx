@@ -1,15 +1,21 @@
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 import { Nullable } from 'types/common';
 
 export const useOutsideClick = (
-    ref: MutableRefObject<Nullable<HTMLDivElement>>,
+    ref: MutableRefObject<Nullable<HTMLDivElement | HTMLFormElement>>,
     isOpen: boolean,
-    stateSetter: Dispatch<SetStateAction<boolean>>,
+    stateSetter: (bool: boolean) => void,
+    exceptionRef?: MutableRefObject<Nullable<HTMLDivElement | HTMLFormElement>>,
 ) => {
     useEffect(() => {
         const handleClickOutside = (event: Event) => {
             const conditionOutside =
-                ref.current && !ref.current.contains(event.target as Node) && isOpen;
+                !!ref.current &&
+                !ref.current.contains(event.target as Node) &&
+                isOpen &&
+                (!!exceptionRef?.current
+                    ? !exceptionRef.current.isEqualNode(event.target as Node)
+                    : true);
 
             conditionOutside && stateSetter(false);
         };

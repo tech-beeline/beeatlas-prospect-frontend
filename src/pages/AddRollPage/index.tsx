@@ -24,6 +24,7 @@ export const AddRollPage = observer(() => {
     const [snackbarType, setSnackbarType] = useState<Nullable<'create' | 'delete' | 'edit'>>(null);
 
     const [name, setName] = useState('');
+    const [oldNameForEdit, setOldNameForEdit] = useState('');
 
     const dropdownRef = useRef(null);
 
@@ -47,12 +48,15 @@ export const AddRollPage = observer(() => {
     };
 
     const editRoleHandler = async (role: any) => {
-        const res = (await changeRole({ id: role.id, name: role.name })) as any;
+        const res = (await changeRole({ id: role.id, name })) as any;
 
         if (res?.data.id) {
             setSnackbarType('edit');
 
             setShowSnackbar(true);
+
+            // чистим старое имя которое было для сравнения
+            setOldNameForEdit('');
         }
     };
 
@@ -70,10 +74,14 @@ export const AddRollPage = observer(() => {
 
     // обновление стр и взятия значения из сторейджа
     useMountEffect(() => {
-        currentRole?.name && setName(currentRole.name);
+        if (currentRole?.name) {
+            setName(currentRole.name);
+
+            // для дизейбла кнопки сохранить, новое имя должно отличаться от старого
+            setOldNameForEdit(currentRole.name);
+        }
     });
 
-    // у бэка CORS
     useMountEffect(() => {
         currentRole?.id && getRolePermission(currentRole.id);
     });
@@ -127,6 +135,7 @@ export const AddRollPage = observer(() => {
                         onClick={() =>
                             isCurrentRole ? editRoleHandler(currentRole) : createRoleHandler(name)
                         }
+                        disabled={isCurrentRole && name === oldNameForEdit}
                     >
                         Сохранить
                     </Button>

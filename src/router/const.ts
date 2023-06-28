@@ -27,3 +27,5 @@ export const TECH_RADAR_PATH = '/tech-radar';
 export const PERSONAL_AREA_PATH = '/personal-area';
 export const ROLL_SETTINGS_PATH = '/roll-settings';
 export const ADD_PATH = '/add';
+// CJ
+export const CJ_PATH = '/cj';

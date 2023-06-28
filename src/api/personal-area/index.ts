@@ -99,7 +99,7 @@ export const deleteRole = (id: number) => {
 
 // получить доступы у конкретной роли
 export const getRolePermission = (id: number) => {
-    return Api.delete({
+    return Api.get({
         url: `${API_URL}admin/v1/roles/${id}/permissions`,
     });
 };

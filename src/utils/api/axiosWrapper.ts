@@ -79,8 +79,10 @@ instanceOfAxios.interceptors.response.use(
                 // error.errorText = TEXT.ERROR_404;
                 break;
             case 401:
-                // error.errorText = TEXT.ERROR_401;
+                // requestTokenRefresh
+                // бэк должен валидировать токен и если нет то возвращает ошибку 401
 
+                // error.errorText = TEXT.ERROR_401;
                 try {
                     // const refreshToken = getStorage('refreshToken');
 

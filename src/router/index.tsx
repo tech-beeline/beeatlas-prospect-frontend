@@ -9,6 +9,7 @@ import {
     AppInfoPage,
     ArchCommPage,
     CalendarPage,
+    CJPage,
     ConsultationPage,
     DataBasePage,
     FDMPage,
@@ -290,6 +291,8 @@ export const NavigationRouter = () => {
                     />
 
                     <Route path={C.PRODUCTS_PATH} element={<ProductsPage />} />
+
+                    <Route path={C.CJ_PATH} element={<CJPage />} />
                 </Routes>
             </QueryParamProvider>
         </Theme>
