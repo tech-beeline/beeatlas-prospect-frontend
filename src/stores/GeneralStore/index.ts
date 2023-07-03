@@ -59,6 +59,9 @@ export const GeneralStore = (): IGeneralStore => {
         currentRole: currentRole || null,
         roles: [],
 
+        isShowSnackbar: false,
+        snackbarType: null,
+
         setAuth(isAuth) {
             this.isAuth = isAuth;
 
@@ -346,6 +349,15 @@ export const GeneralStore = (): IGeneralStore => {
             this.currentRole = role;
 
             persistStorage('currentRole', this.currentRole, true);
+        },
+
+        // страница Ролей
+        setShowSnackbar(bool) {
+            this.isShowSnackbar = bool;
+        },
+
+        setSnackbarType(type) {
+            this.snackbarType = type;
         },
 
         async getProfiles() {
