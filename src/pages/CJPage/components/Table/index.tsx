@@ -240,7 +240,16 @@ export const Table = () => {
     };
 
     const addNewColumn = (index: number) => {
-        const excludedСolors = [tableData[index].color, tableData[index - 1].color];
+        let excludedСolors: any = [];
+
+        if (index === 0) {
+            excludedСolors = [tableData[index].color, tableData[index + 1].color];
+        } else if (index === tableData.length) {
+            excludedСolors = [tableData[index - 2].color, tableData[index - 1].color];
+        } else {
+            excludedСolors = [tableData[index].color, tableData[index - 1].color];
+        }
+
         const availableСolors = colors.filter((color) => !excludedСolors.includes(color));
 
         const newColumn: Fruit = {
@@ -265,7 +274,13 @@ export const Table = () => {
 
         const copyOfData = [...tableData];
 
-        copyOfData.splice(index, 0, newColumn);
+        if (index === 0) {
+            copyOfData.unshift(newColumn);
+        } else if (index === tableData.length - 1) {
+            copyOfData.push(newColumn);
+        } else {
+            copyOfData.splice(index, 0, newColumn);
+        }
 
         setTableData(copyOfData);
 
@@ -301,35 +316,27 @@ export const Table = () => {
                                             <S.MenuBlock ref={menuRef}>
                                                 {isAddStepMenu ? (
                                                     <>
-                                                        {rowIndex !== 0 && (
-                                                            <S.MenuItem
-                                                                onClick={() =>
-                                                                    addNewColumn(rowIndex)
-                                                                }
-                                                            >
-                                                                <Icon iconName={Icons.LayoutLeft} />
+                                                        <S.MenuItem
+                                                            onClick={() => addNewColumn(rowIndex)}
+                                                        >
+                                                            <Icon iconName={Icons.LayoutLeft} />
 
-                                                                <S.MenuItemText>
-                                                                    Добавить шаг до
-                                                                </S.MenuItemText>
-                                                            </S.MenuItem>
-                                                        )}
+                                                            <S.MenuItemText>
+                                                                Добавить шаг до
+                                                            </S.MenuItemText>
+                                                        </S.MenuItem>
 
-                                                        {rowIndex !== tableData.length - 1 && (
-                                                            <S.MenuItem
-                                                                onClick={() =>
-                                                                    addNewColumn(rowIndex + 1)
-                                                                }
-                                                            >
-                                                                <Icon
-                                                                    iconName={Icons.LayoutRight}
-                                                                />
+                                                        <S.MenuItem
+                                                            onClick={() =>
+                                                                addNewColumn(rowIndex + 1)
+                                                            }
+                                                        >
+                                                            <Icon iconName={Icons.LayoutRight} />
 
-                                                                <S.MenuItemText>
-                                                                    Добавить шаг после
-                                                                </S.MenuItemText>
-                                                            </S.MenuItem>
-                                                        )}
+                                                            <S.MenuItemText>
+                                                                Добавить шаг после
+                                                            </S.MenuItemText>
+                                                        </S.MenuItem>
                                                     </>
                                                 ) : isMoveMenu ? (
                                                     <>
