@@ -52,7 +52,7 @@ export const NavigationRouter = () => {
 
     return (
         <Theme>
-            <Header {...{ isPersonalArea }} />
+            {!location.pathname?.includes(ROUTER.CJ_PATH) && <Header {...{ isPersonalArea }} />}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
