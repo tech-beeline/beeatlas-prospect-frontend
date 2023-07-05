@@ -11,7 +11,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
 
     width: 320px;
     height: 100%;
-    padding: 84px 16px 20px;
+    padding: 20px 16px;
 
     background-color: ${theme.colors.backgroundLow};
 

@@ -85,7 +85,7 @@ export const Th = styled.th<{ backgroundColor?: string }>`
         position: sticky;
         left: 0;
 
-        min-width: 150px;
+        min-width: 185px;
         /* padding: 0 24px; */
 
         z-index: 10;
@@ -109,7 +109,7 @@ export const Td = styled.td<{ isClickable?: boolean }>`
         position: sticky;
         left: 0;
 
-        min-width: 100px;
+        min-width: 185px;
         padding: 10px 16px;
     }
 
@@ -204,18 +204,16 @@ export const AlignItemsCenterWrapper = styled.div`
     width: 100%;
 `;
 
-export const HideOrShowButton = styled.button`
+export const HideOrShowButton = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
 
     width: max-content;
-    margin-top: 24px;
-    padding: 6px 16px;
 
     color: ${theme.colors.textLink};
 
-    background: none;
+    /* background: none; */
 
     border: none;
 
@@ -224,4 +222,33 @@ export const HideOrShowButton = styled.button`
 
 export const IconStyled = styled(Icon)`
     color: ${theme.colors.textLink};
+`;
+
+export const SideBlockTitle = styled.div`
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+`;
+
+export const TextFieldContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    width: 100%;
+    padding-top: 24px;
+`;
+
+export const ButtonContainer = styled.div`
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    width: 100%;
+    height: 96px;
+    padding: 24px 16px;
 `;
