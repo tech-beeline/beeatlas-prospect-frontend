@@ -36,12 +36,14 @@ const SettingsCJContent = ({ setOpen, name, subName, setName, setSubName }: any)
                     value={nameValue}
                     onChange={({ target: { value } }) => setNameValue(value)}
                     label="Название"
+                    fullWidth
                 />
 
                 <TextField
                     value={subNameValue}
                     onChange={({ target: { value } }) => setSubNameValue(value)}
                     label="Портрет пользователя"
+                    fullWidth
                 />
             </S.TextFieldContainer>
 

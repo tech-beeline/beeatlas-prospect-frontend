@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Icon } from '@beeline/design-system-react';
+import React, { useRef, useState } from 'react';
+import { Button, Icon, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
@@ -7,6 +7,8 @@ import { Nullable } from 'types/common';
 import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import { theme } from 'styles';
+
+import { SideBlock } from '../SideBlock';
 
 // import { ReactComponent as CrossSVG } from 'images/cross-icon.svg';
 import * as S from './units';
@@ -29,6 +31,7 @@ interface Fruit {
     Атрибут14: string;
     Атрибут15: string;
     color?: string;
+    columnName: string;
 }
 
 const data: Fruit[] = [
@@ -49,6 +52,7 @@ const data: Fruit[] = [
         Атрибут13: 'Тестовая строка',
         Атрибут14: 'Тестовая строка',
         Атрибут15: 'Тестовая строка',
+        columnName: 'Название шага',
     },
     {
         Атрибут: 'Тестовая строка',
@@ -67,6 +71,7 @@ const data: Fruit[] = [
         Атрибут13: 'Тестовая строка',
         Атрибут14: 'Тестовая строка',
         Атрибут15: 'Тестовая строка',
+        columnName: 'Название шага',
     },
     {
         Атрибут: 'Тестовая строка',
@@ -85,6 +90,7 @@ const data: Fruit[] = [
         Атрибут13: 'Тестовая строка',
         Атрибут14: 'Тестовая строка',
         Атрибут15: 'Тестовая строка',
+        columnName: 'Название шага',
     },
     {
         Атрибут: 'Тестовая строка',
@@ -103,6 +109,7 @@ const data: Fruit[] = [
         Атрибут13: 'Тестовая строка',
         Атрибут14: 'Тестовая строка',
         Атрибут15: 'Тестовая строка',
+        columnName: 'Название шага',
     },
     {
         Атрибут: 'Тестовая строка',
@@ -121,6 +128,7 @@ const data: Fruit[] = [
         Атрибут13: 'Тестовая строка',
         Атрибут14: 'Тестовая строка',
         Атрибут15: 'Тестовая строка',
+        columnName: 'Название шага',
     },
     {
         Атрибут: 'Тестовая строка',
@@ -139,8 +147,52 @@ const data: Fruit[] = [
         Атрибут13: 'Тестовая строка',
         Атрибут14: 'Тестовая строка',
         Атрибут15: 'Тестовая строка',
+        columnName: 'Название шага',
     },
 ];
+
+const SideBlockNameContent = ({ setOpen, renameColumn }: any) => {
+    const [nameValue, setNameValue] = useState('');
+
+    const onSaveHandler = () => {
+        setOpen(false);
+
+        setNameValue('');
+
+        renameColumn(nameValue);
+    };
+
+    return (
+        <>
+            <S.FlexWrapper>
+                <S.SideBlockTitle>Название шага</S.SideBlockTitle>
+
+                <Icon
+                    iconName={Icons.Close}
+                    onClick={() => setOpen(false)}
+                    style={{ cursor: 'pointer' }}
+                />
+            </S.FlexWrapper>
+
+            <S.TextFieldContainer>
+                <TextField
+                    value={nameValue}
+                    onChange={({ target: { value } }) => setNameValue(value)}
+                    label="Название"
+                    fullWidth
+                />
+            </S.TextFieldContainer>
+
+            <S.ButtonContainer>
+                <Button onClick={() => setOpen(false)}>Отменить</Button>
+
+                <Button variant="contained" onClick={onSaveHandler}>
+                    Сохранить
+                </Button>
+            </S.ButtonContainer>
+        </>
+    );
+};
 
 export const Table = () => {
     const [tableData, setTableData] = useState<Fruit[]>([]);
@@ -153,6 +205,9 @@ export const Table = () => {
     const [hiddenRows, setHiddenRows] = useState<number[]>([]);
     const [isHiddenRowsVisible, setHiddenRowsVisible] = useState(false);
     const [hoveredRowIndex, setHoveredRowIndex] = useState<Nullable<number>>(null);
+    const [renameIndex, setRenameIndex] = useState<Nullable<number>>(null);
+
+    const [isOpenSideBlockName, setOpenSideBlockName] = useState(false);
 
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -169,11 +224,11 @@ export const Table = () => {
     //     setHiddenRows([]);
     // };
 
-    useEffect(() => {
-        console.log(hiddenRows);
-    }, [hiddenRows]);
+    // useEffect(() => {
+    //     console.log(hiddenRows);
+    // }, [hiddenRows]);
 
-    const hideMenuHandler = (_?: boolean) => {
+    const hideMenuHandler = () => {
         setMenuOpen(false);
         setAddStepMenu(false);
         setMoveMenu(false);
@@ -181,7 +236,24 @@ export const Table = () => {
 
     useOutsideClick(menuRef, isMenuOpen, hideMenuHandler, menuButtonRef);
 
-    const columns = Object.keys(data[0]);
+    const columns = [
+        'Атрибут',
+        'Атрибут1',
+        'Атрибут2',
+        'Атрибут3',
+        'Атрибут4',
+        'Атрибут5',
+        'Атрибут6',
+        'Атрибут7',
+        'Атрибут8',
+        'Атрибут9',
+        'Атрибут10',
+        'Атрибут11',
+        'Атрибут12',
+        'Атрибут13',
+        'Атрибут14',
+        'Атрибут15',
+    ];
 
     const colors = [
         theme.colors.lemon,
@@ -270,6 +342,7 @@ export const Table = () => {
             Атрибут14: '',
             Атрибут15: '',
             color: availableСolors[Math.floor(Math.random() * availableСolors.length)],
+            columnName: 'Название шага',
         };
 
         const copyOfData = [...tableData];
@@ -287,6 +360,14 @@ export const Table = () => {
         hideMenuHandler();
     };
 
+    const renameColumn = (name: string) => {
+        setTableData(
+            tableData.map((item, index) =>
+                index === renameIndex ? { ...item, columnName: name } : item,
+            ),
+        );
+    };
+
     return (
         <S.PageWrapper>
             <S.TableWrapper>
@@ -298,7 +379,7 @@ export const Table = () => {
                             {tableData.map((row: any, rowIndex) => (
                                 <S.Th key={rowIndex} backgroundColor={row.color}>
                                     <S.FlexWrapper>
-                                        <p>Название шага</p>
+                                        <p>{row.columnName}</p>
 
                                         <Icon
                                             iconName={Icons.MoreVert}
@@ -373,7 +454,13 @@ export const Table = () => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <S.MenuItem>
+                                                        <S.MenuItem
+                                                            onClick={() => {
+                                                                setOpenSideBlockName(true);
+                                                                setRenameIndex(rowIndex);
+                                                                hideMenuHandler();
+                                                            }}
+                                                        >
                                                             <Icon iconName={Icons.Edit} />
 
                                                             <S.MenuItemText>
@@ -487,11 +574,28 @@ export const Table = () => {
                                 )
                             ),
                         )}
+
+                        <S.Row>
+                            <S.Td>
+                                <S.HideOrShowButton
+                                    onClick={() => setHiddenRowsVisible(!isHiddenRowsVisible)}
+                                >
+                                    {isHiddenRowsVisible ? 'Скрыть' : 'Показать скрытые'}
+
+                                    {isHiddenRowsVisible ? (
+                                        <S.IconStyled iconName={Icons.EyeOff} />
+                                    ) : (
+                                        <S.IconStyled iconName={Icons.Eye} />
+                                    )}
+                                </S.HideOrShowButton>
+                            </S.Td>
+
+                            <S.Td colSpan={columns.length - 1}></S.Td>
+                        </S.Row>
                     </S.Tbody>
                 </S.Table>
             </S.TableWrapper>
-
-            <S.HideOrShowButton onClick={() => setHiddenRowsVisible(!isHiddenRowsVisible)}>
+            {/* <S.HideOrShowButton onClick={() => setHiddenRowsVisible(!isHiddenRowsVisible)}>
                 {isHiddenRowsVisible ? 'Скрыть' : 'Показать скрытые'}
 
                 {isHiddenRowsVisible ? (
@@ -499,7 +603,11 @@ export const Table = () => {
                 ) : (
                     <S.IconStyled iconName={Icons.Eye} />
                 )}
-            </S.HideOrShowButton>
+            </S.HideOrShowButton> */}
+
+            <SideBlock isOpen={isOpenSideBlockName} setOpen={setOpenSideBlockName}>
+                <SideBlockNameContent setOpen={setOpenSideBlockName} {...{ renameColumn }} />
+            </SideBlock>
         </S.PageWrapper>
     );
 };
