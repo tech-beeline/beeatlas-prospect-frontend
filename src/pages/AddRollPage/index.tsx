@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Divider, Icon, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { observer } from 'mobx-react';
-import { Nullable } from 'types/common';
 
 import { Snackbar, TitleBack } from 'components/interaction';
 
@@ -16,12 +15,20 @@ import * as S from './units';
 
 export const AddRollPage = observer(() => {
     const {
-        generalStore: { currentRole, createRole, changeRole, deleteRole, getRolePermission },
+        generalStore: {
+            currentRole,
+            snackbarType,
+            isShowSnackbar,
+            createRole,
+            changeRole,
+            deleteRole,
+            getRolePermission,
+            setShowSnackbar,
+            setSnackbarType,
+        },
     } = useRootStore();
 
     const [isShowDropdown, setShowDropdown] = useState(false);
-    const [isShowSnackbar, setShowSnackbar] = useState(false);
-    const [snackbarType, setSnackbarType] = useState<Nullable<'create' | 'delete' | 'edit'>>(null);
 
     const [name, setName] = useState('');
     const [oldNameForEdit, setOldNameForEdit] = useState('');
@@ -41,6 +48,8 @@ export const AddRollPage = observer(() => {
         const res = (await createRole({ name })) as any;
 
         if (res?.data.id) {
+            navigateToAllRoles();
+
             setSnackbarType('create');
 
             setShowSnackbar(true);
@@ -114,18 +123,16 @@ export const AddRollPage = observer(() => {
                     </S.Dropdown>
                 )}
             </S.TitleFlexGap>
-
             <TextField
                 label="Название"
                 onChange={(event) => setName(event.target.value)}
                 value={name}
             />
-
             <S.BottomBlock isShown={!!name}>
                 <Divider />
 
                 <S.ButtonContainer>
-                    <Button size="medium" onClick={() => setName('')}>
+                    <Button size="medium" onClick={navigateToAllRoles}>
                         Отменить
                     </Button>
 
@@ -142,19 +149,12 @@ export const AddRollPage = observer(() => {
                 </S.ButtonContainer>
             </S.BottomBlock>
 
-            {/* TODO: вынести на страницу выше */}
             <Snackbar
-                isOpen={isShowSnackbar}
+                isOpen={snackbarType === 'edit' && isShowSnackbar}
                 setOpen={setShowSnackbar}
-                message={
-                    snackbarType === 'create'
-                        ? 'Роль успешно создана'
-                        : snackbarType === 'edit'
-                        ? 'Изменения сохранены'
-                        : 'Роль удалена'
-                }
-                textButton="Перейти к ролям"
-                onClickButton={() => navigateToAllRoles()}
+                message={snackbarType === 'edit' ? 'Изменения сохранены' : ''}
+                // textButton="Перейти к ролям"
+                // onClickButton={() => navigateToAllRoles()}
             />
         </S.PageWrapper>
     );

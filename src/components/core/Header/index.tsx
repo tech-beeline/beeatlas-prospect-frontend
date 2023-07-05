@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VKITAuth from '@beeline/lk-auth';
 import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { postSession } from 'api/sessions';
+import { useMountEffect } from 'hooks';
 import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
 import { getStorage, persistStorage } from 'stores/utils';
@@ -27,6 +28,11 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
         },
     } = useRootStore();
 
+    const [authObject, setAuthObject] = useState<{ code: string | null; state: string | null }>({
+        code: '',
+        state: '',
+    });
+
     const isProd = process.env.NODE_ENV !== 'development';
 
     const navigate = useNavigate();
@@ -44,14 +50,9 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
     // TODO: использовать getAccessToken вместо storage
     // есть requestTokenRefresh
 
-    // TODO: useMountEffect
-    useEffect(() => {
+    useMountEffect(() => {
         (async () => {
-            // @ts-ignore
-            localStorage.setItem('1', auth.getCodeParam());
-            console.log('1', auth.getCodeParam());
-            // @ts-ignore
-            localStorage.setItem('2', auth.getStateParam());
+            setAuthObject({ code: auth.getCodeParam(), state: auth.getStateParam() });
 
             if (auth.hasNecessaryParams()) {
                 const res = await auth.exchangeCode();
@@ -68,7 +69,7 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                 // console.log('auth.getClaims(access_token)', auth.getClaims(access_token));
             }
         })();
-    }, []);
+    });
 
     useEffect(() => {
         // console.log('userInfo', userInfo);
@@ -91,8 +92,8 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                 // session: '',
                 atoken: getStorage('token') || '',
                 rtoken: getStorage('rtoken') || '',
-                code: auth.getCodeParam() || '',
-                state: auth.getStateParam() || '',
+                code: authObject.code || '',
+                state: authObject.state || '',
                 auth_code: '',
                 login: userInfo.winaccountname,
             });

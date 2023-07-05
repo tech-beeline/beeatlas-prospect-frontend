@@ -69,6 +69,12 @@ export interface IGeneralStore {
     // ТЕХ РАДАР
     getTechRadar: () => void;
     techRadarData: any[];
+
+    // РОЛИ
+    isShowSnackbar: boolean;
+    setShowSnackbar: (bool: boolean) => void;
+    snackbarType: 'create' | 'delete' | 'edit' | null;
+    setSnackbarType: (type: 'create' | 'delete' | 'edit' | null) => void;
 }
 
 export interface INestingMenuItem {
