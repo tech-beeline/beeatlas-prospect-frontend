@@ -58,6 +58,7 @@ export const GeneralStore = (): IGeneralStore => {
         profiles: [],
         currentRole: currentRole || null,
         roles: [],
+        permission: [],
 
         isShowSnackbar: false,
         snackbarType: null,
@@ -432,7 +433,7 @@ export const GeneralStore = (): IGeneralStore => {
             try {
                 const res = await getRolePermission(id);
 
-                console.log(res);
+                this.permission = res.data;
 
                 return res;
             } catch (error) {

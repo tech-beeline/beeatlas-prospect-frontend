@@ -107,3 +107,10 @@ export const DropdownItem = styled.p`
         background: ${theme.colors.backgroundLow};
     }
 `;
+
+export const PermissionsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    margin: 28px 24px;
+`;
