@@ -23,7 +23,7 @@
     },
     "dependencies": {
         "@beeline/design-system-react": "1.0.0-beta.4",
-        "@beeline/design-tokens": "1.3.2",
+        "@beeline/design-tokens": "1.8.0",
         "@beeline/lk-auth": "2.1.0",
         "@beeline/lk-ui": "0.10.3",
         "@emotion/react": "11.9.3",

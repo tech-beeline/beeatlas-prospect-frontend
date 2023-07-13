@@ -5,7 +5,7 @@ export const useOutsideClick = (
     ref: MutableRefObject<Nullable<HTMLDivElement | HTMLFormElement>>,
     isOpen: boolean,
     stateSetter: (bool: boolean) => void,
-    exceptionRef?: MutableRefObject<Nullable<HTMLDivElement | HTMLFormElement>>,
+    exceptionRef?: MutableRefObject<Nullable<HTMLElement>>,
 ) => {
     useEffect(() => {
         const handleClickOutside = (event: Event) => {

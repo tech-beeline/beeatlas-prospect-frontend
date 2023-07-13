@@ -400,7 +400,7 @@ export const Table = () => {
                                                         <S.MenuItem
                                                             onClick={() => addNewColumn(rowIndex)}
                                                         >
-                                                            <Icon iconName={Icons.LayoutLeft} />
+                                                            <Icon iconName={Icons.AddColumnLeft} />
 
                                                             <S.MenuItemText>
                                                                 Добавить шаг до
@@ -412,7 +412,7 @@ export const Table = () => {
                                                                 addNewColumn(rowIndex + 1)
                                                             }
                                                         >
-                                                            <Icon iconName={Icons.LayoutRight} />
+                                                            <Icon iconName={Icons.AddColumnRight} />
 
                                                             <S.MenuItemText>
                                                                 Добавить шаг после

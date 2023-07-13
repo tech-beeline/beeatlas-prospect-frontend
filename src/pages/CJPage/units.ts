@@ -1,3 +1,4 @@
+import { Button } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { theme } from 'styles';
@@ -90,4 +91,10 @@ export const ButtonContainer = styled.div`
     width: 100%;
     height: 96px;
     padding: 24px 16px;
+`;
+
+export const ButtonStyled = styled(Button)`
+    .dsb_button-end-icon {
+        pointer-events: none;
+    }
 `;
