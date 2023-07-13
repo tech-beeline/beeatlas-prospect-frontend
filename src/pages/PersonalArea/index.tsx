@@ -27,7 +27,8 @@ import 'react-tooltip/dist/react-tooltip.css';
 
 export const PersonalArea = observer(() => {
     const {
-        generalStore: { getProfiles, getRoles },
+        // @ts-ignore
+        generalStore: { profiles: profilesData, getProfiles, getRoles },
     } = useRootStore();
 
     const [filterOption, setFilterOption] = useState({ id: 1, value: 'Везде' });

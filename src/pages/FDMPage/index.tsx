@@ -76,19 +76,21 @@ export const FDMPage = observer(() => {
 
                     {JSON.stringify(activeFDMItem) !== '{}' ? (
                         <>
-                            {activeFDMItem.level > 1 && activeFDMItem.children!.length > 0 && (
-                                <S.FlexBlock>
-                                    {activeFDMItem.alias?.includes('DMN')
-                                        ? 'Все бизнес возможности домена'
-                                        : 'Связанные технические возможности'}
-                                    <S.ListSwitcherWrapper className="ListSwitcherWrapper">
-                                        <ViewItemSwitcher
-                                            activeElement={activeViewList}
-                                            setActiveElement={setActiveViewList}
-                                        />
-                                    </S.ListSwitcherWrapper>
-                                </S.FlexBlock>
-                            )}
+                            {activeFDMItem.level > 1 &&
+                                !!activeFDMItem.children &&
+                                activeFDMItem.children?.length > 0 && (
+                                    <S.FlexBlock>
+                                        {activeFDMItem.alias?.includes('DMN')
+                                            ? 'Все бизнес возможности домена'
+                                            : 'Связанные технические возможности'}
+                                        <S.ListSwitcherWrapper className="ListSwitcherWrapper">
+                                            <ViewItemSwitcher
+                                                activeElement={activeViewList}
+                                                setActiveElement={setActiveViewList}
+                                            />
+                                        </S.ListSwitcherWrapper>
+                                    </S.FlexBlock>
+                                )}
 
                             <S.TreeContainer
                                 className="TreeContainer"
