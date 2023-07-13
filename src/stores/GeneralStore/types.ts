@@ -75,6 +75,7 @@ export interface IGeneralStore {
     setShowSnackbar: (bool: boolean) => void;
     snackbarType: 'create' | 'delete' | 'edit' | null;
     setSnackbarType: (type: 'create' | 'delete' | 'edit' | null) => void;
+    permission: any[];
 }
 
 export interface INestingMenuItem {

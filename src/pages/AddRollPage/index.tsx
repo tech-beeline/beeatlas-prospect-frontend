@@ -11,6 +11,7 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
+import { PermissionItem } from './PermissionItem';
 import * as S from './units';
 
 export const AddRollPage = observer(() => {
@@ -19,6 +20,7 @@ export const AddRollPage = observer(() => {
             currentRole,
             snackbarType,
             isShowSnackbar,
+            permission,
             createRole,
             changeRole,
             deleteRole,
@@ -123,11 +125,19 @@ export const AddRollPage = observer(() => {
                     </S.Dropdown>
                 )}
             </S.TitleFlexGap>
+
             <TextField
                 label="Название"
                 onChange={(event) => setName(event.target.value)}
                 value={name}
             />
+
+            <S.PermissionsContainer>
+                {permission.map((item) => (
+                    <PermissionItem key={item.id}>{item.name}</PermissionItem>
+                ))}
+            </S.PermissionsContainer>
+
             <S.BottomBlock isShown={!!name}>
                 <Divider />
 
