@@ -8,6 +8,7 @@ import * as ROUTER from 'router/const';
 
 import { IProfileIcon } from './types';
 import * as S from './units';
+import { Nullable } from 'types/common';
 
 export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalArea }) => {
     const [isShowDropdown, setShowDropdown] = useState(false);
@@ -16,13 +17,16 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
 
     const dropdownRef = useRef(null);
 
-    useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown);
+    const profileIconRef = useRef<Nullable<HTMLElement>>(null);
+
+    useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
 
     return (
         <>
             <S.Wrapper
                 className="ProfileIconWrapper"
                 onClick={() => setShowDropdown(!isShowDropdown)}
+                ref={profileIconRef as any}
             >
                 {initials}
             </S.Wrapper>

@@ -61,6 +61,8 @@ export const FDMPage = observer(() => {
 
                     <S.H4 className="H4">{activeFDMItem.name}</S.H4>
 
+                    <S.AliasText className="AliasText">{activeFDMItem.alias}</S.AliasText>
+
                     {!activeFDMItem.descr && activeFDMItem.children?.length === 0 && (
                         <S.MockWrapper className="MockWrapper">
                             <S.Image className="Image" src={boxImg} />

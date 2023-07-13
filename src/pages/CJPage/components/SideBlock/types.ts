@@ -5,4 +5,5 @@ export interface ISideBlock {
     setOpen: Dispatch<SetStateAction<boolean>>;
 
     children?: React.ReactNode;
+    toggleId?: string;
 }

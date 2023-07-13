@@ -61,6 +61,12 @@ export const JustText = styled.p`
     letter-spacing: 0.2px;
 `;
 
+export const AliasText = styled(JustText)`
+    margin: -4px 0 8px;
+
+    color: ${theme.colors.textInactive};
+`;
+
 export const GrayText = styled.p`
     font-weight: 400;
     font-size: 17px;

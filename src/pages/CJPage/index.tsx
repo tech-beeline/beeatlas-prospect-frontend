@@ -80,9 +80,10 @@ export const CJPage = observer(() => {
                         <S.Desription>{subName}</S.Desription>
                     </div>
 
-                    <Button
+                    <S.ButtonStyled
                         endIcon={<Icon iconName={Icons.Edit} />}
-                        onClick={() => setOpenSettingsCJ(true)}
+                        onClick={() => setOpenSettingsCJ(!isOpenSettingsCJ)}
+                        id="buttonToggleId"
                     />
                 </S.FlexSideContainer>
 
@@ -95,7 +96,11 @@ export const CJPage = observer(() => {
 
             <Table />
 
-            <SideBlock isOpen={isOpenSettingsCJ} setOpen={setOpenSettingsCJ}>
+            <SideBlock
+                isOpen={isOpenSettingsCJ}
+                setOpen={setOpenSettingsCJ}
+                toggleId="buttonToggleId"
+            >
                 <SettingsCJContent
                     setOpen={setOpenSettingsCJ}
                     {...{ name, subName, setName, setSubName }}
