@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import { SideBlock } from './components/SideBlock';
 import { Table } from './components/Table';
 import * as S from './units';
+import { BIForm } from './components/BIForm';
 
 const SettingsCJContent = ({ setOpen, name, subName, setName, setSubName }: any) => {
     const [nameValue, setNameValue] = useState(name);
@@ -60,6 +61,8 @@ const SettingsCJContent = ({ setOpen, name, subName, setName, setSubName }: any)
 
 export const CJPage = observer(() => {
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
+    const [isOpenBIForm, setOpenBIForm] = useState(false);
+
     const [name, setName] = useState('Название CJ');
     const [subName, setSubName] = useState('Портрет пользователя');
 
@@ -88,7 +91,9 @@ export const CJPage = observer(() => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button>Сохранить как черновик</Button>
+                    <Button onClick={() => setOpenBIForm(!isOpenBIForm)}>
+                        Сохранить как черновик
+                    </Button>
 
                     <Button variant="contained">Опубликовать</Button>
                 </S.FlexSideContainer>
@@ -106,6 +111,8 @@ export const CJPage = observer(() => {
                     {...{ name, subName, setName, setSubName }}
                 />
             </SideBlock>
+
+            <BIForm isOpen={isOpenBIForm} setOpen={setOpenBIForm} />
         </S.PageWrapper>
     );
 });
