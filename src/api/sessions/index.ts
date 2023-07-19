@@ -9,3 +9,9 @@ export const postSession = (data: T.ISessionData) => {
         data,
     });
 };
+
+export const getPermissionsOfProfile = (login: string) => {
+    return Api.get({
+        url: `${API_URL}admin/v1/profiles/${login}/permissions`,
+    });
+};
