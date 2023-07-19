@@ -314,12 +314,14 @@ export const Table = () => {
     const addNewColumn = (index: number) => {
         let excludedСolors: any = [];
 
-        if (index === 0) {
+        if (index === 0 && tableData.length > 1) {
             excludedСolors = [tableData[index].color, tableData[index + 1].color];
-        } else if (index === tableData.length) {
+        } else if (index === tableData.length && tableData.length > 1) {
             excludedСolors = [tableData[index - 2].color, tableData[index - 1].color];
-        } else {
+        } else if (tableData.length > 1) {
             excludedСolors = [tableData[index].color, tableData[index - 1].color];
+        } else {
+            excludedСolors = [tableData[0].color];
         }
 
         const availableСolors = colors.filter((color) => !excludedСolors.includes(color));
@@ -502,18 +504,24 @@ export const Table = () => {
                                                             <Icon iconName={Icons.NavArrowRight} />
                                                         </S.MenuItem>
 
-                                                        <S.MenuDivider />
+                                                        {tableData.length > 1 && (
+                                                            <>
+                                                                <S.MenuDivider />
 
-                                                        <S.MenuItem
-                                                            onClick={() => removeColumn(rowIndex)}
-                                                        >
-                                                            {/* заменить на нужную */}
-                                                            {/* <CrossSVG /> */}
+                                                                <S.MenuItem
+                                                                    onClick={() =>
+                                                                        removeColumn(rowIndex)
+                                                                    }
+                                                                >
+                                                                    {/* заменить на нужную */}
+                                                                    {/* <CrossSVG /> */}
 
-                                                            <S.MenuItemRemoveText>
-                                                                Удалить шаг
-                                                            </S.MenuItemRemoveText>
-                                                        </S.MenuItem>
+                                                                    <S.MenuItemRemoveText>
+                                                                        Удалить шаг
+                                                                    </S.MenuItemRemoveText>
+                                                                </S.MenuItem>
+                                                            </>
+                                                        )}
                                                     </>
                                                 )}
                                             </S.MenuBlock>
