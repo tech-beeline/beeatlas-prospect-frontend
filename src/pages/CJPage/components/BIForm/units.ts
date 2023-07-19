@@ -56,4 +56,12 @@ export const SubTitle = styled.h4`
     line-height: 24px;
 
     margin-bottom: -16px;
+
+    color: ${theme.colors.textActive};
+`;
+
+export const TextCheckboxWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 `;

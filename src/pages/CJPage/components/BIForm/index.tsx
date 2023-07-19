@@ -8,17 +8,26 @@ import {
     TextField,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { TOption } from 'pages/CalendarPage/types';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { SideBlock } from '../SideBlock';
 import { SmileRate } from './SmileRate';
 import { IBIForm } from './types';
 import * as S from './units';
 
 export const BIForm: FC<IBIForm> = (props) => {
-    const makeOption = (option: TOption<string>) => {
-        return <span>{option.value}</span>;
-    };
+    // TODO: radio btn всегда должен быть
+    const [radioValue, setRadioValue] = useState(0);
+    // @ts-ignore
+    const [objValues, setObjValues] = useState({
+        name: '',
+        commCheckbox: false,
+        description: '',
+        radioValue: 0,
+        selectValue: '',
+        sideText: '',
+        membersDescription: '',
+
+    });
 
     return (
         // @ts-ignore
@@ -35,7 +44,7 @@ export const BIForm: FC<IBIForm> = (props) => {
             </S.TitleWrapper>
 
             <S.TextFieldContainer>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <S.TextCheckboxWrapper>
                     <TextField
                         value={'Название BI'}
                         // onChange={({ target: { value } }) => setNameValue(value)}
@@ -44,14 +53,22 @@ export const BIForm: FC<IBIForm> = (props) => {
                     />
 
                     <Checkbox label="Коммунальный" />
-                </div>
+                </S.TextCheckboxWrapper>
 
                 <TextArea value={'Text'} label="Описание" fullWidth />
 
                 <S.SubTitle>Характеристики</S.SubTitle>
 
-                <Radio label="Целевой" />
-                <Radio label="Фактический" />
+                <Radio
+                    label="Целевой"
+                    checked={radioValue === 0}
+                    onClick={() => setRadioValue(0)}
+                />
+                <Radio
+                    label="Фактический"
+                    checked={radioValue === 1}
+                    onClick={() => setRadioValue(1)}
+                />
 
                 <Select
                     label="Стадия ЖЦ"
@@ -70,8 +87,13 @@ export const BIForm: FC<IBIForm> = (props) => {
                         },
                     ]}
                     size="small"
-                    values={[]}
-                    makeOption={makeOption}
+                    values={[
+                        {
+                            id: 1,
+                            value: 'Стадия ЖЦ',
+                        },
+                    ]}
+                    makeOption={({ id, value }) => <div>{value}</div>}
                     onChange={(option) => console.log(option)}
                     fullWidth
                 />
