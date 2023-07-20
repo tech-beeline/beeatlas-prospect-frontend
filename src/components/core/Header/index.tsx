@@ -72,19 +72,8 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
     });
 
     useEffect(() => {
-        // console.log('userInfo', userInfo);
-
-        // login_time: string;
-        // id_profile: number;
-        // session: string;
-        // atoken: string;
-        // rtoken: string;
-        // code: string;
-        // state: string;
-        // auth_code: string;
-        // login: string;
         (async () => {
-            if (Object.keys(userInfo).length > 0) {
+            if (Object.keys(userInfo).length > 0 && getStorage('isAuthorized') === 'false') {
                 const res = await postSession({
                     login_time: userInfo.iat,
                     // id_profile: 0,
@@ -100,12 +89,14 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
 
                 if (res.status === 200) {
                     await getPermissionsOfProfile(userInfo.winaccountname);
+
+                    persistStorage('isAuthorized', 'true');
                 }
 
                 // console.log('postSession', res.status);
             }
         })();
-    }, [userInfo]);
+    }, [userInfo, authObject]);
 
     return (
         <>
