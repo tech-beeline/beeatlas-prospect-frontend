@@ -67,7 +67,7 @@ export const Dropdown = styled.div`
     height: 62px;
     padding: 8px 0;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     background-color: ${theme.colors.backgroundLow};
 

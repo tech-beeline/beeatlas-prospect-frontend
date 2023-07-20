@@ -26,7 +26,7 @@ const inputStyles = css`
     text-overflow: ellipsis;
 
     border: 1px solid;
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     cursor: pointer;
 
@@ -54,7 +54,7 @@ export const InputPhoneStyled = styled(Input)<T.IInput>`
     border: 1px solid;
     border-color: ${({ isFocused, isValid }) =>
         isFocused ? theme.colors.black : !isValid ? theme.colors.borderError : 'transparent'};
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     background-color: ${({ isFocused, isValid }) =>
         isFocused

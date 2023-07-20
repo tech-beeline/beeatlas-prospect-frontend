@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
     padding: 24px;
 
     border: 1px solid ${theme.colors.divider};
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     /* overflow: hidden; */
 `;

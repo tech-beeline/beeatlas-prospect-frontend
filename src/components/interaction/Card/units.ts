@@ -62,7 +62,7 @@ export const Card = styled.div<any>`
     padding: 32px;
     margin-right: 24px;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     color: ${theme.colors.textActive};
     background-color: ${({ colorType }) =>

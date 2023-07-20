@@ -9,5 +9,5 @@ export const BadgeName = styled.div`
 
     background-color: ${theme.colors.backgroundControl};
 
-    border-radius: 32px;
+    border-radius: var(--size-border-radius-x15);
 `;

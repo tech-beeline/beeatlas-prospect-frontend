@@ -18,7 +18,7 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
     background-color: ${({ isActive }) =>
         isActive ? theme.colors.backgroundSelected : 'transparent'};
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-out;
 

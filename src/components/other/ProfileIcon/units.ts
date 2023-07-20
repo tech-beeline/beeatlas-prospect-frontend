@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
     font-size: 15px;
     line-height: 20px;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     user-select: none;
     cursor: pointer;

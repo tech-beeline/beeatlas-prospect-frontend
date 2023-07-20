@@ -18,7 +18,7 @@ const ButtonBase = styled.button<IButton>`
     max-width: fit-content;
     padding: 13px 20px;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-out;
 
@@ -59,7 +59,7 @@ export const IconButton = styled.button`
 
     border: 1px solid;
     border-color: ${theme.colors.borderGray};
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     transition: border-color 0.25s ease-out;
 

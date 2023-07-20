@@ -19,7 +19,7 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
     background-color: ${theme.colors.backgroundInverse};
     color: ${theme.colors.textActiveInverse};
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     font-weight: 400;
     font-size: 15px;

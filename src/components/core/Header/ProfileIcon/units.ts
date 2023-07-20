@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
     font-size: 15px;
     line-height: 20px;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     user-select: none;
     cursor: pointer;
@@ -35,7 +35,7 @@ export const Dropdown = styled.div`
     height: 171px;
     padding: 8px 0;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     background-color: ${theme.colors.backgroundLow};
 
