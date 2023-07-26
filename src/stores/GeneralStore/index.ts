@@ -81,6 +81,8 @@ export const GeneralStore = (): IGeneralStore => {
             removeItemStorage(userInfoKey);
             removeItemStorage(isAuthKey);
             removeItemStorage('token');
+
+            persistStorage('isAuthorized', 'false');
         },
 
         toggleTheme() {

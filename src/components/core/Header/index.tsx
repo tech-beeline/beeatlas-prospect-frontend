@@ -4,7 +4,7 @@ import VKITAuth from '@beeline/lk-auth';
 import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
-import { postSession } from 'api/sessions';
+import { getPermissionsOfProfile, postSession } from 'api/sessions';
 import { useMountEffect } from 'hooks';
 import { MAIN_PAGE_PATH } from 'router/const';
 import { useRootStore } from 'stores/initStore';
@@ -72,33 +72,31 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
     });
 
     useEffect(() => {
-        // console.log('userInfo', userInfo);
+        (async () => {
+            if (Object.keys(userInfo).length > 0 && getStorage('isAuthorized') === 'false') {
+                const res = await postSession({
+                    login_time: userInfo.iat,
+                    // id_profile: 0,
+                    // она вернется потом (спросить у бэка)
+                    // session: '',
+                    atoken: getStorage('token') || '',
+                    rtoken: getStorage('rtoken') || '',
+                    code: authObject.code || '',
+                    state: authObject.state || '',
+                    auth_code: '',
+                    login: userInfo.winaccountname,
+                });
 
-        // login_time: string;
-        // id_profile: number;
-        // session: string;
-        // atoken: string;
-        // rtoken: string;
-        // code: string;
-        // state: string;
-        // auth_code: string;
-        // login: string;
+                if (res.status === 200) {
+                    await getPermissionsOfProfile(userInfo.winaccountname);
 
-        if (Object.keys(userInfo).length > 0) {
-            postSession({
-                login_time: userInfo.iat,
-                // id_profile: 0,
-                // она вернется потом (спросить у бэка)
-                // session: '',
-                atoken: getStorage('token') || '',
-                rtoken: getStorage('rtoken') || '',
-                code: authObject.code || '',
-                state: authObject.state || '',
-                auth_code: '',
-                login: userInfo.winaccountname,
-            });
-        }
-    }, [userInfo]);
+                    persistStorage('isAuthorized', 'true');
+                }
+
+                // console.log('postSession', res.status);
+            }
+        })();
+    }, [userInfo, authObject]);
 
     return (
         <>
