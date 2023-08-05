@@ -32,7 +32,7 @@ export const H3 = styled.h3`
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
-    line-height: 44px;
+    line-height: var(--font-line-height-h3);
 
     width: max-content;
     margin: 40px 0 12px;

@@ -38,9 +38,8 @@ export const IconButtonStyled = styled(IconButton)`
 
 // TODO: Вероятно, в отдельный компонент
 export const SimpleText = styled.p`
-    font-size: ${theme.text.normal.fontSize};
-    line-height: ${theme.text.normal.lineHeight};
-
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
     color: ${theme.colors.disabledGray};
 `;
 
@@ -48,8 +47,8 @@ export const FooterBlock = styled.div`
     width: 390px;
     margin: auto 0 20px;
 
-    font-size: ${theme.text.small.fontSize};
-    line-height: ${theme.text.small.lineHeight};
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
     text-align: center;
 
@@ -63,16 +62,16 @@ export const MobileIdContainer = styled.div`
     flex-direction: column;
     gap: 12px;
 
-    font-size: ${theme.text.small.fontSize};
-    line-height: ${theme.text.small.lineHeight};
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 `;
 
 export const PhoneTimeContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
-    font-size: ${theme.text.normal.fontSize};
-    line-height: ${theme.text.normal.lineHeight};
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 `;
 
 // ----------------

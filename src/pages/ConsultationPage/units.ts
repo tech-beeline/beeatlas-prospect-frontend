@@ -105,7 +105,7 @@ export const SubTitle = styled(GrayText)`
 export const BoldTitle = styled.h5`
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
-    line-height: 28px;
+    line-height: var(--font-line-height-h5);
 
     margin-bottom: 8px;
 `;

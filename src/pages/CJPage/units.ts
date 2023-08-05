@@ -29,7 +29,7 @@ export const FlexSideContainer = styled.div`
 export const Name = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
-    line-height: 22px;
+    line-height: var(--font-line-height-body2);
 
     color: ${theme.colors.textActive};
 `;
@@ -37,7 +37,7 @@ export const Name = styled.p`
 export const Desription = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
-    line-height: 18px;
+    line-height: var(--font-line-height-body3);
 
     color: ${theme.colors.textInactive};
 `;
@@ -67,7 +67,7 @@ export const SideBlockTitle = styled.div`
 
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
-    line-height: 28px;
+    line-height: var(--font-line-height-h5);
 `;
 
 export const TextFieldContainer = styled.div`

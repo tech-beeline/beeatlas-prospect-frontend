@@ -38,7 +38,7 @@ export const Role = styled.div`
 
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
-    line-height: 28px;
+    line-height: var(--font-line-height-h5);
 
     border: 1px solid;
     border-color: ${theme.colors.divider};

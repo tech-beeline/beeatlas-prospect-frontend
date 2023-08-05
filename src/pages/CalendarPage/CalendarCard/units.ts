@@ -9,7 +9,7 @@ export const Date = styled.p`
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-caption);
-    line-height: 16px;
+    line-height: var(--font-line-height-caption);
     letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textInactive};
@@ -20,13 +20,13 @@ export const Title = styled.h4`
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
-    line-height: 32px;
+    line-height: var(--font-line-height-h4);
     letter-spacing: var(--font-letter-spacing-body3);
 `;
 
 export const SubTitle = styled(Date)`
     font-size: var(--font-size-body3);
-    line-height: 18px;
+    line-height: var(--font-line-height-body3);
 `;
 
 export const BadgeNameStyled = styled(BadgeName)`
