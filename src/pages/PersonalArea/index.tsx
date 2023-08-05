@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Icon,
@@ -18,7 +18,7 @@ import { useMountEffect } from 'hooks';
 import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
-import MOCK_PROFILES from './profile-mock.json';
+// import MOCK_PROFILES from './profile-mock.json';
 import { SortIndicator } from './SortIndicator';
 import * as S from './units';
 import { UserTableProfile } from './UserTableProfile';
@@ -31,12 +31,13 @@ export const PersonalArea = observer(() => {
         generalStore: { profiles: profilesData, getProfiles, getRoles },
     } = useRootStore();
 
-    const [filterOption, setFilterOption] = useState({ id: 1, value: 'Везде' });
+    const [searchValue, setSearchValue] = useState('');
+    const [filterOption, setFilterOption] = useState({ id: 'all', value: 'Везде' });
 
     const [itemsCountOnPage, setItemsCountOnPage] = useState(5);
     const [countPage, setCountPage] = useState(1);
 
-    const [profiles, setProfiles] = useState(MOCK_PROFILES);
+    const [profiles, setProfiles] = useState(profilesData);
     const [sortKey, setSortKey] = useState('');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -50,15 +51,61 @@ export const PersonalArea = observer(() => {
         // })();
     });
 
-    // useEffect(() => {}, [itemsCountOnPage]);
+    useEffect(() => {
+        setProfiles(profilesData);
+    }, [profilesData]);
 
-    const sortTableTest = (key: string) => {
+    useEffect(() => {
+        console.log('filterOption', filterOption);
+        onSearchData(searchValue);
+    }, [filterOption]);
+
+    const onSearchData = (value: string) => {
+        const searchTerm = value.toLowerCase();
+
+        setSearchValue(searchTerm);
+
+        if (!searchTerm) {
+            // если searchTerm пуст, возвращаем исходный массив
+            setProfiles(profilesData);
+
+            return;
+        }
+
+        // TODO: тип
+        const filterHandler = (profile: Record<string, any>) => {
+            if (filterOption.id === 'all') {
+                // поиск по всем полям и ролям
+                return (
+                    Object.values(profile).some(
+                        (value) =>
+                            typeof value === 'string' && value.toLowerCase().includes(searchTerm),
+                    ) ||
+                    profile.roles.some((role: Record<string, string>) =>
+                        role.name.toLowerCase().includes(searchTerm),
+                    )
+                );
+            } else if (filterOption.id === 'role') {
+                // поиск только по ролям
+                return profile.roles.some((role: Record<string, string>) =>
+                    role.name.toLowerCase().includes(searchTerm),
+                );
+            } else {
+                // поиск по выбранному ключу
+                return profile[filterOption.id].toLowerCase().includes(searchTerm);
+            }
+        };
+
+        setProfiles(() => profilesData.filter(filterHandler));
+    };
+
+    const sortTable = (key: string) => {
         setSortKey(key);
 
         setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' ? 'desc' : 'asc'));
 
         setProfiles((prevProfiles) => {
-            return prevProfiles.sort((a: any, b: any) => {
+            return prevProfiles.slice().sort((a: any, b: any) => {
                 if (a[key] < b[key]) {
                     return sortOrder === 'asc' ? -1 : 1;
                 } else if (a[key] > b[key]) {
@@ -77,7 +124,7 @@ export const PersonalArea = observer(() => {
     return (
         <S.PageWrapper className="PageWrapper">
             <S.Title className="Title">
-                Управление ролями {/* <Tooltip title="test test"> */}
+                Управление ролями
                 <S.HintStyled text="Настройки ролей" tooltipId={`100`}>
                     <Icon
                         iconName={Icons.Settings}
@@ -86,21 +133,22 @@ export const PersonalArea = observer(() => {
                         }
                     />
                 </S.HintStyled>
-                {/* <Hint text={'test'} tooltipId={`100`} /> */}
-                {/* </Tooltip> */}
             </S.Title>
+
             <S.SearchStyled
                 placeholder="Поиск"
+                value={searchValue}
                 filterItems={[
-                    { id: 0, value: 'Везде' },
-                    { id: 1, value: 'ФИО' },
-                    { id: 2, value: 'Роль' },
-                    { id: 3, value: 'E-mail' },
-                    { id: 4, value: 'Логин' },
+                    { id: 'all', value: 'Везде' },
+                    { id: 'full_name', value: 'ФИО' },
+                    { id: 'role', value: 'Роль' },
+                    { id: 'email', value: 'E-mail' },
+                    { id: 'login', value: 'Логин' },
                 ]}
                 selectedFilter={filterOption}
-                // @ts-ignore
-                onFilterChange={(option) => setFilterOption(option)}
+                onFilterChange={(option: any) => setFilterOption(option)}
+                onChange={(e) => onSearchData(e.target.value)}
+                onClear={() => setProfiles(profilesData)}
             />
             <Table
                 style={{
@@ -109,7 +157,7 @@ export const PersonalArea = observer(() => {
             >
                 <TableHead>
                     <TableRow>
-                        <S.TableHeaderDataStyled onClick={() => sortTableTest('full_name')}>
+                        <S.TableHeaderDataStyled onClick={() => sortTable('full_name')}>
                             <S.TableHeaderFlexWrapper>
                                 <p>ФИО</p>{' '}
                                 {sortKey === 'full_name' && <SortIndicator order={sortOrder} />}
@@ -119,10 +167,7 @@ export const PersonalArea = observer(() => {
                         <TableHeaderData>Продукт</TableHeaderData>
                         <TableHeaderData>Роль</TableHeaderData>
 
-                        <S.TableHeaderDataStyled
-                            onClick={() => sortTableTest('last_login')}
-                            alignRight
-                        >
+                        <S.TableHeaderDataStyled onClick={() => sortTable('last_login')} alignRight>
                             <S.TableHeaderFlexWrapper style={{ justifyContent: 'right' }}>
                                 <p>Дата активности</p>{' '}
                                 {sortKey === 'last_login' && <SortIndicator order={sortOrder} />}
@@ -141,9 +186,12 @@ export const PersonalArea = observer(() => {
                                         email={profile.email}
                                     />
                                 </TableData>
+
                                 <TableData>Нет данных (бэк)</TableData>
-                                {/* TODO: сделать списком */}
-                                <TableData>{profile.roles[0].name}</TableData>
+                                <TableData>
+                                    {profile.roles?.length > 0 &&
+                                        profile.roles.map((role: any) => role.name)}
+                                </TableData>
                                 <TableData alignRight>{profile.last_login}</TableData>
                             </TableRow>
                         );
