@@ -24,7 +24,7 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
     background-color: ${({ isActive }) =>
-        isActive ? theme.colors.backgroundHover : theme.colors.backgroundLow};
+        isActive ? theme.colors.backgroundHover : 'var(--color-background-base)'};
 
     border-radius: var(--size-border-radius-x6);
 

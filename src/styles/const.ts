@@ -21,7 +21,7 @@ export const theme = {
     },
 
     colors: {
-        backgroundLow: 'var(--color-background-base)',
+        // backgroundLow: 'var(--color-background-base)',
         backgroundInverse: 'var(--color-background-inverse)',
         backgroundControl: 'var(--color-control-background)',
         backgroundSelected: 'var(--color-background-base-selected)',

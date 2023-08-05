@@ -19,7 +19,7 @@ export const Container = styled.div`
     font-size: 25px;
     line-height: var(--font-line-height-product-name);
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
     color: rgba(25, 28, 52, 0.7);
 
     border-bottom: 1px solid ${theme.colors.divider};

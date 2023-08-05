@@ -64,7 +64,7 @@ export const Tbody = styled.tbody`
 export const Row = styled.tr<{ isHidden?: boolean }>`
     width: 100%;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     color: ${({ isHidden }) => isHidden && '#a9a9a9'};
 `;
@@ -79,7 +79,7 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     line-height: var(--font-line-height-body3);
 
     background-color: ${({ backgroundColor }) =>
-        !!backgroundColor ? `${backgroundColor}` : `${theme.colors.backgroundLow}`};
+        !!backgroundColor ? `${backgroundColor}` : `var(--color-background-base)`};
 
     &:first-of-type {
         position: sticky;
@@ -101,7 +101,7 @@ export const Td = styled.td<{ isClickable?: boolean }>`
     height: 52px;
     padding: 18px 16px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     border-bottom: 1px solid ${theme.colors.divider};
 
@@ -155,7 +155,7 @@ export const MenuBlock = styled.div`
     padding: 8px 0px;
     width: 280px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     border-radius: var(--size-border-radius-x6);
 

@@ -28,7 +28,7 @@ export const SliderContainer = styled.div`
     /* max-width: 1460px; */
     height: 400px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     overflow-x: hidden;
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { theme } from 'styles';
 
-// ${theme.colors.backgroundLow}
+// var(--color-background-base)
 
 export const Lines = () => {
     return (

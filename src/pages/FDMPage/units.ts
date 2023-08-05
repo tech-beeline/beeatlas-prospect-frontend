@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
     height: 100vh;
     padding: 94px 32px 0;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
     color: ${theme.colors.textActive};
 
     border-left: 1px solid ${theme.colors.divider};

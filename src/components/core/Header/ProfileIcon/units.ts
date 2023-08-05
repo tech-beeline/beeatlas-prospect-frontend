@@ -37,7 +37,7 @@ export const Dropdown = styled.div`
 
     border-radius: var(--size-border-radius-x6);
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 

@@ -13,7 +13,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
     height: 100%;
     padding: 20px 16px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     border-left: 1px solid ${theme.colors.divider};
 

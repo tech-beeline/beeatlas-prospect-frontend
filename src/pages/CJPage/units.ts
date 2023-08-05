@@ -6,7 +6,7 @@ import { theme } from 'styles';
 export const PageWrapper = styled.div`
     height: 100vh;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 `;
 
 export const Header = styled.div`

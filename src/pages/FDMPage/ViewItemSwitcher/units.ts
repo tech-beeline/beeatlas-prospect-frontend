@@ -50,7 +50,7 @@ export const Element = styled.div<any>`
     border-radius: var(--size-border-radius-x6);
 
     background-color: ${({ id, activeElement }) =>
-        activeElement === id ? theme.colors.backgroundSelected : theme.colors.backgroundLow};
+        activeElement === id ? theme.colors.backgroundSelected : 'var(--color-background-base'};
 
     transition: background-color 0.25s ease-in-out;
 

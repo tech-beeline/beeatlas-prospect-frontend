@@ -10,7 +10,7 @@ export const PageWrapper = styled.div`
     width: 100%;
     padding: 64px 54px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
     color: ${theme.colors.textActive};
 `;
 
@@ -69,7 +69,7 @@ export const Dropdown = styled.div`
 
     border-radius: var(--size-border-radius-x6);
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 
@@ -104,7 +104,7 @@ export const DropdownItem = styled.p`
     }
 
     & > .dsb_icon--red {
-        background: ${theme.colors.backgroundLow};
+        background: var(--color-background-base);
     }
 `;
 

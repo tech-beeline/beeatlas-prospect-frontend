@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 496px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 `;
 
 export const Image = styled.img`

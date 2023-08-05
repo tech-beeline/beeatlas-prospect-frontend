@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: fixed;
     left: 0;
@@ -10,7 +8,7 @@ export const Wrapper = styled.div`
     height: 100vh;
     padding: calc(64px + 24px) 16px 0 0;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     z-index: 10;
 `;

@@ -8,7 +8,7 @@ import callback from './images/callback.png';
 import general from './images/general.png';
 
 export const PageWrapper = styled.div`
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
     color: ${theme.colors.textActive};
 `;
 

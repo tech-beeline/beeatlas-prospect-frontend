@@ -11,7 +11,7 @@ export const PageWrapper = styled.div`
     height: 100vh;
     padding: 0 88px 96px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     /* overflow: hidden; */
 `;
@@ -25,7 +25,7 @@ export const Header = styled.div`
     width: 100%;
     padding: 96px 0 8px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     z-index: 6;
 `;

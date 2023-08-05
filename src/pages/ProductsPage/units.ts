@@ -8,7 +8,7 @@ export const PageWrapper = styled.div`
     height: 100vh;
     padding: 124px 308px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
     color: ${theme.colors.textActive};
 `;
 

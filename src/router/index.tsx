@@ -27,7 +27,7 @@ import {
     TemplatesPage,
 } from 'pages';
 import * as ROUTER from 'router/const';
-import { Theme, theme } from 'styles';
+import { Theme } from 'styles';
 
 import * as C from './const';
 import { RouteAdapter } from './utils';
@@ -67,7 +67,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuPersonalArea />
@@ -83,7 +83,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuPersonalArea />
@@ -99,7 +99,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuPersonalArea />
@@ -113,7 +113,7 @@ export const NavigationRouter = () => {
                         element={
                             <div
                                 style={{
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuModels />
@@ -126,7 +126,7 @@ export const NavigationRouter = () => {
                         element={
                             <div
                                 style={{
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuModels />
@@ -141,7 +141,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     overflow: 'hidden',
                                     height: '100%',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuModels />
@@ -156,7 +156,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     // overflow: 'hidden',
                                     height: '100%',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuModels />
@@ -169,7 +169,7 @@ export const NavigationRouter = () => {
                         element={
                             <div
                                 style={{
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <MenuModels />
@@ -185,7 +185,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
@@ -200,7 +200,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
@@ -215,7 +215,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
@@ -230,7 +230,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
@@ -245,7 +245,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
@@ -261,7 +261,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
@@ -277,7 +277,7 @@ export const NavigationRouter = () => {
                                 style={{
                                     height: '100vh',
                                     paddingLeft: '256px',
-                                    backgroundColor: theme.colors.backgroundLow,
+                                    backgroundColor: 'var(--color-background-base)',
                                 }}
                             >
                                 <Menu />
