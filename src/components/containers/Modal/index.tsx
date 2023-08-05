@@ -1,7 +1,6 @@
+import { Button } from '@beeline/design-system-react';
 import React, { FC, MouseEvent, MutableRefObject, useRef } from 'react';
 import ReactDOM from 'react-dom';
-
-import { Button } from 'components/interaction';
 
 import { IModalProps } from './types';
 import * as S from './units';

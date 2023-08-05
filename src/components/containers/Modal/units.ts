@@ -53,7 +53,7 @@ export const InnerHTMLContainer = styled.div`
 export const FooterModalContainer = styled.div`
     padding: 0 48px;
 
-    background-color: ${theme.colors.white};
+    background-color: var(--color-background-base);
 `;
 
 export const ShadowLine = styled.div`

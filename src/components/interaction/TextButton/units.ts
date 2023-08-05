@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const TextButton = styled.button`
     width: fit-content;
 
@@ -14,6 +12,6 @@ export const TextButton = styled.button`
     transition: color 0.25s ease-out;
 
     &:hover {
-        color: ${theme.colors.primary};
+        color: var(--color-background-brand);
     }
 `;

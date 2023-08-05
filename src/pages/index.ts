@@ -2,7 +2,6 @@ export { AppInfoPage } from './AppInfoPage';
 // TODO: убрать
 export { AddRollPage } from './AddRollPage';
 export { ArchCommPage } from './ArchCommPage';
-export { AuthPage } from './AuthPage';
 export { CalendarPage } from './CalendarPage';
 export { CJPage } from './CJPage';
 export { ConsultationPage } from './ConsultationPage';
@@ -20,5 +19,3 @@ export { ServicesPage } from './ServicesPage';
 export { TechPolicyPage } from './TechPolicyPage';
 export { TechRadarPage } from './TechRadarPage';
 export { TemplatesPage } from './TemplatesPage';
-// TODO: MOCK
-export { TestPage } from './TestPage';

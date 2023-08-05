@@ -47,7 +47,7 @@ export const BorderBlock = styled.div`
     padding: 16px;
 
     border-radius: var(--size-border-radius-x6);
-    border: 1px solid ${theme.colors.borderGray};
+    border: 1px solid var(--color-palette-grey-200);
 `;
 
 export const SubTitle = styled.h4`

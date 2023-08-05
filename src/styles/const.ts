@@ -51,20 +51,6 @@ export const theme = {
         chartGrey: 'var(--color-chart-grey-active)',
         scroll: 'var(--color-utilities-scroll)',
         borderError: 'var(--color-border-error)',
-
-        // TODO: удалить после удаления страницы аутентификации
-        primary: '#FDD835',
-        primaryDarker: '#FCCF03',
-        primaryDisabled: '#FEEC9E',
-        componentGray: '#F2F3F7',
-        backgroundGray: '#F1F3F5',
-        disabledGray: '#908E84',
-        borderGray: '#E0E0E0',
-        // borderError: '#FF5555',
-        backgroundError: '#FFECEF',
-        black: '#212121',
-        white: '#FFFFFF',
-        blue: '#1A73E8',
     },
 
     zIndex: {

@@ -1,14 +1,11 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import { IProgressBar } from './types';
 
 export const ProgressBase = styled.div`
     width: 100%;
     height: 4px;
 
-    background-color: ${theme.colors.backgroundGray};
     border-radius: var(--size-border-radius-x4);
 `;
 
