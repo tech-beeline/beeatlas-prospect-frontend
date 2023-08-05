@@ -16,7 +16,7 @@ export const MenuWrapper = styled.div`
 export const MenuButton = styled.button<{ isActive: boolean }>`
     padding: 7px 12px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
 

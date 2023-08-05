@@ -13,7 +13,7 @@ export const BorderContainerStyled = styled(BorderContainer)`
 `;
 
 export const Title = styled.h5`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
     line-height: 24px;
 
@@ -21,7 +21,7 @@ export const Title = styled.h5`
 `;
 
 export const Text = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;

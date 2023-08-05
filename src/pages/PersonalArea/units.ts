@@ -21,7 +21,7 @@ export const Title = styled.h4`
     align-items: center;
     gap: 8px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: 32px;
 

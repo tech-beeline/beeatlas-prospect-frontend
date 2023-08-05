@@ -32,7 +32,7 @@ export const TitleBlock = styled.p`
 
     padding: 0 24px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
     line-height: 24px;
 
@@ -42,7 +42,7 @@ export const TitleBlock = styled.p`
 export const ExpandStyled = styled(Expand)`
     padding: 24px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
 `;

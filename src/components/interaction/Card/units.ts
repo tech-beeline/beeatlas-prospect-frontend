@@ -38,12 +38,12 @@ export const Title = styled.h4<{ withImage: boolean }>`
     ${({ withImage }) =>
         withImage
             ? css`
-                  font-weight: 500;
+                  font-weight: var(--font-weight-medium);
                   font-size: var(--font-size-h2);
                   line-height: 56px;
               `
             : css`
-                  font-weight: 500;
+                  font-weight: var(--font-weight-medium);
                   font-size: var(--font-size-h4);
                   line-height: 32px;
               `}
@@ -114,7 +114,7 @@ export const Text = styled.p<{ withImage: boolean }>`
 
     width: ${({ withImage }) => (withImage ? '340px' : '100%')};
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
     letter-spacing: 0.2px;

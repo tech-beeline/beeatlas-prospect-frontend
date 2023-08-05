@@ -62,7 +62,7 @@ export const TitleWrapper = styled.div`
 `;
 
 export const Title = styled.h5`
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
     line-height: 28px;
 
@@ -77,7 +77,7 @@ export const Item = styled.p<{ isActive?: boolean }>`
     width: 100%;
     padding: 12px 24px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: 22px;
 

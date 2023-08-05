@@ -11,7 +11,7 @@ export const PageWrapper = styled.div`
 `;
 
 export const Title = styled.h3`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
     line-height: 44px;
     letter-spacing: 0.3px;
@@ -20,7 +20,7 @@ export const Title = styled.h3`
 export const Description = styled.p`
     margin-top: 12px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
     letter-spacing: 0.2px;

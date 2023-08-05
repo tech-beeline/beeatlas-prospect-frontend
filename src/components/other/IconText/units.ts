@@ -12,7 +12,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   align-items: center;
                   gap: 12px;
 
-                  font-weight: 700;
+                  font-weight: var(--font-weight-bold);
                   font-size: var(--font-size-h5);
                   line-height: 28px;
                   letter-spacing: 0.2px;
@@ -22,7 +22,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   align-items: center;
                   gap: 12px;
 
-                  font-weight: 700;
+                  font-weight: var(--font-weight-bold);
                   font-size: var(--font-size-body2);
                   line-height: 22px;
                   letter-spacing: 0.2px;
@@ -30,7 +30,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
             : css`
                   gap: 16px;
 
-                  font-weight: 400;
+                  font-weight: var(--font-weight-regular);
                   font-size: var(--font-size-body1);
                   line-height: 24px;
                   letter-spacing: 0.2px;
@@ -50,7 +50,7 @@ export const Background = styled.div`
     width: 40px;
     height: 40px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: 20px;
     letter-spacing: 0.2px;

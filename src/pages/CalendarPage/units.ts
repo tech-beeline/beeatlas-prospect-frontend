@@ -30,7 +30,7 @@ export const H3 = styled.h3`
     align-items: center;
     gap: 16px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
     line-height: 44px;
 

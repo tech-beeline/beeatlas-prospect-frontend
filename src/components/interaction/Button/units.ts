@@ -11,7 +11,7 @@ const ButtonBase = styled.button<IButton>`
 
     font-size: ${theme.text.normal.fontSize};
     line-height: ${theme.text.normal.lineHeight};
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     white-space: nowrap;
 
     height: 48px;

@@ -14,7 +14,7 @@ export const Container = styled.div`
     height: 64px;
     padding: 18px 24px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 25px;
     line-height: 28px;
 

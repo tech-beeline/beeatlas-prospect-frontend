@@ -74,7 +74,7 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     height: 56px;
     padding: 18px 16px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: 20px;
 
@@ -181,7 +181,7 @@ export const MenuItem = styled.div`
 `;
 
 export const MenuItemText = styled.div`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: 22px;
 `;
@@ -225,7 +225,7 @@ export const IconStyled = styled(Icon)`
 `;
 
 export const SideBlockTitle = styled.div`
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
     line-height: 28px;
 `;

@@ -36,7 +36,7 @@ export const Role = styled.div`
 
     padding: 24px;
 
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
     line-height: 28px;
 

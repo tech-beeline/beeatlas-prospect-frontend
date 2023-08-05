@@ -46,7 +46,7 @@ export const Container = styled.div`
 `;
 
 export const H4 = styled.h4`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: 32px;
     letter-spacing: 0.2px;
@@ -55,7 +55,7 @@ export const H4 = styled.h4`
 `;
 
 export const JustText = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;
@@ -68,7 +68,7 @@ export const AliasText = styled(JustText)`
 `;
 
 export const GrayText = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
@@ -99,7 +99,7 @@ export const NoFoundBlock = styled.div`
     height: 44px;
     margin-top: 30px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
@@ -163,7 +163,7 @@ export const Image = styled.img`
 `;
 
 export const MockText = styled(GrayText)`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
 `;
 
 export const ListSwitcherWrapper = styled.div`
@@ -178,7 +178,7 @@ export const FlexBlock = styled.div`
 
     margin-top: 20px;
 
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;

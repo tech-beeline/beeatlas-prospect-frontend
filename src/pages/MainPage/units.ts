@@ -25,7 +25,7 @@ export const GeneralBlock = styled.div`
 export const Title = styled.h1`
     width: 832px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 100px;
     line-height: 110px;
 
@@ -34,7 +34,7 @@ export const Title = styled.h1`
 `;
 
 export const H1 = styled.h1`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h1);
     line-height: 66px;
 
@@ -44,13 +44,13 @@ export const H1 = styled.h1`
 `;
 
 export const H2 = styled.h2`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h2);
     line-height: 56px;
 `;
 
 export const H3 = styled.h3`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
     line-height: 44px;
 
@@ -117,7 +117,7 @@ export const H1ForCallbackStyled = styled(H1)`
 `;
 
 export const Text = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
 

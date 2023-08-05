@@ -5,7 +5,7 @@ export const Title = styled.h3<{ fontSize: string }>`
     /* align-items: center; */
     gap: 16px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: ${({ fontSize = '34px' }) => fontSize};
     line-height: 44px;
 

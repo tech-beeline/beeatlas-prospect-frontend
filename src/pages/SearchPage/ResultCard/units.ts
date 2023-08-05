@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.div`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
@@ -24,7 +24,7 @@ export const Title = styled.div`
 `;
 
 export const Text = styled(Title)`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     white-space: pre-wrap;
 
     color: ${theme.colors.textActive};
@@ -35,7 +35,7 @@ export const Text = styled(Title)`
 `;
 
 export const TitleSecond = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;
@@ -44,7 +44,7 @@ export const TitleSecond = styled.p`
 `;
 
 export const DomenText = styled(Title)`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
 `;
 
 export const FlexBlock = styled.div`

@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
     color: ${theme.colors.warning};
     background-color: ${theme.colors.backgroundWarning};
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: 20px;
 
@@ -57,7 +57,7 @@ export const DropdownItem = styled.p`
 
     color: ${theme.colors.backgroundInverse};
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: 22px;
 

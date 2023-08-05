@@ -23,7 +23,7 @@ export const Image = styled.img`
 `;
 
 export const Text = styled.p`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
     line-height: 24px;
 
@@ -33,7 +33,7 @@ export const Text = styled.p`
 export const Description = styled.p`
     margin-top: -8px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
     letter-spacing: 0.2px;

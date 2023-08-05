@@ -10,17 +10,17 @@ export const GlobalStyles = () => {
                 @font-face {
                     font-family: 'Beeline';
                     src: url('/public/fonts/Beeline_Sans-Regular.woff2') format('woff2');
-                    font-weight: 400;
+                    font-weight: var(--font-weight-regular);
                 }
                 @font-face {
                     font-family: 'Beeline';
                     src: url('/public/fonts/Beeline_Sans-Medium.woff2') format('woff2');
-                    font-weight: 500;
+                    font-weight: var(--font-weight-medium);
                 }
                 @font-face {
                     font-family: 'Beeline';
                     src: url('/public/fonts/Beeline_Sans-Bold.woff2') format('woff2');
-                    font-weight: 700;
+                    font-weight: var(--font-weight-bold);
                 }
                 @font-face {
                     font-family: 'Beeline';
@@ -129,7 +129,7 @@ export const GlobalStyles = () => {
                     max-width: fit-content;
                     padding: 13px 20px;
                     background-color: #fdd835;
-                    font-weight: 500;
+                    font-weight: var(--font-weight-medium);
                     white-space: nowrap;
                     transition: all 0.25s ease-out;
                     user-select: none;

@@ -23,7 +23,7 @@ export const Avatar = styled.img`
 `;
 
 export const SecondName = styled.p`
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;

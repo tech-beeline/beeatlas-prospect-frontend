@@ -10,7 +10,7 @@ export const TitleWrapper = styled.div`
 export const SideBlockTitle = styled.div`
     color: ${theme.colors.textActive};
 
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
     line-height: 28px;
 `;
@@ -52,7 +52,7 @@ export const BorderBlock = styled.div`
 
 export const SubTitle = styled.h4`
     font-size: var(--font-size-body1);
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     line-height: 24px;
 
     margin-bottom: -16px;

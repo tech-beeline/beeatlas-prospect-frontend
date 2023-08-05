@@ -41,7 +41,7 @@ export const TitleWrapper = styled.div`
 `;
 
 export const Title = styled.h4`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: 32px;
 
@@ -122,7 +122,7 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
 `;
 
 export const HintText = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-caption);
     line-height: 16px;
 

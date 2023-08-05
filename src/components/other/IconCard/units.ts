@@ -13,13 +13,13 @@ export const BorderContainerStyled = styled(BorderContainer)`
 `;
 
 export const Title = styled.h5`
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
     line-height: 28px;
 `;
 
 export const Text = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
     letter-spacing: 0.2px;
@@ -33,7 +33,7 @@ export const ButtonWrapper = styled.div`
 export const DeadlineBlock = styled.div``;
 
 export const DeadlineTitle = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;

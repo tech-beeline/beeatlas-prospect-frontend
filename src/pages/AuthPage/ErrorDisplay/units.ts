@@ -11,7 +11,7 @@ export const TextContainer = styled.div`
 export const ErrorTitle = styled.p`
     font-size: ${theme.text.normal.fontSize};
     line-height: ${theme.text.normal.lineHeight};
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
 `;
 
 export const ErrorDescription = styled.p`

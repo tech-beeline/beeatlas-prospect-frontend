@@ -27,7 +27,7 @@ export const BorderContainerStyled = styled(BorderContainer)`
 `;
 
 export const Title = styled.h1`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 100px;
     line-height: 110px;
 
@@ -36,7 +36,7 @@ export const Title = styled.h1`
 `;
 
 export const H1 = styled.h1`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h1);
     line-height: 66px;
 
@@ -46,7 +46,7 @@ export const H1 = styled.h1`
 `;
 
 export const H2 = styled.h2`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h2);
     line-height: 56px;
 `;
@@ -56,7 +56,7 @@ export const H3 = styled.h3`
     align-items: center;
     gap: 16px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
     line-height: 44px;
 
@@ -78,7 +78,7 @@ export const H3 = styled.h3`
 `;
 
 export const H4 = styled.h4`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: 32px;
     letter-spacing: 0.2px;
@@ -87,7 +87,7 @@ export const H4 = styled.h4`
 `;
 
 export const GrayText = styled.p`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
@@ -99,11 +99,11 @@ export const SubTitle = styled(GrayText)`
     max-width: 784px;
     margin-bottom: 56px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
 `;
 
 export const BoldTitle = styled.h5`
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
     line-height: 28px;
 
@@ -111,20 +111,20 @@ export const BoldTitle = styled.h5`
 `;
 
 // export const BoldText = styled.p`
-//     font-weight: 400;
+//     font-weight: var(--font-weight-regular);
 //     font-size: var(--font-size-body2);
 //     line-height: 22px;
 //     letter-spacing: 0.2px;
 // `;
 
 export const BoldText = styled.p`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
     line-height: 24px;
 `;
 
 export const GraySecondText = styled(BoldText)`
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
 
     color: ${theme.colors.textInactive};
 `;

@@ -21,7 +21,7 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
 
     border-radius: var(--size-border-radius-x6);
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
 
@@ -37,7 +37,7 @@ export const TextButton = styled.button`
     width: fit-content;
     height: 100%;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: 20px;
 
