@@ -36,7 +36,7 @@ export const Title = styled.h1`
 export const H1 = styled.h1`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h1);
-    line-height: 66px;
+    line-height: var(--font-line-height-h1);
 
     margin-top: 120px;
 
@@ -46,13 +46,13 @@ export const H1 = styled.h1`
 export const H2 = styled.h2`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h2);
-    line-height: 56px;
+    line-height: var(--font-line-height-h2);
 `;
 
 export const H3 = styled.h3`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
-    line-height: 44px;
+    line-height: var(--font-line-height-h3);
 
     width: 798px;
     margin: 40px 0;
@@ -119,7 +119,7 @@ export const H1ForCallbackStyled = styled(H1)`
 export const Text = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
 
     width: 50%;
     margin: 16px 0 24px;

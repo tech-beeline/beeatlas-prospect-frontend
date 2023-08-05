@@ -22,19 +22,19 @@ export const Diagram = styled.img`
 export const TitleFirst = styled.h2`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h2);
-    line-height: 56px;
+    line-height: var(--font-line-height-h2);
 `;
 
 export const TitleSecond = styled.h4`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
-    line-height: 32px;
+    line-height: var(--font-line-height-h4);
 `;
 
 export const Description = styled.p`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
 
     margin-top: 12px;
 

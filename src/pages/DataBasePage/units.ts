@@ -32,7 +32,7 @@ export const ContentWrapper = styled.div`
 export const H2 = styled.h2`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h2);
-    line-height: 56px;
+    line-height: var(--font-line-height-h2);
 `;
 
 export const CardContainer = styled.div`

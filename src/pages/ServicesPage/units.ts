@@ -38,7 +38,7 @@ export const Title = styled.h1`
 export const H1 = styled.h1`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h1);
-    line-height: 66px;
+    line-height: var(--font-line-height-h1);
 
     margin-top: 120px;
 
@@ -48,13 +48,13 @@ export const H1 = styled.h1`
 export const H2 = styled.h2`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h2);
-    line-height: 56px;
+    line-height: var(--font-line-height-h2);
 `;
 
 export const H3 = styled.h3`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
-    line-height: 44px;
+    line-height: var(--font-line-height-h3);
 
     width: 798px;
     margin: 40px 0 32px;
@@ -63,14 +63,15 @@ export const H3 = styled.h3`
 export const H4 = styled.h4`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
-    line-height: 32px;
+    line-height: var(--font-line-height-h4);
+
     letter-spacing: var(--font-letter-spacing-body3);
 `;
 
 export const GrayText = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
 
     color: ${theme.colors.textInactive};
 `;
@@ -90,7 +91,7 @@ export const BoldTitle = styled.h5`
 export const BoldText = styled.p`
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-body2);
-    line-height: 22px;
+    line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body3);
 `;
 

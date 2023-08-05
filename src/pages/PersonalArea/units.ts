@@ -23,7 +23,7 @@ export const Title = styled.h4`
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
-    line-height: 32px;
+    line-height: var(--font-line-height-h4);
 
     width: 798px;
     margin: 40px 0 12px;

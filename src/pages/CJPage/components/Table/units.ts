@@ -76,7 +76,7 @@ export const Th = styled.th<{ backgroundColor?: string }>`
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
-    line-height: 20px;
+    line-height: var(--font-line-height-body3);
 
     background-color: ${({ backgroundColor }) =>
         !!backgroundColor ? `${backgroundColor}` : `${theme.colors.backgroundLow}`};
@@ -183,7 +183,7 @@ export const MenuItem = styled.div`
 export const MenuItemText = styled.div`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
-    line-height: 22px;
+    line-height: var(--font-line-height-body2);
 `;
 
 export const MenuItemRemoveText = styled(MenuItemText)`

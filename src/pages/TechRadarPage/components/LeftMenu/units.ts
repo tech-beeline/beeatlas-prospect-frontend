@@ -79,7 +79,7 @@ export const Item = styled.p<{ isActive?: boolean }>`
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
-    line-height: 22px;
+    line-height: var(--font-line-height-body2);
 
     border-radius: var(--size-border-radius-x6);
 

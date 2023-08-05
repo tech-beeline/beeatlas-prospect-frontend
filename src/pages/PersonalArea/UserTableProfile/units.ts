@@ -15,7 +15,7 @@ export const ProfileDataBlock = styled.div``;
 export const FullName = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
-    line-height: 22px;
+    line-height: var(--font-line-height-body2);
 
     color: ${theme.colors.textActive};
 `;
@@ -23,7 +23,7 @@ export const FullName = styled.p`
 export const Email = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
-    line-height: 18px;
+    line-height: var(--font-line-height-body3);
 
     color: ${theme.colors.textLink};
 `;

@@ -25,7 +25,7 @@ export const Image = styled.img`
 export const Text = styled.p`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
 
     color: ${theme.colors.textActive};
 `;
@@ -35,7 +35,8 @@ export const Description = styled.p`
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
+
     letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textInactive};

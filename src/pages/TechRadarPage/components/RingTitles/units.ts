@@ -17,7 +17,7 @@ export const RingTitle = styled.p<{
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-caption);
-    line-height: 14px;
+    line-height: var(--font-line-height-caption);
 
     color: ${theme.colors.textActiveInverse};
 

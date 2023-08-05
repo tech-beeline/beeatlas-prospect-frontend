@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 export const Title = styled.div`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body2);
-    line-height: 22px;
+    line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textLink};
@@ -37,7 +37,7 @@ export const Text = styled(Title)`
 export const TitleSecond = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
-    line-height: 18px;
+    line-height: var(--font-line-height-body3);
     letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textInactive};
