@@ -34,7 +34,7 @@ export const TitleBlock = styled.p`
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
 
     cursor: pointer;
 `;
@@ -44,7 +44,7 @@ export const ExpandStyled = styled(Expand)`
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
 `;
 
 export const TextBlock = styled.div`

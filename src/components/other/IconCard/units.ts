@@ -15,13 +15,13 @@ export const BorderContainerStyled = styled(BorderContainer)`
 export const Title = styled.h5`
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
-    line-height: 28px;
+    line-height: var(--font-line-height-h5);
 `;
 
 export const Text = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
-    line-height: 24px;
+    line-height: var(--font-line-height-body1);
     letter-spacing: var(--font-letter-spacing-body3);
 `;
 
@@ -35,7 +35,7 @@ export const DeadlineBlock = styled.div``;
 export const DeadlineTitle = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
-    line-height: 18px;
+    line-height: var(--font-line-height-body3);
     letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textInactive};

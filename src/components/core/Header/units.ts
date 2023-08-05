@@ -15,8 +15,9 @@ export const Container = styled.div`
     padding: 18px 24px;
 
     font-weight: var(--font-weight-medium);
+    /* TODO: нет такого токена */
     font-size: 25px;
-    line-height: 28px;
+    line-height: var(--font-line-height-product-name);
 
     background-color: ${theme.colors.backgroundLow};
     color: rgba(25, 28, 52, 0.7);

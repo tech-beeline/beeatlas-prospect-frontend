@@ -13,7 +13,7 @@ export const Tab = styled.button<{ isActive: boolean }>`
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
-    line-height: 20px;
+    line-height: var(--font-line-height-subtitle3);
     letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};

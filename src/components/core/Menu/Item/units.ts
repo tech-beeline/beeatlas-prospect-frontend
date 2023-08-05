@@ -15,9 +15,10 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     height: 48px;
     padding: 0 16px 0 32px;
 
-    font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
+    font-weight: ${({ isActive }) =>
+        isActive ? 'var(--font-weight-medium)' : 'var(--font-weight-regular)'};
     font-size: var(--font-size-body3);
-    line-height: 18px;
+    line-height: var(--font-line-height-body3);
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
 

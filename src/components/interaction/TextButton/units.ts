@@ -5,8 +5,8 @@ import { theme } from 'styles';
 export const TextButton = styled.button`
     width: fit-content;
 
-    font-size: ${theme.text.small.fontSize};
-    line-height: ${theme.text.small.lineHeight};
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
     text-decoration: underline;
 
     color: inherit;

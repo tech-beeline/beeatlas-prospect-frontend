@@ -21,8 +21,8 @@ const inputStyles = css`
     height: 48px;
     padding: 14px 16px;
 
-    font-size: ${theme.text.normal.fontSize};
-    line-height: ${theme.text.normal.lineHeight};
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
     text-overflow: ellipsis;
 
     border: 1px solid;
@@ -48,8 +48,8 @@ export const InputPhoneStyled = styled(Input)<T.IInput>`
 
     padding: 14px 16px;
 
-    font-size: ${theme.text.normal.fontSize};
-    line-height: ${theme.text.normal.lineHeight};
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 
     border: 1px solid;
     border-color: ${({ isFocused, isValid }) =>

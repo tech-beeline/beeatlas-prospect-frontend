@@ -9,8 +9,8 @@ const ButtonBase = styled.button<IButton>`
     justify-content: center;
     align-items: center;
 
-    font-size: ${theme.text.normal.fontSize};
-    line-height: ${theme.text.normal.lineHeight};
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
 
