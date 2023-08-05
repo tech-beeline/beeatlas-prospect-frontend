@@ -15,7 +15,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   font-weight: var(--font-weight-bold);
                   font-size: var(--font-size-h5);
                   line-height: 28px;
-                  letter-spacing: 0.2px;
+                  letter-spacing: var(--font-letter-spacing-body3);
               `
             : !isSecondary
             ? css`
@@ -25,7 +25,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   font-weight: var(--font-weight-bold);
                   font-size: var(--font-size-body2);
                   line-height: 22px;
-                  letter-spacing: 0.2px;
+                  letter-spacing: var(--font-letter-spacing-body3);
               `
             : css`
                   gap: 16px;
@@ -33,7 +33,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   font-weight: var(--font-weight-regular);
                   font-size: var(--font-size-body1);
                   line-height: 24px;
-                  letter-spacing: 0.2px;
+                  letter-spacing: var(--font-letter-spacing-body3);
 
                   color: ${theme.colors.textInactive};
               `}
@@ -53,7 +53,7 @@ export const Background = styled.div`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: 20px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 
     background-color: ${theme.colors.info};
     color: ${theme.colors.textInfo};

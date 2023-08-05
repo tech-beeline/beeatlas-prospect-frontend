@@ -71,5 +71,5 @@ export const InputPhoneStyled = styled(Input)<T.IInput>`
 `;
 
 export const Label = styled.label`
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 `;

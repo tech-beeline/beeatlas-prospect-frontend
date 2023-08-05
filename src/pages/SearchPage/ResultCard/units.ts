@@ -16,7 +16,7 @@ export const Title = styled.div`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body2);
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textLink};
 
@@ -38,7 +38,7 @@ export const TitleSecond = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textInactive};
 `;

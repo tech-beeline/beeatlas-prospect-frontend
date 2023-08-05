@@ -24,7 +24,7 @@ export const Text = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
     color: ${theme.colors.textInactive};

@@ -14,7 +14,7 @@ export const Title = styled.h3`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
     line-height: 44px;
-    letter-spacing: 0.3px;
+    letter-spacing: var(--font-letter-spacing-h1);
 `;
 
 export const Description = styled.p`
@@ -23,7 +23,7 @@ export const Description = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 
     color: ${theme.colors.textInactive};
 `;

@@ -117,7 +117,7 @@ export const Text = styled.p<{ withImage: boolean }>`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body1);
     line-height: 24px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 
     ${({ withImage }) =>
         !withImage &&

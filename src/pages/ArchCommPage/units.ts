@@ -57,7 +57,7 @@ export const H4 = styled.h4`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: 32px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 `;
 
 export const GrayText = styled.p`
@@ -80,5 +80,5 @@ export const BoldText = styled.p`
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-body2);
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 `;

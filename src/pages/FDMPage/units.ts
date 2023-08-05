@@ -49,7 +49,7 @@ export const H4 = styled.h4`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: 32px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 
     margin: 8px 0;
 `;
@@ -58,7 +58,7 @@ export const JustText = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: 18px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 `;
 
 export const AliasText = styled(JustText)`
@@ -71,7 +71,7 @@ export const GrayText = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
     color: ${theme.colors.textInactive};
@@ -102,7 +102,7 @@ export const NoFoundBlock = styled.div`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body2);
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
     text-align: center;
 `;
 
@@ -181,5 +181,5 @@ export const FlexBlock = styled.div`
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-body2);
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
 `;

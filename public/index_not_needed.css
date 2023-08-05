@@ -11,7 +11,7 @@
 @font-face {
     font-family: 'Beeline';
     src: url('/public/fonts/Beeline_Sans-Bold.woff2') format('woff2');
-    font-weight: var(--font-weight-bold);
+    font-weight: 700;
 }
 @font-face {
     font-family: 'Beeline';

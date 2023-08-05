@@ -17,7 +17,7 @@ export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInlin
     font-weight: var(--font-weight-regular);
     font-size: ${({ fontSize = 17 }) => `${fontSize}px`};
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
     text-decoration: none;
 
     color: ${theme.colors.textLink};
@@ -54,7 +54,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
     font-weight: var(--font-weight-regular);
     font-size: ${({ fontSize = 17 }) => `${fontSize}px`};
     line-height: 22px;
-    letter-spacing: 0.2px;
+    letter-spacing: var(--font-letter-spacing-body3);
     text-decoration: none;
 
     color: ${theme.colors.textLink};
