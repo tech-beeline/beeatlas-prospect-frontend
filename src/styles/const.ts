@@ -1,5 +1,5 @@
 export const theme = {
-    borderRadius: '12px',
+    // borderRadius: '12px',
 
     text: {
         // tiny: {

@@ -11,7 +11,7 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
     padding: 0 16px 0 56px;
 
     font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};

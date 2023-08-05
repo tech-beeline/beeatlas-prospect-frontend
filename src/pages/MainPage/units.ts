@@ -35,7 +35,7 @@ export const Title = styled.h1`
 
 export const H1 = styled.h1`
     font-weight: 500;
-    font-size: 54px;
+    font-size: var(--font-size-h1);
     line-height: 66px;
 
     margin-top: 120px;
@@ -45,13 +45,13 @@ export const H1 = styled.h1`
 
 export const H2 = styled.h2`
     font-weight: 500;
-    font-size: 44px;
+    font-size: var(--font-size-h2);
     line-height: 56px;
 `;
 
 export const H3 = styled.h3`
     font-weight: 400;
-    font-size: 34px;
+    font-size: var(--font-size-h3);
     line-height: 44px;
 
     width: 798px;
@@ -109,7 +109,7 @@ export const CallbackContainer = styled.div`
     background-color: ${theme.colors.info};
     color: ${theme.colors.textActive};
 
-    border-radius: 24px;
+    border-radius: var(--size-border-radius-x12);
 `;
 
 export const H1ForCallbackStyled = styled(H1)`
@@ -118,7 +118,7 @@ export const H1ForCallbackStyled = styled(H1)`
 
 export const Text = styled.p`
     font-weight: 400;
-    font-size: 19px;
+    font-size: var(--font-size-body1);
     line-height: 24px;
 
     width: 50%;

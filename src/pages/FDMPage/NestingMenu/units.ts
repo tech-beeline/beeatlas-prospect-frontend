@@ -12,7 +12,7 @@ export const ResizableStyled = styled(Resizable)`
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {

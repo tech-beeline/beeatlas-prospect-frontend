@@ -4,7 +4,7 @@ import { theme } from 'styles';
 
 export const Wrapper = styled.p<{ isActive: boolean }>`
     font-weight: 400;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;
 

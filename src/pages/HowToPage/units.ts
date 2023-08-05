@@ -38,7 +38,7 @@ export const Title = styled.h1`
 
 export const H1 = styled.h1`
     font-weight: 500;
-    font-size: 54px;
+    font-size: var(--font-size-h1);
     line-height: 66px;
 
     margin-top: 120px;
@@ -48,13 +48,13 @@ export const H1 = styled.h1`
 
 export const H2 = styled.h2`
     font-weight: 500;
-    font-size: 44px;
+    font-size: var(--font-size-h2);
     line-height: 56px;
 `;
 
 export const H3 = styled.h3`
     font-weight: 400;
-    font-size: 34px;
+    font-size: var(--font-size-h3);
     line-height: 44px;
 
     width: 798px;
@@ -63,14 +63,14 @@ export const H3 = styled.h3`
 
 export const H4 = styled.h4`
     font-weight: 500;
-    font-size: 26px;
+    font-size: var(--font-size-h4);
     line-height: 32px;
     letter-spacing: 0.2px;
 `;
 
 export const GrayText = styled.p`
     font-weight: 400;
-    font-size: 19px;
+    font-size: var(--font-size-body1);
     line-height: 24px;
 
     color: ${theme.colors.textInactive};
@@ -82,7 +82,7 @@ export const SubTitle = styled(GrayText)`
 
 export const BoldTitle = styled.h5`
     font-weight: 700;
-    font-size: 20px;
+    font-size: var(--font-size-h5);
     line-height: 28px;
 
     margin-bottom: 8px;
@@ -90,7 +90,7 @@ export const BoldTitle = styled.h5`
 
 export const BoldText = styled.p`
     font-weight: 700;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
 `;

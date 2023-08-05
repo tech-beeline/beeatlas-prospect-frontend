@@ -90,7 +90,7 @@ export const DropdownItem = styled.p`
     color: ${theme.colors.borderError};
 
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
 
     &:hover {

@@ -11,7 +11,7 @@ export const SideBlockTitle = styled.div`
     color: ${theme.colors.textActive};
 
     font-weight: 700;
-    font-size: 20px;
+    font-size: var(--font-size-h5);
     line-height: 28px;
 `;
 
@@ -46,12 +46,12 @@ export const BorderBlock = styled.div`
     width: 100%;
     padding: 16px;
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
     border: 1px solid ${theme.colors.borderGray};
 `;
 
 export const SubTitle = styled.h4`
-    font-size: 19px;
+    font-size: var(--font-size-body1);
     font-weight: 500;
     line-height: 24px;
 

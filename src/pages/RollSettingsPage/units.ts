@@ -37,12 +37,12 @@ export const Role = styled.div`
     padding: 24px;
 
     font-weight: 700;
-    font-size: 20px;
+    font-size: var(--font-size-h5);
     line-height: 28px;
 
     border: 1px solid;
     border-color: ${theme.colors.divider};
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-in-out;
 
@@ -61,7 +61,7 @@ export const Role = styled.div`
     &:hover {
         color: #1a73e8;
 
-        border-radius: 24px;
+        border-radius: var(--size-border-radius-x12);
     }
 
     &:hover > span {

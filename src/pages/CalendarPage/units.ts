@@ -31,7 +31,7 @@ export const H3 = styled.h3`
     gap: 16px;
 
     font-weight: 400;
-    font-size: 34px;
+    font-size: var(--font-size-h3);
     line-height: 44px;
 
     width: max-content;

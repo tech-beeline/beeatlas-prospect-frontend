@@ -31,7 +31,7 @@ export const ContentWrapper = styled.div`
 
 export const H2 = styled.h2`
     font-weight: 500;
-    font-size: 44px;
+    font-size: var(--font-size-h2);
     line-height: 56px;
 `;
 

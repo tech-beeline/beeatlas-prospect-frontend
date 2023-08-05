@@ -19,14 +19,14 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     margin-bottom: 4px;
 
     font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
     background-color: ${({ isActive }) =>
         isActive ? theme.colors.backgroundHover : theme.colors.backgroundLow};
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-out;
 

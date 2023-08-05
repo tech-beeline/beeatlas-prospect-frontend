@@ -77,9 +77,7 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
     min-width: 40px;
     height: 40px;
 
-    border-radius: 50%;
-
-    /* box-shadow: 0 4px 12px 0 rgb(0 0 0 / 10%); */
+    border-radius: var(--size-border-radius-circle);
 
     z-index: 90;
 
@@ -131,7 +129,7 @@ export const SliderBlock = styled.div`
 
     border: 2px solid black;
 
-    border-radius: 16px;
+    border-radius: var(--size-border-radius-x8);
 
     background-color: white;
 

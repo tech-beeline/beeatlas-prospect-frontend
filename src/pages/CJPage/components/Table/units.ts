@@ -28,7 +28,7 @@ export const TableWrapper = styled.div`
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -75,7 +75,7 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     padding: 18px 16px;
 
     font-weight: 500;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 20px;
 
     background-color: ${({ backgroundColor }) =>
@@ -157,7 +157,7 @@ export const MenuBlock = styled.div`
 
     background-color: ${theme.colors.backgroundLow};
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 `;
@@ -182,7 +182,7 @@ export const MenuItem = styled.div`
 
 export const MenuItemText = styled.div`
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
 `;
 
@@ -226,7 +226,7 @@ export const IconStyled = styled(Icon)`
 
 export const SideBlockTitle = styled.div`
     font-weight: 700;
-    font-size: 20px;
+    font-size: var(--font-size-h5);
     line-height: 28px;
 `;
 

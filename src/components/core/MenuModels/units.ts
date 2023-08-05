@@ -34,7 +34,7 @@ export const Tab = styled.div<{ isActive: boolean }>`
     height: 48px;
     width: 56px;
 
-    border-radius: 0px 12px 12px 0px;
+    border-radius: 0px var(--size-border-radius-x6) var(--size-border-radius-x6) 0px;
 
     transition: background-color 0.25s ease-out;
 

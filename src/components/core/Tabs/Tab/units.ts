@@ -12,7 +12,7 @@ export const Tab = styled.button<{ isActive: boolean }>`
     width: fit-content;
 
     font-weight: 500;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 20px;
     letter-spacing: 0.2px;
 

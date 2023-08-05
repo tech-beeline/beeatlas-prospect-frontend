@@ -24,7 +24,7 @@ export const Wrapper = styled.div`
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -47,7 +47,7 @@ export const Container = styled.div`
 
 export const H4 = styled.h4`
     font-weight: 500;
-    font-size: 26px;
+    font-size: var(--font-size-h4);
     line-height: 32px;
     letter-spacing: 0.2px;
 
@@ -56,7 +56,7 @@ export const H4 = styled.h4`
 
 export const JustText = styled.p`
     font-weight: 400;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;
 `;
@@ -69,7 +69,7 @@ export const AliasText = styled(JustText)`
 
 export const GrayText = styled.p`
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
     white-space: pre-line;
@@ -100,7 +100,7 @@ export const NoFoundBlock = styled.div`
     margin-top: 30px;
 
     font-weight: 500;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
     text-align: center;
@@ -179,7 +179,7 @@ export const FlexBlock = styled.div`
     margin-top: 20px;
 
     font-weight: 700;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
 `;

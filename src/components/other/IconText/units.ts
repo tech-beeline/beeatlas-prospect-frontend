@@ -13,7 +13,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   gap: 12px;
 
                   font-weight: 700;
-                  font-size: 20px;
+                  font-size: var(--font-size-h5);
                   line-height: 28px;
                   letter-spacing: 0.2px;
               `
@@ -23,7 +23,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   gap: 12px;
 
                   font-weight: 700;
-                  font-size: 17px;
+                  font-size: var(--font-size-body2);
                   line-height: 22px;
                   letter-spacing: 0.2px;
               `
@@ -31,7 +31,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   gap: 16px;
 
                   font-weight: 400;
-                  font-size: 19px;
+                  font-size: var(--font-size-body1);
                   line-height: 24px;
                   letter-spacing: 0.2px;
 
@@ -51,14 +51,14 @@ export const Background = styled.div`
     height: 40px;
 
     font-weight: 500;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 20px;
     letter-spacing: 0.2px;
 
     background-color: ${theme.colors.info};
     color: ${theme.colors.textInfo};
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 `;
 
 export const Text = styled.p<{ to?: string }>`

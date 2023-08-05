@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
     background-color: ${theme.colors.backgroundWarning};
 
     font-weight: 500;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 20px;
 
     border-radius: var(--size-border-radius-x6);
@@ -58,7 +58,7 @@ export const DropdownItem = styled.p`
     color: ${theme.colors.backgroundInverse};
 
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
 
     &:hover {

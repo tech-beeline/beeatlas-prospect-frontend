@@ -10,7 +10,7 @@ export const Container = styled.div`
     /* padding: 24px 0; */
 
     border: 1px solid ${theme.colors.divider};
-    border-radius: 16px;
+    border-radius: var(--size-border-radius-x8);
 
     & > *:not(:last-child) {
         border-bottom: 1px solid ${theme.colors.divider};
@@ -33,7 +33,7 @@ export const TitleBlock = styled.p`
     padding: 0 24px;
 
     font-weight: 500;
-    font-size: 19px;
+    font-size: var(--font-size-body1);
     line-height: 24px;
 
     cursor: pointer;
@@ -43,7 +43,7 @@ export const ExpandStyled = styled(Expand)`
     padding: 24px;
 
     font-weight: 400;
-    font-size: 19px;
+    font-size: var(--font-size-body1);
     line-height: 24px;
 `;
 

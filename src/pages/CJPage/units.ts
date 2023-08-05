@@ -28,7 +28,7 @@ export const FlexSideContainer = styled.div`
 
 export const Name = styled.p`
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
 
     color: ${theme.colors.textActive};
@@ -36,7 +36,7 @@ export const Name = styled.p`
 
 export const Desription = styled.p`
     font-weight: 400;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
 
     color: ${theme.colors.textInactive};
@@ -51,7 +51,7 @@ export const IconWrapper = styled.div`
     height: 40px;
 
     border: 1px solid ${theme.colors.divider};
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     cursor: pointer;
 `;
@@ -66,7 +66,7 @@ export const SideBlockTitle = styled.div`
     color: ${theme.colors.textActive};
 
     font-weight: 700;
-    font-size: 20px;
+    font-size: var(--font-size-h5);
     line-height: 28px;
 `;
 

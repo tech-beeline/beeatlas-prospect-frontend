@@ -27,7 +27,7 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -48,7 +48,7 @@ export const TitleWrapper = styled.div`
 
     user-select: none;
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     /* transition: background-color 0.25s ease-in-out; */
 
@@ -61,16 +61,16 @@ export const TitleWrapper = styled.div`
     } */
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h5`
     font-weight: 700;
-    font-size: 20px;
+    font-size: var(--font-size-h5);
     line-height: 28px;
 
     color: ${theme.colors.textActive};
 `;
 
 export const TitleSmaller = styled(Title)`
-    font-size: 17px;
+    font-size: var(--font-size-body2);
 `;
 
 export const Item = styled.p<{ isActive?: boolean }>`
@@ -78,10 +78,10 @@ export const Item = styled.p<{ isActive?: boolean }>`
     padding: 12px 24px;
 
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     background-color: ${({ isActive }) => isActive && theme.colors.backgroundHover};
 
@@ -157,7 +157,7 @@ export const TooltipStyled = styled(Tooltip)`
 
     background-color: ${theme.colors.backgroundInverse};
 
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-x4);
 
     text-align: start;
 

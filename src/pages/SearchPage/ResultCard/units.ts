@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 
 export const Title = styled.div`
     font-weight: 500;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
 
@@ -36,7 +36,7 @@ export const Text = styled(Title)`
 
 export const TitleSecond = styled.p`
     font-weight: 400;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
     letter-spacing: 0.2px;
 

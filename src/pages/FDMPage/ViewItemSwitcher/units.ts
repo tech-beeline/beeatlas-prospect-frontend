@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 
     border: 1px solid;
     border-color: ${theme.colors.divider};
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     & > div:nth-child(1) {
         border-top-right-radius: 0;
@@ -47,7 +47,7 @@ export const Element = styled.div<any>`
     width: 50%;
     height: 100%;
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     background-color: ${({ id, activeElement }) =>
         activeElement === id ? theme.colors.backgroundSelected : theme.colors.backgroundLow};

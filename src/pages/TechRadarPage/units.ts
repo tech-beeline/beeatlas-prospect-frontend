@@ -40,9 +40,9 @@ export const TitleWrapper = styled.div`
     margin-bottom: 16px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h4`
     font-weight: 500;
-    font-size: 26px;
+    font-size: var(--font-size-h4);
     line-height: 32px;
 
     color: ${theme.colors.textActive};
@@ -101,7 +101,7 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
 
     background-color: ${theme.colors.backgroundInverse};
 
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-x4);
 
     text-align: start;
 
@@ -123,7 +123,7 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
 
 export const HintText = styled.p`
     font-weight: 400;
-    font-size: 13px;
+    font-size: var(--font-size-caption);
     line-height: 16px;
 
     color: ${theme.colors.textActiveInverse};

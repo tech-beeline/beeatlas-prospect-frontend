@@ -24,7 +24,7 @@ export const Container = styled.div`
 
 export const H4 = styled.h4`
     font-weight: 500;
-    font-size: 26px;
+    font-size: var(--font-size-h4);
     line-height: 32px;
     letter-spacing: 0.2px;
 
@@ -33,7 +33,7 @@ export const H4 = styled.h4`
 
 export const GrayText = styled.p`
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
     white-space: pre-line;
@@ -68,7 +68,7 @@ export const NoFoundBlock = styled.div`
     margin-top: 30px;
 
     font-weight: 500;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
     text-align: center;

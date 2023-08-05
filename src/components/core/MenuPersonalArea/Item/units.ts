@@ -16,12 +16,12 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     padding: 0 16px 0 32px;
 
     font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
 
-    border-radius: 0px 12px 12px 0px;
+    border-radius: 0px var(--size-border-radius-x6) var(--size-border-radius-x6) 0px;
 
     transition: all 0.25s ease-out;
 

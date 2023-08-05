@@ -22,7 +22,7 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
     border-radius: var(--size-border-radius-x6);
 
     font-weight: 400;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
 
     opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
@@ -38,7 +38,7 @@ export const TextButton = styled.button`
     height: 100%;
 
     font-weight: 500;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 20px;
 
     color: ${theme.colors.chartBlue};

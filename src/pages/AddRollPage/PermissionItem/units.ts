@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 
     height: 48px;
 
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
 `;
 

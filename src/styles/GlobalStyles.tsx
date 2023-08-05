@@ -67,7 +67,7 @@ export const GlobalStyles = () => {
                     &::-webkit-scrollbar-thumb {
                         background-color: #b6b7bf;
 
-                        border-radius: 16px;
+                        border-radius: var(--size-border-radius-x8);
                     }
 
                     &::-webkit-scrollbar {
@@ -133,8 +133,8 @@ export const GlobalStyles = () => {
                     white-space: nowrap;
                     transition: all 0.25s ease-out;
                     user-select: none;
-                    border-radius: 12px;
-                    font-size: 17px;
+                    border-radius: var(--size-border-radius-x6);
+                    font-size: var(--font-size-body2);
                     line-height: 21px;
                     text-decoration: none;
                     color: #212121;

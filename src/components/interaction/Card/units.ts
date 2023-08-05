@@ -34,17 +34,17 @@ export const TitleWrapper = styled.div<{ withImage: boolean }>`
     cursor: pointer;
 `;
 
-export const Title = styled.h2<{ withImage: boolean }>`
+export const Title = styled.h4<{ withImage: boolean }>`
     ${({ withImage }) =>
         withImage
             ? css`
                   font-weight: 500;
-                  font-size: 44px;
+                  font-size: var(--font-size-h2);
                   line-height: 56px;
               `
             : css`
                   font-weight: 500;
-                  font-size: 26px;
+                  font-size: var(--font-size-h4);
                   line-height: 32px;
               `}
 
@@ -79,7 +79,7 @@ export const Card = styled.div<any>`
     cursor: ${({ withImage }) => !withImage && 'pointer'};
 
     &:hover {
-        border-radius: 24px;
+        border-radius: var(--size-border-radius-x12);
 
         /* ${Title} {
             color: ${theme.colors.textLink};
@@ -115,7 +115,7 @@ export const Text = styled.p<{ withImage: boolean }>`
     width: ${({ withImage }) => (withImage ? '340px' : '100%')};
 
     font-weight: 400;
-    font-size: 19px;
+    font-size: var(--font-size-body1);
     line-height: 24px;
     letter-spacing: 0.2px;
 

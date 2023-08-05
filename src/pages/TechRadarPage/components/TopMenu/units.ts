@@ -17,12 +17,12 @@ export const MenuButton = styled.button<{ isActive: boolean }>`
     padding: 7px 12px;
 
     font-weight: 400;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 18px;
 
     background-color: ${({ isActive }) => (isActive ? '#fdd835' : 'rgba(25, 28, 52, 0.1)')};
 
-    border-radius: 32px;
+    border-radius: var(--size-border-radius-x15);
 
     transition: background-color 0.25s ease-in-out;
 

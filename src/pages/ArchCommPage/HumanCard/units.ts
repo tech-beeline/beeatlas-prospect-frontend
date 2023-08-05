@@ -19,12 +19,12 @@ export const Avatar = styled.img`
     width: 40px;
     height: 40px;
 
-    border-radius: 50%;
+    border-radius: var(--size-border-radius-circle);
 `;
 
 export const SecondName = styled.p`
     font-weight: 700;
-    font-size: 17px;
+    font-size: var(--font-size-body2);
     line-height: 22px;
     letter-spacing: 0.2px;
 `;
@@ -35,7 +35,7 @@ export const FirstName = styled(SecondName)`
 
 export const Description = styled.p`
     font-weight: 410;
-    font-size: 13px;
+    font-size: var(--font-size-caption);
     line-height: 16px;
     letter-spacing: 0.2px;
 
@@ -54,7 +54,7 @@ export const IconStyled = styled(Icon)`
     width: 40px;
     height: 40px;
 
-    font-size: 20px;
+    font-size: var(--font-size-h5);
 
-    border-radius: 50%;
+    border-radius: var(--size-border-radius-circle);
 `;

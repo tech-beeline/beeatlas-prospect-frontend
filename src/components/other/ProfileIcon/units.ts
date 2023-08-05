@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
     background-color: ${theme.colors.backgroundSuccess};
 
     font-weight: 500;
-    font-size: 15px;
+    font-size: var(--font-size-body3);
     line-height: 20px;
 
     border-radius: var(--size-border-radius-x6);

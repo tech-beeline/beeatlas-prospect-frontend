@@ -16,7 +16,7 @@ export const RingTitle = styled.p<{
     padding: 2px 8px;
 
     font-weight: 500;
-    font-size: 14px;
+    font-size: var(--font-size-caption);
     line-height: 14px;
 
     color: ${theme.colors.textActiveInverse};
@@ -30,7 +30,7 @@ export const RingTitle = styled.p<{
             ? theme.colors.chartBlue
             : theme.colors.chartGrey};
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.4s ease-in-out;
 
