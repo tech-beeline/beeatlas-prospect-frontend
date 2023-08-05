@@ -1,34 +1,5 @@
 export const theme = {
-    // borderRadius: '12px',
-
-    text: {
-        // tiny: {
-        //     fontSize: '15px',
-        //     lineHeight: '18px',
-        // },
-        small: {
-            fontSize: '15px',
-            lineHeight: '18px',
-        },
-        normal: {
-            fontSize: '17px',
-            lineHeight: '22px',
-        },
-        huge: {
-            fontSize: '26px',
-            lineHeight: '32px',
-        },
-    },
-
     colors: {
-        // backgroundLow: 'var(--color-background-base)',
-        backgroundInverse: 'var(--color-background-inverse)',
-        backgroundControl: 'var(--color-control-background)',
-        backgroundSelected: 'var(--color-background-base-selected)',
-        backgroundHover: 'var(--color-background-base-hover)',
-        backgroundPressed: 'var(--color-background-base-pressed)',
-        backgroundWarning: 'var(--color-status-warning-background)',
-        backgroundSuccess: 'var(--color-status-success-background)',
         divider: 'var(--color-divider)',
         textActive: 'var(--color-text-active)',
         textActiveNoTheme: 'rgba(9, 11, 22, 0.94)',

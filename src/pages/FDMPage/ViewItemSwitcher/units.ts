@@ -35,7 +35,7 @@ export const Wrapper = styled.div`
         height: 100%;
         width: 1px;
 
-        background-color: ${theme.colors.backgroundSelected};
+        background-color: var(--color-background-base-selected);
     }
 `;
 
@@ -50,7 +50,9 @@ export const Element = styled.div<any>`
     border-radius: var(--size-border-radius-x6);
 
     background-color: ${({ id, activeElement }) =>
-        activeElement === id ? theme.colors.backgroundSelected : 'var(--color-background-base'};
+        activeElement === id
+            ? 'var(--color-background-base-selected)'
+            : 'var(--color-background-base'};
 
     transition: background-color 0.25s ease-in-out;
 

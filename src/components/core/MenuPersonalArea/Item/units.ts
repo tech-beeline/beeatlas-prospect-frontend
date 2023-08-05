@@ -46,14 +46,14 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     }
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     ${({ isSubItems }) =>
         !isSubItems &&
         css`
             &:active {
-                background-color: ${theme.colors.backgroundSelected};
+                background-color: var(--color-background-base-selected);
             }
         `}
 `;

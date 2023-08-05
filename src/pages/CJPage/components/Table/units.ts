@@ -175,7 +175,7 @@ export const MenuItem = styled.div`
 
     @media (hover: hover) {
         &:hover {
-            background-color: ${theme.colors.backgroundHover};
+            background-color: var(--color-background-base-hover);
         }
     }
 `;

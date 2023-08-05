@@ -257,7 +257,7 @@ export const Table = () => {
 
     const colors = [
         theme.colors.lemon,
-        theme.colors.backgroundSuccess,
+        'var(--color-status-success-background)',
         theme.colors.magenta,
         theme.colors.teal,
     ];

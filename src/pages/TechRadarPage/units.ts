@@ -99,7 +99,7 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
     width: max-content;
     padding: 4px 8px;
 
-    background-color: ${theme.colors.backgroundInverse};
+    background-color: var(--color-background-inverse);
 
     border-radius: var(--size-border-radius-x4);
 

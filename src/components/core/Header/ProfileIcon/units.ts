@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
     height: 40px;
 
     color: ${theme.colors.warning};
-    background-color: ${theme.colors.backgroundWarning};
+    background-color: var(--color-status-warning-background);
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
@@ -55,14 +55,14 @@ export const DropdownItem = styled.p`
     height: 46px;
     padding: 12px 16px;
 
-    color: ${theme.colors.backgroundInverse};
+    color: var(--color-background-inverse);
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 `;
 

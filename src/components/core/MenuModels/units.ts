@@ -65,7 +65,7 @@ export const Tab = styled.div<{ isActive: boolean }>`
     }
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     cursor: pointer;

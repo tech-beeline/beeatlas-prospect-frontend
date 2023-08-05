@@ -81,7 +81,7 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
 
     z-index: 90;
 
-    background-color: ${theme.colors.backgroundInverse};
+    background-color: var(--color-background-inverse);
 
     cursor: ${({ isVisible }) => (isVisible ? 'pointer' : 'default')};
 

@@ -17,7 +17,7 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
 
     color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
     background-color: ${({ isActive }) =>
-        isActive ? theme.colors.backgroundSelected : 'transparent'};
+        isActive ? 'var(--color-background-base-selected)' : 'transparent'};
 
     border-radius: var(--size-border-radius-x6);
 
@@ -27,10 +27,10 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
     user-select: none;
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     &:active {
-        background-color: ${theme.colors.backgroundSelected};
+        background-color: var(--color-background-base-selected);
     }
 `;

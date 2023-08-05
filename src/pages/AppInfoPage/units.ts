@@ -44,7 +44,7 @@ export const Table = styled.table`
 export const TableTitle = styled.tr`
     height: 20px;
 
-    background-color: ${theme.colors.backgroundControl};
+    background-color: var(--color-control-background);
 `;
 export const TableStrings = styled.tr`
     height: 40px;

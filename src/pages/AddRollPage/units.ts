@@ -94,7 +94,7 @@ export const DropdownItem = styled.p`
     line-height: var(--font-line-height-body2);
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     &:hover {

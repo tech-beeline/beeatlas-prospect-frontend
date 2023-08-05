@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
     min-height: 40px;
 
     color: ${theme.colors.success};
-    background-color: ${theme.colors.backgroundSuccess};
+    background-color: var(--color-status-success-background);
 
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);

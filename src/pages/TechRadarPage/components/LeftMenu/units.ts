@@ -83,7 +83,7 @@ export const Item = styled.p<{ isActive?: boolean }>`
 
     border-radius: var(--size-border-radius-x6);
 
-    background-color: ${({ isActive }) => isActive && theme.colors.backgroundHover};
+    background-color: ${({ isActive }) => isActive && 'var(--color-background-base-hover)'};
 
     color: ${theme.colors.textActive};
 
@@ -93,7 +93,7 @@ export const Item = styled.p<{ isActive?: boolean }>`
 
     @media (hover: hover) {
         &:hover {
-            background-color: ${theme.colors.backgroundHover};
+            background-color: var(--color-background-base-hover);
         }
     }
 `;
@@ -155,7 +155,7 @@ export const TooltipStyled = styled(Tooltip)`
     width: max-content;
     padding: 4px 8px;
 
-    background-color: ${theme.colors.backgroundInverse};
+    background-color: var(--color-background-inverse);
 
     border-radius: var(--size-border-radius-x4);
 

@@ -16,7 +16,7 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
     min-height: 50px;
     padding: 16px;
 
-    background-color: ${theme.colors.backgroundInverse};
+    background-color: var(--color-background-inverse);
     color: ${theme.colors.textActiveInverse};
 
     border-radius: var(--size-border-radius-x6);
