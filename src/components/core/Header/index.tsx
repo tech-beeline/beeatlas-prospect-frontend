@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VKITAuth from '@beeline/lk-auth';
-import { Icons } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { getPermissionsOfProfile, postSession } from 'api/sessions';
@@ -14,6 +13,7 @@ import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean }) => {
     const {

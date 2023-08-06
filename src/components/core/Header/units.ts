@@ -1,7 +1,6 @@
-import { Icon, Search } from '@beeline/lk-ui';
+import { Icon, Search } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-// TODO: с токенами
 export const Container = styled.div`
     position: fixed;
 

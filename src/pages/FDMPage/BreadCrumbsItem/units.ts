@@ -8,4 +8,6 @@ export const Wrapper = styled.p<{ isActive: boolean }>`
 
     color: ${({ isActive }) =>
         isActive ? 'var(--color-text-inactive)' : 'var(--color-text-link)'};
+
+    cursor: pointer;
 `;

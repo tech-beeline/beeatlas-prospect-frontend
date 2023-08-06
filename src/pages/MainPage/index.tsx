@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { Button } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
 import { Slider } from 'components/interaction';
@@ -14,6 +13,7 @@ import diagram4 from './images/diagram4.svg';
 
 import { InfoWithDiagram } from './components';
 import * as S from './units';
+import { Button } from '@beeline/design-system-react';
 
 // TODO: рефакторинг - раскидать по блокам/виджетам, использовать компоненты
 export const MainPage = observer(() => {

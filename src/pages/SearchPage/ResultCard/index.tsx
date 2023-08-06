@@ -1,16 +1,13 @@
 import React, { FC } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { Skeleton } from '@beeline/lk-ui';
-// import { Link } from 'components/interaction';
+
 import DOMPurify from 'dompurify';
 import { observer } from 'mobx-react';
 
 import { useIconOfItem } from 'hooks/useIconOfItem';
 
-// import { StringParam, useQueryParam } from 'use-query-params';
-// import { useRootStore } from 'stores/initStore';
 import { IResultCard } from './types';
 import * as S from './units';
+import { Skeleton } from '@beeline/design-system-react';
 
 export const ResultCard: FC<IResultCard> = observer((props) => {
     // const {
@@ -104,12 +101,12 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                         Домен
                     </S.TitleSecond>
                     <a
-                        href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domainRef.guid}`}
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domainRef?.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
                         <S.DomenText className="ResultCardDomenText">
-                            {props.data.domainRef.name}
+                            {props.data.domainRef?.name}
                         </S.DomenText>
                     </a>
 

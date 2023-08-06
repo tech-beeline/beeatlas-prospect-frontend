@@ -1,5 +1,4 @@
-// import { css } from '@emotion/react';
-import { Icon } from '@beeline/lk-ui';
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';

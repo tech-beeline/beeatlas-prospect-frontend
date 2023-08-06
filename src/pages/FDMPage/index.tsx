@@ -1,7 +1,6 @@
 // import React, { FormEvent, useEffect, useState } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Breadcrumbs } from '@beeline/lk-ui';
-// import { Button, Search } from '@beeline/lk-ui';
+
 import { observer } from 'mobx-react';
 
 import { useWindowResize } from 'hooks';
@@ -16,6 +15,7 @@ import { TreeCard } from './TreeCard';
 // import { ResultCard } from './ResultCard';
 import * as S from './units';
 import { ViewItemSwitcher } from './ViewItemSwitcher';
+import { Breadcrumbs } from '@beeline/design-system-react';
 
 export const FDMPage = observer(() => {
     const {

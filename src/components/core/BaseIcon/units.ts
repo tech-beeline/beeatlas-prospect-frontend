@@ -1,4 +1,4 @@
-import { Icon } from '@beeline/lk-ui';
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const BaseIcon = styled(Icon)`

@@ -1,6 +1,7 @@
+import { Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon, Icons } from '@beeline/lk-ui';
 
 import { IIconText } from './types';
 import * as S from './units';

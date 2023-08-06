@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { DropdownContext } from '@beeline/design-system-react';
-// import { theme } from '@beeline/lk-ui/core/theme';
 
 import { ErrorBoundary } from 'components/core';
 
