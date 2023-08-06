@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Container = styled.div<{ isOpen: boolean }>`
     position: fixed;
     top: 0;
@@ -15,7 +13,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
 
     background-color: var(--color-background-base);
 
-    border-left: 1px solid ${theme.colors.divider};
+    border-left: 1px solid var(--color-divider);
 
     z-index: 10;
 

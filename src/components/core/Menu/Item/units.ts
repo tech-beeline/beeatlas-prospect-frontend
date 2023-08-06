@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     position: relative;
 
@@ -20,7 +18,8 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);
 
-    color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
+    color: ${({ isActive }) =>
+        isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
 
     border-radius: 0px var(--size-border-radius-x6) var(--size-border-radius-x6) 0px;
 
@@ -40,7 +39,7 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
         border-radius: 0px 3px 3px 0px;
 
         background-color: ${({ isActive }) =>
-            isActive ? theme.colors.brandYellow : 'transparent'};
+            isActive ? 'var(--color-background-brand)' : 'transparent'};
 
         transition: 0.25s background-color ease-out;
     }

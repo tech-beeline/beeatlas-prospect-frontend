@@ -3,14 +3,12 @@ import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     /* height: 100vh; */
     padding: 72px 52px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const SelectContainer = styled.div`
@@ -47,7 +45,7 @@ export const H3 = styled.h3`
 
     /* &:hover > *,
     &:hover {
-        color: ${theme.colors.textLink};
+        color: var(--color-text-link);
     } */
 `;
 

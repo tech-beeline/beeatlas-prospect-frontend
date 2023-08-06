@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInline?: boolean }>`
     position: relative;
 
@@ -20,7 +18,7 @@ export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInlin
     letter-spacing: var(--font-letter-spacing-body3);
     text-decoration: none;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     border-bottom: 1px solid;
     border-color: transparent;
@@ -30,7 +28,7 @@ export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInlin
     cursor: pointer;
 
     &:hover {
-        border-color: ${theme.colors.textLink};
+        border-color: var(--color-text-link);
     }
 
     /* overflow: hidden;
@@ -57,7 +55,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
     letter-spacing: var(--font-letter-spacing-body3);
     text-decoration: none;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     border-bottom: 1px solid;
     border-color: transparent;
@@ -67,7 +65,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
     cursor: pointer;
 
     &:hover {
-        border-color: ${theme.colors.textLink};
+        border-color: var(--color-text-link);
     }
 
     /* &::after {
@@ -80,7 +78,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
         width: 100%;
         height: 1px;
 
-        background-color: ${({ noLine }) => (noLine ? 'transparent' : theme.colors.textLink)};
+        background-color: ${({ noLine }) => (noLine ? 'transparent' : 'var(--color-text-link)')};
 
         transform: scaleX(0);
         transform-origin: bottom right;

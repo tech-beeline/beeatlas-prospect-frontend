@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -10,6 +8,6 @@ export const Wrapper = styled.div`
     max-height: max-content;
     padding: 24px;
 
-    border: 1px solid ${theme.colors.divider};
+    border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
 `;

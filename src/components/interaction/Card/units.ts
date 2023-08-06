@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import card1 from './images/card-1.png';
 import card2 from './images/card-2.png';
 import card3 from './images/card-3.png';
@@ -28,7 +26,7 @@ export const TitleWrapper = styled.div<{ withImage: boolean }>`
     }
 
     &:hover > * {
-        color: ${theme.colors.textLink};
+        color: var(--color-text-link);
     }
 
     cursor: pointer;
@@ -64,14 +62,14 @@ export const Card = styled.div<any>`
 
     border-radius: var(--size-border-radius-x6);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
     background-color: ${({ colorType }) =>
         colorType === 'green'
-            ? theme.colors.lemon
+            ? 'var(--color-accent-lemon-background)'
             : colorType === 'pink'
-            ? theme.colors.magenta
+            ? 'var(--color-accent-magenta-background)'
             : colorType === 'blue'
-            ? theme.colors.teal
+            ? 'var(--color-accent-teal-background)'
             : 'gray'};
 
     transition: all 0.25s ease-out;
@@ -82,7 +80,7 @@ export const Card = styled.div<any>`
         border-radius: var(--size-border-radius-x12);
 
         /* ${Title} {
-            color: ${theme.colors.textLink};
+            color: var(--color-text-link);
 
             &::after {
                 transform: translateX(24px);

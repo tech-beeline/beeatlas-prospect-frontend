@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { Card } from 'components/interaction';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -12,7 +10,7 @@ export const PageWrapper = styled.div`
     padding-top: 64px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const SideMenu = styled.div`

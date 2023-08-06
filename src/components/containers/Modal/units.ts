@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Paper } from 'components/containers/Paper';
-
 import { theme } from 'styles';
 
 import { IModalOverlayProps } from './types';

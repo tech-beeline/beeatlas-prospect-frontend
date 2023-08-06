@@ -1,14 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import { ReactComponent as ArrowSVG } from './images/arrow.svg';
 
 export const PivotArrow = styled(ArrowSVG)<{ isOpen: boolean; position?: string }>`
     min-width: 24px;
-
-    /* transform: ${({ isOpen }) => (isOpen ? 'rotate(-180deg)' : 'rotate(0deg)')}; */
 
     ${({ position, isOpen }) =>
         // position === 'top'
@@ -34,6 +30,6 @@ export const PivotArrow = styled(ArrowSVG)<{ isOpen: boolean; position?: string 
     transition: transform 0.25s ease-out;
 
     & > * {
-        fill: ${({ color = theme.colors.textActive }) => color};
+        fill: ${({ color = 'var(--color-text-active)' }) => color};
     }
 `;

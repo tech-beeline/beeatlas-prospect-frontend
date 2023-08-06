@@ -2,8 +2,6 @@ import { Divider, Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 // import { ReactComponent as CrossSVG } from 'images/cross-icon.svg';
 
 export const PageWrapper = styled.div`
@@ -21,7 +19,7 @@ export const TableWrapper = styled.div`
     width: 100%;
     max-height: calc(100vh - 64px);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
     overflow: auto;
 
@@ -103,7 +101,7 @@ export const Td = styled.td<{ isClickable?: boolean }>`
 
     background-color: var(--color-background-base);
 
-    border-bottom: 1px solid ${theme.colors.divider};
+    border-bottom: 1px solid var(--color-divider);
 
     &:first-of-type {
         position: sticky;
@@ -187,7 +185,7 @@ export const MenuItemText = styled.div`
 `;
 
 export const MenuItemRemoveText = styled(MenuItemText)`
-    color: ${theme.colors.borderError};
+    color: var(--color-border-error);
 `;
 
 export const MenuDivider = styled(Divider)`
@@ -211,7 +209,7 @@ export const HideOrShowButton = styled.div`
 
     width: max-content;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     /* background: none; */
 
@@ -221,7 +219,7 @@ export const HideOrShowButton = styled.div`
 `;
 
 export const IconStyled = styled(Icon)`
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 `;
 
 export const SideBlockTitle = styled.div`

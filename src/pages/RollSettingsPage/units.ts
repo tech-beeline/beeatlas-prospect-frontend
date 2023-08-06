@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     height: 100vh;
     width: 100%;
     padding: 64px 54px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const TitleFlex = styled.div`
@@ -41,7 +39,7 @@ export const Role = styled.div`
     line-height: var(--font-line-height-h5);
 
     border: 1px solid;
-    border-color: ${theme.colors.divider};
+    border-color: var(--color-divider);
     border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-in-out;
@@ -71,6 +69,6 @@ export const Role = styled.div`
     }
 
     &:hover > * {
-        color: ${theme.colors.textLink};
+        color: var(--color-text-link);
     }
 `;

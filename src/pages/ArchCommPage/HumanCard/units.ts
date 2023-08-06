@@ -1,8 +1,6 @@
 import { Icon } from '@beeline/lk-ui';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -43,7 +41,7 @@ export const Description = styled.p`
 
     padding-left: 52px;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const IconStyled = styled(Icon)`

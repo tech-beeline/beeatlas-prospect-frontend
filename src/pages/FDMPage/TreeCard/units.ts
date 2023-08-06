@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isFullWidthCard: boolean }>`
     flex: ${({ isFullWidthCard }) => (isFullWidthCard ? '0 1 100%' : '0 1 48%')};
     break-inside: avoid;
@@ -15,7 +13,7 @@ export const Wrapper = styled.div<{ isFullWidthCard: boolean }>`
     padding: 24px;
     margin-bottom: 24px;
 
-    border: 1px solid ${theme.colors.divider};
+    border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
 `;
 
@@ -32,7 +30,7 @@ export const Title = styled.div`
     line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     cursor: pointer;
 `;
@@ -44,7 +42,7 @@ export const Text = styled(Title)`
     font-weight: var(--font-weight-regular);
     white-space: pre-wrap;
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
     cursor: inherit;
 `;
@@ -55,7 +53,7 @@ export const TitleSecond = styled.p`
     line-height: var(--font-line-height-body3);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const DomenText = styled(Title)`

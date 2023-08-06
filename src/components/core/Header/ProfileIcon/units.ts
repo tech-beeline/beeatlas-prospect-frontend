@@ -1,8 +1,6 @@
 import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: relative;
 
@@ -13,7 +11,7 @@ export const Wrapper = styled.div`
     width: 40px;
     height: 40px;
 
-    color: ${theme.colors.warning};
+    color: var(--color-status-warning);
     background-color: var(--color-status-warning-background);
 
     font-weight: var(--font-weight-medium);

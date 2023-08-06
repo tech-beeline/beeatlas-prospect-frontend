@@ -2,18 +2,16 @@ import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
 
-import { theme } from 'styles';
-
 export const Container = styled.div`
     height: max-content;
     width: 100%;
     /* padding: 24px 0; */
 
-    border: 1px solid ${theme.colors.divider};
+    border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x8);
 
     & > *:not(:last-child) {
-        border-bottom: 1px solid ${theme.colors.divider};
+        border-bottom: 1px solid var(--color-divider);
     }
 `;
 

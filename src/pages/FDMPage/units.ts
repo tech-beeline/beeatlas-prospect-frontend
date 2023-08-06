@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     display: flex;
 
@@ -17,9 +15,9 @@ export const Wrapper = styled.div`
     padding: 94px 32px 0;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
-    border-left: 1px solid ${theme.colors.divider};
+    border-left: 1px solid var(--color-divider);
 
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
@@ -64,7 +62,7 @@ export const JustText = styled.p`
 export const AliasText = styled(JustText)`
     margin: -4px 0 8px;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const GrayText = styled.p`
@@ -74,7 +72,7 @@ export const GrayText = styled.p`
     letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const SearchContainer = styled.form`

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: relative;
 
@@ -14,7 +12,7 @@ export const Wrapper = styled.div`
     min-width: 40px;
     min-height: 40px;
 
-    color: ${theme.colors.success};
+    color: var(--color-status-success);
     background-color: var(--color-status-success-background);
 
     font-weight: var(--font-weight-medium);

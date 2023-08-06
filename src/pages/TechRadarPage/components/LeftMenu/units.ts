@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import * as STYLE from 'pages/TechRadarPage/units';
-import { theme } from 'styles';
 
 import { ReactComponent as ArrowSVG } from './images/arrow-icon.svg';
 import { ReactComponent as InfoSVG } from './images/info-icon.svg';
@@ -66,7 +65,7 @@ export const Title = styled.h5`
     font-size: var(--font-size-h5);
     line-height: var(--font-line-height-h5);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const TitleSmaller = styled(Title)`
@@ -85,7 +84,7 @@ export const Item = styled.p<{ isActive?: boolean }>`
 
     background-color: ${({ isActive }) => isActive && 'var(--color-background-base-hover)'};
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
     transition: background-color 0.25s ease-in-out;
 
@@ -104,12 +103,12 @@ export const ArrowIcon = styled(ArrowSVG)<{ isreverse: string }>`
 
     transform: ${({ isreverse = '' }) => isreverse && 'rotateX(180deg)'};
 
-    /* color: ${theme.colors.textActive}; */
+    /* color: var(--color-text-active); */
 
     transition: transform 0.4s ease-in-out;
 
     & > * {
-        fill: ${theme.colors.textActive};
+        fill: var(--color-text-active);
     }
 `;
 
@@ -120,7 +119,7 @@ export const InfoIcon = styled(InfoSVG)`
     z-index: 5;
 
     & > * {
-        fill: ${theme.colors.textActive};
+        fill: var(--color-text-active);
     }
 
     &:focus {
@@ -145,7 +144,7 @@ export const HintWrapper = styled.div`
 export const TooltipContainerStyled = styled(STYLE.TooltipContainer)`
     padding: 16px;
 
-    background-color: ${theme.colors.textActive};
+    background-color: var(--color-text-active);
 `;
 
 export const TooltipStyled = styled(Tooltip)`

@@ -4,8 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { BaseIcon } from 'components/core';
 import { PivotArrow } from 'components/other';
 
-import { theme } from 'styles';
-
 import { IItem } from './types';
 import * as S from './units';
 
@@ -44,7 +42,9 @@ export const Item: FC<IItem> = (props) => {
                     {props.title}
                 </S.LeftWrapper>
 
-                {props.subItems && <PivotArrow {...{ isOpen }} color={theme.colors.textInactive} />}
+                {props.subItems && (
+                    <PivotArrow {...{ isOpen }} color={'var(--color-text-inactive)'} />
+                )}
             </S.Wrapper>
 
             <S.ExpandStyled {...{ isOpen }}>

@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
@@ -45,11 +43,11 @@ export const Title = styled.h4`
     font-size: var(--font-size-h4);
     line-height: var(--font-line-height-h4);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const SubTitle = styled(Title)`
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const SelectIcon = styled(SelectSVG)`
@@ -126,7 +124,7 @@ export const HintText = styled.p`
     font-size: var(--font-size-caption);
     line-height: var(--font-line-height-caption);
 
-    color: ${theme.colors.textActiveInverse};
+    color: var(--color-text-active-inverse);
 
     user-select: none;
 

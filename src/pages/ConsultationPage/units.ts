@@ -2,15 +2,13 @@ import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
 
-import { theme } from 'styles';
-
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
     height: max-content;
     padding: 72px 180px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const Container = styled.div`
@@ -73,7 +71,7 @@ export const H3 = styled.h3`
 
     /* &:hover > *,
     &:hover {
-        color: ${theme.colors.textLink};
+        color: var(--color-text-link);
     } */
 `;
 
@@ -92,7 +90,7 @@ export const GrayText = styled.p`
     line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const SubTitle = styled(GrayText)`
@@ -119,7 +117,7 @@ export const BoldText = styled.p`
 export const GraySecondText = styled(BoldText)`
     font-weight: var(--font-weight-regular);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const AdaptiveCardContainer = styled.div`
@@ -144,7 +142,7 @@ export const EmailLink = styled.a`
     text-decoration: none;
     margin-left: 6px;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     cursor: pointer;
 `;

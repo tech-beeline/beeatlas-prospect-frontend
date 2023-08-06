@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { theme } from 'styles';
 
 export const TitleWrapper = styled.div`
     display: flex;
@@ -8,7 +7,7 @@ export const TitleWrapper = styled.div`
 `;
 
 export const SideBlockTitle = styled.div`
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-h5);
@@ -57,7 +56,7 @@ export const SubTitle = styled.h4`
 
     margin-bottom: -16px;
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const TextCheckboxWrapper = styled.div`

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     display: flex;
     align-items: center;
@@ -27,5 +25,5 @@ export const Text = styled.p`
     font-size: var(--font-size-body1);
     line-height: var(--font-line-height-body1);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;

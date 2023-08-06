@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: relative;
 
@@ -13,7 +11,7 @@ export const Wrapper = styled.div`
     margin-left: auto;
 
     border: 1px solid;
-    border-color: ${theme.colors.divider};
+    border-color: var(--color-divider);
     border-radius: var(--size-border-radius-x6);
 
     & > div:nth-child(1) {

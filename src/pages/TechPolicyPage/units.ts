@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     height: 100vh;
     padding: 124px 52px 0;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const Title = styled.h3`
@@ -27,5 +25,5 @@ export const Description = styled.p`
 
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;

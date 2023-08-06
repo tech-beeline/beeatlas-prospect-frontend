@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
 
-import { theme } from 'styles';
-
 export const BorderContainerStyled = styled(BorderContainer)`
     flex-direction: column;
 
@@ -27,7 +25,7 @@ export const Text = styled.p`
     letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const FlexContainer = styled.div`

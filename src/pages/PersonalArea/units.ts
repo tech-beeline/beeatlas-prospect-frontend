@@ -2,7 +2,6 @@ import { Search, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Hint } from 'pages/TechRadarPage/components/LeftMenu/Hint';
-import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
     /* display: flex;
@@ -13,7 +12,7 @@ export const PageWrapper = styled.div`
     padding: 64px 54px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const Title = styled.h4`

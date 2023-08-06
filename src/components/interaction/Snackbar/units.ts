@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isOpen: boolean }>`
     position: absolute;
     left: 50%;
@@ -17,7 +15,7 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
     padding: 16px;
 
     background-color: var(--color-background-inverse);
-    color: ${theme.colors.textActiveInverse};
+    color: var(--color-text-active-inverse);
 
     border-radius: var(--size-border-radius-x6);
 
@@ -41,7 +39,7 @@ export const TextButton = styled.button`
     font-size: var(--font-size-subtitle3);
     line-height: var(--font-line-height-subtitle3);
 
-    color: ${theme.colors.chartBlue};
+    color: var(--color-chart-blue-active);
 
     cursor: pointer;
 `;

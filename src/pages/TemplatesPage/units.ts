@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
     height: 100vh;
     padding: 72px 52px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const Container = styled.div`

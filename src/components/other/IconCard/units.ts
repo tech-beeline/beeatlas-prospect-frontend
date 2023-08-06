@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
 
-import { theme } from 'styles';
-
 export const BorderContainerStyled = styled(BorderContainer)`
     display: flex;
     flex-direction: column;
@@ -38,7 +36,7 @@ export const DeadlineTitle = styled.p`
     line-height: var(--font-line-height-body3);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const FlexBottomWrapper = styled.div`

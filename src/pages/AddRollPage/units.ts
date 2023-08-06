@@ -1,8 +1,6 @@
 // import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     position: relative;
 
@@ -11,7 +9,7 @@ export const PageWrapper = styled.div`
     padding: 64px 54px;
 
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const TitleFlex = styled.div`
@@ -87,7 +85,7 @@ export const DropdownItem = styled.p`
     height: 46px;
     padding: 12px 16px;
 
-    color: ${theme.colors.borderError};
+    color: var(--color-border-error);
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);

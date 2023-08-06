@@ -4,8 +4,6 @@ import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     position: relative;
 
@@ -22,7 +20,8 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);
 
-    color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
+    color: ${({ isActive }) =>
+        isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
     background-color: ${({ isActive }) =>
         isActive ? 'var(--color-background-base-hover)' : 'var(--color-background-base)'};
 
@@ -59,7 +58,7 @@ export const ExpandStyled = styled(Expand)`
 `;
 
 export const IconStyled = styled(Icon)`
-    color: ${({ type }) => !type && theme.colors.textInactive};
+    color: ${({ type }) => !type && 'var(--color-text-inactive)'};
 `;
 
 export const Name = styled.p`

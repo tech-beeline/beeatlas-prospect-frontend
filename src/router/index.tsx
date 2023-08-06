@@ -27,10 +27,10 @@ import {
     TemplatesPage,
 } from 'pages';
 import * as ROUTER from 'router/const';
-import { Theme } from 'styles';
 
 import * as C from './const';
 import { RouteAdapter } from './utils';
+import { Theme } from 'styles';
 
 export const NavigationRouter = () => {
     const [isPersonalArea, setIsPersonalArea] = useState(false);

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Tab = styled.button<{ isActive: boolean }>`
     position: relative;
 
@@ -16,7 +14,8 @@ export const Tab = styled.button<{ isActive: boolean }>`
     line-height: var(--font-line-height-subtitle3);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
+    color: ${({ isActive }) =>
+        isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
 
     &::after {
         position: absolute;
@@ -29,7 +28,7 @@ export const Tab = styled.button<{ isActive: boolean }>`
         border-radius: 3px 3px 0px 0px;
 
         background-color: ${({ isActive }) =>
-            isActive ? theme.colors.brandYellow : 'transparent'};
+            isActive ? 'var(--color-background-brand)' : 'transparent'};
 
         transition: background-color 0.25s ease-out;
     }

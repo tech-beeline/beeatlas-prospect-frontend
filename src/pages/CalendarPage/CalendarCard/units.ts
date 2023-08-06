@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { BadgeName } from 'components/containers';
 
-import { theme } from 'styles';
-
 export const Date = styled.p`
     margin-bottom: 16px;
 
@@ -12,7 +10,7 @@ export const Date = styled.p`
     line-height: var(--font-line-height-caption);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const Title = styled.h4`

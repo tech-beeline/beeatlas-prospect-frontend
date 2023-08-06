@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import { ReactComponent as ArrowSVG } from './images/arrow.svg';
 
 export const PageWrapper = styled.div`
@@ -90,7 +88,7 @@ export const ArrowWrapper = styled.div<{ isRight?: boolean; isVisible?: boolean 
     transition: opacity 0.3s ease-out;
 
     & * path {
-        fill: ${theme.colors.textActiveInverse};
+        fill: var(--color-text-active-inverse);
 
         /* transition: fill 0.25s ease-out; */
     }

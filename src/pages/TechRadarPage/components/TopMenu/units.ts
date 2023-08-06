@@ -2,8 +2,6 @@ import { Chip } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const MenuWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -38,7 +36,7 @@ export const ChipStyled = styled(Chip)<{ active: boolean }>`
         active &&
         css`
             & > p {
-                color: ${theme.colors.textActiveNoTheme} !important;
+                color: rgba(9, 11, 22, 0.94) !important;
             }
         `}
 `;

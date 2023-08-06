@@ -2,14 +2,12 @@ import styled from '@emotion/styled';
 
 import { Accordion } from 'components/interaction';
 
-import { theme } from 'styles';
-
 import callback from './images/callback.png';
 import general from './images/general.png';
 
 export const PageWrapper = styled.div`
     background-color: var(--color-background-base);
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const GeneralBlock = styled.div`
@@ -106,8 +104,8 @@ export const CallbackContainer = styled.div`
     padding: 48px;
     margin: 120px 0;
 
-    background-color: ${theme.colors.info};
-    color: ${theme.colors.textActive};
+    background-color: ${'var(--color-status-info-background)'};
+    color: var(--color-text-active);
 
     border-radius: var(--size-border-radius-x12);
 `;

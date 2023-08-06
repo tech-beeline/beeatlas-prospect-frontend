@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: string }>`
     display: flex;
 
@@ -35,7 +33,7 @@ export const Wrapper = styled.div<{ isSecondary: boolean; number?: number; to?: 
                   line-height: var(--font-line-height-body1);
                   letter-spacing: var(--font-letter-spacing-body3);
 
-                  color: ${theme.colors.textInactive};
+                  color: var(--color-text-inactive);
               `}
 
     cursor: ${({ to }) => to && 'pointer'}
@@ -55,8 +53,8 @@ export const Background = styled.div`
     line-height: var(--font-line-height-body3);
     letter-spacing: var(--font-letter-spacing-body3);
 
-    background-color: ${theme.colors.info};
-    color: ${theme.colors.textInfo};
+    background-color: ${'var(--color-status-info-background)'};
+    color: var(--color-status-info);
 
     border-radius: var(--size-border-radius-x6);
 `;
@@ -64,5 +62,5 @@ export const Background = styled.div`
 export const Text = styled.p<{ to?: string }>`
     white-space: pre-line;
 
-    color: ${({ to }) => !!to && theme.colors.textLink};
+    color: ${({ to }) => !!to && 'var(--color-text-link)'};
 `;
