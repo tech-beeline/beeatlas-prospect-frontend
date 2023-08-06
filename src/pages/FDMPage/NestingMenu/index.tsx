@@ -1,13 +1,12 @@
 import React from 'react';
-import { Skeleton } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 
-// import { Resizable } from 're-resizable';
 import { useMountEffect } from 'hooks';
 import { useRootStore } from 'stores/initStore';
 
 import { Item } from './Item';
 import * as S from './units';
+import { Skeleton } from '@beeline/design-system-react';
 
 export const NestingMenu = observer(() => {
     const {

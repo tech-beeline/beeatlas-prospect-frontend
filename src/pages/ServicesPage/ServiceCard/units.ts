@@ -1,4 +1,4 @@
-import { Button } from '@beeline/lk-ui';
+import { Button } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';

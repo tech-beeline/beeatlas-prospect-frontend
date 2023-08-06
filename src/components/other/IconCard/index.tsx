@@ -1,5 +1,5 @@
+import { Button } from '@beeline/design-system-react';
 import React, { FC } from 'react';
-import { Button, Icon, Icons } from '@beeline/lk-ui';
 
 import { IIconCard } from './types';
 import * as S from './units';
