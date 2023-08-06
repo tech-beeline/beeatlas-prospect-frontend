@@ -104,17 +104,5 @@ module.exports = {
                 useShortDoctype: isProd,
             },
         }),
-        new CopyPlugin({
-            patterns: [
-                {
-                    from: path.join(process.env.PWD, 'public', 'fonts'),
-                    to: path.join(process.env.PWD, 'build', 'public', 'fonts'),
-                },
-                // {
-                //     from: path.join(process.env.PWD, 'public', 'index.css'),
-                //     to: path.join(process.env.PWD, 'build', 'public'),
-                // },
-            ],
-        }),
     ],
 };

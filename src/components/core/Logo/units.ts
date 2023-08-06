@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
-import { ReactComponent as LogoSVG } from './images/logo-beeline.svg';
+import { ReactComponent as LogoSVG } from '@beeline/design-tokens/assets/logo/logo-light-theme.svg';
 
 export const LogoIcon = styled(LogoSVG)`
     height: ${({ height }) => `${height}px`};
 
-    & > path {
+    & > path:first-child {
         fill: var(--color-text-logo);
     }
 `;
