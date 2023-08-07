@@ -1,8 +1,6 @@
 import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: relative;
 
@@ -13,14 +11,14 @@ export const Wrapper = styled.div`
     width: 40px;
     height: 40px;
 
-    color: ${theme.colors.warning};
-    background-color: ${theme.colors.backgroundWarning};
+    color: var(--color-status-warning);
+    background-color: var(--color-status-warning-background);
 
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-subtitle3);
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     user-select: none;
     cursor: pointer;
@@ -35,9 +33,9 @@ export const Dropdown = styled.div`
     height: 171px;
     padding: 8px 0;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 
@@ -55,14 +53,14 @@ export const DropdownItem = styled.p`
     height: 46px;
     padding: 12px 16px;
 
-    color: ${theme.colors.backgroundInverse};
+    color: var(--color-background-inverse);
 
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 `;
 

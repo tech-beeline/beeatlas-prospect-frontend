@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
 `;
 
 export const IconStyled = styled(Icon)`
-    border-radius: 50%;
+    border-radius: var(--size-border-radius-circle);
 
     cursor: pointer;
 `;

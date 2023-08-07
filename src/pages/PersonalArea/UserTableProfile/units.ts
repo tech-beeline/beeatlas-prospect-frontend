@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     display: flex;
     align-items: center;
@@ -13,17 +11,17 @@ export const Wrapper = styled.div`
 export const ProfileDataBlock = styled.div``;
 
 export const FullName = styled.p`
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const Email = styled.p`
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 `;

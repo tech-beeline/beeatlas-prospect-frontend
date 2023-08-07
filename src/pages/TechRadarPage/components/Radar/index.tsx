@@ -6,7 +6,6 @@ import * as d3 from 'd3';
 import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
 import * as UTILS from 'pages/TechRadarPage/utils';
-import { theme } from 'styles';
 
 import { Lines } from '../Lines';
 import { QuadrantTitles } from '../QuadrantTitles';
@@ -95,7 +94,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                         cx={0}
                         cy={0}
                         r={15}
-                        stroke={theme.colors.chartGreen}
+                        stroke={'var(--color-chart-green-active)'}
                         strokeWidth="0.2"
                         fill="none"
                     />
@@ -103,7 +102,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                         cx={0}
                         cy={0}
                         r={25}
-                        stroke={theme.colors.chartRed}
+                        stroke={'var(--color-chart-red-active)'}
                         strokeWidth="0.2"
                         fill="none"
                     />
@@ -111,7 +110,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                         cx={0}
                         cy={0}
                         r={35}
-                        stroke={theme.colors.chartBlue}
+                        stroke={'var(--color-chart-blue-active)'}
                         strokeWidth="0.2"
                         fill="none"
                     />
@@ -119,7 +118,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                         cx={0}
                         cy={0}
                         r={45}
-                        stroke={theme.colors.chartGrey}
+                        stroke={'var(--color-chart-grey-active)'}
                         strokeWidth="0.2"
                         fill="none"
                     />

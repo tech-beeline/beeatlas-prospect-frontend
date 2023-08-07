@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { Card } from 'components/interaction';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -11,8 +9,8 @@ export const PageWrapper = styled.div`
     height: 100vh;
     padding-top: 64px;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const SideMenu = styled.div`
@@ -30,9 +28,9 @@ export const ContentWrapper = styled.div`
 `;
 
 export const H2 = styled.h2`
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 56px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h2);
+    line-height: var(--font-line-height-h2);
 `;
 
 export const CardContainer = styled.div`

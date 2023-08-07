@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const FlexContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -20,23 +18,23 @@ export const Diagram = styled.img`
 `;
 
 export const TitleFirst = styled.h2`
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 56px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h2);
+    line-height: var(--font-line-height-h2);
 `;
 
 export const TitleSecond = styled.h4`
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 32px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h4);
+    line-height: var(--font-line-height-h4);
 `;
 
 export const Description = styled.p`
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 24px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
 
     margin-top: 12px;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;

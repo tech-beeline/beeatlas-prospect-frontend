@@ -1,16 +1,14 @@
-import { Select } from '@beeline/lk-ui';
+import { Select } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
-
-import { theme } from 'styles';
 
 export const PageWrapper = styled.div`
     /* height: 100vh; */
     padding: 72px 52px;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const SelectContainer = styled.div`
@@ -30,9 +28,9 @@ export const H3 = styled.h3`
     align-items: center;
     gap: 16px;
 
-    font-weight: 400;
-    font-size: 34px;
-    line-height: 44px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-h3);
+    line-height: var(--font-line-height-h3);
 
     width: max-content;
     margin: 40px 0 12px;
@@ -47,7 +45,7 @@ export const H3 = styled.h3`
 
     /* &:hover > *,
     &:hover {
-        color: ${theme.colors.textLink};
+        color: var(--color-text-link);
     } */
 `;
 

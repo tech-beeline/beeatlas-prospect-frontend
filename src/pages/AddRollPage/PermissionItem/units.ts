@@ -8,8 +8,8 @@ export const Wrapper = styled.div`
 
     height: 48px;
 
-    font-size: 17px;
-    line-height: 22px;
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 `;
 
 export const CheckboxStyled = styled(Checkbox)`

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     display: flex;
     align-items: center;
@@ -12,7 +10,7 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 496px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 `;
 
 export const Image = styled.img`
@@ -23,9 +21,9 @@ export const Image = styled.img`
 `;
 
 export const Text = styled.p`
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 24px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;

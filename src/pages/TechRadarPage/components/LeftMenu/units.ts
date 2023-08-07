@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import * as STYLE from 'pages/TechRadarPage/units';
-import { theme } from 'styles';
 
 import { ReactComponent as ArrowSVG } from './images/arrow-icon.svg';
 import { ReactComponent as InfoSVG } from './images/info-icon.svg';
@@ -27,7 +26,7 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -48,7 +47,7 @@ export const TitleWrapper = styled.div`
 
     user-select: none;
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     /* transition: background-color 0.25s ease-in-out; */
 
@@ -61,31 +60,31 @@ export const TitleWrapper = styled.div`
     } */
 `;
 
-export const Title = styled.h2`
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
+export const Title = styled.h5`
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h5);
+    line-height: var(--font-line-height-h5);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const TitleSmaller = styled(Title)`
-    font-size: 17px;
+    font-size: var(--font-size-body2);
 `;
 
 export const Item = styled.p<{ isActive?: boolean }>`
     width: 100%;
     padding: 12px 24px;
 
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
-    background-color: ${({ isActive }) => isActive && theme.colors.backgroundHover};
+    background-color: ${({ isActive }) => isActive && 'var(--color-background-base-hover)'};
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
     transition: background-color 0.25s ease-in-out;
 
@@ -93,7 +92,7 @@ export const Item = styled.p<{ isActive?: boolean }>`
 
     @media (hover: hover) {
         &:hover {
-            background-color: ${theme.colors.backgroundHover};
+            background-color: var(--color-background-base-hover);
         }
     }
 `;
@@ -104,12 +103,12 @@ export const ArrowIcon = styled(ArrowSVG)<{ isreverse: string }>`
 
     transform: ${({ isreverse = '' }) => isreverse && 'rotateX(180deg)'};
 
-    /* color: ${theme.colors.textActive}; */
+    /* color: var(--color-text-active); */
 
     transition: transform 0.4s ease-in-out;
 
     & > * {
-        fill: ${theme.colors.textActive};
+        fill: var(--color-text-active);
     }
 `;
 
@@ -120,7 +119,7 @@ export const InfoIcon = styled(InfoSVG)`
     z-index: 5;
 
     & > * {
-        fill: ${theme.colors.textActive};
+        fill: var(--color-text-active);
     }
 
     &:focus {
@@ -145,7 +144,7 @@ export const HintWrapper = styled.div`
 export const TooltipContainerStyled = styled(STYLE.TooltipContainer)`
     padding: 16px;
 
-    background-color: ${theme.colors.textActive};
+    background-color: var(--color-text-active);
 `;
 
 export const TooltipStyled = styled(Tooltip)`
@@ -155,9 +154,9 @@ export const TooltipStyled = styled(Tooltip)`
     width: max-content;
     padding: 4px 8px;
 
-    background-color: ${theme.colors.backgroundInverse};
+    background-color: var(--color-background-inverse);
 
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-x4);
 
     text-align: start;
 

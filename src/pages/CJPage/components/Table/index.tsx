@@ -6,7 +6,6 @@ import { Nullable } from 'types/common';
 // import { BaseIcon } from 'components/core';
 import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
-import { theme } from 'styles';
 
 import { SideBlock } from '../SideBlock';
 
@@ -256,10 +255,10 @@ export const Table = () => {
     ];
 
     const colors = [
-        theme.colors.lemon,
-        theme.colors.backgroundSuccess,
-        theme.colors.magenta,
-        theme.colors.teal,
+        'var(--color-accent-lemon-background)',
+        'var(--color-status-success-background)',
+        'var(--color-accent-magenta-background)',
+        'var(--color-accent-teal-background)',
     ];
 
     const addColors = (data: any[], colors: any[]) => {

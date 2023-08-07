@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     display: flex;
 
@@ -16,15 +14,15 @@ export const Wrapper = styled.div`
     height: 100vh;
     padding: 94px 32px 0;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 
-    border-left: 1px solid ${theme.colors.divider};
+    border-left: 1px solid var(--color-divider);
 
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -46,35 +44,35 @@ export const Container = styled.div`
 `;
 
 export const H4 = styled.h4`
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 32px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h4);
+    line-height: var(--font-line-height-h4);
+    letter-spacing: var(--font-letter-spacing-body3);
 
     margin: 8px 0;
 `;
 
 export const JustText = styled.p`
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
+    letter-spacing: var(--font-letter-spacing-body3);
 `;
 
 export const AliasText = styled(JustText)`
     margin: -4px 0 8px;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const GrayText = styled.p`
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const SearchContainer = styled.form`
@@ -99,10 +97,10 @@ export const NoFoundBlock = styled.div`
     height: 44px;
     margin-top: 30px;
 
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
     text-align: center;
 `;
 
@@ -163,7 +161,7 @@ export const Image = styled.img`
 `;
 
 export const MockText = styled(GrayText)`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
 `;
 
 export const ListSwitcherWrapper = styled.div`
@@ -178,8 +176,8 @@ export const FlexBlock = styled.div`
 
     margin-top: 20px;
 
-    font-weight: 700;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
 `;

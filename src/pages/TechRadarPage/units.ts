@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
@@ -11,7 +9,7 @@ export const PageWrapper = styled.div`
     height: 100vh;
     padding: 0 88px 96px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     /* overflow: hidden; */
 `;
@@ -25,7 +23,7 @@ export const Header = styled.div`
     width: 100%;
     padding: 96px 0 8px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     z-index: 6;
 `;
@@ -40,16 +38,16 @@ export const TitleWrapper = styled.div`
     margin-bottom: 16px;
 `;
 
-export const Title = styled.h1`
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 32px;
+export const Title = styled.h4`
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h4);
+    line-height: var(--font-line-height-h4);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const SubTitle = styled(Title)`
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const SelectIcon = styled(SelectSVG)`
@@ -99,9 +97,9 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
     width: max-content;
     padding: 4px 8px;
 
-    background-color: ${theme.colors.backgroundInverse};
+    background-color: var(--color-background-inverse);
 
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-x4);
 
     text-align: start;
 
@@ -122,11 +120,11 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
 `;
 
 export const HintText = styled.p`
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 16px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-caption);
+    line-height: var(--font-line-height-caption);
 
-    color: ${theme.colors.textActiveInverse};
+    color: var(--color-text-active-inverse);
 
     user-select: none;
 

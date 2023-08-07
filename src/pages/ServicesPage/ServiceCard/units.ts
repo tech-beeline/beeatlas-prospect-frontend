@@ -1,9 +1,7 @@
-import { Button } from '@beeline/lk-ui';
+import { Button } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
-
-import { theme } from 'styles';
 
 export const BorderContainerStyled = styled(BorderContainer)`
     flex-direction: column;
@@ -13,21 +11,21 @@ export const BorderContainerStyled = styled(BorderContainer)`
 `;
 
 export const Title = styled.h5`
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 24px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
 
     margin-bottom: 16px;
 `;
 
 export const Text = styled.p`
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
+    letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const FlexContainer = styled.div`

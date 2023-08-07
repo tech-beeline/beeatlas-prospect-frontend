@@ -1,7 +1,5 @@
-import { Icon } from '@beeline/lk-ui';
+import { Icon, Typography } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
-
-import { theme } from 'styles';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -19,31 +17,22 @@ export const Avatar = styled.img`
     width: 40px;
     height: 40px;
 
-    border-radius: 50%;
+    border-radius: var(--size-border-radius-circle);
 `;
 
-export const SecondName = styled.p`
-    font-weight: 700;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+export const SecondName = styled(Typography)`
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
 `;
 
-export const FirstName = styled(SecondName)`
-    /* margin-bottom: 17px; */
-`;
+export const FirstName = styled(SecondName)``;
 
-export const Description = styled.p`
-    font-weight: 410;
-    font-size: 13px;
-    line-height: 16px;
-    letter-spacing: 0.2px;
-
+export const Description = styled(Typography)`
     white-space: pre-line;
 
     padding-left: 52px;
-
-    color: ${theme.colors.textInactive};
 `;
 
 export const IconStyled = styled(Icon)`
@@ -54,7 +43,7 @@ export const IconStyled = styled(Icon)`
     width: 40px;
     height: 40px;
 
-    font-size: 20px;
+    font-size: var(--font-size-h5);
 
-    border-radius: 50%;
+    border-radius: var(--size-border-radius-circle);
 `;

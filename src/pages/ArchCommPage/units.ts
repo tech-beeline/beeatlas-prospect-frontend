@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
     /* height: 100vh; */
     padding: 72px 52px;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const Container = styled.div`
@@ -20,7 +18,7 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 100px;
     line-height: 110px;
 
@@ -29,9 +27,9 @@ export const Title = styled.h1`
 `;
 
 export const H1 = styled.h1`
-    font-weight: 500;
-    font-size: 54px;
-    line-height: 66px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h1);
+    line-height: var(--font-line-height-h1);
 
     margin-top: 120px;
 
@@ -39,46 +37,46 @@ export const H1 = styled.h1`
 `;
 
 export const H2 = styled.h2`
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 56px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h2);
+    line-height: var(--font-line-height-h2);
 `;
 
 export const H3 = styled.h3`
-    font-weight: 400;
-    font-size: 34px;
-    line-height: 44px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-h3);
+    line-height: var(--font-line-height-h3);
 
     width: 798px;
     margin: 40px 0 12px;
 `;
 
 export const H4 = styled.h4`
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 32px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h4);
+    line-height: var(--font-line-height-h4);
+    letter-spacing: var(--font-letter-spacing-body3);
 `;
 
 export const GrayText = styled.p`
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 24px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const BoldTitle = styled.h5`
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h5);
+    line-height: var(--font-line-height-h5);
 
     margin-bottom: 8px;
 `;
 
 export const BoldText = styled.p`
-    font-weight: 700;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
 `;

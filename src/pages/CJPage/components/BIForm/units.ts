@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { theme } from 'styles';
 
 export const TitleWrapper = styled.div`
     display: flex;
@@ -8,11 +7,11 @@ export const TitleWrapper = styled.div`
 `;
 
 export const SideBlockTitle = styled.div`
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h5);
+    line-height: var(--font-line-height-h5);
 `;
 
 export const TextFieldContainer = styled.div`
@@ -46,18 +45,18 @@ export const BorderBlock = styled.div`
     width: 100%;
     padding: 16px;
 
-    border-radius: 12px;
-    border: 1px solid ${theme.colors.borderGray};
+    border-radius: var(--size-border-radius-x6);
+    border: 1px solid var(--color-palette-grey-200);
 `;
 
 export const SubTitle = styled.h4`
-    font-size: 19px;
-    font-weight: 500;
-    line-height: 24px;
+    font-size: var(--font-size-body1);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--font-line-height-body1);
 
     margin-bottom: -16px;
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const TextCheckboxWrapper = styled.div`

@@ -1,8 +1,6 @@
 // import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     position: relative;
 
@@ -10,8 +8,8 @@ export const PageWrapper = styled.div`
     width: 100%;
     padding: 64px 54px;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const TitleFlex = styled.div`
@@ -67,9 +65,9 @@ export const Dropdown = styled.div`
     height: 62px;
     padding: 8px 0;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 
@@ -87,14 +85,14 @@ export const DropdownItem = styled.p`
     height: 46px;
     padding: 12px 16px;
 
-    color: ${theme.colors.borderError};
+    color: var(--color-border-error);
 
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     &:hover {
@@ -104,7 +102,7 @@ export const DropdownItem = styled.p`
     }
 
     & > .dsb_icon--red {
-        background: ${theme.colors.backgroundLow};
+        background: var(--color-background-base);
     }
 `;
 

@@ -1,10 +1,8 @@
-import { Icon } from '@beeline/lk-ui';
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const BaseIcon = styled(Icon)`
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 
     user-select: none;
     cursor: pointer;

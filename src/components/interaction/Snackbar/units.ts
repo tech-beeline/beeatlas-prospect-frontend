@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isOpen: boolean }>`
     position: absolute;
     left: 50%;
@@ -16,14 +14,14 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
     min-height: 50px;
     padding: 16px;
 
-    background-color: ${theme.colors.backgroundInverse};
-    color: ${theme.colors.textActiveInverse};
+    background-color: var(--color-background-inverse);
+    color: var(--color-text-active-inverse);
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
     opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
     visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
@@ -37,11 +35,11 @@ export const TextButton = styled.button`
     width: fit-content;
     height: 100%;
 
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-subtitle3);
+    line-height: var(--font-line-height-subtitle3);
 
-    color: ${theme.colors.chartBlue};
+    color: var(--color-chart-blue-active);
 
     cursor: pointer;
 `;

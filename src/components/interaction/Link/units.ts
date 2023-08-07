@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInline?: boolean }>`
     position: relative;
 
@@ -14,13 +12,13 @@ export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInlin
     width: fit-content;
     padding-top: 1px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: ${({ fontSize = 17 }) => `${fontSize}px`};
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
     text-decoration: none;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     border-bottom: 1px solid;
     border-color: transparent;
@@ -30,7 +28,7 @@ export const OuterLink = styled.a<{ fontSize?: number; noLine?: boolean; isInlin
     cursor: pointer;
 
     &:hover {
-        border-color: ${theme.colors.textLink};
+        border-color: var(--color-text-link);
     }
 
     /* overflow: hidden;
@@ -51,13 +49,13 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
     width: fit-content;
     padding-top: 1px;
 
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     font-size: ${({ fontSize = 17 }) => `${fontSize}px`};
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
     text-decoration: none;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     border-bottom: 1px solid;
     border-color: transparent;
@@ -67,7 +65,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
     cursor: pointer;
 
     &:hover {
-        border-color: ${theme.colors.textLink};
+        border-color: var(--color-text-link);
     }
 
     /* &::after {
@@ -80,7 +78,7 @@ export const LinkText = styled.p<{ fontSize?: number; noLine?: boolean; isInline
         width: 100%;
         height: 1px;
 
-        background-color: ${({ noLine }) => (noLine ? 'transparent' : theme.colors.textLink)};
+        background-color: ${({ noLine }) => (noLine ? 'transparent' : 'var(--color-text-link)')};
 
         transform: scaleX(0);
         transform-origin: bottom right;

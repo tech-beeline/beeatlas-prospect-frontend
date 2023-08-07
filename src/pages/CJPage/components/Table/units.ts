@@ -2,8 +2,6 @@ import { Divider, Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 // import { ReactComponent as CrossSVG } from 'images/cross-icon.svg';
 
 export const PageWrapper = styled.div`
@@ -21,14 +19,14 @@ export const TableWrapper = styled.div`
     width: 100%;
     max-height: calc(100vh - 64px);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
     overflow: auto;
 
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -64,7 +62,7 @@ export const Tbody = styled.tbody`
 export const Row = styled.tr<{ isHidden?: boolean }>`
     width: 100%;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
     color: ${({ isHidden }) => isHidden && '#a9a9a9'};
 `;
@@ -74,12 +72,12 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     height: 56px;
     padding: 18px 16px;
 
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
     background-color: ${({ backgroundColor }) =>
-        !!backgroundColor ? `${backgroundColor}` : `${theme.colors.backgroundLow}`};
+        !!backgroundColor ? `${backgroundColor}` : `var(--color-background-base)`};
 
     &:first-of-type {
         position: sticky;
@@ -101,9 +99,9 @@ export const Td = styled.td<{ isClickable?: boolean }>`
     height: 52px;
     padding: 18px 16px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
-    border-bottom: 1px solid ${theme.colors.divider};
+    border-bottom: 1px solid var(--color-divider);
 
     &:first-of-type {
         position: sticky;
@@ -155,9 +153,9 @@ export const MenuBlock = styled.div`
     padding: 8px 0px;
     width: 280px;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 `;
@@ -175,19 +173,19 @@ export const MenuItem = styled.div`
 
     @media (hover: hover) {
         &:hover {
-            background-color: ${theme.colors.backgroundHover};
+            background-color: var(--color-background-base-hover);
         }
     }
 `;
 
 export const MenuItemText = styled.div`
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 `;
 
 export const MenuItemRemoveText = styled(MenuItemText)`
-    color: ${theme.colors.borderError};
+    color: var(--color-border-error);
 `;
 
 export const MenuDivider = styled(Divider)`
@@ -211,7 +209,7 @@ export const HideOrShowButton = styled.div`
 
     width: max-content;
 
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 
     /* background: none; */
 
@@ -221,13 +219,13 @@ export const HideOrShowButton = styled.div`
 `;
 
 export const IconStyled = styled(Icon)`
-    color: ${theme.colors.textLink};
+    color: var(--color-text-link);
 `;
 
 export const SideBlockTitle = styled.div`
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h5);
+    line-height: var(--font-line-height-h5);
 `;
 
 export const TextFieldContainer = styled.div`

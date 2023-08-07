@@ -1,5 +1,5 @@
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import React from 'react';
-import { Icons } from '@beeline/lk-ui';
 
 import * as ROUTER from 'router/const';
 

@@ -1,29 +1,29 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     height: 100vh;
     padding: 124px 52px 0;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
-export const Title = styled.h1`
-    font-weight: 400;
-    font-size: 34px;
-    line-height: 44px;
-    letter-spacing: 0.3px;
+export const Title = styled.h3`
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-h3);
+    line-height: var(--font-line-height-h3);
+
+    letter-spacing: var(--font-letter-spacing-h1);
 `;
 
 export const Description = styled.p`
     margin-top: 12px;
 
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 24px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
 
-    color: ${theme.colors.textInactive};
+    letter-spacing: var(--font-letter-spacing-body3);
+
+    color: var(--color-text-inactive);
 `;

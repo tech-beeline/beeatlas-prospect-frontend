@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import card1 from './images/card-1.png';
 import card2 from './images/card-2.png';
 import card3 from './images/card-3.png';
@@ -28,24 +26,24 @@ export const TitleWrapper = styled.div<{ withImage: boolean }>`
     }
 
     &:hover > * {
-        color: ${theme.colors.textLink};
+        color: var(--color-text-link);
     }
 
     cursor: pointer;
 `;
 
-export const Title = styled.h2<{ withImage: boolean }>`
+export const Title = styled.h4<{ withImage: boolean }>`
     ${({ withImage }) =>
         withImage
             ? css`
-                  font-weight: 500;
-                  font-size: 44px;
-                  line-height: 56px;
+                  font-weight: var(--font-weight-medium);
+                  font-size: var(--font-size-h2);
+                  line-height: var(--font-line-height-h2);
               `
             : css`
-                  font-weight: 500;
-                  font-size: 26px;
-                  line-height: 32px;
+                  font-weight: var(--font-weight-medium);
+                  font-size: var(--font-size-h4);
+                  line-height: var(--font-line-height-h4);
               `}
 
     margin-bottom: 16px;
@@ -62,16 +60,16 @@ export const Card = styled.div<any>`
     padding: 32px;
     margin-right: 24px;
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
     background-color: ${({ colorType }) =>
         colorType === 'green'
-            ? theme.colors.lemon
+            ? 'var(--color-accent-lemon-background)'
             : colorType === 'pink'
-            ? theme.colors.magenta
+            ? 'var(--color-accent-magenta-background)'
             : colorType === 'blue'
-            ? theme.colors.teal
+            ? 'var(--color-accent-teal-background)'
             : 'gray'};
 
     transition: all 0.25s ease-out;
@@ -79,10 +77,10 @@ export const Card = styled.div<any>`
     cursor: ${({ withImage }) => !withImage && 'pointer'};
 
     &:hover {
-        border-radius: 24px;
+        border-radius: var(--size-border-radius-x12);
 
         /* ${Title} {
-            color: ${theme.colors.textLink};
+            color: var(--color-text-link);
 
             &::after {
                 transform: translateX(24px);
@@ -114,10 +112,10 @@ export const Text = styled.p<{ withImage: boolean }>`
 
     width: ${({ withImage }) => (withImage ? '340px' : '100%')};
 
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 24px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
+    letter-spacing: var(--font-letter-spacing-body3);
 
     ${({ withImage }) =>
         !withImage &&

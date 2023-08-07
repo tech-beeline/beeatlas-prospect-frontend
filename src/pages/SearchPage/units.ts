@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -10,8 +8,8 @@ export const PageWrapper = styled.div`
     min-height: 100vh;
     padding: 124px 52px;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const Container = styled.div`
@@ -23,22 +21,23 @@ export const Container = styled.div`
 `;
 
 export const H4 = styled.h4`
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 32px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h4);
+    line-height: var(--font-line-height-h4);
+
+    letter-spacing: var(--font-letter-spacing-body3);
 
     margin-bottom: 8px;
 `;
 
 export const GrayText = styled.p`
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
     white-space: pre-line;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const SearchContainer = styled.form`
@@ -67,10 +66,10 @@ export const NoFoundBlock = styled.div`
     width: 410px;
     margin-top: 30px;
 
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0.2px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body3);
     text-align: center;
 `;
 

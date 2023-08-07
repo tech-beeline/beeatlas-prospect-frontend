@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: fixed;
     left: 0;
@@ -15,7 +13,7 @@ export const Wrapper = styled.div`
     min-height: 100vh;
     padding-top: 88px;
 
-    border-right: 1px solid ${theme.colors.divider};
+    border-right: 1px solid var(--color-divider);
 
     z-index: 10;
 `;
@@ -34,13 +32,13 @@ export const Tab = styled.div<{ isActive: boolean }>`
     height: 48px;
     width: 56px;
 
-    border-radius: 0px 12px 12px 0px;
+    border-radius: 0px var(--size-border-radius-x6) var(--size-border-radius-x6) 0px;
 
     transition: background-color 0.25s ease-out;
 
     & > * {
         color: ${({ isActive }) =>
-            isActive ? theme.colors.textActive : theme.colors.textInactive};
+            isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
 
         transition: color 0.25s ease-out;
     }
@@ -59,13 +57,13 @@ export const Tab = styled.div<{ isActive: boolean }>`
         border-radius: 0px 3px 3px 0px;
 
         background-color: ${({ isActive }) =>
-            isActive ? theme.colors.brandYellow : 'transparent'};
+            isActive ? 'var(--color-background-brand)' : 'transparent'};
 
         transition: background-color 0.25s ease-out;
     }
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     cursor: pointer;

@@ -2,14 +2,12 @@ import styled from '@emotion/styled';
 
 import { Accordion } from 'components/interaction';
 
-import { theme } from 'styles';
-
 import callback from './images/callback.png';
 import general from './images/general.png';
 
 export const PageWrapper = styled.div`
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const GeneralBlock = styled.div`
@@ -25,7 +23,7 @@ export const GeneralBlock = styled.div`
 export const Title = styled.h1`
     width: 832px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 100px;
     line-height: 110px;
 
@@ -34,9 +32,9 @@ export const Title = styled.h1`
 `;
 
 export const H1 = styled.h1`
-    font-weight: 500;
-    font-size: 54px;
-    line-height: 66px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h1);
+    line-height: var(--font-line-height-h1);
 
     margin-top: 120px;
 
@@ -44,15 +42,15 @@ export const H1 = styled.h1`
 `;
 
 export const H2 = styled.h2`
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 56px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h2);
+    line-height: var(--font-line-height-h2);
 `;
 
 export const H3 = styled.h3`
-    font-weight: 400;
-    font-size: 34px;
-    line-height: 44px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-h3);
+    line-height: var(--font-line-height-h3);
 
     width: 798px;
     margin: 40px 0;
@@ -106,10 +104,10 @@ export const CallbackContainer = styled.div`
     padding: 48px;
     margin: 120px 0;
 
-    background-color: ${theme.colors.info};
-    color: ${theme.colors.textActive};
+    background-color: ${'var(--color-status-info-background)'};
+    color: var(--color-text-active);
 
-    border-radius: 24px;
+    border-radius: var(--size-border-radius-x12);
 `;
 
 export const H1ForCallbackStyled = styled(H1)`
@@ -117,9 +115,9 @@ export const H1ForCallbackStyled = styled(H1)`
 `;
 
 export const Text = styled.p`
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 24px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body1);
+    line-height: var(--font-line-height-body1);
 
     width: 50%;
     margin: 16px 0 24px;

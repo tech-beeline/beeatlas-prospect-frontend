@@ -17,6 +17,7 @@ export const ArchCommPage = () => {
     return (
         <S.PageWrapper className="PageWrapper">
             <S.H3 className="H3">Архитектурный комитет</S.H3>
+
             <S.GrayText className="GrayText" style={{ marginBottom: '32px' }}>
                 — коллегиальный орган, состоящий из вице-президентов компании и корпоративных
                 архитекторов.

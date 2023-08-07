@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div`
     position: relative;
 
@@ -14,14 +12,14 @@ export const Wrapper = styled.div`
     min-width: 40px;
     min-height: 40px;
 
-    color: ${theme.colors.success};
-    background-color: ${theme.colors.backgroundSuccess};
+    color: var(--color-status-success);
+    background-color: var(--color-status-success-background);
 
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     user-select: none;
     cursor: pointer;

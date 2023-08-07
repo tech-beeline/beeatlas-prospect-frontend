@@ -1,9 +1,6 @@
-import { Icon, Search } from '@beeline/lk-ui';
+import { Icon, Search } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
-// TODO: с токенами
 export const Container = styled.div`
     position: fixed;
 
@@ -14,14 +11,15 @@ export const Container = styled.div`
     height: 64px;
     padding: 18px 24px;
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
+    /* TODO: нет такого токена */
     font-size: 25px;
-    line-height: 28px;
+    line-height: var(--font-line-height-product-name);
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
     color: rgba(25, 28, 52, 0.7);
 
-    border-bottom: 1px solid ${theme.colors.divider};
+    border-bottom: 1px solid var(--color-divider);
 
     z-index: 100;
 `;
@@ -36,7 +34,7 @@ export const FlexContainer = styled.div`
 `;
 
 export const BaseIcon = styled(Icon)`
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 
     user-select: none;
     cursor: pointer;
@@ -51,7 +49,7 @@ export const MenuIconStyled = styled(BaseIcon)`
 export const Title = styled.p`
     margin-right: 20px;
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const ControlPanel = styled.div`

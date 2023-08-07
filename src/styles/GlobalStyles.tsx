@@ -1,33 +1,10 @@
 import React from 'react';
 import { css, Global } from '@emotion/react';
 
-// TODO: вероятно вынести шрифты отдельно
-
 export const GlobalStyles = () => {
     return (
         <Global
             styles={css`
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Regular.woff2') format('woff2');
-                    font-weight: 400;
-                }
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Medium.woff2') format('woff2');
-                    font-weight: 500;
-                }
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Bold.woff2') format('woff2');
-                    font-weight: 700;
-                }
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Black.woff2') format('woff2');
-                    font-weight: 800;
-                }
-
                 *,
                 *::before,
                 *::after {
@@ -62,12 +39,12 @@ export const GlobalStyles = () => {
                     margin: 0;
                     background-color: #ffffff;
                     color: #212121;
-                    font-family: 'Beeline', sans-serif;
+                    font-family: 'Beeline Sans', sans-serif;
 
                     &::-webkit-scrollbar-thumb {
                         background-color: #b6b7bf;
 
-                        border-radius: 16px;
+                        border-radius: var(--size-border-radius-x8);
                     }
 
                     &::-webkit-scrollbar {
@@ -133,8 +110,8 @@ export const GlobalStyles = () => {
                     white-space: nowrap;
                     transition: all 0.25s ease-out;
                     user-select: none;
-                    border-radius: 12px;
-                    font-size: 17px;
+                    border-radius: var(--size-border-radius-x6);
+                    font-size: var(--font-size-body2);
                     line-height: 21px;
                     text-decoration: none;
                     color: #212121;

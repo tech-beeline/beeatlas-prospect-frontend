@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const Wrapper = styled.div<{ isActive: boolean }>`
     display: flex;
     align-items: center;
@@ -10,15 +8,17 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
     height: 48px;
     padding: 0 16px 0 56px;
 
-    font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
-    font-size: 15px;
-    line-height: 18px;
+    font-weight: ${({ isActive }) =>
+        isActive ? 'var(--font-weight-medium)' : 'var(--font-weight-regular)'};
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
-    color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
+    color: ${({ isActive }) =>
+        isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
     background-color: ${({ isActive }) =>
-        isActive ? theme.colors.backgroundSelected : 'transparent'};
+        isActive ? 'var(--color-background-base-selected)' : 'transparent'};
 
-    border-radius: ${theme.borderRadius};
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-out;
 
@@ -26,10 +26,10 @@ export const Wrapper = styled.div<{ isActive: boolean }>`
     user-select: none;
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     &:active {
-        background-color: ${theme.colors.backgroundSelected};
+        background-color: var(--color-background-base-selected);
     }
 `;

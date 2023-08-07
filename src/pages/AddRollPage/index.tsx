@@ -104,6 +104,7 @@ export const AddRollPage = observer(() => {
                     title={isCurrentRole ? 'Редактирование роли' : 'Создание новой роли'}
                     fontSize="26px"
                 />
+
                 {isCurrentRole && (
                     <Icon
                         iconName={Icons.MoreVert}

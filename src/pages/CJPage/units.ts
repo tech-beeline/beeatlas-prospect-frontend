@@ -1,12 +1,10 @@
 import { Button } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     height: 100vh;
 
-    background-color: ${theme.colors.backgroundLow};
+    background-color: var(--color-background-base);
 `;
 
 export const Header = styled.div`
@@ -17,7 +15,7 @@ export const Header = styled.div`
     height: 64px;
     padding: 20px 24px;
 
-    border-bottom: 1px solid ${theme.colors.divider};
+    border-bottom: 1px solid var(--color-divider);
 `;
 
 export const FlexSideContainer = styled.div`
@@ -27,19 +25,19 @@ export const FlexSideContainer = styled.div`
 `;
 
 export const Name = styled.p`
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
 
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 `;
 
 export const Desription = styled.p`
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
-    color: ${theme.colors.textInactive};
+    color: var(--color-text-inactive);
 `;
 
 export const IconWrapper = styled.div`
@@ -50,8 +48,8 @@ export const IconWrapper = styled.div`
     width: 40px;
     height: 40px;
 
-    border: 1px solid ${theme.colors.divider};
-    border-radius: 12px;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--size-border-radius-x6);
 
     cursor: pointer;
 `;
@@ -63,11 +61,11 @@ export const FlexWrapper = styled.div`
 `;
 
 export const SideBlockTitle = styled.div`
-    color: ${theme.colors.textActive};
+    color: var(--color-text-active);
 
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h5);
+    line-height: var(--font-line-height-h5);
 `;
 
 export const TextFieldContainer = styled.div`

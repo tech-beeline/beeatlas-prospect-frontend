@@ -4,7 +4,6 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { PivotArrow } from 'components/other';
 
 import { INestingMenuItem } from 'stores/GeneralStore';
-import { theme } from 'styles';
 
 import * as S from './units';
 
@@ -84,7 +83,7 @@ export const Item: FC<INestingMenuItem> = (props) => {
                 <PivotArrow
                     onClick={showChildHandler}
                     position={(props.activeFDMItem.id === props.id || isOpen) && 'right'}
-                    color={isShownArrow ? theme.colors.textInactive : 'transparent'}
+                    color={isShownArrow ? 'var(--color-text-inactive)' : 'transparent'}
                     {...{ isOpen }}
                 />
 

@@ -1,6 +1,6 @@
 {
     "name": "beeline",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "repository": {
         "type": "git",
         "url": "git+https://git.vimpelcom.ru/products/lkb2b/widget/wiget"
@@ -25,7 +25,6 @@
         "@beeline/design-system-react": "1.0.0-beta.4",
         "@beeline/design-tokens": "1.8.0",
         "@beeline/lk-auth": "2.1.0",
-        "@beeline/lk-ui": "0.10.3",
         "@emotion/react": "11.9.3",
         "@emotion/styled": "11.9.3",
         "@mui/material": "5.9.3",

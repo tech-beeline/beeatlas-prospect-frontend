@@ -2,8 +2,6 @@ import { Chip } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const MenuWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -13,32 +11,12 @@ export const MenuWrapper = styled.div`
     width: 100%;
 `;
 
-export const MenuButton = styled.button<{ isActive: boolean }>`
-    padding: 7px 12px;
-
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
-
-    background-color: ${({ isActive }) => (isActive ? '#fdd835' : 'rgba(25, 28, 52, 0.1)')};
-
-    border-radius: 32px;
-
-    transition: background-color 0.25s ease-in-out;
-
-    @media (hover: hover) {
-        &:hover {
-            background-color: ${({ isActive }) => !isActive && 'rgba(253, 216, 53, 0.5)'};
-        }
-    }
-`;
-
 export const ChipStyled = styled(Chip)<{ active: boolean }>`
     ${({ active }) =>
         active &&
         css`
             & > p {
-                color: ${theme.colors.textActiveNoTheme} !important;
+                color: rgba(9, 11, 22, 0.94) !important;
             }
         `}
 `;

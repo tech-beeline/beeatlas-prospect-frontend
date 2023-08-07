@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { Resizable } from 're-resizable';
 
-import { theme } from 'styles';
-
 // @ts-ignore
 export const ResizableStyled = styled(Resizable)`
     position: static !important;
@@ -12,7 +10,7 @@ export const ResizableStyled = styled(Resizable)`
     &::-webkit-scrollbar-thumb {
         background-color: #b6b7bf;
 
-        border-radius: 16px;
+        border-radius: var(--size-border-radius-x8);
     }
 
     &::-webkit-scrollbar {
@@ -42,5 +40,5 @@ export const RightSide = styled.div`
     min-height: calc(100vh - 64px);
     padding: 88px 16px 16px 0;
 
-    /* border-right: 1px solid ${theme.colors.divider}; */
+    /* border-right: 1px solid var(--color-divider); */
 `;

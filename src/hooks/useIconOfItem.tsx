@@ -4,10 +4,8 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 // import { Icon, Icons } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const IconStyled = styled(Icon)`
-    color: ${({ type }) => !type && theme.colors.textInactive};
+    color: ${({ type }) => !type && 'var(--color-text-inactive)'};
 `;
 
 export const useIconOfItem = (alias: string, stereotype = '') => {

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -10,8 +8,8 @@ export const PageWrapper = styled.div`
     min-height: 100vh;
     padding: 124px 52px;
 
-    background-color: ${theme.colors.backgroundLow};
-    color: ${theme.colors.textActive};
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
 `;
 
 export const Container = styled.div`

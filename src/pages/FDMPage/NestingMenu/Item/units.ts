@@ -1,10 +1,7 @@
-// import { css } from '@emotion/react';
-import { Icon } from '@beeline/lk-ui';
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
-
-import { theme } from 'styles';
 
 export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     position: relative;
@@ -19,14 +16,15 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     margin-bottom: 4px;
 
     font-weight: ${({ isActive }) => (isActive ? 500 : 400)};
-    font-size: 15px;
-    line-height: 18px;
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
 
-    color: ${({ isActive }) => (isActive ? theme.colors.textActive : theme.colors.textInactive)};
+    color: ${({ isActive }) =>
+        isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
     background-color: ${({ isActive }) =>
-        isActive ? theme.colors.backgroundHover : theme.colors.backgroundLow};
+        isActive ? 'var(--color-background-base-hover)' : 'var(--color-background-base)'};
 
-    border-radius: 12px;
+    border-radius: var(--size-border-radius-x6);
 
     transition: all 0.25s ease-out;
 
@@ -34,11 +32,11 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     user-select: none;
 
     &:hover {
-        background-color: ${theme.colors.backgroundHover};
+        background-color: var(--color-background-base-hover);
     }
 
     &:active {
-        background-color: ${theme.colors.backgroundSelected};
+        background-color: var(--color-background-base-selected);
     }
 `;
 
@@ -59,7 +57,7 @@ export const ExpandStyled = styled(Expand)`
 `;
 
 export const IconStyled = styled(Icon)`
-    color: ${({ type }) => !type && theme.colors.textInactive};
+    color: ${({ type }) => !type && 'var(--color-text-inactive)'};
 `;
 
 export const Name = styled.p`
