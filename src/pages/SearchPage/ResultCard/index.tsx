@@ -101,12 +101,12 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                         Домен
                     </S.TitleSecond>
                     <a
-                        href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domainRef?.guid}`}
+                        href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domain_ref?.guid}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
                         <S.DomenText className="ResultCardDomenText">
-                            {props.data.domainRef?.name}
+                            {props.data.domain_ref?.name}
                         </S.DomenText>
                     </a>
 
@@ -123,7 +123,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                             <S.TitleSecond className="ResultCardTitleSecond">
                                 Дата последнего изменения
                             </S.TitleSecond>
-                            <S.Text className="ResultCardText">{props.data.lastModified}</S.Text>
+                            <S.Text className="ResultCardText">{props.data.last_modified}</S.Text>
                         </div>
                     </S.FlexBlock>
                 </>

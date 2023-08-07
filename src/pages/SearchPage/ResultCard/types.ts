@@ -6,8 +6,8 @@ interface IDataForResult {
     owner: string;
     alias: string;
     stereotype: string;
-    lastModified: string;
-    domainRef: { name: string; guid: string };
+    last_modified: string;
+    domain_ref: { name: string; guid: string };
 }
 
 export interface IResultCard {
