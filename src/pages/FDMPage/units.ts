@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
     border-left: 1px solid var(--color-divider);
 
     &::-webkit-scrollbar-thumb {
-        background-color: #b6b7bf;
+        background-color: var(--color-utilities-scroll-hover);
 
         border-radius: var(--size-border-radius-x8);
     }
