@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { BorderContainer } from 'components/containers';
+import { GrayText, H4 } from 'styles/units';
+import { HumanCard } from './HumanCard';
 
-// TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
-    /* height: 100vh; */
     padding: 72px 52px;
 
     background-color: var(--color-background-base);
@@ -24,4 +25,24 @@ export const H3 = styled.h3`
 
     width: 798px;
     margin: 40px 0 12px;
+`;
+
+export const GrayTextStyled = styled(GrayText)`
+    margin-bottom: 32px;
+`;
+
+export const H4Styled = styled(H4)`
+    margin-bottom: 12px;
+`;
+
+export const List = styled.ul`
+    margin-bottom: 50px;
+`;
+
+export const BorderContainerStyled = styled(BorderContainer)`
+    margin-bottom: 24px;
+`;
+
+export const HumanCardStyled = styled(HumanCard)`
+    gap: 0;
 `;

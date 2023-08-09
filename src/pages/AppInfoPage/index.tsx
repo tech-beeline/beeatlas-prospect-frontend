@@ -65,10 +65,7 @@ export const AppInfoPage = () => {
 
             <hr />
 
-            {/* <div style={{ position: 'relative', width: '100%' }}> */}
-
             <div style={{ position: 'absolute', width: '100px', height: '100%', left: 0 }} />
-            {/* </div> */}
         </S.PageWrapper>
     );
 };
