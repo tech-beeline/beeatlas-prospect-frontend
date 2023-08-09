@@ -46,3 +46,7 @@ export const BorderContainerStyled = styled(BorderContainer)`
 export const HumanCardStyled = styled(HumanCard)`
     gap: 0;
 `;
+
+export const H4mb40Styled = styled(H4)`
+    margin-bottom: 40px;
+`;

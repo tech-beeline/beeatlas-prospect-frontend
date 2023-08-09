@@ -250,3 +250,7 @@ export const ButtonContainer = styled.div`
     height: 96px;
     padding: 24px 16px;
 `;
+
+export const MenuItemStyled = styled(MenuItem)`
+    justify-content: space-between;
+`;

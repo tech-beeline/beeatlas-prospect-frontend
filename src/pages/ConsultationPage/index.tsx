@@ -113,9 +113,7 @@ export const ConsultationPage = () => {
                 <div style={{ width: '100%', padding: '24px' }}></div>
             </S.AdaptiveCardContainer>
 
-            <S.H4 className="H4" style={{ margin: '56px 0 26px' }}>
-                Владелец сервиса
-            </S.H4>
+            <S.H4Styled className="H4">Владелец сервиса</S.H4Styled>
 
             <STYLES.BoldText className="BoldText">Филатова Ольга Ивановна</STYLES.BoldText>
 

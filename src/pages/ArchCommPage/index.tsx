@@ -46,9 +46,7 @@ export const ArchCommPage = () => {
                 </STYLES.GrayText>
             </S.List>
 
-            <STYLES.H4 className="H4" style={{ marginBottom: '40px' }}>
-                Состав и функции Архитектурного комитета
-            </STYLES.H4>
+            <S.H4mb40Styled className="H4">Состав и функции Архитектурного комитета</S.H4mb40Styled>
 
             <S.BorderContainerStyled>
                 <S.Container className="Container">

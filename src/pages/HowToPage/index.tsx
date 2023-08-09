@@ -15,16 +15,17 @@ export const HowToPage = () => {
                 Как подготовиться
                 <br />к защите на архитектурном комитете
             </S.H3>
-            <S.SubTitle className="SubTitle" style={{ marginBottom: '48px' }}>
+
+            <S.SubTitle className="SubTitle">
                 Продукт, который был защищен на АК, имеет свое место в ИТ-ландшафте компании.
             </S.SubTitle>
 
-            <IconText
+            <S.IconTextStyled
                 number={1}
                 text="Изучите материалы для выхода на архитектурный комитет"
                 color="info"
-                style={{ marginBottom: '12px' }}
             />
+
             <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Чтобы подготовка заняла минимум времени и сил, изучите алгоритм подготовки к выходу
                 на защиту.
@@ -39,12 +40,8 @@ export const HowToPage = () => {
                 </Link>
             </STYLES.GrayText>
 
-            <IconText
-                number={2}
-                text="Подготовьте презентацию"
-                color="info"
-                style={{ marginBottom: '12px' }}
-            />
+            <S.IconTextStyled number={2} text="Подготовьте презентацию" color="info" />
+
             <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Архитектурный комитет рассматривает разные вопросы, например, по определению контура
                 ответственности продукта, о применении новой технологии, о внесении изменения
@@ -72,12 +69,12 @@ export const HowToPage = () => {
                 </Link>
             </STYLES.GrayText>
 
-            <IconText
+            <S.IconTextStyled
                 number={3}
                 text="Закажите услугу по составлению оппонирующей позиции"
                 color="info"
-                style={{ marginBottom: '12px' }}
             />
+
             <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Воспользуйтесь сервисом{' '}
                 <Link
@@ -101,6 +98,7 @@ export const HowToPage = () => {
                     color="purple"
                     isSecondary
                 />
+
                 <IconText
                     icon="Group"
                     text={`Во время подготовки оппонирующей позиции пройдет этап экспертного ревью. 
@@ -109,6 +107,7 @@ export const HowToPage = () => {
                     color="purple"
                     isSecondary
                 />
+
                 <IconText
                     icon="UserVerified"
                     text="После того, как оппонирующая позиция будет составлена, вам назначат дату и время заседания Архитектурного комитета.

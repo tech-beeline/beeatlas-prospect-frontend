@@ -60,6 +60,10 @@ export const H4 = styled.h4`
     margin-bottom: 32px;
 `;
 
+export const H4Styled = styled(H4)`
+    margin: 56px 0 26px;
+`;
+
 export const SubTitle = styled(GrayText)`
     max-width: 784px;
     margin-bottom: 56px;

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { BadgeName } from 'components/containers';
+import { BadgeName, BorderContainer } from 'components/containers';
 
 export const Date = styled.p`
     margin-bottom: 16px;
@@ -42,4 +42,8 @@ export const ButtonContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+`;
+
+export const BorderContainerStyled = styled(BorderContainer)`
+    min-width: 620px;
 `;

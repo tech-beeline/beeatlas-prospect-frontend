@@ -37,7 +37,6 @@ export const NestingMenu = observer(() => {
                 }}
                 minWidth={300}
                 maxWidth={640}
-                // style={{ overflow: 'hidden auto' }}
             >
                 <S.RightSide className="NestingMenuRightSide">
                     {isLoadingMenuItems ? (

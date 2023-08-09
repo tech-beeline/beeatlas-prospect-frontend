@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
+import { IconText } from 'components/other';
 import { GrayText } from 'styles/units';
 
 export const PageWrapper = styled.div`
@@ -36,4 +37,10 @@ export const H3 = styled.h3`
 
 export const SubTitle = styled(GrayText)`
     font-weight: var(--font-weight-medium);
+
+    margin-bottom: 48px;
+`;
+
+export const IconTextStyled = styled(IconText)`
+    margin-bottom: 12px;
 `;
