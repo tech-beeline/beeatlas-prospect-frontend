@@ -26,11 +26,7 @@ export const ContentWrapper = styled.div`
     padding: 32px 52px 0 108px;
 `;
 
-export const H2 = styled.h2`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h2);
-    line-height: var(--font-line-height-h2);
-`;
+
 
 export const CardContainer = styled.div`
     display: flex;

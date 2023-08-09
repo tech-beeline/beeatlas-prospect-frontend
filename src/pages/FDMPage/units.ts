@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { GrayText } from 'styles/units';
 
 export const PageWrapper = styled.div`
     display: flex;
@@ -61,16 +62,6 @@ export const JustText = styled.p`
 
 export const AliasText = styled(JustText)`
     margin: -4px 0 8px;
-
-    color: var(--color-text-inactive);
-`;
-
-export const GrayText = styled.p`
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-    letter-spacing: var(--font-letter-spacing-body3);
-    white-space: pre-line;
 
     color: var(--color-text-inactive);
 `;

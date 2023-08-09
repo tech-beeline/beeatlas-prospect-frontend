@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { Accordion } from 'components/interaction';
+import { H1 } from 'styles/units';
 
 import callback from './images/callback.png';
 import general from './images/general.png';
@@ -29,22 +30,6 @@ export const Title = styled.h1`
 
     color: var(--color-text-active);
     background-color: var(--button-background-color);
-`;
-
-export const H1 = styled.h1`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h1);
-    line-height: var(--font-line-height-h1);
-
-    margin-top: 120px;
-
-    background-color: var(--button-background-color);
-`;
-
-export const H2 = styled.h2`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h2);
-    line-height: var(--font-line-height-h2);
 `;
 
 export const H3 = styled.h3`

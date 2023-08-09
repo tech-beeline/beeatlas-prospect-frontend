@@ -1,13 +1,11 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { Button, Search } from '@beeline/design-system-react';
-// import { Button, Search } from '@beeline/lk-ui';
 import { observer } from 'mobx-react';
 import { StringParam, useQueryParam } from 'use-query-params';
 
 import { Expand } from 'components/other';
 
 import { useMountEffect } from 'hooks';
-// import { getSearchResult } from 'api/fdm';
 import { useRootStore } from 'stores/initStore';
 import { getStorage, persistStorage } from 'stores/utils';
 
@@ -15,6 +13,7 @@ import image from './images/not-found.png';
 
 import { ResultCard } from './ResultCard';
 import * as S from './units';
+import * as STYLES from 'styles/units';
 
 export const SearchPage = observer(() => {
     const {
@@ -70,14 +69,14 @@ export const SearchPage = observer(() => {
             <S.Container className="Container">
                 <S.H4 className="H4">ФДМ</S.H4>
 
-                <S.GrayText className="GrayText">
+                <STYLES.GrayText className="GrayText">
                     Функционально-Доменная Модель — это модель бизнес-возможностей ИТ-ландшафта ВК,
                     разработанная для обеспечения простой и удобной навигации в пространстве
                     возможностей по функциональному признаку.
-                </S.GrayText>
+                </STYLES.GrayText>
 
                 <Expand isOpen={isOpenDescription}>
-                    <S.GrayText className="GrayText">
+                    <STYLES.GrayText className="GrayText">
                         <br />
                         Созданная в интересах всего ИТ-ландшафта ВК ФДМ объединяет как общие
                         возможности, так и возможности, создаваемые в рамках отдельных продуктовых
@@ -99,7 +98,7 @@ export const SearchPage = observer(() => {
                         в качестве общего инструмента для различных подразделений Компании (включая
                         Бизнес и ИТ). Общую ответственность за реализацию и ведение ФДМ несёт
                         подразделение Корпоративной Архитектуры ВК.
-                    </S.GrayText>
+                    </STYLES.GrayText>
                 </Expand>
 
                 <Button

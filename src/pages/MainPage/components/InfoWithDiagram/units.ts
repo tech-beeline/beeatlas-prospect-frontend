@@ -17,18 +17,6 @@ export const Diagram = styled.img`
     margin-bottom: 40px;
 `;
 
-export const TitleFirst = styled.h2`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h2);
-    line-height: var(--font-line-height-h2);
-`;
-
-export const TitleSecond = styled.h4`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h4);
-    line-height: var(--font-line-height-h4);
-`;
-
 export const Description = styled.p`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body1);

@@ -4,6 +4,7 @@ import { TitleBack } from 'components/interaction';
 import { IconCard } from 'components/other';
 
 import * as S from './units';
+import * as STYLES from 'styles/units';
 
 export const ConsultationPage = () => {
     return (
@@ -115,13 +116,14 @@ export const ConsultationPage = () => {
             <S.H4 className="H4" style={{ margin: '56px 0 26px' }}>
                 Владелец сервиса
             </S.H4>
-            <S.BoldText className="BoldText">Филатова Ольга Ивановна</S.BoldText>
 
-            <S.GrayText className="GrayText">
+            <STYLES.BoldText className="BoldText">Филатова Ольга Ивановна</STYLES.BoldText>
+
+            <STYLES.GrayText className="GrayText">
                 Руководитель проекта, Центр компетенции по проектному управлению,
                 <br />
                 Департамент разработки платформенных решений
-            </S.GrayText>
+            </STYLES.GrayText>
 
             <S.FlexBottomContainer className="FlexBottomContainer">
                 <S.GraySecondText className="GraySecondText">

@@ -1,12 +1,13 @@
 import React from 'react';
 
 import * as S from './units';
+import * as STYLES from 'styles/units';
 
 export const ModelsPage = () => {
     return (
         <S.PageWrapper className="PageWrapper">
             <S.ContentWrapper className="ContentWrapper">
-                <S.H2 className="H2">Модели</S.H2>
+                <STYLES.H2 className="H2">Модели</STYLES.H2>
 
                 <S.CardContainer className="CardContainer">
                     <S.CardStyled colorType="blue" title="Поиск возможностей в ФДМ" to="search">

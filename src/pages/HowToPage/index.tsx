@@ -3,14 +3,12 @@ import React from 'react';
 import { Link } from 'components/interaction';
 import { IconText } from 'components/other';
 
-// import { useAutoOpenMenuItem } from 'hooks';
 import * as ROUTER from 'router/const';
 
 import * as S from './units';
+import * as STYLES from 'styles/units';
 
 export const HowToPage = () => {
-    // useAutoOpenMenuItem(ROUTER_CONST.ARCH_COMM_PATH, );
-
     return (
         <S.PageWrapper className="PageWrapper">
             <S.H3 className="H3">
@@ -27,7 +25,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ marginBottom: '12px' }}
             />
-            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
+            <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Чтобы подготовка заняла минимум времени и сил, изучите алгоритм подготовки к выходу
                 на защиту.
                 <br />
@@ -39,7 +37,7 @@ export const HowToPage = () => {
                 >
                     консультацией.
                 </Link>
-            </S.GrayText>
+            </STYLES.GrayText>
 
             <IconText
                 number={2}
@@ -47,7 +45,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ marginBottom: '12px' }}
             />
-            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
+            <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Архитектурный комитет рассматривает разные вопросы, например, по определению контура
                 ответственности продукта, о применении новой технологии, о внесении изменения
                 в модель данных, о способе построения архитектуры продукта, об изменении процесса
@@ -72,7 +70,7 @@ export const HowToPage = () => {
                 >
                     принципам Технической политики.
                 </Link>
-            </S.GrayText>
+            </STYLES.GrayText>
 
             <IconText
                 number={3}
@@ -80,7 +78,7 @@ export const HowToPage = () => {
                 color="info"
                 style={{ marginBottom: '12px' }}
             />
-            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
+            <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Воспользуйтесь сервисом{' '}
                 <Link
                     path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
@@ -92,10 +90,10 @@ export const HowToPage = () => {
                 по составлению оппонирующей позиции.
                 <br />
                 Этот шаг обязателен.
-            </S.GrayText>
+            </STYLES.GrayText>
 
             <S.BorderContainerStyled>
-                <S.BoldTitle className="BoldTitle">После заказа услуги:</S.BoldTitle>
+                <STYLES.H5 className="BoldTitle">После заказа услуги:</STYLES.H5>
 
                 <IconText
                     icon="User"
@@ -126,11 +124,11 @@ export const HowToPage = () => {
                 color="info"
                 style={{ margin: '40px 0 12px' }}
             />
-            <S.GrayText className="GrayText">
+            <STYLES.GrayText className="GrayText">
                 На заседании комиссия рассмотрит ваш запрос и даст резолюцию. На выступление у вас
                 будет 15 минут (по 1 минуте на слайд). После защиты — блок ответов на вопросы.
                 Результатом встречи является протокол заседания.
-            </S.GrayText>
+            </STYLES.GrayText>
         </S.PageWrapper>
     );
 };
