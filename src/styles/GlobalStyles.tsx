@@ -37,12 +37,12 @@ export const GlobalStyles = () => {
 
                 body {
                     margin: 0;
-                    background-color: #ffffff;
+                    background-color: var(--color-background-base);
                     color: #212121;
                     font-family: 'Beeline Sans', sans-serif;
 
                     &::-webkit-scrollbar-thumb {
-                        background-color: #b6b7bf;
+                        background-color: var(--color-utilities-scroll-hover);
 
                         border-radius: var(--size-border-radius-x8);
                     }

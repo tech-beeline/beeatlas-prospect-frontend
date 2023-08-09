@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { BorderContainer } from 'components/containers';
 import { Link } from 'components/interaction';
 
 import { ICalendarCard } from './types';
@@ -10,7 +9,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 export const CalendarCard: FC<ICalendarCard> = (props) => {
     return (
-        <BorderContainer style={{ minWidth: '620px' }}>
+        <S.BorderContainerStyled>
             <div>
                 <S.Date className="CalendarCardDate">{props.date}</S.Date>
 
@@ -37,6 +36,6 @@ export const CalendarCard: FC<ICalendarCard> = (props) => {
 
                 <S.BadgeNameStyled>Крестовоздвиженский К</S.BadgeNameStyled>
             </S.ButtonContainer>
-        </BorderContainer>
+        </S.BorderContainerStyled>
     );
 };

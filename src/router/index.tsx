@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
 import { Header, Menu, MenuModels, MenuPersonalArea } from 'components/core';
+import * as S from './units';
 
 import {
     AddRollPage,
@@ -63,226 +64,165 @@ export const NavigationRouter = () => {
                     <Route
                         path={C.PERSONAL_AREA_PATH}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <MenuPersonalArea />
+
                                 <PersonalArea />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
 
                     <Route
                         path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <MenuPersonalArea />
+
                                 <RollSettingsPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
 
                     <Route
                         path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}${C.ADD_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <MenuPersonalArea />
+
                                 <AddRollPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
 
                     <Route
                         path={C.MODELS_PATH}
                         element={
-                            <div
-                                style={{
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperOnlyBackgroundStyle>
                                 <MenuModels />
+
                                 <ModelsPage />
-                            </div>
+                            </S.RouteWrapperOnlyBackgroundStyle>
                         }
                     />
+
                     <Route
                         path={`${C.MODELS_PATH}${C.SEARCH_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperOnlyBackgroundStyle>
                                 <MenuModels />
+
                                 <SearchPage />
-                            </div>
+                            </S.RouteWrapperOnlyBackgroundStyle>
                         }
                     />
+
                     <Route
                         path={`${C.MODELS_PATH}${C.FDM_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    overflow: 'hidden',
-                                    height: '100%',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <MenuModels />
+
                                 <FDMPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
+
                     <Route
                         path={`${C.MODELS_PATH}${C.TECH_RADAR_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    // overflow: 'hidden',
-                                    height: '100%',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperOnlyBackgroundStyled>
                                 <MenuModels />
+
                                 <TechRadarPage />
-                            </div>
+                            </S.RouteWrapperOnlyBackgroundStyled>
                         }
                     />
+
                     <Route
                         path={`${C.MODELS_PATH}${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperOnlyBackgroundStyle>
                                 <MenuModels />
+
                                 <FDMResultPage />
-                            </div>
+                            </S.RouteWrapperOnlyBackgroundStyle>
                         }
                     />
 
                     <Route
                         path={C.DATA_BASE_PATH}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <DataBasePage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
+
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <ArchCommPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
+
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_HOW_TO_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <HowToPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
+
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_CALENDAR_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <CalendarPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
+
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_TEMPLATES_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <TemplatesPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.TECH_POLICY_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <TechPolicyPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}`}
                         element={
-                            <div
-                                style={{
-                                    height: '100vh',
-                                    paddingLeft: '256px',
-                                    backgroundColor: 'var(--color-background-base)',
-                                }}
-                            >
+                            <S.RouteWrapperStyle>
                                 <Menu />
+
                                 <ServicesPage />
-                            </div>
+                            </S.RouteWrapperStyle>
                         }
                     />
                     <Route

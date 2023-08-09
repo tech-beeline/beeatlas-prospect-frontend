@@ -180,20 +180,9 @@ export const Slider = () => {
                 <S.LeftArrow className="LeftArrow" />
             </S.ArrowWrapper>
 
-            <S.SliderContainer
-                className="SliderContainer"
-                // TODO: только для мобилки
-                // onMouseDown={onMouseDown}
-                // onMouseUp={onMouseUp}
-                // onMouseLeave={onMouseUp}
-                // onMouseMove={onMouseMove}
-                // onTouchStart={onTouchStart}
-                // onTouchEnd={onTouchEnd}
-                // onTouchMove={onTouchMove}
-            >
+            <S.SliderContainer className="SliderContainer">
                 <S.Slider className="Slider" ref={sliderRef} {...{ transformX }}>
                     {/* <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}> */}
-                    {/* TODO: убрать этот хардкод */}
                     <Card colorType="green" title="модели" withImage to="models">
                         Функционально-доменная модель позволяет{' '}
                         <Link
@@ -208,7 +197,6 @@ export const Slider = () => {
                         а также получить информацию о состоянии ИТ–ландшафта.
                     </Card>
 
-                    {/* TODO: const */}
                     <Card colorType="pink" title="база знаний" withImage to="data-base">
                         В базе знаний вы можете найти все{' '}
                         <Link

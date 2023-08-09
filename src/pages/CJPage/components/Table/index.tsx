@@ -477,31 +477,25 @@ export const Table = () => {
                                                             </S.MenuItemText>
                                                         </S.MenuItem>
 
-                                                        <S.MenuItem
+                                                        <S.MenuItemStyled
                                                             onClick={() => setAddStepMenu(true)}
-                                                            style={{
-                                                                justifyContent: 'space-between',
-                                                            }}
                                                         >
                                                             <S.MenuItemText>
                                                                 Добавить шаг
                                                             </S.MenuItemText>
 
                                                             <Icon iconName={Icons.NavArrowRight} />
-                                                        </S.MenuItem>
+                                                        </S.MenuItemStyled>
 
-                                                        <S.MenuItem
+                                                        <S.MenuItemStyled
                                                             onClick={() => setMoveMenu(true)}
-                                                            style={{
-                                                                justifyContent: 'space-between',
-                                                            }}
                                                         >
                                                             <S.MenuItemText>
                                                                 Переместить
                                                             </S.MenuItemText>
 
                                                             <Icon iconName={Icons.NavArrowRight} />
-                                                        </S.MenuItem>
+                                                        </S.MenuItemStyled>
 
                                                         {tableData.length > 1 && (
                                                             <>

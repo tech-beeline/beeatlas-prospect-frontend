@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Title } from 'styles/units';
 
 import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
@@ -36,14 +37,6 @@ export const TitleWrapper = styled.div`
 
     width: 100%;
     margin-bottom: 16px;
-`;
-
-export const Title = styled.h4`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h4);
-    line-height: var(--font-line-height-h4);
-
-    color: var(--color-text-active);
 `;
 
 export const SubTitle = styled(Title)`
@@ -90,9 +83,6 @@ export const CircleStyled = styled.circle`
 `;
 
 export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
-    /* left: initial !important;
-    top: initial !important; */
-
     max-width: 360px;
     width: max-content;
     padding: 4px 8px;

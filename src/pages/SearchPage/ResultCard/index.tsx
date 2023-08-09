@@ -100,6 +100,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                     <S.TitleSecond className="ResultCardTitleSecond" style={{ marginTop: '24px' }}>
                         Домен
                     </S.TitleSecond>
+
                     <a
                         href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domain_ref?.guid}`}
                         rel="noopener noreferrer"

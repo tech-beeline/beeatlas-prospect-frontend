@@ -3,31 +3,30 @@ import React from 'react';
 import { Link } from 'components/interaction';
 import { IconText } from 'components/other';
 
-// import { useAutoOpenMenuItem } from 'hooks';
 import * as ROUTER from 'router/const';
 
 import * as S from './units';
+import * as STYLES from 'styles/units';
 
 export const HowToPage = () => {
-    // useAutoOpenMenuItem(ROUTER_CONST.ARCH_COMM_PATH, );
-
     return (
         <S.PageWrapper className="PageWrapper">
             <S.H3 className="H3">
                 Как подготовиться
                 <br />к защите на архитектурном комитете
             </S.H3>
-            <S.SubTitle className="SubTitle" style={{ marginBottom: '48px' }}>
+
+            <S.SubTitle className="SubTitle">
                 Продукт, который был защищен на АК, имеет свое место в ИТ-ландшафте компании.
             </S.SubTitle>
 
-            <IconText
+            <S.IconTextStyled
                 number={1}
                 text="Изучите материалы для выхода на архитектурный комитет"
                 color="info"
-                style={{ marginBottom: '12px' }}
             />
-            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
+
+            <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Чтобы подготовка заняла минимум времени и сил, изучите алгоритм подготовки к выходу
                 на защиту.
                 <br />
@@ -39,15 +38,11 @@ export const HowToPage = () => {
                 >
                     консультацией.
                 </Link>
-            </S.GrayText>
+            </STYLES.GrayText>
 
-            <IconText
-                number={2}
-                text="Подготовьте презентацию"
-                color="info"
-                style={{ marginBottom: '12px' }}
-            />
-            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
+            <S.IconTextStyled number={2} text="Подготовьте презентацию" color="info" />
+
+            <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Архитектурный комитет рассматривает разные вопросы, например, по определению контура
                 ответственности продукта, о применении новой технологии, о внесении изменения
                 в модель данных, о способе построения архитектуры продукта, об изменении процесса
@@ -72,15 +67,15 @@ export const HowToPage = () => {
                 >
                     принципам Технической политики.
                 </Link>
-            </S.GrayText>
+            </STYLES.GrayText>
 
-            <IconText
+            <S.IconTextStyled
                 number={3}
                 text="Закажите услугу по составлению оппонирующей позиции"
                 color="info"
-                style={{ marginBottom: '12px' }}
             />
-            <S.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
+
+            <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Воспользуйтесь сервисом{' '}
                 <Link
                     path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
@@ -92,10 +87,10 @@ export const HowToPage = () => {
                 по составлению оппонирующей позиции.
                 <br />
                 Этот шаг обязателен.
-            </S.GrayText>
+            </STYLES.GrayText>
 
             <S.BorderContainerStyled>
-                <S.BoldTitle className="BoldTitle">После заказа услуги:</S.BoldTitle>
+                <STYLES.H5 className="BoldTitle">После заказа услуги:</STYLES.H5>
 
                 <IconText
                     icon="User"
@@ -103,6 +98,7 @@ export const HowToPage = () => {
                     color="purple"
                     isSecondary
                 />
+
                 <IconText
                     icon="Group"
                     text={`Во время подготовки оппонирующей позиции пройдет этап экспертного ревью. 
@@ -111,6 +107,7 @@ export const HowToPage = () => {
                     color="purple"
                     isSecondary
                 />
+
                 <IconText
                     icon="UserVerified"
                     text="После того, как оппонирующая позиция будет составлена, вам назначат дату и время заседания Архитектурного комитета.
@@ -126,11 +123,11 @@ export const HowToPage = () => {
                 color="info"
                 style={{ margin: '40px 0 12px' }}
             />
-            <S.GrayText className="GrayText">
+            <STYLES.GrayText className="GrayText">
                 На заседании комиссия рассмотрит ваш запрос и даст резолюцию. На выступление у вас
                 будет 15 минут (по 1 минуте на слайд). После защиты — блок ответов на вопросы.
                 Результатом встречи является протокол заседания.
-            </S.GrayText>
+            </STYLES.GrayText>
         </S.PageWrapper>
     );
 };

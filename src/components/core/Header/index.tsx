@@ -37,7 +37,6 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
 
     const navigate = useNavigate();
 
-    // TODO: check this in prod
     const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
 
     // tabs

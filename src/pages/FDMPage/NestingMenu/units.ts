@@ -8,7 +8,7 @@ export const ResizableStyled = styled(Resizable)`
     overflow: hidden auto;
 
     &::-webkit-scrollbar-thumb {
-        background-color: #b6b7bf;
+        background-color: var(--color-utilities-scroll-hover);
 
         border-radius: var(--size-border-radius-x8);
     }

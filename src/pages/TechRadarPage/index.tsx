@@ -8,6 +8,7 @@ import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './componen
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
+import * as STYLES from 'styles/units';
 
 export const TechRadarPage = observer(() => {
     const {
@@ -166,11 +167,9 @@ export const TechRadarPage = observer(() => {
         <S.PageWrapper>
             <S.Header>
                 <S.TitleWrapper>
-                    <S.Title>Технорадар</S.Title>
+                    <STYLES.Title>Технорадар</STYLES.Title>
 
                     <S.SubTitle>(версия от 10.2022)</S.SubTitle>
-
-                    {/* <S.SelectIcon /> */}
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />

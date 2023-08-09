@@ -4,10 +4,9 @@ import { BorderContainer } from 'components/containers';
 import { IconText } from 'components/other';
 
 import * as ROUTER from 'router/const';
+import * as STYLES from 'styles/units';
 
-// import human5 from './images/human5.png';
 import human1 from './images/human1.jpg';
-// import human2 from './images/human2.jpg';
 import human3 from './images/human3.jpg';
 import human4 from './images/human4.jpg';
 import { HumanCard } from './HumanCard';
@@ -18,43 +17,40 @@ export const ArchCommPage = () => {
         <S.PageWrapper className="PageWrapper">
             <S.H3 className="H3">Архитектурный комитет</S.H3>
 
-            <S.GrayText className="GrayText" style={{ marginBottom: '32px' }}>
+            <S.GrayTextStyled className="GrayText">
                 — коллегиальный орган, состоящий из вице-президентов компании и корпоративных
                 архитекторов.
-            </S.GrayText>
+            </S.GrayTextStyled>
 
-            <S.H4 className="H4" style={{ marginBottom: '12px' }}>
-                Для чего был создан
-            </S.H4>
-            <ul style={{ marginBottom: '50px' }}>
-                <S.GrayText className="GrayText">
+            <S.H4Styled className="H4">Для чего был создан</S.H4Styled>
+
+            <S.List>
+                <STYLES.GrayText className="GrayText">
                     <li>обеспечить гибкость и консистентность ИТ-ландшафта</li>
-                </S.GrayText>
+                </STYLES.GrayText>
 
-                <S.GrayText className="GrayText">
+                <STYLES.GrayText className="GrayText">
                     <li>ускорить time-to-market новых возможностей на уровне компании</li>
-                </S.GrayText>
+                </STYLES.GrayText>
 
-                <S.GrayText className="GrayText">
+                <STYLES.GrayText className="GrayText">
                     <li>обеспечить баланс между стоимостью разработки и гибкостью решения</li>
-                </S.GrayText>
+                </STYLES.GrayText>
 
-                <S.GrayText className="GrayText">
+                <STYLES.GrayText className="GrayText">
                     <li>улучшить возможности масштабирования, нагрузки, безопасности</li>
-                </S.GrayText>
+                </STYLES.GrayText>
 
-                <S.GrayText className="GrayText">
+                <STYLES.GrayText className="GrayText">
                     <li>обеспечить переиспользование знаний и технологий в компании</li>
-                </S.GrayText>
-            </ul>
+                </STYLES.GrayText>
+            </S.List>
 
-            <S.H4 className="H4" style={{ marginBottom: '40px' }}>
-                Состав и функции Архитектурного комитета
-            </S.H4>
+            <S.H4mb40Styled className="H4">Состав и функции Архитектурного комитета</S.H4mb40Styled>
 
-            <BorderContainer style={{ marginBottom: '24px' }}>
+            <S.BorderContainerStyled>
                 <S.Container className="Container">
-                    <S.BoldTitle className="BoldTitle">Лица принимающие решения</S.BoldTitle>
+                    <STYLES.H5 className="BoldTitle">Лица принимающие решения</STYLES.H5>
 
                     <HumanCard
                         avatar={human1}
@@ -71,17 +67,10 @@ export const ArchCommPage = () => {
                         description="Исполнительный вице-президент по технике. 
 Технический блок"
                     />
-
-                    {/* <HumanCard
-                        avatar={human5}
-                        secondName="Евдокимов"
-                        firstName="Андрей Александрович"
-                        description="Вице-президент по безопасности"
-                    /> */}
                 </S.Container>
 
                 <S.Container className="Container">
-                    <S.BoldTitle className="BoldTitle">Функции</S.BoldTitle>
+                    <STYLES.H5 className="BoldTitle">Функции</STYLES.H5>
 
                     <IconText icon="Notification" text="Принятие решений" color="info" />
                     <IconText icon="Suitcase" text="Развитие ИТ-ландшафта" color="warning" />
@@ -89,32 +78,21 @@ export const ArchCommPage = () => {
                     <IconText icon="PagesMultipleAdd" text="Инициация проектов" color="magenta" />
                     <IconText icon="PageSearch" text="Утверждение техполитики" color="purple" />
                 </S.Container>
-            </BorderContainer>
+            </S.BorderContainerStyled>
 
-            <BorderContainer style={{ marginBottom: '24px' }}>
+            <S.BorderContainerStyled>
                 <S.Container className="Container">
-                    <S.BoldTitle className="BoldTitle">
+                    <STYLES.H5 className="BoldTitle">
                         Центр развития корпоративной архитектуры
-                    </S.BoldTitle>
+                    </STYLES.H5>
 
-                    <HumanCard
-                        firstName="Руководитель центра"
-                        //                         description="Вице-президент по информационным технологиям.
-                        // Блок по информационным технологиям"
-                        style={{ gap: '0' }}
-                    />
+                    <S.HumanCardStyled firstName="Руководитель центра" />
 
-                    <HumanCard
-                        avatar="group"
-                        firstName="Корпоративные архитекторы"
-                        //                         description="Вице-президент по работе с данными.
-                        // Блок по работе с данными"
-                        style={{ gap: '0' }}
-                    />
+                    <S.HumanCardStyled avatar="group" firstName="Корпоративные архитекторы" />
                 </S.Container>
 
                 <S.Container className="Container">
-                    <S.BoldTitle className="BoldTitle">Функции</S.BoldTitle>
+                    <STYLES.H5 className="BoldTitle">Функции</STYLES.H5>
 
                     <IconText
                         icon="UserVerified"
@@ -122,6 +100,7 @@ export const ArchCommPage = () => {
                         color="success"
                         to={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
                     />
+
                     <IconText
                         icon="QuestionCircled"
                         text="Консультирование"
@@ -129,11 +108,11 @@ export const ArchCommPage = () => {
                         to={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
                     />
                 </S.Container>
-            </BorderContainer>
+            </S.BorderContainerStyled>
 
             <BorderContainer>
                 <S.Container className="Container">
-                    <S.BoldTitle className="BoldTitle">Секретарь комитета</S.BoldTitle>
+                    <STYLES.H5 className="BoldTitle">Секретарь комитета</STYLES.H5>
 
                     <HumanCard
                         avatar={human4}
@@ -145,7 +124,7 @@ export const ArchCommPage = () => {
                 </S.Container>
 
                 <S.Container className="Container">
-                    <S.BoldTitle className="BoldTitle">Функции</S.BoldTitle>
+                    <STYLES.H5 className="BoldTitle">Функции</STYLES.H5>
 
                     <IconText icon="Megaphone" text="Проведение заседаний" />
                 </S.Container>

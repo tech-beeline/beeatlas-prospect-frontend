@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { BorderContainer } from 'components/containers';
+import { GrayText, H4 } from 'styles/units';
+import { HumanCard } from './HumanCard';
 
-// TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
-    /* height: 100vh; */
     padding: 72px 52px;
 
     background-color: var(--color-background-base);
@@ -17,31 +18,6 @@ export const Container = styled.div`
     width: 50%;
 `;
 
-export const Title = styled.h1`
-    font-weight: var(--font-weight-medium);
-    font-size: 100px;
-    line-height: 110px;
-
-    color: var(--color-text-active);
-    background-color: var(--button-background-color);
-`;
-
-export const H1 = styled.h1`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h1);
-    line-height: var(--font-line-height-h1);
-
-    margin-top: 120px;
-
-    background-color: var(--button-background-color);
-`;
-
-export const H2 = styled.h2`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h2);
-    line-height: var(--font-line-height-h2);
-`;
-
 export const H3 = styled.h3`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-h3);
@@ -51,32 +27,26 @@ export const H3 = styled.h3`
     margin: 40px 0 12px;
 `;
 
-export const H4 = styled.h4`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h4);
-    line-height: var(--font-line-height-h4);
-    letter-spacing: var(--font-letter-spacing-body3);
+export const GrayTextStyled = styled(GrayText)`
+    margin-bottom: 32px;
 `;
 
-export const GrayText = styled.p`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-body1);
-    line-height: var(--font-line-height-body1);
-
-    color: var(--color-text-inactive);
+export const H4Styled = styled(H4)`
+    margin-bottom: 12px;
 `;
 
-export const BoldTitle = styled.h5`
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-h5);
-    line-height: var(--font-line-height-h5);
-
-    margin-bottom: 8px;
+export const List = styled.ul`
+    margin-bottom: 50px;
 `;
 
-export const BoldText = styled.p`
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-    letter-spacing: var(--font-letter-spacing-body3);
+export const BorderContainerStyled = styled(BorderContainer)`
+    margin-bottom: 24px;
+`;
+
+export const HumanCardStyled = styled(HumanCard)`
+    gap: 0;
+`;
+
+export const H4mb40Styled = styled(H4)`
+    margin-bottom: 40px;
 `;

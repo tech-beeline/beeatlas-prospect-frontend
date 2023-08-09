@@ -30,15 +30,7 @@ export const H4 = styled.h4`
     margin-bottom: 8px;
 `;
 
-export const GrayText = styled.p`
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-    letter-spacing: var(--font-letter-spacing-body3);
-    white-space: pre-line;
 
-    color: var(--color-text-inactive);
-`;
 
 export const SearchContainer = styled.form`
     display: flex;

@@ -26,7 +26,6 @@ export const BIForm: FC<IBIForm> = (props) => {
         selectValue: '',
         sideText: '',
         membersDescription: '',
-
     });
 
     return (

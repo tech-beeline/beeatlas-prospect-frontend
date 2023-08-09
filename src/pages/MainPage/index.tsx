@@ -4,8 +4,8 @@ import { observer } from 'mobx-react';
 import { Slider } from 'components/interaction';
 
 import * as SPages from 'pages/units';
+import * as STYLES from 'styles/units';
 
-// import { useRootStore } from 'stores/initStore';
 import diagram1 from './images/diagram1.svg';
 import diagram2 from './images/diagram2.svg';
 import diagram3 from './images/diagram3.svg';
@@ -15,7 +15,6 @@ import { InfoWithDiagram } from './components';
 import * as S from './units';
 import { Button } from '@beeline/design-system-react';
 
-// TODO: рефакторинг - раскидать по блокам/виджетам, использовать компоненты
 export const MainPage = observer(() => {
     const refH1 = useRef(null);
 
@@ -46,11 +45,11 @@ export const MainPage = observer(() => {
 
                 {/* из-за блока с картинкой убран верхний паддинг -- не подходит под все страницы */}
                 <SPages.PageWrapper className="SPageWrapper">
-                    <S.H1 className="H1">из чего состоит витрина</S.H1>
+                    <STYLES.H1 className="H1">из чего состоит витрина</STYLES.H1>
 
                     <Slider />
 
-                    <S.H1 className="H1">используя наш продукт</S.H1>
+                    <STYLES.H1 className="H1">используя наш продукт</STYLES.H1>
 
                     <S.InfoContainer className="InfoContainer">
                         <InfoWithDiagram diagram={diagram1} titleFirst="60%" titleSecond="времени">
@@ -74,7 +73,7 @@ export const MainPage = observer(() => {
                         </InfoWithDiagram>
                     </S.InfoContainer>
 
-                    <S.H1 className="H1">у нас спрашивали</S.H1>
+                    <STYLES.H1 className="H1">у нас спрашивали</STYLES.H1>
 
                     <S.AccordionStyled />
 
