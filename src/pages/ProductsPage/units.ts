@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 
-
 // Возможность логирования событий аутентификации
 
 export const PageWrapper = styled.div`

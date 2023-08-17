@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
+
 import { BoldText, GrayText } from 'styles/units';
 
 // TODO: сделать у боди бэкграунд темы

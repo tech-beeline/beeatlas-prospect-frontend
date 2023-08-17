@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
+import { Button, Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/interaction';
 
 import { ICalendarCard } from './types';
 import * as S from './units';
-import { Button, Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 export const CalendarCard: FC<ICalendarCard> = (props) => {
     return (

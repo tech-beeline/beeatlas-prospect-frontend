@@ -1,11 +1,11 @@
 import React, { FC, useRef } from 'react';
+import { Nullable } from 'types/common';
 
+import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 
 import { ISideBlock } from './types';
 import * as S from './units';
-import { useMountEffect } from 'hooks';
-import { Nullable } from 'types/common';
 
 export const SideBlock: FC<ISideBlock> = (props) => {
     const sideBlockRef = useRef(null);

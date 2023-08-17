@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Autocomplete, Select } from '@beeline/design-system-react';
 import { observer } from 'mobx-react';
 
 import { useRootStore } from 'stores/initStore';
@@ -6,7 +7,6 @@ import { useRootStore } from 'stores/initStore';
 import { CalendarCard } from './CalendarCard';
 import { TOption } from './types';
 import * as S from './units';
-import { Autocomplete, Select } from '@beeline/design-system-react';
 
 export const CalendarPage = observer(() => {
     // const [selectOptions, setSelectOptions] = useState<TOption<string>[]>([]);
@@ -174,7 +174,7 @@ export const CalendarPage = observer(() => {
                     ]}
                     size="small"
                     values={[]}
-                    makeOption={({ id, value }) => <div>{value}</div>}
+                    makeOption={({ value }) => <div>{value}</div>}
                     onChange={(option) => console.log(option)}
                 />
                 <Select
@@ -195,7 +195,7 @@ export const CalendarPage = observer(() => {
                     ]}
                     size="small"
                     values={[]}
-                    makeOption={({ id, value }) => <div>{value}</div>}
+                    makeOption={({ value }) => <div>{value}</div>}
                     onChange={(option) => console.log(option)}
                 />
             </S.SelectContainer>

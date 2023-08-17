@@ -3,8 +3,9 @@ import React from 'react';
 import { TitleBack } from 'components/interaction';
 import { IconCard } from 'components/other';
 
-import * as S from './units';
 import * as STYLES from 'styles/units';
+
+import * as S from './units';
 
 export const ConsultationPage = () => {
     return (

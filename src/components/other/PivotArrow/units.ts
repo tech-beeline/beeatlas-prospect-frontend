@@ -6,7 +6,7 @@ import { ReactComponent as ArrowSVG } from './images/arrow.svg';
 export const PivotArrow = styled(ArrowSVG)<{ isOpen: boolean; position?: string }>`
     min-width: 24px;
 
-    ${({ position, isOpen }) =>
+    ${({ position }) =>
         // position === 'top'
         //     ? css`
         //           transform: rotate(-180deg);

@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
+
 import { BorderContainer } from 'components/containers';
+
 import { GrayText, H4 } from 'styles/units';
+
 import { HumanCard } from './HumanCard';
 
 export const PageWrapper = styled.div`
