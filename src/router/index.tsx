@@ -119,11 +119,11 @@ export const NavigationRouter = () => {
                     <Route
                         path={`${C.MODELS_PATH}${C.FDM_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
+                            <S.RouteWrapperOnlyBackgroundStyle>
                                 <MenuModels />
 
                                 <FDMPage />
-                            </S.RouteWrapperStyle>
+                            </S.RouteWrapperOnlyBackgroundStyle>
                         }
                     />
 

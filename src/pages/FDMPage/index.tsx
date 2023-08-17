@@ -40,8 +40,6 @@ export const FDMPage = observer(() => {
         }
     }, [windowWidth, activeFDMItem]);
 
-    console.log('activeFDMItem', activeFDMItem);
-
     return (
         <S.PageWrapper className="PageWrapper">
             <NestingMenu />

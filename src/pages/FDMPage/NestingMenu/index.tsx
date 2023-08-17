@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { useMountEffect } from 'hooks';
@@ -7,6 +7,7 @@ import { useRootStore } from 'stores/initStore';
 import { Item } from './Item';
 import * as S from './units';
 import { Skeleton } from '@beeline/design-system-react';
+import { NumberParam, useQueryParam } from 'use-query-params';
 
 export const NestingMenu = observer(() => {
     const {
@@ -21,12 +22,27 @@ export const NestingMenu = observer(() => {
             isItemChildren,
             getGeneralMenuItems,
             isLoadingMenuItems,
+            findElementById,
         },
     } = useRootStore();
 
+    const [activeId, setActiveId] = useQueryParam('id', NumberParam);
+    const [activeParentId, setActiveParentId] = useQueryParam('parentId', NumberParam);
+
     useMountEffect(() => {
-        getGeneralMenuItems();
+        (async () => {
+            await getGeneralMenuItems();
+
+            if (activeId) {
+                findElementById(activeId, activeParentId as number);
+            }
+        })();
     });
+
+    useEffect(() => {
+        activeFDMItem.id && setActiveId(activeFDMItem.id);
+        activeFDMItem.parent && setActiveParentId(activeFDMItem.parent);
+    }, [activeFDMItem]);
 
     return (
         <S.Wrapper className="NestingMenuWrapper">

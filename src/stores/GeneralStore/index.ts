@@ -233,6 +233,52 @@ export const GeneralStore = (): IGeneralStore => {
             const res = [...new Set(this.breadCrumbsItems)];
 
             this.breadCrumbsItems = res;
+
+            console.log('breadCrumbsItems', this.breadCrumbsItems);
+        },
+
+        async findElementById(id: number, parentId: number) {
+            // console.log('id', id);
+            // отсеиваем корневой элемент
+            // if (id !== 352) {
+            //     this.breadCrumbsIds.unshift(id);
+            // } else {
+            //     return;
+            // }
+
+            // this.getGeneralMenuItems();
+
+            const foundItem = this.generalMenuItems.find(
+                (item: INestingMenuItem) => item.id === id,
+            );
+
+            console.log('foundItem', foundItem);
+
+            if (foundItem) {
+                this.setActiveFDMItem(foundItem);
+            } else {
+                const res = await this.getItemChildren(parentId, 2);
+                console.log('resId', res);
+
+                const foundItem = (res as Record<string, any>).find(
+                    (item: INestingMenuItem) => item.id === id,
+                );
+
+                this.setActiveFDMItem(foundItem);
+
+                console.log('foundItem2', foundItem);
+            }
+
+            // TODO: сделать из двух функций одну и вынести в utils
+
+            // только для Экспанда
+            this.treeExpandArray = [];
+            this.handleCheckTreeExpandId(parentId);
+
+            // хлебные крошки
+            this.breadCrumbsIds = [];
+            this.breadCrumbsItems = [];
+            this.breadCrumbsFormat(this.activeFDMItem.id);
         },
 
         async setActiveFDMItem(item) {
@@ -289,12 +335,6 @@ export const GeneralStore = (): IGeneralStore => {
                 const res = await getItemChildren(parentId);
 
                 if (res) {
-                    // TODO: убрать
-                    // if (!res.data.length) {
-                    //     runInAction(() => {
-                    //         this.isItemChildren = false;
-                    //     });
-                    // }
                     const resArr = res.data.map((item: INestingMenuItem) => ({
                         ...item,
                         parent: parentId,

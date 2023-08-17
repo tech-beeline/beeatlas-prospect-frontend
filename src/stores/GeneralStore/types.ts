@@ -46,6 +46,8 @@ export interface IGeneralStore {
     breadCrumbsItems: any[]; // [{...}, {...}]
     breadCrumbsIds: number[]; // [1,2,3]
 
+    findElementById: (id: number, parentId: number) => void;
+
     // СТРАНИЦА КАЛЕНДАРЯ
     setCalendarData: () => void;
 
