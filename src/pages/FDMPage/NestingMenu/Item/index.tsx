@@ -3,7 +3,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { PivotArrow } from 'components/other';
 
-import { INestingMenuItem } from 'stores/GeneralStore';
+import { INestingMenuItem } from 'stores/FDMStore';
 
 import * as S from './units';
 
