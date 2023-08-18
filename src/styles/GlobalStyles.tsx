@@ -40,6 +40,7 @@ export const GlobalStyles = () => {
                     background-color: var(--color-background-base);
                     color: #212121;
                     font-family: 'Beeline Sans', sans-serif;
+                    overflow-wrap: break-word;
 
                     &::-webkit-scrollbar-thumb {
                         background-color: var(--color-utilities-scroll-hover);
