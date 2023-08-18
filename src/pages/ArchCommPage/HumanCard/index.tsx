@@ -1,5 +1,5 @@
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import React, { FC } from 'react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { IHumanCard } from './types';
 import * as S from './units';

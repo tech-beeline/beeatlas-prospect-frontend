@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
 import { IconText } from 'components/other';
+
 import { GrayText } from 'styles/units';
 
 export const PageWrapper = styled.div`

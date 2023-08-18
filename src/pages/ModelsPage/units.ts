@@ -26,8 +26,6 @@ export const ContentWrapper = styled.div`
     padding: 32px 52px 0 108px;
 `;
 
-
-
 export const CardContainer = styled.div`
     display: flex;
     flex-wrap: wrap;

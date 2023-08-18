@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Button } from '@beeline/design-system-react';
 import { observer } from 'mobx-react';
 
 import { Slider } from 'components/interaction';
@@ -13,7 +14,6 @@ import diagram4 from './images/diagram4.svg';
 
 import { InfoWithDiagram } from './components';
 import * as S from './units';
-import { Button } from '@beeline/design-system-react';
 
 export const MainPage = observer(() => {
     const refH1 = useRef(null);

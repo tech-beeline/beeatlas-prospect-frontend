@@ -1,7 +1,7 @@
-import { Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import React, { FC } from 'react';
 import { Link as LinkRR } from 'react-router-dom';
+import { Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ILink } from './types';
 import * as S from './units';

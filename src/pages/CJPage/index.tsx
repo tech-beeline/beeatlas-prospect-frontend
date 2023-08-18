@@ -4,10 +4,10 @@ import { Button, Icon, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { observer } from 'mobx-react';
 
+import { BIForm } from './components/BIForm';
 import { SideBlock } from './components/SideBlock';
 import { Table } from './components/Table';
 import * as S from './units';
-import { BIForm } from './components/BIForm';
 
 const SettingsCJContent = ({ setOpen, name, subName, setName, setSubName }: any) => {
     const [nameValue, setNameValue] = useState(name);

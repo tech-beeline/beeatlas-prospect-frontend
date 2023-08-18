@@ -30,8 +30,6 @@ export const H4 = styled.h4`
     margin-bottom: 8px;
 `;
 
-
-
 export const SearchContainer = styled.form`
     display: flex;
     justify-content: space-between;

@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
+import { Skeleton } from '@beeline/design-system-react';
 import { observer } from 'mobx-react';
+import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { useMountEffect } from 'hooks';
 import { useRootStore } from 'stores/initStore';
 
 import { Item } from './Item';
 import * as S from './units';
-import { Skeleton } from '@beeline/design-system-react';
-import { NumberParam, useQueryParam } from 'use-query-params';
 
 export const NestingMenu = observer(() => {
     const {
-        generalStore: {
+        fdmStore: {
             activeFDMItem,
             setActiveFDMItem,
             treeExpandArray,
