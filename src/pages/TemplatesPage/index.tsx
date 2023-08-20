@@ -4,9 +4,9 @@ import { Link } from 'components/interaction';
 import { IconCard } from 'components/other';
 
 import * as ROUTER from 'router/const';
+import * as STYLES from 'styles/units';
 
 import * as S from './units';
-import * as STYLES from 'styles/units';
 
 export const TemplatesPage = () => {
     return (

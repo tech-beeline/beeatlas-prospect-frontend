@@ -1,4 +1,4 @@
-import { INestingMenuItem } from 'stores/GeneralStore';
+import { INestingMenuItem } from 'stores/FDMStore';
 
 export interface IBreadCrumbsItem {
     item: INestingMenuItem;

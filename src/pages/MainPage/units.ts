@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { Accordion } from 'components/interaction';
+
 import { H1 } from 'styles/units';
 
 import callback from './images/callback.png';

@@ -1,6 +1,6 @@
 // import React, { FormEvent, useEffect, useState } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-
+import { Breadcrumbs } from '@beeline/design-system-react';
 import { observer } from 'mobx-react';
 
 import { useWindowResize } from 'hooks';
@@ -15,11 +15,10 @@ import { TreeCard } from './TreeCard';
 // import { ResultCard } from './ResultCard';
 import * as S from './units';
 import { ViewItemSwitcher } from './ViewItemSwitcher';
-import { Breadcrumbs } from '@beeline/design-system-react';
 
 export const FDMPage = observer(() => {
     const {
-        generalStore: { activeFDMItem, setActiveFDMItem, breadCrumbsItems },
+        fdmStore: { activeFDMItem, setActiveFDMItem, breadCrumbsItems },
     } = useRootStore();
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
@@ -39,8 +38,6 @@ export const FDMPage = observer(() => {
             setFullWidthCard(width <= 623);
         }
     }, [windowWidth, activeFDMItem]);
-
-    console.log('activeFDMItem', activeFDMItem);
 
     return (
         <S.PageWrapper className="PageWrapper">

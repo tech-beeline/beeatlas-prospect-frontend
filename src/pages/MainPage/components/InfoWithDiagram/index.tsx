@@ -1,7 +1,8 @@
 import React from 'react';
 
-import * as S from './units';
 import * as STYLES from 'styles/units';
+
+import * as S from './units';
 
 export const InfoWithDiagram = (props: any) => {
     return (

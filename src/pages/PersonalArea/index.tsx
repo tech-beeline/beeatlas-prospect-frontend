@@ -55,11 +55,6 @@ export const PersonalArea = observer(() => {
         setProfiles(profilesData);
     }, [profilesData]);
 
-    useEffect(() => {
-        console.log('filterOption', filterOption);
-        onSearchData(searchValue);
-    }, [filterOption]);
-
     const onSearchData = (value: string) => {
         const searchTerm = value.toLowerCase();
 
@@ -98,6 +93,11 @@ export const PersonalArea = observer(() => {
 
         setProfiles(() => profilesData.filter(filterHandler));
     };
+
+    useEffect(() => {
+        console.log('filterOption', filterOption);
+        onSearchData(searchValue);
+    }, [filterOption]);
 
     const sortTable = (key: string) => {
         setSortKey(key);

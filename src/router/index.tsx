@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
 import { Header, Menu, MenuModels, MenuPersonalArea } from 'components/core';
-import * as S from './units';
 
 import {
     AddRollPage,
@@ -28,10 +27,11 @@ import {
     TemplatesPage,
 } from 'pages';
 import * as ROUTER from 'router/const';
+import { Theme } from 'styles';
 
 import * as C from './const';
+import * as S from './units';
 import { RouteAdapter } from './utils';
-import { Theme } from 'styles';
 
 export const NavigationRouter = () => {
     const [isPersonalArea, setIsPersonalArea] = useState(false);
@@ -119,11 +119,11 @@ export const NavigationRouter = () => {
                     <Route
                         path={`${C.MODELS_PATH}${C.FDM_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
+                            <S.RouteWrapperOnlyBackgroundStyle>
                                 <MenuModels />
 
                                 <FDMPage />
-                            </S.RouteWrapperStyle>
+                            </S.RouteWrapperOnlyBackgroundStyle>
                         }
                     />
 

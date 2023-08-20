@@ -1,3 +1,4 @@
+import React, { FC, useState } from 'react';
 import {
     Button,
     Checkbox,
@@ -8,8 +9,9 @@ import {
     TextField,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import React, { FC, useState } from 'react';
+
 import { SideBlock } from '../SideBlock';
+
 import { SmileRate } from './SmileRate';
 import { IBIForm } from './types';
 import * as S from './units';
@@ -18,15 +20,15 @@ export const BIForm: FC<IBIForm> = (props) => {
     // TODO: radio btn всегда должен быть
     const [radioValue, setRadioValue] = useState(0);
     // @ts-ignore
-    const [objValues, setObjValues] = useState({
-        name: '',
-        commCheckbox: false,
-        description: '',
-        radioValue: 0,
-        selectValue: '',
-        sideText: '',
-        membersDescription: '',
-    });
+    // const [objValues, setObjValues] = useState({
+    //     name: '',
+    //     commCheckbox: false,
+    //     description: '',
+    //     radioValue: 0,
+    //     selectValue: '',
+    //     sideText: '',
+    //     membersDescription: '',
+    // });
 
     return (
         // @ts-ignore
@@ -92,7 +94,7 @@ export const BIForm: FC<IBIForm> = (props) => {
                             value: 'Стадия ЖЦ',
                         },
                     ]}
-                    makeOption={({ id, value }) => <div>{value}</div>}
+                    makeOption={({ value }) => <div>{value}</div>}
                     onChange={(option) => console.log(option)}
                     fullWidth
                 />

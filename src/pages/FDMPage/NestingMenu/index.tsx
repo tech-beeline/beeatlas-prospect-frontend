@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Skeleton } from '@beeline/design-system-react';
 import { observer } from 'mobx-react';
+import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { useMountEffect } from 'hooks';
 import { useRootStore } from 'stores/initStore';
 
 import { Item } from './Item';
 import * as S from './units';
-import { Skeleton } from '@beeline/design-system-react';
 
 export const NestingMenu = observer(() => {
     const {
-        generalStore: {
+        fdmStore: {
             activeFDMItem,
             setActiveFDMItem,
             treeExpandArray,
@@ -21,12 +22,29 @@ export const NestingMenu = observer(() => {
             isItemChildren,
             getGeneralMenuItems,
             isLoadingMenuItems,
+            findElementById,
         },
     } = useRootStore();
 
+    const [activeId, setActiveId] = useQueryParam('id', NumberParam);
+    const [activeParentId, setActiveParentId] = useQueryParam('parentId', NumberParam);
+    const [level, setLevel] = useQueryParam('level', NumberParam);
+
     useMountEffect(() => {
-        getGeneralMenuItems();
+        (async () => {
+            await getGeneralMenuItems();
+
+            if (activeId) {
+                findElementById(activeId, activeParentId as number, level as number);
+            }
+        })();
     });
+
+    useEffect(() => {
+        activeFDMItem.id && setActiveId(activeFDMItem.id);
+        activeFDMItem.parent && setActiveParentId(activeFDMItem.parent);
+        activeFDMItem.level && setLevel(activeFDMItem.level);
+    }, [activeFDMItem]);
 
     return (
         <S.Wrapper className="NestingMenuWrapper">
@@ -39,34 +57,26 @@ export const NestingMenu = observer(() => {
                 maxWidth={640}
             >
                 <S.RightSide className="NestingMenuRightSide">
-                    {isLoadingMenuItems ? (
-                        <>
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                            <Skeleton height={32} margin={{ bottom: 8 }} />
-                        </>
-                    ) : (
-                        menuTreeItems.map((item, index) => (
-                            <Item
-                                key={index}
-                                {...{
-                                    activeFDMItem,
-                                    setActiveFDMItem,
-                                    treeExpandArray,
-                                    getItemChildren,
-                                    itemChildren,
-                                    setMenuTreeItems,
-                                    menuTreeItems,
-                                    isItemChildren,
-                                }}
-                                {...item}
-                            />
-                        ))
-                    )}
+                    {isLoadingMenuItems
+                        ? Array.from({ length: 8 }).map((_, i) => (
+                              <Skeleton key={i} height={32} margin={{ bottom: 8 }} />
+                          ))
+                        : menuTreeItems.map((item) => (
+                              <Item
+                                  key={item.id}
+                                  {...{
+                                      activeFDMItem,
+                                      setActiveFDMItem,
+                                      treeExpandArray,
+                                      getItemChildren,
+                                      itemChildren,
+                                      setMenuTreeItems,
+                                      menuTreeItems,
+                                      isItemChildren,
+                                  }}
+                                  {...item}
+                              />
+                          ))}
                 </S.RightSide>
             </S.ResizableStyled>
         </S.Wrapper>

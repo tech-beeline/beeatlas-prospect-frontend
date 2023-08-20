@@ -2,13 +2,13 @@ import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+import { Nullable } from 'types/common';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
 
 import { IProfileIcon } from './types';
 import * as S from './units';
-import { Nullable } from 'types/common';
 
 export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalArea }) => {
     const [isShowDropdown, setShowDropdown] = useState(false);

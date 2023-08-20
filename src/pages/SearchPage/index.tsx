@@ -8,12 +8,12 @@ import { Expand } from 'components/other';
 import { useMountEffect } from 'hooks';
 import { useRootStore } from 'stores/initStore';
 import { getStorage, persistStorage } from 'stores/utils';
+import * as STYLES from 'styles/units';
 
 import image from './images/not-found.png';
 
 import { ResultCard } from './ResultCard';
 import * as S from './units';
-import * as STYLES from 'styles/units';
 
 export const SearchPage = observer(() => {
     const {

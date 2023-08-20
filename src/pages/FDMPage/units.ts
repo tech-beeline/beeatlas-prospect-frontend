@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { GrayText } from 'styles/units';
 
 export const PageWrapper = styled.div`
