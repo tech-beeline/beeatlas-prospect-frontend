@@ -115,7 +115,7 @@ export const FDMStore = (): IFDMStore => {
             console.log('breadCrumbsItems', this.breadCrumbsItems);
         },
 
-        async findElementById(id: number, parentId: number) {
+        async findElementById(id: number, parentId: number, level?: number) {
             // console.log('id', id);
             // отсеиваем корневой элемент
             // if (id !== 352) {
@@ -135,7 +135,7 @@ export const FDMStore = (): IFDMStore => {
             if (foundItem) {
                 this.setActiveFDMItem(foundItem);
             } else {
-                const res = await this.getItemChildren(parentId, 2);
+                const res = await this.getItemChildren(parentId, level ?? 2);
                 console.log('resId', res);
 
                 const foundItem = (res as Record<string, any>).find(

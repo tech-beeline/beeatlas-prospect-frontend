@@ -26,7 +26,7 @@ export interface IFDMStore {
     breadCrumbsItems: any[]; // [{...}, {...}]
     breadCrumbsIds: number[]; // [1,2,3]
 
-    findElementById: (id: number, parentId: number) => void;
+    findElementById: (id: number, parentId: number, level?: number) => void;
     alreadyResponse: number[];
 }
 
