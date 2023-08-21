@@ -139,20 +139,15 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                         onClick={toggleTheme}
                     />
 
-                    <BaseIcon
+                    {/* <BaseIcon
                         iconName={Icons.NotificationNew}
                         onClick={() => {
-                            console.log('getClaims', auth.getClaims(auth.getAccessToken()));
+                            // console.log('getClaims', auth.getClaims(auth.getAccessToken()));
                             // console.log('auth.getAccessToken()', auth.getAccessToken());
                         }}
-                    />
+                    /> */}
 
-                    <BaseIcon
-                        iconName={Icons.Grid}
-                        // onClick={() =>
-                        //     window.open(`mailto:email@example.com?subject=Subject&body=test`)
-                        // }
-                    />
+                    {/* <BaseIcon iconName={Icons.Grid} /> */}
 
                     {isAuth ? (
                         <ProfileIcon
