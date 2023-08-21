@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import * as STYLES from 'styles/units';
 
 import * as S from './units';
 
-export const InfoWithDiagram = (props: any) => {
+interface InfoWithDiagramProps {
+    diagram: string;
+    titleFirst: string;
+    titleSecond: string;
+    children?: ReactNode;
+}
+
+export const InfoWithDiagram: FC<InfoWithDiagramProps> = ({
+    children,
+    diagram,
+    titleFirst,
+    titleSecond,
+}) => {
     return (
         <S.FlexContainer className="InfoWithDiagramFlexContainer">
-            <S.Diagram className="Diagram" src={props.diagram} />
+            <S.Diagram className="Diagram" src={diagram} />
 
-            <STYLES.H2 className="TitleFirst">{props.titleFirst}</STYLES.H2>
+            <STYLES.H2 className="TitleFirst">{titleFirst}</STYLES.H2>
 
-            <STYLES.H4 className="TitleSecond">{props.titleSecond}</STYLES.H4>
+            <STYLES.H4 className="TitleSecond">{titleSecond}</STYLES.H4>
 
-            <S.Description>{props.children}</S.Description>
+            <S.Description>{children}</S.Description>
         </S.FlexContainer>
     );
 };
