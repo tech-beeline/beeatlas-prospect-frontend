@@ -56,6 +56,8 @@ export const PersonalArea = observer(() => {
     }, [profilesData]);
 
     const onSearchData = (value: string) => {
+        setCountPage(1);
+
         const searchTerm = value.toLowerCase();
 
         setSearchValue(searchTerm);
