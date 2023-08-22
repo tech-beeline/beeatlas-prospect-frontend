@@ -36,8 +36,9 @@ export const AddRollPage = observer(() => {
     const [oldNameForEdit, setOldNameForEdit] = useState('');
 
     const dropdownRef = useRef(null);
+    const toggleRef = useRef(null);
 
-    useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown);
+    useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, toggleRef);
 
     const navigate = useNavigate();
 
@@ -107,6 +108,7 @@ export const AddRollPage = observer(() => {
 
                 {isCurrentRole && (
                     <Icon
+                        ref={toggleRef}
                         iconName={Icons.MoreVert}
                         onClick={() => setShowDropdown(!isShowDropdown)}
                     />
