@@ -11,6 +11,7 @@ export { FDMResultPage } from './FDMResultPage';
 export { HowToPage } from './HowToPage';
 export { MainPage } from './MainPage';
 export { ModelsPage } from './ModelsPage';
+export { NotFoundPage } from './NotFoundPage';
 export { PersonalArea } from './PersonalArea';
 export { ProductsPage } from './ProductsPage';
 export { RollSettingsPage } from './RollSettingsPage';

@@ -56,3 +56,17 @@ export const GrayText = styled.p`
 
     color: var(--color-text-inactive);
 `;
+
+export const Subtitle1 = styled.p`
+    font-weight: var(--font-weight-subtitle1);
+    font-size: var(--font-size-subtitle1);
+    line-height: var(--font-line-height-subtitle1);
+    letter-spacing: var(--font-letter-spacing-subtitle1);
+`;
+
+export const Subtitle2 = styled.p`
+    font-weight: var(--font-weight-subtitle2);
+    font-size: var(--font-size-subtitle2);
+    line-height: var(--font-line-height-subtitle2);
+    letter-spacing: var(--font-letter-spacing-subtitle2);
+`;
