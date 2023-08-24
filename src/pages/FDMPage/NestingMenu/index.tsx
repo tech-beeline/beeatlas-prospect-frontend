@@ -34,10 +34,13 @@ export const NestingMenu = observer(() => {
         (async () => {
             await getGeneralMenuItems();
 
-            if (activeId) {
+            if (activeId && activeParentId && level) {
                 findElementById(activeId, activeParentId as number, level as number);
             }
         })();
+
+        // @ts-ignore
+        return () => setActiveFDMItem({});
     });
 
     useEffect(() => {
