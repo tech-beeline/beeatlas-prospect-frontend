@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Icon,
-    Table,
     TableBody,
     TableData,
     TableHead,
@@ -19,9 +18,8 @@ import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
 // import MOCK_PROFILES from './profile-mock.json';
-import { SortIndicator } from './SortIndicator';
+import { EmptyState, SortIndicator, UserTableProfile } from './components';
 import * as S from './units';
-import { UserTableProfile } from './UserTableProfile';
 
 import 'react-tooltip/dist/react-tooltip.css';
 
@@ -56,6 +54,8 @@ export const PersonalArea = observer(() => {
     }, [profilesData]);
 
     const onSearchData = (value: string) => {
+        setCountPage(1);
+
         const searchTerm = value.toLowerCase();
 
         setSearchValue(searchTerm);
@@ -150,72 +150,77 @@ export const PersonalArea = observer(() => {
                 onChange={(e) => onSearchData(e.target.value)}
                 onClear={() => setProfiles(profilesData)}
             />
-            <Table
-                style={{
-                    width: '100%',
-                }}
-            >
-                <TableHead>
-                    <TableRow>
-                        <S.TableHeaderDataStyled onClick={() => sortTable('full_name')}>
-                            <S.TableHeaderFlexWrapper>
-                                <p>ФИО</p>{' '}
-                                {sortKey === 'full_name' && <SortIndicator order={sortOrder} />}
-                            </S.TableHeaderFlexWrapper>
-                        </S.TableHeaderDataStyled>
+            {displayedProfiles.length === 0 ? (
+                <EmptyState />
+            ) : (
+                <S.TableStyled>
+                    <TableHead>
+                        <TableRow>
+                            <S.TableHeaderDataStyled onClick={() => sortTable('full_name')}>
+                                <S.TableHeaderFlexWrapper>
+                                    <p>ФИО</p>{' '}
+                                    {sortKey === 'full_name' && <SortIndicator order={sortOrder} />}
+                                </S.TableHeaderFlexWrapper>
+                            </S.TableHeaderDataStyled>
 
-                        <TableHeaderData>Продукт</TableHeaderData>
-                        <TableHeaderData>Роль</TableHeaderData>
+                            <TableHeaderData>Продукт</TableHeaderData>
+                            <TableHeaderData>Роль</TableHeaderData>
 
-                        <S.TableHeaderDataStyled onClick={() => sortTable('last_login')} alignRight>
-                            <S.TableHeaderFlexWrapper style={{ justifyContent: 'right' }}>
-                                <p>Дата активности</p>{' '}
-                                {sortKey === 'last_login' && <SortIndicator order={sortOrder} />}
-                            </S.TableHeaderFlexWrapper>
-                        </S.TableHeaderDataStyled>
-                    </TableRow>
-                </TableHead>
+                            <S.TableHeaderDataStyled
+                                onClick={() => sortTable('last_login')}
+                                alignRight
+                            >
+                                <S.TableHeaderFlexWrapper style={{ justifyContent: 'right' }}>
+                                    <p>Дата активности</p>{' '}
+                                    {sortKey === 'last_login' && (
+                                        <SortIndicator order={sortOrder} />
+                                    )}
+                                </S.TableHeaderFlexWrapper>
+                            </S.TableHeaderDataStyled>
+                        </TableRow>
+                    </TableHead>
 
-                <TableBody>
-                    {displayedProfiles.map((profile) => {
-                        return (
-                            <TableRow key={profile.id}>
-                                <TableData>
-                                    <UserTableProfile
-                                        fullName={profile.full_name}
-                                        email={profile.email}
-                                    />
-                                </TableData>
+                    <TableBody>
+                        {displayedProfiles.map((profile) => {
+                            return (
+                                <TableRow key={profile.id}>
+                                    <TableData>
+                                        <UserTableProfile
+                                            fullName={profile.full_name}
+                                            email={profile.email}
+                                        />
+                                    </TableData>
 
-                                <TableData>Нет данных (бэк)</TableData>
-                                <TableData>
-                                    {profile.roles?.length > 0 &&
-                                        profile.roles.map((role: any) => role.name)}
-                                </TableData>
-                                <TableData alignRight>{profile.last_login}</TableData>
-                            </TableRow>
-                        );
-                    })}
+                                    <TableData>Нет данных (бэк)</TableData>
+                                    <TableData>
+                                        {profile.roles?.length > 0 &&
+                                            profile.roles.map((role: any) => role.name)}
+                                    </TableData>
+                                    <TableData alignRight>{profile.last_login}</TableData>
+                                </TableRow>
+                            );
+                        })}
 
-                    <TableRow>
-                        <TableData colSpan={7}>
-                            <TablePagination
-                                onPageChange={setCountPage}
-                                onRowsPerPageChange={(perPage) => {
-                                    setItemsCountOnPage(perPage);
+                        <TableRow>
+                            <TableData colSpan={7}>
+                                <TablePagination
+                                    onPageChange={setCountPage}
+                                    onRowsPerPageChange={(perPage) => {
+                                        setItemsCountOnPage(perPage);
 
-                                    setCountPage(1);
-                                }}
-                                page={countPage}
-                                rowsCount={profiles.length}
-                                rowsPerPage={itemsCountOnPage}
-                                rowsPerPageOptions={[5, 10, 30, 50]}
-                                showFirstAndLastButtons
-                            />
-                        </TableData>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                                        setCountPage(1);
+                                    }}
+                                    page={countPage}
+                                    rowsCount={profiles.length}
+                                    rowsPerPage={itemsCountOnPage}
+                                    rowsPerPageOptions={[5, 10, 30, 50]}
+                                    showFirstAndLastButtons
+                                />
+                            </TableData>
+                        </TableRow>
+                    </TableBody>
+                </S.TableStyled>
+            )}
         </S.PageWrapper>
     );
 });

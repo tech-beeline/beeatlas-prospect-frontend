@@ -1,4 +1,4 @@
-import { Search, TableHeaderData } from '@beeline/design-system-react';
+import { Search, Table, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Hint } from 'pages/TechRadarPage/components/LeftMenu/Hint';
@@ -56,4 +56,8 @@ export const TableHeaderFlexWrapper = styled.div`
 export const TableHeaderDataStyled = styled(TableHeaderData)`
     user-select: none;
     cursor: pointer;
+`;
+
+export const TableStyled = styled(Table)`
+    width: 100%;
 `;
