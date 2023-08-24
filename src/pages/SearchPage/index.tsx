@@ -119,6 +119,7 @@ export const SearchPage = observer(() => {
                         placeholder="Поиск"
                         onChange={({ target: { value } }) => setSearchInput(value)}
                         value={searchInput}
+                        maxLength={400}
                     />
 
                     <Button variant="contained" style={{ padding: '0 20px' }}>

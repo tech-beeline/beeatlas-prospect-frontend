@@ -83,11 +83,7 @@ const TextBlock4 = () => {
             корпоративный архитектор предложит позиционирование самостоятельно исходя из
             предоставленной концепции продукта. Воспользоваться сервисом позиционирования
             корпоративной архитектуры можно{' '}
-            <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
-                fontSize={19}
-                isInner
-            >
+            <Link path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`} fontSize={19} isInner>
                 тут.
             </Link>{' '}
         </S.TextBlock>

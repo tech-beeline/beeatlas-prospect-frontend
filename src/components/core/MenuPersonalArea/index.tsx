@@ -29,12 +29,12 @@ export const MenuPersonalArea = () => {
                 url={ROUTER.PERSONAL_AREA_PATH}
             />
 
-            <Item
+            {/* <Item
                 iconName={Icons.Calendar}
                 title="Календарь заседаний"
                 url={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
                 disabled
-            />
+            /> */}
 
             <Item
                 // iconName={Icons.Radar}
