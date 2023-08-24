@@ -10,9 +10,7 @@ import { useRootStore } from 'stores/initStore';
 import { getStorage, persistStorage } from 'stores/utils';
 import * as STYLES from 'styles/units';
 
-import image from './images/not-found.png';
-
-import { ResultCard } from './ResultCard';
+import { NotFoundBlock, RefineRequestBlock, ResultCard } from './components';
 import * as S from './units';
 
 export const SearchPage = observer(() => {
@@ -130,17 +128,11 @@ export const SearchPage = observer(() => {
                 <S.ResultContainer className="ResultContainer">
                     {isLoadingSearch ? (
                         // skeleton
-                        <>
-                            <ResultCard />
-                            <ResultCard />
-                            <ResultCard />
-                        </>
+                        Array.from({ length: 3 }).map((_, i) => <ResultCard key={i} />)
+                    ) : resultSearch.length > 200 ? (
+                        <RefineRequestBlock />
                     ) : resultSearch === 'nodata' ? (
-                        <S.NoFoundBlock className="NoFoundBlock">
-                            <S.Image src={image} />
-                            Нет результатов, подходящих под параметры поиска. Попробуйте изменить
-                            запрос.
-                        </S.NoFoundBlock>
+                        <NotFoundBlock />
                     ) : (
                         resultSearch.map((item, index) => (
                             <ResultCard data={item} key={index} {...{ request }} />
