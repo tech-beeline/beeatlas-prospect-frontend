@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import * as STYLES from 'styles/units';
 
+import { IInfoWithDiagram } from './types';
 import * as S from './units';
 
-export const InfoWithDiagram = (props: any) => {
+export const InfoWithDiagram: FC<IInfoWithDiagram> = (props) => {
     return (
         <S.FlexContainer className="InfoWithDiagramFlexContainer">
             <S.Diagram className="Diagram" src={props.diagram} />

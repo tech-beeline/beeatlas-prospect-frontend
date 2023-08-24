@@ -56,12 +56,13 @@ export const CardsContainer = styled.div`
 `;
 
 export const InfoContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-auto-columns: minmax(130px, 1fr);
+    grid-auto-flow: column;
     gap: 16px;
 
-    width: 100%;
-    padding-top: 60px;
+    max-width: 100%;
+    margin-top: 60px;
 `;
 
 export const CallbackWrapper = styled.div`
