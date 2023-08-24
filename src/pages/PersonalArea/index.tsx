@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Icon,
-    Table,
     TableBody,
     TableData,
     TableHead,
@@ -19,9 +18,7 @@ import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
 
 // import MOCK_PROFILES from './profile-mock.json';
-import { EmptyState } from './components/EmptyState';
-import { SortIndicator } from './components/SortIndicator';
-import { UserTableProfile } from './components/UserTableProfile';
+import { EmptyState, SortIndicator, UserTableProfile } from './components';
 import * as S from './units';
 
 import 'react-tooltip/dist/react-tooltip.css';
@@ -156,11 +153,7 @@ export const PersonalArea = observer(() => {
             {displayedProfiles.length === 0 ? (
                 <EmptyState />
             ) : (
-                <Table
-                    style={{
-                        width: '100%',
-                    }}
-                >
+                <S.TableStyled>
                     <TableHead>
                         <TableRow>
                             <S.TableHeaderDataStyled onClick={() => sortTable('full_name')}>
@@ -226,7 +219,7 @@ export const PersonalArea = observer(() => {
                             </TableData>
                         </TableRow>
                     </TableBody>
-                </Table>
+                </S.TableStyled>
             )}
         </S.PageWrapper>
     );
