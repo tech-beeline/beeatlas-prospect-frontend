@@ -17,6 +17,7 @@ import {
     HowToPage,
     MainPage,
     ModelsPage,
+    NotFoundPage,
     PersonalArea,
     ProductsPage,
     RollSettingsPage,
@@ -233,6 +234,8 @@ export const NavigationRouter = () => {
                     <Route path={C.PRODUCTS_PATH} element={<ProductsPage />} />
 
                     <Route path={C.CJ_PATH} element={<CJPage />} />
+
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </QueryParamProvider>
         </Theme>
