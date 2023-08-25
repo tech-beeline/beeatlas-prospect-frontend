@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div<{ isOpen: boolean }>`
-    position: absolute;
+    position: fixed;
     left: 50%;
     bottom: 80px;
     transform: translateX(-50%);

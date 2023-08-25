@@ -6,7 +6,8 @@ import { ErrorBoundary } from 'components/core';
 
 import { NavigationRouter } from 'router';
 import { StoreProvider } from 'stores/initStore';
-import { GlobalStyles } from 'styles';
+import { GlobalStyles, Theme } from 'styles';
+import { Snackbar } from 'widgets/Snackbar';
 
 import '@beeline/design-tokens/css/tokens/globals/index.css';
 import '@beeline/design-tokens/css/tokens/themes/light.css';
@@ -18,20 +19,22 @@ const App = () => {
     return (
         <>
             <StoreProvider>
-                <ErrorBoundary>
-                    <DropdownContext.Provider
-                        value={{
-                            applicationRootElementID: 'theme-class',
-                            dropdownElementID: 'dsb__positioner',
-                        }}
-                    >
-                        <Router>
-                            <NavigationRouter />
-                        </Router>
-                    </DropdownContext.Provider>
-                </ErrorBoundary>
+                <Theme>
+                    <ErrorBoundary>
+                        <DropdownContext.Provider
+                            value={{
+                                applicationRootElementID: 'theme-class',
+                                dropdownElementID: 'dsb__positioner',
+                            }}
+                        >
+                            <Router>
+                                <NavigationRouter />
+                            </Router>
+                        </DropdownContext.Provider>
+                    </ErrorBoundary>
+                </Theme>
             </StoreProvider>
-
+            <Snackbar />
             <GlobalStyles />
         </>
     );

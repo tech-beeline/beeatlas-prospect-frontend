@@ -41,9 +41,5 @@ export interface IGeneralStore {
     techRadarData: any[];
 
     // РОЛИ
-    isShowSnackbar: boolean;
-    setShowSnackbar: (bool: boolean) => void;
-    snackbarType: 'create' | 'delete' | 'edit' | null;
-    setSnackbarType: (type: 'create' | 'delete' | 'edit' | null) => void;
     permission: any[];
 }

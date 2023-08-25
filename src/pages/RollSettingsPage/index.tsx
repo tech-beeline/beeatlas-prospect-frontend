@@ -4,7 +4,7 @@ import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { observer } from 'mobx-react';
 
-import { Snackbar, TitleBack } from 'components/interaction';
+import { TitleBack } from 'components/interaction';
 
 import { useMountEffect } from 'hooks';
 import * as ROUTER from 'router/const';
@@ -14,18 +14,8 @@ import * as S from './units';
 
 export const RollSettingsPage = observer(() => {
     const {
-        generalStore: {
-            roles,
-            snackbarType,
-            isShowSnackbar,
-            getRoles,
-            setCurrentRole,
-            setShowSnackbar,
-        },
+        generalStore: { roles, getRoles, setCurrentRole },
     } = useRootStore();
-
-    // const [isShowSnackbar, setShowSnackbar] = useState(false);
-    // const [snackbarType, setSnackbarType] = useState<Nullable<'create' | 'delete' | 'edit'>>(null);
 
     const navigate = useNavigate();
 
@@ -70,20 +60,6 @@ export const RollSettingsPage = observer(() => {
                     </S.Role>
                 ))}
             </S.RolesContainer>
-
-            <Snackbar
-                isOpen={(snackbarType === 'create' || snackbarType === 'delete') && isShowSnackbar}
-                setOpen={setShowSnackbar}
-                message={
-                    snackbarType === 'create'
-                        ? 'Роль успешно создана'
-                        : snackbarType === 'delete'
-                        ? 'Роль удалена'
-                        : ''
-                }
-                // textButton="Перейти к ролям"
-                // onClickButton={() => navigateToAllRoles()}
-            />
         </S.PageWrapper>
     );
 });

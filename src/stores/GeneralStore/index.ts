@@ -45,9 +45,6 @@ export const GeneralStore = (): IGeneralStore => {
         roles: [],
         permission: [],
 
-        isShowSnackbar: false,
-        snackbarType: null,
-
         setAuth(isAuth) {
             this.isAuth = isAuth;
 
@@ -138,13 +135,6 @@ export const GeneralStore = (): IGeneralStore => {
         },
 
         // страница Ролей
-        setShowSnackbar(bool) {
-            this.isShowSnackbar = bool;
-        },
-
-        setSnackbarType(type) {
-            this.snackbarType = type;
-        },
 
         async getProfiles() {
             try {

@@ -4,12 +4,13 @@ import { Button, Divider, Icon, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { observer } from 'mobx-react';
 
-import { Snackbar, TitleBack } from 'components/interaction';
+import { TitleBack } from 'components/interaction';
 
 import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
 import { useRootStore } from 'stores/initStore';
+import { useSnackbarStore } from 'widgets/Snackbar/store';
 
 import { PermissionItem } from './PermissionItem';
 import * as S from './units';
@@ -18,18 +19,15 @@ export const AddRollPage = observer(() => {
     const {
         generalStore: {
             currentRole,
-            snackbarType,
-            isShowSnackbar,
             permission,
             createRole,
             changeRole,
             deleteRole,
             getRolePermission,
-            setShowSnackbar,
-            setSnackbarType,
         },
     } = useRootStore();
 
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const [isShowDropdown, setShowDropdown] = useState(false);
 
     const [name, setName] = useState('');
@@ -52,10 +50,7 @@ export const AddRollPage = observer(() => {
 
         if (res?.data.id) {
             navigateToAllRoles();
-
-            setSnackbarType('create');
-
-            setShowSnackbar(true);
+            showSnackbar({ message: 'Роль успешно создана' });
         }
     };
 
@@ -63,11 +58,7 @@ export const AddRollPage = observer(() => {
         const res = (await changeRole({ id: role.id, name })) as any;
 
         if (res?.data.id) {
-            setSnackbarType('edit');
-
-            setShowSnackbar(true);
-
-            // чистим старое имя которое было для сравнения
+            showSnackbar({ message: 'Изменения сохранены' });
             setOldNameForEdit('');
         }
     };
@@ -77,10 +68,16 @@ export const AddRollPage = observer(() => {
 
         if (res?.status === 200) {
             navigateToAllRoles();
+            showSnackbar({ message: 'Роль удалена' });
+        }
+    };
 
-            setSnackbarType('delete');
-
-            setShowSnackbar(true);
+    const handleSave = async () => {
+        if (isCurrentRole) {
+            await editRoleHandler(currentRole);
+            navigateToAllRoles();
+        } else {
+            createRoleHandler(name);
         }
     };
 
@@ -152,23 +149,13 @@ export const AddRollPage = observer(() => {
                     <Button
                         size="medium"
                         variant="contained"
-                        onClick={() =>
-                            isCurrentRole ? editRoleHandler(currentRole) : createRoleHandler(name)
-                        }
+                        onClick={handleSave}
                         disabled={isCurrentRole && name === oldNameForEdit}
                     >
                         Сохранить
                     </Button>
                 </S.ButtonContainer>
             </S.BottomBlock>
-
-            <Snackbar
-                isOpen={snackbarType === 'edit' && isShowSnackbar}
-                setOpen={setShowSnackbar}
-                message={snackbarType === 'edit' ? 'Изменения сохранены' : ''}
-                // textButton="Перейти к ролям"
-                // onClickButton={() => navigateToAllRoles()}
-            />
         </S.PageWrapper>
     );
 });
