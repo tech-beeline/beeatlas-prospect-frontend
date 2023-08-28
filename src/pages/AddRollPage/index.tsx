@@ -1,37 +1,60 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Button, Divider, Icon, TextField } from '@beeline/design-system-react';
+import { Button, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-import { observer } from 'mobx-react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { NumberParam, useQueryParam } from 'use-query-params';
 
+import { TextField } from 'components/form';
 import { TitleBack } from 'components/interaction';
 
-import { useMountEffect } from 'hooks';
+import {
+    useCreateRoleMutation,
+    useDeleteRoleMutation,
+    useGetRoleByIdQuery,
+    useGetRolePermissionsByIdQuery,
+    useUpdateRoleMutation,
+} from 'api/queries/roles';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
-import { useRootStore } from 'stores/initStore';
 import { useSnackbarStore } from 'widgets/Snackbar/store';
 
-import { PermissionItem } from './PermissionItem';
+import { FormValues, validationSchema } from './form';
 import * as S from './units';
 
-export const AddRollPage = observer(() => {
-    const {
-        generalStore: {
-            currentRole,
-            permission,
-            createRole,
-            changeRole,
-            deleteRole,
-            getRolePermission,
-        },
-    } = useRootStore();
+export const AddRollPage = () => {
+    const [roleId] = useQueryParam('id', NumberParam);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const [isShowDropdown, setShowDropdown] = useState(false);
 
-    const [name, setName] = useState('');
-    const [oldNameForEdit, setOldNameForEdit] = useState('');
+    const { data: roleData } = useGetRoleByIdQuery(roleId);
+    const { data: rolePermissions } = useGetRolePermissionsByIdQuery(roleId);
+    const { mutateAsync: createRole } = useCreateRoleMutation();
+    const { mutateAsync: updateRole } = useUpdateRoleMutation();
+    const { mutateAsync: deleteRole } = useDeleteRoleMutation();
+
+    const form = useForm<FormValues>({
+        resolver: yupResolver(validationSchema),
+    });
+
+    const {
+        watch,
+        formState: { isDirty },
+        reset,
+        getValues,
+        handleSubmit,
+    } = form;
+
+    const nameField = watch('name');
+
+    useEffect(() => {
+        if (roleData) {
+            reset({ ...getValues(), name: roleData.name });
+        }
+    }, [roleData, rolePermissions]);
+
+    const [isShowDropdown, setShowDropdown] = useState(false);
 
     const dropdownRef = useRef(null);
     const toggleRef = useRef(null);
@@ -43,67 +66,48 @@ export const AddRollPage = observer(() => {
     const navigateToAllRoles = () =>
         navigate(`${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}`);
 
-    const isCurrentRole = currentRole !== 'null' && currentRole !== null;
-
-    const createRoleHandler = async (name: string) => {
-        const res = (await createRole({ name })) as any;
-
-        if (res?.data.id) {
-            navigateToAllRoles();
-            showSnackbar({ message: 'Роль успешно создана' });
+    const handleDeleteRole = async () => {
+        if (roleId) {
+            const res = await deleteRole(roleId);
+            if (res?.status === 200) {
+                showSnackbar({ message: 'Роль удалена' });
+                navigateToAllRoles();
+            }
         }
     };
 
-    const editRoleHandler = async (role: any) => {
-        const res = (await changeRole({ id: role.id, name })) as any;
-
-        if (res?.data.id) {
-            showSnackbar({ message: 'Изменения сохранены' });
-            setOldNameForEdit('');
-        }
-    };
-
-    const deleteRoleHandler = async (id: number) => {
-        const res = (await deleteRole(id)) as any;
-
-        if (res?.status === 200) {
-            navigateToAllRoles();
-            showSnackbar({ message: 'Роль удалена' });
-        }
-    };
-
-    const handleSave = async () => {
-        if (isCurrentRole) {
-            await editRoleHandler(currentRole);
-            navigateToAllRoles();
-        } else {
-            createRoleHandler(name);
-        }
-    };
-
-    // обновление стр и взятия значения из сторейджа
-    useMountEffect(() => {
-        if (currentRole?.name) {
-            setName(currentRole.name);
-
-            // для дизейбла кнопки сохранить, новое имя должно отличаться от старого
-            setOldNameForEdit(currentRole.name);
-        }
-    });
-
-    useMountEffect(() => {
-        currentRole?.id && getRolePermission(currentRole.id);
-    });
+    const onSubmit = handleSubmit(
+        async ({ name, createPermission, editPermission, deletePermission }) => {
+            try {
+                if (roleId) {
+                    const res = await updateRole({ id: String(roleId), name });
+                    if (res?.data.id) {
+                        showSnackbar({ message: 'Изменения сохранены' });
+                        navigateToAllRoles();
+                    }
+                } else {
+                    const res = await createRole({ name });
+                    if (res?.data.id) {
+                        showSnackbar({ message: 'Роль успешно создана' });
+                        navigateToAllRoles();
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            }
+            console.log(name, createPermission, editPermission, deletePermission);
+        },
+    );
 
     return (
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlexGap>
                 <TitleBack
-                    title={isCurrentRole ? 'Редактирование роли' : 'Создание новой роли'}
+                    title={roleId ? 'Редактирование роли' : 'Создание новой роли'}
                     fontSize="26px"
                 />
 
-                {isCurrentRole && (
+                {roleId && (
                     <Icon
                         ref={toggleRef}
                         iconName={Icons.MoreVert}
@@ -113,10 +117,7 @@ export const AddRollPage = observer(() => {
 
                 {isShowDropdown && (
                     <S.Dropdown className="Dropdown" ref={dropdownRef}>
-                        <S.DropdownItem
-                            className="DropdownItem"
-                            onClick={() => deleteRoleHandler(currentRole.id)}
-                        >
+                        <S.DropdownItem className="DropdownItem" onClick={handleDeleteRole}>
                             {/* size не работает */}
                             {/* @ts-ignore */}
                             <Icon iconName={Icons.Delete} type={'error' || 'default'} size={16} />
@@ -126,36 +127,45 @@ export const AddRollPage = observer(() => {
                 )}
             </S.TitleFlexGap>
 
-            <TextField
-                label="Название"
-                onChange={(event) => setName(event.target.value)}
-                value={name}
-            />
+            <FormProvider {...form}>
+                <form onSubmit={onSubmit}>
+                    <TextField name="name" label="Название" />
 
-            <S.PermissionsContainer>
-                {permission.map((item) => (
-                    <PermissionItem key={item.id}>{item.name}</PermissionItem>
-                ))}
-            </S.PermissionsContainer>
+                    <S.PermissionsContainer>
+                        <S.CheckboxWrapper>
+                            <S.CheckboxStyled name="createPermission" label="Создание артефактов" />
+                        </S.CheckboxWrapper>
+                        <S.CheckboxWrapper>
+                            <S.CheckboxStyled
+                                name="editPermission"
+                                label="Редактирование артефактов"
+                            />
+                        </S.CheckboxWrapper>
+                        <S.CheckboxWrapper>
+                            <S.CheckboxStyled name="deletePermission" label="Удаление артефактов" />
+                        </S.CheckboxWrapper>
+                    </S.PermissionsContainer>
 
-            <S.BottomBlock isShown={!!name}>
-                <Divider />
+                    <S.BottomBlock isShown={!!nameField}>
+                        <Divider />
 
-                <S.ButtonContainer>
-                    <Button size="medium" onClick={navigateToAllRoles}>
-                        Отменить
-                    </Button>
+                        <S.ButtonContainer>
+                            <Button type="button" size="medium" onClick={navigateToAllRoles}>
+                                Отменить
+                            </Button>
 
-                    <Button
-                        size="medium"
-                        variant="contained"
-                        onClick={handleSave}
-                        disabled={isCurrentRole && name === oldNameForEdit}
-                    >
-                        Сохранить
-                    </Button>
-                </S.ButtonContainer>
-            </S.BottomBlock>
+                            <Button
+                                size="medium"
+                                variant="contained"
+                                type="submit"
+                                disabled={!isDirty}
+                            >
+                                Сохранить
+                            </Button>
+                        </S.ButtonContainer>
+                    </S.BottomBlock>
+                </form>
+            </FormProvider>
         </S.PageWrapper>
     );
-});
+};

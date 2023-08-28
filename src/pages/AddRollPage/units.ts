@@ -1,5 +1,6 @@
-// import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Checkbox } from 'components/form';
 
 export const PageWrapper = styled.div`
     position: relative;
@@ -111,4 +112,19 @@ export const PermissionsContainer = styled.div`
     flex-direction: column;
 
     margin: 28px 24px;
+`;
+
+export const CheckboxWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    height: 48px;
+
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+`;
+
+export const CheckboxStyled = styled(Checkbox)`
+    user-select: none;
 `;
