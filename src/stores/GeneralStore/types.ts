@@ -1,5 +1,3 @@
-import { IRole } from 'api/personal-area/types';
-
 export interface IGeneralStore {
     isAuth: boolean;
     themeIsDark: boolean;
@@ -23,27 +21,10 @@ export interface IGeneralStore {
 
     // АДМИНКА
     profiles: Record<string, any>[];
-    currentRole: any;
-    roles: Record<string, any>[];
-    setCurrentRole: (role: any | IRole) => void;
 
     getProfiles: () => void;
-    getRoles: () => void;
-    createRole: (data: IRole) => Promise<Record<string, any>> | unknown;
-    changeRole: (data: IRole) => void;
-    getCurrentRole: (id: number) => void;
-    deleteRole: (id: number) => void;
-    getRolePermission: (id: number) => void;
-    saveChangeRolePermission: (id: number) => void;
 
     // ТЕХ РАДАР
     getTechRadar: () => void;
     techRadarData: any[];
-
-    // РОЛИ
-    isShowSnackbar: boolean;
-    setShowSnackbar: (bool: boolean) => void;
-    snackbarType: 'create' | 'delete' | 'edit' | null;
-    setSnackbarType: (type: 'create' | 'delete' | 'edit' | null) => void;
-    permission: any[];
 }

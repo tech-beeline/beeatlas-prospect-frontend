@@ -25,8 +25,7 @@ import 'react-tooltip/dist/react-tooltip.css';
 
 export const PersonalArea = observer(() => {
     const {
-        // @ts-ignore
-        generalStore: { profiles: profilesData, getProfiles, getRoles },
+        generalStore: { profiles: profilesData, getProfiles },
     } = useRootStore();
 
     const [searchValue, setSearchValue] = useState('');
@@ -42,11 +41,7 @@ export const PersonalArea = observer(() => {
     const navigate = useNavigate();
 
     useMountEffect(() => {
-        // (async () => {
         getProfiles();
-
-        getRoles();
-        // })();
     });
 
     useEffect(() => {

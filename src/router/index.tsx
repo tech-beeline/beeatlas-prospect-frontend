@@ -28,7 +28,6 @@ import {
     TemplatesPage,
 } from 'pages';
 import * as ROUTER from 'router/const';
-import { Theme } from 'styles';
 
 import * as C from './const';
 import * as S from './units';
@@ -53,7 +52,7 @@ export const NavigationRouter = () => {
     }, [location]);
 
     return (
-        <Theme>
+        <>
             {!location.pathname?.includes(ROUTER.CJ_PATH) && <Header {...{ isPersonalArea }} />}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
@@ -238,6 +237,6 @@ export const NavigationRouter = () => {
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </QueryParamProvider>
-        </Theme>
+        </>
     );
 };

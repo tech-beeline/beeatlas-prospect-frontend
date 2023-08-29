@@ -1,15 +1,6 @@
 import { getCalendarData } from 'api/calendar';
 import { getSearchResult } from 'api/fdm';
-import {
-    deleteRole,
-    getCurrentRole,
-    getProfiles,
-    getRolePermission,
-    getRoles,
-    postRole,
-    putRole,
-    putRolePermission,
-} from 'api/personal-area';
+import { getProfiles } from 'api/personal-area';
 import { getTechRadar } from 'api/tech-radar';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
@@ -27,8 +18,6 @@ export const GeneralStore = (): IGeneralStore => {
     const isAuth = getStorage(isAuthKey) === 'true';
     const userInfo = getStorage(userInfoKey, true);
 
-    const currentRole = getStorage('currentRole', true);
-
     return {
         isAuth: isAuth || false,
         themeIsDark: themeIsDark || false,
@@ -41,12 +30,6 @@ export const GeneralStore = (): IGeneralStore => {
         techRadarData: [],
 
         profiles: [],
-        currentRole: currentRole || null,
-        roles: [],
-        permission: [],
-
-        isShowSnackbar: false,
-        snackbarType: null,
 
         setAuth(isAuth) {
             this.isAuth = isAuth;
@@ -131,20 +114,7 @@ export const GeneralStore = (): IGeneralStore => {
 
         // ------PERSONAL AREA------------------------
 
-        setCurrentRole(role) {
-            this.currentRole = role;
-
-            persistStorage('currentRole', this.currentRole, true);
-        },
-
         // страница Ролей
-        setShowSnackbar(bool) {
-            this.isShowSnackbar = bool;
-        },
-
-        setSnackbarType(type) {
-            this.snackbarType = type;
-        },
 
         async getProfiles() {
             try {
@@ -157,86 +127,11 @@ export const GeneralStore = (): IGeneralStore => {
             }
         },
 
-        async getRoles() {
-            try {
-                const res = await getRoles();
-
-                this.roles = res.data;
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
-
         // id: number
         // name?: string;
         // alias?: string;
         // descr?: string;
         // deleted?: boolean;
-
-        async createRole(data) {
-            try {
-                const res = await postRole(data);
-
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
-
-        async changeRole(data) {
-            try {
-                const res = await putRole(data);
-
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
-
-        async getCurrentRole(id: number) {
-            try {
-                const res = await getCurrentRole(id);
-
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
-
-        async deleteRole(id: number) {
-            try {
-                const res = await deleteRole(id);
-
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
-
-        async getRolePermission(id: number) {
-            try {
-                const res = await getRolePermission(id);
-
-                this.permission = res.data;
-
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
-
-        async saveChangeRolePermission(id: number) {
-            try {
-                const res = await putRolePermission(id);
-
-                console.log(res);
-
-                return res;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
 
         // ------TECH RADAR------------------------
 
