@@ -50,7 +50,7 @@ export const ArchCommPage = () => {
 
             <S.BorderContainerStyled>
                 <S.Container className="Container">
-                    <STYLES.H5 className="BoldTitle">Лица принимающие решения</STYLES.H5>
+                    <STYLES.H5 className="BoldTitle">Лица, принимающие решения</STYLES.H5>
 
                     <HumanCard
                         avatar={human1}
