@@ -90,7 +90,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
         <S.Wrapper ref={menuRef} withScroll>
             {(props.isZoomed ? props.activeMenuItem === 1 : true) && (
                 <MenuElement
-                    title="Техники и принципы"
+                    title="Фреймворки и инструменты"
                     isOpen={isFirstOpen}
                     setOpen={setFirstOpen}
                     data={firstQuadrant}
@@ -103,7 +103,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
             {(props.isZoomed ? props.activeMenuItem === 2 : true) && (
                 <MenuElement
-                    title="Языки и фреймворки"
+                    title="Платформа и инфраструктура"
                     isOpen={isSecondOpen}
                     setOpen={setSecondOpen}
                     data={secondQuadrant}
@@ -116,7 +116,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
             {(props.isZoomed ? props.activeMenuItem === 3 : true) && (
                 <MenuElement
-                    title="Инструменты"
+                    title="Управление данными"
                     isOpen={isThirdOpen}
                     setOpen={setThirdOpen}
                     data={thirdQuadrant}
@@ -129,7 +129,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
             {(props.isZoomed ? props.activeMenuItem === 4 : true) && (
                 <MenuElement
-                    title="Платформы и инфраструктура"
+                    title="Языки"
                     isOpen={isFourOpen}
                     setOpen={setFourOpen}
                     data={fourQuadrant}
