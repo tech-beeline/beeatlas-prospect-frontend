@@ -5,7 +5,7 @@ import { DropdownContext } from '@beeline/design-system-react';
 
 import { ErrorBoundary } from 'components/core';
 
-import { queryClient } from 'api/queries/queryClient';
+import { queryClient } from 'api/queries';
 import { NavigationRouter } from 'router';
 import { StoreProvider } from 'stores/initStore';
 import { GlobalStyles, Theme } from 'styles';

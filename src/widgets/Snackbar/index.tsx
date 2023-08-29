@@ -34,3 +34,5 @@ export const Snackbar: FC = () => {
         )
     );
 };
+
+export { useSnackbarStore } from './store';

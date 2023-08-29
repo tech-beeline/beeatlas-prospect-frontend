@@ -15,10 +15,10 @@ import {
     useGetRoleByIdQuery,
     useGetRolePermissionsByIdQuery,
     useUpdateRoleMutation,
-} from 'api/queries/roles';
+} from 'api/queries';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
-import { useSnackbarStore } from 'widgets/Snackbar/store';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
 import * as S from './units';

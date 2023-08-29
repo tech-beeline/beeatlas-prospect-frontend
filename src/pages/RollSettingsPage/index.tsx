@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 
 import { TitleBack } from 'components/interaction';
 
-import { useGetAllRolesQuery } from 'api/queries/roles';
+import { useGetAllRolesQuery } from 'api/queries';
 import * as ROUTER from 'router/const';
 
 import * as S from './units';
