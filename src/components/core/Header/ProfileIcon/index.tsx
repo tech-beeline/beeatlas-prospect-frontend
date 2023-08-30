@@ -21,6 +21,11 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
 
     useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
 
+    const handleNavigateClick = () => {
+        navigate(!isPersonalArea ? ROUTER.PERSONAL_AREA_PATH : ROUTER.MAIN_PAGE_PATH);
+        setShowDropdown(false);
+    };
+
     return (
         <>
             <S.Wrapper
@@ -39,14 +44,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
                 // <S.BlurContainer onClick={() => setShowDropdown(false)}>
                 <S.Dropdown className="Dropdown" ref={dropdownRef}>
                     <S.DropdownItem className="DropdownItem">Профиль</S.DropdownItem>
-                    <S.DropdownItem
-                        className="DropdownItem"
-                        onClick={() =>
-                            navigate(
-                                !isPersonalArea ? ROUTER.PERSONAL_AREA_PATH : ROUTER.MAIN_PAGE_PATH,
-                            )
-                        }
-                    >
+                    <S.DropdownItem className="DropdownItem" onClick={handleNavigateClick}>
                         {!isPersonalArea ? 'Админка' : 'Вернуться в продукт'}{' '}
                         <Icon iconName={Icons.OpenInWindow} />
                     </S.DropdownItem>
