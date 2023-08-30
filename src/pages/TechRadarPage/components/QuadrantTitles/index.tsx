@@ -19,10 +19,10 @@ export const QuadrantTitles: FC<T.IQuadrantTitles> = ({ isZoomed }) => {
                     letterSpacing="0.3"
                     style={{ userSelect: 'none' }}
                 >
-                    <textPath href="#text1">Техники и принципы</textPath>
-                    <textPath href="#text2">Языки и фреймворки</textPath>
-                    <textPath href="#text3">Платформы и инфраструктура</textPath>
-                    <textPath href="#text4">Инструменты</textPath>
+                    <textPath href="#text1">Фреймворки и инструменты</textPath>
+                    <textPath href="#text2">Платформа и инфраструктура</textPath>
+                    <textPath href="#text3">Языки</textPath>
+                    <textPath href="#text4">Управление данными</textPath>
                 </text>
             )}
         </>

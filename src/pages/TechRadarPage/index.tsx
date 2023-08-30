@@ -168,7 +168,7 @@ export const TechRadarPage = observer(() => {
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
 
-                    <S.SubTitle>(версия от 10.2022)</S.SubTitle>
+                    <S.SubTitle>(версия от 08.2023)</S.SubTitle>
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />

@@ -71,7 +71,7 @@ export const RadarWrapper = styled.div<{ isActive?: boolean }>`
     top: 0;
     right: 0;
 
-    width: 700px;
+    width: 720px;
     height: 700px;
 
     opacity: ${({ isActive }) => (isActive ? '1' : '0')};
@@ -80,7 +80,7 @@ export const RadarWrapper = styled.div<{ isActive?: boolean }>`
     transition: all 0.25s ease-in-out;
 
     svg {
-        width: 700px;
+        width: 720px;
         height: 700px;
     }
 `;
