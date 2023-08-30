@@ -47,8 +47,6 @@ export const Role = styled.div`
     cursor: pointer;
 
     & > p {
-        display: inline-block;
-
         max-width: 100%;
 
         white-space: nowrap;

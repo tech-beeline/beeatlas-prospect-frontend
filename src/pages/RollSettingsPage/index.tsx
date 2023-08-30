@@ -41,12 +41,14 @@ export const RollSettingsPage = observer(() => {
 
             <S.RolesContainer>
                 {isLoading &&
-                    Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={76} />)}
+                    Array.from({ length: 3 }).map((_, i) => (
+                        <Skeleton key={i} height={76} radius={10} />
+                    ))}
                 {/* @TODO: Убрать any, автоматиески генерировать типы со сваггера */}
                 {roles &&
                     roles.map((role: any) => (
                         <S.Role key={role.id} onClick={() => openCurrentRoleHandler(role.id)}>
-                            <p>{role.name}</p>
+                            <p title={role.name}>{role.name}</p>
                             {/* @ts-ignore */}
                             <Icon size={24} iconName={Icons.ArrowRight} />
                         </S.Role>
