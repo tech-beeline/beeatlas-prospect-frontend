@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
 
-import { useMountEffect } from 'hooks';
-import { useRootStore } from 'stores/initStore';
+import { useGetTechradarDataQuery } from 'api/queries/techradar';
 
 import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
 
-export const TechRadarPage = observer(() => {
-    const {
-        generalStore: { techRadarData, getTechRadar },
-    } = useRootStore();
+export const TechRadarPage = () => {
+    const { data: techRadarData } = useGetTechradarDataQuery();
+
+    // @TODO: Генерировать типы
+    const techRadarContent: any[] = techRadarData?.content ?? [];
 
     const [isSubMenu, setSubMenu] = useState(false);
 
@@ -36,14 +35,6 @@ export const TechRadarPage = observer(() => {
 
     const [isElementSelected, setElementSelected] = useState(false);
     const [prevHintText, setPrevHintText] = useState('');
-
-    useMountEffect(() => {
-        getTechRadar();
-    });
-
-    // useEffect(() => {
-    //     console.log('techRadarData', techRadarData);
-    // }, [techRadarData]);
 
     useEffect(() => {
         if (showInMenu) {
@@ -168,16 +159,16 @@ export const TechRadarPage = observer(() => {
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
 
-                    <S.SubTitle>(версия от 08.2023)</S.SubTitle>
+                    {techRadarData && <S.SubTitle>{techRadarData.descr}</S.SubTitle>}
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
             </S.Header>
 
-            {techRadarData.length > 0 && (
+            {techRadarContent.length > 0 && (
                 <S.ContentWrapper>
                     <LeftMenu
-                        data={techRadarData}
+                        data={techRadarContent}
                         {...{
                             hintText,
                             setHintText,
@@ -190,31 +181,31 @@ export const TechRadarPage = observer(() => {
                     />
 
                     <Hold
-                        data={techRadarData.filter((item) => item.ring === 3)}
+                        data={techRadarContent.filter((item) => item.ring === 3)}
                         isActive={activeRing === 'hold'}
                         {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                     />
 
                     <Assess
-                        data={techRadarData.filter((item) => item.ring === 2)}
+                        data={techRadarContent.filter((item) => item.ring === 2)}
                         isActive={activeRing === 'assess'}
                         {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                     />
 
                     <Trial
-                        data={techRadarData.filter((item) => item.ring === 1)}
+                        data={techRadarContent.filter((item) => item.ring === 1)}
                         isActive={activeRing === 'trial'}
                         {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                     />
 
                     <Adopt
-                        data={techRadarData.filter((item) => item.ring === 0)}
+                        data={techRadarContent.filter((item) => item.ring === 0)}
                         isActive={activeRing === 'adopt'}
                         {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
                     />
 
                     <Radar
-                        data={techRadarData}
+                        data={techRadarContent}
                         isActive={!activeRing}
                         {...{
                             viewBox,
@@ -232,4 +223,4 @@ export const TechRadarPage = observer(() => {
             )}
         </S.PageWrapper>
     );
-});
+};
