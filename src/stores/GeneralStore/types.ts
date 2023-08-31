@@ -23,8 +23,4 @@ export interface IGeneralStore {
     profiles: Record<string, any>[];
 
     getProfiles: () => void;
-
-    // ТЕХ РАДАР
-    getTechRadar: () => void;
-    techRadarData: any[];
 }

@@ -1,7 +1,6 @@
 import { getCalendarData } from 'api/calendar';
 import { getSearchResult } from 'api/fdm';
 import { getProfiles } from 'api/personal-area';
-import { getTechRadar } from 'api/tech-radar';
 import { getStorage, persistStorage, removeItemStorage } from 'stores/utils';
 
 // TODO: вынести
@@ -26,8 +25,6 @@ export const GeneralStore = (): IGeneralStore => {
         isLoadingSearch: false,
         resultSearch: [],
         resultTitle: '',
-
-        techRadarData: [],
 
         profiles: [],
 
@@ -132,19 +129,5 @@ export const GeneralStore = (): IGeneralStore => {
         // alias?: string;
         // descr?: string;
         // deleted?: boolean;
-
-        // ------TECH RADAR------------------------
-
-        async getTechRadar() {
-            try {
-                const res = await getTechRadar();
-
-                console.log('res', res);
-
-                this.techRadarData = res.data?.content;
-            } catch (error) {
-                console.error((error as Error).message);
-            }
-        },
     };
 };
