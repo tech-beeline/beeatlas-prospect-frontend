@@ -51,9 +51,9 @@ export const PersonalArea = observer(() => {
     const onSearchData = (value: string) => {
         setCountPage(1);
 
-        const searchTerm = value.toLowerCase();
+        setSearchValue(value);
 
-        setSearchValue(searchTerm);
+        const searchTerm = value.toLowerCase();
 
         if (!searchTerm) {
             // если searchTerm пуст, возвращаем исходный массив
@@ -90,7 +90,6 @@ export const PersonalArea = observer(() => {
     };
 
     useEffect(() => {
-        console.log('filterOption', filterOption);
         onSearchData(searchValue);
     }, [filterOption]);
 
@@ -143,7 +142,7 @@ export const PersonalArea = observer(() => {
                 selectedFilter={filterOption}
                 onFilterChange={(option: any) => setFilterOption(option)}
                 onChange={(e) => onSearchData(e.target.value)}
-                onClear={() => setProfiles(profilesData)}
+                onClear={() => onSearchData('')}
             />
             {displayedProfiles.length === 0 ? (
                 <EmptyState />
