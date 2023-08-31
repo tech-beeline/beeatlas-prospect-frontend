@@ -51,9 +51,9 @@ export const PersonalArea = observer(() => {
     const onSearchData = (value: string) => {
         setCountPage(1);
 
-        const searchTerm = value.toLowerCase();
+        setSearchValue(value);
 
-        setSearchValue(searchTerm);
+        const searchTerm = value.toLowerCase();
 
         if (!searchTerm) {
             // если searchTerm пуст, возвращаем исходный массив
