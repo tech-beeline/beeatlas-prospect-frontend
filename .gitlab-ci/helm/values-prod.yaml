@@ -15,11 +15,11 @@ ingress:
       paths:
       - path: /
         pathType: ImplementationSpecific
-    - host: "eafdmmart-nt.apps.mn-kp01.vimpelcom.ru"
+    - host: "eafdmmart-prod.apps.yd-k03.vimpelcom.ru"
       paths:
       - path: /api/
         pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-nt-service
+        serviceName: eafdmmart-backend-prod-service
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
