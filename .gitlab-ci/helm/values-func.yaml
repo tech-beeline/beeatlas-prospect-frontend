@@ -1,5 +1,3 @@
-securityContext:
-  readOnlyRootFilesystem: false
 podAnnotations:
   vault.security.banzaicloud.io/vault-role: "false"
   vault.security.banzaicloud.io/vault-path: "false"
