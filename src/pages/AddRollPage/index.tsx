@@ -16,8 +16,10 @@ import {
     useGetRolePermissionsByIdQuery,
     useUpdateRoleMutation,
 } from 'api/queries';
+import { useModal } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
+import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
@@ -25,6 +27,8 @@ import * as S from './units';
 
 export const AddRollPage = () => {
     const [roleId] = useQueryParam('id', NumberParam);
+
+    const { modalOpened, openModal, closeModal } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -103,6 +107,7 @@ export const AddRollPage = () => {
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlexGap>
                 <TitleBack
+                    onClick={roleId ? openModal : undefined}
                     title={roleId ? 'Редактирование роли' : 'Создание новой роли'}
                     fontSize="26px"
                 />
@@ -166,6 +171,15 @@ export const AddRollPage = () => {
                     </S.BottomBlock>
                 </form>
             </FormProvider>
+            <Dialog
+                opened={modalOpened}
+                title="Выйти без сохранения?"
+                onClose={closeModal}
+                onDecline={navigateToAllRoles}
+                onConfirm={closeModal}
+            >
+                Изменения не сохранятся
+            </Dialog>
         </S.PageWrapper>
     );
 };
