@@ -33,3 +33,5 @@ export const theme = {
         tooltip: 6,
     },
 };
+
+export const THEME_ELEMENT_ID = 'theme-class';

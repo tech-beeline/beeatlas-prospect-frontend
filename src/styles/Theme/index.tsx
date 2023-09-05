@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { useRootStore } from 'stores/initStore';
+import { THEME_ELEMENT_ID } from 'styles/const';
 
 export const Theme = observer(({ children }: any) => {
     const {
@@ -17,7 +18,7 @@ export const Theme = observer(({ children }: any) => {
     }, [themeIsDark]);
 
     return (
-        <div id="theme-class" className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>
+        <div id={THEME_ELEMENT_ID} className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>
             {children}
         </div>
     );

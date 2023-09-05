@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 
 import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { THEME_ELEMENT_ID } from 'styles';
 
 import { useSnackbarStore } from './store';
 import * as S from './units';
@@ -17,7 +18,7 @@ export const Snackbar: FC = () => {
     useOutsideClick(snackbarRef, activeSnackbar.isOpen, clearSnackbar);
 
     useMountEffect(() => {
-        setThemeElement(document.getElementById('theme-class'));
+        setThemeElement(document.getElementById(THEME_ELEMENT_ID));
     });
 
     return (

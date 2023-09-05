@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Title = styled.h3<{ fontSize: string }>`
+export const Title = styled.h3<{ fontSize?: string }>`
     display: flex;
     /* align-items: center; */
     gap: 16px;

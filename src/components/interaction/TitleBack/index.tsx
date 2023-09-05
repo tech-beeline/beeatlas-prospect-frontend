@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { ITitleBack } from './types';
 import * as S from './units';
 
-export const TitleBack = (props: any) => {
+export const TitleBack: FC<ITitleBack> = ({ title, onClick, ...rest }) => {
     const navigate = useNavigate();
 
+    const navigateBack = () => navigate(-1);
+
     return (
-        <S.Title className="TitleBack" onClick={() => navigate(-1)} {...props}>
-            <Icon iconName={Icons.ArrowLeft} /> {props.title}
+        <S.Title className="TitleBack" onClick={onClick ? onClick : navigateBack} {...rest}>
+            <Icon iconName={Icons.ArrowLeft} /> {title}
         </S.Title>
     );
 };

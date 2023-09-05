@@ -8,7 +8,7 @@ import { ErrorBoundary } from 'components/core';
 import { queryClient } from 'api/queries';
 import { NavigationRouter } from 'router';
 import { StoreProvider } from 'stores/initStore';
-import { GlobalStyles, Theme } from 'styles';
+import { GlobalStyles, Theme, THEME_ELEMENT_ID } from 'styles';
 import { Snackbar } from 'widgets/Snackbar';
 
 import '@beeline/design-tokens/css/tokens/globals/index.css';
@@ -26,7 +26,7 @@ const App = () => {
                         <ErrorBoundary>
                             <DropdownContext.Provider
                                 value={{
-                                    applicationRootElementID: 'theme-class',
+                                    applicationRootElementID: THEME_ELEMENT_ID,
                                     dropdownElementID: 'dsb__positioner',
                                 }}
                             >
