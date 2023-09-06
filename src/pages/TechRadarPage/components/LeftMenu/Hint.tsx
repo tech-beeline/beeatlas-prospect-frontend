@@ -20,9 +20,11 @@ export const Hint: FC<T.IHint> = ({ text, tooltipId, children, ...props }) => {
             )}
 
             <S.TooltipStyled
-                /* у каждой подсказки должен быть уникальный id */
+                // у каждой подсказки должен быть уникальный id
                 id={tooltipId}
-                place="right"
+                // @TODO: Неправильные типы в библиотеке
+                // @ts-ignore
+                place="bottom-start"
                 noArrow
             >
                 <STYLE.HintText>{text}</STYLE.HintText>
