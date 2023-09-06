@@ -152,12 +152,13 @@ export const TooltipStyled = styled(Tooltip)`
 
     max-width: 360px;
     width: max-content;
-    padding: 4px 8px;
+    padding: 16px;
 
     background-color: var(--color-background-inverse);
 
-    border-radius: var(--size-border-radius-x4);
+    border-radius: var(--size-border-radius-x8);
 
+    font-size: var(--font-size-caption);
     text-align: start;
 
     z-index: 5;
