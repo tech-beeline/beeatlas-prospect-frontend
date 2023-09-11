@@ -1,43 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-import VKITAuth from '@beeline/lk-auth';
-import { observer } from 'mobx-react';
+import { useAuthStore } from 'features/auth';
+import { useThemeStore } from 'features/theme';
 
-import { getPermissionsOfProfile, postSession } from 'api/sessions';
-import { useMountEffect } from 'hooks';
 import { MAIN_PAGE_PATH } from 'router/const';
-import { useRootStore } from 'stores/initStore';
-import { getStorage, persistStorage } from 'stores/utils';
 
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { ProfileIcon } from './ProfileIcon';
 import * as S from './units';
 
-export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean }) => {
-    const {
-        generalStore: {
-            isAuth,
-            setAuth,
-            clearAuth,
-            userInfo,
-            setUserInfo,
-            toggleTheme,
-            themeIsDark,
-        },
-    } = useRootStore();
+export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
+    const [isAuth, userInfo] = useAuthStore((state) => [state.isAuth, state.userInfo]);
 
-    const [authObject, setAuthObject] = useState<{ code: string | null; state: string | null }>({
-        code: '',
-        state: '',
-    });
-
-    const isProd = process.env.NODE_ENV !== 'development';
+    const { themeIsDark, toggleTheme } = useThemeStore();
 
     const navigate = useNavigate();
-
-    const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
 
     // tabs
     const tabs = [
@@ -45,57 +24,6 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
         { name: 'База знаний', url: 'data-base' },
         { name: 'Продукты', url: 'products' },
     ];
-
-    // TODO: использовать getAccessToken вместо storage
-    // есть requestTokenRefresh
-
-    useMountEffect(() => {
-        (async () => {
-            setAuthObject({ code: auth.getCodeParam(), state: auth.getStateParam() });
-
-            if (auth.hasNecessaryParams()) {
-                const res = await auth.exchangeCode();
-
-                console.log('res', res);
-
-                persistStorage('token', res.access_token);
-                persistStorage('rtoken', res.refresh_token);
-
-                setAuth(true);
-
-                setUserInfo(auth.getClaims(res.access_token));
-
-                // console.log('auth.getClaims(access_token)', auth.getClaims(access_token));
-            }
-        })();
-    });
-
-    useEffect(() => {
-        (async () => {
-            if (Object.keys(userInfo).length > 0 && getStorage('isAuthorized') === 'false') {
-                const res = await postSession({
-                    login_time: userInfo.iat,
-                    // id_profile: 0,
-                    // она вернется потом (спросить у бэка)
-                    // session: '',
-                    atoken: getStorage('token') || '',
-                    rtoken: getStorage('rtoken') || '',
-                    code: authObject.code || '',
-                    state: authObject.state || '',
-                    auth_code: '',
-                    login: userInfo.winaccountname,
-                });
-
-                if (res.status === 200) {
-                    await getPermissionsOfProfile(userInfo.winaccountname);
-
-                    persistStorage('isAuthorized', 'true');
-                }
-
-                // console.log('postSession', res.status);
-            }
-        })();
-    }, [userInfo, authObject]);
 
     return (
         <>
@@ -126,56 +54,21 @@ export const Header = observer(({ isPersonalArea }: { isPersonalArea: boolean })
                 )}
 
                 <S.ControlPanel className="HeaderControlPanel">
-                    {/* TODO: Пока убрана */}
-                    {/* <S.SearchStyled
-                        onClear={() => console.log(isAuth)}
-                        // onSearch={() => console.log('search')}
-                        placeholder="Поиск"
-                        size="small"
-                    /> */}
-
                     <BaseIcon
                         iconName={!themeIsDark ? Icons.HalfMoon : Icons.Sun}
                         onClick={toggleTheme}
                     />
 
-                    {/* <BaseIcon
-                        iconName={Icons.NotificationNew}
-                        onClick={() => {
-                            // console.log('getClaims', auth.getClaims(auth.getAccessToken()));
-                            // console.log('auth.getAccessToken()', auth.getAccessToken());
-                        }}
-                    /> */}
-
-                    {/* <BaseIcon iconName={Icons.Grid} /> */}
-
                     {isAuth ? (
                         <ProfileIcon
-                            // initials={'KO'}
                             initials={userInfo?.family_name[0] + userInfo?.given_name[0]}
-                            clearAuth={() => {
-                                auth.clean();
-
-                                clearAuth();
-                            }}
                             {...{ isPersonalArea }}
                         />
                     ) : (
-                        <BaseIcon
-                            iconName={Icons.User}
-                            type="default"
-                            onClick={() => auth.startAuth()}
-                        />
+                        <BaseIcon iconName={Icons.User} type="default" />
                     )}
                 </S.ControlPanel>
-                {/* <Mailto
-                    email="foo@bar.baz"
-                    subject="Hello & Welcome"
-                    body='&lt;div style="color: red"&gt;TEST&lt;/div&gt;'
-                >
-                    Mail me!
-                </Mailto> */}
             </S.Container>
         </>
     );
-});
+};

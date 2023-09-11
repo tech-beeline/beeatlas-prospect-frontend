@@ -30,7 +30,6 @@ export const Dropdown = styled.div`
     right: 24px;
 
     width: 280px;
-    height: 171px;
     padding: 8px 0;
 
     border-radius: var(--size-border-radius-x6);

@@ -10,7 +10,7 @@ import * as ROUTER from 'router/const';
 import { IProfileIcon } from './types';
 import * as S from './units';
 
-export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalArea }) => {
+export const ProfileIcon: FC<IProfileIcon> = ({ initials, isPersonalArea }) => {
     const [isShowDropdown, setShowDropdown] = useState(false);
 
     const navigate = useNavigate();
@@ -47,12 +47,6 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, clearAuth, isPersonalA
                     <S.DropdownItem className="DropdownItem" onClick={handleNavigateClick}>
                         {!isPersonalArea ? 'Админка' : 'Вернуться в продукт'}{' '}
                         <Icon iconName={Icons.OpenInWindow} />
-                    </S.DropdownItem>
-
-                    <S.DividerStyled className="DividerStyled" type="horizontal" />
-
-                    <S.DropdownItem className="DropdownItem" onClick={() => clearAuth()}>
-                        Выход <Icon iconName={Icons.NavArrowRight} />
                     </S.DropdownItem>
                 </S.Dropdown>
                 // </S.BlurContainer>
