@@ -11,7 +11,7 @@ const isFunc = window.location.href.includes('eafdmmart-func');
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const FUNC_MOCK_AUTH_LINK = 'https://eafdmmart-test-k8s-wiremock.apps.mn-kp01.vimpelcom.ru/';
+const FUNC_MOCK_AUTH_LINK = 'https://eafdmmart-test-k8s-wiremock.apps.mn-kp01.vimpelcom.ru';
 
 const auth = new VKITAuth(isFunc ? FUNC_MOCK_AUTH_LINK : isDev ? 'http://localhost:3000' : '');
 
