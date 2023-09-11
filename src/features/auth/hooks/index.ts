@@ -6,9 +6,14 @@ import { useMountEffect } from 'hooks';
 
 import { useAuthStore } from '../store';
 
-const isProd = process.env.NODE_ENV !== 'development';
+// @TODO: Заменить на переменные окружения
+const isFunc = window.location.href.includes('eafdmmart-func');
 
-const auth = new VKITAuth(!isProd ? 'http://localhost:3000' : '');
+const isDev = process.env.NODE_ENV === 'development';
+
+const FUNC_MOCK_AUTH_LINK = 'https://eafdmmart-test-k8s-wiremock.apps.mn-kp01.vimpelcom.ru/';
+
+const auth = new VKITAuth(isFunc ? FUNC_MOCK_AUTH_LINK : isDev ? 'http://localhost:3000' : '');
 
 export const useAuth = () => {
     const {
