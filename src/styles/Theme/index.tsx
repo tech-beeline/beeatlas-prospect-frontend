@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
+import { useThemeStore } from 'features/theme';
 
-import { useRootStore } from 'stores/initStore';
 import { THEME_ELEMENT_ID } from 'styles/const';
 
-export const Theme = observer(({ children }: any) => {
-    const {
-        generalStore: { themeIsDark },
-    } = useRootStore();
+export const Theme = ({ children }: any) => {
+    const themeIsDark = useThemeStore((state) => state.themeIsDark);
 
     useEffect(() => {
         const html = document.getElementsByTagName('html')[0];
@@ -18,8 +15,8 @@ export const Theme = observer(({ children }: any) => {
     }, [themeIsDark]);
 
     return (
-        <div id={THEME_ELEMENT_ID} className={!themeIsDark ? 'lightTheme' : 'darkTheme'}>
+        <div id={THEME_ELEMENT_ID} className={themeIsDark ? 'darkTheme' : 'lightTheme'}>
             {children}
         </div>
     );
-});
+};

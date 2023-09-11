@@ -2,6 +2,7 @@ import React from 'react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { DropdownContext } from '@beeline/design-system-react';
+import { useAuth } from 'features/auth';
 
 import { ErrorBoundary } from 'components/core';
 
@@ -18,6 +19,8 @@ import '@beeline/design-tokens/css/iconfont/iconfont.css';
 import '@beeline/design-tokens/css/font-face.css';
 
 const App = () => {
+    useAuth();
+
     return (
         <>
             <QueryClientProvider client={queryClient}>

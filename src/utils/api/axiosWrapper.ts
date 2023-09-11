@@ -1,8 +1,8 @@
 import axios from 'axios';
+import { useAuthStore } from 'features/auth';
 
 // import { postRefreshToken } from 'api/auth';
-import { getStorage } from 'stores/utils';
-
+// import { getStorage } from 'stores/utils';
 import Api from './Api';
 // import { HOST } from './env';
 
@@ -19,7 +19,7 @@ const instanceOfAxios = axios.create({
 
 instanceOfAxios.interceptors.request.use(
     (config) => {
-        const accessToken = getStorage('token');
+        const accessToken = useAuthStore.getState().accessToken;
 
         if (accessToken) {
             // @ts-ignore
