@@ -12,13 +12,12 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
     flex-direction: column;
     gap: 4px;
 
-    width: 310px;
+    min-width: 310px;
 
     ${({ withScroll }) =>
         withScroll &&
         css`
             width: 318px;
-            max-height: 700px;
 
             overflow: hidden scroll;
         `}
@@ -35,7 +34,7 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
 `;
 
 export const TitleWrapper = styled.div`
-    width: 100%;
+    width: 310px;
     padding: 12px 24px;
 
     display: flex;
@@ -73,7 +72,7 @@ export const TitleSmaller = styled(Title)`
 `;
 
 export const Item = styled.p<{ isActive?: boolean }>`
-    width: 100%;
+    width: 300px;
     padding: 12px 24px;
 
     font-weight: var(--font-weight-regular);

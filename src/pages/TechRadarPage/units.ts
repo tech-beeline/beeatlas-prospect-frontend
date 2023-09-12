@@ -5,13 +5,14 @@ import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
     width: 100%;
-    max-width: 1400px;
     height: 100vh;
-    padding: 0 88px 96px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 88px;
 
     background-color: var(--color-background-base);
-
-    /* overflow: hidden; */
 `;
 
 export const Title = styled.h4`
@@ -23,11 +24,6 @@ export const Title = styled.h4`
 `;
 
 export const Header = styled.div`
-    position: sticky;
-    top: 0;
-    left: 0;
-
-    /* width: fit-content; */
     width: 100%;
     padding: 96px 0 8px;
 
@@ -58,21 +54,44 @@ export const ContentWrapper = styled.div`
     position: relative;
 
     display: flex;
-    justify-content: space-between;
-    gap: 100px;
+    gap: 70px;
 
     width: 100%;
-    max-width: 1400px;
-    margin-top: 20px;
+    height: calc(100% - 194px);
+
+    padding-top: 20px;
+`;
+
+export const RadarsContainer = styled.div`
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
 `;
 
 export const RadarWrapper = styled.div<{ isActive?: boolean }>`
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
 
     width: 720px;
-    height: 700px;
+    height: 720px;
+
+    margin-top: 10px;
+    margin-left: 30px;
 
     opacity: ${({ isActive }) => (isActive ? '1' : '0')};
     visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
