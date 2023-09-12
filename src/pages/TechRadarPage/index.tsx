@@ -180,45 +180,71 @@ export const TechRadarPage = () => {
                         }}
                     />
 
-                    <Hold
-                        data={techRadarContent.filter((item) => item.ring === 3)}
-                        isActive={activeRing === 'hold'}
-                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                    />
+                    <S.RadarsContainer>
+                        <Hold
+                            data={techRadarContent.filter((item) => item.ring === 3)}
+                            isActive={activeRing === 'hold'}
+                            {...{
+                                handleRing,
+                                hintText,
+                                setHintText,
+                                setShowInMenu,
+                                isElementSelected,
+                            }}
+                        />
 
-                    <Assess
-                        data={techRadarContent.filter((item) => item.ring === 2)}
-                        isActive={activeRing === 'assess'}
-                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                    />
+                        <Assess
+                            data={techRadarContent.filter((item) => item.ring === 2)}
+                            isActive={activeRing === 'assess'}
+                            {...{
+                                handleRing,
+                                hintText,
+                                setHintText,
+                                setShowInMenu,
+                                isElementSelected,
+                            }}
+                        />
 
-                    <Trial
-                        data={techRadarContent.filter((item) => item.ring === 1)}
-                        isActive={activeRing === 'trial'}
-                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                    />
+                        <Trial
+                            data={techRadarContent.filter((item) => item.ring === 1)}
+                            isActive={activeRing === 'trial'}
+                            {...{
+                                handleRing,
+                                hintText,
+                                setHintText,
+                                setShowInMenu,
+                                isElementSelected,
+                            }}
+                        />
 
-                    <Adopt
-                        data={techRadarContent.filter((item) => item.ring === 0)}
-                        isActive={activeRing === 'adopt'}
-                        {...{ handleRing, hintText, setHintText, setShowInMenu, isElementSelected }}
-                    />
+                        <Adopt
+                            data={techRadarContent.filter((item) => item.ring === 0)}
+                            isActive={activeRing === 'adopt'}
+                            {...{
+                                handleRing,
+                                hintText,
+                                setHintText,
+                                setShowInMenu,
+                                isElementSelected,
+                            }}
+                        />
 
-                    <Radar
-                        data={techRadarContent}
-                        isActive={!activeRing}
-                        {...{
-                            viewBox,
-                            isZoomed,
-                            topTitlesPosition,
-                            leftTitlesPosition,
-                            handleRing,
-                            hintText,
-                            setHintText,
-                            setShowInMenu,
-                            isElementSelected,
-                        }}
-                    />
+                        <Radar
+                            data={techRadarContent}
+                            isActive={!activeRing}
+                            {...{
+                                viewBox,
+                                isZoomed,
+                                topTitlesPosition,
+                                leftTitlesPosition,
+                                handleRing,
+                                hintText,
+                                setHintText,
+                                setShowInMenu,
+                                isElementSelected,
+                            }}
+                        />
+                    </S.RadarsContainer>
                 </S.ContentWrapper>
             )}
         </S.PageWrapper>

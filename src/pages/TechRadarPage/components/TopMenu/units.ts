@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 export const MenuWrapper = styled.div`
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+
     gap: 16px;
 
     width: 100%;
