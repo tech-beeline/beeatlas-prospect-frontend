@@ -1,198 +1,141 @@
-import React, { FC, useState } from 'react';
-import {
-    Button,
-    Checkbox,
-    Icon,
-    Radio,
-    Select,
-    TextArea,
-    TextField,
-} from '@beeline/design-system-react';
+import React, { FC } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
 
 import { SideBlock } from '../SideBlock';
 
-import { SmileRate } from './SmileRate';
+import { EntersFieldArray, ParticiapntsFieldArray } from './components';
+import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
 
 export const BIForm: FC<IBIForm> = (props) => {
-    // TODO: radio btn всегда должен быть
-    const [radioValue, setRadioValue] = useState(0);
-    // @ts-ignore
-    // const [objValues, setObjValues] = useState({
-    //     name: '',
-    //     commCheckbox: false,
-    //     description: '',
-    //     radioValue: 0,
-    //     selectValue: '',
-    //     sideText: '',
-    //     membersDescription: '',
-    // });
+    const form = useForm<FormValues>({
+        resolver: yupResolver(validationSchema),
+    });
+
+    const { handleSubmit } = form;
+
+    const onSubmit = handleSubmit(async (values) => {
+        console.log(values);
+    });
 
     return (
-        // @ts-ignore
         // TODO: зафиксировать хэдер и скролить контент
-        <SideBlock isOpen={props.isOpen} setOpen={props.setOpen} style={{ overflow: 'auto' }}>
+        <SideBlock
+            dontCloseOnOutsideClick={true}
+            isOpen={props.isOpen}
+            setOpen={props.setOpen}
+            // @ts-ignore
+            style={{ overflow: 'auto' }}
+        >
             <S.TitleWrapper>
                 <Icon
                     iconName={Icons.ArrowLeft}
-                    // onClick={() => setOpen(false)}
+                    onClick={() => props.setOpen(false)}
                     style={{ cursor: 'pointer' }}
                 />
 
                 <S.SideBlockTitle>Создание BI</S.SideBlockTitle>
             </S.TitleWrapper>
 
-            <S.TextFieldContainer>
-                <S.TextCheckboxWrapper>
-                    <TextField
-                        value={'Название BI'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Название"
-                        fullWidth
-                    />
+            <FormProvider {...form}>
+                <form onSubmit={onSubmit}>
+                    <S.TextFieldContainer>
+                        <TextField name="name" label="Название*" />
 
-                    <Checkbox label="Коммунальный" />
-                </S.TextCheckboxWrapper>
+                        <Checkbox name="communal" label="Коммунальный" />
 
-                <TextArea value={'Text'} label="Описание" fullWidth />
+                        <TextArea name="descr" label="Описание*" />
 
-                <S.SubTitle>Характеристики</S.SubTitle>
+                        <S.SubTitle>Характеристики</S.SubTitle>
 
-                <Radio
-                    label="Целевой"
-                    checked={radioValue === 0}
-                    onClick={() => setRadioValue(0)}
-                />
-                <Radio
-                    label="Фактический"
-                    checked={radioValue === 1}
-                    onClick={() => setRadioValue(1)}
-                />
+                        <S.FlexContainer>
+                            <RadioGroup name="type" labels={['Целевой', 'Фактический']} />
+                        </S.FlexContainer>
 
-                <Select
-                    label="Стадия ЖЦ"
-                    options={[
-                        {
-                            id: 1,
-                            value: 'Стадия ЖЦ',
-                        },
-                        {
-                            id: 2,
-                            value: 'Значение 2',
-                        },
-                        {
-                            id: 3,
-                            value: 'Значение 3',
-                        },
-                    ]}
-                    size="small"
-                    values={[
-                        {
-                            id: 1,
-                            value: 'Стадия ЖЦ',
-                        },
-                    ]}
-                    makeOption={({ value }) => <div>{value}</div>}
-                    onChange={(option) => console.log(option)}
-                    fullWidth
-                />
+                        <Select
+                            name="status"
+                            label="Стадия ЖЦ"
+                            options={[
+                                {
+                                    id: 0,
+                                    value: 'Передан в эксплуатацию',
+                                },
+                                {
+                                    id: 1,
+                                    value: 'Не передан',
+                                },
+                                {
+                                    id: 2,
+                                    value: 'Неизвестно',
+                                },
+                            ]}
+                        />
 
-                <S.SubTitle>Участники взаимодействия</S.SubTitle>
+                        <ParticiapntsFieldArray />
 
-                <S.BorderBlock>
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Сторона"
-                        fullWidth
-                    />
+                        <S.SubTitle>Чувства и эмоции</S.SubTitle>
 
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Описание участников"
-                        fullWidth
-                    />
-                </S.BorderBlock>
+                        <FeelingPicker name="feelings" />
 
-                <S.SubTitle>Ценностный результат</S.SubTitle>
+                        <EntersFieldArray />
 
-                <S.BorderBlock>
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Сторона"
-                        fullWidth
-                    />
+                        <S.SubTitle>Сценарии</S.SubTitle>
 
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Описание участников"
-                        fullWidth
-                    />
-                </S.BorderBlock>
+                        <TextArea name="clientScenario" label="Клиентский сценарий" />
 
-                <S.SubTitle>Чувства и эмоции</S.SubTitle>
+                        <TextField name="flowLink" label="Ссылка на флоу" />
 
-                <SmileRate />
+                        <TextArea name="ucsReaction" label="Описание реакции ЕКП" />
 
-                <S.SubTitle>Входы и выходы</S.SubTitle>
+                        <S.SubTitle>Каналы</S.SubTitle>
 
-                <S.BorderBlock>
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Вход 1"
-                        fullWidth
-                    />
+                        <Select
+                            name="channel"
+                            label="Канал"
+                            options={[
+                                {
+                                    id: 0,
+                                    value: 'Web site',
+                                },
+                                {
+                                    id: 1,
+                                    value: 'Интернет магазин',
+                                },
+                                {
+                                    id: 2,
+                                    value: 'Мобильное приложение',
+                                },
+                                {
+                                    id: 3,
+                                    value: 'Личный кабинет',
+                                },
+                            ]}
+                        />
 
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Вход 1"
-                        helperText="Поле не обязательно"
-                        fullWidth
-                    />
+                        <S.SubTitle>Документация</S.SubTitle>
 
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Выход 1"
-                        fullWidth
-                    />
+                        <TextField name="document" label="Ссылка" />
 
-                    <TextField
-                        value={'Text'}
-                        // onChange={({ target: { value } }) => setNameValue(value)}
-                        label="Выход 1"
-                        helperText="Поле не обязательно"
-                        fullWidth
-                    />
-                </S.BorderBlock>
+                        <S.SubTitle>Макет</S.SubTitle>
 
-                <S.SubTitle>Сценарии</S.SubTitle>
-
-                <TextArea label="Клиентский сценарий" fullWidth />
-
-                <TextField
-                    // onChange={({ target: { value } }) => setNameValue(value)}
-                    label="Ссылка на флоу"
-                    fullWidth
-                />
-
-                <TextArea label="Описание реакции ЕКП" fullWidth />
-            </S.TextFieldContainer>
-
-            <S.ButtonContainer>
-                <Button size="medium">Отменить</Button>
-
-                <Button size="medium" variant="contained">
-                    Сохранить
-                </Button>
-            </S.ButtonContainer>
+                        <TextField name="mockup" label="Ссылка" />
+                    </S.TextFieldContainer>
+                    <S.ButtonContainer>
+                        <Button type="button" size="medium">
+                            Отменить
+                        </Button>
+                        <Button type="submit" size="medium" variant="contained">
+                            Сохранить
+                        </Button>
+                    </S.ButtonContainer>
+                </form>
+            </FormProvider>
         </SideBlock>
     );
 };

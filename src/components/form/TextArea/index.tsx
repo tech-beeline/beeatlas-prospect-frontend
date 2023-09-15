@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField as DesignSystemTextField } from '@beeline/design-system-react';
+import { TextArea as DesignSystemTextArea } from '@beeline/design-system-react';
 import get from 'lodash/get';
 
-import { ITextField } from './types';
+import { ITextArea } from './types';
 
-export const TextField: FC<ITextField> = ({ name, label, disabled = false, fullWidth = true }) => {
+export const TextArea: FC<ITextArea> = ({ name, label, disabled = false, fullWidth = true }) => {
     const {
         control,
         formState: { errors },
@@ -21,7 +21,8 @@ export const TextField: FC<ITextField> = ({ name, label, disabled = false, fullW
             control={control}
             defaultValue=""
             render={({ field }) => (
-                <DesignSystemTextField
+                <DesignSystemTextArea
+                    key={name}
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}

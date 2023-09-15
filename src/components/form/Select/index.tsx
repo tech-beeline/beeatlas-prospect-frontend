@@ -1,11 +1,17 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField as DesignSystemTextField } from '@beeline/design-system-react';
+import { Select as DesignSystemSelect } from '@beeline/design-system-react';
 import get from 'lodash/get';
 
-import { ITextField } from './types';
+import { ISelect } from './types';
 
-export const TextField: FC<ITextField> = ({ name, label, disabled = false, fullWidth = true }) => {
+export const Select: FC<ISelect> = ({
+    name,
+    label,
+    options,
+    disabled = false,
+    fullWidth = true,
+}) => {
     const {
         control,
         formState: { errors },
@@ -19,15 +25,17 @@ export const TextField: FC<ITextField> = ({ name, label, disabled = false, fullW
         <Controller
             name={name}
             control={control}
-            defaultValue=""
+            defaultValue={0}
             render={({ field }) => (
-                <DesignSystemTextField
+                <DesignSystemSelect
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}
                     error={isError}
                     helperText={errorMessage}
-                    {...field}
+                    options={options}
+                    values={[options[field.value]]}
+                    onChange={(value) => field.onChange(value[0].id)}
                 />
             )}
         />

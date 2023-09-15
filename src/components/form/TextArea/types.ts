@@ -1,4 +1,4 @@
-export interface ITextField {
+export interface ITextArea {
     name: string;
     label: string;
     disabled?: boolean;
