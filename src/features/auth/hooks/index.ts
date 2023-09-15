@@ -4,16 +4,10 @@ import VKITAuth from '@beeline/lk-auth';
 import { getPermissionsOfProfile, postSession } from 'api/sessions';
 import { useMountEffect } from 'hooks';
 
+import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, LOCALHOST_LINK } from '../const';
 import { useAuthStore } from '../store';
 
-// @TODO: Заменить на переменные окружения
-const isFunc = window.location.href.includes('eafdmmart-func');
-
-const isDev = process.env.NODE_ENV === 'development';
-
-const FUNC_MOCK_AUTH_LINK = 'https://eafdmmart-test-k8s-wiremock.apps.mn-kp01.vimpelcom.ru';
-
-const auth = new VKITAuth(isFunc ? FUNC_MOCK_AUTH_LINK : isDev ? 'http://localhost:3000' : '');
+const auth = new VKITAuth(isFunc ? FUNC_MOCK_AUTH_LINK : isDev ? LOCALHOST_LINK : '');
 
 export const useAuth = () => {
     const {
@@ -40,7 +34,7 @@ export const useAuth = () => {
                 setTokens(access_token, refresh_token);
 
                 setUserInfo(auth.getClaims(access_token));
-            } else {
+            } else if (!(isAuth && isFunc)) {
                 // clearStore();
                 auth.startAuth();
             }
