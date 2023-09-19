@@ -1,65 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Icon, TextField } from '@beeline/design-system-react';
+import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { observer } from 'mobx-react';
 
 import { BIForm } from './components/BIForm';
-import { SideBlock } from './components/SideBlock';
+import { CJForm } from './components/CJForm';
 import { Table } from './components/Table';
 import * as S from './units';
 
-const SettingsCJContent = ({ setOpen, name, subName, setName, setSubName }: any) => {
-    const [nameValue, setNameValue] = useState(name);
-    const [subNameValue, setSubNameValue] = useState(subName);
-
-    const onSaveHandler = () => {
-        setName(nameValue);
-        setSubName(subNameValue);
-
-        setOpen(false);
-    };
-
-    return (
-        <>
-            <S.FlexWrapper>
-                <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
-
-                <Icon
-                    iconName={Icons.Close}
-                    onClick={() => setOpen(false)}
-                    style={{ cursor: 'pointer' }}
-                />
-            </S.FlexWrapper>
-
-            <S.TextFieldContainer>
-                <TextField
-                    value={nameValue}
-                    onChange={({ target: { value } }) => setNameValue(value)}
-                    label="Название"
-                    fullWidth
-                />
-
-                <TextField
-                    value={subNameValue}
-                    onChange={({ target: { value } }) => setSubNameValue(value)}
-                    label="Портрет пользователя"
-                    fullWidth
-                />
-            </S.TextFieldContainer>
-
-            <S.ButtonContainer>
-                <Button onClick={() => setOpen(false)}>Отменить</Button>
-
-                <Button variant="contained" onClick={onSaveHandler}>
-                    Сохранить
-                </Button>
-            </S.ButtonContainer>
-        </>
-    );
-};
-
-export const CJPage = observer(() => {
+export const CJPage = () => {
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
     const [isOpenBIForm, setOpenBIForm] = useState(false);
 
@@ -101,18 +50,15 @@ export const CJPage = observer(() => {
 
             <Table />
 
-            <SideBlock
+            <CJForm
                 isOpen={isOpenSettingsCJ}
-                setOpen={setOpenSettingsCJ}
-                toggleId="buttonToggleId"
-            >
-                <SettingsCJContent
-                    setOpen={setOpenSettingsCJ}
-                    {...{ name, subName, setName, setSubName }}
-                />
-            </SideBlock>
-
+                onClose={() => setOpenSettingsCJ(false)}
+                updateCJ={(values) => {
+                    setName(values.name), setSubName(values.userPortrait);
+                }}
+                values={{ name, userPortrait: subName }}
+            />
             <BIForm isOpen={isOpenBIForm} setOpen={setOpenBIForm} />
         </S.PageWrapper>
     );
-});
+};

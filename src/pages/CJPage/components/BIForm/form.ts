@@ -36,7 +36,7 @@ export const validationSchema = object().shape({
     status: number().default(0),
     feelings: number().default(2),
     clientScenario: string().default(''),
-    flowLink: string().default(''),
+    flowLink: string().default('').url('Укажите корректную ссылку'),
     ucsReaction: string().default(''),
     participants: array()
         .of(
@@ -55,7 +55,7 @@ export const validationSchema = object().shape({
             }),
         )
         .default([]),
-    document: string().default(''),
-    mockup: string().default(''),
+    document: string().default('').url('Укажите корректную ссылку'),
+    mockup: string().default('').url('Укажите корректную ссылку'),
     channel: number().default(0),
 });

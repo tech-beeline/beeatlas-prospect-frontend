@@ -200,6 +200,14 @@ export const AlignItemsCenterWrapper = styled.div`
     gap: 20px;
 
     width: 100%;
+
+    span {
+        display: none;
+    }
+
+    :hover > span {
+        display: inline;
+    }
 `;
 
 export const HideOrShowButton = styled.div`
@@ -253,4 +261,10 @@ export const ButtonContainer = styled.div`
 
 export const MenuItemStyled = styled(MenuItem)`
     justify-content: space-between;
+`;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
