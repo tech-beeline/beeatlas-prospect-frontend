@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -13,32 +13,38 @@ import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
 
-export const BIForm: FC<IBIForm> = (props) => {
+export const BIForm: FC<IBIForm> = ({ isOpen, onClose, onSave, defaultValues }) => {
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
     });
 
-    const { handleSubmit } = form;
+    console.log('dv', defaultValues);
+
+    const { handleSubmit, reset } = form;
+
+    useEffect(() => {
+        if (defaultValues) {
+            reset(defaultValues);
+        }
+    }, [defaultValues]);
 
     const onSubmit = handleSubmit(async (values) => {
-        console.log(values);
+        onSave(values);
+        onClose();
+        reset();
     });
 
     return (
         // TODO: зафиксировать хэдер и скролить контент
         <SideBlock
             dontCloseOnOutsideClick={true}
-            isOpen={props.isOpen}
-            setOpen={props.setOpen}
+            isOpen={isOpen}
+            setOpen={onClose}
             // @ts-ignore
             style={{ overflow: 'auto' }}
         >
             <S.TitleWrapper>
-                <Icon
-                    iconName={Icons.ArrowLeft}
-                    onClick={() => props.setOpen(false)}
-                    style={{ cursor: 'pointer' }}
-                />
+                <Icon iconName={Icons.ArrowLeft} onClick={onClose} style={{ cursor: 'pointer' }} />
 
                 <S.SideBlockTitle>Создание BI</S.SideBlockTitle>
             </S.TitleWrapper>
@@ -127,7 +133,7 @@ export const BIForm: FC<IBIForm> = (props) => {
                         <TextField name="mockup" label="Ссылка" />
                     </S.TextFieldContainer>
                     <S.ButtonContainer>
-                        <Button type="button" size="medium">
+                        <Button type="button" size="medium" onClick={onClose}>
                             Отменить
                         </Button>
                         <Button type="submit" size="medium" variant="contained">

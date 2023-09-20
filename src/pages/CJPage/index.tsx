@@ -3,19 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { BIForm } from './components/BIForm';
 import { CJForm } from './components/CJForm';
 import { Table } from './components/Table';
 import * as S from './units';
 
 export const CJPage = () => {
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
-    const [isOpenBIForm, setOpenBIForm] = useState(false);
 
     const [name, setName] = useState('Название CJ');
     const [subName, setSubName] = useState('Портрет пользователя');
 
     const navigate = useNavigate();
+
+    const handleSave = () => {
+        console.log(name, subName);
+    };
 
     return (
         <S.PageWrapper>
@@ -40,11 +42,11 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button onClick={() => setOpenBIForm(!isOpenBIForm)}>
-                        Сохранить как черновик
-                    </Button>
+                    <Button onClick={handleSave}>Сохранить как черновик</Button>
 
-                    <Button variant="contained">Опубликовать</Button>
+                    <Button variant="contained" onClick={handleSave}>
+                        Опубликовать
+                    </Button>
                 </S.FlexSideContainer>
             </S.Header>
 
@@ -58,7 +60,6 @@ export const CJPage = () => {
                 }}
                 values={{ name, userPortrait: subName }}
             />
-            <BIForm isOpen={isOpenBIForm} setOpen={setOpenBIForm} />
         </S.PageWrapper>
     );
 };

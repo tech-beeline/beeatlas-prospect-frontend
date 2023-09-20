@@ -8,6 +8,7 @@ import { FeelingTypes, IconFeeling } from 'components/other';
 import { useModal, useMountEffect } from 'hooks';
 import { formatNullableString, formatYesNo } from 'utils/formatters';
 
+import { BIForm } from '../BIForm';
 import { StepForm } from '../StepForm';
 
 import { Row } from './components/Row';
@@ -31,7 +32,7 @@ interface BI {
     channel: number;
 
     color?: string;
-    columnName: string;
+    columnName?: string;
 }
 
 const data: BI[] = [
@@ -90,10 +91,18 @@ export const Table = () => {
     const [isHiddenRowsVisible, setHiddenRowsVisible] = useState(false);
     const [renameIndex, setRenameIndex] = useState<Nullable<number>>(null);
 
+    console.log(renameIndex, renameIndex && tableData[renameIndex]);
+
     const {
         modalOpened: stepFormOpened,
         openModal: openStepFrom,
         closeModal: closeStepForm,
+    } = useModal();
+
+    const {
+        modalOpened: biFormOpened,
+        openModal: openBiFrom,
+        closeModal: closeBiForm,
     } = useModal();
 
     const addColors = (data: any[], colors: any[]) => {
@@ -158,13 +167,14 @@ export const Table = () => {
 
         const copyOfData = [...tableData];
 
-        if (index === 0) {
-            copyOfData.unshift(newColumn);
-        } else if (index === tableData.length - 1) {
-            copyOfData.push(newColumn);
-        } else {
-            copyOfData.splice(index, 0, newColumn);
-        }
+        copyOfData.splice(index, 0, newColumn);
+        // if (index === 0) {
+        //     copyOfData.unshift(newColumn);
+        // } else if (index === tableData.length - 1) {
+        //     copyOfData.push(newColumn);
+        // } else {
+        //     copyOfData.splice(index, 0, newColumn);
+        // }
 
         setTableData(copyOfData);
     };
@@ -177,7 +187,9 @@ export const Table = () => {
         );
     };
 
-    console.log(hiddenRows);
+    const updateColumn = (data: BI) => {
+        setTableData(tableData.map((item, i) => (renameIndex === i ? { ...item, ...data } : item)));
+    };
 
     return (
         <S.PageWrapper>
@@ -200,6 +212,7 @@ export const Table = () => {
                                             setOpenSideBlockName={openStepFrom}
                                             setRenameIndex={setRenameIndex}
                                             tableDataLength={tableData.length}
+                                            openBiForm={openBiFrom}
                                         />
                                     </S.FlexWrapper>
                                 </S.Th>
@@ -395,7 +408,14 @@ export const Table = () => {
                 isOpen={stepFormOpened}
                 onClose={closeStepForm}
                 renameColumn={renameColumn}
-                defaultName={tableData[renameIndex ?? 0]?.columnName}
+                defaultName={tableData[renameIndex ?? 0]?.columnName ?? ''}
+            />
+
+            <BIForm
+                isOpen={biFormOpened}
+                onClose={closeBiForm}
+                onSave={updateColumn}
+                defaultValues={typeof renameIndex === 'number' ? tableData[renameIndex] : undefined}
             />
         </S.PageWrapper>
     );
