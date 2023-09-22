@@ -5,11 +5,29 @@ export const PageWrapper = styled.div`
     justify-content: center;
 
     width: 100%;
-    min-height: 100vh;
-    padding: 124px 52px;
+    max-height: calc(100vh - 64px);
+
+    padding: 60px 0px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+`;
+
+export const MarginBlock = styled.div`
+    height: 64px;
 `;
 
 export const Container = styled.div`
