@@ -1,37 +1,35 @@
-import React, { FC, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-import { Nullable } from 'types/common';
+import React, { FC } from 'react';
 
-import { useOutsideClick } from 'hooks/useOutsideClick';
-import * as ROUTER from 'router/const';
-
+// import { useNavigate } from 'react-router-dom';
+// import { Icon } from '@beeline/design-system-react';
+// import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+// import { Nullable } from 'types/common';
+// import { useOutsideClick } from 'hooks/useOutsideClick';
+// import * as ROUTER from 'router/const';
 import { IProfileIcon } from './types';
 import * as S from './units';
 
-export const ProfileIcon: FC<IProfileIcon> = ({ initials, isPersonalArea }) => {
-    const [isShowDropdown, setShowDropdown] = useState(false);
+export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
+    // const [isShowDropdown, setShowDropdown] = useState(false);
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const dropdownRef = useRef(null);
+    // const dropdownRef = useRef(null);
 
-    const profileIconRef = useRef<Nullable<HTMLElement>>(null);
+    // const profileIconRef = useRef<Nullable<HTMLElement>>(null);
 
-    useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
+    // useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
 
-    const handleNavigateClick = () => {
-        navigate(!isPersonalArea ? ROUTER.PERSONAL_AREA_PATH : ROUTER.MAIN_PAGE_PATH);
-        setShowDropdown(false);
-    };
+    // const handleNavigateClick = () => {
+    //     navigate(!isPersonalArea ? ROUTER.PERSONAL_AREA_PATH : ROUTER.MAIN_PAGE_PATH);
+    //     setShowDropdown(false);
+    // };
 
     return (
         <>
             <S.Wrapper
-                className="ProfileIconWrapper"
-                onClick={() => setShowDropdown(!isShowDropdown)}
-                ref={profileIconRef as any}
+            // onClick={() => setShowDropdown(!isShowDropdown)}
+            // ref={profileIconRef as any}
             >
                 {initials}
             </S.Wrapper>
@@ -40,7 +38,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, isPersonalArea }) => {
                 <p onClick={() => clearAuth()}>Выход</p>
             </S.ExpandStyled> */}
 
-            {isShowDropdown && (
+            {/* {isShowDropdown && (
                 // <S.BlurContainer onClick={() => setShowDropdown(false)}>
                 <S.Dropdown className="Dropdown" ref={dropdownRef}>
                     <S.DropdownItem className="DropdownItem">Профиль</S.DropdownItem>
@@ -50,7 +48,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, isPersonalArea }) => {
                     </S.DropdownItem>
                 </S.Dropdown>
                 // </S.BlurContainer>
-            )}
+            )} */}
         </>
     );
 };
