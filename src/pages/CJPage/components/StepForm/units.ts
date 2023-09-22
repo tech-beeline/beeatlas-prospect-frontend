@@ -90,3 +90,16 @@ export const LabelsContainer = styled.div`
     margin-top: 24px;
     margin-bottom: 20px;
 `;
+
+export const EmptyState = styled.div`
+    margin-top: 18px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+`;
+
+export const Subtitle3Inactive = styled(Subtitle3)`
+    color: var(--color-text-inactive);
+`;

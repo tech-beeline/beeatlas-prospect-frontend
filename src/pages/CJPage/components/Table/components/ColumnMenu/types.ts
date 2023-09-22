@@ -6,5 +6,4 @@ export interface IColumnMenu {
     changePositionOfColumn: (index: number, isRight?: boolean) => void;
     setRenameIndex: (index: number) => void;
     setOpenSideBlockName: (flag: boolean) => void;
-    openBiForm: () => void;
 }

@@ -52,7 +52,7 @@ export const Thead = styled.thead`
 
     text-align: left;
 
-    z-index: 1;
+    z-index: 3;
 `;
 
 export const Tbody = styled.tbody`

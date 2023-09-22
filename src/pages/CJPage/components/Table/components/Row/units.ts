@@ -47,6 +47,28 @@ export const Td = styled.td<{ isClickable?: boolean }>`
         `}
 `;
 
+export const OnlyTd = styled(Td)`
+    position: relative;
+
+    transition: 0.25s all;
+
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+    z-index: 1;
+
+    &:hover {
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    }
+`;
+
+export const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+`;
+
 export const AlignItemsCenterWrapper = styled.div`
     display: flex;
     align-items: center;

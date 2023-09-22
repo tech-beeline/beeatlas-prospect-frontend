@@ -15,7 +15,6 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     changePositionOfColumn,
     setOpenSideBlockName,
     setRenameIndex,
-    openBiForm,
 }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -123,7 +122,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
 
                             <S.MenuItem
                                 onClick={() => {
-                                    openBiForm();
+                                    setOpenSideBlockName(true);
                                     setRenameIndex(rowIndex);
                                     hideMenuHandler();
                                 }}

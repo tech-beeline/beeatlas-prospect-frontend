@@ -7,7 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField } from 'components/form';
 import { FeelingTypes, IconFeeling } from 'components/other';
 
+import { businessInteraction, SEARCH_BIS } from 'pages/CJPage/mocks';
+
 import { SideBlock } from '../SideBlock';
+
+import emptyBox from './images/empty-box.png';
 
 import { FormValues, validationSchema } from './form';
 import { IStepForm } from './types';
@@ -20,15 +24,30 @@ enum Stage {
     BIEDIT = 'BIEDIT',
 }
 
-export const StepForm: FC<IStepForm> = ({ defaultName, isOpen, renameColumn, onClose }) => {
-    const [search, setSearch] = useState('');
+export const StepForm: FC<IStepForm> = ({
+    defaultName,
+    isOpen,
+    renameColumn,
+    addBI,
+    onClose,
+    stepBIs,
+}) => {
+    // COMMON
     const [stage, setStage] = useState<Stage>(Stage.SETTINGS);
+    const [selectedBiId, setSelectedBiId] = useState<number | null>(null);
 
+    // SETTINGS
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
     });
 
     const { handleSubmit, reset } = form;
+
+    const handleCloseClick = () => {
+        onClose();
+        setStage(Stage.SETTINGS);
+        reset();
+    };
 
     const onSubmit = handleSubmit(({ name }) => {
         renameColumn(name);
@@ -36,17 +55,35 @@ export const StepForm: FC<IStepForm> = ({ defaultName, isOpen, renameColumn, onC
         reset();
     });
 
+    // BISEARCH
+    const [search, setSearch] = useState('');
+    const [searchBis, setSearchBis] = useState(SEARCH_BIS);
+
+    useEffect(() => {
+        setSearchBis(SEARCH_BIS.filter((bi) => bi.name.includes(search)));
+    }, [search]);
+
+    const productSearchBis = searchBis.filter((bi) => !bi.communal);
+    const communalSearchBis = searchBis.filter((bi) => bi.communal);
+
     useEffect(() => reset({ name: defaultName }), [defaultName]);
 
+    // BIVIEW
+    const currentBi = SEARCH_BIS.find((bi) => bi.id === selectedBiId);
+
     return (
-        <SideBlock isOpen={isOpen} setOpen={onClose}>
+        <SideBlock isOpen={isOpen} setOpen={handleCloseClick}>
             {stage === Stage.SETTINGS && (
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.FlexWrapper>
                             <S.SideBlockTitle>Настройка шага</S.SideBlockTitle>
 
-                            <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
+                            <IconButton
+                                iconName={Icons.Close}
+                                size="large"
+                                onClick={handleCloseClick}
+                            />
                         </S.FlexWrapper>
 
                         <S.TextFieldContainer>
@@ -63,20 +100,32 @@ export const StepForm: FC<IStepForm> = ({ defaultName, isOpen, renameColumn, onC
                             />
                         </S.SubtitleFlexWrapper>
 
-                        <S.BIFlexWrapper>
-                            <div>
-                                <S.Body2>Название BI</S.Body2>
-                                <S.Body3>Номер BI</S.Body3>
-                            </div>
-                            <IconButton
-                                iconName={Icons.NavArrowRight}
-                                size="large"
-                                // onClick={() => {}}
-                            />
-                        </S.BIFlexWrapper>
+                        {stepBIs.length === 0 && (
+                            <S.EmptyState>
+                                <img src={emptyBox} />
+                                <S.Subtitle3Inactive>Добавьте первый BI</S.Subtitle3Inactive>
+                            </S.EmptyState>
+                        )}
+
+                        {stepBIs.map((bi) => (
+                            <S.BIFlexWrapper key={bi.id}>
+                                <div>
+                                    <S.Body2>{bi.name}</S.Body2>
+                                    <S.Body3>Номер BI</S.Body3>
+                                </div>
+                                <IconButton
+                                    iconName={Icons.NavArrowRight}
+                                    size="large"
+                                    onClick={() => {
+                                        setSelectedBiId(bi.id);
+                                        setStage(Stage.BIVIEW);
+                                    }}
+                                />
+                            </S.BIFlexWrapper>
+                        ))}
 
                         <S.ButtonContainer>
-                            <Button type="button" onClick={onClose}>
+                            <Button type="button" onClick={handleCloseClick}>
                                 Отменить
                             </Button>
 
@@ -116,36 +165,42 @@ export const StepForm: FC<IStepForm> = ({ defaultName, isOpen, renameColumn, onC
                         </Button>
                     </S.SubtitleFlexWrapper2>
 
-                    <S.BIFlexWrapper>
-                        <div>
-                            <S.Body2>Название BI</S.Body2>
-                            <S.Body3>Номер BI</S.Body3>
-                        </div>
-                        <IconButton
-                            iconName={Icons.NavArrowRight}
-                            size="large"
-                            onClick={() => {
-                                setStage(Stage.BIVIEW);
-                            }}
-                        />
-                    </S.BIFlexWrapper>
+                    {productSearchBis.map((bi) => (
+                        <S.BIFlexWrapper key={bi.id}>
+                            <div>
+                                <S.Body2>{bi.name}</S.Body2>
+                                <S.Body3>Номер BI</S.Body3>
+                            </div>
+                            <IconButton
+                                iconName={Icons.NavArrowRight}
+                                size="large"
+                                onClick={() => {
+                                    setSelectedBiId(bi.id);
+                                    setStage(Stage.BIVIEW);
+                                }}
+                            />
+                        </S.BIFlexWrapper>
+                    ))}
                     <S.SubtitleFlexWrapper2>
                         <S.Subtitle>Коммунальные</S.Subtitle>
                     </S.SubtitleFlexWrapper2>
 
-                    <S.BIFlexWrapper>
-                        <div>
-                            <S.Body2>Название BI</S.Body2>
-                            <S.Body3>Номер BI</S.Body3>
-                        </div>
-                        <IconButton
-                            iconName={Icons.NavArrowRight}
-                            size="large"
-                            onClick={() => {
-                                setStage(Stage.BIVIEW);
-                            }}
-                        />
-                    </S.BIFlexWrapper>
+                    {communalSearchBis.map((bi) => (
+                        <S.BIFlexWrapper key={bi.id}>
+                            <div>
+                                <S.Body2>{bi.name}</S.Body2>
+                                <S.Body3>Номер BI</S.Body3>
+                            </div>
+                            <IconButton
+                                iconName={Icons.NavArrowRight}
+                                size="large"
+                                onClick={() => {
+                                    setSelectedBiId(bi.id);
+                                    setStage(Stage.BIVIEW);
+                                }}
+                            />
+                        </S.BIFlexWrapper>
+                    ))}
                 </>
             )}
             {stage === Stage.BIVIEW && (
@@ -165,7 +220,7 @@ export const StepForm: FC<IStepForm> = ({ defaultName, isOpen, renameColumn, onC
                     </S.LabelsContainer>
 
                     <S.Body3>Название</S.Body3>
-                    <S.Body2>Авторизация</S.Body2>
+                    <S.Body2>{currentBi?.name}</S.Body2>
 
                     <S.Body3>Описание</S.Body3>
                     <S.Body2>Описание BI</S.Body2>
@@ -199,7 +254,14 @@ export const StepForm: FC<IStepForm> = ({ defaultName, isOpen, renameColumn, onC
 
                     <S.ButtonContainer>
                         <Button type="button">Редактировать</Button>
-                        <Button type="submit" variant="contained">
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            onClick={() => {
+                                addBI(businessInteraction);
+                                handleCloseClick();
+                            }}
+                        >
                             Выбрать
                         </Button>
                     </S.ButtonContainer>
