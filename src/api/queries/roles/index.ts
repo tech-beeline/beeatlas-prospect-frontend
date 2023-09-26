@@ -7,8 +7,9 @@ import {
     getRoles,
     postRole,
     putRole,
+    putRolePermission,
 } from 'api/personal-area';
-import { IRole } from 'api/personal-area/types';
+import { IPermission, IRole } from 'api/personal-area/types';
 
 const ROLE_PREFIX = 'ROLE_PREFIX';
 
@@ -21,7 +22,7 @@ export const useGetAllRolesQuery = () => {
 };
 
 export const useGetRoleByIdQuery = (id: number | undefined | null) => {
-    return useQuery(
+    return useQuery<IRole>(
         [ROLE_PREFIX, 'role', id],
         () =>
             getCurrentRole(id!)
@@ -34,7 +35,7 @@ export const useGetRoleByIdQuery = (id: number | undefined | null) => {
 };
 
 export const useGetRolePermissionsByIdQuery = (id: number | undefined | null) => {
-    return useQuery(
+    return useQuery<IPermission[]>(
         [ROLE_PREFIX, 'rolePermission', id],
         () =>
             getRolePermission(id!)
@@ -67,6 +68,25 @@ export function useUpdateRoleMutation() {
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(ROLE_PREFIX);
+            },
+        },
+    );
+}
+
+interface IUpdateRolePermissionsParams {
+    roleId: number;
+    permissions: IPermission[];
+}
+
+export function useUpdateRolePermissionsMutation() {
+    const queryClient = useQueryClient();
+    return useMutation(
+        [ROLE_PREFIX, 'updateRole'],
+        (params: IUpdateRolePermissionsParams) =>
+            putRolePermission(params.roleId, params.permissions),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(ROLE_PREFIX);
             },
         },
     );
