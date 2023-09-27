@@ -3,8 +3,8 @@ import VKITAuth from '@beeline/lk-auth';
 
 import { getPermissionsOfProfile, postSession } from 'api/sessions';
 import { useMountEffect } from 'hooks';
+import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, LOCALHOST_LINK } from 'utils/const';
 
-import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, LOCALHOST_LINK } from '../const';
 import { useAuthStore } from '../store';
 
 const auth = new VKITAuth(isFunc ? FUNC_MOCK_AUTH_LINK : isDev ? LOCALHOST_LINK : '');

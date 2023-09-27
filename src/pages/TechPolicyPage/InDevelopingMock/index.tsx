@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { FUNC_MOCK_CONFLUENCE_LINK, isFunc } from 'utils/const';
+
 import image from './images/empty-list.png';
 
 import * as S from './units';
@@ -22,7 +24,9 @@ export const InDevelopingMock = () => {
                 endIcon={<Icon iconName={Icons.OpenInWindow} />}
                 onClick={() =>
                     window.open(
-                        'https://confluence.veon.com/pages/viewpage.action?pageId=162511052',
+                        isFunc
+                            ? FUNC_MOCK_CONFLUENCE_LINK
+                            : 'https://confluence.veon.com/pages/viewpage.action?pageId=162511052',
                         '_blank',
                     )
                 }
