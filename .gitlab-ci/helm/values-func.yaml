@@ -15,7 +15,7 @@ ingress:
       paths:
       - path: /
         pathType: ImplementationSpecific
-    - host: "eafdmmart-func.apps.mn-kp01.vimpelcom.ru"
+    - host: "eafdmmart-func.apps.yd-m6-kt22.vimpelcom.ru"
       paths:
       - path: /api/
         pathType: ImplementationSpecific
