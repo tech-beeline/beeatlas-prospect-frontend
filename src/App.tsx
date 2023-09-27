@@ -1,5 +1,6 @@
 import React from 'react';
 import { QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { DropdownContext } from '@beeline/design-system-react';
 import { useAuth } from 'features/auth';
@@ -42,6 +43,7 @@ const App = () => {
                 </StoreProvider>
                 <Snackbar />
                 <GlobalStyles />
+                <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
         </>
     );

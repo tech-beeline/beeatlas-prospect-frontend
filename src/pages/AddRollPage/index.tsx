@@ -15,6 +15,7 @@ import {
     useGetRoleByIdQuery,
     useGetRolePermissionsByIdQuery,
     useUpdateRoleMutation,
+    useUpdateRolePermissionsMutation,
 } from 'api/queries';
 import { useModal } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
@@ -22,6 +23,7 @@ import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { uneditableNameRoles, uneditablePermissionsRoles } from './const';
 import { FormValues, validationSchema } from './form';
 import * as S from './units';
 
@@ -35,8 +37,16 @@ export const AddRollPage = () => {
     const { data: roleData } = useGetRoleByIdQuery(roleId);
     const { data: rolePermissions } = useGetRolePermissionsByIdQuery(roleId);
     const { mutateAsync: createRole } = useCreateRoleMutation();
-    const { mutateAsync: updateRole } = useUpdateRoleMutation();
+    const { mutateAsync: updateRole, isLoading: isUpdatingRole } = useUpdateRoleMutation();
+    const { mutateAsync: updateRolePermissions, isLoading: isUpdatingPermissions } =
+        useUpdateRolePermissionsMutation();
     const { mutateAsync: deleteRole } = useDeleteRoleMutation();
+
+    // @TODO: Добавить флаги isNameEditable и isPermissionsEditable на бэке
+    const canEditName = !uneditableNameRoles.has((roleData?.alias ?? '').toLowerCase());
+    const canEditPermissions = !uneditablePermissionsRoles.has(
+        (roleData?.alias ?? '').toLowerCase(),
+    );
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
@@ -46,17 +56,27 @@ export const AddRollPage = () => {
         watch,
         formState: { isDirty },
         reset,
-        getValues,
         handleSubmit,
     } = form;
 
     const nameField = watch('name');
 
     useEffect(() => {
-        if (roleData) {
-            reset({ ...getValues(), name: roleData.name });
+        if (roleData && rolePermissions && !(isUpdatingRole || isUpdatingPermissions)) {
+            reset({
+                name: roleData.name,
+                createPermission: rolePermissions.find(
+                    (permission) => permission.alias === 'CREATE_ARTIFACT',
+                )?.active,
+                editPermission: rolePermissions.find(
+                    (permission) => permission.alias === 'EDIT_ARTIFACT',
+                )?.active,
+                deletePermission: rolePermissions.find(
+                    (permission) => permission.alias === 'DELETE_ARTIFACT',
+                )?.active,
+            });
         }
-    }, [roleData, rolePermissions]);
+    }, [roleData, rolePermissions, isUpdatingRole, isUpdatingPermissions]);
 
     const [isShowDropdown, setShowDropdown] = useState(false);
 
@@ -83,23 +103,38 @@ export const AddRollPage = () => {
     const onSubmit = handleSubmit(
         async ({ name, createPermission, editPermission, deletePermission }) => {
             try {
+                const permissions = [];
+                createPermission && permissions.push({ id: 1 });
+                editPermission && permissions.push({ id: 2 });
+                deletePermission && permissions.push({ id: 3 });
+
                 if (roleId) {
-                    const res = await updateRole({ id: String(roleId), name });
-                    if (res?.data.id) {
+                    const roleUpdate = await updateRole({ id: String(roleId), name });
+                    const permissionsUpdate = await updateRolePermissions({
+                        roleId,
+                        permissions,
+                    });
+
+                    if (roleUpdate.data?.id && permissionsUpdate.data) {
                         showSnackbar({ message: 'Изменения сохранены' });
                         navigateToAllRoles();
                     }
                 } else {
                     const res = await createRole({ name });
                     if (res?.data.id) {
-                        showSnackbar({ message: 'Роль успешно создана' });
-                        navigateToAllRoles();
+                        const permissionsUpdate = await updateRolePermissions({
+                            roleId: res.data.id,
+                            permissions,
+                        });
+                        if (permissionsUpdate.data) {
+                            showSnackbar({ message: 'Роль успешно создана' });
+                            navigateToAllRoles();
+                        }
                     }
                 }
             } catch (error) {
                 console.error(error);
             }
-            console.log(name, createPermission, editPermission, deletePermission);
         },
     );
 
@@ -112,7 +147,7 @@ export const AddRollPage = () => {
                     fontSize="26px"
                 />
 
-                {roleId && (
+                {roleId && canEditName && (
                     <Icon
                         ref={toggleRef}
                         iconName={Icons.MoreVert}
@@ -134,20 +169,29 @@ export const AddRollPage = () => {
 
             <FormProvider {...form}>
                 <form onSubmit={onSubmit}>
-                    <TextField name="name" label="Название" />
+                    <TextField name="name" label="Название" disabled={!canEditName} />
 
                     <S.PermissionsContainer>
                         <S.CheckboxWrapper>
-                            <S.CheckboxStyled name="createPermission" label="Создание артефактов" />
+                            <S.CheckboxStyled
+                                name="createPermission"
+                                label="Создание артефактов"
+                                disabled={!canEditPermissions}
+                            />
                         </S.CheckboxWrapper>
                         <S.CheckboxWrapper>
                             <S.CheckboxStyled
                                 name="editPermission"
                                 label="Редактирование артефактов"
+                                disabled={!canEditPermissions}
                             />
                         </S.CheckboxWrapper>
                         <S.CheckboxWrapper>
-                            <S.CheckboxStyled name="deletePermission" label="Удаление артефактов" />
+                            <S.CheckboxStyled
+                                name="deletePermission"
+                                label="Удаление артефактов"
+                                disabled={!canEditPermissions}
+                            />
                         </S.CheckboxWrapper>
                     </S.PermissionsContainer>
 

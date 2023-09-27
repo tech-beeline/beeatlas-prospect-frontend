@@ -117,9 +117,10 @@ export const getRolePermission = (id: number) => {
 // --------------------------
 
 // сохранить/обновить доступы у конкретной роли
-export const putRolePermission = (id: number) => {
+export const putRolePermission = (id: number, data: T.IPermission[]) => {
     return Api.put({
         url: `${API_URL}admin/v1/roles/${id}/permissions`,
+        data,
     });
 };
 
