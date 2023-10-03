@@ -1,85 +1,76 @@
-// import React, { FormEvent, useEffect, useState } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Breadcrumbs } from '@beeline/design-system-react';
-import { observer } from 'mobx-react';
 
 import { useWindowResize } from 'hooks';
-import { useRootStore } from 'stores/initStore';
 
 import boxImg from './images/box.png';
 
-import { BreadCrumbsItem } from './BreadCrumbsItem';
-// TODO: в компоненты
-import { NestingMenu } from './NestingMenu';
-import { TreeCard } from './TreeCard';
-// import { ResultCard } from './ResultCard';
+import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
+import { useFDMStore } from './store';
 import * as S from './units';
-import { ViewItemSwitcher } from './ViewItemSwitcher';
 
-export const FDMPage = observer(() => {
-    const {
-        fdmStore: { activeFDMItem, setActiveFDMItem, breadCrumbsItems },
-    } = useRootStore();
+export const FDMPage = () => {
+    const [activeItem, breadcrumbs] = useFDMStore((state) => [state.activeItem, state.breadcrumbs]);
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
 
-    const refTreeContainer = useRef(null);
+    const refTreeContainer = useRef<HTMLDivElement>(null);
 
     const windowWidth = useWindowResize();
 
     useEffect(() => {
-        if (!!activeFDMItem && refTreeContainer.current) {
+        if (!!activeItem && refTreeContainer.current) {
             const { current } = refTreeContainer;
 
-            // @ts-ignore
             const { width } = current.getBoundingClientRect();
 
             setFullWidthCard(width <= 623);
         }
-    }, [windowWidth, activeFDMItem]);
+    }, [windowWidth, activeItem]);
 
     return (
-        <S.PageWrapper className="PageWrapper">
+        <S.PageWrapper>
             <NestingMenu />
 
-            <S.Wrapper className="Wrapper">
-                <S.Container className="Container">
-                    {breadCrumbsItems.length > 1 && (
-                        <Breadcrumbs collapsed={breadCrumbsItems.length > 2}>
-                            {breadCrumbsItems.map((item, index) => (
-                                <BreadCrumbsItem
-                                    key={index}
-                                    {...{ item, activeFDMItem, setActiveFDMItem }}
-                                />
-                            ))}
-                        </Breadcrumbs>
-                    )}
-
-                    <S.H4 className="H4">{activeFDMItem.name}</S.H4>
-
-                    <S.AliasText className="AliasText">{activeFDMItem.alias}</S.AliasText>
-
-                    {!activeFDMItem.descr && activeFDMItem.children?.length === 0 && (
-                        <S.MockWrapper className="MockWrapper">
-                            <S.Image className="Image" src={boxImg} />
-
-                            <S.MockText className="MockText">Возможностей пока нет</S.MockText>
-                        </S.MockWrapper>
-                    )}
-
-                    <S.JustText
-                        className="JustText"
-                        dangerouslySetInnerHTML={{ __html: activeFDMItem.descr }}
-                    />
-
-                    {JSON.stringify(activeFDMItem) !== '{}' ? (
+            <S.Wrapper>
+                <S.Container>
+                    {activeItem ? (
                         <>
-                            {activeFDMItem.level > 1 &&
-                                !!activeFDMItem.children &&
-                                activeFDMItem.children?.length > 0 && (
+                            {breadcrumbs.length > 1 && (
+                                <Breadcrumbs
+                                    collapsed={breadcrumbs.length > 2}
+                                    key={breadcrumbs.length}
+                                >
+                                    {breadcrumbs.map((item, index) => (
+                                        <BreadCrumbsItem
+                                            key={index}
+                                            id={item.id}
+                                            level={item.level}
+                                            name={item.name}
+                                        />
+                                    ))}
+                                </Breadcrumbs>
+                            )}
+
+                            <S.H4>{activeItem.name}</S.H4>
+
+                            <S.AliasText>{activeItem.alias}</S.AliasText>
+
+                            {!activeItem.descr && activeItem.children?.length === 0 && (
+                                <S.MockWrapper>
+                                    <S.Image src={boxImg} />
+                                    <S.MockText>Возможностей пока нет</S.MockText>
+                                </S.MockWrapper>
+                            )}
+
+                            <S.JustText dangerouslySetInnerHTML={{ __html: activeItem.descr }} />
+
+                            {activeItem.level > 2 &&
+                                !!activeItem.children &&
+                                activeItem.children?.length > 0 && (
                                     <S.FlexBlock>
-                                        {activeFDMItem.alias?.includes('DMN')
+                                        {activeItem.alias?.includes('DMN')
                                             ? 'Все бизнес возможности домена'
                                             : 'Связанные технические возможности'}
                                         <S.ListSwitcherWrapper className="ListSwitcherWrapper">
@@ -91,45 +82,27 @@ export const FDMPage = observer(() => {
                                     </S.FlexBlock>
                                 )}
 
-                            <S.TreeContainer
-                                className="TreeContainer"
-                                {...{ activeViewList }}
-                                ref={refTreeContainer}
-                            >
-                                {/* TODO: убрать */}
-
-                                {activeFDMItem.level > 1 &&
-                                    activeFDMItem.children?.map((item, index) => (
+                            <S.TreeContainer {...{ activeViewList }} ref={refTreeContainer}>
+                                {activeItem.level > 2 &&
+                                    activeItem.children?.map((item, index) => (
                                         <TreeCard
                                             key={index}
-                                            data={item}
-                                            {...{ setActiveFDMItem, isFullWidthCard }}
+                                            isFullWidthCard={isFullWidthCard}
+                                            item={item}
                                         />
                                     ))}
-
-                                {/* {activeFDMItem.children && activeFDMItem.children.length > 0 ? (
-                                // activeFDMItem.level > 1 &&
-                               
-                            ) : (
-                                <S.MockWrapperNoChild>
-                                    <S.Image src={boxImg} />
-
-                                    <S.MockText>Возможностей пока нет</S.MockText>
-                                </S.MockWrapperNoChild>
-                            )} */}
                             </S.TreeContainer>
                         </>
                     ) : (
-                        <S.MockWrapper className="MockWrapper">
-                            <S.Image className="Image" src={boxImg} />
-
-                            <S.MockText className="MockText">
-                                Выберите сущность из списка
-                            </S.MockText>
-                        </S.MockWrapper>
+                        <>
+                            <S.MockWrapper>
+                                <S.Image src={boxImg} />
+                                <S.MockText>Выберите сущность из списка</S.MockText>
+                            </S.MockWrapper>
+                        </>
                     )}
                 </S.Container>
             </S.Wrapper>
         </S.PageWrapper>
     );
-});
+};
