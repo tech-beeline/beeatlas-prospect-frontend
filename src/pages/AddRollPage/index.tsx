@@ -141,7 +141,7 @@ export const AddRollPage = () => {
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlexGap>
                 <TitleBack
-                    onClick={roleId ? openModal : undefined}
+                    onClick={roleId ? openModal : navigateToAllRoles}
                     title={roleId ? 'Редактирование роли' : 'Создание новой роли'}
                     fontSize="26px"
                 />

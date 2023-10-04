@@ -16,6 +16,8 @@ export const RollSettingsPage = observer(() => {
 
     const { data: roles, isLoading } = useGetAllRolesQuery();
 
+    const navigateToPersonalArea = () => navigate(`${ROUTER.PERSONAL_AREA_PATH}`);
+
     const openCurrentRoleHandler = (id?: number) => {
         navigate({
             pathname: `${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}${ROUTER.ADD_PATH}`,
@@ -26,7 +28,11 @@ export const RollSettingsPage = observer(() => {
     return (
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlex>
-                <TitleBack title="Настройки ролей" fontSize="26px" />
+                <TitleBack
+                    title="Настройки ролей"
+                    fontSize="26px"
+                    onClick={navigateToPersonalArea}
+                />
 
                 <Button
                     variant="contained"
