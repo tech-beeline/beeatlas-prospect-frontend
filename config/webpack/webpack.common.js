@@ -94,7 +94,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: path.join(process.env.PWD, 'public', 'index.html'),
-            // favicon: path.join(process.env.PWD, 'public', 'favicon.ico'),
+            favicon: path.join(process.env.PWD, 'public', 'favicon.ico'),
             minify: {
                 collapseWhitespace: isProd,
                 removeComments: isProd,
