@@ -23,7 +23,7 @@ import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { uneditableNameRoles, uneditablePermissionsRoles } from './const';
+import { uneditablePermissionsRoles } from './const';
 import { FormValues, validationSchema } from './form';
 import * as S from './units';
 
@@ -42,8 +42,7 @@ export const AddRollPage = () => {
         useUpdateRolePermissionsMutation();
     const { mutateAsync: deleteRole } = useDeleteRoleMutation();
 
-    // @TODO: Добавить флаги isNameEditable и isPermissionsEditable на бэке
-    const canEditName = !uneditableNameRoles.has((roleData?.alias ?? '').toLowerCase());
+    const isRoleDefault = roleData?.default === true;
     const canEditPermissions = !uneditablePermissionsRoles.has(
         (roleData?.alias ?? '').toLowerCase(),
     );
@@ -147,7 +146,7 @@ export const AddRollPage = () => {
                     fontSize="26px"
                 />
 
-                {roleId && canEditName && (
+                {roleId && !isRoleDefault && (
                     <Icon
                         ref={toggleRef}
                         iconName={Icons.MoreVert}
@@ -169,7 +168,7 @@ export const AddRollPage = () => {
 
             <FormProvider {...form}>
                 <form onSubmit={onSubmit}>
-                    <TextField name="name" label="Название" disabled={!canEditName} />
+                    <TextField name="name" label="Название" disabled={isRoleDefault} />
 
                     <S.PermissionsContainer>
                         <S.CheckboxWrapper>

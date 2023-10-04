@@ -3,6 +3,7 @@ export interface IRole {
     name?: string;
     alias?: string;
     descr?: string;
+    default?: boolean;
 }
 
 export interface IPermission {
