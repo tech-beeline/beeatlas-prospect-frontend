@@ -40,6 +40,7 @@ export const Item: FC<IItem> = ({ item }) => {
             <S.Wrapper
                 isActive={activeItem?.id === item.id && activeItem?.level === item.level}
                 onClick={setActiveItemAndGetChildren}
+                data-testid="Item"
             >
                 <PivotArrow
                     onClick={showChildHandler}
@@ -60,6 +61,7 @@ export const Item: FC<IItem> = ({ item }) => {
                 menuId={item.id}
                 treeExpandArray={activeItemPath}
                 isAutoHeight
+                data-testid="Expand"
             >
                 {item.children?.map((child, index) => (
                     <Item key={index} item={child} />

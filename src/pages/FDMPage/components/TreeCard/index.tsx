@@ -17,17 +17,23 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
         <S.Wrapper isFullWidthCard={isFullWidthCard}>
             <S.InnerFlex>
                 <div>
-                    <S.TitleContainer onClick={() => setActiveItem(item.id, item.level)}>
+                    <S.TitleContainer
+                        onClick={() => setActiveItem(item.id, item.level)}
+                        data-testid="TreeCardTitleContainer"
+                    >
                         {getItemIcon(item)}
 
                         <div>
-                            <S.Title>{item.name}</S.Title>
+                            <S.Title data-testid="TreeCardTitle">{item.name}</S.Title>
 
                             <S.TitleSecond>{item.alias}</S.TitleSecond>
                         </div>
                     </S.TitleContainer>
 
-                    <S.Text dangerouslySetInnerHTML={{ __html: item.descr }} />
+                    <S.Text
+                        dangerouslySetInnerHTML={{ __html: item.descr }}
+                        data-testid="TreeCardDescription"
+                    />
 
                     <div>
                         {item.owner && <S.TitleSecond>Владелец</S.TitleSecond>}
@@ -37,7 +43,10 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 </div>
 
                 {item.children && (
-                    <S.ChildrenExpandTitle onClick={() => setOpen(!isOpen)}>
+                    <S.ChildrenExpandTitle
+                        onClick={() => setOpen(!isOpen)}
+                        data-testid="TreeCardChildrenExpandTitle"
+                    >
                         Связанные возможности
                         <PivotArrow {...{ isOpen }} />
                     </S.ChildrenExpandTitle>
@@ -49,6 +58,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                     <S.ChildrenLinkTitle
                         key={index}
                         onClick={() => setActiveItem(item.id, item.level)}
+                        data-testid="TreeCardChildrenLinkTitle"
                     >
                         {item.name}
                     </S.ChildrenLinkTitle>
