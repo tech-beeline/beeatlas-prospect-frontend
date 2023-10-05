@@ -42,7 +42,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                     </div>
                 </div>
 
-                {item.children && (
+                {item.children && item.children.length > 0 && (
                     <S.ChildrenExpandTitle
                         onClick={() => setOpen(!isOpen)}
                         data-testid="TreeCardChildrenExpandTitle"
