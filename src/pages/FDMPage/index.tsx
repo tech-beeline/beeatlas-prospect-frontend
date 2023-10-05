@@ -12,7 +12,9 @@ import * as S from './units';
 export const FDMPage = () => {
     const [activeItem, breadcrumbs] = useFDMStore((state) => [state.activeItem, state.breadcrumbs]);
 
-    const isItemGroup = activeItem?.alias?.split('.')[0] === 'GRP';
+    const itemAliasType = activeItem?.alias?.split('.')[0];
+    const isItemGroup = itemAliasType === 'GRP';
+    const isItemDomain = itemAliasType === 'DMN';
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
@@ -59,7 +61,7 @@ export const FDMPage = () => {
 
                             <S.AliasText data-testid="Alias">{activeItem.alias}</S.AliasText>
 
-                            {!activeItem.descr && activeItem.children?.length === 0 && (
+                            {isItemDomain && activeItem.children?.length === 0 && (
                                 <S.MockWrapper data-testid="Mock">
                                     <S.Image src={boxImg} />
                                     <S.MockText>Возможностей пока нет</S.MockText>
