@@ -12,6 +12,8 @@ import * as S from './units';
 export const FDMPage = () => {
     const [activeItem, breadcrumbs] = useFDMStore((state) => [state.activeItem, state.breadcrumbs]);
 
+    const isItemGroup = activeItem?.alias?.split('.')[0] === 'GRP';
+
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
 
@@ -69,7 +71,7 @@ export const FDMPage = () => {
                                 dangerouslySetInnerHTML={{ __html: activeItem.descr }}
                             />
 
-                            {activeItem.level > 2 &&
+                            {!isItemGroup &&
                                 !!activeItem.children &&
                                 activeItem.children?.length > 0 && (
                                     <S.FlexBlock>
@@ -90,7 +92,7 @@ export const FDMPage = () => {
                                 ref={refTreeContainer}
                                 data-testid="TreeContainer"
                             >
-                                {activeItem.level > 2 &&
+                                {!isItemGroup &&
                                     activeItem.children?.map((item, index) => (
                                         <TreeCard
                                             key={index}
