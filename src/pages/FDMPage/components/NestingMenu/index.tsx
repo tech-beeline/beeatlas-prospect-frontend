@@ -66,7 +66,7 @@ export const NestingMenu = () => {
                 minWidth={300}
                 maxWidth={640}
             >
-                <S.RightSide>
+                <S.RightSide data-testid="Tree">
                     {(menuItems[0]?.children ?? []).map((item) => (
                         <Item key={item.id} item={item} />
                     ))}

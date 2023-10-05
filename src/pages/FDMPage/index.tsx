@@ -33,7 +33,7 @@ export const FDMPage = () => {
         <S.PageWrapper>
             <NestingMenu />
 
-            <S.Wrapper>
+            <S.Wrapper data-testid="Container">
                 <S.Container>
                     {activeItem ? (
                         <>
@@ -53,18 +53,21 @@ export const FDMPage = () => {
                                 </Breadcrumbs>
                             )}
 
-                            <S.H4>{activeItem.name}</S.H4>
+                            <S.H4 data-testid="Title">{activeItem.name}</S.H4>
 
-                            <S.AliasText>{activeItem.alias}</S.AliasText>
+                            <S.AliasText data-testid="Alias">{activeItem.alias}</S.AliasText>
 
                             {!activeItem.descr && activeItem.children?.length === 0 && (
-                                <S.MockWrapper>
+                                <S.MockWrapper data-testid="Mock">
                                     <S.Image src={boxImg} />
                                     <S.MockText>Возможностей пока нет</S.MockText>
                                 </S.MockWrapper>
                             )}
 
-                            <S.JustText dangerouslySetInnerHTML={{ __html: activeItem.descr }} />
+                            <S.JustText
+                                data-testid="Description"
+                                dangerouslySetInnerHTML={{ __html: activeItem.descr }}
+                            />
 
                             {activeItem.level > 2 &&
                                 !!activeItem.children &&
@@ -82,13 +85,18 @@ export const FDMPage = () => {
                                     </S.FlexBlock>
                                 )}
 
-                            <S.TreeContainer {...{ activeViewList }} ref={refTreeContainer}>
+                            <S.TreeContainer
+                                {...{ activeViewList }}
+                                ref={refTreeContainer}
+                                data-testid="TreeContainer"
+                            >
                                 {activeItem.level > 2 &&
                                     activeItem.children?.map((item, index) => (
                                         <TreeCard
                                             key={index}
                                             isFullWidthCard={isFullWidthCard}
                                             item={item}
+                                            data-testid="TreeCard"
                                         />
                                     ))}
                             </S.TreeContainer>
