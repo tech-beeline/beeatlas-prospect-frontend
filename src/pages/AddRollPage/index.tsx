@@ -108,13 +108,15 @@ export const AddRollPage = () => {
                 deletePermission && permissions.push({ id: 3 });
 
                 if (roleId) {
-                    const roleUpdate = await updateRole({ id: String(roleId), name });
+                    if (roleData?.default !== true) {
+                        await updateRole({ id: String(roleId), name });
+                    }
                     const permissionsUpdate = await updateRolePermissions({
                         roleId,
                         permissions,
                     });
 
-                    if (roleUpdate.data?.id && permissionsUpdate.data) {
+                    if (permissionsUpdate.data) {
                         showSnackbar({ message: 'Изменения сохранены' });
                         navigateToAllRoles();
                     }

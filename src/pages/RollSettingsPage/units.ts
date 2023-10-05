@@ -1,12 +1,29 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-    height: 100vh;
+    height: calc(100vh - 64px);
     width: 100%;
-    padding: 64px 54px;
+    padding: 0px 54px 60px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+`;
+
+export const MarginBlock = styled.div`
+    height: 64px;
 `;
 
 export const TitleFlex = styled.div`
@@ -22,6 +39,19 @@ export const RolesContainer = styled.div`
 
     width: 100%;
     padding: 8px 0;
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
 `;
 
 export const Role = styled.div`
