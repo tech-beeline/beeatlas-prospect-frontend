@@ -119,7 +119,11 @@ export const SearchPage = observer(() => {
                             maxLength={400}
                         />
 
-                        <Button variant="contained" style={{ padding: '0 20px' }}>
+                        <Button
+                            variant="contained"
+                            disabled={!searchInput}
+                            style={{ padding: '0 20px' }}
+                        >
                             Найти
                         </Button>
                     </S.SearchContainer>
