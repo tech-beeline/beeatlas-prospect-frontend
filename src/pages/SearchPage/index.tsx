@@ -115,6 +115,7 @@ export const SearchPage = observer(() => {
                             fullWidth
                             placeholder="Поиск"
                             onChange={({ target: { value } }) => setSearchInput(value)}
+                            onClear={() => setSearchInput('')}
                             value={searchInput}
                             maxLength={400}
                         />
