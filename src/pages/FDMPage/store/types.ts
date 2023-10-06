@@ -25,6 +25,7 @@ export interface IFDMStore {
     flatItems: Item[];
     menuItems: Item[];
     requesetedDomainIds: number[];
+    loading: boolean;
     setActiveItem: (itemId: number, level: number) => void;
     clearActiveItem: () => void;
     getGroupsAndDomains: () => Promise<void>;

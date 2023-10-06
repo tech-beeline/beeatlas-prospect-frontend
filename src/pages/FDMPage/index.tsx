@@ -1,16 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Breadcrumbs } from '@beeline/design-system-react';
+import { useSearchParams } from 'react-router-dom';
+import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
 
 import { useWindowResize } from 'hooks';
 
 import boxImg from './images/box.png';
+import boxWithQuestionImg from './images/boxWithQuestion.png';
 
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
 import { useFDMStore } from './store';
 import * as S from './units';
 
 export const FDMPage = () => {
-    const [activeItem, breadcrumbs] = useFDMStore((state) => [state.activeItem, state.breadcrumbs]);
+    const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
+        state.activeItem,
+        state.breadcrumbs,
+        state.loading,
+    ]);
+
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
 
     const itemAliasType = activeItem?.alias?.split('.')[0];
     const isItemGroup = itemAliasType === 'GRP';
@@ -39,7 +48,7 @@ export const FDMPage = () => {
 
             <S.Wrapper data-testid="Container">
                 <S.Container>
-                    {activeItem ? (
+                    {activeItem && (
                         <>
                             {breadcrumbs.length > 1 && (
                                 <Breadcrumbs
@@ -105,7 +114,16 @@ export const FDMPage = () => {
                                     ))}
                             </S.TreeContainer>
                         </>
-                    ) : (
+                    )}
+                    {paramId && !activeItem && !loading && (
+                        <>
+                            <S.MockWrapper>
+                                <S.Image src={boxWithQuestionImg} />
+                                <S.MockText>Указана неверная ссылка или возможность</S.MockText>
+                            </S.MockWrapper>
+                        </>
+                    )}
+                    {!paramId && (
                         <>
                             <S.MockWrapper>
                                 <S.Image src={boxImg} />
@@ -113,6 +131,7 @@ export const FDMPage = () => {
                             </S.MockWrapper>
                         </>
                     )}
+                    {paramId && !activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
             </S.Wrapper>
         </S.PageWrapper>
