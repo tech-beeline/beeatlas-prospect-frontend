@@ -48,9 +48,9 @@ export const NestingMenu = () => {
             }
             setParams(
                 new URLSearchParams({
-                    id: String(activeItem.id),
-                    level: String(activeItem.level),
                     ...domain,
+                    level: String(activeItem.level),
+                    id: String(activeItem.id),
                 }),
             );
         }

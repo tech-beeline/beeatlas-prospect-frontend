@@ -12,6 +12,7 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
     flatItems: [],
     menuItems: [],
     requesetedDomainIds: [],
+    loading: false,
 
     setActiveItem: (itemId, level) => {
         set(() => {
@@ -31,15 +32,18 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
     },
 
     getGroupsAndDomains: async () => {
+        set(() => ({ loading: true }));
         const res = await getGeneralItems();
         set(() => ({
             flatItems: [...res.data],
             menuItems: formatMenuItems([...res.data]),
+            loading: false,
         }));
     },
 
     getEntitiesByDomain: async (domainId: number) => {
         if (!get().requesetedDomainIds.includes(domainId)) {
+            set(() => ({ loading: true }));
             const res = await getItemChildren(domainId);
 
             const flatItemsWithChildren = get().flatItems.map((item) =>
@@ -50,6 +54,7 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
                 flatItems: [...flatItemsWithChildren],
                 menuItems: formatMenuItems([...flatItemsWithChildren]),
                 requesetedDomainIds: [...get().requesetedDomainIds, domainId],
+                loading: false,
             }));
 
             return res.data.length > 0;
