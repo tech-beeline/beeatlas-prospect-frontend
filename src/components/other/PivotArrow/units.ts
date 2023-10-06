@@ -22,10 +22,17 @@ export const PivotArrow = styled(ArrowSVG)<{ isOpen: boolean; position?: string 
         //     : css`
         //           transform: ${isOpen ? 'rotate(-180deg)' : 'rotate(0deg)'};
         //
-        position === 'right' &&
-        css`
-            transform: rotate(-90deg);
-        `}
+        position === 'right'
+            ? css`
+                  transform: rotate(-90deg);
+              `
+            : position === 'top'
+            ? css`
+                  transform: rotate(-180deg);
+              `
+            : css`
+                  transform: rotate(0deg);
+              `}
 
     transition: transform 0.25s ease-out;
 

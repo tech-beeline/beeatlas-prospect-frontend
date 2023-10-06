@@ -48,7 +48,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         data-testid="TreeCardChildrenExpandTitle"
                     >
                         Связанные возможности
-                        <PivotArrow {...{ isOpen }} />
+                        <PivotArrow position={isOpen && 'top'} />
                     </S.ChildrenExpandTitle>
                 )}
             </S.InnerFlex>
