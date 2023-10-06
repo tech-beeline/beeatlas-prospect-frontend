@@ -97,7 +97,7 @@ export const FDMPage = () => {
                                 {!isItemGroup &&
                                     activeItem.children?.map((item, index) => (
                                         <TreeCard
-                                            key={index}
+                                            key={String(item.id) + index}
                                             isFullWidthCard={isFullWidthCard}
                                             item={item}
                                             data-testid="TreeCard"
