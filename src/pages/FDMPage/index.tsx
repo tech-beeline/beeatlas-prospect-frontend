@@ -8,6 +8,7 @@ import boxImg from './images/box.png';
 import boxWithQuestionImg from './images/boxWithQuestion.png';
 
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
+import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
@@ -20,6 +21,8 @@ export const FDMPage = () => {
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
+
+    const isLinkCorrect = validateFDMParams(params);
 
     const itemAliasType = activeItem?.alias?.split('.')[0];
     const isItemGroup = itemAliasType === 'GRP';
@@ -115,21 +118,22 @@ export const FDMPage = () => {
                             </S.TreeContainer>
                         </>
                     )}
-                    {paramId && !activeItem && !loading && (
-                        <>
-                            <S.MockWrapper>
-                                <S.Image src={boxWithQuestionImg} />
-                                <S.MockText>Указана неверная ссылка или возможность</S.MockText>
-                            </S.MockWrapper>
-                        </>
-                    )}
-                    {!paramId && (
+                    {isLinkCorrect && !paramId && !loading ? (
                         <>
                             <S.MockWrapper>
                                 <S.Image src={boxImg} />
                                 <S.MockText>Выберите сущность из списка</S.MockText>
                             </S.MockWrapper>
                         </>
+                    ) : !loading && !activeItem ? (
+                        <>
+                            <S.MockWrapper>
+                                <S.Image src={boxWithQuestionImg} />
+                                <S.MockText>Указана неверная ссылка или возможность</S.MockText>
+                            </S.MockWrapper>
+                        </>
+                    ) : (
+                        <></>
                     )}
                     {paramId && !activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
