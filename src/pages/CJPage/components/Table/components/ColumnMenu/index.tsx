@@ -117,7 +117,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                             >
                                 <Icon iconName={Icons.Edit} />
 
-                                <S.MenuItemText>Изменить название</S.MenuItemText>
+                                <S.MenuItemText>Изменить</S.MenuItemText>
                             </S.MenuItem>
 
                             <S.MenuItem

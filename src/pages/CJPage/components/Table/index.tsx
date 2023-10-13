@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import { Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
-import { FeelingTypes, IconFeeling } from 'components/other';
-
 import { useModal, useMountEffect } from 'hooks';
-import { BI, Enter, Participant, Step, tableInitialData } from 'pages/CJPage/mocks';
+import { BI, Step, tableInitialData } from 'pages/CJPage/mocks';
 import { formatNullableString, formatYesNo } from 'utils/formatters';
 
+import {
+    formatEnters,
+    formatFeeling,
+    formatLinkFromString,
+    formatParticipants,
+    formatStatus,
+    formatType,
+    getChannel,
+} from '../../utils/formatters';
 import { StepForm } from '../StepForm';
 
 import { Row } from './components/Row';
 import { ColumnMenu } from './components';
-import { formatLinkFromString } from './formatters';
 import * as S from './units';
 
 const colors = [
@@ -91,7 +96,6 @@ export const Table = () => {
         const availableСolors = colors.filter((color) => !excludedСolors.includes(color));
 
         const newColumn: Step = {
-            // bis: tableInitialData[1].bis,
             bis: [],
             color: availableСolors[Math.floor(Math.random() * availableСolors.length)],
             columnName: 'Название шага',
@@ -100,35 +104,14 @@ export const Table = () => {
         const copyOfData = [...tableData];
 
         copyOfData.splice(index, 0, newColumn);
-        // if (index === 0) {
-        //     copyOfData.unshift(newColumn);
-        // } else if (index === tableData.length - 1) {
-        //     copyOfData.push(newColumn);
-        // } else {
-        //     copyOfData.splice(index, 0, newColumn);
-        // }
 
         setTableData(copyOfData);
     };
 
-    const renameColumn = (name: string) => {
+    const updateStep = (name: string, bis: BI[]) => {
         setTableData(
             tableData.map((item, index) =>
-                index === selectedStep ? { ...item, columnName: name } : item,
-            ),
-        );
-    };
-
-    // const updateColumn = (data: BI) => {
-    //     setTableData(
-    //         tableData.map((item, i) => (selectedStep === i ? { ...item, ...data } : item)),
-    //     );
-    // };
-
-    const addBI = (data: BI) => {
-        setTableData(
-            tableData.map((item, i) =>
-                selectedStep === i ? { ...item, bis: [...item.bis, data] } : item,
+                index === selectedStep ? { ...item, columnName: name, bis } : item,
             ),
         );
     };
@@ -139,7 +122,6 @@ export const Table = () => {
     );
 
     const handleAddRowButtonClick = (biIndex: number) => {
-        console.log(biIndex);
         setSelectedStep(biIndex);
         openStepFrom();
     };
@@ -185,7 +167,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.name ?? null)}
                             formatData={formatNullableString}
                             parseData={(bi) => bi.name}
                             steps={tableData}
@@ -197,7 +178,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.communal ?? null)}
                             formatData={formatYesNo}
                             parseData={(bi) => bi.communal}
                             steps={tableData}
@@ -209,7 +189,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.descr ?? null)}
                             formatData={formatNullableString}
                             parseData={(bi) => bi.descr}
                             steps={tableData}
@@ -221,53 +200,29 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.type ?? null)}
-                            formatData={(type) => (
-                                <Label
-                                    title={type === 0 ? 'Целевой' : 'Фактический'}
-                                    type={type === 0 ? 'magenta' : 'teal'}
-                                />
-                            )}
+                            formatData={formatType}
                             parseData={(bi) => bi.type}
                             steps={tableData}
                         />
-                        <Row
+                        <Row<number>
                             rowId="status"
                             label="Стадия ЖЦ"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.status ?? null)}
-                            formatData={() => (
-                                <Label
-                                    title="Передано в эксплуатацию"
-                                    type="success"
-                                    variant="contained"
-                                />
-                            )}
+                            formatData={formatStatus}
                             parseData={(bi) => bi.status}
                             steps={tableData}
                         />
-                        <Row<Participant[]>
+                        <Row
                             rowId="participants"
                             label="Участники"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.participants ?? null)}
-                            formatData={(participants) => (
-                                <ul>
-                                    {participants?.map((participant, i) => (
-                                        <li key={i}>
-                                            <div>Участник: {participant.participant}</div>
-                                            <div>Описание: {participant.descr}</div>
-                                            <div>Ценностный результат: {participant.value}</div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                            formatData={formatParticipants}
                             parseData={(bi) => bi.participants}
                             steps={tableData}
                         />
@@ -278,33 +233,18 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.feelings ?? null)}
-                            formatData={() => (
-                                <S.FlexContainer>
-                                    <IconFeeling type={FeelingTypes.EXCITED} />
-                                </S.FlexContainer>
-                            )}
+                            formatData={formatFeeling}
                             parseData={(bi) => bi.feelings}
                             steps={tableData}
                         />
-                        <Row<Enter[]>
+                        <Row
                             rowId="enters"
                             label="Входы и выходы"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.enters ?? null)}
-                            formatData={(enters) => (
-                                <ul>
-                                    {enters?.map((enter, i) => (
-                                        <li key={i}>
-                                            <div>Вход: {enter.enter}</div>
-                                            <div>Выход: {enter.exit}</div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                            formatData={formatEnters}
                             parseData={(bi) => bi.enters}
                             steps={tableData}
                         />
@@ -315,7 +255,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.clientScenario ?? null)}
                             formatData={formatNullableString}
                             parseData={(bi) => bi.clientScenario}
                             steps={tableData}
@@ -327,7 +266,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.flowLink ?? null)}
                             formatData={formatLinkFromString}
                             parseData={(bi) => bi.flowLink}
                             steps={tableData}
@@ -339,7 +277,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.ucsReaction ?? null)}
                             formatData={formatNullableString}
                             parseData={(bi) => bi.ucsReaction}
                             steps={tableData}
@@ -352,8 +289,7 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.channel ?? null)}
-                            formatData={() => 'Website'}
+                            formatData={getChannel}
                             parseData={(bi) => bi.channel}
                             steps={tableData}
                         />
@@ -364,7 +300,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.document ?? null)}
                             formatData={formatLinkFromString}
                             parseData={(bi) => bi.document}
                             steps={tableData}
@@ -376,7 +311,6 @@ export const Table = () => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            // rowData={allBIs.map((td) => td?.mockup ?? null)}
                             formatData={formatLinkFromString}
                             parseData={(bi) => bi.mockup}
                             steps={tableData}
@@ -406,20 +340,10 @@ export const Table = () => {
             <StepForm
                 isOpen={stepFormOpened}
                 onClose={closeStepForm}
-                renameColumn={renameColumn}
+                updateStep={updateStep}
                 defaultName={tableData[selectedStep ?? 0]?.columnName ?? ''}
-                addBI={addBI}
-                stepBIs={tableData[selectedStep ?? 0]?.bis ?? []}
+                initialBIs={tableData[selectedStep ?? 0]?.bis ?? []}
             />
-
-            {/* <BIForm
-                isOpen={biFormOpened}
-                onClose={closeBiForm}
-                onSave={updateColumn}
-                defaultValues={
-                    typeof selectedStep === 'number' ? tableData[selectedStep].bis[0] : undefined
-                }
-            /> */}
         </S.PageWrapper>
     );
 };

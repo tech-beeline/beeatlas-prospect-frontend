@@ -27,8 +27,6 @@ export const Row = <T,>({
         [] as (BI | { stepIndex: number })[],
     );
 
-    console.log(allBIs);
-
     return (
         <>
             {(!isHidden || isHiddenRowsVisible) && (

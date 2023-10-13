@@ -17,5 +17,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
 
     z-index: 10;
 
+    overflow: auto;
+
     transition: transform 0.25s ease-out;
 `;

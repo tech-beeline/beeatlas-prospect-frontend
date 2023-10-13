@@ -35,7 +35,7 @@ export const Subtitle3 = styled.div`
 `;
 
 export const SubtitleFlexWrapper = styled(FlexWrapper)`
-    margin-top: 40px;
+    margin-top: 24px;
 `;
 
 export const SubtitleFlexWrapper2 = styled(FlexWrapper)`
@@ -83,6 +83,25 @@ export const ButtonContainer = styled.div`
     padding: 24px 16px;
 `;
 
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    min-height: 100%;
+`;
+
+export const ButtonsContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    width: 100%;
+    height: 48px;
+
+    margin-top: 24px;
+`;
+
 export const LabelsContainer = styled.div`
     display: flex;
     gap: 8px;
@@ -102,4 +121,19 @@ export const EmptyState = styled.div`
 
 export const Subtitle3Inactive = styled(Subtitle3)`
     color: var(--color-text-inactive);
+`;
+
+export const AttributesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+`;
+
+export const IconContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 8px;
+    margin-bottom: 8px;
 `;

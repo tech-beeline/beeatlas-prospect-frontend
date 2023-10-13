@@ -9,3 +9,9 @@ export const Link = styled.a`
         text-decoration: underline;
     }
 `;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;

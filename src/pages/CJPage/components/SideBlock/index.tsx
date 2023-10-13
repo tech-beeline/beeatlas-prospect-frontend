@@ -18,12 +18,7 @@ export const SideBlock: FC<ISideBlock> = (props) => {
         }
     });
 
-    useOutsideClick(
-        sideBlockRef,
-        !props.dontCloseOnOutsideClick ?? props.isOpen,
-        props.setOpen,
-        toggleRef,
-    );
+    useOutsideClick(sideBlockRef, props.isOpen, props.setOpen, toggleRef);
 
     return (
         <S.Container ref={sideBlockRef} {...props}>

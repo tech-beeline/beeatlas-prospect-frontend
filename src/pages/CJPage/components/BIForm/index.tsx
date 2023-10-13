@@ -1,24 +1,19 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { Button } from '@beeline/design-system-react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
-
-import { SideBlock } from '../SideBlock';
 
 import { EntersFieldArray, ParticiapntsFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
 
-export const BIForm: FC<IBIForm> = ({ isOpen, onClose, onSave, defaultValues }) => {
+export const BIForm: FC<IBIForm> = ({ onClose, onSave, defaultValues }) => {
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
     });
-
-    console.log('dv', defaultValues);
 
     const { handleSubmit, reset } = form;
 
@@ -35,20 +30,7 @@ export const BIForm: FC<IBIForm> = ({ isOpen, onClose, onSave, defaultValues }) 
     });
 
     return (
-        // TODO: зафиксировать хэдер и скролить контент
-        <SideBlock
-            dontCloseOnOutsideClick={true}
-            isOpen={isOpen}
-            setOpen={onClose}
-            // @ts-ignore
-            style={{ overflow: 'auto' }}
-        >
-            <S.TitleWrapper>
-                <Icon iconName={Icons.ArrowLeft} onClick={onClose} style={{ cursor: 'pointer' }} />
-
-                <S.SideBlockTitle>Создание BI</S.SideBlockTitle>
-            </S.TitleWrapper>
-
+        <>
             <FormProvider {...form}>
                 <form onSubmit={onSubmit}>
                     <S.TextFieldContainer>
@@ -142,6 +124,6 @@ export const BIForm: FC<IBIForm> = ({ isOpen, onClose, onSave, defaultValues }) 
                     </S.ButtonContainer>
                 </form>
             </FormProvider>
-        </SideBlock>
+        </>
     );
 };
