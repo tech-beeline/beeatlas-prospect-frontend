@@ -59,6 +59,8 @@ export const JustText = styled.p`
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);
     letter-spacing: var(--font-letter-spacing-body3);
+
+    white-space: pre-line;
 `;
 
 export const AliasText = styled(JustText)`
