@@ -25,19 +25,31 @@ export const FlexSideContainer = styled.div`
 `;
 
 export const Name = styled.p`
+    max-width: 300px;
+    height: var(--font-line-height-body2);
+
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
 
     color: var(--color-text-active);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const Desription = styled.p`
+    max-width: 300px;
+    height: var(--font-line-height-body2);
+
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);
 
     color: var(--color-text-inactive);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const IconWrapper = styled.div`

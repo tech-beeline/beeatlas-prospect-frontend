@@ -28,4 +28,6 @@ export const PERSONAL_AREA_PATH = '/personal-area';
 export const ROLL_SETTINGS_PATH = '/roll-settings';
 export const ADD_PATH = '/add';
 // CJ
+export const CX_PATH = '/cx';
 export const CJ_PATH = '/cj';
+export const BI_PATH = '/bi';

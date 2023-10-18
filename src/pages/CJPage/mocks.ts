@@ -191,7 +191,7 @@ export const SEARCH_BIS: BI[] = [
     },
 ];
 
-interface IMockCJStore {
+interface IMockBIStore {
     bis: BI[];
 
     getAllBis: () => BI[];
@@ -201,7 +201,7 @@ interface IMockCJStore {
     updateBi: (id: number, data: BI) => void;
 }
 
-export const useMockCJtore = create<IMockCJStore>()((set, get) => ({
+export const useMockBItore = create<IMockBIStore>()((set, get) => ({
     bis: SEARCH_BIS,
 
     getAllBis: () => get().bis,

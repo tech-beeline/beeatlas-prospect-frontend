@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, Menu, MenuModels, MenuPersonalArea } from 'components/core';
+import { Header, Menu, MenuCX, MenuModels, MenuPersonalArea } from 'components/core';
 
 import {
     AddRollPage,
     AppInfoPage,
     ArchCommPage,
     CalendarPage,
+    CJLibraryPage,
     CJPage,
     ConsultationPage,
+    CXPage,
     DataBasePage,
     FDMPage,
     FDMResultPage,
@@ -53,7 +55,9 @@ export const NavigationRouter = () => {
 
     return (
         <>
-            {!location.pathname?.includes(ROUTER.CJ_PATH) && <Header {...{ isPersonalArea }} />}
+            {!location.pathname?.includes(
+                `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+            ) && <Header {...{ isPersonalArea }} />}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
@@ -232,7 +236,29 @@ export const NavigationRouter = () => {
 
                     <Route path={C.PRODUCTS_PATH} element={<ProductsPage />} />
 
-                    <Route path={C.CJ_PATH} element={<CJPage />} />
+                    <Route
+                        path={C.CX_PATH}
+                        element={
+                            <S.RouteWrapperOnlyBackgroundStyle>
+                                <MenuCX />
+
+                                <CXPage />
+                            </S.RouteWrapperOnlyBackgroundStyle>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.CX_PATH}${C.CJ_PATH}`}
+                        element={
+                            <S.RouteWrapperOnlyBackgroundStyled>
+                                <MenuCX />
+
+                                <CJLibraryPage />
+                            </S.RouteWrapperOnlyBackgroundStyled>
+                        }
+                    />
+
+                    <Route path={`${C.CX_PATH}${C.CJ_PATH}${C.ADD_PATH}`} element={<CJPage />} />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

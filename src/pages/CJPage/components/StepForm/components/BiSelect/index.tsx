@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Button, IconButton, Search } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { useMockCJtore } from 'pages/CJPage/mocks';
+import { useMockBItore } from 'pages/CJPage/mocks';
 
 import { Stage } from '../../types';
 import * as S from '../../units';
@@ -10,7 +10,7 @@ import * as S from '../../units';
 import { IBiSelect } from './types';
 
 export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId }) => {
-    const { bis } = useMockCJtore();
+    const { bis } = useMockBItore();
 
     console.log(bis);
 

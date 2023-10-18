@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
-import { useModal, useMountEffect } from 'hooks';
+import { useModal } from 'hooks';
 import { BI, Step, tableInitialData } from 'pages/CJPage/mocks';
 import { formatNullableString, formatYesNo } from 'utils/formatters';
 
@@ -19,6 +19,7 @@ import { StepForm } from '../StepForm';
 
 import { Row } from './components/Row';
 import { ColumnMenu } from './components';
+import { ITable } from './types';
 import * as S from './units';
 
 const colors = [
@@ -28,8 +29,8 @@ const colors = [
     'var(--color-accent-teal-background)',
 ];
 
-export const Table = () => {
-    const [tableData, setTableData] = useState<Step[]>([]);
+export const Table: FC<ITable> = ({ tableData, setTableData }) => {
+    // const [tableData, setTableData] = useState<Step[]>([]);
 
     const [hiddenRows, setHiddenRows] = useState<string[]>([]);
     const [isHiddenRowsVisible, setHiddenRowsVisible] = useState(false);
@@ -57,9 +58,11 @@ export const Table = () => {
         setTableData(newData as any);
     };
 
-    useMountEffect(() => {
-        addColors(tableInitialData, colors);
-    });
+    useEffect(() => {
+        if (tableData.length === 0) {
+            addColors(tableInitialData, colors);
+        }
+    }, [tableData]);
 
     const changePositionOfColumn = (index: number, isRight?: boolean) => {
         const copyOfData = [...tableData];
