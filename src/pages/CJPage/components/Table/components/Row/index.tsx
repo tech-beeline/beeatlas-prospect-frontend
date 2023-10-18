@@ -32,7 +32,7 @@ export const Row = <T,>({
             {(!isHidden || isHiddenRowsVisible) && (
                 <>
                     <S.Row isHidden={isHidden}>
-                        <S.Td
+                        <S.LabelTd
                             onClick={() =>
                                 isHidden
                                     ? setHiddenRows(hiddenRows.filter((item) => item !== rowId))
@@ -46,7 +46,7 @@ export const Row = <T,>({
                                     <S.IconStyled iconName={isHidden ? Icons.Eye : Icons.EyeOff} />
                                 </S.IconContainer>
                             </S.AlignItemsCenterWrapper>
-                        </S.Td>
+                        </S.LabelTd>
                         {allBIs.map((bi, i) =>
                             'stepIndex' in bi ? (
                                 firstRow ? (

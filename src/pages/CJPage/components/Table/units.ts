@@ -131,6 +131,10 @@ export const Td = styled.td<{ isClickable?: boolean }>`
         `}
 `;
 
+export const LabelTd = styled(Td)`
+    z-index: 2;
+`;
+
 // -----------------------------------------------------------
 
 export const FlexWrapper = styled.div`

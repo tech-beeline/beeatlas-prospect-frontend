@@ -320,7 +320,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                         />
 
                         <S.Row>
-                            <S.Td>
+                            <S.LabelTd>
                                 <S.HideOrShowButton
                                     onClick={() => setHiddenRowsVisible(!isHiddenRowsVisible)}
                                 >
@@ -332,7 +332,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                                         <S.IconStyled iconName={Icons.Eye} />
                                     )}
                                 </S.HideOrShowButton>
-                            </S.Td>
+                            </S.LabelTd>
 
                             {allBIs.length !== 0 && <S.Td colSpan={allBIs.length}></S.Td>}
                         </S.Row>

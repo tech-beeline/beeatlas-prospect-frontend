@@ -73,6 +73,9 @@ export const BiView: FC<IBiView> = ({
 
                     <div>
                         <S.Subtitle>Участники взаимодействия</S.Subtitle>
+                        {currentBi?.participants.length === 0 && (
+                            <S.Body2>{formatNullableString(null)}</S.Body2>
+                        )}
                         {(currentBi?.participants ?? []).map((participant, index) => (
                             <>
                                 <S.Subtitle3>Участник {index + 1}</S.Subtitle3>
@@ -89,7 +92,7 @@ export const BiView: FC<IBiView> = ({
                     <div>
                         <S.Subtitle>Чувства и эмоции клиента</S.Subtitle>
                         <S.IconContainer>
-                            {currentBi?.feelings && (
+                            {typeof currentBi?.feelings === 'number' && (
                                 <IconFeeling type={getFeelingType(currentBi.feelings)} />
                             )}
                         </S.IconContainer>
@@ -97,6 +100,9 @@ export const BiView: FC<IBiView> = ({
 
                     <div>
                         <S.Subtitle>Входы и выходы</S.Subtitle>
+                        {currentBi?.enters.length === 0 && (
+                            <S.Body2>{formatNullableString(null)}</S.Body2>
+                        )}
                         {(currentBi?.enters ?? []).map((enter, index) => (
                             <>
                                 <S.Subtitle3>Вход и выход {index + 1}</S.Subtitle3>
