@@ -3,8 +3,8 @@ import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { DropdownContext } from '@beeline/design-system-react';
+import { useAuth } from 'features/auth';
 
-// import { useAuth } from 'features/auth';
 import { ErrorBoundary } from 'components/core';
 
 import { queryClient } from 'api/queries';
@@ -20,7 +20,7 @@ import '@beeline/design-tokens/css/iconfont/iconfont.css';
 import '@beeline/design-tokens/css/font-face.css';
 
 const App = () => {
-    // useAuth();
+    useAuth();
 
     return (
         <>
