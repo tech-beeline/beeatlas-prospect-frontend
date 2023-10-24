@@ -34,7 +34,7 @@ export const BIForm: FC<IBIForm> = ({ onClose, onSave, defaultValues }) => {
             <FormProvider {...form}>
                 <form onSubmit={onSubmit}>
                     <S.TextFieldContainer>
-                        <TextField name="name" label="Название*" />
+                        <TextField name="name" label="Название*" maxLength={255} />
 
                         <Checkbox name="communal" label="Коммунальный" />
 

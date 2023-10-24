@@ -5,7 +5,13 @@ import get from 'lodash/get';
 
 import { ITextField } from './types';
 
-export const TextField: FC<ITextField> = ({ name, label, disabled = false, fullWidth = true }) => {
+export const TextField: FC<ITextField> = ({
+    name,
+    label,
+    maxLength,
+    disabled = false,
+    fullWidth = true,
+}) => {
     const {
         control,
         formState: { errors },
@@ -27,6 +33,7 @@ export const TextField: FC<ITextField> = ({ name, label, disabled = false, fullW
                     label={label}
                     error={isError}
                     helperText={errorMessage}
+                    maxLength={maxLength}
                     {...field}
                 />
             )}
