@@ -53,7 +53,7 @@ export const Title = styled(Subtitle1)`
 export const Number = styled.div`
     margin-top: 4px;
 
-    color: var(--color-text-grey-disabled);
+    color: var(--color-text-disabled);
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);

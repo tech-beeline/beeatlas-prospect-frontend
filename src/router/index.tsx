@@ -8,6 +8,7 @@ import {
     AddRollPage,
     AppInfoPage,
     ArchCommPage,
+    BIAddPage,
     BILibraryPage,
     BIViewPage,
     CalendarPage,
@@ -40,6 +41,7 @@ import { RouteAdapter } from './utils';
 const PATHS_WITHOUT_HEADER = [
     `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
     `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
+    `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -282,6 +284,8 @@ export const NavigationRouter = () => {
                         path={`${C.CX_PATH}${C.BI_PATH}${C.VIEW_PATH}`}
                         element={<BIViewPage />}
                     />
+
+                    <Route path={`${C.CX_PATH}${C.BI_PATH}${C.ADD_PATH}`} element={<BIAddPage />} />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

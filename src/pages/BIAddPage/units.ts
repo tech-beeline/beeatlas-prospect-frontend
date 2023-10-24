@@ -50,57 +50,6 @@ export const Content = styled.div`
     }
 `;
 
-export const Body2 = styled.div`
-    font-weight: var(--font-weight-body2);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-`;
-
-export const Body3 = styled.div`
-    font-weight: var(--font-weight-body3);
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
-
-    color: var(--color-text-inactive);
-`;
-
-export const Subtitle = styled.div`
-    font-weight: var(--font-weight-subtitle1);
-    font-size: var(--font-size-subtitle1);
-    line-height: var(--font-line-height-subtitle1);
-`;
-
-export const Subtitle3 = styled.div`
-    font-weight: var(--font-weight-subtitle3);
-    font-size: var(--font-size-subtitle3);
-    line-height: var(--font-line-height-subtitle3);
-`;
-
-export const LabelsContainer = styled.div`
-    display: flex;
-    gap: 8px;
-
-    margin-top: 24px;
-    margin-bottom: 20px;
-`;
-
-export const AttributesContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-`;
-
-export const IconContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    max-width: 300px;
-
-    margin-top: 8px;
-    margin-bottom: 8px;
-`;
-
 export const SkeletonContainer = styled.div`
     display: flex;
     flex-direction: column;
