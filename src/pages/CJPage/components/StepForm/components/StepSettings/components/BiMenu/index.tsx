@@ -32,7 +32,12 @@ export const BiMenu: FC<IBiMenu> = ({ bi, index, totalLength, removeBi, moveBi }
                 <S.MenuBlock ref={menuRef}>
                     <>
                         {index !== 0 && totalLength > 1 && (
-                            <S.MenuItem onClick={() => moveBi(index, true)}>
+                            <S.MenuItem
+                                onClick={() => {
+                                    moveBi(index, true);
+                                    setMenuOpen(false);
+                                }}
+                            >
                                 <Icon iconName={Icons.ArrowUp} />
 
                                 <S.MenuItemText>Переместить выше</S.MenuItemText>
@@ -40,7 +45,12 @@ export const BiMenu: FC<IBiMenu> = ({ bi, index, totalLength, removeBi, moveBi }
                         )}
 
                         {index !== totalLength - 1 && totalLength > 1 && (
-                            <S.MenuItem onClick={() => moveBi(index, false)}>
+                            <S.MenuItem
+                                onClick={() => {
+                                    moveBi(index, false);
+                                    setMenuOpen(false);
+                                }}
+                            >
                                 <Icon iconName={Icons.ArrowDown} />
 
                                 <S.MenuItemText>Переместить ниже</S.MenuItemText>
