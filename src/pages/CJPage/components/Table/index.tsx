@@ -4,9 +4,10 @@ import { Nullable } from 'types/common';
 
 import { useModal } from 'hooks';
 import { BI, Step, tableInitialData } from 'pages/CJPage/mocks';
-import { formatNullableString, formatYesNo } from 'utils/formatters';
+import { formatNullableString } from 'utils/formatters';
 
 import {
+    formatCommunal,
     formatEnters,
     formatFeeling,
     formatLinkFromString,
@@ -181,7 +182,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={formatYesNo}
+                            formatData={formatCommunal}
                             parseData={(bi) => bi.communal}
                             steps={tableData}
                         />

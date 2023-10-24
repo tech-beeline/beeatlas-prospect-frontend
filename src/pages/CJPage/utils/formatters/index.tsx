@@ -28,6 +28,10 @@ export const formatType = (type: number) => (
     <Label title={type === 0 ? 'Целевой' : 'Фактический'} type={type === 0 ? 'magenta' : 'teal'} />
 );
 
+export const formatCommunal = (communal: boolean) => (
+    <Label title={communal ? 'Коммунальный' : 'Продуктовый'} type="magenta" />
+);
+
 export const getStatus = (statusId: number) => stageIdToNameMap[String(statusId)];
 
 export const getParticipant = (participantId: number) =>
