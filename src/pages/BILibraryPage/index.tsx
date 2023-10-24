@@ -13,10 +13,14 @@ export const BILibraryPage = () => {
 
     const navigate = useNavigate();
 
-    const handleRoleClick = (id?: number) => {
+    const handleCreateBiClick = () => {
+        navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`);
+    };
+
+    const handleBiClick = (id: number) => {
         navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
-            search: id ? createSearchParams({ id: String(id) }).toString() : '',
+            pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
+            search: createSearchParams({ id: String(id) }).toString(),
         });
     };
 
@@ -25,7 +29,7 @@ export const BILibraryPage = () => {
             <S.ContentWrapper>
                 <S.TitleWrapper>
                     <STYLES.H4>Библиотека BI</STYLES.H4>
-                    <Button variant="contained" size="medium" onClick={() => handleRoleClick()}>
+                    <Button variant="contained" size="medium" onClick={() => handleCreateBiClick()}>
                         Создать BI
                     </Button>
                 </S.TitleWrapper>
@@ -39,7 +43,7 @@ export const BILibraryPage = () => {
                                     type="teal"
                                 />
                             </S.LabelsContainer>
-                            <S.Title onClick={() => handleRoleClick(bi.id)}>{bi.name}</S.Title>
+                            <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
                             <S.Number>Номер BI</S.Number>
                             <S.Description>{bi.descr}</S.Description>
                         </S.BICard>

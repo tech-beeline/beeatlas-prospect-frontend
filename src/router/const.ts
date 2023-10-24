@@ -26,8 +26,10 @@ export const TECH_RADAR_PATH = '/tech-radar';
 // личный кабинет
 export const PERSONAL_AREA_PATH = '/personal-area';
 export const ROLL_SETTINGS_PATH = '/roll-settings';
+// Utils
 export const ADD_PATH = '/add';
-// CJ
+export const VIEW_PATH = '/view';
+// CX
 export const CX_PATH = '/cx';
 export const CJ_PATH = '/cj';
 export const BI_PATH = '/bi';

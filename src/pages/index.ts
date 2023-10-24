@@ -3,6 +3,7 @@ export { AppInfoPage } from './AppInfoPage';
 export { AddRollPage } from './AddRollPage';
 export { ArchCommPage } from './ArchCommPage';
 export { BILibraryPage } from './BILibraryPage';
+export { BIViewPage } from './BIViewPage';
 export { CalendarPage } from './CalendarPage';
 export { CJLibraryPage } from './CJLibraryPage';
 export { CJPage } from './CJPage';

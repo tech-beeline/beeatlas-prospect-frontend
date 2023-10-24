@@ -9,6 +9,7 @@ import {
     AppInfoPage,
     ArchCommPage,
     BILibraryPage,
+    BIViewPage,
     CalendarPage,
     CJLibraryPage,
     CJPage,
@@ -36,6 +37,11 @@ import * as C from './const';
 import * as S from './units';
 import { RouteAdapter } from './utils';
 
+const PATHS_WITHOUT_HEADER = [
+    `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+    `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
+];
+
 export const NavigationRouter = () => {
     const [isPersonalArea, setIsPersonalArea] = useState(false);
 
@@ -56,9 +62,9 @@ export const NavigationRouter = () => {
 
     return (
         <>
-            {!location.pathname?.includes(
-                `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-            ) && <Header {...{ isPersonalArea }} />}
+            {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
+                <Header {...{ isPersonalArea }} />
+            )}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
@@ -270,6 +276,11 @@ export const NavigationRouter = () => {
                                 <BILibraryPage />
                             </S.RouteWrapperOnlyBackgroundStyled>
                         }
+                    />
+
+                    <Route
+                        path={`${C.CX_PATH}${C.BI_PATH}${C.VIEW_PATH}`}
+                        element={<BIViewPage />}
                     />
 
                     <Route path="*" element={<NotFoundPage />} />
