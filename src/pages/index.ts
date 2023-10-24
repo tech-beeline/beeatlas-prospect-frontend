@@ -2,6 +2,7 @@ export { AppInfoPage } from './AppInfoPage';
 // TODO: убрать
 export { AddRollPage } from './AddRollPage';
 export { ArchCommPage } from './ArchCommPage';
+export { BILibraryPage } from './BILibraryPage';
 export { CalendarPage } from './CalendarPage';
 export { CJLibraryPage } from './CJLibraryPage';
 export { CJPage } from './CJPage';

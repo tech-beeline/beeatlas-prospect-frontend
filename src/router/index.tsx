@@ -8,6 +8,7 @@ import {
     AddRollPage,
     AppInfoPage,
     ArchCommPage,
+    BILibraryPage,
     CalendarPage,
     CJLibraryPage,
     CJPage,
@@ -259,6 +260,17 @@ export const NavigationRouter = () => {
                     />
 
                     <Route path={`${C.CX_PATH}${C.CJ_PATH}${C.ADD_PATH}`} element={<CJPage />} />
+
+                    <Route
+                        path={`${C.CX_PATH}${C.BI_PATH}`}
+                        element={
+                            <S.RouteWrapperOnlyBackgroundStyled>
+                                <MenuCX />
+
+                                <BILibraryPage />
+                            </S.RouteWrapperOnlyBackgroundStyled>
+                        }
+                    />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
