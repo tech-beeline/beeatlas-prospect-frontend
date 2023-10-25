@@ -12,8 +12,6 @@ import { IBiSelect } from './types';
 export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId }) => {
     const { bis } = useMockBItore();
 
-    console.log(bis);
-
     const [search, setSearch] = useState('');
 
     const [filteredBis, setFilteredBis] = useState(bis);

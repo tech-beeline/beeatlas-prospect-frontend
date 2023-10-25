@@ -22,7 +22,7 @@ export const EntersFieldArray = () => {
     return (
         <div>
             <S.FlexContainer>
-                <S.SubTitle>Входы и выходы</S.SubTitle>
+                <S.SubTitle id="enters">Входы и выходы</S.SubTitle>
                 <IconButton
                     iconName={Icons.Add}
                     size="large"

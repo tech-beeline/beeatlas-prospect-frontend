@@ -33,6 +33,10 @@ export const Title = styled.p`
 `;
 
 export const Content = styled.div`
+    position: relative;
+
+    display: flex;
+
     max-height: calc(100vh - 64px);
 
     padding: 0px 150px 50px;
@@ -88,6 +92,10 @@ export const AttributesContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    flex: 1;
+
+    padding-bottom: 50px;
 `;
 
 export const IconContainer = styled.div`
@@ -99,6 +107,21 @@ export const IconContainer = styled.div`
 
     margin-top: 8px;
     margin-bottom: 8px;
+`;
+
+export const DataContainer = styled.div`
+    flex: 1;
+`;
+
+export const Navigation = styled.div`
+    position: sticky;
+    top: 24px;
+
+    height: 100%;
+
+    flex-shrink: 1;
+
+    margin-left: 40px;
 `;
 
 export const SkeletonContainer = styled.div`

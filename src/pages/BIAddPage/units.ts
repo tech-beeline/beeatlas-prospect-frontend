@@ -33,9 +33,14 @@ export const Title = styled.p`
 `;
 
 export const Content = styled.div`
+    position: relative;
+
+    display: flex;
+
+    width: 100%;
     max-height: calc(100vh - 64px);
 
-    padding: 0px 150px 50px;
+    padding: 0px 150px;
 
     overflow-y: scroll;
 
@@ -48,6 +53,25 @@ export const Content = styled.div`
     &::-webkit-scrollbar {
         width: 8px;
     }
+`;
+
+export const FormContainer = styled.div`
+    flex: 1;
+
+    height: 100%;
+
+    padding-bottom: 50px;
+`;
+
+export const Navigation = styled.div`
+    position: sticky;
+    top: 24px;
+
+    height: 100%;
+
+    flex-shrink: 1;
+
+    margin-left: 40px;
 `;
 
 export const SkeletonContainer = styled.div`

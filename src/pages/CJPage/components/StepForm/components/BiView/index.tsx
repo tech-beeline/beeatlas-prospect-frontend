@@ -32,8 +32,6 @@ export const BiView: FC<IBiView> = ({
 
     const currentBi = getBiById(selectedBiId);
 
-    console.log(currentBi);
-
     return (
         <S.FlexContainer>
             <div>

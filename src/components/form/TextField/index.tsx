@@ -9,6 +9,7 @@ export const TextField: FC<ITextField> = ({
     name,
     label,
     maxLength,
+    id,
     disabled = false,
     fullWidth = true,
 }) => {
@@ -28,6 +29,7 @@ export const TextField: FC<ITextField> = ({
             defaultValue=""
             render={({ field }) => (
                 <DesignSystemTextField
+                    id={id}
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}

@@ -8,8 +8,6 @@ import * as S from './units';
 
 const feelingTypes = Object.keys(FeelingTypes);
 
-console.log(feelingTypes);
-
 export const FeelingPicker: FC<IFeelingPicker> = ({ name }) => {
     const { control } = useFormContext();
 

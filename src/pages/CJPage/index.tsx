@@ -23,8 +23,6 @@ export const CJPage = () => {
     const [name, setName] = useState('Название CJ');
     const [subName, setSubName] = useState('Портрет пользователя');
 
-    console.log(tableData);
-
     useEffect(() => {
         if (paramId) {
             const cj = getCjById(Number(paramId));

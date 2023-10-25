@@ -22,7 +22,7 @@ export const ParticiapntsFieldArray = () => {
     return (
         <div>
             <S.FlexContainer>
-                <S.SubTitle>Участники взаимодействия</S.SubTitle>
+                <S.SubTitle id="participants">Участники взаимодействия</S.SubTitle>
                 <IconButton
                     iconName={Icons.Add}
                     size="large"

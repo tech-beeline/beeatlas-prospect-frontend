@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { FloatingNavigation } from 'components/interaction';
+
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
 import { BI, useMockBItore } from 'pages/CJPage/mocks';
@@ -61,13 +63,30 @@ export const BIAddPage = () => {
                 </S.FlexSideContainer>
             </S.Header>
             <S.Content>
-                <BIForm
-                    ref={submitButtonRef}
-                    onClose={() => navigate(-1)}
-                    onSave={handleFormSave}
-                    defaultValues={bi ?? undefined}
-                    showButtons={false}
-                />
+                <S.FormContainer>
+                    <BIForm
+                        ref={submitButtonRef}
+                        onClose={() => navigate(-1)}
+                        onSave={handleFormSave}
+                        defaultValues={bi ?? undefined}
+                        showButtons={false}
+                    />
+                </S.FormContainer>
+                <S.Navigation>
+                    <FloatingNavigation
+                        items={[
+                            { id: 'name', label: 'Название' },
+                            { id: 'characteristics', label: 'Характеристики' },
+                            { id: 'participants', label: 'Участники взаимодействия' },
+                            { id: 'feelings', label: 'Чувства и эмоции' },
+                            { id: 'enters', label: 'Входы и выходы' },
+                            { id: 'scenarios', label: 'Сценарии' },
+                            { id: 'channels', label: 'Канал' },
+                            { id: 'documentation', label: 'Документация' },
+                            { id: 'mockup', label: 'Макет' },
+                        ]}
+                    />
+                </S.Navigation>
             </S.Content>
         </S.PageWrapper>
     );

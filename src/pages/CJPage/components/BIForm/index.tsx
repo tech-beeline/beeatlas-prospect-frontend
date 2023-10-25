@@ -35,13 +35,13 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.TextFieldContainer>
-                            <TextField name="name" label="Название*" maxLength={255} />
+                            <TextField id="name" name="name" label="Название*" maxLength={255} />
 
                             <Checkbox name="communal" label="Коммунальный" />
 
                             <TextArea name="descr" label="Описание*" />
 
-                            <S.SubTitle>Характеристики</S.SubTitle>
+                            <S.SubTitle id="characteristics">Характеристики</S.SubTitle>
 
                             <S.FlexContainer>
                                 <RadioGroup name="type" labels={['Целевой', 'Фактический']} />
@@ -68,13 +68,13 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <ParticiapntsFieldArray />
 
-                            <S.SubTitle>Чувства и эмоции</S.SubTitle>
+                            <S.SubTitle id="feelings">Чувства и эмоции</S.SubTitle>
 
                             <FeelingPicker name="feelings" />
 
                             <EntersFieldArray />
 
-                            <S.SubTitle>Сценарии</S.SubTitle>
+                            <S.SubTitle id="scenarios">Сценарии</S.SubTitle>
 
                             <TextArea name="clientScenario" label="Клиентский сценарий" />
 
@@ -82,7 +82,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <TextArea name="ucsReaction" label="Описание реакции ЕКП" />
 
-                            <S.SubTitle>Каналы</S.SubTitle>
+                            <S.SubTitle id="channels">Каналы</S.SubTitle>
 
                             <Select
                                 name="channel"
@@ -107,11 +107,11 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 ]}
                             />
 
-                            <S.SubTitle>Документация</S.SubTitle>
+                            <S.SubTitle id="documentation">Документация</S.SubTitle>
 
                             <TextField name="document" label="Ссылка" />
 
-                            <S.SubTitle>Макет</S.SubTitle>
+                            <S.SubTitle id="mockup">Макет</S.SubTitle>
 
                             <TextField name="mockup" label="Ссылка" />
                         </S.TextFieldContainer>
