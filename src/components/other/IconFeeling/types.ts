@@ -1,6 +1,6 @@
 export enum FeelingTypes {
     SAD = 'SAD',
-    SLIGHTLY_SAD = 'SLIGHTLY_SAD',
+    ANNOYED = 'ANNOYED',
     NORMAL = 'NORMAL',
     HAPPY = 'HAPPY',
     EXCITED = 'EXCITED',
