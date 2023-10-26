@@ -4,7 +4,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { IconFeeling } from 'components/other';
 
-import { useMockBItore } from 'pages/CJPage/mocks';
+import { useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
     getChannel,
@@ -28,7 +28,7 @@ export const BiView: FC<IBiView> = ({
     showButtons = true,
     goBackStage = Stage.BISEARCH,
 }) => {
-    const { getBiById } = useMockBItore();
+    const { getBiById } = useMockBIStore();
 
     const currentBi = getBiById(selectedBiId);
 

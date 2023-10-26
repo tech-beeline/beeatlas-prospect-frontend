@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { BI, useMockBItore } from 'pages/CJPage/mocks';
+import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 
 import { BIForm } from '../BIForm';
 import { SideBlock } from '../SideBlock';
@@ -18,7 +18,7 @@ export const StepForm: FC<IStepForm> = ({
     onClose,
     initialBIs,
 }) => {
-    const { createBi, updateBi, getBiById } = useMockBItore();
+    const { createBi, updateBi, getBiById } = useMockBIStore();
 
     const [name, setName] = useState(defaultName);
     const [stage, setStage] = useState<Stage>(Stage.SETTINGS);

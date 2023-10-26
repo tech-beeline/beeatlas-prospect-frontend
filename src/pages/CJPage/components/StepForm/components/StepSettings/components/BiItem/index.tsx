@@ -30,7 +30,7 @@ export const BiItem: FC<IBiItem> = ({
                 />
                 <div>
                     <S.Body2>{bi.name}</S.Body2>
-                    <S.Body3>Номер BI</S.Body3>
+                    <S.Body3>{bi.identificator}</S.Body3>
                 </div>
             </S.TitleFlexWrapper>
             <IconButton

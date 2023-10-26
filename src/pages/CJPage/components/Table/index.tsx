@@ -166,7 +166,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                         <Row
                             firstRow
                             rowId="name"
-                            label="Название"
+                            label="Наименование BI"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
@@ -176,14 +176,14 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                             steps={tableData}
                         />
                         <Row
-                            rowId="communal"
-                            label="Коммунальный"
+                            rowId="identificator"
+                            label="Идентификатор BI"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={formatCommunal}
-                            parseData={(bi) => bi.communal}
+                            formatData={formatNullableString}
+                            parseData={(bi) => bi.identificator}
                             steps={tableData}
                         />
                         <Row
@@ -198,8 +198,19 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                             steps={tableData}
                         />
                         <Row
+                            rowId="communal"
+                            label="Коммунальный"
+                            hiddenRows={hiddenRows}
+                            onAddButtonClick={handleAddRowButtonClick}
+                            setHiddenRows={setHiddenRows}
+                            isHiddenRowsVisible={isHiddenRowsVisible}
+                            formatData={formatCommunal}
+                            parseData={(bi) => bi.communal}
+                            steps={tableData}
+                        />
+                        <Row
                             rowId="type"
-                            label="Тип"
+                            label="Характеристики"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
@@ -210,7 +221,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                         />
                         <Row<number>
                             rowId="status"
-                            label="Стадия ЖЦ"
+                            label="Статус стадии ЖЦ"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
@@ -221,13 +232,24 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                         />
                         <Row
                             rowId="participants"
-                            label="Участники"
+                            label="Участники взаимодействия"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
                             formatData={formatParticipants}
                             parseData={(bi) => bi.participants}
+                            steps={tableData}
+                        />
+                        <Row
+                            rowId="enters"
+                            label="Входы/выходы"
+                            hiddenRows={hiddenRows}
+                            onAddButtonClick={handleAddRowButtonClick}
+                            setHiddenRows={setHiddenRows}
+                            isHiddenRowsVisible={isHiddenRowsVisible}
+                            formatData={formatEnters}
+                            parseData={(bi) => bi.enters}
                             steps={tableData}
                         />
                         <Row
@@ -241,17 +263,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                             parseData={(bi) => bi.feelings}
                             steps={tableData}
                         />
-                        <Row
-                            rowId="enters"
-                            label="Входы и выходы"
-                            hiddenRows={hiddenRows}
-                            onAddButtonClick={handleAddRowButtonClick}
-                            setHiddenRows={setHiddenRows}
-                            isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={formatEnters}
-                            parseData={(bi) => bi.enters}
-                            steps={tableData}
-                        />
+
                         <Row
                             rowId="clientScenario"
                             label="Клиентский сценарий"

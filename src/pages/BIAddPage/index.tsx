@@ -7,7 +7,7 @@ import { FloatingNavigation } from 'components/interaction';
 
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
-import { BI, useMockBItore } from 'pages/CJPage/mocks';
+import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 
 import * as S from './units';
 
@@ -16,7 +16,7 @@ export const BIAddPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { getBiById, updateBi, createBi } = useMockBItore();
+    const { getBiById, updateBi, createBi } = useMockBIStore();
 
     const [bi, setBi] = useState<BI | null>(null);
 

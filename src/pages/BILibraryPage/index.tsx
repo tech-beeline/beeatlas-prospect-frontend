@@ -2,14 +2,14 @@ import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label } from '@beeline/design-system-react';
 
-import { useMockBItore } from 'pages/CJPage/mocks';
+import { useMockBIStore } from 'pages/CJPage/mocks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
 import * as S from './units';
 
 export const BILibraryPage = () => {
-    const { bis } = useMockBItore();
+    const { bis } = useMockBIStore();
 
     const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ export const BILibraryPage = () => {
                                 />
                             </S.LabelsContainer>
                             <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
-                            <S.Number>Номер BI</S.Number>
+                            <S.Number>{bi.identificator}</S.Number>
                             <S.Description>{bi.descr}</S.Description>
                         </S.BICard>
                     ))}

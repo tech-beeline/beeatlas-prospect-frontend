@@ -14,6 +14,7 @@ export interface Enter {
 export interface BI {
     id: number;
     name: string;
+    identificator: string;
     communal: boolean;
     descr: string;
     type: number;
@@ -46,6 +47,7 @@ export const tableInitialData: Step[] = [
 export const businessInteraction: BI = {
     id: 100000,
     name: 'Авторизация клиента 4',
+    identificator: 'BI.01.02.03.20',
     communal: false,
     descr: 'Авторизация Клиента – взаимодействие между Клиентом и Компанией, направленное на предоставление определенному лицу или группе лиц прав на выполнение определенных действий',
     type: 0,
@@ -76,6 +78,7 @@ export const SEARCH_BIS: BI[] = [
     {
         id: 1,
         name: 'Продуктовый BI 1',
+        identificator: 'BI.01.02.03.01',
         communal: false,
         descr: 'Авторизация Клиента – взаимодействие между Клиентом и Компанией, направленное на предоставление определенному лицу или группе лиц прав на выполнение определенных действий',
         type: 0,
@@ -105,6 +108,7 @@ export const SEARCH_BIS: BI[] = [
     {
         id: 2,
         name: 'Продуктовый BI 2',
+        identificator: 'BI.01.02.03.02',
         communal: false,
         descr: 'Авторизация Клиента – взаимодействие между Клиентом и Компанией, направленное на предоставление определенному лицу или группе лиц прав на выполнение определенных действий',
         type: 0,
@@ -134,6 +138,7 @@ export const SEARCH_BIS: BI[] = [
     {
         id: 3,
         name: 'Коммунальный BI 1',
+        identificator: 'BI.01.02.03.03',
         communal: true,
         descr: 'Авторизация Клиента – взаимодействие между Клиентом и Компанией, направленное на предоставление определенному лицу или группе лиц прав на выполнение определенных действий',
         type: 0,
@@ -163,6 +168,7 @@ export const SEARCH_BIS: BI[] = [
     {
         id: 4,
         name: 'Коммунальный BI 2',
+        identificator: 'BI.01.02.03.04',
         communal: true,
         descr: 'Авторизация Клиента – взаимодействие между Клиентом и Компанией, направленное на предоставление определенному лицу или группе лиц прав на выполнение определенных действий',
         type: 0,
@@ -197,11 +203,11 @@ interface IMockBIStore {
     getAllBis: () => BI[];
     getBiById: (id: number) => BI | undefined;
 
-    createBi: (data: BI) => void;
+    createBi: (data: Omit<BI, 'identificator'>) => void;
     updateBi: (id: number, data: BI) => void;
 }
 
-export const useMockBItore = create<IMockBIStore>()((set, get) => ({
+export const useMockBIStore = create<IMockBIStore>()((set, get) => ({
     bis: SEARCH_BIS,
 
     getAllBis: () => get().bis,
@@ -209,7 +215,16 @@ export const useMockBItore = create<IMockBIStore>()((set, get) => ({
     getBiById: (id) => get().bis.find((bi) => bi.id === id),
 
     createBi: (data) => {
-        set({ bis: [...get().bis, { ...data, id: get().bis.length + 1 }] });
+        set({
+            bis: [
+                ...get().bis,
+                {
+                    ...data,
+                    id: get().bis.length + 1,
+                    identificator: 'BI.01.02.03.' + (get().bis.length + 1),
+                },
+            ],
+        });
     },
 
     updateBi: (id, data) => {

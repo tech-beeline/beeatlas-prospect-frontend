@@ -14,6 +14,7 @@ type EnterValues = {
 export type FormValues = {
     id: number;
     name: string;
+    identificator: string;
     communal: boolean;
     descr: string;
     type: number;
@@ -33,6 +34,7 @@ export const validationSchema = object().shape({
     id: number().default(0),
     name: string().required('Заполните название'),
     communal: boolean().default(false),
+    identificator: string().default(''),
     descr: string().required('Заполните описание'),
     type: number().default(0),
     status: number().default(0),

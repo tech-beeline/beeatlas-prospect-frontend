@@ -6,7 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { FloatingNavigation } from 'components/interaction';
 import { IconFeeling } from 'components/other';
 
-import { BI, useMockBItore } from 'pages/CJPage/mocks';
+import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
     getChannel,
@@ -25,7 +25,7 @@ export const BIViewPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { getBiById } = useMockBItore();
+    const { getBiById } = useMockBIStore();
 
     const [bi, setBi] = useState<BI | null>(null);
 

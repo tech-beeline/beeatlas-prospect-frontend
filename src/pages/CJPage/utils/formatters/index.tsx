@@ -28,9 +28,8 @@ export const formatType = (type: number) => (
     <Label title={type === 0 ? 'Целевой' : 'Фактический'} type={type === 0 ? 'magenta' : 'teal'} />
 );
 
-export const formatCommunal = (communal: boolean) => (
-    <Label title={communal ? 'Коммунальный' : 'Продуктовый'} type="magenta" />
-);
+export const formatCommunal = (communal: boolean) =>
+    communal ? <Label title="Коммунальный" type="magenta" /> : formatNullableString(null);
 
 export const getStatus = (statusId: number) => stageIdToNameMap[String(statusId)];
 
