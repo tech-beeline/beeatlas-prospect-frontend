@@ -136,7 +136,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                 <S.Table>
                     <S.Thead>
                         <S.Row>
-                            <S.Th>Шаги</S.Th>
+                            <S.LabelTh>Шаги</S.LabelTh>
 
                             {tableData.map((step, stepIndex) => (
                                 <S.Th

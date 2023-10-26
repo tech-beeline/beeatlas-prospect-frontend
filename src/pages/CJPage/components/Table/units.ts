@@ -94,6 +94,10 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     }
 `;
 
+export const LabelTh = styled(Th)`
+    background-color: var(--color-button-plain-background-pressed);
+`;
+
 export const Td = styled.td<{ isClickable?: boolean }>`
     min-width: 320px;
     height: 52px;

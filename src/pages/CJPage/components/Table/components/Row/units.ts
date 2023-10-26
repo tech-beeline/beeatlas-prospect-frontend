@@ -63,6 +63,7 @@ export const OnlyTd = styled(Td)`
 
 export const LabelTd = styled(Td)`
     z-index: 2;
+    background-color: var(--color-button-plain-background-hover);
 `;
 
 export const ButtonContainer = styled.div`
