@@ -87,16 +87,16 @@ export const BIViewPage = () => {
                                         type="magenta"
                                     />
                                 )}
+                                <Label
+                                    title={getStatus(bi.status)}
+                                    variant="contained"
+                                    type="info"
+                                />
                             </S.LabelsContainer>
                             <S.AttributesContainer>
                                 <div id="description">
                                     <S.Body3>Описание</S.Body3>
                                     <S.Body2>{formatNullableString(bi?.descr)}</S.Body2>
-                                </div>
-
-                                <div>
-                                    <S.Body3>Стадия ЖЦ</S.Body3>
-                                    <S.Body2>{bi && getStatus(bi.status)}</S.Body2>
                                 </div>
 
                                 <div>
