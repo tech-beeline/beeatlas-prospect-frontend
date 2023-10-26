@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button } from '@beeline/design-system-react';
+import { Banner, Button } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
@@ -38,6 +39,12 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                             <TextField id="name" name="name" label="Название*" maxLength={255} />
 
                             <Checkbox name="communal" label="Коммунальный" />
+
+                            <Banner
+                                iconName={Icons.InfoCircled}
+                                color="default"
+                                title="Коммунальный BI будет доступен всем командам в компании. Вы не сможете вносить правки, если другие команды добавят его в свой CJ"
+                            />
 
                             <TextArea name="descr" label="Описание*" />
 
