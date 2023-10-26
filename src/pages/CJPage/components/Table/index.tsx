@@ -138,20 +138,20 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                         <S.Row>
                             <S.Th>Шаги</S.Th>
 
-                            {tableData.map((row, rowIndex) => (
+                            {tableData.map((step, stepIndex) => (
                                 <S.Th
-                                    colSpan={row.bis.length ?? 1}
-                                    key={rowIndex}
-                                    backgroundColor={row.color}
+                                    colSpan={step.bis.length ?? 1}
+                                    key={stepIndex}
+                                    backgroundColor={step.color}
                                 >
                                     <S.FlexWrapper>
-                                        <p>{row.columnName}</p>
+                                        <p data-testid={`${stepIndex}Step`}>{step.columnName}</p>
 
                                         <ColumnMenu
                                             addStep={addNewColumn}
                                             changePositionOfStep={changePositionOfColumn}
                                             deleteStep={removeColumn}
-                                            stepIndex={rowIndex}
+                                            stepIndex={stepIndex}
                                             setOpenSideBlockName={openStepFrom}
                                             setRenameIndex={setSelectedStep}
                                             tableDataLength={tableData.length}

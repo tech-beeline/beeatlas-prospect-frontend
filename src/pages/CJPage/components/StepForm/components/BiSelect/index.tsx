@@ -56,8 +56,8 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                 </Button>
             </S.SubtitleFlexWrapper2>
 
-            {productSearchBis.map((bi) => (
-                <S.BIFlexWrapper key={bi.id}>
+            {productSearchBis.map((bi, index) => (
+                <S.BIFlexWrapper data-testid={`${index}ProductBI`} key={bi.id}>
                     <div>
                         <S.Body2>{bi.name}</S.Body2>
                         <S.Body3>Номер BI</S.Body3>
@@ -76,8 +76,8 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                 <S.Subtitle>Коммунальные</S.Subtitle>
             </S.SubtitleFlexWrapper2>
 
-            {communalSearchBis.map((bi) => (
-                <S.BIFlexWrapper key={bi.id}>
+            {communalSearchBis.map((bi, index) => (
+                <S.BIFlexWrapper data-testid={`${index}CommunalBI`} key={bi.id}>
                     <div>
                         <S.Body2>{bi.name}</S.Body2>
                         <S.Body3>Номер BI</S.Body3>
