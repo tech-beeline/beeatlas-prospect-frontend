@@ -89,12 +89,7 @@ export const BIViewPage = () => {
                                 )}
                             </S.LabelsContainer>
                             <S.AttributesContainer>
-                                <div>
-                                    <S.Body3 id="name">Название</S.Body3>
-                                    <S.Body2>{formatNullableString(bi?.name)}</S.Body2>
-                                </div>
-
-                                <div>
+                                <div id="description">
                                     <S.Body3>Описание</S.Body3>
                                     <S.Body2>{formatNullableString(bi?.descr)}</S.Body2>
                                 </div>
@@ -185,7 +180,7 @@ export const BIViewPage = () => {
                         <S.Navigation>
                             <FloatingNavigation
                                 items={[
-                                    { id: 'name', label: 'Название' },
+                                    { id: 'description', label: bi.name },
                                     { id: 'participants', label: 'Участники взаимодействия' },
                                     { id: 'feelings', label: 'Чувства и эмоции' },
                                     { id: 'enters', label: 'Входы и выходы' },
