@@ -1,4 +1,4 @@
-import { Divider } from '@beeline/design-system-react';
+import { Divider, Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const MenuBlock = styled.div`
@@ -42,6 +42,10 @@ export const MenuItemText = styled.div`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
+`;
+
+export const DeleteIcon = styled(Icon)`
+    color: var(--color-border-error);
 `;
 
 export const MenuItemRemoveText = styled(MenuItemText)`

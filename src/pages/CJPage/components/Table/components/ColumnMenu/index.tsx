@@ -3,21 +3,24 @@ import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IColumnMenu } from './types';
 import * as S from './units';
 
 export const ColumnMenu: FC<IColumnMenu> = ({
     tableDataLength,
-    rowIndex,
-    addNewColumn,
-    removeColumn,
-    changePositionOfColumn,
+    stepIndex,
+    addStep,
+    deleteStep,
+    changePositionOfStep,
     setOpenSideBlockName,
     setRenameIndex,
 }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const [openMenuIndex, setOpenMenuIndex] = useState(0);
     const [isMenuOpen, setMenuOpen] = useState(false);
@@ -38,41 +41,40 @@ export const ColumnMenu: FC<IColumnMenu> = ({
 
     useOutsideClick(menuRef, isMenuOpen, hideMenuHandler, menuButtonRef);
 
-    // console.log(rowIndex, menuRef, isMenuOpen);
-
     const handleIconClick = () => {
-        openMenuHandler(rowIndex);
+        openMenuHandler(stepIndex);
 
         setAddStepMenu(false);
         setMoveMenu(false);
     };
 
     const handleAddColumnClick = (before: boolean) => {
-        addNewColumn(before ? rowIndex : rowIndex + 1);
+        addStep(before ? stepIndex : stepIndex + 1);
         hideMenuHandler();
     };
 
     const handleChangePositionClick = (right: boolean) => {
-        changePositionOfColumn(rowIndex, right);
+        changePositionOfStep(stepIndex, right);
         hideMenuHandler();
     };
 
-    const handleRmoveColumnClick = () => {
-        removeColumn(rowIndex);
+    const handleDeleteStepClick = () => {
+        deleteStep(stepIndex);
+        showSnackbar({ message: 'Шаг удалён' });
         hideMenuHandler();
     };
 
     return (
         <>
             <Icon
-                id={String(rowIndex)}
+                id={String(stepIndex)}
                 iconName={Icons.MoreVert}
                 style={{ cursor: 'pointer' }}
                 ref={menuButtonRef}
                 onClick={handleIconClick}
             />
 
-            {isMenuOpen && openMenuIndex === rowIndex && (
+            {isMenuOpen && openMenuIndex === stepIndex && (
                 <S.MenuBlock ref={menuRef}>
                     {isAddStepMenu ? (
                         <>
@@ -90,7 +92,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                         </>
                     ) : isMoveMenu ? (
                         <>
-                            {rowIndex !== 0 && (
+                            {stepIndex !== 0 && (
                                 <S.MenuItem onClick={() => handleChangePositionClick(false)}>
                                     <Icon iconName={Icons.ArrowLeft} />
 
@@ -98,7 +100,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                                 </S.MenuItem>
                             )}
 
-                            {rowIndex !== tableDataLength - 1 && (
+                            {stepIndex !== tableDataLength - 1 && (
                                 <S.MenuItem onClick={() => handleChangePositionClick(true)}>
                                     <Icon iconName={Icons.ArrowRight} />
 
@@ -111,7 +113,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                             <S.MenuItem
                                 onClick={() => {
                                     setOpenSideBlockName(true);
-                                    setRenameIndex(rowIndex);
+                                    setRenameIndex(stepIndex);
                                     hideMenuHandler();
                                 }}
                             >
@@ -123,7 +125,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                             <S.MenuItem
                                 onClick={() => {
                                     setOpenSideBlockName(true);
-                                    setRenameIndex(rowIndex);
+                                    setRenameIndex(stepIndex);
                                     hideMenuHandler();
                                 }}
                             >
@@ -147,9 +149,8 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                                     </S.MenuItemStyled>
                                     <S.MenuDivider />
 
-                                    <S.MenuItem onClick={handleRmoveColumnClick}>
-                                        {/* заменить на нужную */}
-                                        {/* <CrossSVG /> */}
+                                    <S.MenuItem onClick={handleDeleteStepClick}>
+                                        <S.DeleteIcon iconName={Icons.Delete} />
 
                                         <S.MenuItemRemoveText>Удалить шаг</S.MenuItemRemoveText>
                                     </S.MenuItem>

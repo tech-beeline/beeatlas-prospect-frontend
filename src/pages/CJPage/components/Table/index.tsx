@@ -148,10 +148,10 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                                         <p>{row.columnName}</p>
 
                                         <ColumnMenu
-                                            addNewColumn={addNewColumn}
-                                            changePositionOfColumn={changePositionOfColumn}
-                                            removeColumn={removeColumn}
-                                            rowIndex={rowIndex}
+                                            addStep={addNewColumn}
+                                            changePositionOfStep={changePositionOfColumn}
+                                            deleteStep={removeColumn}
+                                            stepIndex={rowIndex}
                                             setOpenSideBlockName={openStepFrom}
                                             setRenameIndex={setSelectedStep}
                                             tableDataLength={tableData.length}
