@@ -61,7 +61,11 @@ export const StepForm: FC<IStepForm> = ({
                 />
             )}
             {stage === Stage.BISEARCH && (
-                <BiSelect setStage={setStage} setSelectedBiId={setSelectedBiId} />
+                <BiSelect
+                    setStage={setStage}
+                    setSelectedBiId={setSelectedBiId}
+                    selectedBiIds={stepBIs.map((bi) => bi.id)}
+                />
             )}
             {stage === Stage.BIVIEW && selectedBiId && (
                 <BiView setStage={setStage} selectedBiId={selectedBiId} addBi={addBI} />

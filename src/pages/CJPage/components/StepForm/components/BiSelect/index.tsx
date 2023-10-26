@@ -9,7 +9,7 @@ import * as S from '../../units';
 
 import { IBiSelect } from './types';
 
-export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId }) => {
+export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiIds }) => {
     const { bis } = useMockBItore();
 
     const [search, setSearch] = useState('');
@@ -17,7 +17,11 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId }) => {
     const [filteredBis, setFilteredBis] = useState(bis);
 
     useEffect(() => {
-        setFilteredBis(bis.filter((bi) => bi.name.includes(search)));
+        setFilteredBis(
+            bis
+                .filter((bi) => bi.name.includes(search))
+                .filter((bi) => !selectedBiIds.includes(bi.id)),
+        );
     }, [search]);
 
     const productSearchBis = filteredBis.filter((bi) => !bi.communal);
