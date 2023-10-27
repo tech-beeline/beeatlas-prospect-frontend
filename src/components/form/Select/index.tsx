@@ -34,7 +34,7 @@ export const Select: FC<ISelect> = ({
                     error={isError}
                     helperText={errorMessage}
                     options={options}
-                    values={[options[field.value]]}
+                    values={[options.find((option) => option.id === field.value) ?? options[0]]}
                     onChange={(value) => field.onChange(value[0].id)}
                 />
             )}

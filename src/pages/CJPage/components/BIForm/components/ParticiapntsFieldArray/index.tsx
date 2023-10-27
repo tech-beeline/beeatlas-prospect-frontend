@@ -3,12 +3,14 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { Select, TextField } from 'components/form';
-
+import { FormValues } from '../../form';
 import * as S from '../units';
 
+import { ParticipantFields } from './components';
+import { OPTIONS } from './const';
+
 export const ParticiapntsFieldArray = () => {
-    const { control } = useFormContext();
+    const { control, watch } = useFormContext<FormValues>();
 
     const {
         fields: participantFields,
@@ -19,54 +21,36 @@ export const ParticiapntsFieldArray = () => {
         name: 'participants',
     });
 
+    const participants = watch('participants');
+
+    const alreadySelectedParticiapnts =
+        participants?.map((participant) => participant.participant) ?? [];
+
+    const nextParticipant =
+        OPTIONS.find((option) => !alreadySelectedParticiapnts.includes(option.id))?.id ?? 0;
+
     return (
         <div>
             <S.FlexContainer>
                 <S.SubTitle id="participants">Участники взаимодействия</S.SubTitle>
-                <IconButton
-                    iconName={Icons.Add}
-                    size="large"
-                    onClick={() => append({ descr: '', participant: 0, value: '' })}
-                />
+                {participantFields.length < 3 && (
+                    <IconButton
+                        iconName={Icons.Add}
+                        size="large"
+                        onClick={() =>
+                            append({ descr: '', participant: nextParticipant, value: '' })
+                        }
+                    />
+                )}
             </S.FlexContainer>
             {participantFields.map((field, index) => (
                 <div key={field.id}>
-                    <S.FlexContainer>
-                        <S.SubTitleSmall>Участник {index + 1}</S.SubTitleSmall>
-                        <IconButton
-                            iconName={Icons.Delete}
-                            size="large"
-                            onClick={() => remove(index)}
-                        />
-                    </S.FlexContainer>
-                    <S.FieldsContainer>
-                        <Select
-                            name={`participants.${index}.participant`}
-                            label="Сторона*"
-                            options={[
-                                {
-                                    id: 0,
-                                    value: 'Участник со стороны клиента',
-                                },
-                                {
-                                    id: 1,
-                                    value: 'Участник со стороны компании',
-                                },
-                                {
-                                    id: 2,
-                                    value: 'Внешние участники',
-                                },
-                            ]}
-                        />
-                        <TextField
-                            label="Описание участника*"
-                            name={`participants.${index}.descr`}
-                        />
-                        <TextField
-                            label="Ценностный результат"
-                            name={`participants.${index}.value`}
-                        />
-                    </S.FieldsContainer>
+                    <ParticipantFields
+                        index={index}
+                        fieldsLength={participantFields.length}
+                        remove={remove}
+                        alreadySelected={alreadySelectedParticiapnts}
+                    />
                 </div>
             ))}
         </div>

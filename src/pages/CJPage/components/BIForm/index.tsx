@@ -22,6 +22,8 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
         useEffect(() => {
             if (defaultValues) {
                 reset(defaultValues);
+            } else {
+                reset({ participants: [{ participant: 0, value: '', descr: '' }] });
             }
         }, [defaultValues]);
 
