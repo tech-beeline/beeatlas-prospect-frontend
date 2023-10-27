@@ -106,6 +106,24 @@ export const FlexContainer = styled.div`
     gap: 24px;
 `;
 
+export const NameFlexContainer = styled.div`
+    display: flex;
+    align-items: start;
+    gap: 24px;
+`;
+
+export const CheckboxContainer = styled.div<{ marginTop?: boolean }>`
+    margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
+`;
+
 export const IconButtonStyled = styled(IconButton)`
     color: var(--color-text-active);
+`;
+
+export const GrowContainer = styled.div`
+    flex: 1;
+`;
+
+export const MockButton = styled.div`
+    width: 48px;
 `;

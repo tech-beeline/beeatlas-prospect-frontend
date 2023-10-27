@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, Fragment, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -33,14 +33,25 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             reset();
         });
 
+        const NameContainer = fullscreen ? S.NameFlexContainer : Fragment;
+
         return (
             <>
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.TextFieldContainer>
-                            <TextField id="name" name="name" label="Название*" maxLength={255} />
+                            <NameContainer>
+                                <TextField
+                                    id="name"
+                                    name="name"
+                                    label="Название*"
+                                    maxLength={255}
+                                />
 
-                            <Checkbox name="communal" label="Коммунальный" />
+                                <S.CheckboxContainer marginTop={fullscreen}>
+                                    <Checkbox name="communal" label="Коммунальный" />
+                                </S.CheckboxContainer>
+                            </NameContainer>
 
                             {!fullscreen && (
                                 <S.BannerStyled
@@ -58,26 +69,36 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 <RadioGroup name="type" labels={['Целевой', 'Фактический']} />
                             </S.FlexContainer>
 
-                            <Select
-                                name="status"
-                                label="Стадия ЖЦ"
-                                options={[
-                                    {
-                                        id: 0,
-                                        value: 'Передан в эксплуатацию',
-                                    },
-                                    {
-                                        id: 1,
-                                        value: 'Не передан',
-                                    },
-                                    {
-                                        id: 2,
-                                        value: 'Неизвестно',
-                                    },
-                                ]}
-                            />
+                            <S.FlexContainer>
+                                <S.GrowContainer>
+                                    <Select
+                                        name="status"
+                                        label="Стадия ЖЦ"
+                                        options={[
+                                            {
+                                                id: 0,
+                                                value: 'Передан в эксплуатацию',
+                                            },
+                                            {
+                                                id: 1,
+                                                value: 'Не передан',
+                                            },
+                                            {
+                                                id: 2,
+                                                value: 'Неизвестно',
+                                            },
+                                        ]}
+                                    />
+                                </S.GrowContainer>
+                                {fullscreen && (
+                                    <>
+                                        <S.GrowContainer />
+                                        <S.MockButton />
+                                    </>
+                                )}
+                            </S.FlexContainer>
 
-                            <ParticiapntsFieldArray />
+                            <ParticiapntsFieldArray fullscreen={fullscreen} />
 
                             <S.SubTitle id="feelings">Чувства и эмоции</S.SubTitle>
 

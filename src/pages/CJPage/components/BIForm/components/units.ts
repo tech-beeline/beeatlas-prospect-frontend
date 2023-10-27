@@ -1,3 +1,4 @@
+import { Button, Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const FlexContainer = styled.div`
@@ -6,12 +7,19 @@ export const FlexContainer = styled.div`
     justify-content: space-between;
 `;
 
-export const FieldsContainer = styled.div`
+export const FieldsFlexContainer = styled.div`
+    display: flex;
+    gap: 24px;
+`;
+
+export const FieldsContainer = styled.div<{ marginTop?: boolean }>`
     display: flex;
     flex-direction: column;
     gap: 32px;
 
     width: 100%;
+
+    margin-top: ${({ marginTop }) => (marginTop ? '24px' : '0px')};
 `;
 
 export const SubTitle = styled.h4`
@@ -32,4 +40,19 @@ export const SubTitleSmall = styled.h4`
     line-height: var(--font-line-height-subtitle3);
 
     color: var(--color-text-active);
+`;
+
+export const ButtonStyled = styled(Button)`
+    width: 48px;
+    height: 48px;
+`;
+
+export const GrowContainer = styled.div`
+    flex: 1;
+`;
+
+export const DividerStyled = styled(Divider)`
+    width: 100%;
+
+    margin-top: 24px;
 `;
