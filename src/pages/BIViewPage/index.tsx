@@ -104,18 +104,21 @@ export const BIViewPage = () => {
                                         Участники взаимодействия
                                     </S.Subtitle>
                                     {bi?.participants.length === 0 && (
-                                        <S.Body2>{formatNullableString(null)}</S.Body2>
+                                        <S.Body2 marginTop>{formatNullableString(null)}</S.Body2>
                                     )}
                                     {(bi?.participants ?? []).map((participant, index) => (
                                         <>
-                                            <S.Subtitle3>Участник {index + 1}</S.Subtitle3>
-                                            <S.Body3>Участник</S.Body3>
+                                            <S.Body3 marginTop>Участник {index + 1}</S.Body3>
                                             <S.Body2>
                                                 {getParticipant(participant.participant)}
                                             </S.Body2>
-                                            <S.Body3>Описание участника</S.Body3>
+                                            <S.Body3 marginTop>
+                                                Описание участника {index + 1}
+                                            </S.Body3>
                                             <S.Body2>{participant.descr}</S.Body2>
-                                            <S.Body3>Ценностный результат</S.Body3>
+                                            <S.Body3 marginTop>
+                                                Ценностный результат для участника {index + 1}
+                                            </S.Body3>
                                             <S.Body2>{participant.value}</S.Body2>
                                         </>
                                     ))}
@@ -147,7 +150,8 @@ export const BIViewPage = () => {
                                 </div> */}
 
                                 <div>
-                                    <S.Body3 id="scenarios">Клиентский сценарий</S.Body3>
+                                    <S.Subtitle id="scenarios">Сценарии</S.Subtitle>
+                                    <S.Body3 marginTop>Клиентский сценарий</S.Body3>
                                     <S.Body2>{formatNullableString(bi?.clientScenario)}</S.Body2>
                                 </div>
 
@@ -162,18 +166,24 @@ export const BIViewPage = () => {
                                 </div>
 
                                 <div>
-                                    <S.Body3 id="channels">Канал</S.Body3>
+                                    <S.Subtitle id="channels">Канал</S.Subtitle>
                                     <S.Body2>{bi && getChannel(bi?.channel)}</S.Body2>
                                 </div>
 
                                 <div>
-                                    <S.Body3 id="documentation">Документация</S.Body3>
+                                    <S.Subtitle id="documentation">Документация</S.Subtitle>
                                     <S.Body2>{formatLinkFromString(bi?.document)}</S.Body2>
                                 </div>
 
                                 <div>
-                                    <S.Body3 id="mockup">Макет</S.Body3>
+                                    <S.Subtitle id="mockup">Макет</S.Subtitle>
                                     <S.Body2>{formatLinkFromString(bi?.mockup)}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="service">Служебные поля</S.Subtitle>
+                                    <S.Body3 marginTop>Идентификатор</S.Body3>
+                                    <S.Body2>{formatNullableString(bi.identificator)}</S.Body2>
                                 </div>
                             </S.AttributesContainer>
                         </S.DataContainer>
@@ -188,6 +198,7 @@ export const BIViewPage = () => {
                                     { id: 'channels', label: 'Канал' },
                                     { id: 'documentation', label: 'Документация' },
                                     { id: 'mockup', label: 'Макет' },
+                                    { id: 'service', label: 'Служебные поля' },
                                 ]}
                             />
                         </S.Navigation>

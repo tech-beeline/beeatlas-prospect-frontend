@@ -54,18 +54,22 @@ export const Content = styled.div`
     }
 `;
 
-export const Body2 = styled.div`
+export const Body2 = styled.div<{ marginTop?: boolean }>`
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
+
+    margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
 `;
 
-export const Body3 = styled.div`
+export const Body3 = styled.div<{ marginTop?: boolean }>`
     font-weight: var(--font-weight-body3);
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);
 
     color: var(--color-text-inactive);
+
+    margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
 `;
 
 export const Subtitle = styled.div`
@@ -128,6 +132,8 @@ export const SkeletonContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    width: 100%;
 
     margin-top: 24px;
 `;
