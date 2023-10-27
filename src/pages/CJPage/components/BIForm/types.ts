@@ -5,4 +5,5 @@ export interface IBIForm {
     onSave: (values: FormValues) => void;
     defaultValues?: FormValues;
     showButtons?: boolean;
+    fullscreen?: boolean;
 }

@@ -1,4 +1,4 @@
-import { IconButton } from '@beeline/design-system-react';
+import { Banner, IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const TitleWrapper = styled.div`
@@ -22,6 +22,10 @@ export const TextFieldContainer = styled.div`
 
     width: 100%;
     padding-top: 24px;
+`;
+
+export const BannerStyled = styled(Banner)`
+    white-space: pre-line;
 `;
 
 export const FieldsContainer = styled.div`

@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Banner, Button } from '@beeline/design-system-react';
+import { Button } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -12,7 +12,7 @@ import { IBIForm } from './types';
 import * as S from './units';
 
 export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
-    ({ onClose, onSave, defaultValues, showButtons = true }, buttonRef) => {
+    ({ onClose, onSave, defaultValues, showButtons = true, fullscreen = false }, buttonRef) => {
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
         });
@@ -42,11 +42,13 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <Checkbox name="communal" label="Коммунальный" />
 
-                            <Banner
-                                iconName={Icons.InfoCircled}
-                                color="default"
-                                title="Коммунальный BI будет доступен всем командам в компании. Вы не сможете вносить правки, если другие команды добавят его в свой CJ"
-                            />
+                            {!fullscreen && (
+                                <S.BannerStyled
+                                    iconName={Icons.InfoCircled}
+                                    color="default"
+                                    title={`Коммунальный BI будет\nдоступен всем командам\nв компании. Вы не\nсможете вносить правки,\nесли другие команды\nдобавят его в свой CJ`}
+                                />
+                            )}
 
                             <TextArea name="descr" label="Описание*" />
 

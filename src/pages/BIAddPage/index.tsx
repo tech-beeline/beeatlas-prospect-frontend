@@ -70,6 +70,7 @@ export const BIAddPage = () => {
                         onSave={handleFormSave}
                         defaultValues={bi ?? undefined}
                         showButtons={false}
+                        fullscreen={true}
                     />
                 </S.FormContainer>
                 <S.Navigation>
