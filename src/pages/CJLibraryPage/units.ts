@@ -42,6 +42,13 @@ export const CJCard = styled.div`
     border-radius: var(--size-border-radius-x6);
 `;
 
+export const FlexContainer = styled.div`
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+`;
+
 export const Title = styled(Subtitle1)`
     margin-top: 16px;
 
@@ -61,7 +68,7 @@ export const Number = styled.div`
 `;
 
 export const Description = styled.div`
-    margin-top: 24px;
+    margin-top: 16px;
 
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);

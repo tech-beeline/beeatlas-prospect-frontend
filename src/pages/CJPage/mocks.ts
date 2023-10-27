@@ -205,6 +205,8 @@ interface IMockBIStore {
 
     createBi: (data: Omit<BI, 'identificator'>) => void;
     updateBi: (id: number, data: BI) => void;
+
+    deleteBi: (id: number) => void;
 }
 
 export const useMockBIStore = create<IMockBIStore>()((set, get) => ({
@@ -229,5 +231,9 @@ export const useMockBIStore = create<IMockBIStore>()((set, get) => ({
 
     updateBi: (id, data) => {
         set({ bis: get().bis.map((bi) => (bi.id === id ? data : bi)) });
+    },
+
+    deleteBi: (id) => {
+        set({ bis: get().bis.filter((bi) => bi.id !== id) });
     },
 }));

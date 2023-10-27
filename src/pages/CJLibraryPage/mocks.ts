@@ -18,6 +18,8 @@ interface IMockCJStore {
 
     createCj: (data: Omit<CJ, 'id'>) => void;
     updateCj: (id: number, data: CJ) => void;
+
+    deleteCj: (id: number) => void;
 }
 
 const INITIAL_CJS: CJ[] = [
@@ -57,5 +59,9 @@ export const useMockCJtore = create<IMockCJStore>()((set, get) => ({
 
     updateCj: (id, data) => {
         set({ cjs: get().cjs.map((cj) => (cj.id === id ? data : cj)) });
+    },
+
+    deleteCj: (id) => {
+        set({ cjs: get().cjs.filter((cj) => cj.id !== id) });
     },
 }));

@@ -6,10 +6,11 @@ import { useMockBIStore } from 'pages/CJPage/mocks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
+import { BiMenu } from './components';
 import * as S from './units';
 
 export const BILibraryPage = () => {
-    const { bis } = useMockBIStore();
+    const { bis, deleteBi } = useMockBIStore();
 
     const navigate = useNavigate();
 
@@ -20,6 +21,13 @@ export const BILibraryPage = () => {
     const handleBiClick = (id: number) => {
         navigate({
             pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
+            search: createSearchParams({ id: String(id) }).toString(),
+        });
+    };
+
+    const handleEditBiClick = (id: number) => {
+        navigate({
+            pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
             search: createSearchParams({ id: String(id) }).toString(),
         });
     };
@@ -36,13 +44,20 @@ export const BILibraryPage = () => {
                 <S.CardContainer>
                     {bis.map((bi) => (
                         <S.BICard key={bi.id}>
-                            <S.LabelsContainer>
-                                {bi.communal && <Label title="Коммунальный" type="magenta" />}
-                                <Label
-                                    title={bi.type === 0 ? 'Целевой' : 'Фактический'}
-                                    type="teal"
+                            <S.FlexContainer>
+                                <S.LabelsContainer>
+                                    {bi.communal && <Label title="Коммунальный" type="magenta" />}
+                                    <Label
+                                        title={bi.type === 0 ? 'Целевой' : 'Фактический'}
+                                        type="teal"
+                                    />
+                                </S.LabelsContainer>
+                                <BiMenu
+                                    bi={bi}
+                                    onEditClick={() => handleEditBiClick(bi.id)}
+                                    onDeleteClick={() => deleteBi(bi.id)}
                                 />
-                            </S.LabelsContainer>
+                            </S.FlexContainer>
                             <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
                             <S.Number>{bi.identificator}</S.Number>
                             <S.Description>{bi.descr}</S.Description>

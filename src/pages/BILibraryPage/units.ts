@@ -42,6 +42,12 @@ export const BICard = styled.div`
     border-radius: var(--size-border-radius-x6);
 `;
 
+export const FlexContainer = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+`;
+
 export const LabelsContainer = styled.div`
     display: flex;
 
