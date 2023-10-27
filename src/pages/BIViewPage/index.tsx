@@ -10,8 +10,8 @@ import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
     getChannel,
-    getEnter,
-    getExit,
+    // getEnter,
+    // getExit,
     getFeelingType,
     getParticipant,
     getStatus,
@@ -130,7 +130,7 @@ export const BIViewPage = () => {
                                     </S.IconContainer>
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <S.Subtitle id="enters">Входы и выходы</S.Subtitle>
                                     {bi?.enters.length === 0 && (
                                         <S.Body2>{formatNullableString(null)}</S.Body2>
@@ -144,7 +144,7 @@ export const BIViewPage = () => {
                                             <S.Body2>{getExit(enter.exit)}</S.Body2>
                                         </>
                                     ))}
-                                </div>
+                                </div> */}
 
                                 <div>
                                     <S.Body3 id="scenarios">Клиентский сценарий</S.Body3>
@@ -183,7 +183,7 @@ export const BIViewPage = () => {
                                     { id: 'description', label: bi.name },
                                     { id: 'participants', label: 'Участники взаимодействия' },
                                     { id: 'feelings', label: 'Чувства и эмоции' },
-                                    { id: 'enters', label: 'Входы и выходы' },
+                                    // { id: 'enters', label: 'Входы и выходы' },
                                     { id: 'scenarios', label: 'Сценарии' },
                                     { id: 'channels', label: 'Канал' },
                                     { id: 'documentation', label: 'Документация' },

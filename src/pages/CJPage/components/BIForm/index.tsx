@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
 
-import { EntersFieldArray, ParticiapntsFieldArray } from './components';
+import { ParticiapntsFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
@@ -79,7 +79,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <FeelingPicker name="feelings" />
 
-                            <EntersFieldArray />
+                            {/* <EntersFieldArray /> */}
 
                             <S.SubTitle id="scenarios">Сценарии</S.SubTitle>
 

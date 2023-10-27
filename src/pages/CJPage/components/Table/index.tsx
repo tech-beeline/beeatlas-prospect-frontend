@@ -8,7 +8,6 @@ import { formatNullableString } from 'utils/formatters';
 
 import {
     formatCommunal,
-    formatEnters,
     formatFeeling,
     formatLinkFromString,
     formatParticipants,
@@ -241,7 +240,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                             parseData={(bi) => bi.participants}
                             steps={tableData}
                         />
-                        <Row
+                        {/* <Row
                             rowId="enters"
                             label="Входы/выходы"
                             hiddenRows={hiddenRows}
@@ -251,7 +250,7 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
                             formatData={formatEnters}
                             parseData={(bi) => bi.enters}
                             steps={tableData}
-                        />
+                        /> */}
                         <Row
                             rowId="feelings"
                             label="Чувства и эмоции клиента"

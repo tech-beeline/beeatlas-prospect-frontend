@@ -8,8 +8,8 @@ import { useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
     getChannel,
-    getEnter,
-    getExit,
+    // getEnter,
+    // getExit,
     getFeelingType,
     getParticipant,
     getStatus,
@@ -96,7 +96,7 @@ export const BiView: FC<IBiView> = ({
                         </S.IconContainer>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <S.Subtitle>Входы и выходы</S.Subtitle>
                         {currentBi?.enters.length === 0 && (
                             <S.Body2>{formatNullableString(null)}</S.Body2>
@@ -110,7 +110,7 @@ export const BiView: FC<IBiView> = ({
                                 <S.Body2>{getExit(enter.exit)}</S.Body2>
                             </>
                         ))}
-                    </div>
+                    </div> */}
 
                     <div>
                         <S.Body3>Клиентский сценарий</S.Body3>

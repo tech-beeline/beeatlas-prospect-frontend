@@ -24,7 +24,7 @@ export interface BI {
     flowLink: string;
     ucsReaction: string;
     participants: Participant[];
-    enters: Enter[];
+    // enters: Enter[];
     document: string;
     mockup: string;
     channel: number;
@@ -68,7 +68,7 @@ export const businessInteraction: BI = {
             value: 'Ценностный результат 2',
         },
     ],
-    enters: [{ enter: 0, exit: 0 }],
+    // enters: [{ enter: 0, exit: 0 }],
     document: 'https://example.com/',
     mockup: 'https://example.com/',
     channel: 0,
@@ -100,7 +100,7 @@ export const SEARCH_BIS: BI[] = [
                 value: 'Ценностный результат 2',
             },
         ],
-        enters: [{ enter: 0, exit: 0 }],
+        // enters: [{ enter: 0, exit: 0 }],
         document: 'https://example.com/',
         mockup: 'https://example.com/',
         channel: 0,
@@ -130,7 +130,7 @@ export const SEARCH_BIS: BI[] = [
                 value: 'Ценностный результат 2',
             },
         ],
-        enters: [{ enter: 0, exit: 0 }],
+        // enters: [{ enter: 0, exit: 0 }],
         document: 'https://example.com/',
         mockup: 'https://example.com/',
         channel: 0,
@@ -160,7 +160,7 @@ export const SEARCH_BIS: BI[] = [
                 value: 'Ценностный результат 2',
             },
         ],
-        enters: [{ enter: 0, exit: 0 }],
+        // enters: [{ enter: 0, exit: 0 }],
         document: 'https://example.com/',
         mockup: 'https://example.com/',
         channel: 0,
@@ -190,7 +190,7 @@ export const SEARCH_BIS: BI[] = [
                 value: 'Ценностный результат 2',
             },
         ],
-        enters: [{ enter: 0, exit: 0 }],
+        // enters: [{ enter: 0, exit: 0 }],
         document: 'https://example.com/',
         mockup: 'https://example.com/',
         channel: 0,

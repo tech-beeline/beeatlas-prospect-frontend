@@ -79,7 +79,7 @@ export const BIAddPage = () => {
                             { id: 'characteristics', label: 'Характеристики' },
                             { id: 'participants', label: 'Участники взаимодействия' },
                             { id: 'feelings', label: 'Чувства и эмоции' },
-                            { id: 'enters', label: 'Входы и выходы' },
+                            // { id: 'enters', label: 'Входы и выходы' },
                             { id: 'scenarios', label: 'Сценарии' },
                             { id: 'channels', label: 'Канал' },
                             { id: 'documentation', label: 'Документация' },

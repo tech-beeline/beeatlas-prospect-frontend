@@ -6,10 +6,10 @@ type ParticipantValues = {
     value: string;
 };
 
-type EnterValues = {
-    enter: number;
-    exit: number;
-};
+// type EnterValues = {
+//     enter: number;
+//     exit: number;
+// };
 
 export type FormValues = {
     id: number;
@@ -24,7 +24,7 @@ export type FormValues = {
     flowLink: string;
     ucsReaction: string;
     participants: ParticipantValues[];
-    enters: EnterValues[];
+    // enters: EnterValues[];
     document: string;
     mockup: string;
     channel: number;
@@ -51,14 +51,14 @@ export const validationSchema = object().shape({
             }),
         )
         .default([]),
-    enters: array()
-        .of(
-            object().shape({
-                enter: number().default(0),
-                exit: number().default(0),
-            }),
-        )
-        .default([]),
+    // enters: array()
+    //     .of(
+    //         object().shape({
+    //             enter: number().default(0),
+    //             exit: number().default(0),
+    //         }),
+    //     )
+    //     .default([]),
     document: string().default('').url('Укажите корректную ссылку'),
     mockup: string().default('').url('Укажите корректную ссылку'),
     channel: number().default(0),
