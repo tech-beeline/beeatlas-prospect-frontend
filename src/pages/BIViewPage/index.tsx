@@ -6,6 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { FloatingNavigation } from 'components/interaction';
 import { IconFeeling } from 'components/other';
 
+// import { useGetBIByIdQuery } from 'api/queries/bi';
 import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
@@ -26,6 +27,8 @@ export const BIViewPage = () => {
     const paramId = params.get('id');
 
     const { getBiById } = useMockBIStore();
+
+    // const { data: bi, isLoading } = useGetBIByIdQuery(paramId);
 
     const [bi, setBi] = useState<BI | null>(null);
 

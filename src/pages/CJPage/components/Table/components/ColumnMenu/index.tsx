@@ -2,6 +2,11 @@ import React, { FC, useRef, useState } from 'react';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+// import {
+//     useCreateCJStepMutation,
+//     useDeleteCJStepMutation,
+//     useUpdateCJStepMutation,
+// } from 'api/queries/cj';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -17,6 +22,10 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     setOpenSideBlockName,
     setRenameIndex,
 }) => {
+    // const { mutateAsync: deleteS, isLoading: deletingStep } = useDeleteCJStepMutation();
+    // const { mutateAsync: createStep, isLoading: creatingStep } = useCreateCJStepMutation();
+    // const { mutateAsync: updateStep, isLoading: updatingStep } = useUpdateCJStepMutation();
+
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -53,16 +62,41 @@ export const ColumnMenu: FC<IColumnMenu> = ({
         hideMenuHandler();
     };
 
+    // const handleAddColumnClick = async (before: boolean) => {
+    //     await createStep({
+    //         cjId: '1',
+    //         data: { name: 'Название шага', order: before ? stepIndex : stepIndex + 1 },
+    //     });
+    //     showSnackbar({ message: 'Шаг добавлен' });
+    //     hideMenuHandler();
+    // };
+
     const handleChangePositionClick = (right: boolean) => {
         changePositionOfStep(stepIndex, right);
         hideMenuHandler();
     };
+
+    // const handleChangePositionClick = async (right: boolean) => {
+    //     await updateStep({
+    //         cjId: '1',
+    //         stepId: '1',
+    //         data: { name: '1123', order: right ? stepIndex + 1 : stepIndex - 1 },
+    //     });
+    //     showSnackbar({ message: 'Шаг перемещён' });
+    //     hideMenuHandler();
+    // };
 
     const handleDeleteStepClick = () => {
         deleteStep(stepIndex);
         showSnackbar({ message: 'Шаг удалён' });
         hideMenuHandler();
     };
+
+    // const handleDeleteStepClick = async () => {
+    //     await deleteS({ cjId: '1', stepId: '1' });
+    //     showSnackbar({ message: 'Шаг удалён' });
+    //     hideMenuHandler();
+    // };
 
     return (
         <>

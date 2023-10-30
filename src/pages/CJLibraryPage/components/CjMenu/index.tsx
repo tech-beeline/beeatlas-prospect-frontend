@@ -7,7 +7,7 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import { ICjMenu } from './types';
 import * as S from './units';
 
-export const CjMenu: FC<ICjMenu> = ({ cj, onEditClick, onDeleteClick }) => {
+export const CjMenu: FC<ICjMenu> = ({ cjId, onEditClick, onDeleteClick }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -22,7 +22,7 @@ export const CjMenu: FC<ICjMenu> = ({ cj, onEditClick, onDeleteClick }) => {
     return (
         <>
             <S.IconStyled
-                id={String(cj.id)}
+                id={String(cjId)}
                 iconName={Icons.MoreVert}
                 ref={menuButtonRef}
                 onClick={handleIconClick}

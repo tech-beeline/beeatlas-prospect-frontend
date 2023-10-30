@@ -5,6 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { FloatingNavigation } from 'components/interaction';
 
+// import { useCreateBIMutation, useUpdateBIMutation } from 'api/queries/bi';
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
 import { BI, useMockBIStore } from 'pages/CJPage/mocks';
@@ -17,6 +18,11 @@ export const BIAddPage = () => {
     const paramId = params.get('id');
 
     const { getBiById, updateBi, createBi } = useMockBIStore();
+
+    // const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
+    // const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
+
+    // const isLoading = creatingBi || updatingBi;
 
     const [bi, setBi] = useState<BI | null>(null);
 

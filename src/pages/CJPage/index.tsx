@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+// import { useUpdateCJMutation } from 'api/queries/cj';
+// import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
 import { CJ, useMockCJtore } from 'pages/CJLibraryPage/mocks';
 
 import { CJForm } from './components/CJForm';
@@ -16,12 +18,23 @@ export const CJPage = () => {
 
     const { getCjById, createCj, updateCj } = useMockCJtore();
 
+    // const { data } = useGetCompleteCJDataByIdQuery(paramId);
+    // const { mutateAsync: updateCJ } = useUpdateCJMutation();
+
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
 
     const [cj, setCj] = useState<CJ | null>(null);
     const [tableData, setTableData] = useState<Step[]>([]);
     const [name, setName] = useState('Название CJ');
     const [subName, setSubName] = useState('Портрет пользователя');
+
+    // useEffect(() => {
+    //     if (data) {
+    //         setName(data.name);
+    //         setSubName(data.user_portrait);
+    //         setTableData(data.steps.map((step) => ({ columnName: step.name, bis: [] })));
+    //     }
+    // }, [data]);
 
     useEffect(() => {
         if (paramId) {
@@ -45,6 +58,18 @@ export const CJPage = () => {
         }
         navigate(-1);
     };
+
+    // const handlePublish = () => {
+    //     if (data.id) {
+    //         updateCJ({ id: data.id, data: { draft: false } });
+    //     }
+    // };
+
+    // const handleMarkAsDraft = () => {
+    //     if (data.id) {
+    //         updateCJ({ id: data.id, data: { draft: true } });
+    //     }
+    // };
 
     return (
         <S.PageWrapper>

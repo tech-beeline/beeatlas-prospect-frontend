@@ -11,15 +11,19 @@ import { SideBlock } from '../SideBlock';
 import { FormValues, validationSchema } from './form';
 import { IStepForm } from './types';
 import * as S from './units';
+// import { useUpdateCJMutation } from 'api/queries/cj';
 
 export const CJForm: FC<IStepForm> = ({ values, isOpen, updateCJ, onClose }) => {
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
     });
 
+    // const { mutateAsync: update, isLoading: updatingCJ } = useUpdateCJMutation();
+
     const { handleSubmit, reset } = form;
 
-    const onSubmit = handleSubmit((values) => {
+    const onSubmit = handleSubmit(async (values) => {
+        // update({ id: '1', data: { name: values.name, user_portrait: values.userPortrait } });
         updateCJ(values);
         onClose();
         reset();

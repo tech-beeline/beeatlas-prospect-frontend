@@ -1,7 +1,5 @@
-import { CJ } from 'pages/CJLibraryPage/mocks';
-
 export interface ICjMenu {
-    cj: CJ;
+    cjId: number;
     onEditClick: () => void;
     onDeleteClick: () => void;
 }

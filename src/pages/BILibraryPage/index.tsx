@@ -2,6 +2,7 @@ import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label } from '@beeline/design-system-react';
 
+// import { useDeleteBIMutation, useGetBICollectionQuery } from 'api/queries/bi';
 import { useMockBIStore } from 'pages/CJPage/mocks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
@@ -11,6 +12,11 @@ import * as S from './units';
 
 export const BILibraryPage = () => {
     const { bis, deleteBi } = useMockBIStore();
+
+    // const { data: bis, isLoading } = useGetBICollectionQuery('');
+    // const { mutateAsync: deleteBi, isLoading: deletingBi } = useDeleteBIMutation();
+
+    // console.log(data);
 
     const navigate = useNavigate();
 
@@ -42,27 +48,34 @@ export const BILibraryPage = () => {
                     </Button>
                 </S.TitleWrapper>
                 <S.CardContainer>
-                    {bis.map((bi) => (
-                        <S.BICard key={bi.id}>
-                            <S.FlexContainer>
-                                <S.LabelsContainer>
-                                    {bi.communal && <Label title="Коммунальный" type="magenta" />}
-                                    <Label
-                                        title={bi.type === 0 ? 'Целевой' : 'Фактический'}
-                                        type="teal"
+                    {bis &&
+                        bis.map((bi) => (
+                            <S.BICard key={bi.id}>
+                                <S.FlexContainer>
+                                    <S.LabelsContainer>
+                                        {bi.communal && (
+                                            <Label title="Коммунальный" type="magenta" />
+                                        )}
+                                        <Label
+                                            title={bi.type === 0 ? 'Целевой' : 'Фактический'}
+                                            type="teal"
+                                        />
+                                    </S.LabelsContainer>
+                                    <BiMenu
+                                        bi={bi}
+                                        onEditClick={() => handleEditBiClick(bi.id)}
+                                        onDeleteClick={() => deleteBi(bi.id)}
                                     />
-                                </S.LabelsContainer>
-                                <BiMenu
-                                    bi={bi}
-                                    onEditClick={() => handleEditBiClick(bi.id)}
-                                    onDeleteClick={() => deleteBi(bi.id)}
-                                />
-                            </S.FlexContainer>
-                            <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
-                            <S.Number>{bi.identificator}</S.Number>
-                            <S.Description>{bi.descr}</S.Description>
-                        </S.BICard>
-                    ))}
+                                </S.FlexContainer>
+                                <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
+                                <S.Number>{bi.identificator}</S.Number>
+                                <S.Description>{bi.descr}</S.Description>
+                            </S.BICard>
+                        ))}
+                    {/* {isLoading &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <Skeleton key={index} height={150} />
+                        ))} */}
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>
