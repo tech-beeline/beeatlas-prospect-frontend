@@ -25,7 +25,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
             // const regEx = new RegExp(props.request, 'ig');
 
             return (
-                text
+                (text ?? '')
                     .replaceAll(
                         props.request.toLowerCase(),
                         `<b>${props.request.toLowerCase()}</b>`,
