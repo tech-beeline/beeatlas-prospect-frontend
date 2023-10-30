@@ -12,7 +12,7 @@ import { useMockCJtore } from './mocks';
 import * as S from './units';
 
 export const CJLibraryPage = () => {
-    const { cjs, deleteCj } = useMockCJtore();
+    const { cjs, createCj, deleteCj } = useMockCJtore();
 
     // const { data, isLoading } = useGetCJCollectionQuery();
     // const { mutateAsync: deleteCj } = useDeleteCJMutation();
@@ -37,12 +37,25 @@ export const CJLibraryPage = () => {
     //     });
     // };
 
+    const handleCreateCJClick = () => {
+        const id = createCj({
+            name: 'Название CJ',
+            descr: 'Портрет пользователя',
+            draft: true,
+            steps: [{ columnName: 'Название шага', bis: [] }],
+        });
+        navigate({
+            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+            search: createSearchParams({ id: String(id) }).toString(),
+        });
+    };
+
     return (
         <S.PageWrapper>
             <S.ContentWrapper>
                 <S.TitleWrapper>
                     <STYLES.H4>Библиотека CJ</STYLES.H4>
-                    <Button variant="contained" size="medium" onClick={() => handleCJClick()}>
+                    <Button variant="contained" size="medium" onClick={() => handleCreateCJClick()}>
                         Создать CJ
                     </Button>
                     {/* <Button

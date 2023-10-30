@@ -6,6 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 // import { useUpdateCJMutation } from 'api/queries/cj';
 // import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
 import { CJ, useMockCJtore } from 'pages/CJLibraryPage/mocks';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { CJForm } from './components/CJForm';
 import { Table } from './components/Table';
@@ -13,10 +14,11 @@ import { Step } from './mocks';
 import * as S from './units';
 
 export const CJPage = () => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { getCjById, createCj, updateCj } = useMockCJtore();
+    const { getCjById, updateCj } = useMockCJtore();
 
     // const { data } = useGetCompleteCJDataByIdQuery(paramId);
     // const { mutateAsync: updateCJ } = useUpdateCJMutation();
@@ -50,11 +52,18 @@ export const CJPage = () => {
 
     const navigate = useNavigate();
 
-    const handleSave = (draft: boolean) => {
+    // const handleSave = (draft: boolean) => {
+    //     if (cj) {
+    //         updateCj(Number(paramId), { ...cj, draft, name, descr: subName, steps: tableData });
+    //     } else {
+    //         createCj({ draft, name, descr: subName, steps: tableData });
+    //     }
+    //     navigate(-1);
+    // };
+
+    const handleSave = () => {
         if (cj) {
-            updateCj(Number(paramId), { ...cj, draft, name, descr: subName, steps: tableData });
-        } else {
-            createCj({ draft, name, descr: subName, steps: tableData });
+            updateCj(Number(paramId), { ...cj, draft: !cj.draft });
         }
         navigate(-1);
     };
@@ -94,21 +103,27 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button onClick={() => handleSave(true)}>Сохранить как черновик</Button>
+                    <Button onClick={() => navigate(-1)}>Закрыть</Button>
 
-                    <Button variant="contained" onClick={() => handleSave(false)}>
-                        Опубликовать
-                    </Button>
+                    {cj && (
+                        <Button variant="contained" onClick={() => handleSave()}>
+                            {cj.draft ? 'Опубликовать' : 'Перевести в черновик'}
+                        </Button>
+                    )}
                 </S.FlexSideContainer>
             </S.Header>
 
-            <Table tableData={tableData} setTableData={setTableData} />
+            {cj && <Table cjId={cj.id} tableData={tableData} setTableData={setTableData} />}
 
             <CJForm
                 isOpen={isOpenSettingsCJ}
                 onClose={() => setOpenSettingsCJ(false)}
                 updateCJ={(values) => {
+                    if (cj) {
+                        updateCj(cj.id, { ...cj, name: values.name, descr: values.userPortrait });
+                    }
                     setName(values.name), setSubName(values.userPortrait);
+                    showSnackbar({ message: 'Изменения сохранены' });
                 }}
                 values={{ name, userPortrait: subName }}
             />

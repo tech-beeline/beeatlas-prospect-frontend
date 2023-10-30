@@ -3,8 +3,10 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
 import { useModal } from 'hooks';
+import { useMockCJtore } from 'pages/CJLibraryPage/mocks';
 import { BI, Step, tableInitialData } from 'pages/CJPage/mocks';
 import { formatNullableString } from 'utils/formatters';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
     formatCommunal,
@@ -29,8 +31,12 @@ const colors = [
     'var(--color-accent-teal-background)',
 ];
 
-export const Table: FC<ITable> = ({ tableData, setTableData }) => {
+export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
     // const [tableData, setTableData] = useState<Step[]>([]);
+
+    const { updateCj } = useMockCJtore();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const [hiddenRows, setHiddenRows] = useState<string[]>([]);
     const [isHiddenRowsVisible, setHiddenRowsVisible] = useState(false);
@@ -50,8 +56,8 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
             const color = colors[colorIndex];
 
             return {
-                ...item,
                 color: color,
+                ...item,
             };
         });
 
@@ -59,10 +65,10 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
     };
 
     useEffect(() => {
-        if (tableData.length === 0) {
+        if (tableData.some((step) => !step.color)) {
             addColors(tableInitialData, colors);
         }
-    }, [tableData]);
+    }, []);
 
     const changePositionOfColumn = (index: number, isRight?: boolean) => {
         const copyOfData = [...tableData];
@@ -77,10 +83,15 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
         }
 
         setTableData(copyOfData);
+        updateCj(cjId, { steps: copyOfData });
+        showSnackbar({ message: 'Шаг перемещён' });
     };
 
     const removeColumn = (indexForRemove: number) => {
-        setTableData(tableData.filter((_, index) => index !== indexForRemove));
+        const data = tableData.filter((_, index) => index !== indexForRemove);
+        setTableData(data);
+        updateCj(cjId, { steps: data });
+        showSnackbar({ message: 'Шаг удалён' });
     };
 
     const addNewColumn = (index: number) => {
@@ -109,14 +120,17 @@ export const Table: FC<ITable> = ({ tableData, setTableData }) => {
         copyOfData.splice(index, 0, newColumn);
 
         setTableData(copyOfData);
+        updateCj(cjId, { steps: copyOfData });
+        showSnackbar({ message: 'Шаг добавлен' });
     };
 
     const updateStep = (name: string, bis: BI[]) => {
-        setTableData(
-            tableData.map((item, index) =>
-                index === selectedStep ? { ...item, columnName: name, bis } : item,
-            ),
+        const data = tableData.map((item, index) =>
+            index === selectedStep ? { ...item, columnName: name, bis } : item,
         );
+        setTableData(data);
+        updateCj(cjId, { steps: data });
+        showSnackbar({ message: 'Изменения сохранены' });
     };
 
     const allBIs = tableData.reduce(

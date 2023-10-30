@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 import { Step } from 'pages/CJPage/mocks';
 
@@ -16,8 +17,8 @@ interface IMockCJStore {
     getAllCjs: () => CJ[];
     getCjById: (id: number) => CJ | undefined;
 
-    createCj: (data: Omit<CJ, 'id'>) => void;
-    updateCj: (id: number, data: CJ) => void;
+    createCj: (data: Omit<CJ, 'id'>) => number;
+    updateCj: (id: number, data: Partial<CJ>) => void;
 
     deleteCj: (id: number) => void;
 }
@@ -46,22 +47,29 @@ const INITIAL_CJS: CJ[] = [
     },
 ];
 
-export const useMockCJtore = create<IMockCJStore>()((set, get) => ({
-    cjs: INITIAL_CJS,
+export const useMockCJtore = create<IMockCJStore>()(
+    persist(
+        (set, get) => ({
+            cjs: INITIAL_CJS,
 
-    getAllCjs: () => get().cjs,
+            getAllCjs: () => get().cjs,
 
-    getCjById: (id) => get().cjs.find((cj) => cj.id === id),
+            getCjById: (id) => get().cjs.find((cj) => cj.id === id),
 
-    createCj: (data) => {
-        set({ cjs: [...get().cjs, { ...data, id: get().cjs.length + 1 }] });
-    },
+            createCj: (data) => {
+                const id = get().cjs.length + 1;
+                set({ cjs: [...get().cjs, { ...data, id }] });
+                return id;
+            },
 
-    updateCj: (id, data) => {
-        set({ cjs: get().cjs.map((cj) => (cj.id === id ? data : cj)) });
-    },
+            updateCj: (id, data) => {
+                set({ cjs: get().cjs.map((cj) => (cj.id === id ? { ...cj, ...data } : cj)) });
+            },
 
-    deleteCj: (id) => {
-        set({ cjs: get().cjs.filter((cj) => cj.id !== id) });
-    },
-}));
+            deleteCj: (id) => {
+                set({ cjs: get().cjs.filter((cj) => cj.id !== id) });
+            },
+        }),
+        { name: 'mock-cj-store' },
+    ),
+);

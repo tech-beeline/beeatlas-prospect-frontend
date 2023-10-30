@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface Participant {
     participant: number;
@@ -209,31 +210,36 @@ interface IMockBIStore {
     deleteBi: (id: number) => void;
 }
 
-export const useMockBIStore = create<IMockBIStore>()((set, get) => ({
-    bis: SEARCH_BIS,
+export const useMockBIStore = create<IMockBIStore>()(
+    persist(
+        (set, get) => ({
+            bis: SEARCH_BIS,
 
-    getAllBis: () => get().bis,
+            getAllBis: () => get().bis,
 
-    getBiById: (id) => get().bis.find((bi) => bi.id === id),
+            getBiById: (id) => get().bis.find((bi) => bi.id === id),
 
-    createBi: (data) => {
-        set({
-            bis: [
-                ...get().bis,
-                {
-                    ...data,
-                    id: get().bis.length + 1,
-                    identificator: 'BI.01.02.03.' + (get().bis.length + 1),
-                },
-            ],
-        });
-    },
+            createBi: (data) => {
+                set({
+                    bis: [
+                        ...get().bis,
+                        {
+                            ...data,
+                            id: get().bis.length + 1,
+                            identificator: 'BI.01.02.03.' + (get().bis.length + 1),
+                        },
+                    ],
+                });
+            },
 
-    updateBi: (id, data) => {
-        set({ bis: get().bis.map((bi) => (bi.id === id ? data : bi)) });
-    },
+            updateBi: (id, data) => {
+                set({ bis: get().bis.map((bi) => (bi.id === id ? data : bi)) });
+            },
 
-    deleteBi: (id) => {
-        set({ bis: get().bis.filter((bi) => bi.id !== id) });
-    },
-}));
+            deleteBi: (id) => {
+                set({ bis: get().bis.filter((bi) => bi.id !== id) });
+            },
+        }),
+        { name: 'mock-bi-store' },
+    ),
+);
