@@ -1,6 +1,6 @@
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Button, Label } from '@beeline/design-system-react';
+import { Button, Label, Skeleton } from '@beeline/design-system-react';
 
 // import { useDeleteBIMutation, useGetBICollectionQuery } from 'api/queries/bi';
 import { useMockBIStore } from 'pages/CJPage/mocks';
@@ -12,11 +12,10 @@ import * as S from './units';
 
 export const BILibraryPage = () => {
     const { bis, deleteBi } = useMockBIStore();
+    const isLoading = false;
 
     // const { data: bis, isLoading } = useGetBICollectionQuery('');
-    // const { mutateAsync: deleteBi, isLoading: deletingBi } = useDeleteBIMutation();
-
-    // console.log(data);
+    // const { mutateAsync: deleteBi } = useDeleteBIMutation();
 
     const navigate = useNavigate();
 
@@ -62,7 +61,7 @@ export const BILibraryPage = () => {
                                         />
                                     </S.LabelsContainer>
                                     <BiMenu
-                                        bi={bi}
+                                        biId={bi.id}
                                         onEditClick={() => handleEditBiClick(bi.id)}
                                         onDeleteClick={() => deleteBi(bi.id)}
                                     />
@@ -72,10 +71,10 @@ export const BILibraryPage = () => {
                                 <S.Description>{bi.descr}</S.Description>
                             </S.BICard>
                         ))}
-                    {/* {isLoading &&
+                    {isLoading &&
                         Array.from({ length: 3 }).map((_, index) => (
                             <Skeleton key={index} height={150} />
-                        ))} */}
+                        ))}
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>

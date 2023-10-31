@@ -7,7 +7,7 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import { IBiMenu } from './types';
 import * as S from './units';
 
-export const BiMenu: FC<IBiMenu> = ({ bi, onEditClick, onDeleteClick }) => {
+export const BiMenu: FC<IBiMenu> = ({ biId, onEditClick, onDeleteClick }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -22,7 +22,7 @@ export const BiMenu: FC<IBiMenu> = ({ bi, onEditClick, onDeleteClick }) => {
     return (
         <>
             <S.IconStyled
-                id={String(bi.id)}
+                id={String(biId)}
                 iconName={Icons.MoreVert}
                 ref={menuButtonRef}
                 onClick={handleIconClick}

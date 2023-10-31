@@ -5,6 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { FloatingNavigation } from 'components/interaction';
 
+// import { useGetBIByIdQuery } from 'api/queries/bi';
 // import { useCreateBIMutation, useUpdateBIMutation } from 'api/queries/bi';
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
@@ -19,6 +20,7 @@ export const BIAddPage = () => {
 
     const { getBiById, updateBi, createBi } = useMockBIStore();
 
+    // const { data } = useGetBIByIdQuery(paramId);
     // const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
     // const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
 
@@ -86,7 +88,6 @@ export const BIAddPage = () => {
                             { id: 'characteristics', label: 'Характеристики' },
                             { id: 'participants', label: 'Участники взаимодействия' },
                             { id: 'feelings', label: 'Чувства и эмоции' },
-                            // { id: 'enters', label: 'Входы и выходы' },
                             { id: 'scenarios', label: 'Сценарии' },
                             { id: 'channels', label: 'Канал' },
                             { id: 'documentation', label: 'Документация' },

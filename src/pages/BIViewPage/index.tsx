@@ -28,7 +28,7 @@ export const BIViewPage = () => {
 
     const { getBiById } = useMockBIStore();
 
-    // const { data: bi, isLoading } = useGetBIByIdQuery(paramId);
+    // const { data, isLoading } = useGetBIByIdQuery(paramId);
 
     const [bi, setBi] = useState<BI | null>(null);
 
@@ -65,6 +65,11 @@ export const BIViewPage = () => {
                     ) : (
                         <Skeleton height={24} width={120} radius={5} />
                     )}
+                    {/* {data ? (
+                        <S.Title>{data.name}</S.Title>
+                    ) : (
+                        <Skeleton height={24} width={120} radius={5} />
+                    )} */}
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
@@ -196,7 +201,6 @@ export const BIViewPage = () => {
                                     { id: 'description', label: bi.name },
                                     { id: 'participants', label: 'Участники взаимодействия' },
                                     { id: 'feelings', label: 'Чувства и эмоции' },
-                                    // { id: 'enters', label: 'Входы и выходы' },
                                     { id: 'scenarios', label: 'Сценарии' },
                                     { id: 'channels', label: 'Канал' },
                                     { id: 'documentation', label: 'Документация' },
@@ -216,6 +220,15 @@ export const BIViewPage = () => {
                         <Skeleton height={40} radius={5} />
                     </S.SkeletonContainer>
                 )}
+                {/* {isLoading && (
+                    <S.SkeletonContainer>
+                        <Skeleton height={20} radius={5} />
+                        <Skeleton height={40} radius={5} />
+                        <Skeleton height={40} radius={5} />
+                        <Skeleton height={100} radius={5} />
+                        <Skeleton height={40} radius={5} />
+                    </S.SkeletonContainer>
+                )} */}
             </S.Content>
         </S.PageWrapper>
     );
