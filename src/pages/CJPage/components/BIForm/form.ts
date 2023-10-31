@@ -39,7 +39,7 @@ export const validationSchema = object().shape({
     type: number().default(0),
     status: number().default(0),
     feelings: number().default(2),
-    clientScenario: string().default(''),
+    clientScenario: string().required('Заполните сценарий'),
     flowLink: string().default('').url('Укажите корректную ссылку'),
     ucsReaction: string().default(''),
     participants: array()
