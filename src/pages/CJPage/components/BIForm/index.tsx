@@ -128,45 +128,46 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                             <Select
                                 name="channel"
                                 label="Канал*"
+                                defaultValue={1}
                                 options={[
                                     {
-                                        id: 0,
+                                        id: 1,
                                         value: 'Web site',
                                     },
                                     {
-                                        id: 1,
+                                        id: 2,
                                         value: 'Интернет магазин',
                                     },
                                     {
-                                        id: 2,
+                                        id: 3,
                                         value: 'Мобильное приложение',
                                     },
                                     {
-                                        id: 3,
+                                        id: 4,
                                         value: 'Личный кабинет',
                                     },
                                     {
-                                        id: 4,
+                                        id: 5,
                                         value: 'Партнерские витрины',
                                     },
                                     {
-                                        id: 5,
+                                        id: 6,
                                         value: 'Собственные офисы продаж',
                                     },
                                     {
-                                        id: 6,
+                                        id: 7,
                                         value: 'Офисы продаж (мультибренд)',
                                     },
                                     {
-                                        id: 7,
+                                        id: 8,
                                         value: 'Офисы продаж (франшиза)',
                                     },
                                     {
-                                        id: 8,
+                                        id: 9,
                                         value: 'Персональная поддержка',
                                     },
                                     {
-                                        id: 9,
+                                        id: 10,
                                         value: 'Поддержка',
                                     },
                                 ]}

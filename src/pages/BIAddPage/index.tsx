@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
+// import React, { useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { FloatingNavigation } from 'components/interaction';
 
-// import { useGetBIByIdQuery } from 'api/queries/bi';
-// import { useCreateBIMutation, useUpdateBIMutation } from 'api/queries/bi';
+// import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
 import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 
+// import { dataToFormValues, formValuesToData } from './helpers';
 import * as S from './units';
 
 export const BIAddPage = () => {
@@ -23,6 +24,8 @@ export const BIAddPage = () => {
     // const { data } = useGetBIByIdQuery(paramId);
     // const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
     // const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
+
+    // const isLoading = creatingBi || updatingBi;
 
     // const isLoading = creatingBi || updatingBi;
 
@@ -51,6 +54,14 @@ export const BIAddPage = () => {
         }
     };
 
+    // const handleFormSave = (values: FormValues) => {
+    //     if (paramId) {
+    //         updateBi({ id: paramId, data: formValuesToData(values) });
+    //     } else {
+    //         createBi(formValuesToData(values));
+    //     }
+    // };
+
     return (
         <S.PageWrapper>
             <S.Header>
@@ -65,6 +76,9 @@ export const BIAddPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
+                    {/* <Button onClick={handleSaveClick} disabled={isLoading} variant="contained">
+                        Сохранить
+                    </Button> */}
                     <Button onClick={handleSaveClick} variant="contained">
                         Сохранить
                     </Button>
@@ -75,8 +89,12 @@ export const BIAddPage = () => {
                     <BIForm
                         ref={submitButtonRef}
                         onClose={() => navigate(-1)}
+                        // onClose={() => {
+                        //     console.log(1);
+                        // }}
                         onSave={handleFormSave}
                         defaultValues={bi ?? undefined}
+                        // defaultValues={data ? dataToFormValues(data) : undefined}
                         showButtons={false}
                         fullscreen={true}
                     />

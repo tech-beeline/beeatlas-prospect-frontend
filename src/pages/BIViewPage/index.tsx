@@ -1,3 +1,4 @@
+// import React from 'react';
 import React, { useEffect, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
@@ -141,22 +142,6 @@ export const BIViewPage = () => {
                                     </S.IconContainer>
                                 </div>
 
-                                {/* <div>
-                                    <S.Subtitle id="enters">Входы и выходы</S.Subtitle>
-                                    {bi?.enters.length === 0 && (
-                                        <S.Body2>{formatNullableString(null)}</S.Body2>
-                                    )}
-                                    {(bi?.enters ?? []).map((enter, index) => (
-                                        <>
-                                            <S.Subtitle3>Вход и выход {index + 1}</S.Subtitle3>
-                                            <S.Body3>Вход</S.Body3>
-                                            <S.Body2>{getEnter(enter.enter)}</S.Body2>
-                                            <S.Body3>Выход</S.Body3>
-                                            <S.Body2>{getExit(enter.exit)}</S.Body2>
-                                        </>
-                                    ))}
-                                </div> */}
-
                                 <div>
                                     <S.Subtitle id="scenarios">Сценарии</S.Subtitle>
                                     <S.Body3 marginTop>Клиентский сценарий</S.Body3>
@@ -211,6 +196,131 @@ export const BIViewPage = () => {
                         </S.Navigation>
                     </>
                 )}
+                {/* {data && (
+                    <>
+                        <S.DataContainer>
+                            <S.LabelsContainer>
+                                <Label
+                                    title={data.type === 0 ? 'Целевой' : 'Фактический'}
+                                    variant="contained"
+                                    type="teal"
+                                />
+                                {data.communal && (
+                                    <Label
+                                        title="Коммунальный"
+                                        variant="contained"
+                                        type="magenta"
+                                    />
+                                )}
+                                <Label
+                                    title={getStatus(data.statusId)}
+                                    variant="contained"
+                                    type="info"
+                                />
+                            </S.LabelsContainer>
+                            <S.AttributesContainer>
+                                <div id="description">
+                                    <S.Body3>Описание</S.Body3>
+                                    <S.Body2>{formatNullableString(data.descr)}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="participants">
+                                        Участники взаимодействия
+                                    </S.Subtitle>
+                                    {
+                                        // bi?.participants.length === 0 && (
+                                        // <S.Body2 marginTop>{formatNullableString(null)}</S.Body2>
+                                        // )
+                                    }
+                                    {[{ participant: 0, descr: 'Описание', value: '' }].map(
+                                        (participant, index) => (
+                                            <>
+                                                <S.Body3 marginTop>Участник {index + 1}</S.Body3>
+                                                <S.Body2>
+                                                    {getParticipant(participant.participant)}
+                                                </S.Body2>
+                                                <S.Body3 marginTop>
+                                                    Описание участника {index + 1}
+                                                </S.Body3>
+                                                <S.Body2>{participant.descr}</S.Body2>
+                                                <S.Body3 marginTop>
+                                                    Ценностный результат для участника {index + 1}
+                                                </S.Body3>
+                                                <S.Body2>
+                                                    {formatNullableString(participant.value)}
+                                                </S.Body2>
+                                            </>
+                                        ),
+                                    )}
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="feelings">Чувства и эмоции клиента</S.Subtitle>
+                                    <S.IconContainer>
+                                        {
+                                            // typeof data.feelings === 'number' && (
+                                            // <IconFeeling type={getFeelingType(bi.feelings)} />
+                                            // )
+                                        }
+                                        <IconFeeling type={getFeelingType(4)} />
+                                    </S.IconContainer>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="scenarios">Сценарии</S.Subtitle>
+                                    <S.Body3 marginTop>Клиентский сценарий</S.Body3>
+                                    <S.Body2>{formatNullableString(data.clientScenario)}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Body3>Ссылка на флоу</S.Body3>
+                                    <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Body3>Описание реакции ЕКП</S.Body3>
+                                    <S.Body2>{formatNullableString(data.ucsReaction)}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="channels">Канал</S.Subtitle>
+                                    <S.Body2>{getChannel(data.channelId)}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="documentation">Документация</S.Subtitle>
+                                    <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="mockup">Макет</S.Subtitle>
+                                    <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                </div>
+
+                                <div>
+                                    <S.Subtitle id="service">Служебные поля</S.Subtitle>
+                                    <S.Body3 marginTop>Идентификатор</S.Body3>
+                                    <S.Body2>{formatNullableString(data.uniqueIdent)}</S.Body2>
+                                </div>
+                            </S.AttributesContainer>
+                        </S.DataContainer>
+                        <S.Navigation>
+                            <FloatingNavigation
+                                items={[
+                                    { id: 'description', label: data.name },
+                                    // { id: 'participants', label: 'Участники взаимодействия' },
+                                    { id: 'feelings', label: 'Чувства и эмоции' },
+                                    { id: 'scenarios', label: 'Сценарии' },
+                                    // { id: 'channels', label: 'Канал' },
+                                    { id: 'documentation', label: 'Документация' },
+                                    { id: 'mockup', label: 'Макет' },
+                                    { id: 'service', label: 'Служебные поля' },
+                                ]}
+                            />
+                        </S.Navigation>
+                    </>
+                )} */}
                 {!bi && (
                     <S.SkeletonContainer>
                         <Skeleton height={20} radius={5} />

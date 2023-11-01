@@ -67,7 +67,7 @@ const INITIAL_CJS: CJ[] = [
                         document:
                             'https://confluence.veon.com/pages/viewpage.action?pageId=346408322',
                         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-                        channel: 0,
+                        channel: 1,
                     },
                 ],
             },
@@ -108,7 +108,7 @@ const INITIAL_CJS: CJ[] = [
                         document:
                             'https://confluence.veon.com/pages/viewpage.action?pageId=346410494',
                         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=405:64426',
-                        channel: 0,
+                        channel: 1,
                     },
                 ],
             },
@@ -142,7 +142,7 @@ const INITIAL_CJS: CJ[] = [
                         document:
                             'https://confluence.veon.com/pages/viewpage.action?pageId=346410904',
                         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-                        channel: 0,
+                        channel: 1,
                     },
                     {
                         id: 10004,
@@ -173,7 +173,7 @@ const INITIAL_CJS: CJ[] = [
                         document:
                             'https://confluence.veon.com/pages/viewpage.action?pageId=346411061',
                         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-                        channel: 0,
+                        channel: 1,
                     },
                 ],
             },
@@ -211,7 +211,7 @@ const INITIAL_CJS: CJ[] = [
                         document:
                             'https://confluence.veon.com/pages/viewpage.action?pageId=346411146',
                         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=364:57599',
-                        channel: 0,
+                        channel: 1,
                     },
                 ],
             },
@@ -245,7 +245,7 @@ const INITIAL_CJS: CJ[] = [
                         document:
                             'https://confluence.veon.com/pages/viewpage.action?pageId=346410961',
                         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-                        channel: 0,
+                        channel: 1,
                     },
                 ],
             },
@@ -282,7 +282,7 @@ const INITIAL_CJS: CJ[] = [
                         // enters: [{ enter: 0, exit: 0 }],
                         document: '',
                         mockup: '',
-                        channel: 0,
+                        channel: 1,
                     },
                 ],
             },
