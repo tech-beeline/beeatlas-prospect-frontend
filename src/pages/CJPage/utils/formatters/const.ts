@@ -2,8 +2,8 @@ export const stageIdToNameMap: Record<string, string> = {
     // '0': 'Передан в эксплуатацию',
     // '1': 'Не передан',
     // '2': 'Неизвестно',
-    '2': 'Черновик',
-    '3': 'Опубликован',
+    '3': 'Черновик',
+    '2': 'Опубликован',
 };
 
 export const participantIdToNameMap: Record<string, string> = {

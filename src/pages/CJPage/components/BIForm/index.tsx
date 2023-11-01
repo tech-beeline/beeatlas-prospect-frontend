@@ -74,6 +74,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                     <Select
                                         name="status"
                                         label="Стадия ЖЦ*"
+                                        defaultValue={3}
                                         options={[
                                             // {
                                             //     id: 0,
@@ -88,11 +89,11 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                             //     value: 'Неизвестно',
                                             // },
                                             {
-                                                id: 2,
+                                                id: 3,
                                                 value: 'Черновик',
                                             },
                                             {
-                                                id: 3,
+                                                id: 2,
                                                 value: 'Опубликован',
                                             },
                                         ]}

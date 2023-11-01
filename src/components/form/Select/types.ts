@@ -9,4 +9,5 @@ export interface ISelect {
     options: Option[];
     disabled?: boolean;
     fullWidth?: boolean;
+    defaultValue?: number;
 }
