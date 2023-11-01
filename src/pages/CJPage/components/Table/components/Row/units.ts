@@ -19,6 +19,8 @@ export const Td = styled.td<{ isClickable?: boolean }>`
 
     border-bottom: 1px solid var(--color-divider);
 
+    white-space: pre-wrap;
+
     &:first-of-type {
         position: sticky;
         left: 0;
@@ -63,7 +65,9 @@ export const OnlyTd = styled(Td)`
 
 export const LabelTd = styled(Td)`
     z-index: 2;
-    background-color: var(--color-button-plain-background-hover);
+    /* @TODO: Здесь не подходит rgba цвет из-за прозрачности */
+    /* background-color: var(--color-button-plain-background-hover); */
+    background-color: #edf4fd;
 `;
 
 export const ButtonContainer = styled.div`

@@ -59,6 +59,8 @@ export const Body2 = styled.div<{ marginTop?: boolean }>`
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
 
+    white-space: pre-wrap;
+
     margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
 `;
 

@@ -95,7 +95,9 @@ export const Th = styled.th<{ backgroundColor?: string }>`
 `;
 
 export const LabelTh = styled(Th)`
-    background-color: var(--color-button-plain-background-pressed);
+    /* @TODO: Здесь не подходит rgba цвет из-за прозрачности */
+    /* background-color: var(--color-button-plain-background-pressed); */
+    background-color: #e3eefc;
 `;
 
 export const Td = styled.td<{ isClickable?: boolean }>`

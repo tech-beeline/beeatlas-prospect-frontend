@@ -4,7 +4,7 @@ import { Nullable } from 'types/common';
 
 import { useModal } from 'hooks';
 import { useMockCJtore } from 'pages/CJLibraryPage/mocks';
-import { BI, Step, tableInitialData } from 'pages/CJPage/mocks';
+import { BI, Step } from 'pages/CJPage/mocks';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -52,7 +52,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
         const colorCount = colors.length;
 
         const newData = data.map((item, index) => {
-            const colorIndex = index % (colorCount + 1);
+            const colorIndex = index % colorCount;
             const color = colors[colorIndex];
 
             return {
@@ -66,9 +66,9 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
 
     useEffect(() => {
         if (tableData.some((step) => !step.color)) {
-            addColors(tableInitialData, colors);
+            addColors(tableData, colors);
         }
-    }, []);
+    }, [tableData]);
 
     const changePositionOfColumn = (index: number, isRight?: boolean) => {
         const copyOfData = [...tableData];
