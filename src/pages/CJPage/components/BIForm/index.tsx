@@ -108,17 +108,17 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <S.SubTitle id="scenarios">Сценарии</S.SubTitle>
 
-                            <TextArea name="clientScenario" label="Клиентский сценарий" />
+                            <TextArea name="clientScenario" label="Клиентский сценарий*" />
 
                             <TextField name="flowLink" label="Ссылка на флоу" />
 
-                            <TextArea name="ucsReaction" label="Описание реакции ЕКП" />
+                            <TextArea name="ucsReaction" label="Описание реакции ЕКП*" />
 
                             <S.SubTitle id="channels">Каналы</S.SubTitle>
 
                             <Select
                                 name="channel"
-                                label="Канал"
+                                label="Канал*"
                                 options={[
                                     {
                                         id: 0,
