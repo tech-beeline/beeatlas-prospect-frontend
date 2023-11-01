@@ -73,19 +73,27 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 <S.GrowContainer>
                                     <Select
                                         name="status"
-                                        label="Стадия ЖЦ"
+                                        label="Стадия ЖЦ*"
                                         options={[
-                                            {
-                                                id: 0,
-                                                value: 'Передан в эксплуатацию',
-                                            },
-                                            {
-                                                id: 1,
-                                                value: 'Не передан',
-                                            },
+                                            // {
+                                            //     id: 0,
+                                            //     value: 'Передан в эксплуатацию',
+                                            // },
+                                            // {
+                                            //     id: 1,
+                                            //     value: 'Не передан',
+                                            // },
+                                            // {
+                                            //     id: 2,
+                                            //     value: 'Неизвестно',
+                                            // },
                                             {
                                                 id: 2,
-                                                value: 'Неизвестно',
+                                                value: 'Черновик',
+                                            },
+                                            {
+                                                id: 3,
+                                                value: 'Опубликован',
                                             },
                                         ]}
                                     />
@@ -135,6 +143,30 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                     {
                                         id: 3,
                                         value: 'Личный кабинет',
+                                    },
+                                    {
+                                        id: 4,
+                                        value: 'Партнерские витрины',
+                                    },
+                                    {
+                                        id: 5,
+                                        value: 'Собственные офисы продаж',
+                                    },
+                                    {
+                                        id: 6,
+                                        value: 'Офисы продаж (мультибренд)',
+                                    },
+                                    {
+                                        id: 7,
+                                        value: 'Офисы продаж (франшиза)',
+                                    },
+                                    {
+                                        id: 8,
+                                        value: 'Персональная поддержка',
+                                    },
+                                    {
+                                        id: 9,
+                                        value: 'Поддержка',
                                     },
                                 ]}
                             />
