@@ -43,7 +43,8 @@ module.exports = merge(commonConfig, {
                 logLevel: 'debug' /*optional*/,
             },
             '/api/v1/auth': {
-                target: 'https://auth-lke.kube.vimpelcom.ru',
+                // target: 'https://auth-lke.kube.vimpelcom.ru',
+                target: 'https://eauth-dev.apps.yd-kt05.vimpelcom.ru',
                 changeOrigin: true,
                 // pathRewrite: { '^/api/v1/auth': '' },
                 logLevel: 'debug' /*optional*/,

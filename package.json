@@ -24,7 +24,7 @@
     "dependencies": {
         "@beeline/design-system-react": "1.0.0-beta.4",
         "@beeline/design-tokens": "1.8.0",
-        "@beeline/lk-auth": "2.1.0",
+        "@beeline/lk-auth": "5.0.2",
         "@emotion/react": "11.9.3",
         "@emotion/styled": "11.9.3",
         "@hookform/resolvers": "3.1.1",

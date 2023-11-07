@@ -6,7 +6,14 @@ import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, LOCALHOST_LINK } from 'utils/const'
 
 import { useAuthStore } from '../store';
 
-const auth = new VKITAuth(isFunc ? FUNC_MOCK_AUTH_LINK : isDev ? LOCALHOST_LINK : '');
+const auth = new VKITAuth({
+    authUrl: isFunc
+        ? FUNC_MOCK_AUTH_LINK
+        : isDev
+        ? LOCALHOST_LINK
+        : // @TODO Через какое-то время должен поменять адрес авторизации в самой библиотеке
+          'https://eauth-dev.apps.yd-kt05.vimpelcom.ru',
+});
 
 export const useAuth = () => {
     const { isAuth, setIsAuth, userInfo, setUserInfo, setTokens, setCodeAndState } = useAuthStore();
