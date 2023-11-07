@@ -2,9 +2,14 @@ export { AppInfoPage } from './AppInfoPage';
 // TODO: убрать
 export { AddRollPage } from './AddRollPage';
 export { ArchCommPage } from './ArchCommPage';
+export { BIAddPage } from './BIAddPage';
+export { BILibraryPage } from './BILibraryPage';
+export { BIViewPage } from './BIViewPage';
 export { CalendarPage } from './CalendarPage';
+export { CJLibraryPage } from './CJLibraryPage';
 export { CJPage } from './CJPage';
 export { ConsultationPage } from './ConsultationPage';
+export { CXPage } from './CXPage';
 export { DataBasePage } from './DataBasePage';
 export { FDMPage } from './FDMPage';
 export { FDMResultPage } from './FDMResultPage';

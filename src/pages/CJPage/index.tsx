@@ -1,72 +1,97 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Icon, TextField } from '@beeline/design-system-react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { observer } from 'mobx-react';
 
-import { BIForm } from './components/BIForm';
-import { SideBlock } from './components/SideBlock';
+// import { useUpdateCJMutation } from 'api/queries/cj';
+// import { useGetCompleteCJDataByIdQuery, useUpdateCJMutation } from 'api/queries/cj';
+import { CJ, useMockCJtore } from 'pages/CJLibraryPage/mocks';
+import { useSnackbarStore } from 'widgets/Snackbar';
+
+import { CJForm } from './components/CJForm';
 import { Table } from './components/Table';
+import { Step } from './mocks';
 import * as S from './units';
 
-const SettingsCJContent = ({ setOpen, name, subName, setName, setSubName }: any) => {
-    const [nameValue, setNameValue] = useState(name);
-    const [subNameValue, setSubNameValue] = useState(subName);
+export const CJPage = () => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
 
-    const onSaveHandler = () => {
-        setName(nameValue);
-        setSubName(subNameValue);
+    const { getCjById, updateCj } = useMockCJtore();
 
-        setOpen(false);
-    };
+    // const { data } = useGetCompleteCJDataByIdQuery(paramId);
+    // const { mutateAsync: updateCJ, isLoading: updatingCj } = useUpdateCJMutation();
 
-    return (
-        <>
-            <S.FlexWrapper>
-                <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
-
-                <Icon
-                    iconName={Icons.Close}
-                    onClick={() => setOpen(false)}
-                    style={{ cursor: 'pointer' }}
-                />
-            </S.FlexWrapper>
-
-            <S.TextFieldContainer>
-                <TextField
-                    value={nameValue}
-                    onChange={({ target: { value } }) => setNameValue(value)}
-                    label="Название"
-                    fullWidth
-                />
-
-                <TextField
-                    value={subNameValue}
-                    onChange={({ target: { value } }) => setSubNameValue(value)}
-                    label="Портрет пользователя"
-                    fullWidth
-                />
-            </S.TextFieldContainer>
-
-            <S.ButtonContainer>
-                <Button onClick={() => setOpen(false)}>Отменить</Button>
-
-                <Button variant="contained" onClick={onSaveHandler}>
-                    Сохранить
-                </Button>
-            </S.ButtonContainer>
-        </>
-    );
-};
-
-export const CJPage = observer(() => {
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
-    const [isOpenBIForm, setOpenBIForm] = useState(false);
 
+    const [cj, setCj] = useState<CJ | null>(null);
+    const [tableData, setTableData] = useState<Step[]>([]);
     const [name, setName] = useState('Название CJ');
     const [subName, setSubName] = useState('Портрет пользователя');
 
+    // useEffect(() => {
+    //     if (data) {
+    //         setName(data.name);
+    //         setSubName(data.user_portrait);
+    //         setTableData(
+    //             data.steps.map((step) => ({
+    //                 id: step.id,
+    //                 order: step.order,
+    //                 columnName: step.name,
+    //                 bis: [],
+    //             })),
+    //         );
+    //     }
+    // }, [data]);
+
+    useEffect(() => {
+        if (paramId) {
+            const cj = getCjById(Number(paramId));
+            if (cj) {
+                setName(cj.name);
+                setSubName(cj.descr);
+                setTableData(cj.steps);
+                setCj(cj);
+            }
+        }
+    }, [paramId, getCjById]);
+
     const navigate = useNavigate();
+
+    // const handleSave = (draft: boolean) => {
+    //     if (cj) {
+    //         updateCj(Number(paramId), { ...cj, draft, name, descr: subName, steps: tableData });
+    //     } else {
+    //         createCj({ draft, name, descr: subName, steps: tableData });
+    //     }
+    //     navigate(-1);
+    // };
+
+    const handleSave = () => {
+        if (cj) {
+            updateCj(Number(paramId), { ...cj, draft: !cj.draft });
+        }
+        navigate(-1);
+    };
+
+    // const handlePublish = () => {
+    //     if (data) {
+    //         updateCJ({
+    //             id: String(data.id),
+    //             data: { draft: false, name: data.name, user_portrait: data.user_portrait },
+    //         });
+    //     }
+    // };
+
+    // const handleMarkAsDraft = () => {
+    //     if (data) {
+    //         updateCJ({
+    //             id: String(data.id),
+    //             data: { draft: true, name: data.name, user_portrait: data.user_portrait },
+    //         });
+    //     }
+    // };
 
     return (
         <S.PageWrapper>
@@ -91,28 +116,54 @@ export const CJPage = observer(() => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button onClick={() => setOpenBIForm(!isOpenBIForm)}>
-                        Сохранить как черновик
-                    </Button>
+                    <Button onClick={() => navigate(-1)}>Закрыть</Button>
 
-                    <Button variant="contained">Опубликовать</Button>
+                    {cj && (
+                        <Button variant="contained" onClick={() => handleSave()}>
+                            {cj.draft ? 'Опубликовать' : 'Перевести в черновик'}
+                        </Button>
+                    )}
+                    {/* {data && (
+                        <Button
+                            variant="contained"
+                            onClick={data.draft ? handlePublish : handleMarkAsDraft}
+                            disabled={updatingCj}
+                        >
+                            {data.draft ? 'Опубликовать' : 'Перевести в черновик'}
+                        </Button>
+                    )} */}
                 </S.FlexSideContainer>
             </S.Header>
 
-            <Table />
+            {cj && <Table cjId={cj.id} tableData={tableData} setTableData={setTableData} />}
+            {/* {data && <Table cjId={data.id} tableData={tableData} setTableData={setTableData} />} */}
 
-            <SideBlock
+            <CJForm
                 isOpen={isOpenSettingsCJ}
-                setOpen={setOpenSettingsCJ}
-                toggleId="buttonToggleId"
-            >
-                <SettingsCJContent
-                    setOpen={setOpenSettingsCJ}
-                    {...{ name, subName, setName, setSubName }}
-                />
-            </SideBlock>
-
-            <BIForm isOpen={isOpenBIForm} setOpen={setOpenBIForm} />
+                onClose={() => setOpenSettingsCJ(false)}
+                updateCJ={(values) => {
+                    if (cj) {
+                        updateCj(cj.id, { ...cj, name: values.name, descr: values.userPortrait });
+                    }
+                    setName(values.name), setSubName(values.userPortrait);
+                    showSnackbar({ message: 'Изменения сохранены' });
+                }}
+                // updateCJ={async (values) => {
+                //     if (data) {
+                //         await updateCJ({
+                //             id: String(data.id),
+                //             data: {
+                //                 draft: data.draft,
+                //                 name: values.name,
+                //                 user_portrait: values.userPortrait,
+                //             },
+                //         });
+                //     }
+                //     // setName(values.name), setSubName(values.userPortrait);
+                //     showSnackbar({ message: 'Изменения сохранены' });
+                // }}
+                values={{ name, userPortrait: subName }}
+            />
         </S.PageWrapper>
     );
-});
+};

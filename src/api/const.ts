@@ -5,3 +5,5 @@ const DEV_API = 'https://eafdmmart-backend-dev-eafdmmart.apps.yd-m6-kt22.vimpelc
 const PROD_API = '/api/';
 
 export const API_URL = IS_DEV ? DEV_API : PROD_API;
+
+export const MOCK_PRODUCT_ID = 1;

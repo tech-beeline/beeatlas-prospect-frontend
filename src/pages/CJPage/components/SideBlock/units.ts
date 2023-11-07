@@ -12,10 +12,13 @@ export const Container = styled.div<{ isOpen: boolean }>`
     padding: 20px 16px;
 
     background-color: var(--color-background-base);
+    color: var(--color-text-active);
 
     border-left: 1px solid var(--color-divider);
 
     z-index: 10;
+
+    overflow: auto;
 
     transition: transform 0.25s ease-out;
 `;

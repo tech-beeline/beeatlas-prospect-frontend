@@ -22,7 +22,8 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
     const tabs = [
         { name: 'Модели', url: 'models' },
         { name: 'База знаний', url: 'data-base' },
-        { name: 'Продукты', url: 'products' },
+        // { name: 'Продукты', url: 'products' },
+        // { name: 'Поддержка Cx', url: 'cx' },
     ];
 
     return (

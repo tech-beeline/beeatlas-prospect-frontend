@@ -182,6 +182,16 @@ export const GlobalStyles = () => {
                     color: var(--color-background-base);
                 } */
 
+                .dsb__positioner {
+                    z-index: 1001;
+                }
+
+                /* Для случая, когда на странице несколько TextArea, т.к. при нажатии на лейбл фокус всегда ставится на первый TextArea */
+                .dsb_textarea-label {
+                    pointer-events: none;
+                    user-select: none;
+                }
+
                 .dsb__select__options__item {
                     color: var(--color-text-active);
                 }

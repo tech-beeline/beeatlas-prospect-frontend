@@ -1,6 +1,7 @@
 export { CustomRadarLogo } from './CustomRadarLogo';
 export { Expand } from './Expand';
 export { IconCard } from './IconCard';
+export { FeelingTypes, IconFeeling } from './IconFeeling';
 export { IconText } from './IconText';
 export { PivotArrow } from './PivotArrow';
 export { ProfileIcon } from './ProfileIcon';

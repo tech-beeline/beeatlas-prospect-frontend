@@ -52,7 +52,7 @@ export const Thead = styled.thead`
 
     text-align: left;
 
-    z-index: 1;
+    z-index: 3;
 `;
 
 export const Tbody = styled.tbody`
@@ -94,6 +94,12 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     }
 `;
 
+export const LabelTh = styled(Th)`
+    /* @TODO: Здесь не подходит rgba цвет из-за прозрачности */
+    /* background-color: var(--color-button-plain-background-pressed); */
+    background-color: #e3eefc;
+`;
+
 export const Td = styled.td<{ isClickable?: boolean }>`
     min-width: 320px;
     height: 52px;
@@ -129,6 +135,10 @@ export const Td = styled.td<{ isClickable?: boolean }>`
                 }
             }
         `}
+`;
+
+export const LabelTd = styled(Td)`
+    z-index: 2;
 `;
 
 // -----------------------------------------------------------
@@ -200,6 +210,14 @@ export const AlignItemsCenterWrapper = styled.div`
     gap: 20px;
 
     width: 100%;
+
+    span {
+        display: none;
+    }
+
+    :hover > span {
+        display: inline;
+    }
 `;
 
 export const HideOrShowButton = styled.div`
@@ -253,4 +271,10 @@ export const ButtonContainer = styled.div`
 
 export const MenuItemStyled = styled(MenuItem)`
     justify-content: space-between;
+`;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;

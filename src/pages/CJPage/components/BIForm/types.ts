@@ -1,6 +1,9 @@
-import { Dispatch, SetStateAction } from 'react';
+import { FormValues } from './form';
 
 export interface IBIForm {
-    isOpen: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
+    onClose: () => void;
+    onSave: (values: FormValues) => void;
+    defaultValues?: FormValues;
+    showButtons?: boolean;
+    fullscreen?: boolean;
 }
