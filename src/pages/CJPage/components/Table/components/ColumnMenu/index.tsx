@@ -14,6 +14,9 @@ import { IColumnMenu } from './types';
 import * as S from './units';
 
 export const ColumnMenu: FC<IColumnMenu> = ({
+    // cjId,
+    // stepId,
+    // stepName,
     tableDataLength,
     stepIndex,
     addStep,
@@ -22,9 +25,9 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     setOpenSideBlockName,
     setRenameIndex,
 }) => {
-    // const { mutateAsync: deleteS, isLoading: deletingStep } = useDeleteCJStepMutation();
-    // const { mutateAsync: createStep, isLoading: creatingStep } = useCreateCJStepMutation();
-    // const { mutateAsync: updateStep, isLoading: updatingStep } = useUpdateCJStepMutation();
+    // const { mutateAsync: deleteStep } = useDeleteCJStepMutation();
+    // const { mutateAsync: createStep } = useCreateCJStepMutation();
+    // const { mutateAsync: updateStep } = useUpdateCJStepMutation();
 
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -64,7 +67,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
 
     // const handleAddColumnClick = async (before: boolean) => {
     //     await createStep({
-    //         cjId: '1',
+    //         cjId: String(cjId),
     //         data: { name: 'Название шага', order: before ? stepIndex : stepIndex + 1 },
     //     });
     //     showSnackbar({ message: 'Шаг добавлен' });
@@ -78,9 +81,9 @@ export const ColumnMenu: FC<IColumnMenu> = ({
 
     // const handleChangePositionClick = async (right: boolean) => {
     //     await updateStep({
-    //         cjId: '1',
-    //         stepId: '1',
-    //         data: { name: '1123', order: right ? stepIndex + 1 : stepIndex - 1 },
+    //         cjId: String(cjId),
+    //         stepId: String(stepId),
+    //         data: { name: stepName, order: right ? stepIndex + 1 : stepIndex - 1 },
     //     });
     //     showSnackbar({ message: 'Шаг перемещён' });
     //     hideMenuHandler();
@@ -93,7 +96,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     };
 
     // const handleDeleteStepClick = async () => {
-    //     await deleteS({ cjId: '1', stepId: '1' });
+    //     await deleteStep({ cjId: String(cjId), stepId: String(stepId) });
     //     showSnackbar({ message: 'Шаг удалён' });
     //     hideMenuHandler();
     // };

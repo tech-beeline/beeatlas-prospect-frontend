@@ -11,6 +11,7 @@ import { IBiItem } from './types';
 
 export const BiItem: FC<IBiItem> = ({
     bi,
+    // newBi,
     index,
     totalLength,
     setSelectedBiId,
@@ -22,7 +23,7 @@ export const BiItem: FC<IBiItem> = ({
         <S.BIFlexWrapper>
             <S.TitleFlexWrapper>
                 <BiMenu
-                    bi={bi}
+                    biId={bi.id}
                     index={index}
                     totalLength={totalLength}
                     removeBi={removeBi}
@@ -31,6 +32,8 @@ export const BiItem: FC<IBiItem> = ({
                 <div>
                     <S.Body2>{bi.name}</S.Body2>
                     <S.Body3>{bi.identificator}</S.Body3>
+                    {/* <S.Body2>{newBi.name}</S.Body2>
+                    <S.Body3>{newBi.uniqueIdent}</S.Body3> */}
                 </div>
             </S.TitleFlexWrapper>
             <IconButton
@@ -41,6 +44,14 @@ export const BiItem: FC<IBiItem> = ({
                     setStage(Stage.SELECTEDBIVIEW);
                 }}
             />
+            {/* <IconButton
+                iconName={Icons.NavArrowRight}
+                size="large"
+                onClick={() => {
+                    setSelectedBiId(newBi.id);
+                    setStage(Stage.SELECTEDBIVIEW);
+                }}
+            /> */}
         </S.BIFlexWrapper>
     );
 };

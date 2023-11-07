@@ -1,7 +1,5 @@
-import { BI } from 'pages/CJPage/mocks';
-
 export interface IBiMenu {
-    bi: BI;
+    biId: number;
     index: number;
     totalLength: number;
 

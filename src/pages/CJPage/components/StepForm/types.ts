@@ -1,7 +1,9 @@
-import { BI } from 'pages/CJPage/mocks';
+import { BI, Step } from 'pages/CJPage/mocks';
 export interface IStepForm {
+    cjId: number;
     isOpen: boolean;
     defaultName: string;
+    step: Step;
     onClose: () => void;
     updateStep: (name: string, BIs: BI[]) => void;
     initialBIs: BI[];

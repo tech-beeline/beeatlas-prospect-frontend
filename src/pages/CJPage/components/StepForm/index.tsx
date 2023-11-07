@@ -2,6 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { IBIData } from 'api/bi/types';
+// import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
+// import { dataToFormValues, formValuesToData } from 'pages/BIAddPage/helpers';
 import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 
 import { BIForm } from '../BIForm';
@@ -12,6 +15,8 @@ import { IStepForm, Stage } from './types';
 import * as S from './units';
 
 export const StepForm: FC<IStepForm> = ({
+    cjId,
+    step,
     defaultName,
     isOpen,
     updateStep,
@@ -26,6 +31,10 @@ export const StepForm: FC<IStepForm> = ({
     const selectedBi = getBiById(selectedBiId ?? -1);
     const [stepBIs, setStepBIs] = useState(initialBIs);
 
+    // const { data } = useGetBIByIdQuery(selectedBiId ? String(selectedBiId) : null);
+    // const { mutateAsync: createBi } = useCreateBIMutation();
+    // const { mutateAsync: updateBi } = useUpdateBIMutation();
+
     useEffect(() => {
         setStepBIs(initialBIs);
     }, [initialBIs]);
@@ -37,6 +46,11 @@ export const StepForm: FC<IStepForm> = ({
     const addBI = (bi: BI) => {
         setStepBIs([...stepBIs, bi]);
     };
+
+    const [newStepBIs, setNewStepBIs] = useState<IBIData[]>([]);
+    // const addNewBI = (bi: IBIData) => {
+    //     setNewStepBIs([...newStepBIs, bi]);
+    // };
 
     const handleCloseClick = () => {
         onClose();
@@ -50,10 +64,15 @@ export const StepForm: FC<IStepForm> = ({
             {stage === Stage.SETTINGS && (
                 <StepSettings
                     key={String(isOpen)}
+                    cjId={cjId}
+                    stepId={step.id ?? 0}
+                    stepOrder={step.order ?? 0}
                     name={name}
                     setName={setName}
                     stepBIs={stepBIs}
                     setStepBIs={setStepBIs}
+                    newStepBis={newStepBIs}
+                    setNewStepBis={setNewStepBIs}
                     onClose={handleCloseClick}
                     updateStep={updateStep}
                     setSelectedBiId={setSelectedBiId}
@@ -70,6 +89,9 @@ export const StepForm: FC<IStepForm> = ({
             {stage === Stage.BIVIEW && selectedBiId && (
                 <BiView setStage={setStage} selectedBiId={selectedBiId} addBi={addBI} />
             )}
+            {/* {stage === Stage.BIVIEW && selectedBiId && (
+                <BiView setStage={setStage} selectedBiId={selectedBiId} addNewBi={addNewBI} />
+            )} */}
             {stage === Stage.SELECTEDBIVIEW && selectedBiId && (
                 <BiView
                     setStage={setStage}
@@ -93,6 +115,10 @@ export const StepForm: FC<IStepForm> = ({
                         onClose={() => setStage(Stage.BISEARCH)}
                         onSave={(values) => createBi(values)}
                     />
+                    {/* <BIForm
+                        onClose={() => setStage(Stage.BISEARCH)}
+                        onSave={(values) => createBi(formValuesToData(values))}
+                    /> */}
                 </>
             )}
             {stage === Stage.BIEDIT && (
@@ -110,6 +136,14 @@ export const StepForm: FC<IStepForm> = ({
                         onSave={(values) => selectedBiId && updateBi(selectedBiId, values)}
                         defaultValues={selectedBi}
                     />
+                    {/* <BIForm
+                        onClose={() => setStage(Stage.BIVIEW)}
+                        onSave={(values) =>
+                            selectedBiId &&
+                            updateBi({ id: String(selectedBiId), data: formValuesToData(values) })
+                        }
+                        defaultValues={data ? dataToFormValues(data) : undefined}
+                    /> */}
                 </>
             )}
         </SideBlock>

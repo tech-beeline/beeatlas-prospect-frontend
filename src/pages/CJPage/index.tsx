@@ -4,7 +4,7 @@ import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 // import { useUpdateCJMutation } from 'api/queries/cj';
-// import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
+// import { useGetCompleteCJDataByIdQuery, useUpdateCJMutation } from 'api/queries/cj';
 import { CJ, useMockCJtore } from 'pages/CJLibraryPage/mocks';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -21,7 +21,7 @@ export const CJPage = () => {
     const { getCjById, updateCj } = useMockCJtore();
 
     // const { data } = useGetCompleteCJDataByIdQuery(paramId);
-    // const { mutateAsync: updateCJ } = useUpdateCJMutation();
+    // const { mutateAsync: updateCJ, isLoading: updatingCj } = useUpdateCJMutation();
 
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
 
@@ -34,7 +34,14 @@ export const CJPage = () => {
     //     if (data) {
     //         setName(data.name);
     //         setSubName(data.user_portrait);
-    //         setTableData(data.steps.map((step) => ({ columnName: step.name, bis: [] })));
+    //         setTableData(
+    //             data.steps.map((step) => ({
+    //                 id: step.id,
+    //                 order: step.order,
+    //                 columnName: step.name,
+    //                 bis: [],
+    //             })),
+    //         );
     //     }
     // }, [data]);
 
@@ -69,14 +76,20 @@ export const CJPage = () => {
     };
 
     // const handlePublish = () => {
-    //     if (data.id) {
-    //         updateCJ({ id: data.id, data: { draft: false } });
+    //     if (data) {
+    //         updateCJ({
+    //             id: String(data.id),
+    //             data: { draft: false, name: data.name, user_portrait: data.user_portrait },
+    //         });
     //     }
     // };
 
     // const handleMarkAsDraft = () => {
-    //     if (data.id) {
-    //         updateCJ({ id: data.id, data: { draft: true } });
+    //     if (data) {
+    //         updateCJ({
+    //             id: String(data.id),
+    //             data: { draft: true, name: data.name, user_portrait: data.user_portrait },
+    //         });
     //     }
     // };
 
@@ -110,10 +123,20 @@ export const CJPage = () => {
                             {cj.draft ? 'Опубликовать' : 'Перевести в черновик'}
                         </Button>
                     )}
+                    {/* {data && (
+                        <Button
+                            variant="contained"
+                            onClick={data.draft ? handlePublish : handleMarkAsDraft}
+                            disabled={updatingCj}
+                        >
+                            {data.draft ? 'Опубликовать' : 'Перевести в черновик'}
+                        </Button>
+                    )} */}
                 </S.FlexSideContainer>
             </S.Header>
 
             {cj && <Table cjId={cj.id} tableData={tableData} setTableData={setTableData} />}
+            {/* {data && <Table cjId={data.id} tableData={tableData} setTableData={setTableData} />} */}
 
             <CJForm
                 isOpen={isOpenSettingsCJ}
@@ -125,6 +148,20 @@ export const CJPage = () => {
                     setName(values.name), setSubName(values.userPortrait);
                     showSnackbar({ message: 'Изменения сохранены' });
                 }}
+                // updateCJ={async (values) => {
+                //     if (data) {
+                //         await updateCJ({
+                //             id: String(data.id),
+                //             data: {
+                //                 draft: data.draft,
+                //                 name: values.name,
+                //                 user_portrait: values.userPortrait,
+                //             },
+                //         });
+                //     }
+                //     // setName(values.name), setSubName(values.userPortrait);
+                //     showSnackbar({ message: 'Изменения сохранены' });
+                // }}
                 values={{ name, userPortrait: subName }}
             />
         </S.PageWrapper>

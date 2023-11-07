@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
     deleteCJ,
     deleteCJStep,
+    getAllCJs,
     getCJById,
     getCJStepById,
     getCJStepCollection,
@@ -16,8 +17,8 @@ import { ICJData, ICJForm, ICJStepData, ICJStepForm } from 'api/cj/types';
 export const CJ_PREFIX = 'CJ_PREFIX';
 const STEP_PREFIX = 'STEP_PREFIX';
 
-export const useGetCJCollectionQuery = () => {
-    return useQuery<ICJData[]>([CJ_PREFIX, 'all'], () => getCJById('1').then((res) => [res.data]));
+export const useGetCJCollectionQuery = (search: string) => {
+    return useQuery<ICJData[]>([CJ_PREFIX, 'all'], () => getAllCJs(search).then((res) => res.data));
 };
 
 export const useGetCJByIdQuery = (id: string | undefined | null) => {
@@ -41,6 +42,7 @@ export function useCreateCJWithEmptyStepMutation() {
         [CJ_PREFIX, 'createWithStep'],
         async () => {
             const cjData = await postCJ({
+                draft: true,
                 name: 'Название CJ',
                 user_portrait: 'Портрет пользователя',
             });

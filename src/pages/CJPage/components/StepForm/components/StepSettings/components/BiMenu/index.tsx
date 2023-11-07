@@ -7,7 +7,7 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import { IBiMenu } from './types';
 import * as S from './units';
 
-export const BiMenu: FC<IBiMenu> = ({ bi, index, totalLength, removeBi, moveBi }) => {
+export const BiMenu: FC<IBiMenu> = ({ biId, index, totalLength, removeBi, moveBi }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -22,7 +22,7 @@ export const BiMenu: FC<IBiMenu> = ({ bi, index, totalLength, removeBi, moveBi }
     return (
         <>
             <S.IconStyled
-                id={String(bi.id) + index}
+                id={String(biId) + index}
                 iconName={Icons.MoreVert}
                 ref={menuButtonRef}
                 onClick={handleIconClick}
@@ -59,7 +59,7 @@ export const BiMenu: FC<IBiMenu> = ({ bi, index, totalLength, removeBi, moveBi }
 
                         {totalLength > 1 && <S.MenuDivider />}
 
-                        <S.MenuItem onClick={() => removeBi(bi.id)}>
+                        <S.MenuItem onClick={() => removeBi(biId)}>
                             <S.DeleteIcon iconName={Icons.Delete} />
 
                             <S.MenuItemRemoveText>Удалить</S.MenuItemRemoveText>

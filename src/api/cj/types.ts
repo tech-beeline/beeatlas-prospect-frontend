@@ -1,4 +1,5 @@
 export interface ICJForm {
+    draft: boolean;
     name: string;
     user_portrait: string;
 }

@@ -32,6 +32,8 @@ export interface BI {
 }
 
 export interface Step {
+    id?: number;
+    order?: number;
     color?: string;
     columnName?: string;
 

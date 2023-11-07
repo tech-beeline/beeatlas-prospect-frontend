@@ -2,8 +2,11 @@ import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label } from '@beeline/design-system-react';
 
-// import { useCreateCJWithEmptyStepMutation } from 'api/queries/cj';
-// import { useDeleteCJMutation, useGetCJCollectionQuery } from 'api/queries/cj';
+// import {
+//     useCreateCJWithEmptyStepMutation,
+//     useDeleteCJMutation,
+//     useGetCJCollectionQuery,
+// } from 'api/queries/cj';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
@@ -14,7 +17,7 @@ import * as S from './units';
 export const CJLibraryPage = () => {
     const { cjs, createCj, deleteCj } = useMockCJtore();
 
-    // const { data, isLoading } = useGetCJCollectionQuery();
+    // const { data, isLoading } = useGetCJCollectionQuery('');
     // const { mutateAsync: deleteCj } = useDeleteCJMutation();
     // const { mutateAsync: createCJ, isLoading: creatingCJ } = useCreateCJWithEmptyStepMutation();
 

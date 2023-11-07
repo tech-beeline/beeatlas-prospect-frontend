@@ -8,7 +8,7 @@ import { CJ_PREFIX } from '../cj';
 const BI_PREFIX = 'BI_PREFIX';
 
 export const useGetBICollectionQuery = (search: string) => {
-    return useQuery<IBIData[]>([BI_PREFIX, 'all'], () =>
+    return useQuery<IBIData[]>([BI_PREFIX, 'all', search], () =>
         getBICollection(search).then((res) => res.data),
     );
 };

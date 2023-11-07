@@ -6,9 +6,15 @@ import { API_URL, MOCK_PRODUCT_ID } from '../const';
 
 import * as T from './types';
 
+export const getAllCJs = (search: string): AxiosPromise<T.ICJData[]> => {
+    return Api.get({
+        url: `${API_URL}cx/v1/product/cj?sample=ALL&search=${search}`,
+    });
+};
+
 export const getCJById = (id: string): AxiosPromise<T.ICJData> => {
     return Api.get({
-        url: `${API_URL}cx/v1/product/${MOCK_PRODUCT_ID}/cj/${id}`,
+        url: `${API_URL}cx/v1/product/cj/${id}`,
     });
 };
 

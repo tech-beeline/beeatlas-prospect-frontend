@@ -55,3 +55,21 @@ export const useModal = () => {
         closeModal,
     };
 };
+
+const DEFAULT_DEBOUNCE_TIMEOUT = 300;
+
+export const useDebounce = <T>(value: T, delay = DEFAULT_DEBOUNCE_TIMEOUT) => {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};

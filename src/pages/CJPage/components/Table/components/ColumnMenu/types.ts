@@ -1,4 +1,7 @@
 export interface IColumnMenu {
+    cjId: number;
+    stepId: number;
+    stepName: string;
     tableDataLength: number;
     stepIndex: number;
     addStep: (index: number) => void;

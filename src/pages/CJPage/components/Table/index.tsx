@@ -161,6 +161,9 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                                         <p data-testid={`${stepIndex}Step`}>{step.columnName}</p>
 
                                         <ColumnMenu
+                                            cjId={cjId}
+                                            stepId={step.id ?? 0}
+                                            stepName={step.columnName ?? ''}
                                             addStep={addNewColumn}
                                             changePositionOfStep={changePositionOfColumn}
                                             deleteStep={removeColumn}
@@ -366,13 +369,24 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                 </S.Table>
             </S.TableWrapper>
 
-            <StepForm
+            {/* <StepForm
                 isOpen={stepFormOpened}
                 onClose={closeStepForm}
                 updateStep={updateStep}
                 defaultName={tableData[selectedStep ?? 0]?.columnName ?? ''}
                 initialBIs={tableData[selectedStep ?? 0]?.bis ?? []}
-            />
+            /> */}
+            {tableData[selectedStep ?? 0] && (
+                <StepForm
+                    cjId={cjId}
+                    step={tableData[selectedStep ?? 0]}
+                    isOpen={stepFormOpened}
+                    onClose={closeStepForm}
+                    updateStep={updateStep}
+                    defaultName={tableData[selectedStep ?? 0]?.columnName ?? ''}
+                    initialBIs={tableData[selectedStep ?? 0]?.bis ?? []}
+                />
+            )}
         </S.PageWrapper>
     );
 };

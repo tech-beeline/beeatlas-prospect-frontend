@@ -1,7 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
+// import React, { FC, useState } from 'react';
 import { Button, IconButton, Search } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+// import { useGetBICollectionQuery } from 'api/queries/bi';
+// import { useDebounce } from 'hooks';
 import { useMockBIStore } from 'pages/CJPage/mocks';
 
 import { Stage } from '../../types';
@@ -14,6 +17,9 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
 
     const [search, setSearch] = useState('');
 
+    // const debouncedSearch = useDebounce(search);
+
+    // const { data } = useGetBICollectionQuery(debouncedSearch);
     const [filteredBis, setFilteredBis] = useState(bis);
 
     useEffect(() => {
@@ -24,8 +30,13 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
         );
     }, [search]);
 
+    // const filteredData = (data ?? []).filter((bi) => !selectedBiIds.includes(bi.id));
+
     const productSearchBis = filteredBis.filter((bi) => !bi.communal);
     const communalSearchBis = filteredBis.filter((bi) => bi.communal);
+
+    // const productSearchBis = filteredData.filter((bi) => !bi.communal);
+    // const communalSearchBis = filteredData.filter((bi) => bi.communal);
 
     return (
         <>
@@ -61,6 +72,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                     <div>
                         <S.Body2>{bi.name}</S.Body2>
                         <S.Body3>{bi.identificator}</S.Body3>
+                        {/* <S.Body3>{bi.uniqueIdent}</S.Body3> */}
                     </div>
                     <IconButton
                         iconName={Icons.NavArrowRight}
@@ -81,6 +93,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                     <div>
                         <S.Body2>{bi.name}</S.Body2>
                         <S.Body3>{bi.identificator}</S.Body3>
+                        {/* <S.Body3>{bi.uniqueIdent}</S.Body3> */}
                     </div>
                     <IconButton
                         iconName={Icons.NavArrowRight}
