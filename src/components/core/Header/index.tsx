@@ -23,7 +23,7 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
         { name: 'Модели', url: 'models' },
         { name: 'База знаний', url: 'data-base' },
         // { name: 'Продукты', url: 'products' },
-        { name: 'Поддержка Cx', url: 'cx' },
+        // { name: 'Поддержка Cx', url: 'cx' },
     ];
 
     return (
