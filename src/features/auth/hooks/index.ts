@@ -2,13 +2,15 @@ import { useEffect } from 'react';
 import VKITAuth from '@beeline/lk-auth';
 
 import { useMountEffect } from 'hooks';
-import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, LOCALHOST_LINK } from 'utils/const';
+import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, isProd, LOCALHOST_LINK } from 'utils/const';
 
 import { useAuthStore } from '../store';
 
 const auth = new VKITAuth({
     authUrl: isFunc
         ? FUNC_MOCK_AUTH_LINK
+        : isProd
+        ? 'https://eauth-prod.apps.mn-kd06.vimpelcom.ru'
         : isDev
         ? LOCALHOST_LINK
         : // @TODO Через какое-то время должен поменять адрес авторизации в самой библиотеке

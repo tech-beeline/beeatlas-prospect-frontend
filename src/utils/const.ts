@@ -1,6 +1,8 @@
 // @TODO: Заменить на переменные окружения
 export const isFunc = window.location.href.includes('eafdmmart-func');
 
+export const isProd = window.location.href.includes('eafdmmart-prod');
+
 export const isDev = process.env.NODE_ENV === 'development';
 
 export const FUNC_MOCK_AUTH_LINK =
