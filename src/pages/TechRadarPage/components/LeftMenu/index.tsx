@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { unescape } from 'lodash';
 
 import { MenuElement } from './MenuElement';
 import * as T from './types';
@@ -24,7 +25,9 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
             const menuBlocks = Array.from(menuRef.current.getElementsByClassName('menuBlock'));
             const menuItems = Array.from(menuRef.current.getElementsByClassName('menuItem'));
 
-            const selectedElement = menuItems.find((item) => item.innerHTML === props.hintText);
+            const selectedElement = menuItems.find(
+                (item) => unescape(item.innerHTML) === props.hintText,
+            );
 
             if (!!selectedElement && props.showInMenu) {
                 const parentElement = selectedElement.closest('.menuBlock');

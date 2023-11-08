@@ -1,4 +1,5 @@
 import { Tooltip } from 'react-tooltip';
+import { Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -34,7 +35,7 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
 `;
 
 export const TitleWrapper = styled.div`
-    width: 310px;
+    width: 300px;
     padding: 12px 24px;
 
     display: flex;
@@ -71,7 +72,11 @@ export const TitleSmaller = styled(Title)`
     font-size: var(--font-size-body2);
 `;
 
-export const Item = styled.p<{ isActive?: boolean }>`
+export const Item = styled.div<{ isActive?: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     width: 300px;
     padding: 12px 24px;
 
@@ -94,6 +99,12 @@ export const Item = styled.p<{ isActive?: boolean }>`
             background-color: var(--color-background-base-hover);
         }
     }
+`;
+
+export const StyledIcon = styled(Icon)`
+    color: var(--color-text-link);
+
+    cursor: pointer;
 `;
 
 export const ArrowIcon = styled(ArrowSVG)<{ isreverse: string }>`

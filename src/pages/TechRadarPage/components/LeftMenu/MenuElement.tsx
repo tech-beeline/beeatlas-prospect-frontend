@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Expand } from 'components/other';
 
@@ -88,12 +89,18 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                   {item.data.map((item, index) => (
                                       <S.Item
                                           key={index}
-                                          className="menuItem"
                                           onMouseEnter={() => onHintShow(item.label)}
                                           onMouseLeave={onHintHide}
                                           isActive={item.label === props.hintText}
                                       >
-                                          {item.label}
+                                          <p className="menuItem">{item.label}</p>
+                                          {item.link && (
+                                              <S.StyledIcon
+                                                  iconName={Icons.OpenInBrowser}
+                                                  size="large"
+                                                  onClick={() => window.open(item.link, '_blank')}
+                                              />
+                                          )}
                                       </S.Item>
                                   ))}
                               </S.Wrapper>
@@ -109,12 +116,18 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                   {item.data.map((item, index) => (
                                       <S.Item
                                           key={index}
-                                          className="menuItem"
                                           onMouseEnter={() => onHintShow(item.label)}
                                           onMouseLeave={onHintHide}
                                           isActive={item.label === props.hintText}
                                       >
-                                          {item.label}
+                                          <p className="menuItem">{item.label}</p>
+                                          {item.link && (
+                                              <S.StyledIcon
+                                                  iconName={Icons.OpenInBrowser}
+                                                  size="large"
+                                                  onClick={() => window.open(item.link, '_blank')}
+                                              />
+                                          )}
                                       </S.Item>
                                   ))}
                               </S.Wrapper>
