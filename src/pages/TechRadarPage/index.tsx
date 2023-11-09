@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useGetTechradarDataQuery } from 'api/queries/techradar';
 
-import { Adopt, Assess, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
+import { Adopt, Assess, Filters, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
@@ -10,8 +10,14 @@ import * as S from './units';
 export const TechRadarPage = () => {
     const { data: techRadarData } = useGetTechradarDataQuery();
 
+    const [search, setSearch] = useState('');
+
     // @TODO: Генерировать типы
-    const techRadarContent: any[] = techRadarData?.content ?? [];
+    const techRadarContent: T.IData[] = (techRadarData?.content as T.IData[]) ?? [];
+
+    const filteredItems = techRadarContent.filter((item) =>
+        item.label.toLowerCase().includes(search.toLowerCase()),
+    );
 
     const [isSubMenu, setSubMenu] = useState(false);
 
@@ -163,12 +169,23 @@ export const TechRadarPage = () => {
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
+
+                <Filters
+                    search={search}
+                    activeMenuItem={activeMenuItem}
+                    filteredItems={filteredItems}
+                    setActiveMenuItem={setActiveMenuItem}
+                    setActiveRing={setActiveRing}
+                    setHintText={setHintText}
+                    setSearch={setSearch}
+                    setShowInMenu={setShowInMenu}
+                />
             </S.Header>
 
             {techRadarContent.length > 0 && (
                 <S.ContentWrapper>
                     <LeftMenu
-                        data={techRadarContent}
+                        data={filteredItems}
                         {...{
                             hintText,
                             setHintText,
@@ -183,49 +200,53 @@ export const TechRadarPage = () => {
                     <S.RadarsContainer>
                         <Hold
                             data={techRadarContent.filter((item) => item.ring === 3)}
-                            isActive={activeRing === 'hold'}
+                            isActive={activeMenuItem === 5}
                             {...{
                                 handleRing,
                                 hintText,
                                 setHintText,
                                 setShowInMenu,
                                 isElementSelected,
+                                search,
                             }}
                         />
 
                         <Assess
                             data={techRadarContent.filter((item) => item.ring === 2)}
-                            isActive={activeRing === 'assess'}
+                            isActive={activeMenuItem === 6}
                             {...{
                                 handleRing,
                                 hintText,
                                 setHintText,
                                 setShowInMenu,
                                 isElementSelected,
+                                search,
                             }}
                         />
 
                         <Trial
                             data={techRadarContent.filter((item) => item.ring === 1)}
-                            isActive={activeRing === 'trial'}
+                            isActive={activeMenuItem === 7}
                             {...{
                                 handleRing,
                                 hintText,
                                 setHintText,
                                 setShowInMenu,
                                 isElementSelected,
+                                search,
                             }}
                         />
 
                         <Adopt
                             data={techRadarContent.filter((item) => item.ring === 0)}
-                            isActive={activeRing === 'adopt'}
+                            isActive={activeMenuItem === 8}
                             {...{
                                 handleRing,
                                 hintText,
                                 setHintText,
                                 setShowInMenu,
                                 isElementSelected,
+                                search,
                             }}
                         />
 
@@ -242,6 +263,7 @@ export const TechRadarPage = () => {
                                 setHintText,
                                 setShowInMenu,
                                 isElementSelected,
+                                search,
                             }}
                         />
                     </S.RadarsContainer>

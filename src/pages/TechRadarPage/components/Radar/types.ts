@@ -9,6 +9,7 @@ export interface IRadar {
     hintText: string;
     isActive: boolean;
     isElementSelected: boolean;
+    search?: string;
 
     setHintText: (value: string) => void;
     handleRing: (ring: 'hold' | 'assess' | 'trial' | 'adopt') => void;

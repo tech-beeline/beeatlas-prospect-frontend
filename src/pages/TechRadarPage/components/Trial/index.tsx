@@ -25,7 +25,13 @@ export const Trial: FC<T.ITrial> = (props) => {
         const itemSegment = UTILS.segment(item.quadrant, item.ring, true);
         const coords = itemSegment.random();
 
-        return { ...item, segment: itemSegment, x: coords.x, y: coords.y };
+        return {
+            ...item,
+            segment: itemSegment,
+            x: coords.x,
+            y: coords.y,
+            visible: item.label.toLowerCase().includes((props.search ?? '').toLowerCase()),
+        };
     });
 
     /* тут запускается симуляция D3 для избежания пересечений между точками */
@@ -85,6 +91,7 @@ export const Trial: FC<T.ITrial> = (props) => {
 
                         return (
                             <STYLE.CircleStyled
+                                isVisible={point.visible}
                                 className="point"
                                 key={i}
                                 cx={0}

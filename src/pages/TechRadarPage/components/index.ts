@@ -1,5 +1,6 @@
 export { Adopt } from './Adopt';
 export { Assess } from './Assess';
+export { Filters } from './Filters';
 export { Hold } from './Hold';
 export { LeftMenu } from './LeftMenu';
 export { QuadrantTitles } from './QuadrantTitles';
