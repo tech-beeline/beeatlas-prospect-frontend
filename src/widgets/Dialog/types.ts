@@ -7,4 +7,7 @@ export interface IDialog {
     onConfirm: () => void;
     onDecline?: () => void;
     children?: ReactNode;
+
+    declineText?: string;
+    confirmText?: string;
 }

@@ -222,6 +222,8 @@ export const AddRollPage = () => {
                 onClose={closeModal}
                 onDecline={navigateToAllRoles}
                 onConfirm={closeModal}
+                declineText="Выйти"
+                confirmText="Отмена"
             >
                 Изменения не сохранятся
             </Dialog>

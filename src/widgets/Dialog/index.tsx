@@ -6,14 +6,23 @@ import { THEME_ELEMENT_ID } from 'styles';
 import { IDialog } from './types';
 import * as S from './units';
 
-export const Dialog: FC<IDialog> = ({ opened, title, onClose, onConfirm, onDecline, children }) => {
+export const Dialog: FC<IDialog> = ({
+    opened,
+    title,
+    onClose,
+    onConfirm,
+    onDecline,
+    children,
+    declineText = 'Отменить',
+    confirmText = 'Подтвердить',
+}) => {
     const footer = (
         <S.ButtonsContainer>
             <Button size="medium" variant="outlined" onClick={onDecline ?? onClose}>
-                Выйти
+                {declineText}
             </Button>
             <Button size="medium" variant="contained" onClick={onConfirm}>
-                Отмена
+                {confirmText}
             </Button>
         </S.ButtonsContainer>
     );

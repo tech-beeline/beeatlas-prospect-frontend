@@ -8,6 +8,8 @@ export const DialogStyled = styled(Dialog)`
 export const DialogContentStyled = styled(DialogContent)`
     color: var(--color-text-active);
 
+    white-space: pre-line;
+
     min-width: 560px;
 `;
 

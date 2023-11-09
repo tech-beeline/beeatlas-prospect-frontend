@@ -1,10 +1,13 @@
 import React, { forwardRef, Fragment, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button } from '@beeline/design-system-react';
+import { Button, Checkbox as DSCheckbox } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
+
+import { useModal } from 'hooks';
+import { Dialog } from 'widgets/Dialog';
 
 import { ParticiapntsFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
@@ -13,11 +16,13 @@ import * as S from './units';
 
 export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
     ({ onClose, onSave, defaultValues, showButtons = true, fullscreen = false }, buttonRef) => {
+        const { modalOpened, openModal, closeModal } = useModal();
+
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
         });
 
-        const { handleSubmit, reset } = form;
+        const { handleSubmit, reset, watch, setValue } = form;
 
         useEffect(() => {
             if (defaultValues) {
@@ -32,6 +37,8 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             onClose();
             reset();
         });
+
+        const communal = watch('communal');
 
         const NameContainer = fullscreen ? S.NameFlexContainer : Fragment;
 
@@ -49,7 +56,15 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 />
 
                                 <S.CheckboxContainer marginTop={fullscreen}>
-                                    <Checkbox name="communal" label="Коммунальный" />
+                                    {fullscreen && !communal ? (
+                                        <DSCheckbox
+                                            label="Коммунальный"
+                                            checked={false}
+                                            onClick={openModal}
+                                        />
+                                    ) : (
+                                        <Checkbox name="communal" label="Коммунальный" />
+                                    )}
                                 </S.CheckboxContainer>
                             </NameContainer>
 
@@ -192,6 +207,18 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                         </S.ButtonContainer>
                     </form>
                 </FormProvider>
+                <Dialog
+                    opened={modalOpened}
+                    title="Сделать BI коммунальным?"
+                    onClose={closeModal}
+                    onDecline={closeModal}
+                    onConfirm={() => {
+                        setValue('communal', true);
+                        closeModal();
+                    }}
+                >
+                    {`Коммунальный BI будет доступен для использования всем\nкомандам в компании. Вы не сможете вносить правки, если другие\nкоманды добавят его в свой CJ`}
+                </Dialog>
             </>
         );
     },
