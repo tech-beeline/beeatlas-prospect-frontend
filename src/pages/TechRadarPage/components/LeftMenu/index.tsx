@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { unescape } from 'lodash';
 
+import emptyBox from './images/empty-box.png';
+
 import { MenuElement } from './MenuElement';
 import * as T from './types';
 import * as S from './units';
@@ -91,56 +93,68 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
     return (
         <S.Wrapper ref={menuRef} withScroll>
-            {(props.isZoomed ? props.activeMenuItem === 1 : true) && (
-                <MenuElement
-                    title="Фреймворки и инструменты"
-                    isOpen={isFirstOpen}
-                    setOpen={setFirstOpen}
-                    data={firstQuadrant}
-                    activeRing={props.activeRing}
-                    hintText={props.hintText}
-                    setHintText={props.setHintText}
-                    {...{ setHoverInMenu }}
-                />
+            {props.data.length > 0 && (
+                <>
+                    {(props.isZoomed ? props.activeMenuItem === 1 : true) && (
+                        <MenuElement
+                            title="Фреймворки и инструменты"
+                            isOpen={isFirstOpen}
+                            setOpen={setFirstOpen}
+                            data={firstQuadrant}
+                            activeRing={props.activeRing}
+                            hintText={props.hintText}
+                            setHintText={props.setHintText}
+                            {...{ setHoverInMenu }}
+                        />
+                    )}
+
+                    {(props.isZoomed ? props.activeMenuItem === 2 : true) && (
+                        <MenuElement
+                            title="Платформа и инфраструктура"
+                            isOpen={isSecondOpen}
+                            setOpen={setSecondOpen}
+                            data={secondQuadrant}
+                            activeRing={props.activeRing}
+                            hintText={props.hintText}
+                            setHintText={props.setHintText}
+                            {...{ setHoverInMenu }}
+                        />
+                    )}
+
+                    {(props.isZoomed ? props.activeMenuItem === 3 : true) && (
+                        <MenuElement
+                            title="Управление данными"
+                            isOpen={isThirdOpen}
+                            setOpen={setThirdOpen}
+                            data={thirdQuadrant}
+                            activeRing={props.activeRing}
+                            hintText={props.hintText}
+                            setHintText={props.setHintText}
+                            {...{ setHoverInMenu }}
+                        />
+                    )}
+
+                    {(props.isZoomed ? props.activeMenuItem === 4 : true) && (
+                        <MenuElement
+                            title="Языки"
+                            isOpen={isFourOpen}
+                            setOpen={setFourOpen}
+                            data={fourQuadrant}
+                            activeRing={props.activeRing}
+                            hintText={props.hintText}
+                            setHintText={props.setHintText}
+                            {...{ setHoverInMenu }}
+                        />
+                    )}
+                </>
             )}
 
-            {(props.isZoomed ? props.activeMenuItem === 2 : true) && (
-                <MenuElement
-                    title="Платформа и инфраструктура"
-                    isOpen={isSecondOpen}
-                    setOpen={setSecondOpen}
-                    data={secondQuadrant}
-                    activeRing={props.activeRing}
-                    hintText={props.hintText}
-                    setHintText={props.setHintText}
-                    {...{ setHoverInMenu }}
-                />
-            )}
-
-            {(props.isZoomed ? props.activeMenuItem === 3 : true) && (
-                <MenuElement
-                    title="Управление данными"
-                    isOpen={isThirdOpen}
-                    setOpen={setThirdOpen}
-                    data={thirdQuadrant}
-                    activeRing={props.activeRing}
-                    hintText={props.hintText}
-                    setHintText={props.setHintText}
-                    {...{ setHoverInMenu }}
-                />
-            )}
-
-            {(props.isZoomed ? props.activeMenuItem === 4 : true) && (
-                <MenuElement
-                    title="Языки"
-                    isOpen={isFourOpen}
-                    setOpen={setFourOpen}
-                    data={fourQuadrant}
-                    activeRing={props.activeRing}
-                    hintText={props.hintText}
-                    setHintText={props.setHintText}
-                    {...{ setHoverInMenu }}
-                />
+            {props.data.length === 0 && (
+                <S.NoData>
+                    <S.NoDataImage src={emptyBox} />
+                    <S.NoDataTitle>Нет результатов, подходящих под параметры поиска</S.NoDataTitle>
+                    <S.NoDataDescription>Попробуйте изменить запрос</S.NoDataDescription>
+                </S.NoData>
             )}
         </S.Wrapper>
     );

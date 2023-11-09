@@ -173,3 +173,38 @@ export const TooltipStyled = styled(Tooltip)`
 
     z-index: 5;
 `;
+
+export const NoData = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const NoDataImage = styled.img`
+    width: 100px;
+    height: 100px;
+`;
+
+export const NoDataTitle = styled.div`
+    margin-top: 16px;
+
+    color: var(--color-text-active);
+
+    text-align: center;
+
+    font-weight: var(--font-weight-h6);
+    font-size: var(--font-size-h6);
+    line-height: var(--font-line-height-h6);
+`;
+
+export const NoDataDescription = styled.div`
+    margin-top: 8px;
+
+    text-align: center;
+
+    color: var(--color-text-disabled);
+
+    font-weight: var(--font-weight-body2);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+`;

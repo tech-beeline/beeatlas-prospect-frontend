@@ -57,7 +57,7 @@ export const ContentWrapper = styled.div`
     gap: 70px;
 
     width: 100%;
-    height: calc(100% - 194px);
+    height: calc(100% - 258px);
 
     padding-top: 20px;
 `;
@@ -104,8 +104,10 @@ export const RadarWrapper = styled.div<{ isActive?: boolean }>`
     }
 `;
 
-export const CircleStyled = styled.circle`
+export const CircleStyled = styled.circle<{ isVisible?: boolean }>`
     cursor: pointer;
+
+    display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
 export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`

@@ -5,6 +5,7 @@ export interface IAdopt {
     hintText: string;
     isActive: boolean;
     isElementSelected: boolean;
+    search: string;
 
     handleRing: (ring: TRing) => void;
     setHintText: (value: string) => void;

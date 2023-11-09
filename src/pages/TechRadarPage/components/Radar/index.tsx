@@ -26,7 +26,13 @@ export const Radar: FC<T.IRadar> = (props) => {
         const itemSegment = UTILS.segment(item.quadrant, item.ring);
         const coords = itemSegment.random();
 
-        return { ...item, segment: itemSegment, x: coords.x, y: coords.y };
+        return {
+            ...item,
+            segment: itemSegment,
+            x: coords.x,
+            y: coords.y,
+            visible: item.label.toLowerCase().includes((props.search ?? '').toLowerCase()),
+        };
     });
 
     const spring = useSpring({
@@ -134,6 +140,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                             cx={0}
                             cy={0}
                             r={1}
+                            isVisible={point.visible}
                             fill={UTILS.getColor(point.ring)}
                             ref={refs.current[i]}
                             onMouseEnter={() => onHintShow(point.label)}
