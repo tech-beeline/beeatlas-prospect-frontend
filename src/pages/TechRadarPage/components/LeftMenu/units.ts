@@ -99,12 +99,18 @@ export const Item = styled.div<{ isActive?: boolean }>`
             background-color: var(--color-background-base-hover);
         }
     }
+
+    &:hover > span {
+        visibility: visible;
+    }
 `;
 
 export const StyledIcon = styled(Icon)`
     color: var(--color-text-link);
 
     cursor: pointer;
+
+    visibility: hidden;
 `;
 
 export const ArrowIcon = styled(ArrowSVG)<{ isreverse: string }>`
