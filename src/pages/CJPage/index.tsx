@@ -6,6 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 // import { useUpdateCJMutation } from 'api/queries/cj';
 // import { useGetCompleteCJDataByIdQuery, useUpdateCJMutation } from 'api/queries/cj';
 import { CJ, useMockCJtore } from 'pages/CJLibraryPage/mocks';
+import * as ROUTER from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { CJForm } from './components/CJForm';
@@ -59,6 +60,10 @@ export const CJPage = () => {
 
     const navigate = useNavigate();
 
+    const handleBackIconClick = () => {
+        navigate(`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}`);
+    };
+
     // const handleSave = (draft: boolean) => {
     //     if (cj) {
     //         updateCj(Number(paramId), { ...cj, draft, name, descr: subName, steps: tableData });
@@ -99,7 +104,7 @@ export const CJPage = () => {
                 <S.FlexSideContainer>
                     <Icon
                         iconName={Icons.ArrowLeft}
-                        onClick={() => navigate(-1)}
+                        onClick={handleBackIconClick}
                         style={{ cursor: 'pointer' }}
                     />
 

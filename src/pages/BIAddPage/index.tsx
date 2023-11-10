@@ -10,8 +10,9 @@ import { FloatingNavigation } from 'components/interaction';
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
 import { BI, useMockBIStore } from 'pages/CJPage/mocks';
-
 // import { dataToFormValues, formValuesToData } from './helpers';
+import * as ROUTER from 'router/const';
+
 import * as S from './units';
 
 export const BIAddPage = () => {
@@ -42,6 +43,10 @@ export const BIAddPage = () => {
 
     const navigate = useNavigate();
 
+    const handleBackIconClick = () => {
+        navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}`);
+    };
+
     const handleSaveClick = () => {
         submitButtonRef.current?.click();
     };
@@ -68,7 +73,7 @@ export const BIAddPage = () => {
                 <S.FlexSideContainer>
                     <Icon
                         iconName={Icons.ArrowLeft}
-                        onClick={() => navigate(-1)}
+                        onClick={handleBackIconClick}
                         style={{ cursor: 'pointer' }}
                     />
 

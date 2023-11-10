@@ -44,6 +44,10 @@ export const BIViewPage = () => {
 
     const navigate = useNavigate();
 
+    const handleBackIconClick = () => {
+        navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}`);
+    };
+
     const handleEditClick = () => {
         navigate({
             pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
@@ -57,7 +61,7 @@ export const BIViewPage = () => {
                 <S.FlexSideContainer>
                     <Icon
                         iconName={Icons.ArrowLeft}
-                        onClick={() => navigate(-1)}
+                        onClick={handleBackIconClick}
                         style={{ cursor: 'pointer' }}
                     />
 
