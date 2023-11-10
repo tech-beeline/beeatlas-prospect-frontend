@@ -68,6 +68,10 @@ export const LabelTd = styled(Td)`
     /* @TODO: Здесь не подходит rgba цвет из-за прозрачности */
     /* background-color: var(--color-button-plain-background-hover); */
     background-color: #edf4fd;
+
+    :hover span {
+        display: inline;
+    }
 `;
 
 export const ButtonContainer = styled.div`
@@ -88,10 +92,6 @@ export const AlignItemsCenterWrapper = styled.div`
 
     span {
         display: none;
-    }
-
-    :hover > div > span {
-        display: inline;
     }
 `;
 
