@@ -31,7 +31,7 @@ export const ParticiapntsFieldArray: FC<IParticipantsFieldArray> = ({ fullscreen
         OPTIONS.find((option) => !alreadySelectedParticiapnts.includes(option.id))?.id ?? 0;
 
     const handleAddClick = () => {
-        append({ descr: '', participant: nextParticipant, value: '' });
+        append({ descr: '', participant: nextParticipant, value: '' }, { shouldFocus: false });
     };
 
     return (
