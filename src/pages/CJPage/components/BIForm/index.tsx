@@ -20,6 +20,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
+            mode: 'onChange',
         });
 
         const { handleSubmit, reset, watch, setValue } = form;
