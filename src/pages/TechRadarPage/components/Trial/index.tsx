@@ -30,7 +30,7 @@ export const Trial: FC<T.ITrial> = (props) => {
             segment: itemSegment,
             x: coords.x,
             y: coords.y,
-            visible: item.label.toLowerCase().includes((props.search ?? '').toLowerCase()),
+            visible: UTILS.itemFilterHandler(item, props.search, props.filterValue),
         };
     });
 

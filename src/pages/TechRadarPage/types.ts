@@ -3,6 +3,7 @@ export interface IData {
     quadrant: number;
     ring: number;
     link?: string;
+    category?: string;
     x?: any;
     y?: any;
     segment?: any;

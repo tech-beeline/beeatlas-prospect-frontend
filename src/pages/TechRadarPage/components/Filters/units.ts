@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
 
 export const FilterContainer = styled.div`
-    position: relative;
-
     display: flex;
-
-    width: fit-content;
+    gap: 24px;
 
     margin-top: 24px;
+`;
+
+export const SearchContainer = styled.div`
+    position: relative;
+
+    width: fit-content;
 `;
 
 export const MenuBlock = styled.div`
