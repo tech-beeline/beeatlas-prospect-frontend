@@ -6,17 +6,19 @@ import { Adopt, Assess, Filters, Hold, LeftMenu, Radar, TopMenu, Trial } from '.
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
+import { itemFilterHandler } from './utils';
 
 export const TechRadarPage = () => {
     const { data: techRadarData } = useGetTechradarDataQuery();
 
     const [search, setSearch] = useState('');
+    const [filterValue, setFilterValue] = useState<string | null>(null);
 
     // @TODO: Генерировать типы
     const techRadarContent: T.IData[] = (techRadarData?.content as T.IData[]) ?? [];
 
     const filteredItems = techRadarContent.filter((item) =>
-        item.label.toLowerCase().includes(search.toLowerCase()),
+        itemFilterHandler(item, search, filterValue),
     );
 
     const [isSubMenu, setSubMenu] = useState(false);
@@ -172,12 +174,14 @@ export const TechRadarPage = () => {
 
                 <Filters
                     search={search}
+                    filterValue={filterValue}
                     activeMenuItem={activeMenuItem}
                     filteredItems={filteredItems}
                     setActiveMenuItem={setActiveMenuItem}
                     setActiveRing={setActiveRing}
                     setHintText={setHintText}
                     setSearch={setSearch}
+                    setFilterValue={setFilterValue}
                     setShowInMenu={setShowInMenu}
                 />
             </S.Header>
@@ -208,6 +212,7 @@ export const TechRadarPage = () => {
                                 setShowInMenu,
                                 isElementSelected,
                                 search,
+                                filterValue,
                             }}
                         />
 
@@ -221,6 +226,7 @@ export const TechRadarPage = () => {
                                 setShowInMenu,
                                 isElementSelected,
                                 search,
+                                filterValue,
                             }}
                         />
 
@@ -234,6 +240,7 @@ export const TechRadarPage = () => {
                                 setShowInMenu,
                                 isElementSelected,
                                 search,
+                                filterValue,
                             }}
                         />
 
@@ -247,6 +254,7 @@ export const TechRadarPage = () => {
                                 setShowInMenu,
                                 isElementSelected,
                                 search,
+                                filterValue,
                             }}
                         />
 
@@ -264,6 +272,7 @@ export const TechRadarPage = () => {
                                 setShowInMenu,
                                 isElementSelected,
                                 search,
+                                filterValue,
                             }}
                         />
                     </S.RadarsContainer>

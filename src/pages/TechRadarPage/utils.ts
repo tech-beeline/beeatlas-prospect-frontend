@@ -1,3 +1,5 @@
+import { IData } from './types';
+
 const quadrants = [
     { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },
     { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1 },
@@ -130,3 +132,9 @@ export const getColor = (ring: number) => {
             return 'var(--color-chart-grey-active)';
     }
 };
+
+export const itemFilterHandler = (item: IData, search: string, filterValue: string | null) =>
+    Boolean(
+        item.label.toLowerCase().includes(search.toLowerCase()) &&
+            (filterValue ? item.category?.split(', ').includes(filterValue) : true),
+    );
