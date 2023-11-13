@@ -103,6 +103,10 @@ export const Item = styled.div<{ isActive?: boolean }>`
     &:hover > span {
         visibility: visible;
     }
+
+    span {
+        visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
+    }
 `;
 
 export const StyledIcon = styled(Icon)`
