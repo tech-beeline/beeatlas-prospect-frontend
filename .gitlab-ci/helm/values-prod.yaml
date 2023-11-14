@@ -25,9 +25,21 @@ ingress:
         pathType: ImplementationSpecific
     - host: "beeatlas.vimpelcom.ru"
       paths:
+      - path: /api/
+        pathType: ImplementationSpecific
+        serviceName: eafdmmart-backend-prod-service
+        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
-    - host: "beeatlas.vimpelcom.ru"
+    - host: "techradar.beeline.ru"
+      paths:
+      - path: /api/
+        pathType: ImplementationSpecific
+        serviceName: eafdmmart-backend-prod-service
+        servicePort: "8080"
+      - path: /
+        pathType: ImplementationSpecific
+    - host: "tr.beeline.ru"
       paths:
       - path: /api/
         pathType: ImplementationSpecific
