@@ -1,50 +1,54 @@
 export const filterOptions = [
     {
-        id: 0,
+        id: 1,
         value: 'Frontend',
     },
     {
-        id: 1,
+        id: 2,
         value: 'Backend',
     },
     {
-        id: 2,
+        id: 3,
         value: 'Mobile (iOS)',
     },
     {
-        id: 3,
+        id: 4,
         value: 'Mobile (Android)',
     },
     {
-        id: 4,
-        value: 'Базы данных',
-    },
-    {
         id: 5,
-        value: 'Тестирование',
+        value: 'Data',
     },
     {
         id: 6,
-        value: 'Дизайн',
+        value: 'Базы данных',
     },
     {
         id: 7,
-        value: 'Инфраструктура ',
+        value: 'Тестирование',
     },
     {
         id: 8,
-        value: 'Мониторинг и трассировка',
+        value: 'Дизайн',
     },
     {
         id: 9,
-        value: 'Визуализация и оркестрация',
+        value: 'Инфраструктура ',
     },
     {
         id: 10,
-        value: 'Безопасность',
+        value: 'Мониторинг и трассировка',
     },
     {
         id: 11,
+        value: 'Визуализация и оркестрация',
+    },
+    {
+        id: 12,
+        value: 'Безопасность',
+    },
+    {
+        id: 13,
         value: 'Проектирование',
     },
 ];

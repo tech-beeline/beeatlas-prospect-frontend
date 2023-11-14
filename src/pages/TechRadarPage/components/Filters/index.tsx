@@ -70,13 +70,16 @@ export const Filters: FC<IFilters> = ({
                     </S.MenuBlock>
                 )}
             </S.SearchContainer>
-            <Select
-                size="small"
-                placeholder="Фильтрация по группам"
-                options={filterOptions}
-                values={selectedFilterValue ? [selectedFilterValue] : []}
-                onChange={(options) => setFilterValue(options[0].value)}
-            />
+            <S.SelectContainer>
+                <Select
+                    fullWidth
+                    size="small"
+                    placeholder="Фильтрация по группам"
+                    options={filterOptions}
+                    values={selectedFilterValue ? [selectedFilterValue] : []}
+                    onChange={(options) => setFilterValue(options[0].value)}
+                />
+            </S.SelectContainer>
             <Button size="small" variant="plain" onClick={() => setFilterValue(null)}>
                 Сбросить
             </Button>
