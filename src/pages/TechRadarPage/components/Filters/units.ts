@@ -45,3 +45,7 @@ export const MenuItem = styled.div`
         background-color: var(--color-background-base-hover);
     }
 `;
+
+export const SelectContainer = styled.div`
+    width: 268px;
+`;
