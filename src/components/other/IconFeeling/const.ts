@@ -17,9 +17,9 @@ export const typeToIconMap = {
 export const typeToNameMap = {
     [FeelingTypes.SAD]: 'раздражен',
     [FeelingTypes.ANNOYED]: 'огорчён',
-    [FeelingTypes.NORMAL]: 'нет эмоций',
+    [FeelingTypes.NORMAL]: 'нейтрален',
     [FeelingTypes.HAPPY]: 'удовлетворен',
-    [FeelingTypes.EXCITED]: 'радостный',
+    [FeelingTypes.EXCITED]: 'доволен',
 };
 
 export const typeToBackgroundColorMap = {
