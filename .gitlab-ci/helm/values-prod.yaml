@@ -31,7 +31,7 @@ ingress:
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
-    - host: "techradar.beeline.ru"
+    - host: "techradar.vimpelcom.ru"
       paths:
       - path: /api/
         pathType: ImplementationSpecific
@@ -39,7 +39,7 @@ ingress:
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
-    - host: "tr.beeline.ru"
+    - host: "tr.vimpelcom.ru"
       paths:
       - path: /api/
         pathType: ImplementationSpecific
