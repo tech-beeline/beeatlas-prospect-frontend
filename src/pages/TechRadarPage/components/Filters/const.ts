@@ -33,7 +33,7 @@ export const filterOptions = [
     },
     {
         id: 9,
-        value: 'Инфраструктура ',
+        value: 'Инфраструктура',
     },
     {
         id: 10,
