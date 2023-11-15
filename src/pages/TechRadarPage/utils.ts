@@ -136,5 +136,10 @@ export const getColor = (ring: number) => {
 export const itemFilterHandler = (item: IData, search: string, filterValue: string | null) =>
     Boolean(
         item.label.toLowerCase().includes(search.toLowerCase()) &&
-            (filterValue ? item.category?.split(', ').includes(filterValue) : true),
+            (filterValue
+                ? item.category
+                      ?.split(', ')
+                      .map((str) => str.trim())
+                      .includes(filterValue)
+                : true),
     );
