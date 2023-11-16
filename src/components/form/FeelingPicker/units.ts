@@ -6,3 +6,10 @@ export const Container = styled.div`
 
     padding: 8px 16px;
 `;
+
+export const IconContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+`;

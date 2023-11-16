@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { Radio } from '@beeline/design-system-react';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
 
@@ -19,12 +20,13 @@ export const FeelingPicker: FC<IFeelingPicker> = ({ name }) => {
             render={({ field }) => (
                 <S.Container>
                     {feelingTypes.map((type, i) => (
-                        <IconFeeling
-                            key={i}
-                            type={type as FeelingTypes}
-                            isActive={field.value === i}
-                            onClick={() => field.onChange(i)}
-                        />
+                        <S.IconContainer key={i}>
+                            <IconFeeling
+                                type={type as FeelingTypes}
+                                onClick={() => field.onChange(i)}
+                            />
+                            <Radio checked={field.value === i} onClick={() => field.onChange(i)} />
+                        </S.IconContainer>
                     ))}
                 </S.Container>
             )}
