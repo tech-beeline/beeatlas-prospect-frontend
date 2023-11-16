@@ -322,7 +322,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
                             formatData={getChannel}
-                            parseData={(bi) => bi.channel}
+                            parseData={(bi) => bi.channels[0].value}
                             steps={tableData}
                         />
                         <Row

@@ -11,6 +11,10 @@ type ParticipantValues = {
 //     exit: number;
 // };
 
+type ChannelValues = {
+    value: number;
+};
+
 export type FormValues = {
     id: number;
     name: string;
@@ -27,7 +31,7 @@ export type FormValues = {
     // enters: EnterValues[];
     document: string;
     mockup: string;
-    channel: number;
+    channels: ChannelValues[];
 };
 
 export const validationSchema = object().shape({
@@ -61,5 +65,7 @@ export const validationSchema = object().shape({
     //     .default([]),
     document: string().default('').url('Укажите корректную ссылку'),
     mockup: string().default('').url('Укажите корректную ссылку'),
-    channel: number().default(0),
+    channels: array()
+        .of(object().shape({ value: number().default(0) }))
+        .default([]),
 });

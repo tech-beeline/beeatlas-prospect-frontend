@@ -2,7 +2,7 @@ import { IBIData, IBIForm } from 'api/bi/types';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
 
 export const formValuesToData = (formValues: FormValues): IBIForm => ({
-    channelId: formValues.channel,
+    channelIds: formValues.channels.map((channel) => channel.value),
     clientScenario: formValues.clientScenario,
     communal: formValues.communal,
     descr: formValues.descr,
@@ -24,7 +24,7 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
     status: data.statusId,
     feelings: 4,
     clientScenario: data.clientScenario,
-    channel: data.channelId,
+    channels: [{ value: 0 }],
     ucsReaction: data.ucsReaction,
     participants: [{ participant: 0, descr: '', value: '' }],
     document: '',

@@ -155,7 +155,7 @@ export const useGetCompleteCJDataByIdQuery = (id: string | undefined | null) => 
                 getCJById(id!).then((res) => res.data),
                 getCJStepCollection(id!).then((res) => res.data),
             ]);
-            return { ...data[0], steps: [...data[1]] };
+            return { ...data[0], steps: [...data[1].sort((a, b) => a.order - b.order)] };
         },
         {
             enabled: Boolean(id),

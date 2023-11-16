@@ -2,8 +2,9 @@ import React, { FC } from 'react';
 import { Button, IconButton, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import { useUpdateCJStepMutation } from 'api/queries/cj';
-// import { useSnackbarStore } from 'widgets/Snackbar';
+import { useUpdateCJStepMutation } from 'api/queries/cj';
+import { useSnackbarStore } from 'widgets/Snackbar';
+
 import { Stage } from '../../types';
 import * as S from '../../units';
 
@@ -13,9 +14,9 @@ import { BiItem } from './components';
 import { IStepSettings } from './types';
 
 export const StepSettings: FC<IStepSettings> = ({
-    // cjId,
-    // stepId,
-    // stepOrder,
+    cjId,
+    stepId,
+    stepOrder,
     onClose,
     setStage,
     setSelectedBiId,
@@ -25,25 +26,25 @@ export const StepSettings: FC<IStepSettings> = ({
     setStepBIs,
     // newStepBis,
     // setNewStepBis,
-    updateStep,
+    // updateStep,
 }) => {
-    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    // const { mutateAsync: updateStep, isLoading: updatingStep } = useUpdateCJStepMutation();
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const { mutateAsync: updateStep, isLoading: updatingStep } = useUpdateCJStepMutation();
 
-    const handleSave = () => {
-        updateStep(name, stepBIs);
-        onClose();
-    };
-
-    // const handleSave = async () => {
-    //     await updateStep({
-    //         cjId: String(cjId),
-    //         stepId: String(stepId),
-    //         data: { name, order: stepOrder },
-    //     });
-    //     showSnackbar({ message: 'Изменения сохранены' });
+    // const handleSave = () => {
+    //     updateStep(name, stepBIs);
     //     onClose();
     // };
+
+    const handleSave = async () => {
+        await updateStep({
+            cjId: String(cjId),
+            stepId: String(stepId),
+            data: { name, order: stepOrder },
+        });
+        showSnackbar({ message: 'Изменения сохранены' });
+        onClose();
+    };
 
     const moveBi = (index: number, up: boolean) => {
         const copyOfData = [...stepBIs];
@@ -154,12 +155,12 @@ export const StepSettings: FC<IStepSettings> = ({
             <S.ButtonsContainer>
                 <Button onClick={onClose}>Отменить</Button>
 
-                <Button onClick={handleSave} variant="contained">
-                    Сохранить
-                </Button>
-                {/* <Button onClick={handleSave} disabled={updatingStep} variant="contained">
+                {/* <Button onClick={handleSave} variant="contained">
                     Сохранить
                 </Button> */}
+                <Button onClick={handleSave} disabled={updatingStep} variant="contained">
+                    Сохранить
+                </Button>
             </S.ButtonsContainer>
         </S.FlexContainer>
     );

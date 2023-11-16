@@ -1,5 +1,5 @@
-// import React from 'react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+// import React, { useEffect, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -7,11 +7,11 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { FloatingNavigation } from 'components/interaction';
 import { IconFeeling } from 'components/other';
 
-// import { useGetBIByIdQuery } from 'api/queries/bi';
-import { BI, useMockBIStore } from 'pages/CJPage/mocks';
+import { useGetBIByIdQuery } from 'api/queries/bi';
+// import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
-    getChannel,
+    // getChannel,
     // getEnter,
     // getExit,
     getFeelingType,
@@ -27,20 +27,20 @@ export const BIViewPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { getBiById } = useMockBIStore();
+    // const { getBiById } = useMockBIStore();
 
-    // const { data, isLoading } = useGetBIByIdQuery(paramId);
+    const { data, isLoading } = useGetBIByIdQuery(paramId);
 
-    const [bi, setBi] = useState<BI | null>(null);
+    // const [bi, setBi] = useState<BI | null>(null);
 
-    useEffect(() => {
-        if (paramId) {
-            const bi = getBiById(Number(paramId));
-            if (bi) {
-                setBi(bi);
-            }
-        }
-    }, [paramId, getBiById]);
+    // useEffect(() => {
+    //     if (paramId) {
+    //         const bi = getBiById(Number(paramId));
+    //         if (bi) {
+    //             setBi(bi);
+    //         }
+    //     }
+    // }, [paramId, getBiById]);
 
     const navigate = useNavigate();
 
@@ -65,16 +65,16 @@ export const BIViewPage = () => {
                         style={{ cursor: 'pointer' }}
                     />
 
-                    {bi ? (
+                    {/* {bi ? (
                         <S.Title>{bi?.name}</S.Title>
                     ) : (
                         <Skeleton height={24} width={120} radius={5} />
-                    )}
-                    {/* {data ? (
+                    )} */}
+                    {data ? (
                         <S.Title>{data.name}</S.Title>
                     ) : (
                         <Skeleton height={24} width={120} radius={5} />
-                    )} */}
+                    )}
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
@@ -84,7 +84,7 @@ export const BIViewPage = () => {
                 </S.FlexSideContainer>
             </S.Header>
             <S.Content>
-                {bi && (
+                {/* {bi && (
                     <>
                         <S.DataContainer>
                             <S.LabelsContainer>
@@ -199,8 +199,8 @@ export const BIViewPage = () => {
                             />
                         </S.Navigation>
                     </>
-                )}
-                {/* {data && (
+                )} */}
+                {data && (
                     <>
                         <S.DataContainer>
                             <S.LabelsContainer>
@@ -289,7 +289,9 @@ export const BIViewPage = () => {
 
                                 <div>
                                     <S.Subtitle id="channels">Канал</S.Subtitle>
-                                    <S.Body2>{getChannel(data.channelId)}</S.Body2>
+                                    {data.channel.map((channel, i) => (
+                                        <S.Body2 key={i}>{channel.name}</S.Body2>
+                                    ))}
                                 </div>
 
                                 <div>
@@ -324,8 +326,17 @@ export const BIViewPage = () => {
                             />
                         </S.Navigation>
                     </>
+                )}
+                {/* {!bi && (
+                    <S.SkeletonContainer>
+                        <Skeleton height={20} radius={5} />
+                        <Skeleton height={40} radius={5} />
+                        <Skeleton height={40} radius={5} />
+                        <Skeleton height={100} radius={5} />
+                        <Skeleton height={40} radius={5} />
+                    </S.SkeletonContainer>
                 )} */}
-                {!bi && (
+                {isLoading && (
                     <S.SkeletonContainer>
                         <Skeleton height={20} radius={5} />
                         <Skeleton height={40} radius={5} />
@@ -334,15 +345,6 @@ export const BIViewPage = () => {
                         <Skeleton height={40} radius={5} />
                     </S.SkeletonContainer>
                 )}
-                {/* {isLoading && (
-                    <S.SkeletonContainer>
-                        <Skeleton height={20} radius={5} />
-                        <Skeleton height={40} radius={5} />
-                        <Skeleton height={40} radius={5} />
-                        <Skeleton height={100} radius={5} />
-                        <Skeleton height={40} radius={5} />
-                    </S.SkeletonContainer>
-                )} */}
             </S.Content>
         </S.PageWrapper>
     );

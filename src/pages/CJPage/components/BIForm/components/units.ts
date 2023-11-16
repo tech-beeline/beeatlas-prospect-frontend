@@ -22,6 +22,16 @@ export const FieldsContainer = styled.div<{ marginTop?: boolean }>`
     margin-top: ${({ marginTop }) => (marginTop ? '24px' : '0px')};
 `;
 
+export const ChannelsContainer = styled(FieldsContainer)`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    width: 100%;
+
+    margin-top: ${({ marginTop }) => (marginTop ? '32px' : '0px')};
+`;
+
 export const SubTitle = styled.h4`
     height: 24px;
 

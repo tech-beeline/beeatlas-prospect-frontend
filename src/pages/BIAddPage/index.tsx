@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-// import React, { useRef } from 'react';
+// import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { FloatingNavigation } from 'components/interaction';
 
-// import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
+import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
 import { BIForm } from 'pages/CJPage/components/BIForm';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
-import { BI, useMockBIStore } from 'pages/CJPage/mocks';
-// import { dataToFormValues, formValuesToData } from './helpers';
 import * as ROUTER from 'router/const';
 
+// import { BI, useMockBIStore } from 'pages/CJPage/mocks';
+import { dataToFormValues, formValuesToData } from './helpers';
 import * as S from './units';
 
 export const BIAddPage = () => {
@@ -20,26 +20,26 @@ export const BIAddPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { getBiById, updateBi, createBi } = useMockBIStore();
+    // const { getBiById, updateBi, createBi } = useMockBIStore();
 
-    // const { data } = useGetBIByIdQuery(paramId);
-    // const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
-    // const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
+    const { data } = useGetBIByIdQuery(paramId);
+    const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
+    const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
+
+    const isLoading = creatingBi || updatingBi;
 
     // const isLoading = creatingBi || updatingBi;
 
-    // const isLoading = creatingBi || updatingBi;
+    // const [bi, setBi] = useState<BI | null>(null);
 
-    const [bi, setBi] = useState<BI | null>(null);
-
-    useEffect(() => {
-        if (paramId) {
-            const bi = getBiById(Number(paramId));
-            if (bi) {
-                setBi(bi);
-            }
-        }
-    }, [paramId, getBiById]);
+    // useEffect(() => {
+    //     if (paramId) {
+    //         const bi = getBiById(Number(paramId));
+    //         if (bi) {
+    //             setBi(bi);
+    //         }
+    //     }
+    // }, [paramId, getBiById]);
 
     const navigate = useNavigate();
 
@@ -51,21 +51,21 @@ export const BIAddPage = () => {
         submitButtonRef.current?.click();
     };
 
-    const handleFormSave = (values: FormValues) => {
-        if (paramId) {
-            updateBi(Number(paramId), values);
-        } else {
-            createBi(values);
-        }
-    };
-
     // const handleFormSave = (values: FormValues) => {
     //     if (paramId) {
-    //         updateBi({ id: paramId, data: formValuesToData(values) });
+    //         updateBi(Number(paramId), values);
     //     } else {
-    //         createBi(formValuesToData(values));
+    //         createBi(values);
     //     }
     // };
+
+    const handleFormSave = (values: FormValues) => {
+        if (paramId) {
+            updateBi({ id: paramId, data: formValuesToData(values) });
+        } else {
+            createBi(formValuesToData(values));
+        }
+    };
 
     return (
         <S.PageWrapper>
@@ -81,12 +81,12 @@ export const BIAddPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    {/* <Button onClick={handleSaveClick} disabled={isLoading} variant="contained">
-                        Сохранить
-                    </Button> */}
-                    <Button onClick={handleSaveClick} variant="contained">
+                    <Button onClick={handleSaveClick} disabled={isLoading} variant="contained">
                         Сохранить
                     </Button>
+                    {/* <Button onClick={handleSaveClick} variant="contained">
+                        Сохранить
+                    </Button> */}
                 </S.FlexSideContainer>
             </S.Header>
             <S.Content>
@@ -98,8 +98,8 @@ export const BIAddPage = () => {
                         //     console.log(1);
                         // }}
                         onSave={handleFormSave}
-                        defaultValues={bi ?? undefined}
-                        // defaultValues={data ? dataToFormValues(data) : undefined}
+                        // defaultValues={bi ?? undefined}
+                        defaultValues={data ? dataToFormValues(data) : undefined}
                         showButtons={false}
                         fullscreen={true}
                     />

@@ -2,8 +2,8 @@ import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label, Skeleton } from '@beeline/design-system-react';
 
-// import { useDeleteBIMutation, useGetBICollectionQuery } from 'api/queries/bi';
-import { useMockBIStore } from 'pages/CJPage/mocks';
+import { useDeleteBIMutation, useGetBICollectionQuery } from 'api/queries/bi';
+// import { useMockBIStore } from 'pages/CJPage/mocks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
@@ -11,11 +11,11 @@ import { BiMenu } from './components';
 import * as S from './units';
 
 export const BILibraryPage = () => {
-    const { bis, deleteBi } = useMockBIStore();
-    const isLoading = false;
+    // const { bis, deleteBi } = useMockBIStore();
+    // const isLoading = false;
 
-    // const { data: bis, isLoading } = useGetBICollectionQuery('');
-    // const { mutateAsync: deleteBi } = useDeleteBIMutation();
+    const { data: bis, isLoading } = useGetBICollectionQuery('');
+    const { mutateAsync: deleteBi } = useDeleteBIMutation();
 
     const navigate = useNavigate();
 
@@ -63,11 +63,11 @@ export const BILibraryPage = () => {
                                     <BiMenu
                                         biId={bi.id}
                                         onEditClick={() => handleEditBiClick(bi.id)}
-                                        onDeleteClick={() => deleteBi(bi.id)}
+                                        onDeleteClick={() => deleteBi(String(bi.id))}
                                     />
                                 </S.FlexContainer>
                                 <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
-                                <S.Number>{bi.identificator}</S.Number>
+                                <S.Number>{bi.uniqueIdent}</S.Number>
                                 <S.Description>{bi.descr}</S.Description>
                             </S.BICard>
                         ))}

@@ -2,11 +2,11 @@ import React, { FC, useRef, useState } from 'react';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import {
-//     useCreateCJStepMutation,
-//     useDeleteCJStepMutation,
-//     useUpdateCJStepMutation,
-// } from 'api/queries/cj';
+import {
+    useCreateCJStepMutation,
+    useDeleteCJStepMutation,
+    useUpdateCJStepMutation,
+} from 'api/queries/cj';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -14,20 +14,20 @@ import { IColumnMenu } from './types';
 import * as S from './units';
 
 export const ColumnMenu: FC<IColumnMenu> = ({
-    // cjId,
-    // stepId,
-    // stepName,
+    cjId,
+    stepId,
+    stepName,
     tableDataLength,
     stepIndex,
-    addStep,
-    deleteStep,
-    changePositionOfStep,
+    // addStep,
+    // deleteStep,
+    // changePositionOfStep,
     setOpenSideBlockName,
     setRenameIndex,
 }) => {
-    // const { mutateAsync: deleteStep } = useDeleteCJStepMutation();
-    // const { mutateAsync: createStep } = useCreateCJStepMutation();
-    // const { mutateAsync: updateStep } = useUpdateCJStepMutation();
+    const { mutateAsync: deleteStep } = useDeleteCJStepMutation();
+    const { mutateAsync: createStep } = useCreateCJStepMutation();
+    const { mutateAsync: updateStep } = useUpdateCJStepMutation();
 
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -60,46 +60,46 @@ export const ColumnMenu: FC<IColumnMenu> = ({
         setMoveMenu(false);
     };
 
-    const handleAddColumnClick = (before: boolean) => {
-        addStep(before ? stepIndex : stepIndex + 1);
-        hideMenuHandler();
-    };
-
-    // const handleAddColumnClick = async (before: boolean) => {
-    //     await createStep({
-    //         cjId: String(cjId),
-    //         data: { name: 'Название шага', order: before ? stepIndex : stepIndex + 1 },
-    //     });
-    //     showSnackbar({ message: 'Шаг добавлен' });
+    // const handleAddColumnClick = (before: boolean) => {
+    //     addStep(before ? stepIndex : stepIndex + 1);
     //     hideMenuHandler();
     // };
 
-    const handleChangePositionClick = (right: boolean) => {
-        changePositionOfStep(stepIndex, right);
+    const handleAddColumnClick = async (before: boolean) => {
+        await createStep({
+            cjId: String(cjId),
+            data: { name: 'Название шага', order: before ? stepIndex : stepIndex + 1 },
+        });
+        showSnackbar({ message: 'Шаг добавлен' });
         hideMenuHandler();
     };
 
-    // const handleChangePositionClick = async (right: boolean) => {
-    //     await updateStep({
-    //         cjId: String(cjId),
-    //         stepId: String(stepId),
-    //         data: { name: stepName, order: right ? stepIndex + 1 : stepIndex - 1 },
-    //     });
-    //     showSnackbar({ message: 'Шаг перемещён' });
+    // const handleChangePositionClick = (right: boolean) => {
+    //     changePositionOfStep(stepIndex, right);
     //     hideMenuHandler();
     // };
 
-    const handleDeleteStepClick = () => {
-        deleteStep(stepIndex);
-        showSnackbar({ message: 'Шаг удалён' });
+    const handleChangePositionClick = async (right: boolean) => {
+        await updateStep({
+            cjId: String(cjId),
+            stepId: String(stepId),
+            data: { name: stepName, order: right ? stepIndex + 1 : stepIndex - 1 },
+        });
+        showSnackbar({ message: 'Шаг перемещён' });
         hideMenuHandler();
     };
 
-    // const handleDeleteStepClick = async () => {
-    //     await deleteStep({ cjId: String(cjId), stepId: String(stepId) });
+    // const handleDeleteStepClick = () => {
+    //     deleteStep(stepIndex);
     //     showSnackbar({ message: 'Шаг удалён' });
     //     hideMenuHandler();
     // };
+
+    const handleDeleteStepClick = async () => {
+        await deleteStep({ cjId: String(cjId), stepId: String(stepId) });
+        showSnackbar({ message: 'Шаг удалён' });
+        hideMenuHandler();
+    };
 
     return (
         <>

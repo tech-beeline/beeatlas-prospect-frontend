@@ -135,7 +135,7 @@ export const BiView: FC<IBiView> = ({
 
                     <div>
                         <S.Body3>Канал</S.Body3>
-                        <S.Body2>{currentBi && getChannel(currentBi?.channel)}</S.Body2>
+                        <S.Body2>{currentBi && getChannel(currentBi?.channels[0].value)}</S.Body2>
                     </div>
 
                     <div>

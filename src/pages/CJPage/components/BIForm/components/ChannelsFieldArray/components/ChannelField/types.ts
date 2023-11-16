@@ -1,9 +1,9 @@
-export interface IParticipantFields {
+export interface IChannelField {
     index: number;
-    options: { id: number; name: string }[];
     fieldsLength: number;
     alreadySelected: number[];
     add: () => void;
     remove: (index: number) => void;
+    options: { id: number; name: string }[];
     fullscreen?: boolean;
 }

@@ -7,6 +7,10 @@ export interface Participant {
     value: string;
 }
 
+export interface Channel {
+    value: number;
+}
+
 export interface Enter {
     enter: number;
     exit: number;
@@ -28,7 +32,7 @@ export interface BI {
     // enters: Enter[];
     document: string;
     mockup: string;
-    channel: number;
+    channels: Channel[];
 }
 
 export interface Step {
@@ -74,7 +78,7 @@ export const businessInteraction: BI = {
     // enters: [{ enter: 0, exit: 0 }],
     document: 'https://example.com/',
     mockup: 'https://example.com/',
-    channel: 0,
+    channels: [{ value: 0 }],
 };
 
 // export const SEARCH_BIS: BI[] = [
@@ -106,7 +110,7 @@ export const businessInteraction: BI = {
 //         // enters: [{ enter: 0, exit: 0 }],
 //         document: 'https://example.com/',
 //         mockup: 'https://example.com/',
-//         channel: 0,
+//         channels: [{value: 0}],
 //     },
 //     {
 //         id: 2,
@@ -136,7 +140,7 @@ export const businessInteraction: BI = {
 //         // enters: [{ enter: 0, exit: 0 }],
 //         document: 'https://example.com/',
 //         mockup: 'https://example.com/',
-//         channel: 0,
+//         channels: [{value: 0}],
 //     },
 //     {
 //         id: 3,
@@ -166,7 +170,7 @@ export const businessInteraction: BI = {
 //         // enters: [{ enter: 0, exit: 0 }],
 //         document: 'https://example.com/',
 //         mockup: 'https://example.com/',
-//         channel: 0,
+//         channels: [{value: 0}],
 //     },
 //     {
 //         id: 4,
@@ -196,7 +200,7 @@ export const businessInteraction: BI = {
 //         // enters: [{ enter: 0, exit: 0 }],
 //         document: 'https://example.com/',
 //         mockup: 'https://example.com/',
-//         channel: 0,
+//         channels: [{value: 0}],
 //     },
 // ];
 
@@ -227,7 +231,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: 'https://confluence.veon.com/pages/viewpage.action?pageId=346408322',
         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
     {
         id: 10002,
@@ -262,7 +266,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: 'https://confluence.veon.com/pages/viewpage.action?pageId=346410494',
         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=405:64426',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
     {
         id: 10003,
@@ -290,7 +294,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: 'https://confluence.veon.com/pages/viewpage.action?pageId=346410904',
         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
     {
         id: 10004,
@@ -320,7 +324,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: 'https://confluence.veon.com/pages/viewpage.action?pageId=346411061',
         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
     {
         id: 10005,
@@ -352,7 +356,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: 'https://confluence.veon.com/pages/viewpage.action?pageId=346411146',
         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=364:57599',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
     {
         id: 10006,
@@ -380,7 +384,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: 'https://confluence.veon.com/pages/viewpage.action?pageId=346410961',
         mockup: 'https://pixso.beeline.ru/app/editor/nZ6Z2WXMrIq1nIiImWEOJQ?item-id=385:57183',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
     {
         id: 10007,
@@ -412,7 +416,7 @@ export const SEARCH_BIS: BI[] = [
         // enters: [{ enter: 0, exit: 0 }],
         document: '',
         mockup: '',
-        channel: 1,
+        channels: [{ value: 1 }],
     },
 ];
 

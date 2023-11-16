@@ -6,9 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
 
+import { useGetBIStatusesQuery } from 'api/queries/bi-library';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
+import { ChannelsFieldArray } from './components/ChannelsFieldArray';
 import { ParticiapntsFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
@@ -17,6 +19,8 @@ import * as S from './units';
 export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
     ({ onClose, onSave, defaultValues, showButtons = true, fullscreen = false }, buttonRef) => {
         const { modalOpened, openModal, closeModal } = useModal();
+
+        const { data } = useGetBIStatusesQuery();
 
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
@@ -29,7 +33,10 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             if (defaultValues) {
                 reset(defaultValues);
             } else {
-                reset({ participants: [{ participant: 0, value: '', descr: '' }] });
+                reset({
+                    participants: [{ participant: 1, value: '', descr: '' }],
+                    channels: [{ value: 1 }],
+                });
             }
         }, [defaultValues]);
 
@@ -90,29 +97,12 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                     <Select
                                         name="status"
                                         label="Стадия ЖЦ*"
-                                        defaultValue={3}
-                                        options={[
-                                            // {
-                                            //     id: 0,
-                                            //     value: 'Передан в эксплуатацию',
-                                            // },
-                                            // {
-                                            //     id: 1,
-                                            //     value: 'Не передан',
-                                            // },
-                                            // {
-                                            //     id: 2,
-                                            //     value: 'Неизвестно',
-                                            // },
-                                            {
-                                                id: 3,
-                                                value: 'Черновик',
-                                            },
-                                            {
-                                                id: 2,
-                                                value: 'Опубликован',
-                                            },
-                                        ]}
+                                        options={
+                                            data?.map((option) => ({
+                                                id: option.id,
+                                                value: option.name,
+                                            })) ?? []
+                                        }
                                     />
                                 </S.GrowContainer>
                                 {fullscreen && (
@@ -129,8 +119,6 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <FeelingPicker name="feelings" />
 
-                            {/* <EntersFieldArray /> */}
-
                             <S.SubTitle id="scenarios">Сценарии</S.SubTitle>
 
                             <TextArea name="clientScenario" label="Клиентский сценарий*" />
@@ -139,55 +127,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <TextArea name="ucsReaction" label="Описание реакции ЕКП*" />
 
-                            <S.SubTitle id="channels">Каналы</S.SubTitle>
-
-                            <Select
-                                name="channel"
-                                label="Канал*"
-                                defaultValue={1}
-                                options={[
-                                    {
-                                        id: 1,
-                                        value: 'Web site',
-                                    },
-                                    {
-                                        id: 2,
-                                        value: 'Интернет магазин',
-                                    },
-                                    {
-                                        id: 3,
-                                        value: 'Мобильное приложение',
-                                    },
-                                    {
-                                        id: 4,
-                                        value: 'Личный кабинет',
-                                    },
-                                    {
-                                        id: 5,
-                                        value: 'Партнерские витрины',
-                                    },
-                                    {
-                                        id: 6,
-                                        value: 'Собственные офисы продаж',
-                                    },
-                                    {
-                                        id: 7,
-                                        value: 'Офисы продаж (мультибренд)',
-                                    },
-                                    {
-                                        id: 8,
-                                        value: 'Офисы продаж (франшиза)',
-                                    },
-                                    {
-                                        id: 9,
-                                        value: 'Персональная поддержка',
-                                    },
-                                    {
-                                        id: 10,
-                                        value: 'Поддержка',
-                                    },
-                                ]}
-                            />
+                            <ChannelsFieldArray fullscreen={fullscreen} />
 
                             <S.SubTitle id="documentation">Документация</S.SubTitle>
 

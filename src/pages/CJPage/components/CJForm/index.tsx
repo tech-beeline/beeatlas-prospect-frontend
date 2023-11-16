@@ -6,12 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { TextField } from 'components/form';
 
+// import { useUpdateCJMutation } from 'api/queries/cj';
 import { SideBlock } from '../SideBlock';
 
 import { FormValues, validationSchema } from './form';
 import { IStepForm } from './types';
 import * as S from './units';
-// import { useUpdateCJMutation } from 'api/queries/cj';
 
 export const CJForm: FC<IStepForm> = ({ values, isOpen, updateCJ, onClose }) => {
     const form = useForm<FormValues>({

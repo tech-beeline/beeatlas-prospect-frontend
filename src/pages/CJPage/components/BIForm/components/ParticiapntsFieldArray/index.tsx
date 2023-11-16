@@ -3,14 +3,17 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { useGetBIParticipantsQuery } from 'api/queries/bi-library';
+
 import { FormValues } from '../../form';
 import * as S from '../units';
 
 import { ParticipantFields } from './components';
-import { OPTIONS } from './const';
 import { IParticipantsFieldArray } from './types';
 
 export const ParticiapntsFieldArray: FC<IParticipantsFieldArray> = ({ fullscreen = false }) => {
+    const { data } = useGetBIParticipantsQuery();
+
     const { control, watch } = useFormContext<FormValues>();
 
     const {
@@ -28,7 +31,7 @@ export const ParticiapntsFieldArray: FC<IParticipantsFieldArray> = ({ fullscreen
         participants?.map((participant) => participant.participant) ?? [];
 
     const nextParticipant =
-        OPTIONS.find((option) => !alreadySelectedParticiapnts.includes(option.id))?.id ?? 0;
+        (data ?? []).find((option) => !alreadySelectedParticiapnts.includes(option.id))?.id ?? 0;
 
     const handleAddClick = () => {
         append({ descr: '', participant: nextParticipant, value: '' }, { shouldFocus: false });
@@ -38,7 +41,7 @@ export const ParticiapntsFieldArray: FC<IParticipantsFieldArray> = ({ fullscreen
         <div>
             <S.FlexContainer>
                 <S.SubTitle id="participants">Участники взаимодействия</S.SubTitle>
-                {participantFields.length < 3 && !fullscreen && (
+                {data && participantFields.length < data.length && !fullscreen && (
                     <IconButton iconName={Icons.Add} size="large" onClick={handleAddClick} />
                 )}
             </S.FlexContainer>
@@ -46,6 +49,7 @@ export const ParticiapntsFieldArray: FC<IParticipantsFieldArray> = ({ fullscreen
                 <div key={field.id}>
                     <ParticipantFields
                         fullscreen={fullscreen}
+                        options={data ?? []}
                         index={index}
                         fieldsLength={participantFields.length}
                         add={handleAddClick}
