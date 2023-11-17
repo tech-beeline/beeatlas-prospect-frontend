@@ -1,12 +1,9 @@
-import { BI, Step } from 'pages/CJPage/mocks';
+import { IStepWithBIs } from 'api/queries/cj';
 export interface IStepForm {
     cjId: number;
     isOpen: boolean;
-    defaultName: string;
-    step: Step;
+    step: IStepWithBIs;
     onClose: () => void;
-    updateStep: (name: string, BIs: BI[]) => void;
-    initialBIs: BI[];
 }
 
 export enum Stage {

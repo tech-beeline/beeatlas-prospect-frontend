@@ -79,7 +79,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                             {!fullscreen && (
                                 <S.BannerStyled
                                     iconName={Icons.InfoCircled}
-                                    color="default"
+                                    color="warning"
                                     title={`Коммунальный BI будет\nдоступен всем командам\nв компании. Вы не\nсможете вносить правки,\nесли другие команды\nдобавят его в свой CJ`}
                                 />
                             )}

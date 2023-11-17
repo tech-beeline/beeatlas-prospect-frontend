@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
+import { IBIData } from 'api/bi/types';
 import {
     deleteCJ,
     deleteCJStep,
@@ -13,6 +14,8 @@ import {
     putCJStep,
 } from 'api/cj';
 import { ICJData, ICJForm, ICJStepData, ICJStepForm } from 'api/cj/types';
+import { deleteCJStepBI, getCJStepBIs, putCJStepBIs } from 'api/cj-step';
+import { ICJStepBIForm } from 'api/cj-step/types';
 
 export const CJ_PREFIX = 'CJ_PREFIX';
 const STEP_PREFIX = 'STEP_PREFIX';
@@ -144,8 +147,11 @@ export function useDeleteCJStepMutation() {
     );
 }
 
+export interface IStepWithBIs extends ICJStepData {
+    bis: IBIData[];
+}
 interface ICompleteCJData extends ICJData {
-    steps: ICJStepData[];
+    steps: IStepWithBIs[];
 }
 export const useGetCompleteCJDataByIdQuery = (id: string | undefined | null) => {
     return useQuery<ICompleteCJData>(
@@ -155,10 +161,58 @@ export const useGetCompleteCJDataByIdQuery = (id: string | undefined | null) => 
                 getCJById(id!).then((res) => res.data),
                 getCJStepCollection(id!).then((res) => res.data),
             ]);
-            return { ...data[0], steps: [...data[1].sort((a, b) => a.order - b.order)] };
+
+            const stepIds = data[1].sort((a, b) => a.order - b.order).map((step) => step.id);
+
+            const stepsData = await Promise.all(
+                stepIds.map((id) => getCJStepBIs(String(id)).then((res) => res.data)),
+            );
+
+            return {
+                ...data[0],
+                steps: [
+                    ...data[1]
+                        .sort((a, b) => a.order - b.order)
+                        .map((step, i) => ({ ...step, bis: stepsData[i] })),
+                ],
+            };
         },
         {
             enabled: Boolean(id),
         },
     );
 };
+
+interface IUpdateCJStepBIsParams {
+    stepId: string;
+    data: ICJStepBIForm;
+}
+export function useUpdateCJStepBIsMutation() {
+    const queryClient = useQueryClient();
+    return useMutation(
+        [CJ_PREFIX, STEP_PREFIX, 'update', 'bi'],
+        ({ stepId, data }: IUpdateCJStepBIsParams) => putCJStepBIs(stepId, data),
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(CJ_PREFIX);
+            },
+        },
+    );
+}
+
+interface IDeleteStepBIParams {
+    stepId: string;
+    biId: string;
+}
+export function useDeleteBIFromStepMutation() {
+    const queryClient = useQueryClient();
+    return useMutation(
+        [CJ_PREFIX, STEP_PREFIX, 'delete', 'bi'],
+        ({ stepId, biId }: IDeleteStepBIParams) => deleteCJStepBI(stepId, biId),
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(CJ_PREFIX);
+            },
+        },
+    );
+}

@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { BI } from 'pages/CJPage/mocks';
+import { IBIData } from 'api/bi/types';
+// import { BI } from 'pages/CJPage/mocks';
 import { capitalizeFirstLetter } from 'utils/helpers';
 
 import { IRow } from './types';
@@ -24,7 +25,7 @@ export const Row = <T,>({
 
     const allBIs = steps.reduce(
         (acc, step, stepIndex) => [...acc, ...(step.bis.length > 0 ? step.bis : [{ stepIndex }])],
-        [] as (BI | { stepIndex: number })[],
+        [] as (IBIData | { stepIndex: number })[],
     );
 
     return (

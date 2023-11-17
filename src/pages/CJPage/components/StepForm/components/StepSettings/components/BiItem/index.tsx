@@ -11,27 +11,29 @@ import { IBiItem } from './types';
 
 export const BiItem: FC<IBiItem> = ({
     bi,
+    stepId,
     // newBi,
     index,
     totalLength,
     setSelectedBiId,
     setStage,
-    removeBi,
-    moveBi,
+    // removeBi,
+    // moveBi,
 }) => {
     return (
         <S.BIFlexWrapper>
             <S.TitleFlexWrapper>
                 <BiMenu
+                    stepId={stepId}
                     biId={bi.id}
                     index={index}
                     totalLength={totalLength}
-                    removeBi={removeBi}
-                    moveBi={moveBi}
+                    // removeBi={removeBi}
+                    // moveBi={moveBi}
                 />
                 <div>
                     <S.Body2>{bi.name}</S.Body2>
-                    <S.Body3>{bi.identificator}</S.Body3>
+                    <S.Body3>{bi.uniqueIdent}</S.Body3>
                     {/* <S.Body2>{newBi.name}</S.Body2>
                     <S.Body3>{newBi.uniqueIdent}</S.Body3> */}
                 </div>

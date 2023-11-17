@@ -1,43 +1,28 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
+import { IBIData } from 'api/bi/types';
 import { useModal } from 'hooks';
-import { useMockCJtore } from 'pages/CJLibraryPage/mocks';
-import { BI, Step } from 'pages/CJPage/mocks';
 import { formatNullableString } from 'utils/formatters';
-import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
     formatCommunal,
     formatFeeling,
-    formatLinkFromString,
-    formatParticipants,
+    // formatLinkFromString,
+    // formatParticipants,
     formatStatus,
     formatType,
-    getChannel,
+    // getChannel,
 } from '../../utils/formatters';
 import { StepForm } from '../StepForm';
 
-import { Row } from './components/Row';
-import { ColumnMenu } from './components';
+import { ColumnMenu, Row } from './components';
+import { COLORS } from './const';
 import { ITable } from './types';
 import * as S from './units';
 
-const colors = [
-    'var(--color-accent-lemon-background)',
-    'var(--color-status-success-background)',
-    'var(--color-accent-magenta-background)',
-    'var(--color-accent-teal-background)',
-];
-
-export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
-    // const [tableData, setTableData] = useState<Step[]>([]);
-
-    const { updateCj } = useMockCJtore();
-
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-
+export const Table: FC<ITable> = ({ cjId, tableData }) => {
     const [hiddenRows, setHiddenRows] = useState<string[]>([]);
     const [isHiddenRowsVisible, setHiddenRowsVisible] = useState(false);
     const [selectedStep, setSelectedStep] = useState<Nullable<number>>(null);
@@ -48,94 +33,9 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
         closeModal: closeStepForm,
     } = useModal();
 
-    const addColors = (data: any[], colors: any[]) => {
-        const colorCount = colors.length;
-
-        const newData = data.map((item, index) => {
-            const colorIndex = index % colorCount;
-            const color = colors[colorIndex];
-
-            return {
-                color: color,
-                ...item,
-            };
-        });
-
-        setTableData(newData as any);
-    };
-
-    useEffect(() => {
-        if (tableData.some((step) => !step.color)) {
-            addColors(tableData, colors);
-        }
-    }, [tableData]);
-
-    const changePositionOfColumn = (index: number, isRight?: boolean) => {
-        const copyOfData = [...tableData];
-        const temp = copyOfData[index];
-
-        if (isRight) {
-            copyOfData[index] = copyOfData[index + 1];
-            copyOfData[index + 1] = temp;
-        } else {
-            copyOfData[index] = copyOfData[index - 1];
-            copyOfData[index - 1] = temp;
-        }
-
-        setTableData(copyOfData);
-        updateCj(cjId, { steps: copyOfData });
-        showSnackbar({ message: 'Шаг перемещён' });
-    };
-
-    const removeColumn = (indexForRemove: number) => {
-        const data = tableData.filter((_, index) => index !== indexForRemove);
-        setTableData(data);
-        updateCj(cjId, { steps: data });
-        showSnackbar({ message: 'Шаг удалён' });
-    };
-
-    const addNewColumn = (index: number) => {
-        let excludedСolors: any = [];
-
-        if (index === 0 && tableData.length > 1) {
-            excludedСolors = [tableData[index].color, tableData[index + 1].color];
-        } else if (index === tableData.length && tableData.length > 1) {
-            excludedСolors = [tableData[index - 2].color, tableData[index - 1].color];
-        } else if (tableData.length > 1) {
-            excludedСolors = [tableData[index].color, tableData[index - 1].color];
-        } else {
-            excludedСolors = [tableData[0].color];
-        }
-
-        const availableСolors = colors.filter((color) => !excludedСolors.includes(color));
-
-        const newColumn: Step = {
-            bis: [],
-            color: availableСolors[Math.floor(Math.random() * availableСolors.length)],
-            columnName: 'Название шага',
-        };
-
-        const copyOfData = [...tableData];
-
-        copyOfData.splice(index, 0, newColumn);
-
-        setTableData(copyOfData);
-        updateCj(cjId, { steps: copyOfData });
-        showSnackbar({ message: 'Шаг добавлен' });
-    };
-
-    const updateStep = (name: string, bis: BI[]) => {
-        const data = tableData.map((item, index) =>
-            index === selectedStep ? { ...item, columnName: name, bis } : item,
-        );
-        setTableData(data);
-        updateCj(cjId, { steps: data });
-        showSnackbar({ message: 'Изменения сохранены' });
-    };
-
     const allBIs = tableData.reduce(
         (acc, step) => [...acc, ...(step.bis.length > 0 ? step.bis : [])],
-        [] as BI[],
+        [] as IBIData[],
     );
 
     const handleAddRowButtonClick = (biIndex: number) => {
@@ -155,18 +55,15 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                                 <S.Th
                                     colSpan={step.bis.length ?? 1}
                                     key={stepIndex}
-                                    backgroundColor={step.color}
+                                    backgroundColor={COLORS[stepIndex % COLORS.length]}
                                 >
                                     <S.FlexWrapper>
-                                        <p data-testid={`${stepIndex}Step`}>{step.columnName}</p>
+                                        <p data-testid={`${stepIndex}Step`}>{step.name}</p>
 
                                         <ColumnMenu
                                             cjId={cjId}
-                                            stepId={step.id ?? 0}
-                                            stepName={step.columnName ?? ''}
-                                            addStep={addNewColumn}
-                                            changePositionOfStep={changePositionOfColumn}
-                                            deleteStep={removeColumn}
+                                            stepId={step.id}
+                                            stepName={step.name}
                                             stepIndex={stepIndex}
                                             setOpenSideBlockName={openStepFrom}
                                             setRenameIndex={setSelectedStep}
@@ -199,7 +96,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
                             formatData={formatNullableString}
-                            parseData={(bi) => bi.identificator}
+                            parseData={(bi) => bi.uniqueIdent}
                             steps={tableData}
                         />
                         <Row
@@ -243,10 +140,10 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
                             formatData={formatStatus}
-                            parseData={(bi) => bi.status}
+                            parseData={(bi) => bi.statusId}
                             steps={tableData}
                         />
-                        <Row
+                        {/* <Row
                             rowId="participants"
                             label="Участники взаимодействия"
                             hiddenRows={hiddenRows}
@@ -256,7 +153,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             formatData={formatParticipants}
                             parseData={(bi) => bi.participants}
                             steps={tableData}
-                        />
+                        /> */}
                         {/* <Row
                             rowId="enters"
                             label="Входы/выходы"
@@ -291,7 +188,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             parseData={(bi) => bi.clientScenario}
                             steps={tableData}
                         />
-                        <Row
+                        {/* <Row
                             rowId="flowLink"
                             label="Ссылка на флоу"
                             hiddenRows={hiddenRows}
@@ -301,7 +198,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             formatData={formatLinkFromString}
                             parseData={(bi) => bi.flowLink}
                             steps={tableData}
-                        />
+                        /> */}
                         <Row
                             rowId="ucsReaction"
                             label="Описание реакции ЕКП"
@@ -314,7 +211,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             steps={tableData}
                         />
 
-                        <Row
+                        {/* <Row
                             rowId="channel"
                             label="Канал"
                             hiddenRows={hiddenRows}
@@ -324,8 +221,8 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             formatData={getChannel}
                             parseData={(bi) => bi.channels[0].value}
                             steps={tableData}
-                        />
-                        <Row
+                        /> */}
+                        {/* <Row
                             rowId="document"
                             label="Документация"
                             hiddenRows={hiddenRows}
@@ -335,8 +232,8 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             formatData={formatLinkFromString}
                             parseData={(bi) => bi.document}
                             steps={tableData}
-                        />
-                        <Row
+                        /> */}
+                        {/* <Row
                             rowId="mockup"
                             label="Макет"
                             hiddenRows={hiddenRows}
@@ -346,7 +243,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                             formatData={formatLinkFromString}
                             parseData={(bi) => bi.mockup}
                             steps={tableData}
-                        />
+                        /> */}
 
                         <S.Row>
                             <S.LabelTd>
@@ -369,22 +266,12 @@ export const Table: FC<ITable> = ({ cjId, tableData, setTableData }) => {
                 </S.Table>
             </S.TableWrapper>
 
-            {/* <StepForm
-                isOpen={stepFormOpened}
-                onClose={closeStepForm}
-                updateStep={updateStep}
-                defaultName={tableData[selectedStep ?? 0]?.columnName ?? ''}
-                initialBIs={tableData[selectedStep ?? 0]?.bis ?? []}
-            /> */}
             {tableData[selectedStep ?? 0] && (
                 <StepForm
                     cjId={cjId}
                     step={tableData[selectedStep ?? 0]}
                     isOpen={stepFormOpened}
                     onClose={closeStepForm}
-                    updateStep={updateStep}
-                    defaultName={tableData[selectedStep ?? 0]?.columnName ?? ''}
-                    initialBIs={tableData[selectedStep ?? 0]?.bis ?? []}
                 />
             )}
         </S.PageWrapper>

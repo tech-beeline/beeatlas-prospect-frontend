@@ -1,14 +1,14 @@
-import React, { FC } from 'react';
-import { Button, IconButton, Label } from '@beeline/design-system-react';
+import React, { FC, Fragment } from 'react';
+import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { IconFeeling } from 'components/other';
 
-// import { useGetBIByIdQuery } from 'api/queries/bi';
-import { useMockBIStore } from 'pages/CJPage/mocks';
+import { useGetBIByIdQuery } from 'api/queries/bi';
+import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
 import {
     formatLinkFromString,
-    getChannel,
+    // getChannel,
     // getEnter,
     // getExit,
     getFeelingType,
@@ -24,17 +24,21 @@ import { IBiView } from './types';
 
 export const BiView: FC<IBiView> = ({
     selectedBiId,
+    stepId,
     setStage,
-    addBi,
-    // addNewBi,
     showButtons = true,
     goBackStage = Stage.BISEARCH,
 }) => {
-    // const { data: bi, isLoading } = useGetBIByIdQuery(String(selectedBiId));
+    const { data: bi, isLoading } = useGetBIByIdQuery(String(selectedBiId));
+    const { mutateAsync: updateStepBis, isLoading: updatingStep } = useUpdateCJStepBIsMutation();
 
-    const { getBiById } = useMockBIStore();
-
-    const currentBi = getBiById(selectedBiId);
+    const handleSelectClick = async () => {
+        await updateStepBis({
+            stepId: String(stepId),
+            data: { id_bi: selectedBiId, order: 0 },
+        });
+        setStage(Stage.SETTINGS);
+    };
 
     return (
         <S.FlexContainer>
@@ -47,7 +51,7 @@ export const BiView: FC<IBiView> = ({
                     />
                     <S.SideBlockTitle>Атрибуты BI</S.SideBlockTitle>
                 </S.TitleFlexWrapper>
-                <S.LabelsContainer>
+                {/* <S.LabelsContainer>
                     <Label
                         title={currentBi?.type === 0 ? 'Целевой' : 'Фактический'}
                         variant="contained"
@@ -147,8 +151,8 @@ export const BiView: FC<IBiView> = ({
                         <S.Body3>Макет</S.Body3>
                         <S.Body2>{formatLinkFromString(currentBi?.mockup)}</S.Body2>
                     </div>
-                </S.AttributesContainer>
-                {/* <S.LabelsContainer>
+                </S.AttributesContainer> */}
+                <S.LabelsContainer>
                     {isLoading && <Skeleton height={24} />}
                     {bi && (
                         <>
@@ -229,7 +233,9 @@ export const BiView: FC<IBiView> = ({
 
                             <div>
                                 <S.Body3>Канал</S.Body3>
-                                <S.Body2>{getChannel(bi.channelId)}</S.Body2>
+                                {bi.channel.map((channel, i) => (
+                                    <S.Body2 key={i}>{channel.name}</S.Body2>
+                                ))}
                             </div>
 
                             <div>
@@ -243,26 +249,9 @@ export const BiView: FC<IBiView> = ({
                             </div>
                         </>
                     )}
-                </S.AttributesContainer> */}
+                </S.AttributesContainer>
             </div>
-            {showButtons && (
-                <S.ButtonsContainer>
-                    {!currentBi?.communal && (
-                        <Button onClick={() => setStage(Stage.BIEDIT)}>Редактировать</Button>
-                    )}
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        onClick={() => {
-                            currentBi && addBi && addBi(currentBi);
-                            setStage(Stage.SETTINGS);
-                        }}
-                    >
-                        Выбрать
-                    </Button>
-                </S.ButtonsContainer>
-            )}
-            {/* {showButtons && bi && (
+            {showButtons && bi && (
                 <S.ButtonsContainer>
                     {!bi.communal && (
                         <Button onClick={() => setStage(Stage.BIEDIT)}>Редактировать</Button>
@@ -270,15 +259,13 @@ export const BiView: FC<IBiView> = ({
                     <Button
                         type="submit"
                         variant="contained"
-                        onClick={() => {
-                            addNewBi && addNewBi(bi);
-                            setStage(Stage.SETTINGS);
-                        }}
+                        disabled={updatingStep}
+                        onClick={handleSelectClick}
                     >
                         Выбрать
                     </Button>
                 </S.ButtonsContainer>
-            )} */}
+            )}
         </S.FlexContainer>
     );
 };

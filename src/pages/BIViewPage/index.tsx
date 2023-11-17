@@ -8,6 +8,7 @@ import { FloatingNavigation } from 'components/interaction';
 import { IconFeeling } from 'components/other';
 
 import { useGetBIByIdQuery } from 'api/queries/bi';
+import { useGetBIStatusesQuery } from 'api/queries/bi-library';
 // import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
@@ -16,7 +17,7 @@ import {
     // getExit,
     getFeelingType,
     getParticipant,
-    getStatus,
+    // getStatus,
 } from 'pages/CJPage/utils/formatters';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
@@ -29,7 +30,10 @@ export const BIViewPage = () => {
 
     // const { getBiById } = useMockBIStore();
 
-    const { data, isLoading } = useGetBIByIdQuery(paramId);
+    const { data, isLoading: isLoadingBI } = useGetBIByIdQuery(paramId);
+    const { data: statuses, isLoading: isLoadingStatuses } = useGetBIStatusesQuery();
+
+    const isLoading = isLoadingBI || isLoadingStatuses;
 
     // const [bi, setBi] = useState<BI | null>(null);
 
@@ -200,7 +204,7 @@ export const BIViewPage = () => {
                         </S.Navigation>
                     </>
                 )} */}
-                {data && (
+                {data && statuses && (
                     <>
                         <S.DataContainer>
                             <S.LabelsContainer>
@@ -217,7 +221,9 @@ export const BIViewPage = () => {
                                     />
                                 )}
                                 <Label
-                                    title={getStatus(data.statusId)}
+                                    title={
+                                        statuses.find((status) => status.id === data.statusId)?.name
+                                    }
                                     variant="contained"
                                     type="info"
                                 />

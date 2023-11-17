@@ -1,4 +1,6 @@
-import { BI, Step } from 'pages/CJPage/mocks';
+import { IBIData } from 'api/bi/types';
+import { IStepWithBIs } from 'api/queries/cj';
+// import { BI } from 'pages/CJPage/mocks';
 
 export interface IRow<T> {
     rowId: string;
@@ -12,6 +14,6 @@ export interface IRow<T> {
     firstRow?: boolean;
 
     //
-    steps: Step[];
-    parseData: (bi: BI) => T;
+    steps: IStepWithBIs[];
+    parseData: (bi: IBIData) => T;
 }

@@ -15,74 +15,25 @@ import { IStepSettings } from './types';
 
 export const StepSettings: FC<IStepSettings> = ({
     cjId,
-    stepId,
-    stepOrder,
+    step,
     onClose,
     setStage,
     setSelectedBiId,
     name,
     setName,
-    stepBIs,
-    setStepBIs,
-    // newStepBis,
-    // setNewStepBis,
-    // updateStep,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { mutateAsync: updateStep, isLoading: updatingStep } = useUpdateCJStepMutation();
 
-    // const handleSave = () => {
-    //     updateStep(name, stepBIs);
-    //     onClose();
-    // };
-
     const handleSave = async () => {
         await updateStep({
             cjId: String(cjId),
-            stepId: String(stepId),
-            data: { name, order: stepOrder },
+            stepId: String(step.id),
+            data: { name, order: step.order },
         });
         showSnackbar({ message: 'Изменения сохранены' });
         onClose();
     };
-
-    const moveBi = (index: number, up: boolean) => {
-        const copyOfData = [...stepBIs];
-        const temp = copyOfData[index];
-
-        if (!up) {
-            copyOfData[index] = copyOfData[index + 1];
-            copyOfData[index + 1] = temp;
-        } else {
-            copyOfData[index] = copyOfData[index - 1];
-            copyOfData[index - 1] = temp;
-        }
-
-        setStepBIs(copyOfData);
-    };
-
-    // const moveBi = (index: number, up: boolean) => {
-    //     const copyOfData = [...newStepBis];
-    //     const temp = copyOfData[index];
-
-    //     if (!up) {
-    //         copyOfData[index] = copyOfData[index + 1];
-    //         copyOfData[index + 1] = temp;
-    //     } else {
-    //         copyOfData[index] = copyOfData[index - 1];
-    //         copyOfData[index - 1] = temp;
-    //     }
-
-    //     setNewStepBis(copyOfData);
-    // };
-
-    const removeBI = (id: number) => {
-        setStepBIs(stepBIs.filter((bi) => bi.id !== id));
-    };
-
-    // const removeBI = (id: number) => {
-    //     setNewStepBis(newStepBis.filter((bi) => bi.id !== id));
-    // };
 
     return (
         <S.FlexContainer>
@@ -112,52 +63,29 @@ export const StepSettings: FC<IStepSettings> = ({
                     />
                 </S.SubtitleFlexWrapper>
 
-                {stepBIs.length === 0 && (
+                {step.bis.length === 0 && (
                     <S.EmptyState>
                         <img src={emptyBox} />
                         <S.Subtitle3Inactive>Добавьте первый BI</S.Subtitle3Inactive>
                     </S.EmptyState>
                 )}
 
-                {stepBIs.map((bi, index) => (
+                {step.bis.map((bi, index) => (
                     <BiItem
+                        stepId={step.id}
                         key={bi.id}
                         bi={bi}
                         index={index}
-                        totalLength={stepBIs.length}
+                        totalLength={step.bis.length}
                         setSelectedBiId={setSelectedBiId}
                         setStage={setStage}
-                        removeBi={removeBI}
-                        moveBi={moveBi}
                     />
                 ))}
-                {/* {newStepBis.length === 0 && (
-                    <S.EmptyState>
-                        <img src={emptyBox} />
-                        <S.Subtitle3Inactive>Добавьте первый BI</S.Subtitle3Inactive>
-                    </S.EmptyState>
-                )}
-
-                {newStepBis.map((bi, index) => (
-                    <BiItem
-                        key={bi.id}
-                        newBi={bi}
-                        index={index}
-                        totalLength={newStepBis.length}
-                        setSelectedBiId={setSelectedBiId}
-                        setStage={setStage}
-                        removeBi={removeBI}
-                        moveBi={moveBi}
-                    />
-                ))} */}
             </div>
 
             <S.ButtonsContainer>
                 <Button onClick={onClose}>Отменить</Button>
 
-                {/* <Button onClick={handleSave} variant="contained">
-                    Сохранить
-                </Button> */}
                 <Button onClick={handleSave} disabled={updatingStep} variant="contained">
                     Сохранить
                 </Button>
