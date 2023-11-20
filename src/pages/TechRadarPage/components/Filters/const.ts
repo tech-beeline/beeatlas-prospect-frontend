@@ -17,11 +17,11 @@ export const filterOptions = [
     },
     {
         id: 5,
-        value: 'Data',
+        value: 'Хранение данных',
     },
     {
         id: 6,
-        value: 'Базы данных',
+        value: 'Брокеры сообщений',
     },
     {
         id: 7,
