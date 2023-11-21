@@ -49,15 +49,21 @@ export const StepForm: FC<IStepForm> = ({ cjId, step, isOpen, onClose }) => {
                 <BiSelect
                     setStage={setStage}
                     setSelectedBiId={setSelectedBiId}
-                    selectedBiIds={step.bis.map((bi) => bi.id)}
+                    selectedBiIds={step.bi.map((bi) => bi.id)}
                 />
             )}
             {stage === Stage.BIVIEW && selectedBiId && (
-                <BiView stepId={step.id ?? 0} setStage={setStage} selectedBiId={selectedBiId} />
+                <BiView
+                    stepId={step.id ?? 0}
+                    stepBisLength={step.bi.length}
+                    setStage={setStage}
+                    selectedBiId={selectedBiId}
+                />
             )}
             {stage === Stage.SELECTEDBIVIEW && selectedBiId && (
                 <BiView
                     stepId={step.id ?? 0}
+                    stepBisLength={step.bi.length}
                     setStage={setStage}
                     selectedBiId={selectedBiId}
                     showButtons={false}

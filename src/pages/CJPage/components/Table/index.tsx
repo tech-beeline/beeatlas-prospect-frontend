@@ -34,7 +34,7 @@ export const Table: FC<ITable> = ({ cjId, tableData }) => {
     } = useModal();
 
     const allBIs = tableData.reduce(
-        (acc, step) => [...acc, ...(step.bis.length > 0 ? step.bis : [])],
+        (acc, step) => [...acc, ...(step.bi.length > 0 ? step.bi : [])],
         [] as IBIData[],
     );
 
@@ -53,7 +53,7 @@ export const Table: FC<ITable> = ({ cjId, tableData }) => {
 
                             {tableData.map((step, stepIndex) => (
                                 <S.Th
-                                    colSpan={step.bis.length ?? 1}
+                                    colSpan={step.bi.length ?? 1}
                                     key={stepIndex}
                                     backgroundColor={COLORS[stepIndex % COLORS.length]}
                                 >

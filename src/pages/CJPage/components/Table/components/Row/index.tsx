@@ -24,7 +24,7 @@ export const Row = <T,>({
     const isHidden = hiddenRows.includes(rowId);
 
     const allBIs = steps.reduce(
-        (acc, step, stepIndex) => [...acc, ...(step.bis.length > 0 ? step.bis : [{ stepIndex }])],
+        (acc, step, stepIndex) => [...acc, ...(step.bi.length > 0 ? step.bi : [{ stepIndex }])],
         [] as (IBIData | { stepIndex: number })[],
     );
 

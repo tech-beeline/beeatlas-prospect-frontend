@@ -1,8 +1,9 @@
-import { IStepWithBIs } from 'api/queries/cj';
+import { ICompleteStepData } from 'api/cj/types';
+
 export interface IStepForm {
     cjId: number;
     isOpen: boolean;
-    step: IStepWithBIs;
+    step: ICompleteStepData;
     onClose: () => void;
 }
 

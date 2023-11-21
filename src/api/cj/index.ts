@@ -12,7 +12,7 @@ export const getAllCJs = (search: string): AxiosPromise<T.ICJData[]> => {
     });
 };
 
-export const getCJById = (id: string): AxiosPromise<T.ICJData> => {
+export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.get({
         url: `${API_URL}cx/v1/product/cj/${id}`,
     });

@@ -25,6 +25,7 @@ import { IBiView } from './types';
 export const BiView: FC<IBiView> = ({
     selectedBiId,
     stepId,
+    stepBisLength,
     setStage,
     showButtons = true,
     goBackStage = Stage.BISEARCH,
@@ -35,7 +36,7 @@ export const BiView: FC<IBiView> = ({
     const handleSelectClick = async () => {
         await updateStepBis({
             stepId: String(stepId),
-            data: { id_bi: selectedBiId, order: 0 },
+            data: { id_bi: selectedBiId, order: stepBisLength },
         });
         setStage(Stage.SETTINGS);
     };

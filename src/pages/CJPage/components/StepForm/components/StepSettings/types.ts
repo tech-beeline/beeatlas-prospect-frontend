@@ -1,10 +1,10 @@
-import { IStepWithBIs } from 'api/queries/cj';
+import { ICompleteStepData } from 'api/cj/types';
 
 import { Stage } from '../../types';
 
 export interface IStepSettings {
     cjId: number;
-    step: IStepWithBIs;
+    step: ICompleteStepData;
     name: string;
     setName: (name: string) => void;
     onClose: () => void;

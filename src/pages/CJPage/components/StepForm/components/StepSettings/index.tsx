@@ -63,20 +63,20 @@ export const StepSettings: FC<IStepSettings> = ({
                     />
                 </S.SubtitleFlexWrapper>
 
-                {step.bis.length === 0 && (
+                {step.bi.length === 0 && (
                     <S.EmptyState>
                         <img src={emptyBox} />
                         <S.Subtitle3Inactive>Добавьте первый BI</S.Subtitle3Inactive>
                     </S.EmptyState>
                 )}
 
-                {step.bis.map((bi, index) => (
+                {step.bi.map((bi, index) => (
                     <BiItem
                         stepId={step.id}
                         key={bi.id}
                         bi={bi}
                         index={index}
-                        totalLength={step.bis.length}
+                        totalLength={step.bi.length}
                         setSelectedBiId={setSelectedBiId}
                         setStage={setStage}
                     />

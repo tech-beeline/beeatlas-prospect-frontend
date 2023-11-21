@@ -1,8 +1,6 @@
-import { IStepWithBIs } from 'api/queries/cj';
-// import { Step } from 'pages/CJPage/mocks';
+import { ICompleteStepData } from 'api/cj/types';
 
 export interface ITable {
     cjId: number;
-    tableData: IStepWithBIs[];
-    // setTableData: (steps: IStepWithBIs[]) => void;
+    tableData: ICompleteStepData[];
 }
