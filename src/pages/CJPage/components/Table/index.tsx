@@ -2,15 +2,15 @@ import React, { FC, useState } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
-import { IBIData } from 'api/bi/types';
+import { IBIData, IBILink } from 'api/bi/types';
 import { useModal } from 'hooks';
 import { formatNullableString } from 'utils/formatters';
 
 import {
     formatCommunal,
     formatFeeling,
-    // formatLinkFromString,
-    // formatParticipants,
+    formatLinkFromString,
+    formatParticipants,
     formatStatus,
     formatType,
     // getChannel,
@@ -143,7 +143,7 @@ export const Table: FC<ITable> = ({ cjId, tableData }) => {
                             parseData={(bi) => bi.statusId}
                             steps={tableData}
                         />
-                        {/* <Row
+                        <Row
                             rowId="participants"
                             label="Участники взаимодействия"
                             hiddenRows={hiddenRows}
@@ -153,18 +153,7 @@ export const Table: FC<ITable> = ({ cjId, tableData }) => {
                             formatData={formatParticipants}
                             parseData={(bi) => bi.participants}
                             steps={tableData}
-                        /> */}
-                        {/* <Row
-                            rowId="enters"
-                            label="Входы/выходы"
-                            hiddenRows={hiddenRows}
-                            onAddButtonClick={handleAddRowButtonClick}
-                            setHiddenRows={setHiddenRows}
-                            isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={formatEnters}
-                            parseData={(bi) => bi.enters}
-                            steps={tableData}
-                        /> */}
+                        />
                         <Row
                             rowId="feelings"
                             label="Чувства и эмоции клиента"
@@ -211,39 +200,61 @@ export const Table: FC<ITable> = ({ cjId, tableData }) => {
                             steps={tableData}
                         />
 
-                        {/* <Row
+                        <Row
                             rowId="channel"
                             label="Канал"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={getChannel}
-                            parseData={(bi) => bi.channels[0].value}
+                            formatData={(channels: { name: string }[]) =>
+                                formatNullableString(
+                                    channels.map((channel) => channel.name).join(', '),
+                                )
+                            }
+                            parseData={(bi) => bi.channel}
                             steps={tableData}
-                        /> */}
-                        {/* <Row
+                        />
+                        <Row
                             rowId="document"
                             label="Документация"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={formatLinkFromString}
+                            formatData={(documents: IBILink[]) => (
+                                <>
+                                    {documents.map((document, index) => (
+                                        <>
+                                            {formatLinkFromString(document.url)}
+                                            {index < documents.length - 1 && ', '}
+                                        </>
+                                    ))}
+                                </>
+                            )}
                             parseData={(bi) => bi.document}
                             steps={tableData}
-                        /> */}
-                        {/* <Row
+                        />
+                        <Row
                             rowId="mockup"
                             label="Макет"
                             hiddenRows={hiddenRows}
                             onAddButtonClick={handleAddRowButtonClick}
                             setHiddenRows={setHiddenRows}
                             isHiddenRowsVisible={isHiddenRowsVisible}
-                            formatData={formatLinkFromString}
-                            parseData={(bi) => bi.mockup}
+                            formatData={(mockups: IBILink[]) => (
+                                <>
+                                    {mockups.map((mockup, index) => (
+                                        <>
+                                            {formatLinkFromString(mockup.url)}
+                                            {index < mockups.length - 1 && ', '}
+                                        </>
+                                    ))}
+                                </>
+                            )}
+                            parseData={(bi) => bi.mockupLink}
                             steps={tableData}
-                        /> */}
+                        />
 
                         <S.Row>
                             <S.LabelTd>

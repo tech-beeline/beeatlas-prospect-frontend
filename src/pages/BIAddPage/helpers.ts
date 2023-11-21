@@ -1,17 +1,25 @@
 import { IBIData, IBIForm } from 'api/bi/types';
 import { FormValues } from 'pages/CJPage/components/BIForm/form';
 
-export const formValuesToData = (formValues: FormValues): IBIForm => ({
-    channelIds: formValues.channels.map((channel) => channel.value),
-    clientScenario: formValues.clientScenario,
+export const formValuesToData = (formValues: FormValues): Partial<IBIForm> => ({
+    name: formValues.name,
     communal: formValues.communal,
     descr: formValues.descr,
-    name: formValues.name,
-    productId: '1',
     statusId: formValues.status,
-    type: formValues.type,
-    uniqueIdent: '123',
+    participants: formValues.participants.map((participant) => ({
+        descr: participant.descr,
+        participant: participant.participant,
+        value: participant.value,
+    })),
+    feelings: formValues.feelings,
+    clientScenario: formValues.clientScenario,
+    scenario: [{ url: formValues.flowLink, descr: '' }],
     ucsReaction: formValues.ucsReaction,
+    channel: formValues.channels.map(() => ({ name: 'Web-site' })),
+    document: formValues.document.map((document) => ({ descr: '', url: document.value })),
+    mockupLink: formValues.mockup.map((mockup) => ({ descr: '', url: mockup.value })),
+    productId: '1',
+    // uniqueIdent: 'ss111222',
 });
 
 export const dataToFormValues = (data: IBIData): FormValues => ({
@@ -22,12 +30,16 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
     descr: data.descr,
     type: data.type,
     status: data.statusId,
-    feelings: 4,
+    feelings: data.feelings,
     clientScenario: data.clientScenario,
-    channels: [{ value: 1 }],
+    channels: data.channel.map(() => ({ value: 1 })),
     ucsReaction: data.ucsReaction,
-    participants: [{ participant: 1, descr: '', value: '' }],
-    document: '',
-    mockup: '',
-    flowLink: '',
+    participants: data.participants.map((participant) => ({
+        descr: participant.descr,
+        value: participant.value,
+        participant: participant.participant,
+    })),
+    document: data.document.map((document) => ({ value: document.url })),
+    mockup: data.mockupLink.map((mockup) => ({ value: mockup.url })),
+    flowLink: data.scenario[0]?.url,
 });

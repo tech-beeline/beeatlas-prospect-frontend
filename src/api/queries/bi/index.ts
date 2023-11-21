@@ -21,7 +21,7 @@ export const useGetBIByIdQuery = (id: string | undefined | null) => {
 
 export function useCreateBIMutation() {
     const queryClient = useQueryClient();
-    return useMutation([BI_PREFIX, 'create'], (params: IBIForm) => postBI(params), {
+    return useMutation([BI_PREFIX, 'create'], (params: Partial<IBIForm>) => postBI(params), {
         onSuccess: () => {
             void queryClient.invalidateQueries(BI_PREFIX);
         },
@@ -30,7 +30,7 @@ export function useCreateBIMutation() {
 
 interface IUpdateBIParams {
     id: string;
-    data: IBIForm;
+    data: Partial<IBIForm>;
 }
 export function useUpdateBIMutation() {
     const queryClient = useQueryClient();

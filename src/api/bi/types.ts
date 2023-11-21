@@ -1,34 +1,56 @@
 export interface IBIForm {
-    channelIds: number[];
+    channel: {
+        name: string;
+    }[];
     clientScenario: string;
-    communal?: boolean;
+    communal: boolean;
     descr: string;
-    eaGuid?: string;
+    document: {
+        descr: string;
+        url: string;
+    }[];
+    draft: boolean;
+    dtCreated: Date;
+    dtUpdated: Date;
+    eaGuid: string;
+    feelings: number;
+    id: number;
+    mockupLink: {
+        descr: string;
+        url: string;
+    }[];
     name: string;
-    ownerRole?: string;
+    ownerRole: string;
+    participants: {
+        descr: string;
+        participant: number;
+        value: string;
+    }[];
     productId: string;
-    scenarioId?: number;
+    scenario: {
+        descr: string;
+        url: string;
+    }[];
     statusId: number;
-    touchPoints?: string;
-    type: number;
-    ucsReaction?: string;
+    target: boolean;
+    touchPoints: string;
+    ucsReaction: string;
     uniqueIdent: string;
 }
 
-interface IBILink {
+export interface IBILink {
     descr: string;
-    id: number;
     url: string;
 }
 
 interface IParticipants {
     descr: string;
-    id: number;
+    participant: number;
     value: string;
 }
 
 export interface IBIData {
-    channel: { id: number; name: string }[];
+    channel: { name: string }[];
     clientScenario: string;
     communal: boolean;
     descr: string;

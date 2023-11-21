@@ -15,6 +15,10 @@ type ChannelValues = {
     value: number;
 };
 
+type LinkValues = {
+    value: string;
+};
+
 export type FormValues = {
     id: number;
     name: string;
@@ -29,8 +33,8 @@ export type FormValues = {
     ucsReaction: string;
     participants: ParticipantValues[];
     // enters: EnterValues[];
-    document: string;
-    mockup: string;
+    document: LinkValues[];
+    mockup: LinkValues[];
     channels: ChannelValues[];
 };
 
@@ -63,8 +67,12 @@ export const validationSchema = object().shape({
     //         }),
     //     )
     //     .default([]),
-    document: string().default('').url('Укажите корректную ссылку'),
-    mockup: string().default('').url('Укажите корректную ссылку'),
+    document: array()
+        .of(object().shape({ value: string().default('').url('Укажите корректную ссылку') }))
+        .default([]),
+    mockup: array()
+        .of(object().shape({ value: string().default('').url('Укажите корректную ссылку') }))
+        .default([]),
     channels: array()
         .of(object().shape({ value: number().default(0) }))
         .default([]),

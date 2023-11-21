@@ -11,7 +11,7 @@ import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
 import { ChannelsFieldArray } from './components/ChannelsFieldArray';
-import { ParticiapntsFieldArray } from './components';
+import { ParticiapntsFieldArray, TextFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
@@ -36,6 +36,8 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                 reset({
                     participants: [{ participant: 1, value: '', descr: '' }],
                     channels: [{ value: 1 }],
+                    document: [{ value: '' }],
+                    mockup: [{ value: '' }],
                 });
             }
         }, [defaultValues]);
@@ -129,13 +131,23 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <ChannelsFieldArray fullscreen={fullscreen} />
 
-                            <S.SubTitle id="documentation">Документация</S.SubTitle>
+                            <TextFieldArray
+                                fullscreen={fullscreen}
+                                fieldName="document"
+                                itemLabel="Ссылка"
+                                title="Документация"
+                            />
 
-                            <TextField name="document" label="Ссылка" />
+                            <TextFieldArray
+                                fullscreen={fullscreen}
+                                fieldName="mockup"
+                                itemLabel="Ссылка"
+                                title="Макет"
+                            />
 
-                            <S.SubTitle id="mockup">Макет</S.SubTitle>
+                            {/* <S.SubTitle id="mockup">Макет</S.SubTitle>
 
-                            <TextField name="mockup" label="Ссылка" />
+                            <TextField name="mockup" label="Ссылка" /> */}
                         </S.TextFieldContainer>
 
                         <S.ButtonContainer style={{ display: showButtons ? 'flex' : 'none' }}>

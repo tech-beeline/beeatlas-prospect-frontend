@@ -13,7 +13,7 @@ import {
     // getExit,
     getFeelingType,
     getParticipant,
-    getStatus,
+    // getStatus,
 } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 
@@ -183,21 +183,15 @@ export const BiView: FC<IBiView> = ({
                                 <S.Body2>{formatNullableString(bi.descr)}</S.Body2>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <S.Body3>Стадия ЖЦ</S.Body3>
                                 <S.Body2>{getStatus(bi.statusId)}</S.Body2>
-                            </div>
+                            </div> */}
 
                             <div>
                                 <S.Subtitle>Участники взаимодействия</S.Subtitle>
 
-                                {[
-                                    {
-                                        participant: 0,
-                                        descr: 'Описание участника',
-                                        value: 'Ценностный результат для участника',
-                                    },
-                                ].map((participant, index) => (
+                                {bi.participants.map((participant, index) => (
                                     <Fragment key={index}>
                                         <S.Subtitle3>Участник {index + 1}</S.Subtitle3>
                                         <S.Body3>Участник</S.Body3>
@@ -213,7 +207,7 @@ export const BiView: FC<IBiView> = ({
                             <div>
                                 <S.Subtitle>Чувства и эмоции клиента</S.Subtitle>
                                 <S.IconContainer>
-                                    <IconFeeling type={getFeelingType(4)} />
+                                    <IconFeeling type={getFeelingType(bi.feelings)} />
                                 </S.IconContainer>
                             </div>
 
@@ -234,19 +228,35 @@ export const BiView: FC<IBiView> = ({
 
                             <div>
                                 <S.Body3>Канал</S.Body3>
-                                {bi.channel.map((channel, i) => (
-                                    <S.Body2 key={i}>{channel.name}</S.Body2>
-                                ))}
+                                <S.Body2>
+                                    {formatNullableString(
+                                        bi.channel.map((channel) => channel.name).join(', '),
+                                    )}
+                                </S.Body2>
                             </div>
 
                             <div>
                                 <S.Body3>Документация</S.Body3>
-                                <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                <S.Body2>
+                                    {bi.document.map((document, index) => (
+                                        <>
+                                            {formatLinkFromString(document.url)}
+                                            {index < bi.document.length - 1 && ', '}
+                                        </>
+                                    ))}
+                                </S.Body2>
                             </div>
 
                             <div>
                                 <S.Body3>Макет</S.Body3>
-                                <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                <S.Body2>
+                                    {bi.mockupLink.map((mockup, index) => (
+                                        <>
+                                            {formatLinkFromString(mockup.url)}
+                                            {index < bi.mockupLink.length - 1 && ', '}
+                                        </>
+                                    ))}
+                                </S.Body2>
                             </div>
                         </>
                     )}

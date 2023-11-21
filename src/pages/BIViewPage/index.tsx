@@ -238,42 +238,30 @@ export const BIViewPage = () => {
                                     <S.Subtitle id="participants">
                                         Участники взаимодействия
                                     </S.Subtitle>
-                                    {
-                                        // bi?.participants.length === 0 && (
-                                        // <S.Body2 marginTop>{formatNullableString(null)}</S.Body2>
-                                        // )
-                                    }
-                                    {[{ participant: 0, descr: 'Описание', value: '' }].map(
-                                        (participant, index) => (
-                                            <>
-                                                <S.Body3 marginTop>Участник {index + 1}</S.Body3>
-                                                <S.Body2>
-                                                    {getParticipant(participant.participant)}
-                                                </S.Body2>
-                                                <S.Body3 marginTop>
-                                                    Описание участника {index + 1}
-                                                </S.Body3>
-                                                <S.Body2>{participant.descr}</S.Body2>
-                                                <S.Body3 marginTop>
-                                                    Ценностный результат для участника {index + 1}
-                                                </S.Body3>
-                                                <S.Body2>
-                                                    {formatNullableString(participant.value)}
-                                                </S.Body2>
-                                            </>
-                                        ),
-                                    )}
+                                    {data.participants.map((participant, index) => (
+                                        <>
+                                            <S.Body3 marginTop>Участник {index + 1}</S.Body3>
+                                            <S.Body2>
+                                                {getParticipant(participant.participant)}
+                                            </S.Body2>
+                                            <S.Body3 marginTop>
+                                                Описание участника {index + 1}
+                                            </S.Body3>
+                                            <S.Body2>{participant.descr}</S.Body2>
+                                            <S.Body3 marginTop>
+                                                Ценностный результат для участника {index + 1}
+                                            </S.Body3>
+                                            <S.Body2>
+                                                {formatNullableString(participant.value)}
+                                            </S.Body2>
+                                        </>
+                                    ))}
                                 </div>
 
                                 <div>
                                     <S.Subtitle id="feelings">Чувства и эмоции клиента</S.Subtitle>
                                     <S.IconContainer>
-                                        {
-                                            // typeof data.feelings === 'number' && (
-                                            // <IconFeeling type={getFeelingType(bi.feelings)} />
-                                            // )
-                                        }
-                                        <IconFeeling type={getFeelingType(4)} />
+                                        <IconFeeling type={getFeelingType(data.feelings)} />
                                     </S.IconContainer>
                                 </div>
 
@@ -295,19 +283,35 @@ export const BIViewPage = () => {
 
                                 <div>
                                     <S.Subtitle id="channels">Канал</S.Subtitle>
-                                    {data.channel.map((channel, i) => (
-                                        <S.Body2 key={i}>{channel.name}</S.Body2>
-                                    ))}
+                                    <S.Body2>
+                                        {formatNullableString(
+                                            data.channel.map((channel) => channel.name).join(', '),
+                                        )}
+                                    </S.Body2>
                                 </div>
 
                                 <div>
                                     <S.Subtitle id="documentation">Документация</S.Subtitle>
-                                    <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                    <S.Body2>
+                                        {data.document.map((document, index) => (
+                                            <>
+                                                {formatLinkFromString(document.url)}
+                                                {index < data.document.length - 1 && ', '}
+                                            </>
+                                        ))}
+                                    </S.Body2>
                                 </div>
 
                                 <div>
                                     <S.Subtitle id="mockup">Макет</S.Subtitle>
-                                    <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                    <S.Body2>
+                                        {data.mockupLink.map((mockup, index) => (
+                                            <>
+                                                {formatLinkFromString(mockup.url)}
+                                                {index < data.mockupLink.length - 1 && ', '}
+                                            </>
+                                        ))}
+                                    </S.Body2>
                                 </div>
 
                                 <div>
@@ -321,10 +325,10 @@ export const BIViewPage = () => {
                             <FloatingNavigation
                                 items={[
                                     { id: 'description', label: data.name },
-                                    // { id: 'participants', label: 'Участники взаимодействия' },
+                                    { id: 'participants', label: 'Участники взаимодействия' },
                                     { id: 'feelings', label: 'Чувства и эмоции' },
                                     { id: 'scenarios', label: 'Сценарии' },
-                                    // { id: 'channels', label: 'Канал' },
+                                    { id: 'channels', label: 'Канал' },
                                     { id: 'documentation', label: 'Документация' },
                                     { id: 'mockup', label: 'Макет' },
                                     { id: 'service', label: 'Служебные поля' },
@@ -333,15 +337,6 @@ export const BIViewPage = () => {
                         </S.Navigation>
                     </>
                 )}
-                {/* {!bi && (
-                    <S.SkeletonContainer>
-                        <Skeleton height={20} radius={5} />
-                        <Skeleton height={40} radius={5} />
-                        <Skeleton height={40} radius={5} />
-                        <Skeleton height={100} radius={5} />
-                        <Skeleton height={40} radius={5} />
-                    </S.SkeletonContainer>
-                )} */}
                 {isLoading && (
                     <S.SkeletonContainer>
                         <Skeleton height={20} radius={5} />
