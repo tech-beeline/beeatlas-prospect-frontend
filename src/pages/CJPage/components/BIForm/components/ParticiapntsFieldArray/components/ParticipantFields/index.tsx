@@ -77,7 +77,7 @@ export const ParticipantFields: FC<IParticipantFields> = ({
                         </S.ButtonStyled>
                     )}
                 </NameContainer>
-                <TextArea label="Ценностный результат" name={`participants.${index}.value`} />
+                <TextArea label="Ценностный результат*" name={`participants.${index}.value`} />
             </S.FieldsContainer>
             {fullscreen && fieldsLength !== 1 && index + 1 !== fieldsLength && <S.DividerStyled />}
         </>

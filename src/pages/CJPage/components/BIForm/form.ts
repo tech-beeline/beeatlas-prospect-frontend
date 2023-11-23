@@ -6,11 +6,6 @@ type ParticipantValues = {
     value: string;
 };
 
-// type EnterValues = {
-//     enter: number;
-//     exit: number;
-// };
-
 type ChannelValues = {
     value: number;
 };
@@ -32,7 +27,6 @@ export type FormValues = {
     flowLink: string;
     ucsReaction: string;
     participants: ParticipantValues[];
-    // enters: EnterValues[];
     document: LinkValues[];
     mockup: LinkValues[];
     channels: ChannelValues[];
@@ -55,18 +49,10 @@ export const validationSchema = object().shape({
             object().shape({
                 participant: number().default(0),
                 descr: string().default('').required('Заполните описание'),
-                value: string().default(''),
+                value: string().default('').required('Заполните ценностный результат'),
             }),
         )
         .default([]),
-    // enters: array()
-    //     .of(
-    //         object().shape({
-    //             enter: number().default(0),
-    //             exit: number().default(0),
-    //         }),
-    //     )
-    //     .default([]),
     document: array()
         .of(object().shape({ value: string().default('').url('Укажите корректную ссылку') }))
         .default([]),
