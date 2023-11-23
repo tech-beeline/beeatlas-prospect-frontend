@@ -20,7 +20,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
     ({ onClose, onSave, defaultValues, showButtons = true, fullscreen = false }, buttonRef) => {
         const { modalOpened, openModal, closeModal } = useModal();
 
-        const { data } = useGetBIStatusesQuery();
+        const { data: statuses } = useGetBIStatusesQuery();
 
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
@@ -100,7 +100,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                         name="status"
                                         label="Стадия ЖЦ*"
                                         options={
-                                            data?.map((option) => ({
+                                            statuses?.map((option) => ({
                                                 id: option.id,
                                                 value: option.name,
                                             })) ?? []

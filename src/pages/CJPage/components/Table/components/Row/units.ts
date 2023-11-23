@@ -80,6 +80,8 @@ export const ButtonContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    color: var(--color-text-active);
 `;
 
 export const AlignItemsCenterWrapper = styled.div`
