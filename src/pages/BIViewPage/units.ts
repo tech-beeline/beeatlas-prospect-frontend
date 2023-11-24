@@ -1,3 +1,4 @@
+import { Banner } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -84,6 +85,10 @@ export const Subtitle3 = styled.div`
     font-weight: var(--font-weight-subtitle3);
     font-size: var(--font-size-subtitle3);
     line-height: var(--font-line-height-subtitle3);
+`;
+
+export const BannerStyled = styled(Banner)`
+    margin-top: 24px;
 `;
 
 export const LabelsContainer = styled.div`

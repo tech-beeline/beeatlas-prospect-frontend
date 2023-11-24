@@ -16,6 +16,7 @@ import {
     // getStatus,
 } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { Stage } from '../../types';
 import * as S from '../../units';
@@ -30,6 +31,7 @@ export const BiView: FC<IBiView> = ({
     showButtons = true,
     goBackStage = Stage.BISEARCH,
 }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { data: bi, isLoading } = useGetBIByIdQuery(String(selectedBiId));
     const { mutateAsync: updateStepBis, isLoading: updatingStep } = useUpdateCJStepBIsMutation();
 
@@ -38,6 +40,7 @@ export const BiView: FC<IBiView> = ({
             stepId: String(stepId),
             data: { id_bi: selectedBiId, order: stepBisLength },
         });
+        showSnackbar({ message: 'BI добавлен в шаг' });
         setStage(Stage.SETTINGS);
     };
 

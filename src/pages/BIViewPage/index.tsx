@@ -1,5 +1,4 @@
 import React from 'react';
-// import React, { useEffect, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -9,7 +8,6 @@ import { IconFeeling } from 'components/other';
 
 import { useGetBIByIdQuery } from 'api/queries/bi';
 import { useGetBIStatusesQuery } from 'api/queries/bi-library';
-// import { BI, useMockBIStore } from 'pages/CJPage/mocks';
 import {
     formatLinkFromString,
     // getChannel,
@@ -28,23 +26,10 @@ export const BIViewPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    // const { getBiById } = useMockBIStore();
-
     const { data, isLoading: isLoadingBI } = useGetBIByIdQuery(paramId);
     const { data: statuses, isLoading: isLoadingStatuses } = useGetBIStatusesQuery();
 
     const isLoading = isLoadingBI || isLoadingStatuses;
-
-    // const [bi, setBi] = useState<BI | null>(null);
-
-    // useEffect(() => {
-    //     if (paramId) {
-    //         const bi = getBiById(Number(paramId));
-    //         if (bi) {
-    //             setBi(bi);
-    //         }
-    //     }
-    // }, [paramId, getBiById]);
 
     const navigate = useNavigate();
 
@@ -69,11 +54,6 @@ export const BIViewPage = () => {
                         style={{ cursor: 'pointer' }}
                     />
 
-                    {/* {bi ? (
-                        <S.Title>{bi?.name}</S.Title>
-                    ) : (
-                        <Skeleton height={24} width={120} radius={5} />
-                    )} */}
                     {data ? (
                         <S.Title>{data.name}</S.Title>
                     ) : (
@@ -207,25 +187,28 @@ export const BIViewPage = () => {
                 {data && statuses && (
                     <>
                         <S.DataContainer>
+                            {/* <S.BannerStyled
+                                color="default"
+                                iconName={Icons.InfoCircled}
+                                title="BI используется в других опубликованных Cj, редактирование недоступно!"
+                            /> */}
                             <S.LabelsContainer>
                                 <Label
                                     title={data.type === 0 ? 'Целевой' : 'Фактический'}
-                                    variant="contained"
                                     type="teal"
                                 />
-                                {data.communal && (
-                                    <Label
-                                        title="Коммунальный"
-                                        variant="contained"
-                                        type="magenta"
-                                    />
-                                )}
+                                {data.communal && <Label title="Коммунальный" type="magenta" />}
                                 <Label
-                                    title={
-                                        statuses.find((status) => status.id === data.statusId)?.name
-                                    }
-                                    variant="contained"
+                                    // title={
+                                    //     statuses.find((status) => status.id === data.statusId)?.name
+                                    // }
+                                    title="Передан в эксплуатацию"
                                     type="info"
+                                />
+                                <Label
+                                    variant="contained"
+                                    title={data.draft ? 'Не опубликован' : 'Опубликован'}
+                                    type={data.draft ? 'error' : 'success'}
                                 />
                             </S.LabelsContainer>
                             <S.AttributesContainer>
@@ -315,6 +298,13 @@ export const BIViewPage = () => {
                                 </div>
 
                                 <div>
+                                    <S.Subtitle id="cjs">Привязка к CJ</S.Subtitle>
+                                    <S.Body2>
+                                        {formatLinkFromString('/cx/cj/add?id=1', 'Название CJ')}
+                                    </S.Body2>
+                                </div>
+
+                                <div>
                                     <S.Subtitle id="service">Служебные поля</S.Subtitle>
                                     <S.Body3 marginTop>Идентификатор</S.Body3>
                                     <S.Body2>{formatNullableString(data.uniqueIdent)}</S.Body2>
@@ -331,6 +321,7 @@ export const BIViewPage = () => {
                                     { id: 'channels', label: 'Канал' },
                                     { id: 'documentation', label: 'Документация' },
                                     { id: 'mockup', label: 'Макет' },
+                                    { id: 'cjs', label: 'Привязка к CJ' },
                                     { id: 'service', label: 'Служебные поля' },
                                 ]}
                             />

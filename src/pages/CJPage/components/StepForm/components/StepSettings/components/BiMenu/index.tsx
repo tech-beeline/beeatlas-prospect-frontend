@@ -4,11 +4,14 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useDeleteBIFromStepMutation, useUpdateCJStepBIsMutation } from 'api/queries/cj';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IBiMenu } from './types';
 import * as S from './units';
 
 export const BiMenu: FC<IBiMenu> = ({ biId, stepId, index, totalLength }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -24,7 +27,8 @@ export const BiMenu: FC<IBiMenu> = ({ biId, stepId, index, totalLength }) => {
     };
 
     const handleDeleteClick = async () => {
-        deleteBi({ stepId: String(stepId), biId: String(biId) });
+        await deleteBi({ stepId: String(stepId), biId: String(biId) });
+        showSnackbar({ message: 'BI удалён из шага' });
     };
 
     const handleMoveClick = async (up: boolean) => {
@@ -32,6 +36,7 @@ export const BiMenu: FC<IBiMenu> = ({ biId, stepId, index, totalLength }) => {
             stepId: String(stepId),
             data: { id_bi: biId, order: up ? index - 1 : index + 1 },
         });
+        showSnackbar({ message: 'BI перемещён' });
         setMenuOpen(false);
     };
 

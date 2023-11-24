@@ -15,10 +15,10 @@ import {
 } from './const';
 import * as S from './units';
 
-export const formatLinkFromString = (str: string | undefined | null) =>
+export const formatLinkFromString = (str: string | undefined | null, linkName = 'Ссылка') =>
     str && Boolean(str) ? (
         <S.Link target="_blank" rel="noreferrer" href={str}>
-            Ссылка
+            {linkName}
         </S.Link>
     ) : (
         '—'

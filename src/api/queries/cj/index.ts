@@ -150,12 +150,7 @@ export function useDeleteCJStepMutation() {
 export const useGetCompleteCJDataByIdQuery = (id: string | undefined | null) => {
     return useQuery<ICompleteCJData>(
         [CJ_PREFIX, 'complete', id],
-        () =>
-            getCJById(id!).then((res) => ({
-                ...res.data,
-                // @TODO: Должно сортироваться на бэке
-                steps: res.data.steps.sort((a, b) => a.order - b.order),
-            })),
+        () => getCJById(id!).then((res) => res.data),
         {
             enabled: Boolean(id),
         },
