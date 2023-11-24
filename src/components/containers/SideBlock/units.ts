@@ -16,9 +16,24 @@ export const Container = styled.div<{ isOpen: boolean }>`
 
     border-left: 1px solid var(--color-divider);
 
-    z-index: 10;
+    z-index: 102;
 
     overflow: auto;
 
     transition: transform 0.25s ease-out;
+`;
+
+export const Backdrop = styled.div<{ isOpen: boolean }>`
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 101;
+
+    background-color: var(--color-background-backdrop);
+
+    visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
 `;

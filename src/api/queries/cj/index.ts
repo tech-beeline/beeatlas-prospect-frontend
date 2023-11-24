@@ -43,11 +43,10 @@ export function useCreateCJWithEmptyStepMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [CJ_PREFIX, 'createWithStep'],
-        async () => {
+        async (params: ICJForm) => {
             const cjData = await postCJ({
+                ...params,
                 draft: true,
-                name: 'Название CJ',
-                user_portrait: 'Портрет пользователя',
             });
             await postCJStep(cjData.data.id, { name: 'Название шага', order: 0 });
             return (cjData.data.id as string) ?? '0';

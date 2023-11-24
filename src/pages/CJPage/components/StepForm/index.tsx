@@ -2,11 +2,12 @@ import React, { FC, useEffect, useState } from 'react';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { SideBlock } from 'components/containers';
+
 import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
 import { dataToFormValues, formValuesToData } from 'pages/BIAddPage/helpers';
 
 import { BIForm } from '../BIForm';
-import { SideBlock } from '../SideBlock';
 
 import { BiSelect, BiView, StepSettings } from './components';
 import { IStepForm, Stage } from './types';
@@ -32,7 +33,7 @@ export const StepForm: FC<IStepForm> = ({ cjId, step, isOpen, onClose }) => {
     };
 
     return (
-        <SideBlock isOpen={isOpen} setOpen={handleCloseClick}>
+        <SideBlock isOpen={isOpen} onClose={handleCloseClick}>
             {stage === Stage.SETTINGS && (
                 <StepSettings
                     key={String(isOpen)}

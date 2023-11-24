@@ -4,9 +4,8 @@ import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { SideBlock } from 'components/containers';
 import { TextField } from 'components/form';
-
-import { SideBlock } from '../SideBlock';
 
 import { FormValues, validationSchema } from './form';
 import { IStepForm } from './types';
@@ -28,7 +27,7 @@ export const CJForm: FC<IStepForm> = ({ values, isOpen, updateCJ, onClose }) => 
     useEffect(() => reset(values), [values]);
 
     return (
-        <SideBlock isOpen={isOpen} setOpen={onClose}>
+        <SideBlock isOpen={isOpen} onClose={onClose}>
             <FormProvider {...form}>
                 <form onSubmit={onSubmit}>
                     <S.FlexWrapper>
