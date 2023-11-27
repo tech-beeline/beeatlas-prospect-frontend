@@ -1,6 +1,6 @@
-export interface ITextFieldArray {
+export interface ILinksFieldArray {
     fieldName: string;
     title: string;
-    itemLabel: string;
+    itemLabel?: string;
     fullscreen?: boolean;
 }

@@ -11,7 +11,7 @@ import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
 import { ChannelsFieldArray } from './components/ChannelsFieldArray';
-import { ParticiapntsFieldArray, TextFieldArray } from './components';
+import { LinksFieldArray, ParticiapntsFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
@@ -131,23 +131,17 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <ChannelsFieldArray fullscreen={fullscreen} />
 
-                            <TextFieldArray
+                            <LinksFieldArray
                                 fullscreen={fullscreen}
                                 fieldName="document"
-                                itemLabel="Ссылка"
                                 title="Документация"
                             />
 
-                            <TextFieldArray
+                            <LinksFieldArray
                                 fullscreen={fullscreen}
                                 fieldName="mockup"
-                                itemLabel="Ссылка"
                                 title="Макет"
                             />
-
-                            {/* <S.SubTitle id="mockup">Макет</S.SubTitle>
-
-                            <TextField name="mockup" label="Ссылка" /> */}
                         </S.TextFieldContainer>
 
                         <S.ButtonContainer style={{ display: showButtons ? 'flex' : 'none' }}>

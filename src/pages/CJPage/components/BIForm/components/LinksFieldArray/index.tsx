@@ -8,13 +8,13 @@ import { TextField } from 'components/form';
 import { FormValues } from '../../form';
 import * as S from '../units';
 
-import { ITextFieldArray } from './types';
+import { ILinksFieldArray } from './types';
 
-export const TextFieldArray: FC<ITextFieldArray> = ({
+export const LinksFieldArray: FC<ILinksFieldArray> = ({
     fullscreen = false,
     fieldName,
     title,
-    itemLabel,
+    itemLabel = 'Ссылка',
 }) => {
     const { control } = useFormContext<FormValues>();
 
@@ -53,7 +53,7 @@ export const TextFieldArray: FC<ITextFieldArray> = ({
                             )}
                         </S.FlexContainer>
                     )}
-                    <S.ChannelsContainer marginTop={fullscreen}>
+                    <S.FieldsContainer marginTop={fullscreen}>
                         <NameContainer>
                             <S.GrowContainer>
                                 <TextField name={`${fieldName}.${index}.value`} label={itemLabel} />
@@ -70,7 +70,14 @@ export const TextFieldArray: FC<ITextFieldArray> = ({
                                 </S.ButtonStyled>
                             )}
                         </NameContainer>
-                    </S.ChannelsContainer>
+                        <TextField
+                            name={`${fieldName}.${index}.description`}
+                            label="Описание ссылки"
+                        />
+                    </S.FieldsContainer>
+                    {fullscreen && fields.length !== 1 && index + 1 !== fields.length && (
+                        <S.DividerStyled />
+                    )}
                 </div>
             ))}
         </div>

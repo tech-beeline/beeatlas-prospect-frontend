@@ -64,12 +64,12 @@ export const BIAddPage = () => {
             <S.Content>
                 <S.FormContainer>
                     <BIForm
+                        fullscreen
                         ref={submitButtonRef}
                         onClose={() => navigate(-1)}
                         onSave={handleFormSave}
                         defaultValues={data ? dataToFormValues(data) : undefined}
                         showButtons={false}
-                        fullscreen={true}
                     />
                 </S.FormContainer>
                 <S.Navigation>

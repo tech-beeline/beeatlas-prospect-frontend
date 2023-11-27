@@ -12,6 +12,7 @@ type ChannelValues = {
 
 type LinkValues = {
     value: string;
+    description: string;
 };
 
 export type FormValues = {
@@ -54,10 +55,20 @@ export const validationSchema = object().shape({
         )
         .default([]),
     document: array()
-        .of(object().shape({ value: string().default('').url('Укажите корректную ссылку') }))
+        .of(
+            object().shape({
+                value: string().default('').url('Укажите корректную ссылку'),
+                description: string().default(''),
+            }),
+        )
         .default([]),
     mockup: array()
-        .of(object().shape({ value: string().default('').url('Укажите корректную ссылку') }))
+        .of(
+            object().shape({
+                value: string().default('').url('Укажите корректную ссылку'),
+                description: string().default(''),
+            }),
+        )
         .default([]),
     channels: array()
         .of(object().shape({ value: number().default(0) }))
