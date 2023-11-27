@@ -24,7 +24,12 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         resolver: yupResolver(validationSchema),
     });
 
-    const { handleSubmit } = form;
+    const { handleSubmit, reset } = form;
+
+    const handleCloseClick = () => {
+        reset();
+        onClose();
+    };
 
     const onSubmit = handleSubmit(async (values) => {
         const id = await createCJ({
@@ -39,7 +44,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     });
 
     return (
-        <SideBlock hasBackdrop isOpen={isOpen} onClose={onClose}>
+        <SideBlock hasBackdrop isOpen={isOpen} onClose={handleCloseClick}>
             <FormProvider {...form}>
                 <form onSubmit={onSubmit}>
                     <S.FlexWrapper>
@@ -47,7 +52,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
                         <Icon
                             iconName={Icons.Close}
-                            onClick={onClose}
+                            onClick={handleCloseClick}
                             style={{ cursor: 'pointer' }}
                         />
                     </S.FlexWrapper>
@@ -66,7 +71,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     </S.TextFieldContainer>
 
                     <S.ButtonContainer>
-                        <Button type="button" onClick={onClose}>
+                        <Button type="button" onClick={handleCloseClick}>
                             Отменить
                         </Button>
 
