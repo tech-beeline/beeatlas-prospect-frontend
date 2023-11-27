@@ -42,6 +42,11 @@ export const Filters: FC<IFilters> = ({
         }
     };
 
+    const handleClearClick = () => {
+        handleSearchClear();
+        setFilterValue(null);
+    };
+
     const selectedFilterValue = filterOptions.find((option) => option.value === filterValue);
 
     return (
@@ -80,7 +85,12 @@ export const Filters: FC<IFilters> = ({
                     onChange={(options) => setFilterValue(options[0].value)}
                 />
             </S.SelectContainer>
-            <Button size="small" variant="plain" onClick={() => setFilterValue(null)}>
+            <Button
+                disabled={!search && !filterValue}
+                size="small"
+                variant="plain"
+                onClick={handleClearClick}
+            >
                 Сбросить
             </Button>
         </S.FilterContainer>
