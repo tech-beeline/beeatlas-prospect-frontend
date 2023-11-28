@@ -71,7 +71,7 @@ export const BILibraryPage = () => {
                                             <Label title="Коммунальный" type="magenta" />
                                         )}
                                         <Label
-                                            title={bi.type === 0 ? 'Целевой' : 'Фактический'}
+                                            title={bi.target ? 'Целевой' : 'Фактический'}
                                             type="teal"
                                         />
                                     </S.LabelsContainer>

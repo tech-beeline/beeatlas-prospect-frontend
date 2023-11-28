@@ -14,6 +14,7 @@ import { dataToFormValues, formValuesToData } from './helpers';
 import * as S from './units';
 
 export const BIAddPage = () => {
+    const draft = useRef(false);
     const submitButtonRef = useRef<HTMLButtonElement>(null);
     const [params] = useSearchParams();
     const paramId = params.get('id');
@@ -30,15 +31,21 @@ export const BIAddPage = () => {
         navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}`);
     };
 
-    const handleSaveClick = () => {
+    const handleSaveAsDraftClick = () => {
+        draft.current = true;
+        submitButtonRef.current?.click();
+    };
+
+    const handlePublishClick = () => {
+        draft.current = false;
         submitButtonRef.current?.click();
     };
 
     const handleFormSave = (values: FormValues) => {
         if (paramId) {
-            updateBi({ id: paramId, data: formValuesToData(values) });
+            updateBi({ id: paramId, data: { ...formValuesToData(values), draft: draft.current } });
         } else {
-            createBi(formValuesToData(values));
+            createBi({ ...formValuesToData(values), draft: draft.current });
         }
     };
 
@@ -56,10 +63,14 @@ export const BIAddPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button onClick={handleSaveClick} disabled={isLoading} variant="outlined">
+                    <Button
+                        onClick={handleSaveAsDraftClick}
+                        disabled={isLoading}
+                        variant="outlined"
+                    >
                         Сохранить как черновик
                     </Button>
-                    <Button onClick={handleSaveClick} disabled={isLoading} variant="contained">
+                    <Button onClick={handlePublishClick} disabled={isLoading} variant="contained">
                         Опубликовать
                     </Button>
                 </S.FlexSideContainer>

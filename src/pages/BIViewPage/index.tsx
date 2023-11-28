@@ -14,7 +14,6 @@ import {
     // getEnter,
     // getExit,
     getFeelingType,
-    getParticipant,
     // getStatus,
 } from 'pages/CJPage/utils/formatters';
 import * as ROUTER from 'router/const';
@@ -86,21 +85,15 @@ export const BIViewPage = () => {
                             )}
                             <S.LabelsContainer>
                                 <Label
-                                    title={data.type === 0 ? 'Целевой' : 'Фактический'}
-                                    type="teal"
+                                    title={data.target ? 'Целевой' : 'Фактический'}
+                                    type={data.target ? 'purple' : 'teal'}
                                 />
                                 {data.communal && <Label title="Коммунальный" type="magenta" />}
-                                <Label
-                                    // title={
-                                    //     statuses.find((status) => status.id === data.statusId)?.name
-                                    // }
-                                    title="Передан в эксплуатацию"
-                                    type="info"
-                                />
+                                <Label title={data.status.name} type="info" />
                                 <Label
                                     variant="contained"
-                                    title={data.draft ? 'Не опубликован' : 'Опубликован'}
-                                    type={data.draft ? 'error' : 'success'}
+                                    title={data.draft ? 'Черновик' : 'Опубликован'}
+                                    type={data.draft ? 'default' : 'success'}
                                 />
                             </S.LabelsContainer>
                             <S.AttributesContainer>
@@ -116,10 +109,8 @@ export const BIViewPage = () => {
                                     {data.participants.map((participant, index) => (
                                         <>
                                             <S.Body3 marginTop>Участник {index + 1}</S.Body3>
-                                            <S.Body2>
-                                                {getParticipant(participant.participant)}
-                                            </S.Body2>
-                                            <S.Body3 marginTop>
+                                            <S.Body2>{participant.name}</S.Body2>
+                                            {/* <S.Body3 marginTop>
                                                 Описание участника {index + 1}
                                             </S.Body3>
                                             <S.Body2>{participant.descr}</S.Body2>
@@ -128,7 +119,7 @@ export const BIViewPage = () => {
                                             </S.Body3>
                                             <S.Body2>
                                                 {formatNullableString(participant.value)}
-                                            </S.Body2>
+                                            </S.Body2> */}
                                         </>
                                     ))}
                                 </div>
@@ -136,7 +127,7 @@ export const BIViewPage = () => {
                                 <div>
                                     <S.Subtitle id="feelings">Чувства и эмоции клиента</S.Subtitle>
                                     <S.IconContainer>
-                                        <IconFeeling type={getFeelingType(data.feelings)} />
+                                        <IconFeeling type={getFeelingType(data.feelings.id)} />
                                     </S.IconContainer>
                                 </div>
 
@@ -148,7 +139,7 @@ export const BIViewPage = () => {
 
                                 <div>
                                     <S.Body3>Ссылка на флоу</S.Body3>
-                                    <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                    <S.Body2>{formatLinkFromString(data.flowLink[0]?.url)}</S.Body2>
                                 </div>
 
                                 <div>

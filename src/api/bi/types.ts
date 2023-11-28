@@ -41,16 +41,35 @@ export interface IBIForm {
 export interface IBILink {
     descr: string;
     url: string;
+    type: {
+        id: number;
+        type: number;
+    };
 }
 
-interface IParticipants {
-    descr: string;
-    participant: number;
-    value: string;
+// interface IParticipants {
+//     descr: string;
+//     participant: number;
+//     value: string;
+// }
+
+interface IChannel {
+    id: number;
+    name: string;
+}
+
+interface IFeelings {
+    id: number;
+    name: string;
+}
+
+interface IStatus {
+    id: number;
+    name: string;
 }
 
 export interface IBIData {
-    channel: { name: string }[];
+    channel: IChannel[];
     clientScenario: string;
     communal: boolean;
     descr: string;
@@ -59,18 +78,20 @@ export interface IBIData {
     dtCreated: Date;
     dtUpdated: Date;
     eaGuid: string;
-    feelings: number;
+    feelings: IFeelings;
+    flowLink: IBILink[];
     id: number;
     mockupLink: IBILink[];
     name: string;
     ownerRole: string;
-    participants: IParticipants[];
+    participants: {
+        id: 'string';
+        name: 'string';
+    }[];
     productId: string;
-
-    scenario: IBILink[];
-    statusId: number;
+    status: IStatus;
+    target: boolean;
     touchPoints: string;
-    type: number;
     ucsReaction: string;
     uniqueIdent: string;
 }

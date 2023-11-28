@@ -6,8 +6,6 @@ import {
     formatFeeling,
     formatLinkFromString,
     formatParticipants,
-    formatStatus,
-    formatType,
 } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 
@@ -54,14 +52,14 @@ export const rowsData: RowData<any>[] = [
     {
         rowId: 'type',
         label: 'Характеристики',
-        formatData: formatType,
-        parseData: (bi: IBIData) => bi.type,
+        formatData: (target) => (target ? 'Целевой' : 'Фактический'),
+        parseData: (bi: IBIData) => bi.target,
     },
     {
         rowId: 'status',
         label: 'Статус стадии ЖЦ',
-        formatData: formatStatus,
-        parseData: (bi: IBIData) => bi.statusId,
+        formatData: formatNullableString,
+        parseData: (bi: IBIData) => bi.status.name,
     },
     {
         rowId: 'participants',
