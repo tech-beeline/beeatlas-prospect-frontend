@@ -1,6 +1,6 @@
 export interface IBIForm {
     channel: {
-        name: string;
+        id: number;
     }[];
     clientScenario: string;
     communal: boolean;
@@ -10,32 +10,28 @@ export interface IBIForm {
         url: string;
     }[];
     draft: boolean;
-    dtCreated: Date;
-    dtUpdated: Date;
-    eaGuid: string;
-    feelings: number;
-    id: number;
+    feeling: {
+        id: number;
+    };
+    flowLink: {
+        descr: string;
+        url: string;
+    }[];
     mockupLink: {
         descr: string;
         url: string;
     }[];
     name: string;
-    ownerRole: string;
     participants: {
+        id: number;
         descr: string;
-        participant: number;
         value: string;
     }[];
-    productId: string;
-    scenario: {
-        descr: string;
-        url: string;
-    }[];
-    statusId: number;
+    status: {
+        id: number;
+    };
     target: boolean;
-    touchPoints: string;
     ucsReaction: string;
-    uniqueIdent: string;
 }
 
 export interface IBILink {

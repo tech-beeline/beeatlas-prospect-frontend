@@ -5,20 +5,29 @@ export const formValuesToData = (formValues: FormValues): Partial<IBIForm> => ({
     name: formValues.name,
     communal: formValues.communal,
     descr: formValues.descr,
-    statusId: formValues.status,
+    status: { id: formValues.status },
     participants: formValues.participants.map((participant) => ({
         descr: participant.descr,
-        participant: participant.participant,
+        id: participant.participant,
         value: participant.value,
     })),
-    feelings: formValues.feelings,
+    feeling: { id: formValues.feelings },
     clientScenario: formValues.clientScenario,
-    scenario: [{ url: formValues.flowLink, descr: '' }],
+    flowLink: [{ url: formValues.flowLink, descr: '' }],
     ucsReaction: formValues.ucsReaction,
-    channel: formValues.channels.map(() => ({ name: 'Web-site' })),
-    document: formValues.document.map((document) => ({ descr: '', url: document.value })),
-    mockupLink: formValues.mockup.map((mockup) => ({ descr: '', url: mockup.value })),
-    productId: '1',
+    channel: formValues.channels.map((channel) => ({ id: channel.value })),
+    document: formValues.document
+        .filter((document) => document.value)
+        .map((document) => ({
+            descr: document.description,
+            url: document.value,
+        })),
+    mockupLink: formValues.mockup
+        .filter((mockup) => mockup.value)
+        .map((mockup) => ({
+            descr: mockup.description,
+            url: mockup.value,
+        })),
 });
 
 export const dataToFormValues = (data: IBIData): FormValues => ({
