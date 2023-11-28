@@ -74,3 +74,7 @@ export interface IBIData {
     ucsReaction: string;
     uniqueIdent: string;
 }
+
+export interface IBIEditabilityData {
+    editability: boolean;
+}

@@ -14,7 +14,6 @@ import { BiItem } from './components';
 import { IStepSettings } from './types';
 
 export const StepSettings: FC<IStepSettings> = ({
-    cjId,
     step,
     onClose,
     setStage,
@@ -27,7 +26,6 @@ export const StepSettings: FC<IStepSettings> = ({
 
     const handleSave = async () => {
         await updateStep({
-            cjId: String(cjId),
             stepId: String(step.id),
             data: { name, order: step.order },
         });

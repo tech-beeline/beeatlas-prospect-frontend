@@ -56,8 +56,11 @@ export const BIAddPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
+                    <Button onClick={handleSaveClick} disabled={isLoading} variant="outlined">
+                        Сохранить как черновик
+                    </Button>
                     <Button onClick={handleSaveClick} disabled={isLoading} variant="contained">
-                        Сохранить
+                        Опубликовать
                     </Button>
                 </S.FlexSideContainer>
             </S.Header>

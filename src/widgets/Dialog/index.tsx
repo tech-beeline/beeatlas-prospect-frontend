@@ -13,14 +13,17 @@ export const Dialog: FC<IDialog> = ({
     onConfirm,
     onDecline,
     children,
+    showDeclineButton = true,
     declineText = 'Отменить',
     confirmText = 'Подтвердить',
 }) => {
     const footer = (
         <S.ButtonsContainer>
-            <Button size="medium" variant="outlined" onClick={onDecline ?? onClose}>
-                {declineText}
-            </Button>
+            {showDeclineButton && (
+                <Button size="medium" variant="outlined" onClick={onDecline ?? onClose}>
+                    {declineText}
+                </Button>
+            )}
             <Button size="medium" variant="contained" onClick={onConfirm}>
                 {confirmText}
             </Button>

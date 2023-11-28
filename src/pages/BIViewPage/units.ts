@@ -75,10 +75,12 @@ export const Body3 = styled.div<{ marginTop?: boolean }>`
     margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
 `;
 
-export const Subtitle = styled.div`
+export const Subtitle = styled.div<{ marginBottom?: boolean }>`
     font-weight: var(--font-weight-subtitle1);
     font-size: var(--font-size-subtitle1);
     line-height: var(--font-line-height-subtitle1);
+
+    margin-bottom: ${({ marginBottom }) => (marginBottom ? '12px' : '0px')};
 `;
 
 export const Subtitle3 = styled.div`

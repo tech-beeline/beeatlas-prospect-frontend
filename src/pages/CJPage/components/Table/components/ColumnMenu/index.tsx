@@ -81,7 +81,6 @@ export const ColumnMenu: FC<IColumnMenu> = ({
 
     const handleChangePositionClick = async (right: boolean) => {
         await updateStep({
-            cjId: String(cjId),
             stepId: String(stepId),
             data: { name: stepName, order: right ? stepIndex + 1 : stepIndex - 1 },
         });
@@ -96,7 +95,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     // };
 
     const handleDeleteStepClick = async () => {
-        await deleteStep({ cjId: String(cjId), stepId: String(stepId) });
+        await deleteStep({ stepId: String(stepId) });
         showSnackbar({ message: 'Шаг удалён' });
         hideMenuHandler();
     };

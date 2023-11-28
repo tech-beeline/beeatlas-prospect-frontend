@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { deleteBI, getBIById, getBICollection, postBI, putBI } from 'api/bi';
+import { deleteBI, getBIById, getBICollection, getBIEditabilityById, postBI, putBI } from 'api/bi';
 import { IBIData, IBIForm } from 'api/bi/types';
 
 import { CJ_PREFIX } from '../cj';
@@ -17,6 +17,16 @@ export const useGetBIByIdQuery = (id: string | undefined | null) => {
     return useQuery<IBIData>([BI_PREFIX, id], () => getBIById(id!).then((res) => res.data), {
         enabled: Boolean(id),
     });
+};
+
+export const useGetBIEditabilityByIdQuery = (id: string | undefined | null) => {
+    return useQuery(
+        [BI_PREFIX, 'editability', id],
+        () => getBIEditabilityById(id!).then((res) => res.data),
+        {
+            enabled: Boolean(id),
+        },
+    );
 };
 
 export function useCreateBIMutation() {

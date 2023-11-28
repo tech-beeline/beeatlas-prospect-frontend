@@ -6,6 +6,7 @@ import {
     deleteCJStep,
     getAllCJs,
     getCJById,
+    getCJsByBIId,
     getCJStepById,
     // getCJStepCollection,
     postCJ,
@@ -112,7 +113,6 @@ export function useCreateCJStepMutation() {
 }
 
 interface IUpdateCJStepParams {
-    cjId: string;
     stepId: string;
     data: ICJStepForm;
 }
@@ -120,7 +120,7 @@ export function useUpdateCJStepMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [CJ_PREFIX, STEP_PREFIX, 'update'],
-        ({ cjId, stepId, data }: IUpdateCJStepParams) => putCJStep(cjId, stepId, data),
+        ({ stepId, data }: IUpdateCJStepParams) => putCJStep(stepId, data),
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(CJ_PREFIX);
@@ -130,14 +130,13 @@ export function useUpdateCJStepMutation() {
 }
 
 interface IDeleteCJStepParams {
-    cjId: string;
     stepId: string;
 }
 export function useDeleteCJStepMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [CJ_PREFIX, STEP_PREFIX, 'delete'],
-        ({ cjId, stepId }: IDeleteCJStepParams) => deleteCJStep(cjId, stepId),
+        ({ stepId }: IDeleteCJStepParams) => deleteCJStep(stepId),
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(CJ_PREFIX);
@@ -189,3 +188,11 @@ export function useDeleteBIFromStepMutation() {
         },
     );
 }
+
+export const useGetCJCollectionByBIIdQuery = (biId: string | undefined | null) => {
+    return useQuery<ICJData[]>(
+        [CJ_PREFIX, 'byBi', biId],
+        () => getCJsByBIId(biId!).then((res) => res.data),
+        { enabled: Boolean(biId) },
+    );
+};

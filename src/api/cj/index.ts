@@ -57,15 +57,21 @@ export const postCJStep = (cjId: string, data: T.ICJStepForm) => {
     });
 };
 
-export const putCJStep = (cjId: string, stepId: string, data: T.ICJStepForm) => {
+export const putCJStep = (stepId: string, data: T.ICJStepForm) => {
     return Api.put({
         url: `${API_URL}cx/v1/product/cj/step/${stepId}`,
         data,
     });
 };
 
-export const deleteCJStep = (cjId: string, stepId: string) => {
+export const deleteCJStep = (stepId: string) => {
     return Api.delete({
         url: `${API_URL}cx/v1/product/cj/step/${stepId}`,
+    });
+};
+
+export const getCJsByBIId = (biId: string): AxiosPromise<T.ICJData[]> => {
+    return Api.get({
+        url: `${API_URL}cx/v1/product/cj/step/bi/${biId}`,
     });
 };

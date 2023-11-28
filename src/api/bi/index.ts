@@ -12,6 +12,12 @@ export const getBIById = (id: string): AxiosPromise<T.IBIData> => {
     });
 };
 
+export const getBIEditabilityById = (id: string): AxiosPromise<T.IBIEditabilityData> => {
+    return Api.get({
+        url: `${API_URL}cx/v1/library/business-interactions/editability/${id}`,
+    });
+};
+
 export const getBICollection = (search?: string): AxiosPromise<T.IBIData[]> => {
     return Api.get({
         url: `${API_URL}cx/v1/library/business-interactions/find?text=${search}`,
