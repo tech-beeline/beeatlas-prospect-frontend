@@ -1,5 +1,6 @@
 import { IBIData, IBIForm } from 'api/bi/types';
-import { FormValues } from 'pages/CJPage/components/BIForm/form';
+
+import { FormValues } from './form';
 
 export const formValuesToData = (formValues: FormValues): Partial<IBIForm> => ({
     name: formValues.name,
@@ -40,7 +41,7 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
     status: data.status.id,
     feelings: data.feelings.id,
     clientScenario: data.clientScenario,
-    channels: data.channel.map(() => ({ value: 1 })),
+    channels: data.channel.map((channel) => ({ value: channel.id })),
     ucsReaction: data.ucsReaction,
     participants: data.participants.map((participant) => ({
         descr: participant.descr,

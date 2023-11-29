@@ -2,15 +2,13 @@ import React, { useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { BIForm, BIFormValues, dataToFormValues, formValuesToData } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
 
 import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
-import { BIForm } from 'pages/CJPage/components/BIForm';
-import { FormValues } from 'pages/CJPage/components/BIForm/form';
 import * as ROUTER from 'router/const';
 
-import { dataToFormValues, formValuesToData } from './helpers';
 import * as S from './units';
 
 export const BIAddPage = () => {
@@ -41,7 +39,7 @@ export const BIAddPage = () => {
         submitButtonRef.current?.click();
     };
 
-    const handleFormSave = (values: FormValues) => {
+    const handleFormSave = (values: BIFormValues) => {
         if (paramId) {
             updateBi({ id: paramId, data: { ...formValuesToData(values), draft: draft.current } });
         } else {

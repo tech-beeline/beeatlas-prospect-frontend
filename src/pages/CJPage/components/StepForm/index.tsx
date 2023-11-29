@@ -1,13 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { BIForm, dataToFormValues, formValuesToData } from 'features/cx';
 
 import { SideBlock } from 'components/containers';
 
 import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
-import { dataToFormValues, formValuesToData } from 'pages/BIAddPage/helpers';
-
-import { BIForm } from '../BIForm';
 
 import { BiSelect, BiView, StepSettings } from './components';
 import { IStepForm, Stage } from './types';

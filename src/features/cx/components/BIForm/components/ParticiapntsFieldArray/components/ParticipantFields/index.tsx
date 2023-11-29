@@ -3,15 +3,14 @@ import { useFormContext } from 'react-hook-form';
 import { Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { Select } from 'components/form';
+import { Select, TextArea, TextField } from 'components/form';
 
-import { FormValues } from 'pages/CJPage/components/BIForm/form';
-
+import { FormValues } from '../../../../form';
 import * as S from '../../../units';
 
-import { IChannelField } from './types';
+import { IParticipantFields } from './types';
 
-export const ChannelField: FC<IChannelField> = ({
+export const ParticipantFields: FC<IParticipantFields> = ({
     index,
     options,
     fieldsLength,
@@ -22,10 +21,13 @@ export const ChannelField: FC<IChannelField> = ({
 }) => {
     const { watch } = useFormContext<FormValues>();
 
-    const channel = watch(`channels.${index}`);
+    const participant = watch(`participants.${index}`);
 
     const filteredOptions = options
-        .filter((option) => channel.value === option.id || !alreadySelected.includes(option.id))
+        .filter(
+            (option) =>
+                participant.participant === option.id || !alreadySelected.includes(option.id),
+        )
         .map((option) => ({ id: option.id, value: option.name }));
 
     const NameContainer = fullscreen ? S.FieldsFlexContainer : Fragment;
@@ -34,7 +36,7 @@ export const ChannelField: FC<IChannelField> = ({
         <>
             {!fullscreen && (
                 <S.FlexContainer>
-                    <S.SubTitleSmall>Канал {index + 1}</S.SubTitleSmall>
+                    <S.SubTitleSmall>Участник {index + 1}</S.SubTitleSmall>
                     {fieldsLength > 1 && (
                         <IconButton
                             iconName={Icons.Delete}
@@ -44,16 +46,21 @@ export const ChannelField: FC<IChannelField> = ({
                     )}
                 </S.FlexContainer>
             )}
-            <S.ChannelsContainer marginTop={fullscreen}>
+            <S.FieldsContainer marginTop={fullscreen}>
                 <NameContainer>
                     <S.GrowContainer>
                         <Select
-                            name={`channels.${index}.value`}
-                            label="Канал*"
+                            name={`participants.${index}.participant`}
+                            label="Сторона*"
                             options={filteredOptions}
                         />
                     </S.GrowContainer>
-
+                    <S.GrowContainer>
+                        <TextField
+                            label="Описание участника*"
+                            name={`participants.${index}.descr`}
+                        />
+                    </S.GrowContainer>
                     {fullscreen && index === 0 && (
                         <S.ButtonStyled
                             disabled={fieldsLength >= options.length}
@@ -69,7 +76,9 @@ export const ChannelField: FC<IChannelField> = ({
                         </S.ButtonStyled>
                     )}
                 </NameContainer>
-            </S.ChannelsContainer>
+                <TextArea label="Ценностный результат*" name={`participants.${index}.value`} />
+            </S.FieldsContainer>
+            {fullscreen && fieldsLength !== 1 && index + 1 !== fieldsLength && <S.DividerStyled />}
         </>
     );
 };
