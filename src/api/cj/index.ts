@@ -25,8 +25,8 @@ export const postCJ = (data: T.ICJForm) => {
     });
 };
 
-export const putCJ = (id: string, data: T.ICJForm) => {
-    return Api.put({
+export const patchCJ = (id: string, data: T.ICJForm) => {
+    return Api.patch({
         url: `${API_URL}cx/v1/product/cj/${id}`,
         data,
     });
@@ -35,38 +35,6 @@ export const putCJ = (id: string, data: T.ICJForm) => {
 export const deleteCJ = (id: string) => {
     return Api.delete({
         url: `${API_URL}cx/v1/product/cj/${id}`,
-    });
-};
-
-export const getCJStepById = (cjId: string, stepId: string): AxiosPromise<T.ICJStepData> => {
-    return Api.get({
-        url: `${API_URL}cx/v1/product/cj/${cjId}/step/${stepId}`,
-    });
-};
-
-export const getCJStepCollection = (cjId: string): AxiosPromise<T.ICJStepData[]> => {
-    return Api.get({
-        url: `${API_URL}cx/v1/product/cj/${cjId}/step`,
-    });
-};
-
-export const postCJStep = (cjId: string, data: T.ICJStepForm) => {
-    return Api.post({
-        url: `${API_URL}cx/v1/product/cj/${cjId}/step`,
-        data,
-    });
-};
-
-export const putCJStep = (stepId: string, data: T.ICJStepForm) => {
-    return Api.put({
-        url: `${API_URL}cx/v1/product/cj/step/${stepId}`,
-        data,
-    });
-};
-
-export const deleteCJStep = (stepId: string) => {
-    return Api.delete({
-        url: `${API_URL}cx/v1/product/cj/step/${stepId}`,
     });
 };
 

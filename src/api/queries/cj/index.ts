@@ -1,20 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-// import { IBIData } from 'api/bi/types';
-import {
-    deleteCJ,
-    deleteCJStep,
-    getAllCJs,
-    getCJById,
-    getCJsByBIId,
-    getCJStepById,
-    // getCJStepCollection,
-    postCJ,
-    postCJStep,
-    putCJ,
-    putCJStep,
-} from 'api/cj';
+import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ } from 'api/cj';
 import { ICJData, ICJForm, ICJStepData, ICJStepForm, ICompleteCJData } from 'api/cj/types';
+import { deleteCJStep, getCJStepById, patchCJStep, postCJStep } from 'api/cj-step';
 import { deleteCJStepBI, putCJStepBIs } from 'api/cj-step';
 import { ICJStepBIForm } from 'api/cj-step/types';
 
@@ -66,11 +54,15 @@ interface IUpdateCJParams {
 }
 export function useUpdateCJMutation() {
     const queryClient = useQueryClient();
-    return useMutation([CJ_PREFIX, 'update'], ({ id, data }: IUpdateCJParams) => putCJ(id, data), {
-        onSuccess: () => {
-            void queryClient.invalidateQueries(CJ_PREFIX);
+    return useMutation(
+        [CJ_PREFIX, 'update'],
+        ({ id, data }: IUpdateCJParams) => patchCJ(id, data),
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(CJ_PREFIX);
+            },
         },
-    });
+    );
 }
 
 export function useDeleteCJMutation() {
@@ -120,7 +112,7 @@ export function useUpdateCJStepMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [CJ_PREFIX, STEP_PREFIX, 'update'],
-        ({ stepId, data }: IUpdateCJStepParams) => putCJStep(stepId, data),
+        ({ stepId, data }: IUpdateCJStepParams) => patchCJStep(stepId, data),
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(CJ_PREFIX);
