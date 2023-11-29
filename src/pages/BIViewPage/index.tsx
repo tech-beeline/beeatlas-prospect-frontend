@@ -2,20 +2,14 @@ import React from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
 import { IconFeeling } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
-import {
-    formatLinkFromString,
-    // getChannel,
-    // getEnter,
-    // getExit,
-    getFeelingType,
-    // getStatus,
-} from 'pages/CJPage/utils/formatters';
+import { formatLinkFromString, getFeelingType } from 'pages/CJPage/utils/formatters';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -84,12 +78,9 @@ export const BIViewPage = () => {
                                 />
                             )}
                             <S.LabelsContainer>
-                                <Label
-                                    title={data.target ? 'Целевой' : 'Фактический'}
-                                    type={data.target ? 'purple' : 'teal'}
-                                />
-                                {data.communal && <Label title="Коммунальный" type="magenta" />}
-                                <Label title={data.status.name} type="info" />
+                                <TargetLabel target={data.target} />
+                                {data.communal && <CommunalLabel />}
+                                <StatusLabel status={data.status} />
                                 <Label
                                     variant="contained"
                                     title={data.draft ? 'Черновик' : 'Опубликован'}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Label } from '@beeline/design-system-react';
+import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
 
-import { IParticipant } from 'api/bi/types';
+import { IParticipant, IStatus } from 'api/bi/types';
 import { formatNullableString } from 'utils/formatters';
 
 import * as S from './units';
@@ -18,12 +18,11 @@ export const formatLinkFromString = (str: string | undefined | null, linkName = 
     );
 
 export const formatCommunal = (communal: boolean) =>
-    communal ? <Label title="Коммунальный" type="magenta" /> : formatNullableString(null);
+    communal ? <CommunalLabel /> : formatNullableString(null);
 
-export const formatTarget = (target: boolean) =>
-    target ? <Label title="Целевой" type="purple" /> : <Label title="Фактический" type="teal" />;
+export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
 
-export const formatStatus = (status: string) => <Label title={status} type="info" />;
+export const formatStatus = (status: IStatus) => <StatusLabel status={status} />;
 
 export const getFeelingType = (feelingId: number) => Object.values(FeelingTypes)[feelingId];
 

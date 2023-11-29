@@ -43,13 +43,7 @@ export interface IBILink {
     };
 }
 
-// interface IParticipants {
-//     descr: string;
-//     participant: number;
-//     value: string;
-// }
-
-interface IChannel {
+export interface IChannel {
     id: number;
     name: string;
 }
@@ -59,7 +53,7 @@ interface IFeelings {
     name: string;
 }
 
-interface IStatus {
+export interface IStatus {
     id: number;
     name: string;
 }

@@ -1,19 +1,13 @@
 import React, { FC, Fragment } from 'react';
-import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
+import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { CommunalLabel, TargetLabel } from 'features/cx';
 
 import { IconFeeling } from 'components/other';
 
 import { useGetBIByIdQuery } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
-import {
-    formatLinkFromString,
-    // getChannel,
-    // getEnter,
-    // getExit,
-    getFeelingType,
-    // getStatus,
-} from 'pages/CJPage/utils/formatters';
+import { formatLinkFromString, getFeelingType } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -58,14 +52,8 @@ export const BiView: FC<IBiView> = ({
                     {isLoading && <Skeleton height={24} />}
                     {bi && (
                         <>
-                            <Label
-                                title={bi.target ? 'Целевой' : 'Фактический'}
-                                variant="contained"
-                                type="teal"
-                            />
-                            {bi.communal && (
-                                <Label title="Коммунальный" variant="contained" type="magenta" />
-                            )}
+                            <TargetLabel target={bi.target} />
+                            {bi.communal && <CommunalLabel />}
                         </>
                     )}
                 </S.LabelsContainer>

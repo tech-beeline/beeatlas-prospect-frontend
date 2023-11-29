@@ -61,7 +61,7 @@ export const rowsData: RowData<any>[] = [
         rowId: 'status',
         label: 'Статус стадии ЖЦ',
         formatData: formatStatus,
-        parseData: (bi: IBIData) => bi.status.name,
+        parseData: (bi: IBIData) => bi.status,
     },
     {
         rowId: 'participants',

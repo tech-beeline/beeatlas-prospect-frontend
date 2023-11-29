@@ -1,6 +1,7 @@
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Button, Label, Skeleton } from '@beeline/design-system-react';
+import { Button, Skeleton } from '@beeline/design-system-react';
+import { CommunalLabel, TargetLabel } from 'features/cx';
 
 import { getBIEditabilityById } from 'api/bi';
 import { useDeleteBIMutation, useGetBICollectionQuery } from 'api/queries/bi';
@@ -67,13 +68,8 @@ export const BILibraryPage = () => {
                             <S.BICard key={bi.id}>
                                 <S.FlexContainer>
                                     <S.LabelsContainer>
-                                        {bi.communal && (
-                                            <Label title="Коммунальный" type="magenta" />
-                                        )}
-                                        <Label
-                                            title={bi.target ? 'Целевой' : 'Фактический'}
-                                            type="teal"
-                                        />
+                                        {bi.communal && <CommunalLabel />}
+                                        <TargetLabel target={bi.target} />
                                     </S.LabelsContainer>
                                     <BiMenu
                                         biId={bi.id}
