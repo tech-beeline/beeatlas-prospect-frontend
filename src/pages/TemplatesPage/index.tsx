@@ -27,7 +27,7 @@ export const TemplatesPage = () => {
                     window.open(
                         isFunc
                             ? FUNC_MOCK_CONFLUENCE_LINK
-                            : 'https://confluence.veon.com/pages/viewpage.action?pageId=132433700',
+                            : 'https://bwiki.beeline.ru/pages/viewpage.action?pageId=132433700',
                         '_blank',
                     )
                 }

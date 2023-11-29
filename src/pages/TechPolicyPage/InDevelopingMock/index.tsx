@@ -26,7 +26,7 @@ export const InDevelopingMock = () => {
                     window.open(
                         isFunc
                             ? FUNC_MOCK_CONFLUENCE_LINK
-                            : 'https://confluence.veon.com/pages/viewpage.action?pageId=162511052',
+                            : 'https://bwiki.beeline.ru/pages/viewpage.action?pageId=162511052',
                         '_blank',
                     )
                 }
