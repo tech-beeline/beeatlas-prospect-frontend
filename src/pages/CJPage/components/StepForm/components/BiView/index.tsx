@@ -3,11 +3,11 @@ import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CommunalLabel, TargetLabel } from 'features/cx';
 
-import { IconFeeling } from 'components/other';
+import { IconFeeling, Link } from 'components/other';
 
 import { useGetBIByIdQuery } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
-import { formatLinkFromString, getFeelingType } from 'pages/CJPage/utils/formatters';
+import { getFeelingType } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -107,7 +107,9 @@ export const BiView: FC<IBiView> = ({
 
                             <div>
                                 <S.Body3>Ссылка на флоу</S.Body3>
-                                <S.Body2>{formatLinkFromString('')}</S.Body2>
+                                <S.Body2>
+                                    <Link url={bi.flowLink[0]?.url} />
+                                </S.Body2>
                             </div>
 
                             <div>
@@ -129,7 +131,7 @@ export const BiView: FC<IBiView> = ({
                                 <S.Body2>
                                     {bi.document.map((document, index) => (
                                         <>
-                                            {formatLinkFromString(document.url)}
+                                            <Link url={document.url} />
                                             {index < bi.document.length - 1 && ', '}
                                         </>
                                     ))}
@@ -141,7 +143,7 @@ export const BiView: FC<IBiView> = ({
                                 <S.Body2>
                                     {bi.mockupLink.map((mockup, index) => (
                                         <>
-                                            {formatLinkFromString(mockup.url)}
+                                            <Link url={mockup.url} />
                                             {index < bi.mockupLink.length - 1 && ', '}
                                         </>
                                     ))}

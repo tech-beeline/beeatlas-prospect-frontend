@@ -5,11 +5,11 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
-import { IconFeeling } from 'components/other';
+import { IconFeeling, Link } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
-import { formatLinkFromString, getFeelingType } from 'pages/CJPage/utils/formatters';
+import { getFeelingType } from 'pages/CJPage/utils/formatters';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -130,7 +130,9 @@ export const BIViewPage = () => {
 
                                 <div>
                                     <S.Body3>Ссылка на флоу</S.Body3>
-                                    <S.Body2>{formatLinkFromString(data.flowLink[0]?.url)}</S.Body2>
+                                    <S.Body2>
+                                        <Link url={data.flowLink[0]?.url} />
+                                    </S.Body2>
                                 </div>
 
                                 <div>
@@ -156,7 +158,7 @@ export const BIViewPage = () => {
                                     <S.Body2>
                                         {data.document.map((document, index) => (
                                             <>
-                                                {formatLinkFromString(document.url)}
+                                                <Link url={document.url} />
                                                 {index < data.document.length - 1 && ', '}
                                             </>
                                         ))}
@@ -171,7 +173,7 @@ export const BIViewPage = () => {
                                     <S.Body2>
                                         {data.mockupLink.map((mockup, index) => (
                                             <>
-                                                {formatLinkFromString(mockup.url)}
+                                                <Link url={mockup.url} />
                                                 {index < data.mockupLink.length - 1 && ', '}
                                             </>
                                         ))}
@@ -187,10 +189,10 @@ export const BIViewPage = () => {
                                         {cjs &&
                                             cjs.map((cj, index) => (
                                                 <>
-                                                    {formatLinkFromString(
-                                                        `/cx/cj/add?id=${cj.id}`,
-                                                        cj.name,
-                                                    )}
+                                                    <Link
+                                                        url={`/cx/cj/add?id=${cj.id}`}
+                                                        title={cj.name}
+                                                    />
                                                     {index < cjs.length - 1 && ', '}
                                                 </>
                                             ))}

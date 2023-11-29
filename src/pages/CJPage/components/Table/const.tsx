@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { Link } from 'components/other';
+
 import { IBIData, IBILink } from 'api/bi/types';
 import {
     formatCommunal,
     formatFeeling,
-    formatLinkFromString,
     formatParticipants,
     formatStatus,
     formatTarget,
@@ -86,9 +87,9 @@ export const rowsData: RowData<any>[] = [
         label: 'Ссылка на флоу',
         formatData: (flowLinks: IBILink[]) => (
             <>
-                {flowLinks.map((document, index) => (
+                {flowLinks.map((flowLink, index) => (
                     <>
-                        {formatLinkFromString(document.url)}
+                        <Link url={flowLink.url} />
                         {index < flowLinks.length - 1 && ', '}
                     </>
                 ))}
@@ -117,7 +118,7 @@ export const rowsData: RowData<any>[] = [
             <>
                 {documents.map((document, index) => (
                     <>
-                        {formatLinkFromString(document.url)}
+                        <Link url={document.url} />
                         {index < documents.length - 1 && ', '}
                     </>
                 ))}
@@ -133,7 +134,7 @@ export const rowsData: RowData<any>[] = [
             <>
                 {mockups.map((mockup, index) => (
                     <>
-                        {formatLinkFromString(mockup.url)}
+                        <Link url={mockup.url} />
                         {index < mockups.length - 1 && ', '}
                     </>
                 ))}

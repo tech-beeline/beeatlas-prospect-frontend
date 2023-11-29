@@ -8,15 +8,6 @@ import { formatNullableString } from 'utils/formatters';
 
 import * as S from './units';
 
-export const formatLinkFromString = (str: string | undefined | null, linkName = 'Ссылка') =>
-    str && Boolean(str) ? (
-        <S.Link target="_blank" rel="noreferrer" href={str}>
-            {linkName}
-        </S.Link>
-    ) : (
-        '—'
-    );
-
 export const formatCommunal = (communal: boolean) =>
     communal ? <CommunalLabel /> : formatNullableString(null);
 

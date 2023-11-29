@@ -3,6 +3,7 @@ export { Expand } from './Expand';
 export { IconCard } from './IconCard';
 export { FeelingTypes, IconFeeling } from './IconFeeling';
 export { IconText } from './IconText';
+export { Link } from './Link';
 export { PivotArrow } from './PivotArrow';
 export { ProfileIcon } from './ProfileIcon';
 export { ProgressBar } from './ProgressBar';
