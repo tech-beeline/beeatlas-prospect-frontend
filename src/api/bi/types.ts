@@ -64,6 +64,15 @@ interface IStatus {
     name: string;
 }
 
+export interface IParticipant {
+    descr: string;
+    participant: {
+        id: number;
+        name: string;
+    };
+    value: string;
+}
+
 export interface IBIData {
     channel: IChannel[];
     clientScenario: string;
@@ -80,10 +89,7 @@ export interface IBIData {
     mockupLink: IBILink[];
     name: string;
     ownerRole: string;
-    participants: {
-        id: 'string';
-        name: 'string';
-    }[];
+    participants: IParticipant[];
     productId: string;
     status: IStatus;
     target: boolean;

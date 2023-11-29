@@ -11,11 +11,6 @@ export interface Channel {
     value: number;
 }
 
-export interface Enter {
-    enter: number;
-    exit: number;
-}
-
 export interface BI {
     id: number;
     name: string;

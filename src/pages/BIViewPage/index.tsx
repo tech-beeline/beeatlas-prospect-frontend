@@ -109,8 +109,8 @@ export const BIViewPage = () => {
                                     {data.participants.map((participant, index) => (
                                         <>
                                             <S.Body3 marginTop>Участник {index + 1}</S.Body3>
-                                            <S.Body2>{participant.name}</S.Body2>
-                                            {/* <S.Body3 marginTop>
+                                            <S.Body2>{participant.participant.name}</S.Body2>
+                                            <S.Body3 marginTop>
                                                 Описание участника {index + 1}
                                             </S.Body3>
                                             <S.Body2>{participant.descr}</S.Body2>
@@ -119,7 +119,7 @@ export const BIViewPage = () => {
                                             </S.Body3>
                                             <S.Body2>
                                                 {formatNullableString(participant.value)}
-                                            </S.Body2> */}
+                                            </S.Body2>
                                         </>
                                     ))}
                                 </div>

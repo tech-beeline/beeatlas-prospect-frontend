@@ -96,11 +96,11 @@ export const BiView: FC<IBiView> = ({
                                     <Fragment key={index}>
                                         <S.Subtitle3>Участник {index + 1}</S.Subtitle3>
                                         <S.Body3>Участник</S.Body3>
-                                        <S.Body2>{participant.name}</S.Body2>
-                                        {/* <S.Body3>Описание участника</S.Body3>
+                                        <S.Body2>{participant.participant.name}</S.Body2>
+                                        <S.Body3>Описание участника</S.Body3>
                                         <S.Body2>{participant.descr}</S.Body2>
                                         <S.Body3>Ценностный результат</S.Body3>
-                                        <S.Body2>{participant.value}</S.Body2> */}
+                                        <S.Body2>{participant.value}</S.Body2>
                                     </Fragment>
                                 ))}
                             </div>

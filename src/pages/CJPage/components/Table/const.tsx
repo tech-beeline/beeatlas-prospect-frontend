@@ -6,6 +6,8 @@ import {
     formatFeeling,
     formatLinkFromString,
     formatParticipants,
+    formatStatus,
+    formatTarget,
 } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 
@@ -52,13 +54,13 @@ export const rowsData: RowData<any>[] = [
     {
         rowId: 'type',
         label: 'Характеристики',
-        formatData: (target) => (target ? 'Целевой' : 'Фактический'),
+        formatData: formatTarget,
         parseData: (bi: IBIData) => bi.target,
     },
     {
         rowId: 'status',
         label: 'Статус стадии ЖЦ',
-        formatData: formatNullableString,
+        formatData: formatStatus,
         parseData: (bi: IBIData) => bi.status.name,
     },
     {
@@ -71,7 +73,7 @@ export const rowsData: RowData<any>[] = [
         rowId: 'feeling',
         label: 'Чувства и эмоции клиента',
         formatData: formatFeeling,
-        parseData: (bi: IBIData) => bi.feelings,
+        parseData: (bi: IBIData) => bi.feelings.id,
     },
     {
         rowId: 'clientScenario',
@@ -82,17 +84,18 @@ export const rowsData: RowData<any>[] = [
     {
         rowId: 'flowLink',
         label: 'Ссылка на флоу',
-        formatData: (documents: IBILink[]) => (
+        formatData: (flowLinks: IBILink[]) => (
             <>
-                {documents.map((document, index) => (
+                {flowLinks.map((document, index) => (
                     <>
                         {formatLinkFromString(document.url)}
-                        {index < documents.length - 1 && ', '}
+                        {index < flowLinks.length - 1 && ', '}
                     </>
                 ))}
+                {flowLinks.length === 0 && formatNullableString(null)}
             </>
         ),
-        parseData: (bi: IBIData) => bi.document,
+        parseData: (bi: IBIData) => bi.flowLink,
     },
     {
         rowId: 'ucsReaction',
@@ -118,6 +121,7 @@ export const rowsData: RowData<any>[] = [
                         {index < documents.length - 1 && ', '}
                     </>
                 ))}
+                {documents.length === 0 && formatNullableString(null)}
             </>
         ),
         parseData: (bi: IBIData) => bi.document,
@@ -133,6 +137,7 @@ export const rowsData: RowData<any>[] = [
                         {index < mockups.length - 1 && ', '}
                     </>
                 ))}
+                {mockups.length === 0 && formatNullableString(null)}
             </>
         ),
         parseData: (bi: IBIData) => bi.mockupLink,
