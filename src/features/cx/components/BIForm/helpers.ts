@@ -48,7 +48,10 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
         value: participant.value,
         participant: Number(participant.participant.id),
     })),
-    document: data.document.map((document) => ({ value: document.url, description: '' })),
-    mockup: data.mockupLink.map((mockup) => ({ value: mockup.url, description: '' })),
+    document: data.document.map((document) => ({
+        value: document.url,
+        description: document.descr,
+    })),
+    mockup: data.mockupLink.map((mockup) => ({ value: mockup.url, description: mockup.descr })),
     flowLink: data.flowLink[0]?.url,
 });

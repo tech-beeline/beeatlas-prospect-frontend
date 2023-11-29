@@ -159,7 +159,14 @@ export const BIViewPage = () => {
                                         {data.document.map((document, index) => (
                                             <>
                                                 <Link url={document.url} />
-                                                {index < data.document.length - 1 && ', '}
+                                                <S.Body3 marginTop>Описание</S.Body3>
+                                                <S.Body2
+                                                    marginBottom={
+                                                        index + 1 !== data.document.length
+                                                    }
+                                                >
+                                                    {formatNullableString(document.descr)}
+                                                </S.Body2>
                                             </>
                                         ))}
                                         {data.document.length === 0 && formatNullableString(null)}
@@ -174,7 +181,14 @@ export const BIViewPage = () => {
                                         {data.mockupLink.map((mockup, index) => (
                                             <>
                                                 <Link url={mockup.url} />
-                                                {index < data.mockupLink.length - 1 && ', '}
+                                                <S.Body3 marginTop>Описание</S.Body3>
+                                                <S.Body2
+                                                    marginBottom={
+                                                        index + 1 !== data.mockupLink.length
+                                                    }
+                                                >
+                                                    {formatNullableString(mockup.descr)}
+                                                </S.Body2>
                                             </>
                                         ))}
                                         {data.mockupLink.length === 0 && formatNullableString(null)}

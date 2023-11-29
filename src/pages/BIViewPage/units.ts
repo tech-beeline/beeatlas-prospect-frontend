@@ -55,7 +55,7 @@ export const Content = styled.div`
     }
 `;
 
-export const Body2 = styled.div<{ marginTop?: boolean }>`
+export const Body2 = styled.div<{ marginTop?: boolean; marginBottom?: boolean }>`
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
@@ -63,6 +63,7 @@ export const Body2 = styled.div<{ marginTop?: boolean }>`
     white-space: pre-wrap;
 
     margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
+    margin-bottom: ${({ marginBottom }) => (marginBottom ? '18px' : '0px')};
 `;
 
 export const Body3 = styled.div<{ marginTop?: boolean }>`
@@ -81,12 +82,6 @@ export const Subtitle = styled.div<{ marginBottom?: boolean }>`
     line-height: var(--font-line-height-subtitle1);
 
     margin-bottom: ${({ marginBottom }) => (marginBottom ? '12px' : '0px')};
-`;
-
-export const Subtitle3 = styled.div`
-    font-weight: var(--font-weight-subtitle3);
-    font-size: var(--font-size-subtitle3);
-    line-height: var(--font-line-height-subtitle3);
 `;
 
 export const BannerStyled = styled(Banner)`

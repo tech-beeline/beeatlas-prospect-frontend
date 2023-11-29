@@ -1,7 +1,7 @@
 import React, { FC, Fragment } from 'react';
-import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
+import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { CommunalLabel, TargetLabel } from 'features/cx';
+import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { IconFeeling, Link } from 'components/other';
 
@@ -54,12 +54,16 @@ export const BiView: FC<IBiView> = ({
                         <>
                             <TargetLabel target={bi.target} />
                             {bi.communal && <CommunalLabel />}
+                            <StatusLabel status={bi.status} />
+                            <Label
+                                variant="contained"
+                                title={bi.draft ? 'Черновик' : 'Опубликован'}
+                                type={bi.draft ? 'default' : 'success'}
+                            />
                         </>
                     )}
                 </S.LabelsContainer>
                 <S.AttributesContainer>
-                    {isLoading &&
-                        Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={40} />)}
                     {bi && (
                         <>
                             <div>
@@ -72,22 +76,18 @@ export const BiView: FC<IBiView> = ({
                                 <S.Body2>{formatNullableString(bi.descr)}</S.Body2>
                             </div>
 
-                            {/* <div>
-                                <S.Body3>Стадия ЖЦ</S.Body3>
-                                <S.Body2>{getStatus(bi.statusId)}</S.Body2>
-                            </div> */}
-
                             <div>
                                 <S.Subtitle>Участники взаимодействия</S.Subtitle>
 
                                 {bi.participants.map((participant, index) => (
                                     <Fragment key={index}>
-                                        <S.Subtitle3>Участник {index + 1}</S.Subtitle3>
-                                        <S.Body3>Участник</S.Body3>
+                                        <S.Body3 marginTop>Участник {index + 1}</S.Body3>
                                         <S.Body2>{participant.participant.name}</S.Body2>
-                                        <S.Body3>Описание участника</S.Body3>
+                                        <S.Body3 marginTop>Описание участника {index + 1}</S.Body3>
                                         <S.Body2>{participant.descr}</S.Body2>
-                                        <S.Body3>Ценностный результат</S.Body3>
+                                        <S.Body3 marginTop>
+                                            Ценностный результат для участника {index + 1}
+                                        </S.Body3>
                                         <S.Body2>{participant.value}</S.Body2>
                                     </Fragment>
                                 ))}
@@ -101,6 +101,7 @@ export const BiView: FC<IBiView> = ({
                             </div>
 
                             <div>
+                                <S.Subtitle>Сценарии</S.Subtitle>
                                 <S.Body3>Клиентский сценарий</S.Body3>
                                 <S.Body2>{formatNullableString(bi.clientScenario)}</S.Body2>
                             </div>
@@ -118,7 +119,7 @@ export const BiView: FC<IBiView> = ({
                             </div>
 
                             <div>
-                                <S.Body3>Канал</S.Body3>
+                                <S.Subtitle>Канал</S.Subtitle>
                                 <S.Body2>
                                     {formatNullableString(
                                         bi.channel.map((channel) => channel.name).join(', '),
@@ -127,30 +128,44 @@ export const BiView: FC<IBiView> = ({
                             </div>
 
                             <div>
-                                <S.Body3>Документация</S.Body3>
+                                <S.Subtitle>Документация</S.Subtitle>
                                 <S.Body2>
                                     {bi.document.map((document, index) => (
                                         <>
                                             <Link url={document.url} />
-                                            {index < bi.document.length - 1 && ', '}
+                                            <S.Body3 marginTop>Описание</S.Body3>
+                                            <S.Body2
+                                                marginBottom={index + 1 !== bi.document.length}
+                                            >
+                                                {formatNullableString(document.descr)}
+                                            </S.Body2>
                                         </>
                                     ))}
+                                    {bi.document.length === 0 && formatNullableString(null)}
                                 </S.Body2>
                             </div>
 
                             <div>
-                                <S.Body3>Макет</S.Body3>
+                                <S.Subtitle>Макет</S.Subtitle>
                                 <S.Body2>
                                     {bi.mockupLink.map((mockup, index) => (
                                         <>
                                             <Link url={mockup.url} />
-                                            {index < bi.mockupLink.length - 1 && ', '}
+                                            <S.Body3 marginTop>Описание</S.Body3>
+                                            <S.Body2
+                                                marginBottom={index + 1 !== bi.mockupLink.length}
+                                            >
+                                                {formatNullableString(mockup.descr)}
+                                            </S.Body2>
                                         </>
                                     ))}
+                                    {bi.mockupLink.length === 0 && formatNullableString(null)}
                                 </S.Body2>
                             </div>
                         </>
                     )}
+                    {isLoading &&
+                        Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={40} />)}
                 </S.AttributesContainer>
             </div>
             {showButtons && bi && (
