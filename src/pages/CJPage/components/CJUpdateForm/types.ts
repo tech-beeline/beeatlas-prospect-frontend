@@ -1,8 +1,8 @@
 import { FormValues } from './form';
 
-export interface IStepForm {
+export interface ICJUpdateForm {
     isOpen: boolean;
+    cjId: number;
     values: FormValues;
     onClose: () => void;
-    updateCJ: (values: FormValues) => void;
 }

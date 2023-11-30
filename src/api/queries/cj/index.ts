@@ -38,7 +38,7 @@ export function useCreateCJWithEmptyStepMutation() {
                 draft: true,
             });
             await postCJStep(cjData.data.id, { name: 'Название шага', order: 0 });
-            return (cjData.data.id as string) ?? '0';
+            return { cjId: cjData.data.id as string };
         },
         {
             onSuccess: () => {
@@ -56,7 +56,9 @@ export function useUpdateCJMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [CJ_PREFIX, 'update'],
-        ({ id, data }: IUpdateCJParams) => patchCJ(id, data),
+        async ({ id, data }: IUpdateCJParams) => {
+            await patchCJ(id, data);
+        },
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(CJ_PREFIX);

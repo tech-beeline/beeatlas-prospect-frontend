@@ -5,14 +5,12 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useGetCompleteCJDataByIdQuery, useUpdateCJMutation } from 'api/queries/cj';
 import * as ROUTER from 'router/const';
-import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { CJForm, FormValues } from './components/CJForm';
+import { CJUpdateForm } from './components/CJUpdateForm';
 import { Table } from './components/Table';
 import * as S from './units';
 
 export const CJPage = () => {
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
@@ -42,20 +40,6 @@ export const CJPage = () => {
                 id: String(data.id),
                 data: { draft: true, name: data.name, user_portrait: data.user_portrait },
             });
-        }
-    };
-
-    const handleUpdateCJ = async (values: FormValues) => {
-        if (data) {
-            await updateCJ({
-                id: String(data.id),
-                data: {
-                    draft: data.draft,
-                    name: values.name,
-                    user_portrait: values.userPortrait,
-                },
-            });
-            showSnackbar({ message: 'Изменения сохранены' });
         }
     };
 
@@ -100,12 +84,14 @@ export const CJPage = () => {
 
             {data && <Table cjId={data.id} tableData={data.steps} />}
 
-            <CJForm
-                isOpen={isOpenSettingsCJ}
-                onClose={() => setOpenSettingsCJ(false)}
-                updateCJ={handleUpdateCJ}
-                values={{ name: data?.name ?? '', userPortrait: data?.user_portrait ?? '' }}
-            />
+            {data && (
+                <CJUpdateForm
+                    isOpen={isOpenSettingsCJ}
+                    cjId={data.id}
+                    onClose={() => setOpenSettingsCJ(false)}
+                    values={{ name: data.name, userPortrait: data.user_portrait }}
+                />
+            )}
         </S.PageWrapper>
     );
 };

@@ -4,6 +4,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AxiosError } from 'axios';
 
 import { SideBlock } from 'components/containers';
 import { Select, TextField } from 'components/form';
@@ -24,7 +25,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         resolver: yupResolver(validationSchema),
     });
 
-    const { handleSubmit, reset } = form;
+    const { handleSubmit, reset, setError } = form;
 
     const handleCloseClick = () => {
         reset();
@@ -32,15 +33,21 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     };
 
     const onSubmit = handleSubmit(async (values) => {
-        const id = await createCJ({
-            draft: true,
-            name: values.name,
-            user_portrait: values.userPortrait,
-        });
-        navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-            search: createSearchParams({ id: String(id) }).toString(),
-        });
+        try {
+            const { cjId } = await createCJ({
+                draft: true,
+                name: values.name,
+                user_portrait: values.userPortrait,
+            });
+            navigate({
+                pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                search: createSearchParams({ id: cjId }).toString(),
+            });
+        } catch (error) {
+            if ((error as AxiosError).response?.status === 422) {
+                setError('name', { message: 'Название CJ должно быть уникальным' });
+            }
+        }
     });
 
     return (
