@@ -63,11 +63,11 @@ export const OnlyTd = styled(Td)`
     }
 `;
 
-export const LabelTd = styled(Td)`
+export const LabelTd = styled(Td)<{ themeIsDark: boolean }>`
     z-index: 2;
     /* @TODO: Здесь не подходит rgba цвет из-за прозрачности */
     /* background-color: var(--color-button-plain-background-hover); */
-    background-color: #edf4fd;
+    background-color: ${({ themeIsDark }) => (themeIsDark ? '#1d2831' : '#edf4fd')};
 
     :hover span {
         display: inline;
