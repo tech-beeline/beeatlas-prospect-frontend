@@ -48,4 +48,16 @@ ingress:
       - path: /
         pathType: ImplementationSpecific
 
+  tls:
+    - hosts:
+        - beeatlas.vimpelcom.ru
+      secretName: beeatlas-tls
+    - hosts:
+        - tr.vimpelcom.ru
+      secretName: tr-tls
+    - hosts:
+        - techradar.vimpelcom.ru
+      secretName: techradar-tls
+
+
 replicaCount: 3
