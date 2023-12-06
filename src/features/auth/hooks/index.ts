@@ -1,38 +1,30 @@
 import { useEffect } from 'react';
-import VKITAuth from '@beeline/lk-auth';
 
 import { useMountEffect } from 'hooks';
-import { FUNC_MOCK_AUTH_LINK, isDev, isFunc, isProd, LOCALHOST_LINK } from 'utils/const';
+import { isFunc } from 'utils/const';
 
+import { authInstance } from '../const';
 import { useAuthStore } from '../store';
-
-const auth = new VKITAuth({
-    authUrl: isFunc
-        ? FUNC_MOCK_AUTH_LINK
-        : isProd
-        ? 'https://eauth-prod.apps.mn-kd06.vimpelcom.ru'
-        : isDev
-        ? LOCALHOST_LINK
-        : // @TODO Через какое-то время должен поменять адрес авторизации в самой библиотеке
-          'https://eauth-dev.apps.yd-kt05.vimpelcom.ru',
-});
 
 export const useAuth = () => {
     const { isAuth, setIsAuth, userInfo, setUserInfo, setTokens, setCodeAndState } = useAuthStore();
 
     useMountEffect(() => {
         (async () => {
-            if (auth.hasNecessaryParams()) {
-                const { access_token, refresh_token } = await auth.exchangeCode();
+            if (authInstance.hasNecessaryParams()) {
+                const { access_token, refresh_token } = await authInstance.exchangeCode();
 
-                setCodeAndState(auth.getCodeParam() ?? '', auth.getStateParam() ?? '');
+                setCodeAndState(
+                    authInstance.getCodeParam() ?? '',
+                    authInstance.getStateParam() ?? '',
+                );
 
                 setTokens(access_token, refresh_token);
 
-                setUserInfo(auth.getClaims(access_token));
+                setUserInfo(authInstance.getClaims(access_token));
             } else if (!(isAuth && isFunc)) {
                 // clearStore();
-                auth.startAuth();
+                authInstance.startAuth();
             }
         })();
     });
