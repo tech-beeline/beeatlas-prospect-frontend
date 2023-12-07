@@ -1,7 +1,11 @@
 // @TODO: Заменить на переменные окружения
 export const isFunc = window.location.href.includes('eafdmmart-func');
 
-export const isProd = window.location.href.includes('eafdmmart-prod');
+export const isProd =
+    window.location.href.includes('eafdmmart-prod') ||
+    window.location.href.includes('beeatlas.vimpelcom.ru') ||
+    window.location.href.includes('techradar.vimpelcom.ru') ||
+    window.location.href.includes('tr.vimpelcom.ru');
 
 export const isDev = process.env.NODE_ENV === 'development';
 

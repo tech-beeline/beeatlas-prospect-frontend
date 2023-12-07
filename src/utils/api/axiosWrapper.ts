@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuthStore } from 'features/auth';
+import { authInstance, useAuthStore } from 'features/auth';
 
 // import { postRefreshToken } from 'api/auth';
 // import { getStorage } from 'stores/utils';
@@ -84,6 +84,15 @@ instanceOfAxios.interceptors.response.use(
 
                 // error.errorText = TEXT.ERROR_401;
                 try {
+                    const { access_token, refresh_token } = await authInstance.refreshTokens();
+
+                    useAuthStore.getState().setTokens(access_token, refresh_token);
+
+                    return instanceOfAxios.request(error.config);
+
+                    // const { access_token, refresh_token } = await auth.refreshTokens();
+
+                    // useAuthStore.getState().setTokens(access_token, refresh_token);
                     // const refreshToken = getStorage('refreshToken');
 
                     // if (refreshToken && callRequestCount <= 2) {
@@ -91,7 +100,7 @@ instanceOfAxios.interceptors.response.use(
 
                     //     callRequestCount++;
 
-                    return instanceOfAxios.request(error.config);
+                    // return instanceOfAxios.request(error.config);
                     // } else if (callRequestCount === 3) {
                     //     clearStorage();
 
