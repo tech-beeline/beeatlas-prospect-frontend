@@ -24,15 +24,15 @@ export const getBICollection = (search?: string): AxiosPromise<T.IBIData[]> => {
     });
 };
 
-export const postBI = (data: Partial<T.IBIForm>) => {
+export const postBI = (data: T.IBIForm) => {
     return Api.post({
         url: `${API_URL}cx/v1/library/business-interactions`,
         data,
     });
 };
 
-export const putBI = (id: string, data: Partial<T.IBIForm>) => {
-    return Api.put({
+export const patchBI = (id: string, data: T.IBIForm) => {
+    return Api.patch({
         url: `${API_URL}cx/v1/library/business-interactions/${id}`,
         data,
     });

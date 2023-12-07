@@ -23,10 +23,11 @@ export interface IBIForm {
     }[];
     name: string;
     participants: {
-        id: number;
+        idType: number;
         descr: string;
         value: string;
     }[];
+    productId: string;
     status: {
         id: number;
     };

@@ -18,9 +18,20 @@ export const Container = styled.div<{ isOpen: boolean }>`
 
     z-index: 102;
 
+    transition: transform 0.25s ease-out;
+
     overflow: auto;
 
-    transition: transform 0.25s ease-out;
+    &::-webkit-scrollbar-thumb {
+        background-color: #b6b7bf;
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
 `;
 
 export const Backdrop = styled.div<{ isOpen: boolean }>`

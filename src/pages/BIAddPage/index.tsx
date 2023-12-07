@@ -41,9 +41,12 @@ export const BIAddPage = () => {
 
     const handleFormSave = (values: BIFormValues) => {
         if (paramId) {
-            updateBi({ id: paramId, data: { ...formValuesToData(values), draft: draft.current } });
+            updateBi({
+                id: paramId,
+                data: { ...formValuesToData(values), draft: draft.current, productId: '1' },
+            });
         } else {
-            createBi({ ...formValuesToData(values), draft: draft.current });
+            createBi({ ...formValuesToData(values), draft: draft.current, productId: '1' });
         }
     };
 

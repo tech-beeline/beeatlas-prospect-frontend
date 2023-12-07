@@ -2,14 +2,15 @@ import { IBIData, IBIForm } from 'api/bi/types';
 
 import { FormValues } from './form';
 
-export const formValuesToData = (formValues: FormValues): Partial<IBIForm> => ({
+export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft' | 'productId'> => ({
     name: formValues.name,
     communal: formValues.communal,
     descr: formValues.descr,
     status: { id: formValues.status },
+    target: formValues.type === 0,
     participants: formValues.participants.map((participant) => ({
         descr: participant.descr,
-        id: participant.participant,
+        idType: participant.participant,
         value: participant.value,
     })),
     feeling: { id: formValues.feelings },
@@ -48,10 +49,14 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
         value: participant.value,
         participant: Number(participant.participant.id),
     })),
-    document: data.document.map((document) => ({
-        value: document.url,
-        description: document.descr,
-    })),
-    mockup: data.mockupLink.map((mockup) => ({ value: mockup.url, description: mockup.descr })),
+    document: data.document.length
+        ? data.document.map((document) => ({
+              value: document.url,
+              description: document.descr,
+          }))
+        : [{ value: '', description: '' }],
+    mockup: data.mockupLink.length
+        ? data.mockupLink.map((mockup) => ({ value: mockup.url, description: mockup.descr }))
+        : [{ value: '', description: '' }],
     flowLink: data.flowLink[0]?.url,
 });
