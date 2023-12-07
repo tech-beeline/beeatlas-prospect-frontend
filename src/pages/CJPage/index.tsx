@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { useGetCompleteCJDataByIdQuery, useUpdateCJMutation } from 'api/queries/cj';
+import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
 import * as ROUTER from 'router/const';
 
 import { CJUpdateForm } from './components/CJUpdateForm';
@@ -15,7 +15,7 @@ export const CJPage = () => {
     const paramId = params.get('id');
 
     const { data } = useGetCompleteCJDataByIdQuery(paramId);
-    const { mutateAsync: updateCJ, isLoading: updatingCj } = useUpdateCJMutation();
+    const { mutateAsync: updateCJ, isLoading: updatingCj } = usePartialUpdateCJMutation();
 
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
 
@@ -29,7 +29,7 @@ export const CJPage = () => {
         if (data) {
             updateCJ({
                 id: String(data.id),
-                data: { draft: false, name: data.name, user_portrait: data.user_portrait },
+                data: { draft: false },
             });
         }
     };
@@ -38,7 +38,7 @@ export const CJPage = () => {
         if (data) {
             updateCJ({
                 id: String(data.id),
-                data: { draft: true, name: data.name, user_portrait: data.user_portrait },
+                data: { draft: true },
             });
         }
     };

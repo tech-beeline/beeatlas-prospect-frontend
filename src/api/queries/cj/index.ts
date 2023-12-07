@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ } from 'api/cj';
+import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ, putCJ } from 'api/cj';
 import { ICJData, ICJForm, ICJStepData, ICJStepForm, ICompleteCJData } from 'api/cj/types';
 import { deleteCJStep, getCJStepById, patchCJStep, postCJStep } from 'api/cj-step';
 import { deleteCJStepBI, putCJStepBIs } from 'api/cj-step';
@@ -48,6 +48,25 @@ export function useCreateCJWithEmptyStepMutation() {
     );
 }
 
+interface IPartialUpdateCJParams {
+    id: string;
+    data: Partial<ICJForm>;
+}
+export function usePartialUpdateCJMutation() {
+    const queryClient = useQueryClient();
+    return useMutation(
+        [CJ_PREFIX, 'partialUpdate'],
+        async ({ id, data }: IPartialUpdateCJParams) => {
+            await patchCJ(id, data);
+        },
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(CJ_PREFIX);
+            },
+        },
+    );
+}
+
 interface IUpdateCJParams {
     id: string;
     data: ICJForm;
@@ -57,7 +76,7 @@ export function useUpdateCJMutation() {
     return useMutation(
         [CJ_PREFIX, 'update'],
         async ({ id, data }: IUpdateCJParams) => {
-            await patchCJ(id, data);
+            await putCJ(id, data);
         },
         {
             onSuccess: () => {

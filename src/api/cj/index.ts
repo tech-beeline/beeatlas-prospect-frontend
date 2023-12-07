@@ -25,7 +25,14 @@ export const postCJ = (data: T.ICJForm) => {
     });
 };
 
-export const patchCJ = (id: string, data: T.ICJForm) => {
+export const putCJ = (id: string, data: Partial<T.ICJForm>) => {
+    return Api.put({
+        url: `${API_URL}cx/v1/product/cj/${id}`,
+        data,
+    });
+};
+
+export const patchCJ = (id: string, data: Partial<T.ICJForm>) => {
     return Api.patch({
         url: `${API_URL}cx/v1/product/cj/${id}`,
         data,
