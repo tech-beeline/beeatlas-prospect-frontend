@@ -39,14 +39,14 @@ export const BIAddPage = () => {
         submitButtonRef.current?.click();
     };
 
-    const handleFormSave = (values: BIFormValues) => {
+    const handleFormSave = async (values: BIFormValues) => {
         if (paramId) {
-            updateBi({
+            await updateBi({
                 id: paramId,
                 data: { ...formValuesToData(values), draft: draft.current, productId: '1' },
             });
         } else {
-            createBi({ ...formValuesToData(values), draft: draft.current, productId: '1' });
+            await createBi({ ...formValuesToData(values), draft: draft.current, productId: '1' });
         }
     };
 

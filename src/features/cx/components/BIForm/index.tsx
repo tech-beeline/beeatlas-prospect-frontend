@@ -43,7 +43,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
         }, [defaultValues]);
 
         const onSubmit = handleSubmit(async (values) => {
-            onSave(values);
+            await onSave(values);
             onClose();
             reset();
         });
