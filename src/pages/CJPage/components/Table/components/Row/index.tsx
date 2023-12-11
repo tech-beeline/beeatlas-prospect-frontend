@@ -1,9 +1,12 @@
 import React from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { useThemeStore } from 'features/theme';
 
-import { BI } from 'pages/CJPage/mocks';
+import { IBIData } from 'api/bi/types';
 import { capitalizeFirstLetter } from 'utils/helpers';
+
+import { useHiddenRowsStore } from '../../store';
 
 import { IRow } from './types';
 import * as S from './units';
@@ -11,34 +14,39 @@ import * as S from './units';
 export const Row = <T,>({
     rowId,
     label,
-    hiddenRows,
-    setHiddenRows,
-    isHiddenRowsVisible,
     formatData,
     onAddButtonClick,
     firstRow = false,
     steps = [],
     parseData,
 }: IRow<T>) => {
+    const { themeIsDark } = useThemeStore();
+    const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
+        state.hiddenRows,
+        state.setHiddenRows,
+        state.showHiddenRows,
+    ]);
+
     const isHidden = hiddenRows.includes(rowId);
 
     const allBIs = steps.reduce(
-        (acc, step, stepIndex) => [...acc, ...(step.bis.length > 0 ? step.bis : [{ stepIndex }])],
-        [] as (BI | { stepIndex: number })[],
+        (acc, step, stepIndex) => [...acc, ...(step.bi.length > 0 ? step.bi : [{ stepIndex }])],
+        [] as (IBIData | { stepIndex: number })[],
     );
 
     return (
         <>
-            {(!isHidden || isHiddenRowsVisible) && (
+            {(!isHidden || showHiddenRows) && (
                 <>
                     <S.Row isHidden={isHidden}>
                         <S.LabelTd
+                            isClickable
+                            themeIsDark={themeIsDark}
                             onClick={() =>
                                 isHidden
                                     ? setHiddenRows(hiddenRows.filter((item) => item !== rowId))
                                     : setHiddenRows([...hiddenRows, rowId])
                             }
-                            isClickable
                         >
                             <S.AlignItemsCenterWrapper>
                                 {label}
@@ -47,9 +55,9 @@ export const Row = <T,>({
                                 </S.IconContainer>
                             </S.AlignItemsCenterWrapper>
                         </S.LabelTd>
-                        {allBIs.map((bi, i) =>
-                            'stepIndex' in bi ? (
-                                firstRow ? (
+                        {allBIs.map((bi, i) => (
+                            <>
+                                {'stepIndex' in bi && firstRow && (
                                     <S.OnlyTd rowSpan={20}>
                                         <S.ButtonContainer>
                                             <div>Добавьте BI в шаг</div>
@@ -61,13 +69,17 @@ export const Row = <T,>({
                                             />
                                         </S.ButtonContainer>
                                     </S.OnlyTd>
-                                ) : null
-                            ) : (
-                                <S.Td key={i} data-testid={`${i}${capitalizeFirstLetter(rowId)}`}>
-                                    {formatData(parseData(bi))}
-                                </S.Td>
-                            ),
-                        )}
+                                )}
+                                {!('stepIndex' in bi) && (
+                                    <S.Td
+                                        key={i}
+                                        data-testid={`${i}${capitalizeFirstLetter(rowId)}`}
+                                    >
+                                        {formatData(parseData(bi))}
+                                    </S.Td>
+                                )}
+                            </>
+                        ))}
                     </S.Row>
                 </>
             )}

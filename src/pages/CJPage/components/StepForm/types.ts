@@ -1,12 +1,10 @@
-import { BI, Step } from 'pages/CJPage/mocks';
+import { ICompleteStepData } from 'api/cj/types';
+
 export interface IStepForm {
     cjId: number;
     isOpen: boolean;
-    defaultName: string;
-    step: Step;
+    step: ICompleteStepData;
     onClose: () => void;
-    updateStep: (name: string, BIs: BI[]) => void;
-    initialBIs: BI[];
 }
 
 export enum Stage {

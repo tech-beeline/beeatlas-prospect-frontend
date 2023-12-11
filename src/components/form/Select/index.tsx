@@ -11,7 +11,7 @@ export const Select: FC<ISelect> = ({
     options,
     disabled = false,
     fullWidth = true,
-    defaultValue = 0,
+    defaultValue = 1,
 }) => {
     const {
         control,

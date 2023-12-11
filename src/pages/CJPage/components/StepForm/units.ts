@@ -26,6 +26,8 @@ export const Subtitle = styled.div`
     font-weight: var(--font-weight-subtitle1);
     font-size: var(--font-size-subtitle1);
     line-height: var(--font-line-height-subtitle1);
+
+    margin-bottom: 8px;
 `;
 
 export const Subtitle3 = styled.div`
@@ -46,18 +48,22 @@ export const BIFlexWrapper = styled(FlexWrapper)`
     padding: 12px 0px;
 `;
 
-export const Body2 = styled.div`
+export const Body2 = styled.div<{ marginBottom?: boolean }>`
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
+
+    margin-bottom: ${({ marginBottom }) => (marginBottom ? '18px' : '0px')};
 `;
 
-export const Body3 = styled.div`
+export const Body3 = styled.div<{ marginTop?: boolean }>`
     font-weight: var(--font-weight-body3);
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-body3);
 
     color: var(--color-text-inactive);
+
+    margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
 `;
 
 export const TextFieldContainer = styled.div`
@@ -104,6 +110,7 @@ export const ButtonsContainer = styled.div`
 
 export const LabelsContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
 
     margin-top: 24px;

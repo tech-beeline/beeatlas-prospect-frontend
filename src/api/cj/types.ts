@@ -1,5 +1,19 @@
+import { IBIData } from 'api/bi/types';
+
+export interface ICJStepForm {
+    name: string;
+    order: number;
+}
+
+export interface ICJStepData {
+    id: number;
+    order: number;
+    name: string;
+    id_cj: number;
+}
+
 export interface ICJForm {
-    draft: boolean;
+    draft?: boolean;
     name: string;
     user_portrait: string;
 }
@@ -14,14 +28,10 @@ export interface ICJData {
     id_product: string;
 }
 
-export interface ICJStepForm {
-    name: string;
-    order: number;
+export interface ICompleteStepData extends ICJStepData {
+    bi: IBIData[];
 }
 
-export interface ICJStepData {
-    id: number;
-    order: number;
-    name: string;
-    id_cj: number;
+export interface ICompleteCJData extends ICJData {
+    steps: ICompleteStepData[];
 }

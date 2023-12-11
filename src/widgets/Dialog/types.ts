@@ -8,6 +8,7 @@ export interface IDialog {
     onDecline?: () => void;
     children?: ReactNode;
 
+    showDeclineButton?: boolean;
     declineText?: string;
     confirmText?: string;
 }

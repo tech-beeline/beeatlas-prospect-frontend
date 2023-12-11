@@ -2,14 +2,21 @@ import React, { FC, useRef, useState } from 'react';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { useDeleteBIFromStepMutation, useUpdateCJStepBIsMutation } from 'api/queries/cj';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IBiMenu } from './types';
 import * as S from './units';
 
-export const BiMenu: FC<IBiMenu> = ({ biId, index, totalLength, removeBi, moveBi }) => {
+export const BiMenu: FC<IBiMenu> = ({ biId, stepId, index, totalLength }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
+
+    const { mutateAsync: deleteBi } = useDeleteBIFromStepMutation();
+    const { mutateAsync: updateBi } = useUpdateCJStepBIsMutation();
 
     const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -17,6 +24,20 @@ export const BiMenu: FC<IBiMenu> = ({ biId, index, totalLength, removeBi, moveBi
 
     const handleIconClick = () => {
         setMenuOpen(!isMenuOpen);
+    };
+
+    const handleDeleteClick = async () => {
+        await deleteBi({ stepId: String(stepId), biId: String(biId) });
+        showSnackbar({ message: 'BI удалён из шага' });
+    };
+
+    const handleMoveClick = async (up: boolean) => {
+        await updateBi({
+            stepId: String(stepId),
+            data: { id_bi: biId, order: up ? index - 1 : index + 1 },
+        });
+        showSnackbar({ message: 'BI перемещён' });
+        setMenuOpen(false);
     };
 
     return (
@@ -32,12 +53,7 @@ export const BiMenu: FC<IBiMenu> = ({ biId, index, totalLength, removeBi, moveBi
                 <S.MenuBlock ref={menuRef}>
                     <>
                         {index !== 0 && totalLength > 1 && (
-                            <S.MenuItem
-                                onClick={() => {
-                                    moveBi(index, true);
-                                    setMenuOpen(false);
-                                }}
-                            >
+                            <S.MenuItem onClick={() => handleMoveClick(true)}>
                                 <Icon iconName={Icons.ArrowUp} />
 
                                 <S.MenuItemText>Переместить выше</S.MenuItemText>
@@ -45,12 +61,7 @@ export const BiMenu: FC<IBiMenu> = ({ biId, index, totalLength, removeBi, moveBi
                         )}
 
                         {index !== totalLength - 1 && totalLength > 1 && (
-                            <S.MenuItem
-                                onClick={() => {
-                                    moveBi(index, false);
-                                    setMenuOpen(false);
-                                }}
-                            >
+                            <S.MenuItem onClick={() => handleMoveClick(false)}>
                                 <Icon iconName={Icons.ArrowDown} />
 
                                 <S.MenuItemText>Переместить ниже</S.MenuItemText>
@@ -59,7 +70,7 @@ export const BiMenu: FC<IBiMenu> = ({ biId, index, totalLength, removeBi, moveBi
 
                         {totalLength > 1 && <S.MenuDivider />}
 
-                        <S.MenuItem onClick={() => removeBi(biId)}>
+                        <S.MenuItem onClick={handleDeleteClick}>
                             <S.DeleteIcon iconName={Icons.Delete} />
 
                             <S.MenuItemRemoveText>Удалить</S.MenuItemRemoveText>

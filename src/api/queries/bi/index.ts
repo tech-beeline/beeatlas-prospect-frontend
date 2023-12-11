@@ -1,6 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { deleteBI, getBIById, getBICollection, postBI, putBI } from 'api/bi';
+import {
+    deleteBI,
+    getBIById,
+    getBICollection,
+    getBIEditabilityById,
+    patchBI,
+    postBI,
+} from 'api/bi';
 import { IBIData, IBIForm } from 'api/bi/types';
 
 import { CJ_PREFIX } from '../cj';
@@ -19,6 +26,16 @@ export const useGetBIByIdQuery = (id: string | undefined | null) => {
     });
 };
 
+export const useGetBIEditabilityByIdQuery = (id: string | undefined | null) => {
+    return useQuery(
+        [BI_PREFIX, 'editability', id],
+        () => getBIEditabilityById(id!).then((res) => res.data),
+        {
+            enabled: Boolean(id),
+        },
+    );
+};
+
 export function useCreateBIMutation() {
     const queryClient = useQueryClient();
     return useMutation([BI_PREFIX, 'create'], (params: IBIForm) => postBI(params), {
@@ -34,12 +51,16 @@ interface IUpdateBIParams {
 }
 export function useUpdateBIMutation() {
     const queryClient = useQueryClient();
-    return useMutation([BI_PREFIX, 'update'], ({ id, data }: IUpdateBIParams) => putBI(id, data), {
-        onSuccess: () => {
-            void queryClient.invalidateQueries(CJ_PREFIX);
-            void queryClient.invalidateQueries(BI_PREFIX);
+    return useMutation(
+        [BI_PREFIX, 'update'],
+        ({ id, data }: IUpdateBIParams) => patchBI(id, data),
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(CJ_PREFIX);
+                void queryClient.invalidateQueries(BI_PREFIX);
+            },
         },
-    });
+    );
 }
 
 export function useDeleteBIMutation() {

@@ -1,27 +1,20 @@
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Button, Label } from '@beeline/design-system-react';
+import { Button, Label, Skeleton } from '@beeline/design-system-react';
 
-// import {
-//     useCreateCJWithEmptyStepMutation,
-//     useDeleteCJMutation,
-//     useGetCJCollectionQuery,
-// } from 'api/queries/cj';
+import { useDeleteCJMutation, useGetCJCollectionQuery } from 'api/queries/cj';
+import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
-import { CjMenu } from './components';
-import { useMockCJtore } from './mocks';
+import { CJCreateForm, CjMenu } from './components';
 import * as S from './units';
 
 export const CJLibraryPage = () => {
-    const { cjs, createCj, deleteCj } = useMockCJtore();
+    const { modalOpened, closeModal, openModal } = useModal();
 
-    // const { data, isLoading } = useGetCJCollectionQuery('');
-    // const { mutateAsync: deleteCj } = useDeleteCJMutation();
-    // const { mutateAsync: createCJ, isLoading: creatingCJ } = useCreateCJWithEmptyStepMutation();
-
-    // console.log(data);
+    const { data, isLoading } = useGetCJCollectionQuery('');
+    const { mutateAsync: deleteCj } = useDeleteCJMutation();
 
     const navigate = useNavigate();
 
@@ -32,63 +25,17 @@ export const CJLibraryPage = () => {
         });
     };
 
-    // const handleCreateClick = async () => {
-    //     const id = await createCJ();
-    //     navigate({
-    //         pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-    //         search: createSearchParams({ id: String(id) }).toString(),
-    //     });
-    // };
-
-    const handleCreateCJClick = () => {
-        const id = createCj({
-            name: 'Название CJ',
-            descr: 'Портрет пользователя',
-            draft: true,
-            steps: [{ columnName: 'Название шага', bis: [] }],
-        });
-        navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-            search: createSearchParams({ id: String(id) }).toString(),
-        });
-    };
-
     return (
         <S.PageWrapper>
             <S.ContentWrapper>
                 <S.TitleWrapper>
                     <STYLES.H4>Библиотека CJ</STYLES.H4>
-                    <Button variant="contained" size="medium" onClick={() => handleCreateCJClick()}>
+                    <Button variant="contained" size="medium" onClick={openModal}>
                         Создать CJ
                     </Button>
-                    {/* <Button
-                        disabled={creatingCJ}
-                        variant="contained"
-                        size="medium"
-                        onClick={handleCreateClick}
-                    >
-                        Создать CJ
-                    </Button> */}
                 </S.TitleWrapper>
                 <S.CardContainer>
-                    {cjs.map((cj) => (
-                        <S.CJCard key={cj.id}>
-                            <S.FlexContainer>
-                                <Label
-                                    title={cj.draft ? 'Черновик' : 'Опубликован'}
-                                    type={cj.draft ? 'default' : 'success'}
-                                />
-                                <CjMenu
-                                    cjId={cj.id}
-                                    onDeleteClick={() => deleteCj(cj.id)}
-                                    onEditClick={() => handleCJClick(cj.id)}
-                                />
-                            </S.FlexContainer>
-                            <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
-                            <S.Description>{cj.descr}</S.Description>
-                        </S.CJCard>
-                    ))}
-                    {/* {data &&
+                    {data &&
                         data.map((cj) => (
                             <S.CJCard key={cj.id}>
                                 <S.FlexContainer>
@@ -109,9 +56,10 @@ export const CJLibraryPage = () => {
                     {isLoading &&
                         Array.from({ length: 3 }).map((_, index) => (
                             <Skeleton key={index} height={150} />
-                        ))} */}
+                        ))}
                 </S.CardContainer>
             </S.ContentWrapper>
+            <CJCreateForm isOpen={modalOpened} onClose={closeModal} />
         </S.PageWrapper>
     );
 };

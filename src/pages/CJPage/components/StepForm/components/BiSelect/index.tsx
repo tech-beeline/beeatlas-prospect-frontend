@@ -1,11 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-// import React, { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, IconButton, Search } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import { useGetBICollectionQuery } from 'api/queries/bi';
-// import { useDebounce } from 'hooks';
-import { useMockBIStore } from 'pages/CJPage/mocks';
+import { useGetBICollectionQuery } from 'api/queries/bi';
+import { useDebounce } from 'hooks';
 
 import { Stage } from '../../types';
 import * as S from '../../units';
@@ -13,30 +11,16 @@ import * as S from '../../units';
 import { IBiSelect } from './types';
 
 export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiIds }) => {
-    const { bis } = useMockBIStore();
-
     const [search, setSearch] = useState('');
 
-    // const debouncedSearch = useDebounce(search);
+    const debouncedSearch = useDebounce(search);
 
-    // const { data } = useGetBICollectionQuery(debouncedSearch);
-    const [filteredBis, setFilteredBis] = useState(bis);
+    const { data } = useGetBICollectionQuery(debouncedSearch);
 
-    useEffect(() => {
-        setFilteredBis(
-            bis
-                .filter((bi) => bi.name.includes(search) || bi.identificator.includes(search))
-                .filter((bi) => !selectedBiIds.includes(bi.id)),
-        );
-    }, [search]);
+    const filteredData = (data ?? []).filter((bi) => !selectedBiIds.includes(bi.id));
 
-    // const filteredData = (data ?? []).filter((bi) => !selectedBiIds.includes(bi.id));
-
-    const productSearchBis = filteredBis.filter((bi) => !bi.communal);
-    const communalSearchBis = filteredBis.filter((bi) => bi.communal);
-
-    // const productSearchBis = filteredData.filter((bi) => !bi.communal);
-    // const communalSearchBis = filteredData.filter((bi) => bi.communal);
+    const productSearchBis = filteredData.filter((bi) => !bi.communal);
+    const communalSearchBis = filteredData.filter((bi) => bi.communal);
 
     return (
         <>
@@ -71,8 +55,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                 <S.BIFlexWrapper data-testid={`${index}ProductBI`} key={bi.id}>
                     <div>
                         <S.Body2>{bi.name}</S.Body2>
-                        <S.Body3>{bi.identificator}</S.Body3>
-                        {/* <S.Body3>{bi.uniqueIdent}</S.Body3> */}
+                        <S.Body3>{bi.uniqueIdent}</S.Body3>
                     </div>
                     <IconButton
                         iconName={Icons.NavArrowRight}
@@ -92,8 +75,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                 <S.BIFlexWrapper data-testid={`${index}CommunalBI`} key={bi.id}>
                     <div>
                         <S.Body2>{bi.name}</S.Body2>
-                        <S.Body3>{bi.identificator}</S.Body3>
-                        {/* <S.Body3>{bi.uniqueIdent}</S.Body3> */}
+                        <S.Body3>{bi.uniqueIdent}</S.Body3>
                     </div>
                     <IconButton
                         iconName={Icons.NavArrowRight}

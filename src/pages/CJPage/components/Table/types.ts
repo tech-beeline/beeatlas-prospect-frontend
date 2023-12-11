@@ -1,7 +1,6 @@
-import { Step } from 'pages/CJPage/mocks';
+import { ICompleteStepData } from 'api/cj/types';
 
 export interface ITable {
     cjId: number;
-    tableData: Step[];
-    setTableData: (steps: Step[]) => void;
+    tableData: ICompleteStepData[];
 }
