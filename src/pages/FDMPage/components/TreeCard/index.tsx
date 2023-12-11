@@ -35,11 +35,12 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         data-testid="TreeCardDescription"
                     />
 
-                    <div>
-                        {item.owner && <S.TitleSecond>Владелец</S.TitleSecond>}
-
-                        <S.Text>{item.owner || ''}</S.Text>
-                    </div>
+                    {item.owner && (
+                        <S.OwnerContainer>
+                            <S.TitleSecond>Владелец</S.TitleSecond>
+                            <S.Text>{item.owner}</S.Text>
+                        </S.OwnerContainer>
+                    )}
                 </div>
 
                 {item.children && item.children.length > 0 && (

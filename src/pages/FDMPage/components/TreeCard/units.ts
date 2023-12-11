@@ -47,6 +47,10 @@ export const Text = styled(Title)`
     cursor: inherit;
 `;
 
+export const OwnerContainer = styled.div`
+    margin-top: 24px;
+`;
+
 export const TitleSecond = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);
