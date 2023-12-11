@@ -26,8 +26,8 @@ export const Title = styled.h1`
     width: 832px;
 
     font-weight: var(--font-weight-medium);
-    font-size: 100px;
-    line-height: 110px;
+    font-size: 80px;
+    line-height: 90px;
 
     color: var(--color-text-active);
     background-color: var(--button-background-color);
