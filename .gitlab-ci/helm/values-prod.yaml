@@ -10,6 +10,12 @@ podAnnotations:
   prometheus.io/port: "false"
 
 ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+      if ($host = "tr.vimpelcom.ru") {
+        rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
+      }
+
   hosts:
     - host: "changehost"
       paths:
