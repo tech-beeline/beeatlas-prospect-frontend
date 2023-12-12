@@ -55,6 +55,17 @@ export const Content = styled.div`
     }
 `;
 
+export const NotFoundContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: calc(100vh - 64px - 50px);
+    width: 100%;
+
+    padding-bottom: 100px;
+`;
+
 export const FormContainer = styled.div`
     flex: 1;
 
