@@ -14,7 +14,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
     const [isOpen, setOpen] = useState(false);
 
     return (
-        <S.Wrapper isFullWidthCard={isFullWidthCard}>
+        <S.Wrapper data-testid="TreeCard" isFullWidthCard={isFullWidthCard}>
             <S.InnerFlex>
                 <div>
                     <S.TitleContainer

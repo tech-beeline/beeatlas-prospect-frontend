@@ -112,7 +112,6 @@ export const FDMPage = () => {
                                             key={String(item.id) + index}
                                             isFullWidthCard={isFullWidthCard}
                                             item={item}
-                                            data-testid="TreeCard"
                                         />
                                     ))}
                             </S.TreeContainer>
