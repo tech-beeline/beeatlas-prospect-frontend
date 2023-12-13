@@ -45,10 +45,9 @@ export const BILibraryPage = () => {
     };
 
     const handleDeleteBiClick = async (id: number) => {
-        const editabilityData = await getBIEditabilityById(String(id));
-        if (editabilityData.data.editability) {
-            deleteBi(String(id));
-        } else {
+        try {
+            await deleteBi(String(id));
+        } catch (error) {
             openModal();
         }
     };
