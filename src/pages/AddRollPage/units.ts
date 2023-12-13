@@ -128,3 +128,7 @@ export const CheckboxWrapper = styled.div`
 export const CheckboxStyled = styled(Checkbox)`
     user-select: none;
 `;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 200px;
+`;

@@ -8,6 +8,7 @@ import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { TextField } from 'components/form';
 import { TitleBack } from 'components/interaction';
+import { NotFoundBlock } from 'components/other';
 
 import {
     useCreateRoleMutation,
@@ -34,7 +35,7 @@ export const AddRollPage = () => {
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const { data: roleData } = useGetRoleByIdQuery(roleId);
+    const { data: roleData, isLoading: isLoadingRoleData } = useGetRoleByIdQuery(roleId);
     const { data: rolePermissions } = useGetRolePermissionsByIdQuery(roleId);
     const { mutateAsync: createRole } = useCreateRoleMutation();
     const { mutateAsync: updateRole, isLoading: isUpdatingRole } = useUpdateRoleMutation();
@@ -139,16 +140,18 @@ export const AddRollPage = () => {
         },
     );
 
+    const notFound = !roleData && !isLoadingRoleData;
+
     return (
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlexGap>
                 <TitleBack
-                    onClick={roleId ? openModal : navigateToAllRoles}
+                    onClick={roleId && !notFound ? openModal : navigateToAllRoles}
                     title={roleId ? 'Редактирование роли' : 'Создание новой роли'}
                     fontSize="26px"
                 />
 
-                {roleId && !isRoleDefault && (
+                {roleId && !notFound && !isRoleDefault && (
                     <Icon
                         ref={toggleRef}
                         iconName={Icons.MoreVert}
@@ -168,54 +171,62 @@ export const AddRollPage = () => {
                 )}
             </S.TitleFlexGap>
 
-            <FormProvider {...form}>
-                <form onSubmit={onSubmit}>
-                    <TextField name="name" label="Название" disabled={isRoleDefault} />
+            {(!roleId || !notFound) && (
+                <FormProvider {...form}>
+                    <form onSubmit={onSubmit}>
+                        <TextField name="name" label="Название" disabled={isRoleDefault} />
 
-                    <S.PermissionsContainer>
-                        <S.CheckboxWrapper>
-                            <S.CheckboxStyled
-                                name="createPermission"
-                                label="Создание артефактов"
-                                disabled={!canEditPermissions}
-                            />
-                        </S.CheckboxWrapper>
-                        <S.CheckboxWrapper>
-                            <S.CheckboxStyled
-                                name="editPermission"
-                                label="Редактирование артефактов"
-                                disabled={!canEditPermissions}
-                            />
-                        </S.CheckboxWrapper>
-                        <S.CheckboxWrapper>
-                            <S.CheckboxStyled
-                                name="deletePermission"
-                                label="Удаление артефактов"
-                                disabled={!canEditPermissions}
-                            />
-                        </S.CheckboxWrapper>
-                    </S.PermissionsContainer>
+                        <S.PermissionsContainer>
+                            <S.CheckboxWrapper>
+                                <S.CheckboxStyled
+                                    name="createPermission"
+                                    label="Создание артефактов"
+                                    disabled={!canEditPermissions}
+                                />
+                            </S.CheckboxWrapper>
+                            <S.CheckboxWrapper>
+                                <S.CheckboxStyled
+                                    name="editPermission"
+                                    label="Редактирование артефактов"
+                                    disabled={!canEditPermissions}
+                                />
+                            </S.CheckboxWrapper>
+                            <S.CheckboxWrapper>
+                                <S.CheckboxStyled
+                                    name="deletePermission"
+                                    label="Удаление артефактов"
+                                    disabled={!canEditPermissions}
+                                />
+                            </S.CheckboxWrapper>
+                        </S.PermissionsContainer>
 
-                    <S.BottomBlock isShown={!!nameField}>
-                        <Divider />
+                        <S.BottomBlock isShown={!!nameField}>
+                            <Divider />
 
-                        <S.ButtonContainer>
-                            <Button type="button" size="medium" onClick={navigateToAllRoles}>
-                                Отменить
-                            </Button>
+                            <S.ButtonContainer>
+                                <Button type="button" size="medium" onClick={navigateToAllRoles}>
+                                    Отменить
+                                </Button>
 
-                            <Button
-                                size="medium"
-                                variant="contained"
-                                type="submit"
-                                disabled={!isDirty}
-                            >
-                                Сохранить
-                            </Button>
-                        </S.ButtonContainer>
-                    </S.BottomBlock>
-                </form>
-            </FormProvider>
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    type="submit"
+                                    disabled={!isDirty}
+                                >
+                                    Сохранить
+                                </Button>
+                            </S.ButtonContainer>
+                        </S.BottomBlock>
+                    </form>
+                </FormProvider>
+            )}
+
+            {roleId && notFound && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock text="Роль удалена или не существует" />
+                </S.NotFoundContainer>
+            )}
             <Dialog
                 opened={modalOpened}
                 title="Выйти без сохранения?"

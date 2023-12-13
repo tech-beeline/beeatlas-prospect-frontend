@@ -2,15 +2,10 @@ import React, { useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import {
-    BIForm,
-    BIFormValues,
-    dataToFormValues,
-    formValuesToData,
-    NotFoundBlock,
-} from 'features/cx';
+import { BIForm, BIFormValues, dataToFormValues, formValuesToData } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
+import { NotFoundBlock } from 'components/other';
 
 import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
 import * as ROUTER from 'router/const';
