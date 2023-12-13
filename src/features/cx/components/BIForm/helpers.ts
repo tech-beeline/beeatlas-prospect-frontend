@@ -15,7 +15,7 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft' 
     })),
     feeling: { id: formValues.feelings },
     clientScenario: formValues.clientScenario,
-    flowLink: [{ url: formValues.flowLink, descr: '' }],
+    flowLink: [{ url: formValues.flowLink, descr: '' }].filter((link) => link.url),
     ucsReaction: formValues.ucsReaction,
     channel: formValues.channels.map((channel) => ({ id: channel.value })),
     document: formValues.document
