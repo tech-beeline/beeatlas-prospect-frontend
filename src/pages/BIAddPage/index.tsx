@@ -2,7 +2,13 @@ import React, { useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { BIForm, BIFormValues, dataToFormValues, formValuesToData } from 'features/cx';
+import {
+    BIForm,
+    BIFormValues,
+    dataToFormValues,
+    formValuesToData,
+    NotFoundBlock,
+} from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
 
@@ -17,7 +23,7 @@ export const BIAddPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { data } = useGetBIByIdQuery(paramId);
+    const { data, isLoading: isLoadingBI } = useGetBIByIdQuery(paramId);
     const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
     const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
 
@@ -50,6 +56,8 @@ export const BIAddPage = () => {
         }
     };
 
+    const notFound = Boolean(paramId) && !isLoadingBI && !data;
+
     return (
         <S.PageWrapper>
             <S.Header>
@@ -66,41 +74,54 @@ export const BIAddPage = () => {
                 <S.FlexSideContainer>
                     <Button
                         onClick={handleSaveAsDraftClick}
-                        disabled={isLoading}
+                        disabled={isLoading || notFound}
                         variant="outlined"
                     >
                         Сохранить как черновик
                     </Button>
-                    <Button onClick={handlePublishClick} disabled={isLoading} variant="contained">
+                    <Button
+                        onClick={handlePublishClick}
+                        disabled={isLoading || notFound}
+                        variant="contained"
+                    >
                         Опубликовать
                     </Button>
                 </S.FlexSideContainer>
             </S.Header>
             <S.Content>
-                <S.FormContainer>
-                    <BIForm
-                        fullscreen
-                        ref={submitButtonRef}
-                        onClose={() => navigate(-1)}
-                        onSave={handleFormSave}
-                        defaultValues={data ? dataToFormValues(data) : undefined}
-                        showButtons={false}
-                    />
-                </S.FormContainer>
-                <S.Navigation>
-                    <FloatingNavigation
-                        items={[
-                            { id: 'name', label: 'Название' },
-                            { id: 'characteristics', label: 'Характеристики' },
-                            { id: 'participants', label: 'Участники взаимодействия' },
-                            { id: 'feelings', label: 'Чувства и эмоции' },
-                            { id: 'scenarios', label: 'Сценарии' },
-                            { id: 'channels', label: 'Канал' },
-                            { id: 'document', label: 'Документация' },
-                            { id: 'mockup', label: 'Макет' },
-                        ]}
-                    />
-                </S.Navigation>
+                {!notFound && (
+                    <>
+                        <S.FormContainer>
+                            <BIForm
+                                fullscreen
+                                ref={submitButtonRef}
+                                onClose={() => navigate(-1)}
+                                onSave={handleFormSave}
+                                defaultValues={data ? dataToFormValues(data) : undefined}
+                                showButtons={false}
+                            />
+                        </S.FormContainer>
+                        <S.Navigation>
+                            <FloatingNavigation
+                                items={[
+                                    { id: 'name', label: 'Название' },
+                                    { id: 'characteristics', label: 'Характеристики' },
+                                    { id: 'participants', label: 'Участники взаимодействия' },
+                                    { id: 'feelings', label: 'Чувства и эмоции' },
+                                    { id: 'scenarios', label: 'Сценарии' },
+                                    { id: 'channels', label: 'Канал' },
+                                    { id: 'document', label: 'Документация' },
+                                    { id: 'mockup', label: 'Макет' },
+                                ]}
+                            />
+                        </S.Navigation>
+                    </>
+                )}
+                {notFound && (
+                    <S.NotFoundContainer>
+                        <NotFoundBlock />
+                    </S.NotFoundContainer>
+                )}
             </S.Content>
         </S.PageWrapper>
     );

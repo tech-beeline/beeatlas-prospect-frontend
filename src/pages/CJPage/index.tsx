@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { NotFoundBlock } from 'features/cx';
 
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
 import * as ROUTER from 'router/const';
@@ -14,7 +15,8 @@ export const CJPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { data } = useGetCompleteCJDataByIdQuery(paramId);
+    const { data, isLoading } = useGetCompleteCJDataByIdQuery(paramId);
+
     const { mutateAsync: updateCJ, isLoading: updatingCj } = usePartialUpdateCJMutation();
 
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
@@ -83,6 +85,12 @@ export const CJPage = () => {
             </S.Header>
 
             {data && <Table cjId={data.id} tableData={data.steps} />}
+
+            {!data && !isLoading && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock />
+                </S.NotFoundContainer>
+            )}
 
             {data && (
                 <CJUpdateForm

@@ -2,7 +2,7 @@ import React from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
+import { CommunalLabel, NotFoundBlock, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
 import { IconFeeling, Link } from 'components/other';
@@ -48,12 +48,8 @@ export const BIViewPage = () => {
                         onClick={handleBackIconClick}
                         style={{ cursor: 'pointer' }}
                     />
-
-                    {data ? (
-                        <S.Title>{data.name}</S.Title>
-                    ) : (
-                        <Skeleton height={24} width={120} radius={5} />
-                    )}
+                    {data && <S.Title>{data.name}</S.Title>}
+                    {isLoading && <Skeleton height={24} width={120} radius={5} />}
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
@@ -246,6 +242,11 @@ export const BIViewPage = () => {
                         <Skeleton height={100} radius={5} />
                         <Skeleton height={40} radius={5} />
                     </S.SkeletonContainer>
+                )}
+                {!data && !isLoading && (
+                    <S.NotFoundContainer>
+                        <NotFoundBlock />
+                    </S.NotFoundContainer>
                 )}
             </S.Content>
         </S.PageWrapper>
