@@ -4,6 +4,7 @@ export interface IRole {
     alias?: string;
     descr?: string;
     default?: boolean;
+    deleted?: boolean;
 }
 
 export interface IPermission {

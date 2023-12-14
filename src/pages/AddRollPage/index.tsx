@@ -140,7 +140,7 @@ export const AddRollPage = () => {
         },
     );
 
-    const notFound = !roleData && !isLoadingRoleData;
+    const notFound = (!roleData && !isLoadingRoleData) || roleData?.deleted;
 
     return (
         <S.PageWrapper className="PageWrapper">
