@@ -14,7 +14,7 @@ import { useHiddenRowsStore } from './store';
 import { ITable } from './types';
 import * as S from './units';
 
-export const Table: FC<ITable> = ({ cjId, tableData }) => {
+export const Table: FC<ITable> = ({ cjId, tableData, draft }) => {
     const { themeIsDark } = useThemeStore();
 
     const [hiddenRows, showHiddenRows, setShowHiddenRows] = useHiddenRowsStore((state) => [
@@ -58,15 +58,17 @@ export const Table: FC<ITable> = ({ cjId, tableData }) => {
                                     <S.FlexWrapper>
                                         <p data-testid={`${stepIndex}Step`}>{step.name}</p>
 
-                                        <ColumnMenu
-                                            cjId={cjId}
-                                            stepId={step.id}
-                                            stepName={step.name}
-                                            stepIndex={stepIndex}
-                                            setOpenSideBlockName={openStepFrom}
-                                            setRenameIndex={setSelectedStep}
-                                            tableDataLength={tableData.length}
-                                        />
+                                        {draft && (
+                                            <ColumnMenu
+                                                cjId={cjId}
+                                                stepId={step.id}
+                                                stepName={step.name}
+                                                stepIndex={stepIndex}
+                                                setOpenSideBlockName={openStepFrom}
+                                                setRenameIndex={setSelectedStep}
+                                                tableDataLength={tableData.length}
+                                            />
+                                        )}
                                     </S.FlexWrapper>
                                 </S.Th>
                             ))}

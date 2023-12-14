@@ -78,10 +78,17 @@ export const CJPage = () => {
                     )}
 
                     <S.ButtonStyled
+                        disabled={!data?.draft}
                         endIcon={<Icon iconName={Icons.Edit} />}
                         onClick={() => setOpenSettingsCJ(!isOpenSettingsCJ)}
                         id="buttonToggleId"
+                        data-tooltip-id="editButton"
                     />
+                    {data && !data.draft && (
+                        <S.TooltipContainer id="editButton" offset={8} place="bottom" noArrow>
+                            Для редактирования CJ, его нужно сделать черновиком
+                        </S.TooltipContainer>
+                    )}
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
@@ -99,7 +106,7 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
             </S.Header>
 
-            {data && <Table cjId={data.id} tableData={data.steps} />}
+            {data && <Table cjId={data.id} draft={data.draft} tableData={data.steps} />}
 
             {!data && !isLoading && (
                 <S.NotFoundContainer>
