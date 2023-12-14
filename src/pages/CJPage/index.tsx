@@ -5,8 +5,11 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { NotFoundBlock } from 'components/other';
 
+import { IBIData } from 'api/bi/types';
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
+import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
+import { Dialog } from 'widgets/Dialog';
 
 import { CJUpdateForm } from './components/CJUpdateForm';
 import { Table } from './components/Table';
@@ -16,7 +19,14 @@ export const CJPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
+    const { modalOpened, openModal, closeModal } = useModal();
+
     const { data, isLoading } = useGetCompleteCJDataByIdQuery(paramId);
+
+    const hasDraftBIs =
+        data?.steps
+            .reduce((acc, step) => [...acc, ...step.bi], [] as IBIData[])
+            .some((bi) => bi.draft) ?? false;
 
     const { mutateAsync: updateCJ, isLoading: updatingCj } = usePartialUpdateCJMutation();
 
@@ -30,10 +40,14 @@ export const CJPage = () => {
 
     const handlePublish = () => {
         if (data) {
-            updateCJ({
-                id: String(data.id),
-                data: { draft: false },
-            });
+            if (hasDraftBIs) {
+                openModal();
+            } else {
+                updateCJ({
+                    id: String(data.id),
+                    data: { draft: false },
+                });
+            }
         }
     };
 
@@ -101,6 +115,16 @@ export const CJPage = () => {
                     values={{ name: data.name, userPortrait: data.user_portrait }}
                 />
             )}
+            <Dialog
+                opened={modalOpened}
+                confirmText="Закрыть"
+                onConfirm={closeModal}
+                onClose={closeModal}
+                showDeclineButton={false}
+            >
+                CJ не может быть опубликован, так как в нем содержатся неопубликованные BI. Сначала
+                опубликуйте BI, а потом вы сможете опубликовать свой CJ.
+            </Dialog>
         </S.PageWrapper>
     );
 };
