@@ -6,11 +6,27 @@ export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    height: 100vh;
-    padding-top: 64px;
+    height: calc(100vh - 64px);
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+`;
+
+export const MarginBlock = styled.div`
+    height: 64px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -20,6 +36,7 @@ export const ContentWrapper = styled.div`
 
 export const TitleWrapper = styled.div`
     display: flex;
+    align-items: center;
     justify-content: space-between;
 `;
 

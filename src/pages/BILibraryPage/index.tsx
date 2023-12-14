@@ -53,50 +53,59 @@ export const BILibraryPage = () => {
     };
 
     return (
-        <S.PageWrapper>
-            <S.ContentWrapper>
-                <S.TitleWrapper>
-                    <STYLES.H4>Библиотека BI</STYLES.H4>
-                    <Button variant="contained" size="medium" onClick={() => handleCreateBiClick()}>
-                        Создать BI
-                    </Button>
-                </S.TitleWrapper>
-                <S.CardContainer>
-                    {bis &&
-                        bis.map((bi) => (
-                            <S.BICard key={bi.id}>
-                                <S.FlexContainer>
-                                    <S.LabelsContainer>
-                                        {bi.communal && <CommunalLabel />}
-                                        <TargetLabel target={bi.target} />
-                                    </S.LabelsContainer>
-                                    <BiMenu
-                                        biId={bi.id}
-                                        onEditClick={() => handleEditBiClick(bi.id)}
-                                        onDeleteClick={() => handleDeleteBiClick(bi.id)}
-                                    />
-                                </S.FlexContainer>
-                                <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
-                                <S.Number>{bi.uniqueIdent}</S.Number>
-                                <S.Description>{bi.descr}</S.Description>
-                            </S.BICard>
-                        ))}
-                    {isLoading &&
-                        Array.from({ length: 3 }).map((_, index) => (
-                            <Skeleton key={index} height={150} />
-                        ))}
-                </S.CardContainer>
-            </S.ContentWrapper>
-            <Dialog
-                opened={modalOpened}
-                title="BI не может быть отредактирован или удалён"
-                onClose={closeModal}
-                onConfirm={closeModal}
-                confirmText="Понятно"
-                showDeclineButton={false}
-            >
-                Он используется другими командами
-            </Dialog>
-        </S.PageWrapper>
+        <>
+            <S.MarginBlock />
+            <S.PageWrapper>
+                <S.ContentWrapper>
+                    <S.TitleWrapper>
+                        <STYLES.H4>Библиотека BI</STYLES.H4>
+                        <Button
+                            variant="contained"
+                            size="medium"
+                            onClick={() => handleCreateBiClick()}
+                        >
+                            Создать BI
+                        </Button>
+                    </S.TitleWrapper>
+                    <S.CardContainer>
+                        {bis &&
+                            bis.map((bi) => (
+                                <S.BICard key={bi.id}>
+                                    <S.FlexContainer>
+                                        <S.LabelsContainer>
+                                            {bi.communal && <CommunalLabel />}
+                                            <TargetLabel target={bi.target} />
+                                        </S.LabelsContainer>
+                                        <BiMenu
+                                            biId={bi.id}
+                                            onEditClick={() => handleEditBiClick(bi.id)}
+                                            onDeleteClick={() => handleDeleteBiClick(bi.id)}
+                                        />
+                                    </S.FlexContainer>
+                                    <S.Title onClick={() => handleBiClick(bi.id)}>
+                                        {bi.name}
+                                    </S.Title>
+                                    <S.Number>{bi.uniqueIdent}</S.Number>
+                                    <S.Description>{bi.descr}</S.Description>
+                                </S.BICard>
+                            ))}
+                        {isLoading &&
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <Skeleton key={index} height={150} />
+                            ))}
+                    </S.CardContainer>
+                </S.ContentWrapper>
+                <Dialog
+                    opened={modalOpened}
+                    title="BI не может быть отредактирован или удалён"
+                    onClose={closeModal}
+                    onConfirm={closeModal}
+                    confirmText="Понятно"
+                    showDeclineButton={false}
+                >
+                    Он используется другими командами
+                </Dialog>
+            </S.PageWrapper>
+        </>
     );
 };

@@ -26,40 +26,45 @@ export const CJLibraryPage = () => {
     };
 
     return (
-        <S.PageWrapper>
-            <S.ContentWrapper>
-                <S.TitleWrapper>
-                    <STYLES.H4>Библиотека CJ</STYLES.H4>
-                    <Button variant="contained" size="medium" onClick={openModal}>
-                        Создать CJ
-                    </Button>
-                </S.TitleWrapper>
-                <S.CardContainer>
-                    {data &&
-                        data.map((cj) => (
-                            <S.CJCard key={cj.id}>
-                                <S.FlexContainer>
-                                    <Label
-                                        title={cj.draft ? 'Черновик' : 'Опубликован'}
-                                        type={cj.draft ? 'default' : 'success'}
-                                    />
-                                    <CjMenu
-                                        cjId={cj.id}
-                                        onDeleteClick={() => deleteCj(String(cj.id))}
-                                        onEditClick={() => handleCJClick(cj.id)}
-                                    />
-                                </S.FlexContainer>
-                                <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
-                                <S.Description>{cj.user_portrait}</S.Description>
-                            </S.CJCard>
-                        ))}
-                    {isLoading &&
-                        Array.from({ length: 3 }).map((_, index) => (
-                            <Skeleton key={index} height={150} />
-                        ))}
-                </S.CardContainer>
-            </S.ContentWrapper>
-            <CJCreateForm isOpen={modalOpened} onClose={closeModal} />
-        </S.PageWrapper>
+        <>
+            <S.MarginBlock />
+            <S.PageWrapper>
+                <S.ContentWrapper>
+                    <S.TitleWrapper>
+                        <STYLES.H4>Библиотека CJ</STYLES.H4>
+                        <Button variant="contained" size="medium" onClick={openModal}>
+                            Создать CJ
+                        </Button>
+                    </S.TitleWrapper>
+                    <S.CardContainer>
+                        {data &&
+                            data.map((cj) => (
+                                <S.CJCard key={cj.id}>
+                                    <S.FlexContainer>
+                                        <Label
+                                            title={cj.draft ? 'Черновик' : 'Опубликован'}
+                                            type={cj.draft ? 'default' : 'success'}
+                                        />
+                                        <CjMenu
+                                            cjId={cj.id}
+                                            onDeleteClick={() => deleteCj(String(cj.id))}
+                                            onEditClick={() => handleCJClick(cj.id)}
+                                        />
+                                    </S.FlexContainer>
+                                    <S.Title onClick={() => handleCJClick(cj.id)}>
+                                        {cj.name}
+                                    </S.Title>
+                                    <S.Description>{cj.user_portrait}</S.Description>
+                                </S.CJCard>
+                            ))}
+                        {isLoading &&
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <Skeleton key={index} height={150} />
+                            ))}
+                    </S.CardContainer>
+                </S.ContentWrapper>
+                <CJCreateForm isOpen={modalOpened} onClose={closeModal} />
+            </S.PageWrapper>
+        </>
     );
 };
