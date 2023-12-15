@@ -119,7 +119,7 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                             <S.Text className="ResultCardText">{props.data.owner || ''}</S.Text>
                         </div>
 
-                        <div style={{ marginTop: '24px' }}>
+                        <div>
                             <S.TitleSecond className="ResultCardTitleSecond">
                                 Дата последнего изменения
                             </S.TitleSecond>

@@ -46,6 +46,9 @@ export const DomenText = styled(Title)`
 `;
 
 export const FlexBlock = styled.div`
+    margin-top: 24px;
+
     display: flex;
     justify-content: space-between;
+    align-items: center;
 `;
