@@ -82,9 +82,7 @@ export const StepForm: FC<IStepForm> = ({ cjId, step, isOpen, onClose }) => {
                     </S.TitleFlexWrapper>
                     <BIForm
                         onClose={() => setStage(Stage.BISEARCH)}
-                        onSave={(values) =>
-                            createBi({ ...formValuesToData(values), draft: true, productId: '1' })
-                        }
+                        onSave={(values) => createBi({ ...formValuesToData(values), draft: true })}
                     />
                 </>
             )}
@@ -104,7 +102,7 @@ export const StepForm: FC<IStepForm> = ({ cjId, step, isOpen, onClose }) => {
                             selectedBiId &&
                             updateBi({
                                 id: String(selectedBiId),
-                                data: { ...formValuesToData(values), draft: true, productId: '1' },
+                                data: { ...formValuesToData(values), draft: true },
                             })
                         }
                         defaultValues={data ? dataToFormValues(data) : undefined}

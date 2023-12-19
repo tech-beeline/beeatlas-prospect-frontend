@@ -44,10 +44,10 @@ export const BIAddPage = () => {
         if (paramId) {
             await updateBi({
                 id: paramId,
-                data: { ...formValuesToData(values), draft: draft.current, productId: '1' },
+                data: { ...formValuesToData(values), draft: draft.current },
             });
         } else {
-            await createBi({ ...formValuesToData(values), draft: draft.current, productId: '1' });
+            await createBi({ ...formValuesToData(values), draft: draft.current });
         }
     };
 

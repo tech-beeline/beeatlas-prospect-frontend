@@ -2,7 +2,7 @@ import { IBIData, IBIForm } from 'api/bi/types';
 
 import { FormValues } from './form';
 
-export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft' | 'productId'> => ({
+export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft'> => ({
     name: formValues.name,
     communal: formValues.communal,
     descr: formValues.descr,
@@ -30,6 +30,7 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft' 
             descr: mockup.description,
             url: mockup.value,
         })),
+    productId: String(formValues.product),
 });
 
 export const dataToFormValues = (data: IBIData): FormValues => ({
@@ -59,4 +60,5 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
         ? data.mockupLink.map((mockup) => ({ value: mockup.url, description: mockup.descr }))
         : [{ value: '', description: '' }],
     flowLink: data.flowLink[0]?.url,
+    product: Number(data.productId),
 });

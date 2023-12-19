@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
@@ -10,6 +10,7 @@ import { SideBlock } from 'components/containers';
 import { Select, TextField } from 'components/form';
 
 import { useCreateCJWithEmptyStepMutation } from 'api/queries/cj';
+import { useGetUserProductsQuery } from 'api/queries/product';
 import * as ROUTER from 'router/const';
 
 import { FormValues, validationSchema } from './form';
@@ -18,6 +19,7 @@ import * as S from './units';
 
 export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const { mutateAsync: createCJ, isLoading: creatingCJ } = useCreateCJWithEmptyStepMutation();
+    const { data: products, isLoading: isLoadingProducts } = useGetUserProductsQuery();
 
     const navigate = useNavigate();
 
@@ -32,12 +34,21 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         onClose();
     };
 
+    useEffect(() => {
+        if (products) {
+            reset({ product: products[0]?.id ? Number(products[0].id) : 1 });
+        }
+    }, [products]);
+
     const onSubmit = handleSubmit(async (values) => {
         try {
             const { cjId } = await createCJ({
-                draft: true,
-                name: values.name,
-                user_portrait: values.userPortrait,
+                data: {
+                    draft: true,
+                    name: values.name,
+                    user_portrait: values.userPortrait,
+                },
+                productId: values.product,
             });
             navigate({
                 pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
@@ -66,10 +77,15 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
                     <S.TextFieldContainer>
                         <Select
-                            disabled
+                            disabled={isLoadingProducts}
                             name="product"
                             label="Продукт*"
-                            options={[{ id: 1, value: 'Продукт пользователя' }]}
+                            options={
+                                products?.map((product) => ({
+                                    id: Number(product.id),
+                                    value: product.name,
+                                })) ?? []
+                            }
                         />
 
                         <TextField label="Название CJ*" name="name" />
@@ -82,7 +98,11 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             Отменить
                         </Button>
 
-                        <Button disabled={creatingCJ} type="submit" variant="contained">
+                        <Button
+                            disabled={creatingCJ || isLoadingProducts}
+                            type="submit"
+                            variant="contained"
+                        >
                             Создать
                         </Button>
                     </S.ButtonContainer>
