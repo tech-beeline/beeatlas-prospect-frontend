@@ -22,7 +22,7 @@ export const MenuBlock = styled.div`
     z-index: 1000;
 `;
 
-export const MenuItem = styled.div`
+export const MenuItem = styled.div<{ disabled?: boolean }>`
     display: flex;
     align-items: center;
     gap: 8px;
@@ -31,12 +31,14 @@ export const MenuItem = styled.div`
 
     transition: background-color 0.25s ease-in-out;
 
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
-    @media (hover: hover) {
-        &:hover {
-            background-color: var(--color-background-base-hover);
-        }
+    opacity: ${({ disabled }) => (disabled ? '0.3' : '1')};
+
+    pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+
+    &:hover {
+        background-color: var(--color-background-base-hover);
     }
 `;
 

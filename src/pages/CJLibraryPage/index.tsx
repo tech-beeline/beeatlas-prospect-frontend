@@ -47,6 +47,7 @@ export const CJLibraryPage = () => {
                                         />
                                         <CjMenu
                                             cjId={cj.id}
+                                            draft={cj.draft}
                                             onDeleteClick={() => deleteCj(String(cj.id))}
                                             onEditClick={() => handleCJClick(cj.id)}
                                         />
