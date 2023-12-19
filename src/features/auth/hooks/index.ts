@@ -7,23 +7,21 @@ import { authInstance } from '../const';
 import { useAuthStore } from '../store';
 
 export const useAuth = () => {
-    const { isAuth, setIsAuth, userInfo, setUserInfo, setTokens, setCodeAndState } = useAuthStore();
+    const { isAuth, setIsAuth, userInfo, setUserInfo, setIsAuthorizing } = useAuthStore();
 
     useMountEffect(() => {
         (async () => {
             if (authInstance.hasNecessaryParams()) {
-                const { access_token, refresh_token } = await authInstance.exchangeCode();
+                const authPromise = authInstance.exchangeCode();
 
-                setCodeAndState(
-                    authInstance.getCodeParam() ?? '',
-                    authInstance.getStateParam() ?? '',
-                );
+                setIsAuthorizing(authPromise);
 
-                setTokens(access_token, refresh_token);
+                const { access_token } = await authPromise;
 
                 setUserInfo(authInstance.getClaims(access_token));
+
+                setIsAuthorizing(null);
             } else if (!(isAuth && isFunc)) {
-                // clearStore();
                 authInstance.startAuth();
             }
         })();

@@ -6,10 +6,7 @@ import { IAuthStore } from './types';
 const defaultValues = {
     isAuth: false,
     userInfo: null,
-    accessToken: '',
-    refreshToken: '',
-    code: '',
-    state: '',
+    isAuthorizing: null,
 };
 
 export const useAuthStore = create<IAuthStore>()(
@@ -19,14 +16,11 @@ export const useAuthStore = create<IAuthStore>()(
             setIsAuth: (isAuth) => {
                 set(() => ({ isAuth }));
             },
-            setTokens: (accessToken, refreshToken) => {
-                set(() => ({ accessToken, refreshToken }));
-            },
             setUserInfo: (userInfo) => {
                 set(() => ({ userInfo }));
             },
-            setCodeAndState: (code, state) => {
-                set(() => ({ code, state }));
+            setIsAuthorizing: (isAuthorizing) => {
+                set(() => ({ isAuthorizing }));
             },
             clearStore: () => {
                 set(() => ({ ...defaultValues }));

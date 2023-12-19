@@ -18,8 +18,14 @@ const instanceOfAxios = axios.create({
 // let callRequestCount = 0;
 
 instanceOfAxios.interceptors.request.use(
-    (config) => {
-        const accessToken = useAuthStore.getState().accessToken;
+    async (config) => {
+        const isAuthorizing = useAuthStore.getState().isAuthorizing;
+
+        if (isAuthorizing) {
+            await isAuthorizing;
+        }
+
+        const accessToken = authInstance.getAccessToken();
 
         if (accessToken) {
             // @ts-ignore
@@ -84,9 +90,11 @@ instanceOfAxios.interceptors.response.use(
 
                 // error.errorText = TEXT.ERROR_401;
                 try {
-                    const { access_token, refresh_token } = await authInstance.refreshTokens();
+                    // const { access_token, refresh_token } = await authInstance.refreshTokens();
 
-                    useAuthStore.getState().setTokens(access_token, refresh_token);
+                    await authInstance.refreshTokens();
+
+                    // useAuthStore.getState().setTokens(access_token, refresh_token);
 
                     return instanceOfAxios.request(error.config);
 
