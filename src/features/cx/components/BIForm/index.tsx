@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
 
 import { useGetBIStatusesQuery } from 'api/queries/bi-library';
+import { useGetUserProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
@@ -22,6 +23,8 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
         const { data: statuses } = useGetBIStatusesQuery();
 
+        const { data: products, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
             mode: 'onChange',
@@ -32,15 +35,16 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
         useEffect(() => {
             if (defaultValues) {
                 reset(defaultValues);
-            } else {
+            } else if (products) {
                 reset({
+                    product: products[0]?.id ? Number(products[0].id) : 1,
                     participants: [{ participant: 1, value: '', descr: '' }],
                     channels: [{ value: 1 }],
                     document: [{ value: '' }],
                     mockup: [{ value: '' }],
                 });
             }
-        }, [defaultValues]);
+        }, [defaultValues, products]);
 
         const onSubmit = handleSubmit(async (values) => {
             await onSave(values);
@@ -57,6 +61,20 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.TextFieldContainer>
+                            {!defaultValues && (
+                                <Select
+                                    disabled={isLoadingProducts}
+                                    name="product"
+                                    label="Продукт*"
+                                    options={
+                                        products?.map((product) => ({
+                                            id: Number(product.id),
+                                            value: product.name,
+                                        })) ?? []
+                                    }
+                                />
+                            )}
+
                             <NameContainer>
                                 <TextField
                                     id="name"

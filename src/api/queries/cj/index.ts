@@ -19,24 +19,39 @@ export const useGetCJByIdQuery = (id: string | undefined | null) => {
     });
 };
 
+interface ICreateCJParams {
+    data: ICJForm;
+    productId: number;
+}
 export function useCreateCJMutation() {
     const queryClient = useQueryClient();
-    return useMutation([CJ_PREFIX, 'create'], (params: ICJForm) => postCJ(params), {
-        onSuccess: () => {
-            void queryClient.invalidateQueries(CJ_PREFIX);
+    return useMutation(
+        [CJ_PREFIX, 'create'],
+        (params: ICreateCJParams) => postCJ(params.data, params.productId),
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(CJ_PREFIX);
+            },
         },
-    });
+    );
 }
 
+interface ICreateCJWithEmptyStepParams {
+    data: ICJForm;
+    productId: number;
+}
 export function useCreateCJWithEmptyStepMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [CJ_PREFIX, 'createWithStep'],
-        async (params: ICJForm) => {
-            const cjData = await postCJ({
-                ...params,
-                draft: true,
-            });
+        async (params: ICreateCJWithEmptyStepParams) => {
+            const cjData = await postCJ(
+                {
+                    ...params.data,
+                    draft: true,
+                },
+                params.productId,
+            );
             await postCJStep(cjData.data.id, { name: 'Название шага', order: 0 });
             return { cjId: cjData.data.id as string };
         },
