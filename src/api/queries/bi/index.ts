@@ -14,9 +14,20 @@ import { CJ_PREFIX } from '../cj';
 
 const BI_PREFIX = 'BI_PREFIX';
 
-export const useGetBICollectionQuery = (search: string) => {
-    return useQuery<IBIData[]>([BI_PREFIX, 'all', search], () =>
-        getBICollection(search).then((res) => res.data),
+interface IGetBICollectionParams {
+    search: string;
+    productId?: number;
+    status?: number;
+    draft?: boolean;
+}
+export const useGetBICollectionQuery = (params: IGetBICollectionParams) => {
+    return useQuery<IBIData[]>(
+        [BI_PREFIX, 'all', params],
+        () =>
+            getBICollection(params.search, params.productId, params.status, params.draft).then(
+                (res) => res.data,
+            ),
+        { keepPreviousData: true },
     );
 };
 

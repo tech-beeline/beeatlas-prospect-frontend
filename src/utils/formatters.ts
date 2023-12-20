@@ -2,3 +2,13 @@ export const formatYesNo = (flag: boolean | undefined | null) => (Boolean(flag) 
 
 export const formatNullableString = (str: string | undefined | null) =>
     Boolean(str) ? String(str) : '—';
+
+export const formatNullableNumberParam = (
+    paramName: string,
+    param: number | undefined | null,
+): string => (typeof param === 'number' ? `&${paramName}=${param}` : '');
+
+export const formatNullableBooleanParam = (
+    paramName: string,
+    param: boolean | undefined | null,
+): string => (typeof param === 'boolean' ? `&${paramName}=${String(param)}` : '');

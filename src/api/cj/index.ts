@@ -1,14 +1,22 @@
 import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
+import { formatNullableNumberParam } from 'utils/formatters';
 
 import { API_URL } from '../const';
 
 import * as T from './types';
 
-export const getAllCJs = (search: string): AxiosPromise<T.ICJData[]> => {
+export const getAllCJs = (
+    search: string,
+    sample: T.CJLibraryStatus,
+    productId?: number,
+): AxiosPromise<T.ICJData[]> => {
     return Api.get({
-        url: `${API_URL}cx/v1/product/cj?sample=ALL&search=${search}`,
+        url: `${API_URL}cx/v1/product/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
+            'id_product',
+            productId,
+        )}`,
     });
 };
 
