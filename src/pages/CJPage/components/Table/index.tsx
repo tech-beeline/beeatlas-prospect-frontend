@@ -14,7 +14,7 @@ import { useHiddenRowsStore } from './store';
 import { ITable } from './types';
 import * as S from './units';
 
-export const Table: FC<ITable> = ({ cjId, tableData, draft }) => {
+export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
     const { themeIsDark } = useThemeStore();
 
     const [hiddenRows, showHiddenRows, setShowHiddenRows] = useHiddenRowsStore((state) => [
@@ -115,6 +115,7 @@ export const Table: FC<ITable> = ({ cjId, tableData, draft }) => {
 
             {tableData[selectedStep ?? 0] && (
                 <StepForm
+                    productId={productId}
                     cjId={cjId}
                     step={tableData[selectedStep ?? 0]}
                     isOpen={stepFormOpened}

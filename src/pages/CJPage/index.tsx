@@ -106,7 +106,14 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
             </S.Header>
 
-            {data && <Table cjId={data.id} draft={data.draft} tableData={data.steps} />}
+            {data && (
+                <Table
+                    productId={data.id_product}
+                    cjId={data.id}
+                    draft={data.draft}
+                    tableData={data.steps}
+                />
+            )}
 
             {!data && !isLoading && (
                 <S.NotFoundContainer>

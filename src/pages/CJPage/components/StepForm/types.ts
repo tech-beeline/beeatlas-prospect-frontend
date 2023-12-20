@@ -1,6 +1,7 @@
 import { ICompleteStepData } from 'api/cj/types';
 
 export interface IStepForm {
+    productId: string;
     cjId: number;
     isOpen: boolean;
     step: ICompleteStepData;

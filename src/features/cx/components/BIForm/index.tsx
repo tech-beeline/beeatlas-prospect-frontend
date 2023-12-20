@@ -61,7 +61,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.TextFieldContainer>
-                            {!defaultValues && (
+                            {fullscreen && !defaultValues && (
                                 <Select
                                     disabled={isLoadingProducts}
                                     name="product"

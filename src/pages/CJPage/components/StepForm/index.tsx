@@ -11,7 +11,7 @@ import { BiSelect, BiView, StepSettings } from './components';
 import { IStepForm, Stage } from './types';
 import * as S from './units';
 
-export const StepForm: FC<IStepForm> = ({ cjId, step, isOpen, onClose }) => {
+export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose }) => {
     const [stage, setStage] = useState<Stage>(Stage.SETTINGS);
     const [name, setName] = useState('');
     const [selectedBiId, setSelectedBiId] = useState<number | null>(null);
@@ -82,7 +82,9 @@ export const StepForm: FC<IStepForm> = ({ cjId, step, isOpen, onClose }) => {
                     </S.TitleFlexWrapper>
                     <BIForm
                         onClose={() => setStage(Stage.BISEARCH)}
-                        onSave={(values) => createBi({ ...formValuesToData(values), draft: true })}
+                        onSave={(values) =>
+                            createBi({ ...formValuesToData(values), draft: true, productId })
+                        }
                     />
                 </>
             )}
