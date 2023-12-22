@@ -4,6 +4,7 @@ import { Button, Label, Skeleton } from '@beeline/design-system-react';
 import { CommunalLabel, TargetLabel } from 'features/cx';
 
 import { getBIEditabilityById } from 'api/bi';
+import { IBIData } from 'api/bi/types';
 import { useDeleteBIMutation, useGetBICollectionQuery } from 'api/queries/bi';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
@@ -14,7 +15,17 @@ import { BiMenu } from './components';
 import * as S from './units';
 
 export const BILibraryPage = () => {
-    const { modalOpened, openModal, closeModal } = useModal();
+    const {
+        modalOpened: editabilityModalOpened,
+        openModal: openEditabilityModal,
+        closeModal: closeEditabilityModal,
+    } = useModal();
+
+    const {
+        modalOpened: communalModalOpened,
+        openModal: openCommunalModal,
+        closeModal: closeCommunalModal,
+    } = useModal();
 
     const { data: bis, isLoading } = useGetBICollectionQuery('');
     const { mutateAsync: deleteBi } = useDeleteBIMutation();
@@ -32,23 +43,31 @@ export const BILibraryPage = () => {
         });
     };
 
-    const handleEditBiClick = async (id: number) => {
-        const editabilityData = await getBIEditabilityById(String(id));
+    const handleEditBiClick = async (bi: IBIData) => {
+        if (bi.communal && !bi.draft) {
+            openCommunalModal();
+            return;
+        }
+        const editabilityData = await getBIEditabilityById(String(bi.id));
         if (editabilityData.data.editability) {
             navigate({
                 pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
-                search: createSearchParams({ id: String(id) }).toString(),
+                search: createSearchParams({ id: String(bi.id) }).toString(),
             });
         } else {
-            openModal();
+            openEditabilityModal();
         }
     };
 
-    const handleDeleteBiClick = async (id: number) => {
+    const handleDeleteBiClick = async (bi: IBIData) => {
+        if (bi.communal && !bi.draft) {
+            openCommunalModal();
+            return;
+        }
         try {
-            await deleteBi(String(id));
+            await deleteBi(String(bi.id));
         } catch (error) {
-            openModal();
+            openEditabilityModal();
         }
     };
 
@@ -79,8 +98,8 @@ export const BILibraryPage = () => {
                                         </S.LabelsContainer>
                                         <BiMenu
                                             biId={bi.id}
-                                            onEditClick={() => handleEditBiClick(bi.id)}
-                                            onDeleteClick={() => handleDeleteBiClick(bi.id)}
+                                            onEditClick={() => handleEditBiClick(bi)}
+                                            onDeleteClick={() => handleDeleteBiClick(bi)}
                                         />
                                     </S.FlexContainer>
                                     <S.Title onClick={() => handleBiClick(bi.id)}>
@@ -97,14 +116,24 @@ export const BILibraryPage = () => {
                     </S.CardContainer>
                 </S.ContentWrapper>
                 <Dialog
-                    opened={modalOpened}
+                    opened={editabilityModalOpened}
                     title="BI не может быть отредактирован или удалён"
-                    onClose={closeModal}
-                    onConfirm={closeModal}
+                    onClose={closeEditabilityModal}
+                    onConfirm={closeEditabilityModal}
                     confirmText="Понятно"
                     showDeclineButton={false}
                 >
                     Он используется другими командами
+                </Dialog>
+                <Dialog
+                    opened={communalModalOpened}
+                    title="BI не может быть отредактирован или удалён"
+                    onClose={closeCommunalModal}
+                    onConfirm={closeCommunalModal}
+                    confirmText="Понятно"
+                    showDeclineButton={false}
+                >
+                    Редактирование и удаление коммунального опубликованного BI недоступно
                 </Dialog>
             </S.PageWrapper>
         </>

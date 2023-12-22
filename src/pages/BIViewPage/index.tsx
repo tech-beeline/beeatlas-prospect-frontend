@@ -39,6 +39,9 @@ export const BIViewPage = () => {
         });
     };
 
+    const isEditDisabled =
+        !editabilityData || !data || !editabilityData.editability || (data.communal && !data.draft);
+
     return (
         <S.PageWrapper>
             <S.Header>
@@ -53,11 +56,7 @@ export const BIViewPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button
-                        disabled={!editabilityData || !editabilityData.editability}
-                        onClick={handleEditClick}
-                        variant="contained"
-                    >
+                    <Button disabled={isEditDisabled} onClick={handleEditClick} variant="contained">
                         Редактировать
                     </Button>
                 </S.FlexSideContainer>
@@ -70,7 +69,14 @@ export const BIViewPage = () => {
                                 <S.BannerStyled
                                     color="default"
                                     iconName={Icons.InfoCircled}
-                                    title="BI используется в других опубликованных Cj, редактирование недоступно!"
+                                    title="BI используется в других опубликованных CJ, редактирование недоступно!"
+                                />
+                            )}
+                            {data.communal && !data.draft && (
+                                <S.BannerStyled
+                                    color="default"
+                                    iconName={Icons.InfoCircled}
+                                    title="Редактирование коммунального опубликованного BI недоступно!"
                                 />
                             )}
                             <S.LabelsContainer>
