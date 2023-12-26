@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { sendAnalytics } from 'features/analytics';
 
 // import { Chip } from '@beeline/design-system-react';
 import * as C from './const';
@@ -11,14 +12,20 @@ export const TopMenu: FC<T.ITopMenu> = ({ activeMenuItem, setActiveMenuItem, isS
             <S.ChipStyled
                 active={activeMenuItem === 0}
                 label="Весь радар"
-                onClick={() => setActiveMenuItem(0)}
+                onClick={() => {
+                    setActiveMenuItem(0);
+                    sendAnalytics(['techradar', 'category', 'all']);
+                }}
             />
 
             {(isSubMenu ? C.SUB_MENU : C.MENU).map((item) => (
                 <S.ChipStyled
                     key={item.id}
                     active={activeMenuItem === item.id}
-                    onClick={() => setActiveMenuItem(item.id)}
+                    onClick={() => {
+                        setActiveMenuItem(item.id);
+                        sendAnalytics(['techradar', 'category', item.name]);
+                    }}
                     label={item.title}
                 />
             ))}
