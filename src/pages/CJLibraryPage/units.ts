@@ -45,11 +45,15 @@ export const CardContainer = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
 
-    margin-top: 24px;
+    margin-top: 44px;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
     }
+`;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 100px;
 `;
 
 export const CJCard = styled.div`

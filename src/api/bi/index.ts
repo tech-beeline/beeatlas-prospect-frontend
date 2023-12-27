@@ -1,6 +1,7 @@
 import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
+import { formatNullableBooleanParam, formatNullableNumberParam } from 'utils/formatters';
 
 import { API_URL } from '../const';
 
@@ -18,9 +19,20 @@ export const getBIEditabilityById = (id: string): AxiosPromise<T.IBIEditabilityD
     });
 };
 
-export const getBICollection = (search?: string): AxiosPromise<T.IBIData[]> => {
+export const getBICollection = (
+    search: string,
+    productId?: number,
+    status?: number,
+    draft?: boolean,
+): AxiosPromise<T.IBIData[]> => {
     return Api.get({
-        url: `${API_URL}cx/v1/library/business-interactions/find?text=${search}`,
+        url: `${API_URL}cx/v1/library/business-interactions/find?text=${search}${formatNullableNumberParam(
+            'id_product',
+            productId,
+        )}${formatNullableNumberParam('id_status', status)}${formatNullableBooleanParam(
+            'draft',
+            draft,
+        )}`,
     });
 };
 

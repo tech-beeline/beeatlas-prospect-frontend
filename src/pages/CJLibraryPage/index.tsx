@@ -1,19 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label, Skeleton } from '@beeline/design-system-react';
 
+import { NotFoundBlock } from 'components/other';
+
+import { CJLibraryStatus } from 'api/cj/types';
 import { useDeleteCJMutation, useGetCJCollectionQuery } from 'api/queries/cj';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
-import { CJCreateForm, CjMenu } from './components';
+import {
+    CJCreateForm,
+    CJLibraryFilters,
+    CjMenu,
+    IFilterOptions,
+    ProductVariant,
+} from './components';
 import * as S from './units';
 
 export const CJLibraryPage = () => {
+    const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
+        search: '',
+        product: ProductVariant.ALL,
+        status: CJLibraryStatus.ALL,
+    });
+
     const { modalOpened, closeModal, openModal } = useModal();
 
-    const { data, isLoading } = useGetCJCollectionQuery('');
+    const { data, isLoading } = useGetCJCollectionQuery({
+        search: filterOptions.search,
+        productId: filterOptions.product === ProductVariant.ALL ? undefined : filterOptions.product,
+        sample: filterOptions.status,
+    });
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
 
     const navigate = useNavigate();
@@ -36,6 +55,12 @@ export const CJLibraryPage = () => {
                             Создать CJ
                         </Button>
                     </S.TitleWrapper>
+
+                    <CJLibraryFilters
+                        filterOptions={filterOptions}
+                        setFilterOptions={setFilterOptions}
+                    />
+
                     <S.CardContainer>
                         {data &&
                             data.map((cj) => (
@@ -63,6 +88,15 @@ export const CJLibraryPage = () => {
                                 <Skeleton key={index} height={150} />
                             ))}
                     </S.CardContainer>
+                    {data && data.length === 0 && (
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                imageVariant="emptyBox"
+                                title="Нет результатов, подходящих под параметры поиска"
+                                text="Попробуйте изменить поисковой запрос"
+                            />
+                        </S.NotFoundContainer>
+                    )}
                 </S.ContentWrapper>
                 <CJCreateForm isOpen={modalOpened} onClose={closeModal} />
             </S.PageWrapper>

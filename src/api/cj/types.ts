@@ -35,3 +35,9 @@ export interface ICompleteStepData extends ICJStepData {
 export interface ICompleteCJData extends ICJData {
     steps: ICompleteStepData[];
 }
+
+export enum CJLibraryStatus {
+    ALL = 'ALL',
+    DRAFT = 'MY_PRODUCTS_DRAFT',
+    PUBLISHED = 'MY_PRODUCTS_PUBLIC',
+}

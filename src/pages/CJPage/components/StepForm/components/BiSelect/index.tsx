@@ -15,7 +15,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
 
     const debouncedSearch = useDebounce(search);
 
-    const { data } = useGetBICollectionQuery(debouncedSearch);
+    const { data } = useGetBICollectionQuery({ search: debouncedSearch });
 
     const filteredData = (data ?? []).filter((bi) => !selectedBiIds.includes(bi.id));
 

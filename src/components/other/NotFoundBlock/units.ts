@@ -12,7 +12,15 @@ export const Image = styled.img`
     min-height: 200px;
 `;
 
-export const Text = styled.div`
+export const Title = styled.div`
+    font-weight: var(--font-weight-subtitle2);
+    font-size: var(--font-size-subtitle2);
+    line-height: var(--font-line-height-subtitle2);
+    letter-spacing: var(--font-letter-spacing-subtitle2);
+    text-align: center;
+`;
+
+export const Text = styled.div<{ marginTop?: boolean }>`
     color: var(--color-text-inactive);
 
     font-weight: var(--font-weight-body2);
@@ -20,4 +28,6 @@ export const Text = styled.div`
     line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body2);
     text-align: center;
+
+    margin-top: ${({ marginTop }) => (marginTop ? '8px' : '0px')};
 `;

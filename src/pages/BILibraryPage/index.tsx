@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label, Skeleton } from '@beeline/design-system-react';
 import { CommunalLabel, TargetLabel } from 'features/cx';
+
+import { NotFoundBlock } from 'components/other';
 
 import { getBIEditabilityById } from 'api/bi';
 import { IBIData } from 'api/bi/types';
@@ -11,7 +13,14 @@ import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 import { Dialog } from 'widgets/Dialog';
 
-import { BiMenu } from './components';
+import {
+    BILibraryFilters,
+    BiMenu,
+    DraftVariants,
+    IFilterOptions,
+    ProductVariant,
+    StatusVariant,
+} from './components';
 import * as S from './units';
 
 export const BILibraryPage = () => {
@@ -27,7 +36,25 @@ export const BILibraryPage = () => {
         closeModal: closeCommunalModal,
     } = useModal();
 
-    const { data: bis, isLoading } = useGetBICollectionQuery('');
+    const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
+        search: '',
+        product: ProductVariant.ALL,
+        status: StatusVariant.ALL,
+        draft: DraftVariants.ALL,
+    });
+
+    const { data: bis, isLoading } = useGetBICollectionQuery({
+        search: filterOptions.search,
+        productId: filterOptions.product === ProductVariant.ALL ? undefined : filterOptions.product,
+        status: filterOptions.status === StatusVariant.ALL ? undefined : filterOptions.status,
+        draft:
+            filterOptions.draft === DraftVariants.ALL
+                ? undefined
+                : filterOptions.draft === DraftVariants.DRAFT
+                ? true
+                : false,
+    });
+
     const { mutateAsync: deleteBi } = useDeleteBIMutation();
 
     const navigate = useNavigate();
@@ -86,6 +113,12 @@ export const BILibraryPage = () => {
                             Создать BI
                         </Button>
                     </S.TitleWrapper>
+
+                    <BILibraryFilters
+                        filterOptions={filterOptions}
+                        setFilterOptions={setFilterOptions}
+                    />
+
                     <S.CardContainer>
                         {bis &&
                             bis.map((bi) => (
@@ -114,6 +147,15 @@ export const BILibraryPage = () => {
                                 <Skeleton key={index} height={150} />
                             ))}
                     </S.CardContainer>
+                    {bis && bis.length === 0 && (
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                imageVariant="emptyBox"
+                                title="Нет результатов, подходящих под параметры поиска"
+                                text="Попробуйте изменить поисковой запрос"
+                            />
+                        </S.NotFoundContainer>
+                    )}
                 </S.ContentWrapper>
                 <Dialog
                     opened={editabilityModalOpened}

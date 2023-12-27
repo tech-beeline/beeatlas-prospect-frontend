@@ -1,7 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ, putCJ } from 'api/cj';
-import { ICJData, ICJForm, ICJStepData, ICJStepForm, ICompleteCJData } from 'api/cj/types';
+import {
+    CJLibraryStatus,
+    ICJData,
+    ICJForm,
+    ICJStepData,
+    ICJStepForm,
+    ICompleteCJData,
+} from 'api/cj/types';
 import { deleteCJStep, getCJStepById, patchCJStep, postCJStep } from 'api/cj-step';
 import { deleteCJStepBI, putCJStepBIs } from 'api/cj-step';
 import { ICJStepBIForm } from 'api/cj-step/types';
@@ -9,8 +16,17 @@ import { ICJStepBIForm } from 'api/cj-step/types';
 export const CJ_PREFIX = 'CJ_PREFIX';
 const STEP_PREFIX = 'STEP_PREFIX';
 
-export const useGetCJCollectionQuery = (search: string) => {
-    return useQuery<ICJData[]>([CJ_PREFIX, 'all'], () => getAllCJs(search).then((res) => res.data));
+interface IGetCJCollectionParams {
+    search: string;
+    sample: CJLibraryStatus;
+    productId?: number;
+}
+export const useGetCJCollectionQuery = (params: IGetCJCollectionParams) => {
+    return useQuery<ICJData[]>(
+        [CJ_PREFIX, 'all', params],
+        () => getAllCJs(params.search, params.sample, params.productId).then((res) => res.data),
+        { keepPreviousData: true },
+    );
 };
 
 export const useGetCJByIdQuery = (id: string | undefined | null) => {

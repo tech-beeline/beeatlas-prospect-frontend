@@ -52,6 +52,10 @@ export const CardContainer = styled.div`
     }
 `;
 
+export const NotFoundContainer = styled.div`
+    margin-top: 100px;
+`;
+
 export const BICard = styled.div`
     padding: 24px;
 
