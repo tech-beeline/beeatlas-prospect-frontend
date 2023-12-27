@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Popper } from 'react-popper';
 import * as d3 from 'd3';
+import { sendAnalytics } from 'features/analytics';
 
 import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
@@ -108,7 +109,10 @@ export const Adopt: FC<T.IAdopt> = (props) => {
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}
                                 onMouseLeave={onHintHide}
-                                onClick={() => props.setShowInMenu(true)}
+                                onClick={() => {
+                                    props.setShowInMenu(true);
+                                    sendAnalytics(['techradar', 'click', point.label]);
+                                }}
                             />
                         );
                     })}

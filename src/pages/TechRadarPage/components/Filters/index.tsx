@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, Search, Select } from '@beeline/design-system-react';
+import { sendAnalytics } from 'features/analytics';
 
 import { IData } from 'pages/TechRadarPage/types';
 
@@ -61,7 +62,10 @@ export const Filters: FC<IFilters> = ({
                         setSearch(e.target.value);
                         setHintText('');
                     }}
-                    onFocus={() => setMenuOpened(true)}
+                    onFocus={() => {
+                        setMenuOpened(true);
+                        sendAnalytics(['techradar', 'searchFocus']);
+                    }}
                     onBlur={() => setMenuOpened(false)}
                     onClear={handleSearchClear}
                 />
@@ -82,7 +86,10 @@ export const Filters: FC<IFilters> = ({
                     placeholder="Фильтрация по группам"
                     options={filterOptions}
                     values={selectedFilterValue ? [selectedFilterValue] : []}
-                    onChange={(options) => setFilterValue(options[0].value)}
+                    onChange={(options) => {
+                        setFilterValue(options[0].value);
+                        sendAnalytics(['techradar', 'group', options[0].value]);
+                    }}
                 />
             </S.SelectContainer>
             <Button

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { sendAnalytics } from 'features/analytics';
 
 import { Expand } from 'components/other';
 
@@ -98,7 +99,15 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                               <S.StyledIcon
                                                   iconName={Icons.OpenInBrowser}
                                                   size="large"
-                                                  onClick={() => window.open(item.link, '_blank')}
+                                                  onClick={() => {
+                                                      window.open(item.link, '_blank');
+                                                      sendAnalytics([
+                                                          'techradar',
+                                                          'link',
+                                                          item.label,
+                                                          item.link ?? '',
+                                                      ]);
+                                                  }}
                                               />
                                           )}
                                       </S.Item>
@@ -125,7 +134,15 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                               <S.StyledIcon
                                                   iconName={Icons.OpenInBrowser}
                                                   size="large"
-                                                  onClick={() => window.open(item.link, '_blank')}
+                                                  onClick={() => {
+                                                      window.open(item.link, '_blank');
+                                                      sendAnalytics([
+                                                          'techradar',
+                                                          'link',
+                                                          item.label,
+                                                          item.link ?? '',
+                                                      ]);
+                                                  }}
                                               />
                                           )}
                                       </S.Item>
