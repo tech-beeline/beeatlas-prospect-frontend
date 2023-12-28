@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AxiosError } from 'axios';
 import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { TextField } from 'components/form';
@@ -57,6 +58,7 @@ export const AddRollPage = () => {
         formState: { isDirty },
         reset,
         handleSubmit,
+        setError,
     } = form;
 
     const nameField = watch('name');
@@ -135,7 +137,9 @@ export const AddRollPage = () => {
                     }
                 }
             } catch (error) {
-                console.error(error);
+                if ((error as AxiosError).response?.status === 409) {
+                    setError('name', { message: 'Такая роль уже существует' });
+                }
             }
         },
     );
