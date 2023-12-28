@@ -7,18 +7,21 @@ export const FloatingNavigation: FC<IFloatingNavigation> = ({ items }) => {
     const [activeId, setActiveId] = useState('');
 
     const observer = useRef<IntersectionObserver | null>(null);
+    const observerFlag = useRef(true);
+    const timerId = useRef<null | ReturnType<typeof setTimeout>>(null);
 
     useEffect(() => {
         const handleObsever: IntersectionObserverCallback = (entries) => {
             entries.reverse().forEach((entry) => {
-                if (entry?.isIntersecting) {
+                if (observerFlag.current && entry?.isIntersecting) {
                     setActiveId(entry.target.id);
                 }
             });
         };
 
         observer.current = new IntersectionObserver(handleObsever, {
-            rootMargin: '0px 0px -80% 0px',
+            // Top 15% of the screen
+            rootMargin: '0px 0px -85% 0px',
         });
 
         const elements = document.querySelectorAll(items.map((item) => '#' + item.id).join(', '));
@@ -29,7 +32,16 @@ export const FloatingNavigation: FC<IFloatingNavigation> = ({ items }) => {
     }, []);
 
     const handleItemClick = (id: string) => {
+        setActiveId(id);
+        observerFlag.current = false;
         document.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth' });
+
+        if (timerId.current) {
+            clearTimeout(timerId.current);
+        }
+        timerId.current = setTimeout(() => {
+            observerFlag.current = true;
+        }, 500);
     };
 
     return (

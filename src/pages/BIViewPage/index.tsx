@@ -65,6 +65,7 @@ export const BIViewPage = () => {
                 {data && editabilityData && (
                     <>
                         <S.DataContainer>
+                            <div id="top" />
                             {!editabilityData.editability && (
                                 <S.BannerStyled
                                     color="default"
@@ -90,7 +91,7 @@ export const BIViewPage = () => {
                                 />
                             </S.LabelsContainer>
                             <S.AttributesContainer>
-                                <div id="description">
+                                <div>
                                     <S.Body3>Описание</S.Body3>
                                     <S.Body2>{formatNullableString(data.descr)}</S.Body2>
                                 </div>
@@ -226,7 +227,7 @@ export const BIViewPage = () => {
                         <S.Navigation>
                             <FloatingNavigation
                                 items={[
-                                    { id: 'description', label: data.name },
+                                    { id: 'top', label: data.name },
                                     { id: 'participants', label: 'Участники взаимодействия' },
                                     { id: 'feelings', label: 'Чувства и эмоции' },
                                     { id: 'scenarios', label: 'Сценарии' },

@@ -60,6 +60,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             <>
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
+                        <div id="top" />
                         <S.TextFieldContainer>
                             {fullscreen && !defaultValues && (
                                 <Select

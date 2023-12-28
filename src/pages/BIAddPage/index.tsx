@@ -99,7 +99,7 @@ export const BIAddPage = () => {
                         <S.Navigation>
                             <FloatingNavigation
                                 items={[
-                                    { id: 'name', label: 'Название' },
+                                    { id: 'top', label: 'Название' },
                                     { id: 'characteristics', label: 'Характеристики' },
                                     { id: 'participants', label: 'Участники взаимодействия' },
                                     { id: 'feelings', label: 'Чувства и эмоции' },
