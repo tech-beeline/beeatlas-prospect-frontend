@@ -39,9 +39,8 @@ export const AddRollPage = () => {
     const { data: roleData, isLoading: isLoadingRoleData } = useGetRoleByIdQuery(roleId);
     const { data: rolePermissions } = useGetRolePermissionsByIdQuery(roleId);
     const { mutateAsync: createRole } = useCreateRoleMutation();
-    const { mutateAsync: updateRole, isLoading: isUpdatingRole } = useUpdateRoleMutation();
-    const { mutateAsync: updateRolePermissions, isLoading: isUpdatingPermissions } =
-        useUpdateRolePermissionsMutation();
+    const { mutateAsync: updateRole } = useUpdateRoleMutation();
+    const { mutateAsync: updateRolePermissions } = useUpdateRolePermissionsMutation();
     const { mutateAsync: deleteRole } = useDeleteRoleMutation();
 
     const isRoleDefault = roleData?.default === true;
@@ -64,7 +63,7 @@ export const AddRollPage = () => {
     const nameField = watch('name');
 
     useEffect(() => {
-        if (roleData && rolePermissions && !(isUpdatingRole || isUpdatingPermissions)) {
+        if (roleData && rolePermissions) {
             reset({
                 name: roleData.name,
                 createPermission: rolePermissions.find(
@@ -78,7 +77,7 @@ export const AddRollPage = () => {
                 )?.active,
             });
         }
-    }, [roleData, rolePermissions, isUpdatingRole, isUpdatingPermissions]);
+    }, [roleData, rolePermissions]);
 
     const [isShowDropdown, setShowDropdown] = useState(false);
 
