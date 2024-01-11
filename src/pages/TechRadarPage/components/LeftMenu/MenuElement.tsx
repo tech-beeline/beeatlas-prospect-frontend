@@ -105,7 +105,6 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                           'techradar',
                                                           'link',
                                                           item.label,
-                                                          item.link ?? '',
                                                       ]);
                                                   }}
                                               />
@@ -140,7 +139,6 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                           'techradar',
                                                           'link',
                                                           item.label,
-                                                          item.link ?? '',
                                                       ]);
                                                   }}
                                               />
