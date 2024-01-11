@@ -100,7 +100,7 @@ export const TechRadarPage = () => {
     /* в зависимости от меню приближается нужный квадрант */
     useEffect(() => {
         if (activeMenuItem === 1) {
-            setViewBox({ x: -45, y: -45, width: 45, height: 45 });
+            setViewBox({ x: -45.65, y: -45, width: 45, height: 45 });
 
             setLeftTitlesPosition(100);
 
@@ -108,7 +108,7 @@ export const TechRadarPage = () => {
 
             setZoomed(true);
         } else if (activeMenuItem === 2) {
-            setViewBox({ x: 0, y: -45, width: 45, height: 45 });
+            setViewBox({ x: 0.65, y: -45, width: 45, height: 45 });
 
             setLeftTitlesPosition(0);
 
@@ -116,7 +116,7 @@ export const TechRadarPage = () => {
 
             setZoomed(true);
         } else if (activeMenuItem === 3) {
-            setViewBox({ x: 0, y: 0, width: 45, height: 45 });
+            setViewBox({ x: 0.65, y: 0, width: 45, height: 45 });
 
             setLeftTitlesPosition(0);
 
@@ -124,7 +124,7 @@ export const TechRadarPage = () => {
 
             setZoomed(true);
         } else if (activeMenuItem === 4) {
-            setViewBox({ x: -45, y: 0, width: 45, height: 45 });
+            setViewBox({ x: -45.65, y: 0, width: 45, height: 45 });
 
             setLeftTitlesPosition(100);
 
