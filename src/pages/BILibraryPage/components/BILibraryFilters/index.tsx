@@ -53,7 +53,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilt
         <S.FiltersContainer>
             <Search
                 fullWidth
-                placeholder="Название или номер"
+                placeholder="Введите название BI"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onClear={() => setSearch('')}
