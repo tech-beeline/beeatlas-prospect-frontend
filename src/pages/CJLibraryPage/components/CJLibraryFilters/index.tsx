@@ -39,7 +39,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({ filterOptions, setFilt
         <S.FiltersContainer>
             <Search
                 fullWidth
-                placeholder="Название или номер"
+                placeholder="Введите название CJ"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onClear={() => setSearch('')}

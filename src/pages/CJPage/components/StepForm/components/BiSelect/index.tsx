@@ -36,7 +36,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
             <S.TextFieldContainer>
                 <Search
                     fullWidth
-                    placeholder="Номер или название"
+                    placeholder="Введите название BI"
                     value={search}
                     maxLength={400}
                     onChange={(e) => setSearch(e.target.value)}

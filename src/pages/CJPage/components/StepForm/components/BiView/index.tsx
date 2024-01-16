@@ -5,7 +5,7 @@ import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { IconFeeling, Link } from 'components/other';
 
-import { useGetBIByIdQuery } from 'api/queries/bi';
+import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
 import { getFeelingType } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
@@ -25,8 +25,17 @@ export const BiView: FC<IBiView> = ({
     goBackStage = Stage.BISEARCH,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const { data: bi, isLoading } = useGetBIByIdQuery(String(selectedBiId));
+    const { data: bi, isLoading: isLoadingData } = useGetBIByIdQuery(String(selectedBiId));
+    const { data: editabilityData, isLoading: isLoadingEditability } = useGetBIEditabilityByIdQuery(
+        String(selectedBiId),
+    );
     const { mutateAsync: updateStepBis, isLoading: updatingStep } = useUpdateCJStepBIsMutation();
+
+    const isLoading = isLoadingData || isLoadingEditability;
+
+    const isBiUneditable = editabilityData && !editabilityData.editability;
+
+    const isBiCommunalAndPublished = bi && bi.communal && !bi.draft;
 
     const handleSelectClick = async () => {
         await updateStepBis({
@@ -48,6 +57,20 @@ export const BiView: FC<IBiView> = ({
                     />
                     <S.SideBlockTitle>Атрибуты BI</S.SideBlockTitle>
                 </S.TitleFlexWrapper>
+                {isBiUneditable && (
+                    <S.BannerStyled
+                        color="default"
+                        iconName={Icons.InfoCircled}
+                        title="BI используется в других опубликованных CJ, редактирование недоступно!"
+                    />
+                )}
+                {isBiCommunalAndPublished && (
+                    <S.BannerStyled
+                        color="default"
+                        iconName={Icons.InfoCircled}
+                        title="В коммунальный опубликованный BI нельзя вносить правки и удалять его."
+                    />
+                )}
                 <S.LabelsContainer>
                     {isLoading && <Skeleton height={24} />}
                     {bi && (
@@ -170,9 +193,12 @@ export const BiView: FC<IBiView> = ({
             </div>
             {showButtons && bi && (
                 <S.ButtonsContainer>
-                    {!bi.communal && (
-                        <Button onClick={() => setStage(Stage.BIEDIT)}>Редактировать</Button>
-                    )}
+                    <Button
+                        disabled={isLoading || isBiUneditable || isBiCommunalAndPublished}
+                        onClick={() => setStage(Stage.BIEDIT)}
+                    >
+                        Редактировать
+                    </Button>
                     <Button
                         type="submit"
                         variant="contained"

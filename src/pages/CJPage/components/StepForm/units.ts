@@ -1,3 +1,4 @@
+import { Banner } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const FlexWrapper = styled.div`
@@ -52,6 +53,8 @@ export const Body2 = styled.div<{ marginBottom?: boolean }>`
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
+
+    white-space: pre-wrap;
 
     margin-bottom: ${({ marginBottom }) => (marginBottom ? '18px' : '0px')};
 `;
@@ -143,4 +146,8 @@ export const IconContainer = styled.div`
 
     margin-top: 8px;
     margin-bottom: 8px;
+`;
+
+export const BannerStyled = styled(Banner)`
+    margin: 24px 0px;
 `;

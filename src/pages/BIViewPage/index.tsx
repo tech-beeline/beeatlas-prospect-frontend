@@ -77,7 +77,7 @@ export const BIViewPage = () => {
                                 <S.BannerStyled
                                     color="default"
                                     iconName={Icons.InfoCircled}
-                                    title="Редактирование коммунального опубликованного BI недоступно!"
+                                    title="В коммунальный опубликованный BI нельзя вносить правки и удалять его."
                                 />
                             )}
                             <S.LabelsContainer>
