@@ -15,6 +15,9 @@ ingress:
       if ($host = "tr.vimpelcom.ru") {
         rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
       }
+      if ($host = "techradar.vimpelcom.ru") {
+        rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
+      }
 
   hosts:
     - host: "changehost"
