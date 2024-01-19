@@ -7,7 +7,14 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import { ISideBlock } from './types';
 import * as S from './units';
 
-export const SideBlock: FC<ISideBlock> = ({ children, isOpen, onClose, hasBackdrop, toggleId }) => {
+export const SideBlock: FC<ISideBlock> = ({
+    children,
+    isOpen,
+    onClose,
+    hasBackdrop,
+    toggleId,
+    closeOnOutsideClick = false,
+}) => {
     const sideBlockRef = useRef(null);
 
     const toggleRef = useRef<Nullable<HTMLElement>>(null);
@@ -18,7 +25,7 @@ export const SideBlock: FC<ISideBlock> = ({ children, isOpen, onClose, hasBackdr
         }
     });
 
-    useOutsideClick(sideBlockRef, isOpen, onClose, toggleRef);
+    useOutsideClick(sideBlockRef, isOpen && closeOnOutsideClick, onClose, toggleRef);
 
     return (
         <>

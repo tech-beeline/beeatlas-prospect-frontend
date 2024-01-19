@@ -5,6 +5,7 @@ export interface IBiView {
     stepBisLength: number;
     selectedBiId: number;
     setStage: (stage: Stage) => void;
+    onClose: () => void;
 
     showButtons?: boolean;
     goBackStage?: Stage;

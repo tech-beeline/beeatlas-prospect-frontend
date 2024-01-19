@@ -21,6 +21,7 @@ export const BiView: FC<IBiView> = ({
     stepId,
     stepBisLength,
     setStage,
+    onClose,
     showButtons = true,
     goBackStage = Stage.BISEARCH,
 }) => {
@@ -49,14 +50,17 @@ export const BiView: FC<IBiView> = ({
     return (
         <S.FlexContainer>
             <div>
-                <S.TitleFlexWrapper>
-                    <IconButton
-                        iconName={Icons.ArrowLeft}
-                        size="large"
-                        onClick={() => setStage(goBackStage)}
-                    />
-                    <S.SideBlockTitle>Атрибуты BI</S.SideBlockTitle>
-                </S.TitleFlexWrapper>
+                <S.FlexWrapper>
+                    <S.TitleFlexWrapper>
+                        <IconButton
+                            iconName={Icons.ArrowLeft}
+                            size="large"
+                            onClick={() => setStage(goBackStage)}
+                        />
+                        <S.SideBlockTitle>Атрибуты BI</S.SideBlockTitle>
+                    </S.TitleFlexWrapper>
+                    <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
+                </S.FlexWrapper>
                 {isBiUneditable && (
                     <S.BannerStyled
                         color="default"

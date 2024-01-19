@@ -1,8 +1,7 @@
 import { Stage } from '../../types';
 
-export interface IBiSelect {
+export interface IBiEdit {
+    selectedBiId: number | null;
     setStage: (stage: Stage) => void;
-    setSelectedBiId: (id: number) => void;
-    selectedBiIds: number[];
     onClose: () => void;
 }

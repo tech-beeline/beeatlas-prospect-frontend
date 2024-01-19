@@ -10,7 +10,7 @@ import * as S from '../../units';
 
 import { IBiSelect } from './types';
 
-export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiIds }) => {
+export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiIds, onClose }) => {
     const [search, setSearch] = useState('');
 
     const debouncedSearch = useDebounce(search);
@@ -24,14 +24,18 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
 
     return (
         <>
-            <S.TitleFlexWrapper>
-                <IconButton
-                    iconName={Icons.ArrowLeft}
-                    size="large"
-                    onClick={() => setStage(Stage.SETTINGS)}
-                />
-                <S.SideBlockTitle>Выбор BI для шага</S.SideBlockTitle>
-            </S.TitleFlexWrapper>
+            <S.FlexWrapper>
+                <S.TitleFlexWrapper>
+                    <IconButton
+                        iconName={Icons.ArrowLeft}
+                        size="large"
+                        onClick={() => setStage(Stage.SETTINGS)}
+                    />
+                    <S.SideBlockTitle>Выбор BI для шага</S.SideBlockTitle>
+                </S.TitleFlexWrapper>
+
+                <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
+            </S.FlexWrapper>
 
             <S.TextFieldContainer>
                 <Search
@@ -45,7 +49,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
             </S.TextFieldContainer>
 
             <S.SubtitleFlexWrapper2>
-                <S.Subtitle>Продуктовые</S.Subtitle>
+                <S.SelectSubtitle>Продуктовые</S.SelectSubtitle>
 
                 <Button onClick={() => setStage(Stage.BICREATE)} variant="plain">
                     Создать BI
@@ -69,7 +73,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                 </S.BIFlexWrapper>
             ))}
             <S.SubtitleFlexWrapper2>
-                <S.Subtitle>Коммунальные</S.Subtitle>
+                <S.SelectSubtitle>Коммунальные</S.SelectSubtitle>
             </S.SubtitleFlexWrapper2>
 
             {communalSearchBis.map((bi, index) => (
