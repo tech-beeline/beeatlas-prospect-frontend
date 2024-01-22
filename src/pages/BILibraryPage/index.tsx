@@ -3,7 +3,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label, Skeleton } from '@beeline/design-system-react';
 import { CommunalLabel, TargetLabel } from 'features/cx';
 
-import { NotFoundBlock } from 'components/other';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { getBIEditabilityById } from 'api/bi';
 import { IBIData } from 'api/bi/types';
@@ -150,7 +150,7 @@ export const BILibraryPage = () => {
                     {bis && bis.length === 0 && (
                         <S.NotFoundContainer>
                             <NotFoundBlock
-                                imageVariant="emptyBox"
+                                imageVariant={ImageVariants.EMPTY_BOX}
                                 title="Нет результатов, подходящих под параметры поиска"
                                 text="Попробуйте изменить поисковой запрос"
                             />

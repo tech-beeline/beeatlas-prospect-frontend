@@ -92,3 +92,13 @@ export const SkeletonContainer = styled.div`
 
     margin-top: 24px;
 `;
+
+export const UneditableContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+`;

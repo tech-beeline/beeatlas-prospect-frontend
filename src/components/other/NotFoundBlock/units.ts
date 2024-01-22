@@ -12,6 +12,13 @@ export const Image = styled.img`
     min-height: 200px;
 `;
 
+export const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
 export const Title = styled.div`
     font-weight: var(--font-weight-subtitle2);
     font-size: var(--font-size-subtitle2);
@@ -30,4 +37,8 @@ export const Text = styled.div<{ marginTop?: boolean }>`
     text-align: center;
 
     margin-top: ${({ marginTop }) => (marginTop ? '8px' : '0px')};
+`;
+
+export const ButtonContainer = styled.div`
+    margin-top: 24px;
 `;
