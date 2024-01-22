@@ -4,7 +4,7 @@ export { IconCard } from './IconCard';
 export { FeelingTypes, IconFeeling } from './IconFeeling';
 export { IconText } from './IconText';
 export { Link } from './Link';
-export { NotFoundBlock } from './NotFoundBlock';
+export { ImageVariants, NotFoundBlock } from './NotFoundBlock';
 export { PivotArrow } from './PivotArrow';
 export { ProfileIcon } from './ProfileIcon';
 export { ProgressBar } from './ProgressBar';

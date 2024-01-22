@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label, Skeleton } from '@beeline/design-system-react';
 
-import { NotFoundBlock } from 'components/other';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { CJLibraryStatus } from 'api/cj/types';
 import { useDeleteCJMutation, useGetCJCollectionQuery } from 'api/queries/cj';
@@ -91,7 +91,7 @@ export const CJLibraryPage = () => {
                     {data && data.length === 0 && (
                         <S.NotFoundContainer>
                             <NotFoundBlock
-                                imageVariant="emptyBox"
+                                imageVariant={ImageVariants.EMPTY_BOX}
                                 title="Нет результатов, подходящих под параметры поиска"
                                 text="Попробуйте изменить поисковой запрос"
                             />
