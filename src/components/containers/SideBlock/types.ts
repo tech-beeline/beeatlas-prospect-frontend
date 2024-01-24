@@ -5,4 +5,5 @@ export interface ISideBlock {
     children?: React.ReactNode;
     toggleId?: string;
     hasBackdrop?: boolean;
+    closeOnOutsideClick?: boolean;
 }

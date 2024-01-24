@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const Wrapper = styled.div<{ isOpen: boolean }>`
     position: fixed;
     left: 50%;
-    bottom: 80px;
+    bottom: 24px;
     transform: translateX(-50%);
 
     display: flex;

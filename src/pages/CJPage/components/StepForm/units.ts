@@ -23,6 +23,12 @@ export const SideBlockTitle = styled.div`
     line-height: var(--font-line-height-h5);
 `;
 
+export const SelectSubtitle = styled.div`
+    font-weight: var(--font-weight-subtitle1);
+    font-size: var(--font-size-subtitle1);
+    line-height: var(--font-line-height-subtitle1);
+`;
+
 export const Subtitle = styled.div`
     font-weight: var(--font-weight-subtitle1);
     font-size: var(--font-size-subtitle1);

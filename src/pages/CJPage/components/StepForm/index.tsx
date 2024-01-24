@@ -1,24 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
-import { IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { BIForm, dataToFormValues, formValuesToData } from 'features/cx';
 
 import { SideBlock } from 'components/containers';
 
-import { useCreateBIMutation, useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
-
-import { BiSelect, BiView, StepSettings } from './components';
+import { BiCreate, BiEdit, BiSelect, BiView, StepSettings } from './components';
 import { IStepForm, Stage } from './types';
-import * as S from './units';
 
 export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose }) => {
     const [stage, setStage] = useState<Stage>(Stage.SETTINGS);
     const [name, setName] = useState('');
     const [selectedBiId, setSelectedBiId] = useState<number | null>(null);
-
-    const { data } = useGetBIByIdQuery(selectedBiId ? String(selectedBiId) : null);
-    const { mutateAsync: createBi } = useCreateBIMutation();
-    const { mutateAsync: updateBi } = useUpdateBIMutation();
 
     useEffect(() => {
         setName(step.name);
@@ -49,6 +39,7 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
                     setStage={setStage}
                     setSelectedBiId={setSelectedBiId}
                     selectedBiIds={step.bi.map((bi) => bi.id)}
+                    onClose={handleCloseClick}
                 />
             )}
             {stage === Stage.BIVIEW && selectedBiId && (
@@ -57,6 +48,7 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
                     stepBisLength={step.bi.length}
                     setStage={setStage}
                     selectedBiId={selectedBiId}
+                    onClose={handleCloseClick}
                 />
             )}
             {stage === Stage.SELECTEDBIVIEW && selectedBiId && (
@@ -67,49 +59,19 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
                     selectedBiId={selectedBiId}
                     showButtons={false}
                     goBackStage={Stage.SETTINGS}
+                    onClose={handleCloseClick}
                 />
             )}
 
             {stage === Stage.BICREATE && (
-                <>
-                    <S.TitleFlexWrapper>
-                        <IconButton
-                            iconName={Icons.ArrowLeft}
-                            size="large"
-                            onClick={() => setStage(Stage.BISEARCH)}
-                        />
-                        <S.SideBlockTitle>Создание BI</S.SideBlockTitle>
-                    </S.TitleFlexWrapper>
-                    <BIForm
-                        onClose={() => setStage(Stage.BISEARCH)}
-                        onSave={(values) =>
-                            createBi({ ...formValuesToData(values), draft: true, productId })
-                        }
-                    />
-                </>
+                <BiCreate productId={productId} setStage={setStage} onClose={handleCloseClick} />
             )}
             {stage === Stage.BIEDIT && (
-                <>
-                    <S.TitleFlexWrapper>
-                        <IconButton
-                            iconName={Icons.ArrowLeft}
-                            size="large"
-                            onClick={() => setStage(Stage.BIVIEW)}
-                        />
-                        <S.SideBlockTitle>Редактирование BI</S.SideBlockTitle>
-                    </S.TitleFlexWrapper>
-                    <BIForm
-                        onClose={() => setStage(Stage.BIVIEW)}
-                        onSave={(values) =>
-                            selectedBiId &&
-                            updateBi({
-                                id: String(selectedBiId),
-                                data: { ...formValuesToData(values), draft: true },
-                            })
-                        }
-                        defaultValues={data ? dataToFormValues(data) : undefined}
-                    />
-                </>
+                <BiEdit
+                    selectedBiId={selectedBiId}
+                    setStage={setStage}
+                    onClose={handleCloseClick}
+                />
             )}
         </SideBlock>
     );

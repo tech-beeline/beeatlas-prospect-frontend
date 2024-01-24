@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Icon } from '@beeline/design-system-react';
+import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -53,11 +53,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                     <S.FlexWrapper>
                         <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
 
-                        <Icon
-                            iconName={Icons.Close}
-                            onClick={onClose}
-                            style={{ cursor: 'pointer' }}
-                        />
+                        <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                     </S.FlexWrapper>
 
                     <S.TextFieldContainer>

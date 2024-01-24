@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
+import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -68,10 +68,10 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     <S.FlexWrapper>
                         <S.SideBlockTitle>Создать CJ</S.SideBlockTitle>
 
-                        <Icon
+                        <IconButton
                             iconName={Icons.Close}
                             onClick={handleCloseClick}
-                            style={{ cursor: 'pointer' }}
+                            size="large"
                         />
                     </S.FlexWrapper>
 
