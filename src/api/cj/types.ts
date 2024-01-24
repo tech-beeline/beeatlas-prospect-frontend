@@ -38,6 +38,6 @@ export interface ICompleteCJData extends ICJData {
 
 export enum CJLibraryStatus {
     ALL = 'ALL',
-    DRAFT = 'MY_PRODUCTS_DRAFT',
-    PUBLISHED = 'MY_PRODUCTS_PUBLIC',
+    DRAFT = 'DRAFT',
+    PUBLISHED = 'PUBLIC',
 }
