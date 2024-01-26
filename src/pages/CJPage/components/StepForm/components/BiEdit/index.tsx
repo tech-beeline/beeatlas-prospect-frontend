@@ -10,7 +10,12 @@ import * as S from '../../units';
 
 import { IBiEdit } from './types';
 
-export const BiEdit: FC<IBiEdit> = ({ selectedBiId, setStage, onClose }) => {
+export const BiEdit: FC<IBiEdit> = ({
+    selectedBiId,
+    setStage,
+    onClose,
+    previousStage = Stage.BIVIEW,
+}) => {
     const { data } = useGetBIByIdQuery(selectedBiId ? String(selectedBiId) : null);
     const { mutateAsync: updateBi } = useUpdateBIMutation();
 
@@ -21,14 +26,14 @@ export const BiEdit: FC<IBiEdit> = ({ selectedBiId, setStage, onClose }) => {
                     <IconButton
                         iconName={Icons.ArrowLeft}
                         size="large"
-                        onClick={() => setStage(Stage.BIVIEW)}
+                        onClick={() => setStage(previousStage)}
                     />
                     <S.SideBlockTitle>Редактирование BI</S.SideBlockTitle>
                 </S.TitleFlexWrapper>
                 <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
             </S.FlexWrapper>
             <BIForm
-                onClose={() => setStage(Stage.BIVIEW)}
+                onClose={() => setStage(previousStage)}
                 onSave={(values) =>
                     selectedBiId &&
                     updateBi({

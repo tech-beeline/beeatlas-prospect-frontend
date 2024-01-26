@@ -22,8 +22,8 @@ export const BiView: FC<IBiView> = ({
     stepBisLength,
     setStage,
     onClose,
-    showButtons = true,
-    goBackStage = Stage.BISEARCH,
+    biSelected = false,
+    previousStage = Stage.BISEARCH,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { data: bi, isLoading: isLoadingData } = useGetBIByIdQuery(String(selectedBiId));
@@ -55,7 +55,7 @@ export const BiView: FC<IBiView> = ({
                         <IconButton
                             iconName={Icons.ArrowLeft}
                             size="large"
-                            onClick={() => setStage(goBackStage)}
+                            onClick={() => setStage(previousStage)}
                         />
                         <S.SideBlockTitle>Атрибуты BI</S.SideBlockTitle>
                     </S.TitleFlexWrapper>
@@ -195,22 +195,25 @@ export const BiView: FC<IBiView> = ({
                         Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={40} />)}
                 </S.AttributesContainer>
             </div>
-            {showButtons && bi && (
+            {bi && (
                 <S.ButtonsContainer>
                     <Button
+                        variant={biSelected ? 'contained' : 'outlined'}
                         disabled={isLoading || isBiUneditable || isBiCommunalAndPublished}
-                        onClick={() => setStage(Stage.BIEDIT)}
+                        onClick={() => setStage(biSelected ? Stage.SELECTEDBIEDIT : Stage.BIEDIT)}
                     >
                         Редактировать
                     </Button>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        disabled={updatingStep}
-                        onClick={handleSelectClick}
-                    >
-                        Выбрать
-                    </Button>
+                    {!biSelected && (
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            disabled={updatingStep}
+                            onClick={handleSelectClick}
+                        >
+                            Выбрать
+                        </Button>
+                    )}
                 </S.ButtonsContainer>
             )}
         </S.FlexContainer>

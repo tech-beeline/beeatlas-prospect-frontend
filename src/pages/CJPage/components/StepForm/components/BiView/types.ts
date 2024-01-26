@@ -7,6 +7,6 @@ export interface IBiView {
     setStage: (stage: Stage) => void;
     onClose: () => void;
 
-    showButtons?: boolean;
-    goBackStage?: Stage;
+    biSelected?: boolean;
+    previousStage?: Stage;
 }
