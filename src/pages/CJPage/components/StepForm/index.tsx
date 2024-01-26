@@ -53,18 +53,14 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
             )}
             {stage === Stage.SELECTEDBIVIEW && selectedBiId && (
                 <BiView
+                    biSelected
                     stepId={step.id ?? 0}
                     stepBisLength={step.bi.length}
                     setStage={setStage}
                     selectedBiId={selectedBiId}
-                    showButtons={false}
-                    goBackStage={Stage.SETTINGS}
+                    previousStage={Stage.SETTINGS}
                     onClose={handleCloseClick}
                 />
-            )}
-
-            {stage === Stage.BICREATE && (
-                <BiCreate productId={productId} setStage={setStage} onClose={handleCloseClick} />
             )}
             {stage === Stage.BIEDIT && (
                 <BiEdit
@@ -72,6 +68,17 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
                     setStage={setStage}
                     onClose={handleCloseClick}
                 />
+            )}
+            {stage === Stage.SELECTEDBIEDIT && (
+                <BiEdit
+                    selectedBiId={selectedBiId}
+                    setStage={setStage}
+                    onClose={handleCloseClick}
+                    previousStage={Stage.SELECTEDBIVIEW}
+                />
+            )}
+            {stage === Stage.BICREATE && (
+                <BiCreate productId={productId} setStage={setStage} onClose={handleCloseClick} />
             )}
         </SideBlock>
     );
