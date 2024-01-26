@@ -49,11 +49,18 @@ export const useGetBIEditabilityByIdQuery = (id: string | undefined | null) => {
 
 export function useCreateBIMutation() {
     const queryClient = useQueryClient();
-    return useMutation([BI_PREFIX, 'create'], (params: IBIForm) => postBI(params), {
-        onSuccess: () => {
-            void queryClient.invalidateQueries(BI_PREFIX);
+    return useMutation(
+        [BI_PREFIX, 'create'],
+        async (params: IBIForm) => {
+            const biData = await postBI(params);
+            return { biId: biData.data.id as string };
         },
-    });
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(BI_PREFIX);
+            },
+        },
+    );
 }
 
 interface IUpdateBIParams {

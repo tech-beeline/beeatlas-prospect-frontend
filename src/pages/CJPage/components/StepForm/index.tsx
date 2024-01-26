@@ -78,7 +78,13 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
                 />
             )}
             {stage === Stage.BICREATE && (
-                <BiCreate productId={productId} setStage={setStage} onClose={handleCloseClick} />
+                <BiCreate
+                    productId={productId}
+                    stepId={step.id}
+                    stepBisLength={step.bi.length}
+                    setStage={setStage}
+                    onClose={handleCloseClick}
+                />
             )}
         </SideBlock>
     );
