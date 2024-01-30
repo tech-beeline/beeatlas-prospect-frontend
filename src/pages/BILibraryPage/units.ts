@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { Subtitle1 } from 'styles/units';
-
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -40,63 +38,21 @@ export const TitleWrapper = styled.div`
     justify-content: space-between;
 `;
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ columns: number }>`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(${({ columns }) => columns}, minmax(0, 1fr));
     gap: 24px;
 
     margin-top: 24px;
+    padding-bottom: 32px;
+`;
 
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-    }
+export const CardColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export const NotFoundContainer = styled.div`
     margin-top: 100px;
-`;
-
-export const BICard = styled.div`
-    padding: 24px;
-
-    border: 1px solid var(--color-divider);
-    border-radius: var(--size-border-radius-x6);
-`;
-
-export const FlexContainer = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-`;
-
-export const LabelsContainer = styled.div`
-    display: flex;
-
-    gap: 4px;
-`;
-
-export const Title = styled(Subtitle1)`
-    margin-top: 16px;
-
-    color: var(--color-text-link);
-
-    cursor: pointer;
-`;
-
-export const Number = styled.div`
-    margin-top: 4px;
-
-    color: var(--color-text-disabled);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
-    letter-spacing: var(--font-letter-spacing-body3);
-`;
-
-export const Description = styled.div`
-    margin-top: 24px;
-
-    font-weight: var(--font-weight-body2);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
 `;
