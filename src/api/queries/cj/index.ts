@@ -233,10 +233,10 @@ export function useDeleteBIFromStepMutation() {
     );
 }
 
-export const useGetCJCollectionByBIIdQuery = (biId: string | undefined | null) => {
+export const useGetCJCollectionByBIIdQuery = (biId: string | undefined | null, enabled = true) => {
     return useQuery<ICJData[]>(
         [CJ_PREFIX, 'byBi', biId],
         () => getCJsByBIId(biId!).then((res) => res.data),
-        { enabled: Boolean(biId) },
+        { enabled: enabled && Boolean(biId) },
     );
 };
