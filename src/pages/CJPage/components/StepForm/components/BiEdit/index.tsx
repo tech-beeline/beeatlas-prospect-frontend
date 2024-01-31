@@ -4,6 +4,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, dataToFormValues, formValuesToData } from 'features/cx';
 
 import { useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { Stage } from '../../types';
 import * as S from '../../units';
@@ -16,6 +17,8 @@ export const BiEdit: FC<IBiEdit> = ({
     onClose,
     previousStage = Stage.BIVIEW,
 }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const { data } = useGetBIByIdQuery(selectedBiId ? String(selectedBiId) : null);
     const { mutateAsync: updateBi } = useUpdateBIMutation();
 
@@ -34,13 +37,15 @@ export const BiEdit: FC<IBiEdit> = ({
             </S.FlexWrapper>
             <BIForm
                 onClose={() => setStage(previousStage)}
-                onSave={(values) =>
-                    selectedBiId &&
-                    updateBi({
-                        id: String(selectedBiId),
-                        data: { ...formValuesToData(values), draft: true },
-                    })
-                }
+                onSave={async (values) => {
+                    if (selectedBiId && data) {
+                        await updateBi({
+                            id: String(selectedBiId),
+                            data: { ...formValuesToData(values), draft: data.draft },
+                        });
+                        showSnackbar({ message: 'Изменения сохранены' });
+                    }
+                }}
                 defaultValues={data ? dataToFormValues(data) : undefined}
             />
         </>
