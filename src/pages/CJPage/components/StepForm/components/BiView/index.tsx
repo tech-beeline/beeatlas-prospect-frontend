@@ -49,7 +49,7 @@ export const BiView: FC<IBiView> = ({
 
     return (
         <S.FlexContainer>
-            <div>
+            <S.Content hasButtons>
                 <S.FlexWrapper>
                     <S.TitleFlexWrapper>
                         <IconButton
@@ -194,28 +194,26 @@ export const BiView: FC<IBiView> = ({
                     {isLoading &&
                         Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={40} />)}
                 </S.AttributesContainer>
-            </div>
-            {bi && (
-                <S.ButtonsContainer>
+            </S.Content>
+            <S.ButtonsContainer>
+                <Button
+                    variant={biSelected ? 'contained' : 'outlined'}
+                    disabled={isLoading || isBiUneditable || isBiCommunalAndPublished}
+                    onClick={() => setStage(biSelected ? Stage.SELECTEDBIEDIT : Stage.BIEDIT)}
+                >
+                    Редактировать
+                </Button>
+                {!biSelected && (
                     <Button
-                        variant={biSelected ? 'contained' : 'outlined'}
-                        disabled={isLoading || isBiUneditable || isBiCommunalAndPublished}
-                        onClick={() => setStage(biSelected ? Stage.SELECTEDBIEDIT : Stage.BIEDIT)}
+                        type="submit"
+                        variant="contained"
+                        disabled={updatingStep}
+                        onClick={handleSelectClick}
                     >
-                        Редактировать
+                        Выбрать
                     </Button>
-                    {!biSelected && (
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            disabled={updatingStep}
-                            onClick={handleSelectClick}
-                        >
-                            Выбрать
-                        </Button>
-                    )}
-                </S.ButtonsContainer>
-            )}
+                )}
+            </S.ButtonsContainer>
         </S.FlexContainer>
     );
 };

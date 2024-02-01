@@ -63,51 +63,53 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
     return (
         <SideBlock hasBackdrop isOpen={isOpen} onClose={handleCloseClick}>
-            <FormProvider {...form}>
-                <form onSubmit={onSubmit}>
-                    <S.FlexWrapper>
-                        <S.SideBlockTitle>Создать CJ</S.SideBlockTitle>
+            <S.Container>
+                <FormProvider {...form}>
+                    <form onSubmit={onSubmit}>
+                        <S.FlexWrapper>
+                            <S.SideBlockTitle>Создать CJ</S.SideBlockTitle>
 
-                        <IconButton
-                            iconName={Icons.Close}
-                            onClick={handleCloseClick}
-                            size="large"
-                        />
-                    </S.FlexWrapper>
+                            <IconButton
+                                iconName={Icons.Close}
+                                onClick={handleCloseClick}
+                                size="large"
+                            />
+                        </S.FlexWrapper>
 
-                    <S.TextFieldContainer>
-                        <Select
-                            disabled={isLoadingProducts}
-                            name="product"
-                            label="Продукт*"
-                            options={
-                                products?.map((product) => ({
-                                    id: Number(product.id),
-                                    value: product.name,
-                                })) ?? []
-                            }
-                        />
+                        <S.TextFieldContainer>
+                            <Select
+                                disabled={isLoadingProducts}
+                                name="product"
+                                label="Продукт*"
+                                options={
+                                    products?.map((product) => ({
+                                        id: Number(product.id),
+                                        value: product.name,
+                                    })) ?? []
+                                }
+                            />
 
-                        <TextField label="Название CJ*" name="name" />
+                            <TextField label="Название CJ*" name="name" />
 
-                        <TextField label="Портрет пользователя*" name="userPortrait" />
-                    </S.TextFieldContainer>
+                            <TextField label="Портрет пользователя*" name="userPortrait" />
+                        </S.TextFieldContainer>
 
-                    <S.ButtonContainer>
-                        <Button type="button" onClick={handleCloseClick}>
-                            Отменить
-                        </Button>
+                        <S.ButtonContainer>
+                            <Button type="button" onClick={handleCloseClick}>
+                                Отменить
+                            </Button>
 
-                        <Button
-                            disabled={creatingCJ || isLoadingProducts}
-                            type="submit"
-                            variant="contained"
-                        >
-                            Создать
-                        </Button>
-                    </S.ButtonContainer>
-                </form>
-            </FormProvider>
+                            <Button
+                                disabled={creatingCJ || isLoadingProducts}
+                                type="submit"
+                                variant="contained"
+                            >
+                                Создать
+                            </Button>
+                        </S.ButtonContainer>
+                    </form>
+                </FormProvider>
+            </S.Container>
         </SideBlock>
     );
 };

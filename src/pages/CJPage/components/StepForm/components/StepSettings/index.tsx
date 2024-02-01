@@ -35,7 +35,7 @@ export const StepSettings: FC<IStepSettings> = ({
 
     return (
         <S.FlexContainer>
-            <div>
+            <S.Content hasButtons>
                 <S.FlexWrapper>
                     <S.SideBlockTitle>Настройка шага</S.SideBlockTitle>
 
@@ -79,7 +79,7 @@ export const StepSettings: FC<IStepSettings> = ({
                         setStage={setStage}
                     />
                 ))}
-            </div>
+            </S.Content>
 
             <S.ButtonsContainer>
                 <Button onClick={onClose}>Отменить</Button>

@@ -99,6 +99,8 @@ export const ButtonContainer = styled.div`
 `;
 
 export const FlexContainer = styled.div`
+    position: relative;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -107,14 +109,40 @@ export const FlexContainer = styled.div`
 `;
 
 export const ButtonsContainer = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
     display: flex;
     justify-content: flex-end;
     gap: 10px;
 
     width: 100%;
-    height: 48px;
+    height: 96px;
+    padding: 24px 16px;
 
-    margin-top: 24px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+`;
+
+export const Content = styled.div<{ hasButtons: boolean }>`
+    height: ${({ hasButtons }) => (hasButtons ? 'calc(100vh - 96px)' : '100vh')};
+    padding: 20px 16px;
+
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+`;
+
+export const Padding = styled.div`
+    padding: 20px 16px;
 `;
 
 export const LabelsContainer = styled.div`
