@@ -22,6 +22,9 @@ export const useAuth = () => {
 
                 setIsAuthorizing(null);
             } else if (!(isAuth && isFunc)) {
+                // Для остановки запросов перед авторизацией
+                // eslint-disable-next-line
+                setIsAuthorizing(new Promise(() => {}));
                 authInstance.startAuth();
             }
         })();
