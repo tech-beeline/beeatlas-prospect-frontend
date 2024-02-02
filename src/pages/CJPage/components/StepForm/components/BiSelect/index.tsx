@@ -23,75 +23,77 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
     const communalSearchBis = filteredData.filter((bi) => bi.communal);
 
     return (
-        <>
-            <S.FlexWrapper>
-                <S.TitleFlexWrapper>
-                    <IconButton
-                        iconName={Icons.ArrowLeft}
-                        size="large"
-                        onClick={() => setStage(Stage.SETTINGS)}
+        <S.FlexContainer>
+            <S.Content hasButtons={false}>
+                <S.FlexWrapper>
+                    <S.TitleFlexWrapper>
+                        <IconButton
+                            iconName={Icons.ArrowLeft}
+                            size="large"
+                            onClick={() => setStage(Stage.SETTINGS)}
+                        />
+                        <S.SideBlockTitle>Выбор BI для шага</S.SideBlockTitle>
+                    </S.TitleFlexWrapper>
+
+                    <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
+                </S.FlexWrapper>
+
+                <S.TextFieldContainer>
+                    <Search
+                        fullWidth
+                        placeholder="Введите название BI"
+                        value={search}
+                        maxLength={400}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onClear={() => setSearch('')}
                     />
-                    <S.SideBlockTitle>Выбор BI для шага</S.SideBlockTitle>
-                </S.TitleFlexWrapper>
+                </S.TextFieldContainer>
 
-                <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
-            </S.FlexWrapper>
+                <S.SubtitleFlexWrapper2>
+                    <S.SelectSubtitle>Продуктовые</S.SelectSubtitle>
 
-            <S.TextFieldContainer>
-                <Search
-                    fullWidth
-                    placeholder="Введите название BI"
-                    value={search}
-                    maxLength={400}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onClear={() => setSearch('')}
-                />
-            </S.TextFieldContainer>
+                    <Button onClick={() => setStage(Stage.BICREATE)} variant="plain">
+                        Создать BI
+                    </Button>
+                </S.SubtitleFlexWrapper2>
 
-            <S.SubtitleFlexWrapper2>
-                <S.SelectSubtitle>Продуктовые</S.SelectSubtitle>
+                {productSearchBis.map((bi, index) => (
+                    <S.BIFlexWrapper data-testid={`${index}ProductBI`} key={bi.id}>
+                        <div>
+                            <S.Body2>{bi.name}</S.Body2>
+                            <S.Body3>{bi.uniqueIdent}</S.Body3>
+                        </div>
+                        <IconButton
+                            iconName={Icons.NavArrowRight}
+                            size="large"
+                            onClick={() => {
+                                setSelectedBiId(bi.id);
+                                setStage(Stage.BIVIEW);
+                            }}
+                        />
+                    </S.BIFlexWrapper>
+                ))}
+                <S.SubtitleFlexWrapper2>
+                    <S.SelectSubtitle>Коммунальные</S.SelectSubtitle>
+                </S.SubtitleFlexWrapper2>
 
-                <Button onClick={() => setStage(Stage.BICREATE)} variant="plain">
-                    Создать BI
-                </Button>
-            </S.SubtitleFlexWrapper2>
-
-            {productSearchBis.map((bi, index) => (
-                <S.BIFlexWrapper data-testid={`${index}ProductBI`} key={bi.id}>
-                    <div>
-                        <S.Body2>{bi.name}</S.Body2>
-                        <S.Body3>{bi.uniqueIdent}</S.Body3>
-                    </div>
-                    <IconButton
-                        iconName={Icons.NavArrowRight}
-                        size="large"
-                        onClick={() => {
-                            setSelectedBiId(bi.id);
-                            setStage(Stage.BIVIEW);
-                        }}
-                    />
-                </S.BIFlexWrapper>
-            ))}
-            <S.SubtitleFlexWrapper2>
-                <S.SelectSubtitle>Коммунальные</S.SelectSubtitle>
-            </S.SubtitleFlexWrapper2>
-
-            {communalSearchBis.map((bi, index) => (
-                <S.BIFlexWrapper data-testid={`${index}CommunalBI`} key={bi.id}>
-                    <div>
-                        <S.Body2>{bi.name}</S.Body2>
-                        <S.Body3>{bi.uniqueIdent}</S.Body3>
-                    </div>
-                    <IconButton
-                        iconName={Icons.NavArrowRight}
-                        size="large"
-                        onClick={() => {
-                            setSelectedBiId(bi.id);
-                            setStage(Stage.BIVIEW);
-                        }}
-                    />
-                </S.BIFlexWrapper>
-            ))}
-        </>
+                {communalSearchBis.map((bi, index) => (
+                    <S.BIFlexWrapper data-testid={`${index}CommunalBI`} key={bi.id}>
+                        <div>
+                            <S.Body2>{bi.name}</S.Body2>
+                            <S.Body3>{bi.uniqueIdent}</S.Body3>
+                        </div>
+                        <IconButton
+                            iconName={Icons.NavArrowRight}
+                            size="large"
+                            onClick={() => {
+                                setSelectedBiId(bi.id);
+                                setStage(Stage.BIVIEW);
+                            }}
+                        />
+                    </S.BIFlexWrapper>
+                ))}
+            </S.Content>
+        </S.FlexContainer>
     );
 };

@@ -42,10 +42,11 @@ export const TitleWrapper = styled.div`
 
 export const CardContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
 
     margin-top: 44px;
+    padding-bottom: 32px;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;

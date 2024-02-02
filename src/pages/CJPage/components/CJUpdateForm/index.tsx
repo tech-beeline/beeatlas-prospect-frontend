@@ -48,31 +48,33 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
     return (
         <SideBlock isOpen={isOpen} onClose={onClose}>
-            <FormProvider {...form}>
-                <form onSubmit={onSubmit}>
-                    <S.FlexWrapper>
-                        <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
+            <S.Container>
+                <FormProvider {...form}>
+                    <form onSubmit={onSubmit}>
+                        <S.FlexWrapper>
+                            <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
 
-                        <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
-                    </S.FlexWrapper>
+                            <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
+                        </S.FlexWrapper>
 
-                    <S.TextFieldContainer>
-                        <TextField label="Название" name="name" />
+                        <S.TextFieldContainer>
+                            <TextField label="Название" name="name" />
 
-                        <TextField label="Портрет пользователя" name="userPortrait" />
-                    </S.TextFieldContainer>
+                            <TextField label="Портрет пользователя" name="userPortrait" />
+                        </S.TextFieldContainer>
 
-                    <S.ButtonContainer>
-                        <Button type="button" onClick={onClose}>
-                            Отменить
-                        </Button>
+                        <S.ButtonContainer>
+                            <Button type="button" onClick={onClose}>
+                                Отменить
+                            </Button>
 
-                        <Button disabled={updatingCj} type="submit" variant="contained">
-                            Сохранить
-                        </Button>
-                    </S.ButtonContainer>
-                </form>
-            </FormProvider>
+                            <Button disabled={updatingCj} type="submit" variant="contained">
+                                Сохранить
+                            </Button>
+                        </S.ButtonContainer>
+                    </form>
+                </FormProvider>
+            </S.Container>
         </SideBlock>
     );
 };

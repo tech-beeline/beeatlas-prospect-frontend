@@ -8,8 +8,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
     transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(320px)')};
 
     width: 320px;
-    height: 100%;
-    padding: 20px 16px;
+    height: 100vh;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
@@ -19,19 +18,6 @@ export const Container = styled.div<{ isOpen: boolean }>`
     z-index: 102;
 
     transition: transform 0.25s ease-out;
-
-    overflow: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: #b6b7bf;
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        height: 8px;
-        width: 8px;
-    }
 `;
 
 export const Backdrop = styled.div<{ isOpen: boolean }>`
