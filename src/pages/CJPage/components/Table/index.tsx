@@ -82,6 +82,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                         ).map((rowData, i) => (
                             <Row
                                 key={rowData.rowId}
+                                draft={draft}
                                 firstRow={i === 0}
                                 rowId={rowData.rowId}
                                 label={rowData.label}

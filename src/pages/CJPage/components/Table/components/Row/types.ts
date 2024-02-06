@@ -11,4 +11,6 @@ export interface IRow<T> {
 
     steps: ICompleteStepData[];
     parseData: (bi: IBIData) => T;
+
+    draft: boolean;
 }

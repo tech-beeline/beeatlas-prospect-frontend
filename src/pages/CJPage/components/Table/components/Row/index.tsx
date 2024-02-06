@@ -19,6 +19,7 @@ export const Row = <T,>({
     firstRow = false,
     steps = [],
     parseData,
+    draft,
 }: IRow<T>) => {
     const { themeIsDark } = useThemeStore();
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
@@ -65,6 +66,7 @@ export const Row = <T,>({
                                                 onClick={() => onAddButtonClick(bi.stepIndex)}
                                                 variant="outlined"
                                                 size="medium"
+                                                disabled={!draft}
                                                 startIcon={<Icon iconName={Icons.Add} />}
                                             />
                                         </S.ButtonContainer>
