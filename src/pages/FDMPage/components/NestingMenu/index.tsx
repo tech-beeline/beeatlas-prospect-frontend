@@ -19,7 +19,7 @@ export const NestingMenu = () => {
     } = useFDMStore();
 
     const [params, setParams] = useSearchParams();
-    const activeId = Number(params.get('id'));
+    const id = Number(params.get('id'));
     const domainId = Number(params.get('domainId'));
     const level = Number(params.get('level'));
 
@@ -29,8 +29,8 @@ export const NestingMenu = () => {
             if (domainId) {
                 await getEntitiesByDomain(domainId);
             }
-            if (activeId && level) {
-                setActiveItem(activeId, level);
+            if (id) {
+                setActiveItem(id, level);
             }
         })();
 
