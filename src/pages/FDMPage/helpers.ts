@@ -12,7 +12,11 @@ export const validateFDMParams = (params: URLSearchParams): boolean => {
         return true;
     }
 
-    if (paramsLength === 2 && filteredParams.id && filteredParams.level) {
+    if (
+        paramsLength === 2 &&
+        ((filteredParams.id && filteredParams.level) ||
+            (filteredParams.id && filteredParams.domainId))
+    ) {
         return true;
     }
 

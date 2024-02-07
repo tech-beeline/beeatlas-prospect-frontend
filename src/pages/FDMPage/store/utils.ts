@@ -31,7 +31,15 @@ export const findItemInTreeById = (menuItems: Item[], id: number, level: number)
 
     while (stack.length > 0) {
         const item = stack.pop();
-        if (item?.id === id && item.level === level) {
+
+        if (item?.id === id) {
+            if (level) {
+                if (item.level === level) {
+                    return item;
+                } else {
+                    return null;
+                }
+            }
             return item;
         } else if (item?.children && item.children.length) {
             stack.push(...item.children);
@@ -55,7 +63,7 @@ export const getItemPathAndBreadcrumbs = (
         const { path: itemPath, breadcrumbs: itemBreadcrumbs } = getItemPathAndBreadcrumbs(
             menuItems,
             item.parent,
-            level - 1,
+            level ? level - 1 : 0,
         );
         path.push(...itemPath);
         breadcrumbs.unshift(...itemBreadcrumbs);

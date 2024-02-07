@@ -67,8 +67,9 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
 
                         <div style={{ marginBottom: '12px' }}>
                             <a
-                                href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.guid}`}
+                                // href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.guid}`}
                                 // href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
+                                href={`/models/fdm?id=${props.data.id}&domainId=${props.data.domain_ref.id}`}
                                 rel="noopener noreferrer"
                                 target="_blank"
                             >
@@ -101,7 +102,8 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
                     </S.TitleSecond>
 
                     <a
-                        href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domain_ref?.guid}`}
+                        // href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domain_ref?.guid}`}
+                        href={`/models/fdm?id=${props.data.domain_ref.id}&domainId=${props.data.domain_ref.id}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
