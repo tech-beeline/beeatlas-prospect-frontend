@@ -2,31 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Icon,
+    Skeleton,
     TableBody,
     TableData,
     TableHead,
     TableHeaderData,
     TablePagination,
     TableRow,
-    // Tooltip,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-import { observer } from 'mobx-react';
 
-import { useMountEffect } from 'hooks';
+import { IProfile } from 'api/personal-area/types';
+import { useGetProfilesQuery } from 'api/queries/profile';
 import * as ROUTER from 'router/const';
-import { useRootStore } from 'stores/initStore';
 
-// import MOCK_PROFILES from './profile-mock.json';
 import { EmptyState, SortIndicator, UserTableProfile } from './components';
 import * as S from './units';
 
 import 'react-tooltip/dist/react-tooltip.css';
 
-export const PersonalArea = observer(() => {
-    const {
-        generalStore: { profiles: profilesData, getProfiles },
-    } = useRootStore();
+export const PersonalArea = () => {
+    const { data: profilesData, isLoading } = useGetProfilesQuery();
 
     const [searchValue, setSearchValue] = useState('');
     const [filterOption, setFilterOption] = useState({ id: 'all', value: 'Везде' });
@@ -34,18 +30,16 @@ export const PersonalArea = observer(() => {
     const [itemsCountOnPage, setItemsCountOnPage] = useState(5);
     const [countPage, setCountPage] = useState(1);
 
-    const [profiles, setProfiles] = useState(profilesData);
+    const [profiles, setProfiles] = useState<IProfile[]>([]);
     const [sortKey, setSortKey] = useState('');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     const navigate = useNavigate();
 
-    useMountEffect(() => {
-        getProfiles();
-    });
-
     useEffect(() => {
-        setProfiles(profilesData);
+        if (profilesData) {
+            setProfiles(profilesData);
+        }
     }, [profilesData]);
 
     const onSearchData = (value: string) => {
@@ -57,7 +51,7 @@ export const PersonalArea = observer(() => {
 
         if (!searchTerm) {
             // если searchTerm пуст, возвращаем исходный массив
-            setProfiles(profilesData);
+            setProfiles(profilesData ?? []);
 
             return;
         }
@@ -86,7 +80,7 @@ export const PersonalArea = observer(() => {
             }
         };
 
-        setProfiles(() => profilesData.filter(filterHandler));
+        setProfiles(() => (profilesData ?? []).filter(filterHandler));
     };
 
     useEffect(() => {
@@ -99,7 +93,7 @@ export const PersonalArea = observer(() => {
         setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' ? 'desc' : 'asc'));
 
         setProfiles((prevProfiles) => {
-            return prevProfiles.slice().sort((a: any, b: any) => {
+            return prevProfiles?.slice().sort((a: any, b: any) => {
                 if (a[key] < b[key]) {
                     return sortOrder === 'asc' ? -1 : 1;
                 } else if (a[key] > b[key]) {
@@ -144,9 +138,9 @@ export const PersonalArea = observer(() => {
                 onChange={(e) => onSearchData(e.target.value)}
                 onClear={() => onSearchData('')}
             />
-            {displayedProfiles.length === 0 ? (
-                <EmptyState />
-            ) : (
+            {isLoading && <Skeleton height={300} radius={5} />}
+            {!isLoading && displayedProfiles.length === 0 && <EmptyState />}
+            {!isLoading && displayedProfiles.length > 0 && (
                 <S.TableStyled>
                     <TableHead>
                         <TableRow>
@@ -217,4 +211,4 @@ export const PersonalArea = observer(() => {
             )}
         </S.PageWrapper>
     );
-});
+};

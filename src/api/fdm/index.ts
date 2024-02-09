@@ -1,8 +1,12 @@
+import { AxiosPromise } from 'axios';
+
 import Api from 'utils/api/axiosWrapper';
 
 import { API_URL } from '../const';
 
-export const getSearchResult = (text: string) => {
+import * as T from './types';
+
+export const getSearchResult = (text: string): AxiosPromise<T.ICapability[]> => {
     return Api.get({
         url: `${API_URL}fdm/v1/capabilities/findByText?text=${text}`,
     });

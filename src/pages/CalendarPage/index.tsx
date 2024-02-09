@@ -1,19 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Autocomplete, Select } from '@beeline/design-system-react';
-import { observer } from 'mobx-react';
-
-import { useRootStore } from 'stores/initStore';
 
 import { CalendarCard } from './CalendarCard';
 import { TOption } from './types';
 import * as S from './units';
 
-export const CalendarPage = observer(() => {
+export const CalendarPage = () => {
     // const [selectOptions, setSelectOptions] = useState<TOption<string>[]>([]);
-
-    const {
-        generalStore: { setCalendarData },
-    } = useRootStore();
 
     const options = ['test1', 'test2', 'test3'];
 
@@ -24,10 +17,6 @@ export const CalendarPage = observer(() => {
     // useEffect(() => {
     //     // console.log('value', value);
     // }, [value]);
-
-    useEffect(() => {
-        setCalendarData();
-    }, []);
 
     // const onSelectItem = (values: TOption<string>[]) => {
     //     setSelectOptions(values);
@@ -221,4 +210,4 @@ export const CalendarPage = observer(() => {
             </S.CardContainer>
         </S.PageWrapper>
     );
-});
+};

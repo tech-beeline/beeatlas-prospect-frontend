@@ -15,3 +15,13 @@ export interface IPermission {
     group?: string;
     name?: string;
 }
+
+export interface IProfile {
+    email: string;
+    full_name: string;
+    id: number;
+    id_ext: string;
+    login: string;
+    last_login: string;
+    roles: IRole[];
+}

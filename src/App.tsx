@@ -9,7 +9,6 @@ import { ErrorBoundary } from 'components/core';
 
 import { queryClient } from 'api/queries';
 import { NavigationRouter } from 'router';
-import { StoreProvider } from 'stores/initStore';
 import { GlobalStyles, Theme, THEME_ELEMENT_ID } from 'styles';
 import { Snackbar } from 'widgets/Snackbar';
 
@@ -25,22 +24,20 @@ const App = () => {
     return (
         <>
             <QueryClientProvider client={queryClient}>
-                <StoreProvider>
-                    <Theme>
-                        <ErrorBoundary>
-                            <DropdownContext.Provider
-                                value={{
-                                    applicationRootElementID: THEME_ELEMENT_ID,
-                                    dropdownElementID: 'dsb__positioner',
-                                }}
-                            >
-                                <Router>
-                                    <NavigationRouter />
-                                </Router>
-                            </DropdownContext.Provider>
-                        </ErrorBoundary>
-                    </Theme>
-                </StoreProvider>
+                <Theme>
+                    <ErrorBoundary>
+                        <DropdownContext.Provider
+                            value={{
+                                applicationRootElementID: THEME_ELEMENT_ID,
+                                dropdownElementID: 'dsb__positioner',
+                            }}
+                        >
+                            <Router>
+                                <NavigationRouter />
+                            </Router>
+                        </DropdownContext.Provider>
+                    </ErrorBoundary>
+                </Theme>
                 <Snackbar />
                 <GlobalStyles />
                 <ReactQueryDevtools initialIsOpen={false} />

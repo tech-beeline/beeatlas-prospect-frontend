@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 import { Skeleton } from '@beeline/design-system-react';
 import DOMPurify from 'dompurify';
-import { observer } from 'mobx-react';
 
 import { useIconOfItem } from 'hooks/useIconOfItem';
 
 import { IResultCard } from './types';
 import * as S from './units';
 
-export const ResultCard: FC<IResultCard> = observer((props) => {
+export const ResultCard: FC<IResultCard> = (props) => {
     // const {
     //     generalStore: { setResultTitle },
     // } = useRootStore();
@@ -152,4 +151,4 @@ export const ResultCard: FC<IResultCard> = observer((props) => {
             )}
         </S.Wrapper>
     );
-});
+};
