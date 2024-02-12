@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { PivotArrow } from 'components/other';
 
@@ -10,9 +11,10 @@ import { IItem } from './types';
 import * as S from './units';
 
 export const Item: FC<IItem> = ({ item }) => {
+    const [, setParams] = useSearchParams();
     const isTypeDMN = item.alias?.split('.')[0] === 'DMN';
 
-    const { getEntitiesByDomain, activeItem, activeItemPath, setActiveItem } = useFDMStore();
+    const { getEntitiesByDomain, activeItem, activeItemPath } = useFDMStore();
 
     const [isOpen, setOpen] = useState(false);
     const [isShownArrow] = useState((!!item.children && item.children.length > 0) || isTypeDMN);
@@ -28,11 +30,23 @@ export const Item: FC<IItem> = ({ item }) => {
     };
 
     const setActiveItemAndGetChildren = async () => {
-        const aliasType = item.alias?.split('.')[0];
-        if (aliasType === 'DMN') {
+        if (isTypeDMN) {
             await getEntitiesByDomain(item.id);
         }
-        setActiveItem(item.id, item.level);
+        let itemDomain = {};
+        if (item.domain_ref) {
+            itemDomain = { domainId: String(item.domain_ref.id) };
+        }
+        if (isTypeDMN) {
+            itemDomain = { domainId: String(item.id) };
+        }
+        setParams(
+            new URLSearchParams({
+                ...itemDomain,
+                level: String(item.level),
+                id: String(item.id),
+            }),
+        );
     };
 
     return (
