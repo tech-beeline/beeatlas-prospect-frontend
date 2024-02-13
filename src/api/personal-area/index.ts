@@ -1,3 +1,5 @@
+import { AxiosPromise } from 'axios';
+
 import Api from 'utils/api/axiosWrapper';
 
 import { API_URL } from '../const';
@@ -5,7 +7,7 @@ import { API_URL } from '../const';
 import * as T from './types';
 
 // получение юзеров
-export const getProfiles = () => {
+export const getProfiles = (): AxiosPromise<T.IProfile[]> => {
     return Api.get({
         url: `${API_URL}admin/v1/profiles`,
     });

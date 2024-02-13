@@ -1,66 +1,51 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button, Search } from '@beeline/design-system-react';
-import { observer } from 'mobx-react';
-import { StringParam, useQueryParam } from 'use-query-params';
 
 import { Expand } from 'components/other';
 
+import { useGetFDMSearchQuery } from 'api/queries/fdm';
 import { useMountEffect } from 'hooks';
-import { useRootStore } from 'stores/initStore';
 import { getStorage, persistStorage } from 'stores/utils';
 import * as STYLES from 'styles/units';
 
 import { NotFoundBlock, RefineRequestBlock, ResultCard } from './components';
+import { STORAGE_KEY } from './const';
 import * as S from './units';
 
-export const SearchPage = observer(() => {
-    const {
-        generalStore: { isLoadingSearch, getResultSearch, resultSearch },
-    } = useRootStore();
-
-    const [request, setRequest] = useQueryParam('request', StringParam);
+export const SearchPage = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [isOpenDescription, setOpenDescription] = useState(false);
+    const [request, setRequest] = useState('');
     const [searchInput, setSearchInput] = useState('');
 
-    const searchRef = useRef(null);
+    const { data, isLoading } = useGetFDMSearchQuery(request);
 
-    useMountEffect(() => {
-        const savedRequest = getStorage('requestKey');
-
-        if (savedRequest) {
-            setTimeout(() => {
-                setRequest(request || savedRequest, 'replaceIn');
-
-                setSearchInput(request || savedRequest);
-            }, 200);
-        }
-    });
-
-    const getFindResult = async (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-
-        setRequest(searchInput, 'replaceIn');
+        setRequest(searchInput);
     };
 
-    // костыль чтобы навесить событие на иконку в готовом компоненте
     useEffect(() => {
-        // @ts-ignore
-        searchRef.current?.children[0].children[0].addEventListener('click', (e) =>
-            getFindResult(e),
-        );
-    }, [searchRef.current]);
-
-    useEffect(() => {
-        if (request) {
-            getResultSearch(request);
-
-            persistStorage('requestKey', request);
-
-            // для того чтобы сохранить значение только при запросе, но не при onChange
-            // setBoldValue(search);
+        if (request !== '') {
+            persistStorage(STORAGE_KEY, request);
+            setSearchParams(new URLSearchParams({ request }), { replace: true });
         }
     }, [request]);
+
+    useMountEffect(() => {
+        const requestParam = searchParams.get('request');
+        const savedRequest = getStorage(STORAGE_KEY);
+        if (requestParam) {
+            setSearchInput(requestParam);
+            setRequest(requestParam);
+        } else if (savedRequest) {
+            setSearchInput(savedRequest);
+            setRequest(savedRequest);
+            setSearchParams(new URLSearchParams({ request: savedRequest }), { replace: true });
+        }
+    });
 
     return (
         <>
@@ -110,7 +95,7 @@ export const SearchPage = observer(() => {
                         {isOpenDescription ? 'Скрыть' : 'Подробнее'}
                     </Button>
 
-                    <S.SearchContainer onSubmit={getFindResult} ref={searchRef}>
+                    <S.SearchContainer onSubmit={handleSubmit}>
                         <Search
                             fullWidth
                             placeholder="Поиск"
@@ -130,15 +115,14 @@ export const SearchPage = observer(() => {
                     </S.SearchContainer>
 
                     <S.ResultContainer className="ResultContainer">
-                        {isLoadingSearch ? (
-                            // skeleton
+                        {isLoading ? (
                             Array.from({ length: 3 }).map((_, i) => <ResultCard key={i} />)
-                        ) : resultSearch.length > 200 ? (
+                        ) : data?.length && data.length > 200 ? (
                             <RefineRequestBlock />
-                        ) : resultSearch === 'nodata' ? (
+                        ) : data?.length === 0 ? (
                             <NotFoundBlock />
                         ) : (
-                            resultSearch.map((item, index) => (
+                            data?.map((item, index) => (
                                 <ResultCard data={item} key={index} {...{ request }} />
                             ))
                         )}
@@ -147,4 +131,4 @@ export const SearchPage = observer(() => {
             </S.PageWrapper>
         </>
     );
-});
+};

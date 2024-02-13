@@ -9,16 +9,10 @@ import { Item } from './Item';
 import * as S from './units';
 
 export const NestingMenu = () => {
-    const {
-        menuItems,
-        activeItem,
-        setActiveItem,
-        clearActiveItem,
-        getGroupsAndDomains,
-        getEntitiesByDomain,
-    } = useFDMStore();
+    const { menuItems, setActiveItem, clearActiveItem, getGroupsAndDomains, getEntitiesByDomain } =
+        useFDMStore();
 
-    const [params, setParams] = useSearchParams();
+    const [params] = useSearchParams();
     const id = Number(params.get('id'));
     const domainId = Number(params.get('domainId'));
     const level = Number(params.get('level'));
@@ -38,23 +32,14 @@ export const NestingMenu = () => {
     });
 
     useEffect(() => {
-        if (activeItem) {
-            let domain = {};
-            if (activeItem.domain_ref) {
-                domain = { domainId: String(activeItem.domain_ref.id) };
-            }
-            if (activeItem.alias?.split('.')[0] === 'DMN') {
-                domain = { domainId: String(activeItem.id) };
-            }
-            setParams(
-                new URLSearchParams({
-                    ...domain,
-                    level: String(activeItem.level),
-                    id: String(activeItem.id),
-                }),
-            );
+        const id = Number(params.get('id'));
+        const level = Number(params.get('level'));
+        if (id) {
+            setActiveItem(id, level);
+        } else {
+            clearActiveItem();
         }
-    }, [activeItem]);
+    }, [params]);
 
     return (
         <S.Wrapper>

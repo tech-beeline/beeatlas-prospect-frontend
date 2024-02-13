@@ -1,24 +1,17 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { observer } from 'mobx-react';
 
 import { TitleBack } from 'components/interaction';
 
-import { useRootStore } from 'stores/initStore';
-
 import * as S from './units';
 
-export const FDMResultPage = observer(() => {
-    const {
-        generalStore: { resultTitle },
-    } = useRootStore();
-
+export const FDMResultPage = () => {
     const { guid } = useParams();
 
     return (
         <S.PageWrapper className="PageWrapper">
             <S.Container className="Container">
-                <TitleBack title={resultTitle} />
+                <TitleBack title="" />
 
                 <S.Iframe
                     className="string"
@@ -31,4 +24,4 @@ export const FDMResultPage = observer(() => {
             </S.Container>
         </S.PageWrapper>
     );
-});
+};

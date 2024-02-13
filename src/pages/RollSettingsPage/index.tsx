@@ -2,7 +2,6 @@ import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-import { observer } from 'mobx-react';
 
 import { TitleBack } from 'components/interaction';
 
@@ -11,7 +10,7 @@ import * as ROUTER from 'router/const';
 
 import * as S from './units';
 
-export const RollSettingsPage = observer(() => {
+export const RollSettingsPage = () => {
     const navigate = useNavigate();
 
     const { data: roles, isLoading } = useGetAllRolesQuery();
@@ -65,4 +64,4 @@ export const RollSettingsPage = observer(() => {
             </S.PageWrapper>
         </>
     );
-});
+};
