@@ -18,9 +18,11 @@ import {
     DataBasePage,
     FDMPage,
     HowToPage,
+    ImportedDataPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
+    PackagePage,
     PersonalArea,
     RollSettingsPage,
     SearchPage,
@@ -52,7 +54,10 @@ export const NavigationRouter = () => {
             behavior: 'smooth',
         });
 
-        if (location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH)) {
+        if (
+            location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH) ||
+            location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH)
+        ) {
             setIsPersonalArea(true);
         } else {
             setIsPersonalArea(false);
@@ -74,33 +79,60 @@ export const NavigationRouter = () => {
                     <Route
                         path={C.PERSONAL_AREA_PATH}
                         element={
-                            <S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
                                 <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <PersonalArea />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
 
-                                <PersonalArea />
-                            </S.RouteWrapperStyle>
+                    <Route
+                        path={C.IMPORTED_DATA_PATH}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <ImportedDataPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.IMPORTED_DATA_PATH}${C.PACKAGE_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <PackagePage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
                                 <MenuPersonalArea />
-
-                                <RollSettingsPage />
-                            </S.RouteWrapperStyle>
+                                <S.ContentWrapper>
+                                    <RollSettingsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}${C.ADD_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
                                 <MenuPersonalArea />
-
-                                <AddRollPage />
-                            </S.RouteWrapperStyle>
+                                <S.ContentWrapper>
+                                    <AddRollPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 

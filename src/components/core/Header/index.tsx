@@ -31,12 +31,12 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
                     className="HeaderFlexContainer"
                     onClick={() => navigate(MAIN_PAGE_PATH)}
                 >
-                    <S.Title className="HeaderTitle">
-                        {!isPersonalArea ? 'витрина ФДМ' : 'витрина ФДМ/админка'}
-                    </S.Title>
+                    <S.Title className="HeaderTitle">витрина ФДМ</S.Title>
 
                     <Logo />
                 </S.FlexContainer>
+
+                {isPersonalArea && <S.LabelStyled title="Консоль администратора" />}
 
                 {!isPersonalArea && (
                     <Tabs>

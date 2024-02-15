@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-    height: calc(100vh - 64px);
-    width: 100%;
-    padding: 0px 54px 60px;
+    padding: 0px 54px 54px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
@@ -20,10 +18,6 @@ export const PageWrapper = styled.div`
         width: 8px;
         height: 8px;
     }
-`;
-
-export const MarginBlock = styled.div`
-    height: 64px;
 `;
 
 export const TitleFlex = styled.div`

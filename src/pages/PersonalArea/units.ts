@@ -4,12 +4,8 @@ import styled from '@emotion/styled';
 import { Hint } from 'pages/TechRadarPage/components/LeftMenu/components';
 
 export const PageWrapper = styled.div`
-    /* display: flex;
-    justify-content: space-between; */
-
-    height: 100vh;
     width: 100%;
-    padding: 64px 54px;
+    padding: 0px 54px 54px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
