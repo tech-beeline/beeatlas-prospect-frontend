@@ -64,6 +64,7 @@ export const FDMPage = () => {
                                             id={item.id}
                                             level={item.level}
                                             name={item.name}
+                                            domainId={item.domainId}
                                         />
                                     ))}
                                 </Breadcrumbs>

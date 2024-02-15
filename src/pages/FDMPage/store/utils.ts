@@ -58,7 +58,16 @@ export const getItemPathAndBreadcrumbs = (
     const item = findItemInTreeById(menuItems, id, level);
     if (item?.parent && item.parent !== 0) {
         path.push(item.parent);
-        breadcrumbs.unshift({ id: item.id, level: item.level, name: item.name });
+
+        const isTypeDMN = item.alias?.split('.')[0] === 'DMN';
+        let itemDomain = {};
+        if (item.domain_ref) {
+            itemDomain = { domainId: String(item.domain_ref.id) };
+        }
+        if (isTypeDMN) {
+            itemDomain = { domainId: String(item.id) };
+        }
+        breadcrumbs.unshift({ id: item.id, level: item.level, name: item.name, ...itemDomain });
 
         const { path: itemPath, breadcrumbs: itemBreadcrumbs } = getItemPathAndBreadcrumbs(
             menuItems,
