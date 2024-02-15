@@ -16,6 +16,7 @@ export interface Breadcrumb {
     id: number;
     level: number;
     name: string;
+    domainId?: number;
 }
 
 export interface IFDMStore {
