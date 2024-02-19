@@ -18,12 +18,10 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
 
     const navigate = useNavigate();
 
-    // tabs
     const tabs = [
         { name: 'Модели', url: 'models' },
         { name: 'База знаний', url: 'data-base' },
-        // { name: 'Продукты', url: 'products' },
-        // { name: 'Поддержка Cx', url: 'cx' },
+        { name: 'Поддержка Cx', url: 'cx' },
     ];
 
     return (
