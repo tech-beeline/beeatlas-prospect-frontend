@@ -13,7 +13,7 @@ export const getAllCJs = (
     productId?: number,
 ): AxiosPromise<T.ICJData[]> => {
     return Api.get({
-        url: `${API_URL}cx/v1/product/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
+        url: `${API_URL}cx/v1/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
             'id_product',
             productId,
         )}`,
@@ -22,7 +22,7 @@ export const getAllCJs = (
 
 export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.get({
-        url: `${API_URL}cx/v1/product/cj/${id}`,
+        url: `${API_URL}cx/v1/cj/${id}`,
     });
 };
 
@@ -35,21 +35,21 @@ export const postCJ = (data: T.ICJForm, productId: number) => {
 
 export const putCJ = (id: string, data: Partial<T.ICJForm>) => {
     return Api.put({
-        url: `${API_URL}cx/v1/product/cj/${id}`,
+        url: `${API_URL}cx/v1/cj/${id}`,
         data,
     });
 };
 
 export const patchCJ = (id: string, data: Partial<T.ICJForm>) => {
     return Api.patch({
-        url: `${API_URL}cx/v1/product/cj/${id}`,
+        url: `${API_URL}cx/v1/cj/${id}`,
         data,
     });
 };
 
 export const deleteCJ = (id: string) => {
     return Api.delete({
-        url: `${API_URL}cx/v1/product/cj/${id}`,
+        url: `${API_URL}cx/v1/cj/${id}`,
     });
 };
 

@@ -6,130 +6,53 @@ import { API_URL } from '../const';
 
 import * as T from './types';
 
-// получение юзеров
 export const getProfiles = (): AxiosPromise<T.IProfile[]> => {
     return Api.get({
-        url: `${API_URL}admin/v1/profiles`,
+        url: `${API_URL}auth/v1/user/find`,
     });
 };
 
-// [
-//     {
-//         id: 0,
-//         id_ext: 'string',
-//         full_name: 'string',
-//         login: 'string',
-//         last_login: 'string',
-//         email: 'string',
-//         roles: [
-//             {
-//                 id: 0,
-//                 name: 'string',
-//                 alias: 'string',
-//                 descr: 'string',
-//                 deleted: true,
-//             },
-//         ],
-//     },
-// ];
-
-// ---------------------------
-
-// получение списка всех ролей
 export const getRoles = () => {
     return Api.get({
-        url: `${API_URL}admin/v1/roles`,
+        url: `${API_URL}auth/v1/roles`,
     });
 };
 
-// id: number;
-// name: string;
-// alias: string;
-// descr: string;
-// deleted: boolean;
-
-// --------------------------
-
-// создание роли
 export const postRole = (data: T.IRole) => {
     return Api.post({
-        url: `${API_URL}admin/v1/roles`,
+        url: `${API_URL}auth/v1/roles`,
         data,
     });
 };
 
-// id: number;
-
-// --------------------------
-
-// изменение роли
-// отправляем id и поля которые хотим изменить, обязательное поле только id
-export const putRole = (data: T.IRole) => {
+export const patchRole = (data: T.IRole) => {
     return Api.patch({
-        url: `${API_URL}admin/v1/roles`,
+        url: `${API_URL}auth/v1/roles`,
         data,
     });
 };
 
-// вернет 200 или 403
-
-// --------------------------
-
-// получение конкретной роли
 export const getCurrentRole = (id: number) => {
     return Api.get({
-        url: `${API_URL}admin/v1/roles/${id}`,
+        url: `${API_URL}auth/v1/roles/${id}`,
     });
 };
 
-// id: number;
-// name: string;
-// alias: string;
-// descr: string;
-// deleted: boolean;
-
-// --------------------------
-
-// удаление роли
 export const deleteRole = (id: number) => {
     return Api.delete({
-        url: `${API_URL}admin/v1/roles/${id}`,
+        url: `${API_URL}auth/v1/roles/${id}`,
     });
 };
 
-// --------------------------
-
-// получить доступы у конкретной роли
 export const getRolePermission = (id: number) => {
     return Api.get({
-        url: `${API_URL}admin/v1/roles/${id}/permissions`,
+        url: `${API_URL}auth/v1/roles/${id}/permissions`,
     });
 };
 
-// [
-//  {
-//      id: number;
-//      name: string;
-//      alias: string;
-//      descr: string;
-//      deleted: boolean;
-//  }
-// ]
-
-// --------------------------
-
-// сохранить/обновить доступы у конкретной роли
 export const putRolePermission = (id: number, data: T.IPermission[]) => {
     return Api.put({
-        url: `${API_URL}admin/v1/roles/${id}/permissions`,
+        url: `${API_URL}auth/v1/roles/${id}/permissions`,
         data,
     });
 };
-
-// здесь вопросы, что отправляем, что меняем?
-// здесь лучше ключ значение булево + текст на русском
-// [
-//     {
-//         alias: string;
-//     }
-// ]

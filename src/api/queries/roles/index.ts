@@ -5,8 +5,8 @@ import {
     getCurrentRole,
     getRolePermission,
     getRoles,
+    patchRole,
     postRole,
-    putRole,
     putRolePermission,
 } from 'api/personal-area';
 import { IPermission, IRole } from 'api/personal-area/types';
@@ -64,7 +64,7 @@ export function useUpdateRoleMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [ROLE_PREFIX, 'updateRole'],
-        (params: IRole) => putRole({ id: params.id, name: params.name }),
+        (params: IRole) => patchRole({ id: params.id, name: params.name }),
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(ROLE_PREFIX);
