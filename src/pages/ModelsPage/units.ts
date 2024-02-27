@@ -20,7 +20,7 @@ export const SideMenu = styled.div`
 
 export const ContentWrapper = styled.div`
     width: 100%;
-    padding: 32px 52px 0 52px;
+    padding: 32px 68px;
 `;
 
 export const CardContainer = styled.div`

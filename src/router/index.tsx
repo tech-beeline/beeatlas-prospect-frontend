@@ -252,22 +252,24 @@ export const NavigationRouter = () => {
                     <Route
                         path={C.CX_PATH}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuCX />
-
-                                <CXPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <CXPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.CX_PATH}${C.CJ_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyled>
+                            <S.RouteWithDrawer>
                                 <MenuCX />
-
-                                <CJLibraryPage />
-                            </S.RouteWrapperOnlyBackgroundStyled>
+                                <S.ContentWrapper>
+                                    <CJLibraryPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
@@ -276,11 +278,12 @@ export const NavigationRouter = () => {
                     <Route
                         path={`${C.CX_PATH}${C.BI_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyled>
+                            <S.RouteWithDrawer>
                                 <MenuCX />
-
-                                <BILibraryPage />
-                            </S.RouteWrapperOnlyBackgroundStyled>
+                                <S.ContentWrapper>
+                                    <BILibraryPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 

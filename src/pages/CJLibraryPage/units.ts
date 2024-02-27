@@ -6,32 +6,13 @@ export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    height: calc(100vh - 64px);
-
     background-color: var(--color-background-base);
     color: var(--color-text-active);
-
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-`;
-
-export const MarginBlock = styled.div`
-    height: 64px;
 `;
 
 export const ContentWrapper = styled.div`
     width: 100%;
-    padding: 32px 52px 0 108px;
+    padding: 32px 68px;
 `;
 
 export const TitleWrapper = styled.div`
@@ -46,7 +27,6 @@ export const CardContainer = styled.div`
     gap: 24px;
 
     margin-top: 44px;
-    padding-bottom: 32px;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
