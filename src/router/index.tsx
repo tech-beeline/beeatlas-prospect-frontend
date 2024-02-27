@@ -110,44 +110,48 @@ export const NavigationRouter = () => {
                     <Route
                         path={C.MODELS_PATH}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <ModelsPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <ModelsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.MODELS_PATH}${C.SEARCH_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <SearchPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <SearchPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.MODELS_PATH}${C.FDM_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <FDMPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <FDMPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.MODELS_PATH}${C.TECH_RADAR_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyled>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <TechRadarPage />
-                            </S.RouteWrapperOnlyBackgroundStyled>
+                                <S.ContentWrapper>
+                                    <TechRadarPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 

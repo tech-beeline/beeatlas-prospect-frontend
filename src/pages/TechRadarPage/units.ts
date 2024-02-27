@@ -5,12 +5,12 @@ import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 64px);
 
     display: flex;
     flex-direction: column;
 
-    padding-left: 88px;
+    padding-left: 32px;
 
     background-color: var(--color-background-base);
 `;
@@ -25,7 +25,7 @@ export const Title = styled.h4`
 
 export const Header = styled.div`
     width: 100%;
-    padding: 96px 0 8px;
+    padding: 32px 0 8px;
 
     background-color: var(--color-background-base);
 
@@ -57,7 +57,7 @@ export const ContentWrapper = styled.div`
     gap: 70px;
 
     width: 100%;
-    height: calc(100% - 258px);
+    height: calc(100% - 184px);
 
     padding-top: 20px;
 `;

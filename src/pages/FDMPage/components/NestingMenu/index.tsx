@@ -44,9 +44,10 @@ export const NestingMenu = () => {
     return (
         <S.Wrapper>
             <S.ResizableStyled
+                enable={{ right: true }}
                 defaultSize={{
                     width: 410,
-                    height: '100vh',
+                    height: 'calc(100vh - 64px)',
                 }}
                 minWidth={300}
                 maxWidth={640}

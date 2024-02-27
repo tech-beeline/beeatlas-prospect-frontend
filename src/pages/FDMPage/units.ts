@@ -4,8 +4,6 @@ import { GrayText } from 'styles/units';
 
 export const PageWrapper = styled.div`
     display: flex;
-
-    padding-left: 56px;
 `;
 
 export const Wrapper = styled.div`
@@ -13,8 +11,7 @@ export const Wrapper = styled.div`
     justify-content: center;
 
     width: 100%;
-    height: 100vh;
-    padding: 94px 32px 0;
+    padding: 30px 32px 0;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
@@ -36,13 +33,8 @@ export const Wrapper = styled.div`
 
 export const Container = styled.div`
     position: relative;
-    /* width: 717px; */
-    height: 100%;
-    width: 100%;
-    /* margin-right: auto; */
-    /* min-width: 700px; */
 
-    /* text-align: justify; */
+    width: 100%;
 `;
 
 export const H4 = styled.h4`
@@ -110,7 +102,7 @@ export const TreeContainer = styled.div<{ activeViewList: number }>`
     columns: ${({ activeViewList }) => (activeViewList === 0 ? 2 : 1)};
     column-gap: 24px;
 
-    margin: 16px 0;
+    padding: 16px 0;
 
     /* & > *:nth-child(1n) {
         order: 1;
