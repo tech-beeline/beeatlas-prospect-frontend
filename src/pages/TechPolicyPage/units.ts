@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-    height: 100vh;
-    padding: 124px 52px 0;
+    padding: 60px 52px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);

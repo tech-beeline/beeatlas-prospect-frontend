@@ -20,6 +20,7 @@ export const MenuCX = () => {
     return (
         <S.NavigationDrawerStyled
             isGroupTitle={false}
+            isGroupDivider={false}
             active={location.pathname}
             groups={[
                 {

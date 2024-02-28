@@ -7,7 +7,7 @@ import { BoldText, GrayText } from 'styles/units';
 // TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
     height: max-content;
-    padding: 72px 180px;
+    padding: 8px 180px 72px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
@@ -36,7 +36,7 @@ export const H3 = styled.h3`
     line-height: var(--font-line-height-h3);
 
     width: max-content;
-    margin: 40px 0 12px;
+    margin: 0 0 12px;
 
     transition: color 0.25s ease-out;
 

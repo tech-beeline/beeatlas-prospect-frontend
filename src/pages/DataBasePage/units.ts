@@ -6,9 +6,6 @@ export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    height: 100vh;
-    padding-top: 64px;
-
     background-color: var(--color-background-base);
     color: var(--color-text-active);
 `;

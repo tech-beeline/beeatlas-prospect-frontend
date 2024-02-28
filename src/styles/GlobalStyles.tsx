@@ -196,9 +196,9 @@ export const GlobalStyles = () => {
                     color: var(--color-text-active);
                 }
 
-                .dsb_divider--horizontal {
+                /* .dsb_divider--horizontal {
                     width: 1px;
-                }
+                } */
             `}
         />
     );

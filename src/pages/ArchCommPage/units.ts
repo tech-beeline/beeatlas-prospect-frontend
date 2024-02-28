@@ -7,7 +7,7 @@ import { GrayText, H4 } from 'styles/units';
 import { HumanCard } from './HumanCard';
 
 export const PageWrapper = styled.div`
-    padding: 72px 52px;
+    padding: 52px 52px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
@@ -27,7 +27,7 @@ export const H3 = styled.h3`
     line-height: var(--font-line-height-h3);
 
     width: 798px;
-    margin: 40px 0 12px;
+    margin: 0 0 12px;
 `;
 
 export const GrayTextStyled = styled(GrayText)`
