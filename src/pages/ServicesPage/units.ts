@@ -4,10 +4,8 @@ import { BorderContainer } from 'components/containers';
 
 import { GrayText } from 'styles/units';
 
-// TODO: сделать у боди бэкграунд темы
 export const PageWrapper = styled.div`
-    height: 100vh;
-    padding: 72px 52px;
+    padding: 8px 52px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);

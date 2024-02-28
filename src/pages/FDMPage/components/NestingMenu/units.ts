@@ -19,13 +19,15 @@ export const ResizableStyled = styled(Resizable)`
 `;
 
 export const Wrapper = styled.div`
+    border-left: 1px solid var(--color-divider);
+
     position: sticky;
     top: 0;
 
     display: flex;
 
     width: max-content;
-    height: 100%;
+    height: calc(100vh - 64px);
 
     /* overflow: hidden auto; */
 
@@ -37,8 +39,7 @@ export const Wrapper = styled.div`
 
 export const RightSide = styled.div`
     width: 100%;
-    min-height: calc(100vh - 64px);
-    padding: 88px 16px 16px 0;
+    padding: 16px 16px 16px 16px;
 
     /* border-right: 1px solid var(--color-divider); */
 `;

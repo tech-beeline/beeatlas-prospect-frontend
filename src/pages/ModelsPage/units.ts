@@ -6,9 +6,6 @@ export const PageWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    height: 100vh;
-    padding-top: 64px;
-
     background-color: var(--color-background-base);
     color: var(--color-text-active);
 `;
@@ -23,7 +20,7 @@ export const SideMenu = styled.div`
 
 export const ContentWrapper = styled.div`
     width: 100%;
-    padding: 32px 52px 0 108px;
+    padding: 32px 68px;
 `;
 
 export const CardContainer = styled.div`

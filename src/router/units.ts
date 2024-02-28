@@ -14,3 +14,30 @@ export const RouteWrapperOnlyBackgroundStyle = styled.div`
 export const RouteWrapperOnlyBackgroundStyled = styled(RouteWrapperOnlyBackgroundStyle)`
     height: 100%;
 `;
+
+export const RouteWithDrawer = styled.div`
+    display: flex;
+
+    height: 100vh;
+    padding-top: 64px;
+
+    background-color: var(--color-background-base);
+`;
+
+export const ContentWrapper = styled.div`
+    height: calc(100vh - 64px);
+    width: 100%;
+
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+`;

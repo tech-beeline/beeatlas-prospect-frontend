@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, Menu, MenuCX, MenuModels, MenuPersonalArea } from 'components/core';
+import { Header, MenuCX, MenuDatabase, MenuModels, MenuPersonalArea } from 'components/core';
 
 import {
     AddRollPage,
@@ -11,20 +11,17 @@ import {
     BIAddPage,
     BILibraryPage,
     BIViewPage,
-    CalendarPage,
     CJLibraryPage,
     CJPage,
     ConsultationPage,
     CXPage,
     DataBasePage,
     FDMPage,
-    FDMResultPage,
     HowToPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
     PersonalArea,
-    ProductsPage,
     RollSettingsPage,
     SearchPage,
     ServicesPage,
@@ -110,160 +107,154 @@ export const NavigationRouter = () => {
                     <Route
                         path={C.MODELS_PATH}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <ModelsPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <ModelsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.MODELS_PATH}${C.SEARCH_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <SearchPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <SearchPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.MODELS_PATH}${C.FDM_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <FDMPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <FDMPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.MODELS_PATH}${C.TECH_RADAR_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyled>
+                            <S.RouteWithDrawer>
                                 <MenuModels />
-
-                                <TechRadarPage />
-                            </S.RouteWrapperOnlyBackgroundStyled>
-                        }
-                    />
-
-                    <Route
-                        path={`${C.MODELS_PATH}${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
-                        element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
-                                <MenuModels />
-
-                                <FDMResultPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <TechRadarPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={C.DATA_BASE_PATH}
                         element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <DataBasePage />
-                            </S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
+                                <MenuDatabase />
+                                <S.ContentWrapper>
+                                    <DataBasePage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <ArchCommPage />
-                            </S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
+                                <MenuDatabase />
+                                <S.ContentWrapper>
+                                    <ArchCommPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_HOW_TO_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <HowToPage />
-                            </S.RouteWrapperStyle>
-                        }
-                    />
-
-                    <Route
-                        path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_CALENDAR_PATH}`}
-                        element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <CalendarPage />
-                            </S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
+                                <MenuDatabase />
+                                <S.ContentWrapper>
+                                    <HowToPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_TEMPLATES_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <TemplatesPage />
-                            </S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
+                                <MenuDatabase />
+                                <S.ContentWrapper>
+                                    <TemplatesPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.TECH_POLICY_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <TechPolicyPage />
-                            </S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
+                                <MenuDatabase />
+                                <S.ContentWrapper>
+                                    <TechPolicyPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}`}
                         element={
-                            <S.RouteWrapperStyle>
-                                <Menu />
-
-                                <ServicesPage />
-                            </S.RouteWrapperStyle>
+                            <S.RouteWithDrawer>
+                                <MenuDatabase />
+                                <S.ContentWrapper>
+                                    <ServicesPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}${C.CONSULTATION_PATH}`}
-                        element={<ConsultationPage />}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <ConsultationPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
                     />
-
-                    <Route path={C.PRODUCTS_PATH} element={<ProductsPage />} />
 
                     <Route
                         path={C.CX_PATH}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
+                            <S.RouteWithDrawer>
                                 <MenuCX />
-
-                                <CXPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
+                                <S.ContentWrapper>
+                                    <CXPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
                         path={`${C.CX_PATH}${C.CJ_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyled>
+                            <S.RouteWithDrawer>
                                 <MenuCX />
-
-                                <CJLibraryPage />
-                            </S.RouteWrapperOnlyBackgroundStyled>
+                                <S.ContentWrapper>
+                                    <CJLibraryPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 
@@ -272,11 +263,12 @@ export const NavigationRouter = () => {
                     <Route
                         path={`${C.CX_PATH}${C.BI_PATH}`}
                         element={
-                            <S.RouteWrapperOnlyBackgroundStyled>
+                            <S.RouteWithDrawer>
                                 <MenuCX />
-
-                                <BILibraryPage />
-                            </S.RouteWrapperOnlyBackgroundStyled>
+                                <S.ContentWrapper>
+                                    <BILibraryPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
                         }
                     />
 

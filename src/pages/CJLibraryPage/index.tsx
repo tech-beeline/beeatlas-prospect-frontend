@@ -45,61 +45,56 @@ export const CJLibraryPage = () => {
     };
 
     return (
-        <>
-            <S.MarginBlock />
-            <S.PageWrapper>
-                <S.ContentWrapper>
-                    <S.TitleWrapper>
-                        <STYLES.H4>Библиотека CJ</STYLES.H4>
-                        <Button variant="contained" size="medium" onClick={openModal}>
-                            Создать CJ
-                        </Button>
-                    </S.TitleWrapper>
+        <S.PageWrapper>
+            <S.ContentWrapper>
+                <S.TitleWrapper>
+                    <STYLES.H4>Библиотека CJ</STYLES.H4>
+                    <Button variant="contained" size="medium" onClick={openModal}>
+                        Создать CJ
+                    </Button>
+                </S.TitleWrapper>
 
-                    <CJLibraryFilters
-                        filterOptions={filterOptions}
-                        setFilterOptions={setFilterOptions}
-                    />
+                <CJLibraryFilters
+                    filterOptions={filterOptions}
+                    setFilterOptions={setFilterOptions}
+                />
 
-                    <S.CardContainer>
-                        {data &&
-                            data.map((cj) => (
-                                <S.CJCard key={cj.id}>
-                                    <S.FlexContainer>
-                                        <Label
-                                            title={cj.draft ? 'Черновик' : 'Опубликован'}
-                                            type={cj.draft ? 'default' : 'success'}
-                                        />
-                                        <CjMenu
-                                            cjId={cj.id}
-                                            draft={cj.draft}
-                                            onDeleteClick={() => deleteCj(String(cj.id))}
-                                            onEditClick={() => handleCJClick(cj.id)}
-                                        />
-                                    </S.FlexContainer>
-                                    <S.Title onClick={() => handleCJClick(cj.id)}>
-                                        {cj.name}
-                                    </S.Title>
-                                    <S.Description>{cj.user_portrait}</S.Description>
-                                </S.CJCard>
-                            ))}
-                        {isLoading &&
-                            Array.from({ length: 3 }).map((_, index) => (
-                                <Skeleton key={index} height={150} />
-                            ))}
-                    </S.CardContainer>
-                    {data && data.length === 0 && (
-                        <S.NotFoundContainer>
-                            <NotFoundBlock
-                                imageVariant={ImageVariants.EMPTY_BOX}
-                                title="Нет результатов, подходящих под параметры поиска"
-                                text="Попробуйте изменить поисковой запрос"
-                            />
-                        </S.NotFoundContainer>
-                    )}
-                </S.ContentWrapper>
-                <CJCreateForm isOpen={modalOpened} onClose={closeModal} />
-            </S.PageWrapper>
-        </>
+                <S.CardContainer>
+                    {data &&
+                        data.map((cj) => (
+                            <S.CJCard key={cj.id}>
+                                <S.FlexContainer>
+                                    <Label
+                                        title={cj.draft ? 'Черновик' : 'Опубликован'}
+                                        type={cj.draft ? 'default' : 'success'}
+                                    />
+                                    <CjMenu
+                                        cjId={cj.id}
+                                        draft={cj.draft}
+                                        onDeleteClick={() => deleteCj(String(cj.id))}
+                                        onEditClick={() => handleCJClick(cj.id)}
+                                    />
+                                </S.FlexContainer>
+                                <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
+                                <S.Description>{cj.user_portrait}</S.Description>
+                            </S.CJCard>
+                        ))}
+                    {isLoading &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <Skeleton key={index} height={150} />
+                        ))}
+                </S.CardContainer>
+                {data && data.length === 0 && (
+                    <S.NotFoundContainer>
+                        <NotFoundBlock
+                            imageVariant={ImageVariants.EMPTY_BOX}
+                            title="Нет результатов, подходящих под параметры поиска"
+                            text="Попробуйте изменить поисковой запрос"
+                        />
+                    </S.NotFoundContainer>
+                )}
+            </S.ContentWrapper>
+            <CJCreateForm isOpen={modalOpened} onClose={closeModal} />
+        </S.PageWrapper>
     );
 };

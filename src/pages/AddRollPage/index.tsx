@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Button, Divider, Icon } from '@beeline/design-system-react';
+import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -204,8 +204,6 @@ export const AddRollPage = () => {
                         </S.PermissionsContainer>
 
                         <S.BottomBlock isShown={!!nameField}>
-                            <Divider />
-
                             <S.ButtonContainer>
                                 <Button type="button" size="medium" onClick={navigateToAllRoles}>
                                     Отменить

@@ -195,10 +195,6 @@ export const GlobalStyles = () => {
                 .dsb__select__options__item {
                     color: var(--color-text-active);
                 }
-
-                .dsb_divider--horizontal {
-                    width: 1px;
-                }
             `}
         />
     );
