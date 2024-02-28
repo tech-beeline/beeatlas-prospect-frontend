@@ -11,20 +11,17 @@ import {
     BIAddPage,
     BILibraryPage,
     BIViewPage,
-    // CalendarPage,
     CJLibraryPage,
     CJPage,
     ConsultationPage,
     CXPage,
     DataBasePage,
     FDMPage,
-    FDMResultPage,
     HowToPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
     PersonalArea,
-    ProductsPage,
     RollSettingsPage,
     SearchPage,
     ServicesPage,
@@ -156,17 +153,6 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.MODELS_PATH}${C.FDM_PATH}${C.FDM_RESULT_ID_PATH}`}
-                        element={
-                            <S.RouteWrapperOnlyBackgroundStyle>
-                                <MenuModels />
-
-                                <FDMResultPage />
-                            </S.RouteWrapperOnlyBackgroundStyle>
-                        }
-                    />
-
-                    <Route
                         path={C.DATA_BASE_PATH}
                         element={
                             <S.RouteWithDrawer>
@@ -201,17 +187,6 @@ export const NavigationRouter = () => {
                             </S.RouteWithDrawer>
                         }
                     />
-
-                    {/* <Route
-                        path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_CALENDAR_PATH}`}
-                        element={
-                            <S.RouteWrapperStyle>
-                                <MenuDatabase />
-
-                                <CalendarPage />
-                            </S.RouteWrapperStyle>
-                        }
-                    /> */}
 
                     <Route
                         path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_TEMPLATES_PATH}`}
@@ -258,8 +233,6 @@ export const NavigationRouter = () => {
                             </S.RouteWithDrawer>
                         }
                     />
-
-                    <Route path={C.PRODUCTS_PATH} element={<ProductsPage />} />
 
                     <Route
                         path={C.CX_PATH}
