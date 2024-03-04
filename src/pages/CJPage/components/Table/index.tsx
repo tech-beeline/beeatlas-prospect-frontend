@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { useThemeStore } from 'features/theme';
 import { Nullable } from 'types/common';
 
 import { IBIData } from 'api/bi/types';
@@ -15,8 +14,6 @@ import { ITable } from './types';
 import * as S from './units';
 
 export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
-    const { themeIsDark } = useThemeStore();
-
     const [hiddenRows, showHiddenRows, setShowHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
         state.showHiddenRows,
@@ -47,7 +44,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                 <S.Table>
                     <S.Thead>
                         <S.Row>
-                            <S.LabelTh themeIsDark={themeIsDark}>Шаги</S.LabelTh>
+                            <S.LabelTh>Шаги</S.LabelTh>
 
                             {tableData.map((step, stepIndex) => (
                                 <S.Th

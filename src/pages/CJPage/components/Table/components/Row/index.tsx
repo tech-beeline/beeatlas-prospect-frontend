@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { useThemeStore } from 'features/theme';
 
 import { IBIData } from 'api/bi/types';
 import { capitalizeFirstLetter } from 'utils/helpers';
@@ -21,7 +20,6 @@ export const Row = <T,>({
     parseData,
     draft,
 }: IRow<T>) => {
-    const { themeIsDark } = useThemeStore();
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
         state.setHiddenRows,
@@ -42,7 +40,6 @@ export const Row = <T,>({
                     <S.Row isHidden={isHidden}>
                         <S.LabelTd
                             isClickable
-                            themeIsDark={themeIsDark}
                             onClick={() =>
                                 isHidden
                                     ? setHiddenRows(hiddenRows.filter((item) => item !== rowId))
