@@ -1,3 +1,4 @@
+import { Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
@@ -47,7 +48,7 @@ export const Text = styled(Title)`
     cursor: inherit;
 `;
 
-export const OwnerContainer = styled.div`
+export const MarginContainer = styled.div`
     margin-top: 24px;
 `;
 
@@ -96,4 +97,17 @@ export const InnerFlex = styled.div`
     justify-content: space-between;
 
     height: 100%; */
+`;
+
+export const ChipsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    flex-wrap: wrap;
+
+    margin-top: 8px;
+`;
+
+export const ChipStyled = styled(Chip)`
+    cursor: auto !important;
 `;

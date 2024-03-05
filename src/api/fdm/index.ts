@@ -23,3 +23,9 @@ export const getItemChildren = (id: number) => {
         url: `${API_URL}fdm/v1/capabilities/findByDomain?id=${id}`,
     });
 };
+
+export const getTechCapabilityProducts = (guid: string): AxiosPromise<T.ICapabilityProduct[]> => {
+    return Api.get({
+        url: `${API_URL}fdm/v1/capabilities/${guid}/products`,
+    });
+};

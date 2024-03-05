@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react';
+import { Skeleton } from '@beeline/design-system-react';
 
-import { PivotArrow } from 'components/other';
+import { Link, PivotArrow } from 'components/other';
+
+import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 
 import { useFDMStore } from '../../store';
 import { getItemIcon } from '../utils';
@@ -10,6 +13,11 @@ import * as S from './units';
 
 export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
     const setActiveItem = useFDMStore((state) => state.setActiveItem);
+
+    const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
+        item?.guid,
+        item?.stereotype === 'TECHNICAL',
+    );
 
     const [isOpen, setOpen] = useState(false);
 
@@ -35,11 +43,40 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         data-testid="TreeCardDescription"
                     />
 
+                    {item.domain_ref && (
+                        <S.MarginContainer>
+                            <S.TitleSecond>Домен</S.TitleSecond>
+                            <Link
+                                title={item.domain_ref?.name}
+                                url={`/models/fdm?id=${item.domain_ref?.id}&domainId=${item.domain_ref?.id}`}
+                            />
+                        </S.MarginContainer>
+                    )}
+
+                    {item.stereotype === 'TECHNICAL' && (
+                        <S.MarginContainer>
+                            <S.TitleSecond>ТС Реализована в продукте</S.TitleSecond>
+                            <S.ChipsContainer>
+                                {isLoadingProducts && (
+                                    <Skeleton height={32} radius={30} width={123} />
+                                )}
+                                {products &&
+                                    products.length > 0 &&
+                                    products.map((product) => (
+                                        <S.ChipStyled key={product.eaGuid} label={product.name} />
+                                    ))}
+                                {products && products.length === 0 && (
+                                    <S.ChipStyled label="Нет продуктов" />
+                                )}
+                            </S.ChipsContainer>
+                        </S.MarginContainer>
+                    )}
+
                     {item.owner && (
-                        <S.OwnerContainer>
+                        <S.MarginContainer>
                             <S.TitleSecond>Владелец</S.TitleSecond>
                             <S.Text>{item.owner}</S.Text>
-                        </S.OwnerContainer>
+                        </S.MarginContainer>
                     )}
                 </div>
 

@@ -1,3 +1,4 @@
+import { Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { GrayText } from 'styles/units';
@@ -47,18 +48,38 @@ export const H4 = styled.h4`
 `;
 
 export const JustText = styled.p`
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
-    letter-spacing: var(--font-letter-spacing-body3);
+    font-weight: var(--font-weight-body2);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+    letter-spacing: var(--font-letter-spacing-body2);
 
     white-space: pre-line;
 `;
 
-export const AliasText = styled(JustText)`
-    margin: -4px 0 8px;
+export const Subtitle = styled.p`
+    font-weight: var(--font-weight-body3);
+    font-size: var(--font-size-body3);
+    line-height: var(--font-line-height-body3);
+    letter-spacing: var(--font-letter-spacing-body3);
 
     color: var(--color-text-inactive);
+`;
+
+export const AliasText = styled(Subtitle)`
+    margin: -4px 0 12px;
+`;
+
+export const DomainText = styled(Subtitle)`
+    margin-top: 24px;
+`;
+
+export const ChipsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    flex-wrap: wrap;
+
+    margin-top: 8px;
 `;
 
 export const SearchContainer = styled.form`
@@ -166,4 +187,8 @@ export const FlexBlock = styled.div`
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body3);
+`;
+
+export const ChipStyled = styled(Chip)`
+    cursor: auto !important;
 `;
