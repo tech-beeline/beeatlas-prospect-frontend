@@ -97,11 +97,10 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                 >
                                     {showHiddenRows ? 'Скрыть' : 'Показать скрытые'}
 
-                                    {showHiddenRows ? (
-                                        <S.IconStyled iconName={Icons.EyeOff} />
-                                    ) : (
-                                        <S.IconStyled iconName={Icons.Eye} />
-                                    )}
+                                    <S.IconStyled
+                                        size="large"
+                                        iconName={showHiddenRows ? Icons.EyeOff : Icons.Eye}
+                                    />
                                 </S.HideOrShowButton>
                             </S.LabelTd>
 

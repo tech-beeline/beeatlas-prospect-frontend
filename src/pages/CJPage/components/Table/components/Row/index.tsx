@@ -49,7 +49,10 @@ export const Row = <T,>({
                             <S.AlignItemsCenterWrapper>
                                 {label}
                                 <S.IconContainer>
-                                    <S.IconStyled iconName={isHidden ? Icons.Eye : Icons.EyeOff} />
+                                    <S.IconStyled
+                                        size="large"
+                                        iconName={isHidden ? Icons.Eye : Icons.EyeOff}
+                                    />
                                 </S.IconContainer>
                             </S.AlignItemsCenterWrapper>
                         </S.LabelTd>

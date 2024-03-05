@@ -71,6 +71,10 @@ export const LabelTd = styled(Td)`
     :hover span {
         display: inline;
     }
+
+    :active {
+        background-color: var(--color-background-base);
+    }
 `;
 
 export const ButtonContainer = styled.div`
@@ -97,8 +101,8 @@ export const AlignItemsCenterWrapper = styled.div`
 `;
 
 export const IconContainer = styled.div`
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 `;
 
 export const IconStyled = styled(Icon)`
