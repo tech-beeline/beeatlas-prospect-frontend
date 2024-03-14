@@ -30,6 +30,10 @@ ingress:
         pathType: ImplementationSpecific
         serviceName: eafdmmart-backend-prod-service
         servicePort: "8080"
+      - path: /api-gateway/
+        pathType: ImplementationSpecific
+        serviceName: fdm-gateway-prod-service
+        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
     - host: "beeatlas.vimpelcom.ru"
@@ -37,6 +41,10 @@ ingress:
       - path: /api/
         pathType: ImplementationSpecific
         serviceName: eafdmmart-backend-prod-service
+        servicePort: "8080"
+      - path: /api-gateway/
+        pathType: ImplementationSpecific
+        serviceName: fdm-gateway-prod-service
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
@@ -46,6 +54,10 @@ ingress:
         pathType: ImplementationSpecific
         serviceName: eafdmmart-backend-prod-service
         servicePort: "8080"
+      - path: /api-gateway/
+        pathType: ImplementationSpecific
+        serviceName: fdm-gateway-prod-service
+        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
     - host: "tr.vimpelcom.ru"
@@ -53,6 +65,10 @@ ingress:
       - path: /api/
         pathType: ImplementationSpecific
         serviceName: eafdmmart-backend-prod-service
+        servicePort: "8080"
+      - path: /api-gateway/
+        pathType: ImplementationSpecific
+        serviceName: fdm-gateway-prod-service
         servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
