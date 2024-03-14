@@ -7,6 +7,7 @@ import { NotFoundBlock } from 'components/other';
 
 import { IBIData } from 'api/bi/types';
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
+import { useGetUserProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
@@ -21,7 +22,14 @@ export const CJPage = () => {
 
     const { modalOpened, openModal, closeModal } = useModal();
 
-    const { data, isLoading } = useGetCompleteCJDataByIdQuery(paramId);
+    const { data, isLoading: isLoadingCJ } = useGetCompleteCJDataByIdQuery(paramId);
+    const { data: dataProducts, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+
+    const isLoading = isLoadingCJ || isLoadingProducts;
+
+    const canEditCJ = (dataProducts ?? [])
+        .map((product) => String(product.id))
+        .includes(String(data?.id_product));
 
     const hasDraftBIs =
         data?.steps
@@ -77,13 +85,15 @@ export const CJPage = () => {
                         </div>
                     )}
 
-                    <S.ButtonStyled
-                        disabled={!data?.draft}
-                        endIcon={<Icon iconName={Icons.Edit} />}
-                        onClick={() => setOpenSettingsCJ(!isOpenSettingsCJ)}
-                        id="buttonToggleId"
-                        data-tooltip-id="editButton"
-                    />
+                    {canEditCJ && (
+                        <S.ButtonStyled
+                            disabled={!data?.draft}
+                            endIcon={<Icon iconName={Icons.Edit} />}
+                            onClick={() => setOpenSettingsCJ(!isOpenSettingsCJ)}
+                            id="buttonToggleId"
+                            data-tooltip-id="editButton"
+                        />
+                    )}
                     {data && !data.draft && (
                         <S.TooltipContainer id="editButton" offset={8} place="bottom" noArrow>
                             Для редактирования CJ, его нужно сделать черновиком
@@ -94,7 +104,7 @@ export const CJPage = () => {
                 <S.FlexSideContainer>
                     <Button onClick={() => navigate(-1)}>Закрыть</Button>
 
-                    {data && (
+                    {data && canEditCJ && (
                         <Button
                             variant="contained"
                             onClick={data.draft ? handlePublish : handleMarkAsDraft}
