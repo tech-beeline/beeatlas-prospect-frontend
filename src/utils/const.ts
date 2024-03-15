@@ -1,16 +1,15 @@
-// @TODO: Заменить на переменные окружения
-export const isFunc = window.location.href.includes('eafdmmart-func');
+export const isFunc = window.location.hostname === 'eafdmmart-func.apps.yd-m6-kt22.vimpelcom.ru';
 
-export const isProd =
-    window.location.href.includes('eafdmmart-prod') ||
-    window.location.href.includes('beeatlas.vimpelcom.ru') ||
-    window.location.href.includes('techradar.vimpelcom.ru') ||
-    window.location.href.includes('tr.vimpelcom.ru');
-
-export const isDev = process.env.NODE_ENV === 'development';
+export const isLocal = process.env.NODE_ENV === 'development';
 
 export const FUNC_MOCK_AUTH_LINK =
     'https://eafdmmart--test-yd-wiremock.apps.yd-m6-kt22.vimpelcom.ru';
+
+export const PROD_AUTH_LINK = 'https://eauth-prod.apps.mn-kd06.vimpelcom.ru';
+
+export const TEST_AUTH_LINK = 'https://eauth-test.apps.yd-kt05.vimpelcom.ru';
+
+export const DEV_AUTH_LINK = 'https://eauth-dev.apps.yd-kt05.vimpelcom.ru';
 
 export const FUNC_MOCK_CONFLUENCE_LINK =
     'https://eafdmmart--test-yd-wiremock.apps.yd-m6-kt22.vimpelcom.ru/pages/viewpage.action?pageId=1';
