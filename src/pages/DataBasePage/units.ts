@@ -10,16 +10,7 @@ export const PageWrapper = styled.div`
     color: var(--color-text-active);
 `;
 
-export const SideMenu = styled.div`
-    width: 256px;
-    height: 100vh;
-    padding-top: 24px;
-
-    border-right: 1px solid red;
-`;
-
 export const ContentWrapper = styled.div`
-    height: 100vh;
     width: 100%;
     padding: 32px 52px;
 `;
