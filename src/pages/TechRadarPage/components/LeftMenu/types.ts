@@ -22,6 +22,7 @@ export interface IHint {
 
 export interface IMenuElement {
     title: string;
+    analyticsName: string;
     isOpen: boolean;
     data: IData[];
     activeRing?: string | null;

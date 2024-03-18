@@ -65,10 +65,17 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
 
     const conditionForTitle = !!props.activeRing ? !!selectedRingDataLenght : true;
 
+    const handleTitleClick = () => {
+        props.setOpen(!props.isOpen);
+        if (!props.isOpen) {
+            sendAnalytics(['techradar', 'category_tree', props.analyticsName]);
+        }
+    };
+
     return (
         <div className="menuBlock">
             {conditionForTitle && (
-                <S.TitleWrapper onClick={() => props.setOpen(!props.isOpen)}>
+                <S.TitleWrapper onClick={handleTitleClick}>
                     <S.Title>{props.title}</S.Title>
 
                     <S.ArrowIcon isreverse={props.isOpen ? 'true' : ''} />
