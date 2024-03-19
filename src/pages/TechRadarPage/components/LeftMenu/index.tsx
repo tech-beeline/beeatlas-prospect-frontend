@@ -98,6 +98,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                     {(props.isZoomed ? props.activeMenuItem === 1 : true) && (
                         <MenuElement
                             title="Фреймворки и инструменты"
+                            analyticsName="framework"
                             isOpen={isFirstOpen}
                             setOpen={setFirstOpen}
                             data={firstQuadrant}
@@ -111,6 +112,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                     {(props.isZoomed ? props.activeMenuItem === 2 : true) && (
                         <MenuElement
                             title="Платформа и инфраструктура"
+                            analyticsName="platform"
                             isOpen={isSecondOpen}
                             setOpen={setSecondOpen}
                             data={secondQuadrant}
@@ -124,6 +126,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                     {(props.isZoomed ? props.activeMenuItem === 3 : true) && (
                         <MenuElement
                             title="Управление данными"
+                            analyticsName="data"
                             isOpen={isThirdOpen}
                             setOpen={setThirdOpen}
                             data={thirdQuadrant}
@@ -137,6 +140,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                     {(props.isZoomed ? props.activeMenuItem === 4 : true) && (
                         <MenuElement
                             title="Языки"
+                            analyticsName="language"
                             isOpen={isFourOpen}
                             setOpen={setFourOpen}
                             data={fourQuadrant}
