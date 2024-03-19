@@ -14,7 +14,7 @@ export const getAllCJs = (
 ): AxiosPromise<T.ICJData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}cx/v1/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
-            'id_product',
+            'idProduct',
             productId,
         )}`,
     });
