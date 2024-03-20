@@ -23,6 +23,21 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
     const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (props.activeMenuItem === 1) {
+            setFirstOpen(true);
+        }
+        if (props.activeMenuItem === 2) {
+            setSecondOpen(true);
+        }
+        if (props.activeMenuItem === 3) {
+            setThirdOpen(true);
+        }
+        if (props.activeMenuItem === 4) {
+            setFourOpen(true);
+        }
+    }, [props.activeMenuItem]);
+
+    useEffect(() => {
         if (menuRef.current && menuRef.current.children.length && !isHoverInMenu) {
             const menuBlocks = Array.from(menuRef.current.getElementsByClassName('menuBlock'));
             const menuItems = Array.from(menuRef.current.getElementsByClassName('menuItem'));
@@ -38,41 +53,34 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                     ? menuBlocks.findIndex((item) => item.isEqualNode(parentElement))
                     : null;
 
-                if (menuBlocks.length === 4) {
-                    switch (activeBlockIndex) {
-                        case 0:
-                            setFirstOpen(true);
-                            setSecondOpen(false);
-                            setThirdOpen(false);
-                            setFourOpen(false);
-                            break;
+                switch (activeBlockIndex) {
+                    case 0:
+                        setFirstOpen(true);
+                        setSecondOpen(false);
+                        setThirdOpen(false);
+                        setFourOpen(false);
+                        break;
 
-                        case 1:
-                            setSecondOpen(true);
-                            setFirstOpen(false);
-                            setThirdOpen(false);
-                            setFourOpen(false);
-                            break;
+                    case 1:
+                        setSecondOpen(true);
+                        setFirstOpen(false);
+                        setThirdOpen(false);
+                        setFourOpen(false);
+                        break;
 
-                        case 2:
-                            setThirdOpen(true);
-                            setFirstOpen(false);
-                            setSecondOpen(false);
-                            setFourOpen(false);
-                            break;
+                    case 2:
+                        setThirdOpen(true);
+                        setFirstOpen(false);
+                        setSecondOpen(false);
+                        setFourOpen(false);
+                        break;
 
-                        case 3:
-                            setFourOpen(true);
-                            setFirstOpen(false);
-                            setSecondOpen(false);
-                            setThirdOpen(false);
-                            break;
-                    }
-                } else {
-                    setFirstOpen(true);
-                    setSecondOpen(true);
-                    setThirdOpen(true);
-                    setFourOpen(true);
+                    case 3:
+                        setFourOpen(true);
+                        setFirstOpen(false);
+                        setSecondOpen(false);
+                        setThirdOpen(false);
+                        break;
                 }
 
                 setTimeout(
@@ -95,61 +103,57 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
         <S.Wrapper ref={menuRef} withScroll>
             {props.data.length > 0 && (
                 <>
-                    {(props.isZoomed ? props.activeMenuItem === 1 : true) && (
-                        <MenuElement
-                            title="Фреймворки и инструменты"
-                            analyticsName="framework"
-                            isOpen={isFirstOpen}
-                            setOpen={setFirstOpen}
-                            data={firstQuadrant}
-                            activeRing={props.activeRing}
-                            hintText={props.hintText}
-                            setHintText={props.setHintText}
-                            {...{ setHoverInMenu }}
-                        />
-                    )}
+                    <MenuElement
+                        title="Фреймворки и инструменты"
+                        analyticsName="framework"
+                        isOpen={isFirstOpen}
+                        setOpen={setFirstOpen}
+                        data={firstQuadrant}
+                        activeRing={props.activeRing}
+                        hintText={props.hintText}
+                        setHintText={props.setHintText}
+                        hidden={props.isZoomed && props.activeMenuItem !== 1}
+                        {...{ setHoverInMenu }}
+                    />
 
-                    {(props.isZoomed ? props.activeMenuItem === 2 : true) && (
-                        <MenuElement
-                            title="Платформа и инфраструктура"
-                            analyticsName="platform"
-                            isOpen={isSecondOpen}
-                            setOpen={setSecondOpen}
-                            data={secondQuadrant}
-                            activeRing={props.activeRing}
-                            hintText={props.hintText}
-                            setHintText={props.setHintText}
-                            {...{ setHoverInMenu }}
-                        />
-                    )}
+                    <MenuElement
+                        title="Платформа и инфраструктура"
+                        analyticsName="platform"
+                        isOpen={isSecondOpen}
+                        setOpen={setSecondOpen}
+                        data={secondQuadrant}
+                        activeRing={props.activeRing}
+                        hintText={props.hintText}
+                        setHintText={props.setHintText}
+                        hidden={props.isZoomed && props.activeMenuItem !== 2}
+                        {...{ setHoverInMenu }}
+                    />
 
-                    {(props.isZoomed ? props.activeMenuItem === 3 : true) && (
-                        <MenuElement
-                            title="Управление данными"
-                            analyticsName="data"
-                            isOpen={isThirdOpen}
-                            setOpen={setThirdOpen}
-                            data={thirdQuadrant}
-                            activeRing={props.activeRing}
-                            hintText={props.hintText}
-                            setHintText={props.setHintText}
-                            {...{ setHoverInMenu }}
-                        />
-                    )}
+                    <MenuElement
+                        title="Управление данными"
+                        analyticsName="data"
+                        isOpen={isThirdOpen}
+                        setOpen={setThirdOpen}
+                        data={thirdQuadrant}
+                        activeRing={props.activeRing}
+                        hintText={props.hintText}
+                        setHintText={props.setHintText}
+                        hidden={props.isZoomed && props.activeMenuItem !== 3}
+                        {...{ setHoverInMenu }}
+                    />
 
-                    {(props.isZoomed ? props.activeMenuItem === 4 : true) && (
-                        <MenuElement
-                            title="Языки"
-                            analyticsName="language"
-                            isOpen={isFourOpen}
-                            setOpen={setFourOpen}
-                            data={fourQuadrant}
-                            activeRing={props.activeRing}
-                            hintText={props.hintText}
-                            setHintText={props.setHintText}
-                            {...{ setHoverInMenu }}
-                        />
-                    )}
+                    <MenuElement
+                        title="Языки"
+                        analyticsName="language"
+                        isOpen={isFourOpen}
+                        setOpen={setFourOpen}
+                        data={fourQuadrant}
+                        activeRing={props.activeRing}
+                        hintText={props.hintText}
+                        setHintText={props.setHintText}
+                        hidden={props.isZoomed && props.activeMenuItem !== 4}
+                        {...{ setHoverInMenu }}
+                    />
                 </>
             )}
 

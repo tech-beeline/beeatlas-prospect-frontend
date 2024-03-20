@@ -27,6 +27,7 @@ export interface IMenuElement {
     data: IData[];
     activeRing?: string | null;
     hintText: string;
+    hidden: boolean;
 
     setOpen: (bool: boolean) => void;
     setHintText: (value: string) => void;
