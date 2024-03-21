@@ -35,6 +35,12 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
         if (props.activeMenuItem === 4) {
             setFourOpen(true);
         }
+        if (props.activeMenuItem === 0) {
+            setFirstOpen(false);
+            setSecondOpen(false);
+            setThirdOpen(false);
+            setFourOpen(false);
+        }
     }, [props.activeMenuItem]);
 
     useEffect(() => {
