@@ -2,8 +2,6 @@ import { Divider, Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-// import { ReactComponent as CrossSVG } from 'images/cross-icon.svg';
-
 export const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;

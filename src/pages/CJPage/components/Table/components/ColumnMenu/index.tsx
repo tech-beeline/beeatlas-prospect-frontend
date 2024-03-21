@@ -19,9 +19,6 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     stepName,
     tableDataLength,
     stepIndex,
-    // addStep,
-    // deleteStep,
-    // changePositionOfStep,
     setOpenSideBlockName,
     setRenameIndex,
 }) => {
@@ -30,7 +27,8 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     const { mutateAsync: updateStep } = useUpdateCJStepMutation();
 
     const menuRef = useRef(null);
-    const menuButtonRef = useRef(null);
+    const menuButtonRef = useRef<HTMLSpanElement | null>(null);
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -48,6 +46,9 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     const openMenuHandler = (index: number) => {
         setOpenMenuIndex(index);
 
+        const buttonRect = menuButtonRef.current?.getBoundingClientRect();
+        setMenuPosition({ x: buttonRect?.right ?? 0, y: buttonRect?.bottom ?? 0 });
+
         isMenuOpen && index === openMenuIndex ? hideMenuHandler() : setMenuOpen(true);
     };
 
@@ -60,11 +61,6 @@ export const ColumnMenu: FC<IColumnMenu> = ({
         setMoveMenu(false);
     };
 
-    // const handleAddColumnClick = (before: boolean) => {
-    //     addStep(before ? stepIndex : stepIndex + 1);
-    //     hideMenuHandler();
-    // };
-
     const handleAddColumnClick = async (before: boolean) => {
         await createStep({
             cjId: String(cjId),
@@ -74,11 +70,6 @@ export const ColumnMenu: FC<IColumnMenu> = ({
         hideMenuHandler();
     };
 
-    // const handleChangePositionClick = (right: boolean) => {
-    //     changePositionOfStep(stepIndex, right);
-    //     hideMenuHandler();
-    // };
-
     const handleChangePositionClick = async (right: boolean) => {
         await updateStep({
             stepId: String(stepId),
@@ -87,12 +78,6 @@ export const ColumnMenu: FC<IColumnMenu> = ({
         showSnackbar({ message: 'Шаг перемещён' });
         hideMenuHandler();
     };
-
-    // const handleDeleteStepClick = () => {
-    //     deleteStep(stepIndex);
-    //     showSnackbar({ message: 'Шаг удалён' });
-    //     hideMenuHandler();
-    // };
 
     const handleDeleteStepClick = async () => {
         await deleteStep({ stepId: String(stepId) });
@@ -111,7 +96,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
             />
 
             {isMenuOpen && openMenuIndex === stepIndex && (
-                <S.MenuBlock ref={menuRef}>
+                <S.MenuBlock ref={menuRef} top={menuPosition.y} left={menuPosition.x}>
                     {isAddStepMenu ? (
                         <>
                             <S.MenuItem onClick={() => handleAddColumnClick(true)}>
