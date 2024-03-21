@@ -1,17 +1,19 @@
 import { Divider, Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const MenuBlock = styled.div`
-    position: absolute;
-    bottom: 0;
-    right: 0;
+export const MenuBlock = styled.div<{ top: number; left: number }>`
+    position: fixed;
+    top: ${({ top }) => top}px;
+    left: ${({ left }) => left}px;
 
-    transform: translateY(100%);
+    transform: translateX(-100%);
 
     flex-direction: column;
 
     padding: 8px 0px;
     width: 280px;
+
+    z-index: 10;
 
     background-color: var(--color-background-base);
 
