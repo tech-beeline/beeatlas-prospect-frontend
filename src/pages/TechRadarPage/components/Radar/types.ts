@@ -1,7 +1,7 @@
-import { IData } from 'pages/TechRadarPage/types';
+import { ITech } from 'api/tech-radar/types';
 
 export interface IRadar {
-    data: IData[];
+    data: ITech[];
     viewBox: TViewBox;
     isZoomed: boolean;
     topTitlesPosition: TTopTitlesPosition;

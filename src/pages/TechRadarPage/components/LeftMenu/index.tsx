@@ -15,10 +15,10 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
 
     const [isHoverInMenu, setHoverInMenu] = useState(false);
 
-    const firstQuadrant = props.data.filter((item) => item.quadrant === 0);
-    const secondQuadrant = props.data.filter((item) => item.quadrant === 1);
-    const thirdQuadrant = props.data.filter((item) => item.quadrant === 2);
-    const fourQuadrant = props.data.filter((item) => item.quadrant === 3);
+    const firstSector = props.data.filter((item) => item.sector.id === 1);
+    const secondSector = props.data.filter((item) => item.sector.id === 2);
+    const thirdSector = props.data.filter((item) => item.sector.id === 3);
+    const fourthSector = props.data.filter((item) => item.sector.id === 4);
 
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -114,7 +114,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                         analyticsName="framework"
                         isOpen={isFirstOpen}
                         setOpen={setFirstOpen}
-                        data={firstQuadrant}
+                        data={firstSector}
                         activeRing={props.activeRing}
                         hintText={props.hintText}
                         setHintText={props.setHintText}
@@ -127,7 +127,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                         analyticsName="platform"
                         isOpen={isSecondOpen}
                         setOpen={setSecondOpen}
-                        data={secondQuadrant}
+                        data={secondSector}
                         activeRing={props.activeRing}
                         hintText={props.hintText}
                         setHintText={props.setHintText}
@@ -140,7 +140,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                         analyticsName="data"
                         isOpen={isThirdOpen}
                         setOpen={setThirdOpen}
-                        data={thirdQuadrant}
+                        data={thirdSector}
                         activeRing={props.activeRing}
                         hintText={props.hintText}
                         setHintText={props.setHintText}
@@ -153,7 +153,7 @@ export const LeftMenu: FC<T.ILeftMenu> = (props) => {
                         analyticsName="language"
                         isOpen={isFourOpen}
                         setOpen={setFourOpen}
-                        data={fourQuadrant}
+                        data={fourthSector}
                         activeRing={props.activeRing}
                         hintText={props.hintText}
                         setHintText={props.setHintText}

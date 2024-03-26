@@ -2,9 +2,9 @@ import React, { FC, useState } from 'react';
 import { Button, Search, Select } from '@beeline/design-system-react';
 import { sendAnalytics } from 'features/analytics';
 
-import { IData } from 'pages/TechRadarPage/types';
+import { useGetTechradarCategoriesQuery } from 'api/queries/techradar';
+import { ITech } from 'api/tech-radar/types';
 
-import { filterOptions } from './const';
 import { IFilters } from './types';
 import * as S from './units';
 
@@ -20,6 +20,8 @@ export const Filters: FC<IFilters> = ({
     setShowInMenu,
     setActiveRing,
 }) => {
+    const { data: categoriesData, isLoading } = useGetTechradarCategoriesQuery();
+
     const [menuOpened, setMenuOpened] = useState(false);
 
     const handleSearchClear = () => {
@@ -28,10 +30,10 @@ export const Filters: FC<IFilters> = ({
         setActiveMenuItem(0);
     };
 
-    const handleItemClick = (item: IData) => {
+    const handleItemClick = (item: ITech) => {
         setActiveRing(null);
-        setActiveMenuItem(item.quadrant + 1);
-        if (activeMenuItem === item.quadrant + 1) {
+        setActiveMenuItem(item.sector.id);
+        if (activeMenuItem === item.sector.id) {
             setShowInMenu(true);
             setHintText(item.label);
         } else {
@@ -47,6 +49,11 @@ export const Filters: FC<IFilters> = ({
         handleSearchClear();
         setFilterValue(null);
     };
+
+    const filterOptions = (categoriesData ?? []).map((category) => ({
+        id: category.id,
+        value: category.name,
+    }));
 
     const selectedFilterValue = filterOptions.find((option) => option.value === filterValue);
 
@@ -85,6 +92,7 @@ export const Filters: FC<IFilters> = ({
                     size="small"
                     placeholder="Фильтрация по группам"
                     options={filterOptions}
+                    disabled={isLoading}
                     values={selectedFilterValue ? [selectedFilterValue] : []}
                     onChange={(options) => {
                         setFilterValue(options[0].value);

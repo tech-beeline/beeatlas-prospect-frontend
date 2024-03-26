@@ -1,7 +1,8 @@
-import { IData, TRing } from 'pages/TechRadarPage/types';
+import { ITech } from 'api/tech-radar/types';
+import { TRing } from 'pages/TechRadarPage/types';
 
 export interface ILeftMenu {
-    data: IData[];
+    data: ITech[];
     hintText: string;
     activeRing?: TRing | null;
     activeMenuItem: number;
@@ -24,7 +25,7 @@ export interface IMenuElement {
     title: string;
     analyticsName: string;
     isOpen: boolean;
-    data: IData[];
+    data: ITech[];
     activeRing?: string | null;
     hintText: string;
     hidden: boolean;

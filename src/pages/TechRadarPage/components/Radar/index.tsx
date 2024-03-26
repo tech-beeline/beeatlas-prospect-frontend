@@ -4,7 +4,6 @@ import { animated, easings, useSpring } from 'react-spring';
 import * as d3 from 'd3';
 import { sendAnalytics } from 'features/analytics';
 
-import { IData } from 'pages/TechRadarPage/types';
 import * as STYLE from 'pages/TechRadarPage/units';
 import * as UTILS from 'pages/TechRadarPage/utils';
 
@@ -24,7 +23,7 @@ export const Radar: FC<T.IRadar> = (props) => {
 
     /* данные для отрисовки точек дополненые координатами и нкобходимыми функциями */
     const formatedData = props.data.map((item) => {
-        const itemSegment = UTILS.segment(item.quadrant, item.ring);
+        const itemSegment = UTILS.segment(item.sector.id - 1, item.ring.id - 1);
         const coords = itemSegment.random();
 
         return {
@@ -52,7 +51,7 @@ export const Radar: FC<T.IRadar> = (props) => {
             });
         };
 
-        d3.forceSimulation<IData>()
+        d3.forceSimulation()
             .nodes(formatedData)
             /* скорость распределения шариков чем выше тем медленее, макс = 1 */
             .velocityDecay(0.5)
@@ -142,7 +141,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                             cy={0}
                             r={1}
                             isVisible={point.visible}
-                            fill={UTILS.getColor(point.ring)}
+                            fill={UTILS.getColor(point.ring.id)}
                             ref={refs.current[i]}
                             onMouseEnter={() => onHintShow(point.label)}
                             onMouseLeave={onHintHide}
