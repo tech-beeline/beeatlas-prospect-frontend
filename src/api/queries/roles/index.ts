@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import {
     deleteRole,
-    getCurrentRole,
+    getRoleById,
     getRolePermission,
     getRoles,
     patchRole,
@@ -25,7 +25,7 @@ export const useGetRoleByIdQuery = (id: number | undefined | null) => {
     return useQuery<IRole>(
         [ROLE_PREFIX, 'role', id],
         () =>
-            getCurrentRole(id!)
+            getRoleById(id!)
                 .then((res) => res.data)
                 .catch((error) => console.error(error)),
         {
