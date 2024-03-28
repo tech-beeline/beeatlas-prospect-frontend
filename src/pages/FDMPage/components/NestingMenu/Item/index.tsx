@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { PivotArrow } from 'components/other';
 
+import { checkForDomainType } from 'pages/FDMPage/helpers';
 import { useFDMStore } from 'pages/FDMPage/store';
 
 import { getItemIcon } from '../../utils';
@@ -12,7 +13,7 @@ import * as S from './units';
 
 export const Item: FC<IItem> = ({ item }) => {
     const [, setParams] = useSearchParams();
-    const isTypeDMN = item.alias?.split('.')[0] === 'DMN';
+    const isTypeDMN = checkForDomainType(item);
 
     const { getEntitiesByDomain, activeItem, activeItemPath } = useFDMStore();
 

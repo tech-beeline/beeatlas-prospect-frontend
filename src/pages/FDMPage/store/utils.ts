@@ -1,3 +1,5 @@
+import { checkForDomainType } from '../helpers';
+
 import { Breadcrumb, Item } from './types';
 
 /*
@@ -59,7 +61,7 @@ export const getItemPathAndBreadcrumbs = (
     if (item?.parent && item.parent !== 0) {
         path.push(item.parent);
 
-        const isTypeDMN = item.alias?.split('.')[0] === 'DMN';
+        const isTypeDMN = checkForDomainType(item);
         let itemDomain = {};
         if (item.domain_ref) {
             itemDomain = { domainId: String(item.domain_ref.id) };

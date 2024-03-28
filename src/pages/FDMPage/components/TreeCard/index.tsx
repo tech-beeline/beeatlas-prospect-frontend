@@ -1,18 +1,21 @@
 import React, { FC, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Skeleton } from '@beeline/design-system-react';
 
 import { Link, PivotArrow } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
+import { checkForDomainType } from 'pages/FDMPage/helpers';
+import { Item } from 'pages/FDMPage/store/types';
 
-import { useFDMStore } from '../../store';
 import { getItemIcon } from '../utils';
 
 import { ITreeCard } from './types';
 import * as S from './units';
 
 export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
-    const setActiveItem = useFDMStore((state) => state.setActiveItem);
+    const [, setParams] = useSearchParams();
+    const isTypeDMN = checkForDomainType(item);
 
     const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
         item?.guid,
@@ -21,12 +24,29 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
 
     const [isOpen, setOpen] = useState(false);
 
+    const handleTitleClick = (clickedItem: Item) => {
+        let itemDomain = {};
+        if (clickedItem.domain_ref) {
+            itemDomain = { domainId: String(clickedItem.domain_ref.id) };
+        }
+        if (isTypeDMN) {
+            itemDomain = { domainId: String(clickedItem.id) };
+        }
+        setParams(
+            new URLSearchParams({
+                ...itemDomain,
+                level: String(clickedItem.level),
+                id: String(clickedItem.id),
+            }),
+        );
+    };
+
     return (
         <S.Wrapper data-testid="TreeCard" isFullWidthCard={isFullWidthCard}>
             <S.InnerFlex>
                 <div>
                     <S.TitleContainer
-                        onClick={() => setActiveItem(item.id, item.level)}
+                        onClick={() => handleTitleClick(item)}
                         data-testid="TreeCardTitleContainer"
                     >
                         {getItemIcon(item)}
@@ -92,10 +112,10 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
             </S.InnerFlex>
 
             <S.ExpandStyled {...{ isOpen }} isAutoHeight>
-                {item.children?.map((item: any, index: number) => (
+                {item.children?.map((item: Item, index: number) => (
                     <S.ChildrenLinkTitle
                         key={index}
-                        onClick={() => setActiveItem(item.id, item.level)}
+                        onClick={() => handleTitleClick(item)}
                         data-testid="TreeCardChildrenLinkTitle"
                     >
                         {item.name}
