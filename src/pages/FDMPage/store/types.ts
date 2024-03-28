@@ -8,7 +8,7 @@ export interface Item {
     level: number;
     children?: Item[];
     stereotype?: 'TECHNICAL' | 'BUSINESS';
-    domain_ref?: { id: number };
+    domain_ref?: { id: number; name: string };
     owner?: string;
 }
 

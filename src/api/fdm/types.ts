@@ -16,3 +16,9 @@ export interface ICapability {
     status: string;
     stereotype: string;
 }
+
+export interface ICapabilityProduct {
+    alias: string;
+    eaGuid: string;
+    name: string;
+}

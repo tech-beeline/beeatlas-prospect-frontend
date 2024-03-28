@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
 
+import { Link } from 'components/other';
+
+import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 import { useWindowResize } from 'hooks';
 
 import boxImg from './images/box.png';
@@ -18,6 +21,9 @@ export const FDMPage = () => {
         state.breadcrumbs,
         state.loading,
     ]);
+
+    const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
+        useGetTechCapabilityProductsQuery(activeItem?.guid, activeItem?.stereotype === 'TECHNICAL');
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
@@ -81,10 +87,44 @@ export const FDMPage = () => {
                                 </S.MockWrapper>
                             )}
 
-                            <S.JustText
-                                data-testid="Description"
-                                dangerouslySetInnerHTML={{ __html: activeItem.descr }}
-                            />
+                            {activeItem.descr && (
+                                <S.JustText data-testid="Description">
+                                    {activeItem.descr}
+                                </S.JustText>
+                            )}
+
+                            {activeItem.domain_ref && (
+                                <>
+                                    <S.DomainText>Домен</S.DomainText>
+                                    <Link
+                                        title={activeItem.domain_ref?.name}
+                                        url={`/models/fdm?id=${activeItem.domain_ref?.id}&domainId=${activeItem.domain_ref?.id}`}
+                                    />
+                                </>
+                            )}
+
+                            {activeItem.stereotype === 'TECHNICAL' && (
+                                <>
+                                    <S.DomainText>ТС Реализован в продукте</S.DomainText>
+                                    <S.ChipsContainer>
+                                        {isLoadingProducts && (
+                                            <Skeleton height={32} radius={30} width={123} />
+                                        )}
+                                        {techCapabilityProducts &&
+                                            techCapabilityProducts.length > 0 &&
+                                            techCapabilityProducts.map((product) => (
+                                                <S.ChipStyled
+                                                    key={product.eaGuid}
+                                                    label={product.name}
+                                                />
+                                            ))}
+                                        {techCapabilityProducts &&
+                                            techCapabilityProducts.length === 0 && (
+                                                <S.ChipStyled label="Нет продуктов" />
+                                            )}
+                                    </S.ChipsContainer>
+                                </>
+                            )}
 
                             {!isItemGroup &&
                                 !!activeItem.children &&
