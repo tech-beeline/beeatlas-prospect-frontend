@@ -4,18 +4,18 @@ import { sendAnalytics } from 'features/analytics';
 
 import { Expand } from 'components/other';
 
-import { IData } from 'pages/TechRadarPage/types';
+import { ITech } from 'api/tech-radar/types';
 
 import { Hint } from './Hint';
 import * as T from './types';
 import * as S from './units';
 
 export const MenuElement: FC<T.IMenuElement> = (props) => {
-    const formatData = (quadrantData: IData[]) => {
-        const hold = quadrantData.filter((item) => item.ring === 3);
-        const assess = quadrantData.filter((item) => item.ring === 2);
-        const trial = quadrantData.filter((item) => item.ring === 1);
-        const adopt = quadrantData.filter((item) => item.ring === 0);
+    const formatData = (quadrantData: ITech[]) => {
+        const hold = quadrantData.filter((item) => item.ring.id === 4);
+        const assess = quadrantData.filter((item) => item.ring.id === 3);
+        const trial = quadrantData.filter((item) => item.ring.id === 2);
+        const adopt = quadrantData.filter((item) => item.ring.id === 1);
 
         return [
             {
@@ -113,7 +113,10 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                           iconName={Icons.OpenInBrowser}
                                                           size="large"
                                                           onClick={() => {
-                                                              window.open(item.link, '_blank');
+                                                              window.open(
+                                                                  item.link ?? '',
+                                                                  '_blank',
+                                                              );
                                                               sendAnalytics([
                                                                   'techradar',
                                                                   'link',
@@ -151,7 +154,10 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                           iconName={Icons.OpenInBrowser}
                                                           size="large"
                                                           onClick={() => {
-                                                              window.open(item.link, '_blank');
+                                                              window.open(
+                                                                  item.link ?? '',
+                                                                  '_blank',
+                                                              );
                                                               sendAnalytics([
                                                                   'techradar',
                                                                   'link',

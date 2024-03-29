@@ -1,7 +1,8 @@
-import { IData, TRing } from 'pages/TechRadarPage/types';
+import { ITech } from 'api/tech-radar/types';
+import { TRing } from 'pages/TechRadarPage/types';
 
 export interface IAssess {
-    data: IData[];
+    data: ITech[];
     hintText: string;
     isActive: boolean;
     isElementSelected: boolean;

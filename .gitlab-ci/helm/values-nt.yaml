@@ -21,6 +21,10 @@ ingress:
         pathType: ImplementationSpecific
         serviceName: eafdmmart-backend-nt-service
         servicePort: "8080"
+      - path: /api-gateway/
+        pathType: ImplementationSpecific
+        serviceName: fdm-gateway-nt-service
+        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
 

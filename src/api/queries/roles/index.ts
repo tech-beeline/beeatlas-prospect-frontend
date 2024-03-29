@@ -2,11 +2,11 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import {
     deleteRole,
-    getCurrentRole,
+    getRoleById,
     getRolePermission,
     getRoles,
+    patchRole,
     postRole,
-    putRole,
     putRolePermission,
 } from 'api/personal-area';
 import { IPermission, IRole } from 'api/personal-area/types';
@@ -25,7 +25,7 @@ export const useGetRoleByIdQuery = (id: number | undefined | null) => {
     return useQuery<IRole>(
         [ROLE_PREFIX, 'role', id],
         () =>
-            getCurrentRole(id!)
+            getRoleById(id!)
                 .then((res) => res.data)
                 .catch((error) => console.error(error)),
         {
@@ -64,7 +64,7 @@ export function useUpdateRoleMutation() {
     const queryClient = useQueryClient();
     return useMutation(
         [ROLE_PREFIX, 'updateRole'],
-        (params: IRole) => putRole({ id: params.id, name: params.name }),
+        (params: IRole) => patchRole({ id: params.id, name: params.name }),
         {
             onSuccess: () => {
                 void queryClient.invalidateQueries(ROLE_PREFIX);

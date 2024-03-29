@@ -14,10 +14,7 @@ export const TechRadarPage = () => {
     const [search, setSearch] = useState('');
     const [filterValue, setFilterValue] = useState<string | null>(null);
 
-    // @TODO: Генерировать типы
-    const techRadarContent: T.IData[] = (techRadarData?.content as T.IData[]) ?? [];
-
-    const filteredItems = techRadarContent.filter((item) =>
+    const filteredItems = (techRadarData ?? []).filter((item) =>
         itemFilterHandler(item, search, filterValue),
     );
 
@@ -166,8 +163,6 @@ export const TechRadarPage = () => {
             <S.Header>
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
-
-                    {techRadarData && <S.SubTitle>{techRadarData.descr}</S.SubTitle>}
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
@@ -186,7 +181,7 @@ export const TechRadarPage = () => {
                 />
             </S.Header>
 
-            {techRadarContent.length > 0 && (
+            {techRadarData && techRadarData.length > 0 && (
                 <S.ContentWrapper>
                     <LeftMenu
                         data={filteredItems}
@@ -203,7 +198,7 @@ export const TechRadarPage = () => {
 
                     <S.RadarsContainer>
                         <Hold
-                            data={techRadarContent.filter((item) => item.ring === 3)}
+                            data={(techRadarData ?? []).filter((item) => item.ring.id === 4)}
                             isActive={activeMenuItem === 5}
                             {...{
                                 handleRing,
@@ -217,7 +212,7 @@ export const TechRadarPage = () => {
                         />
 
                         <Assess
-                            data={techRadarContent.filter((item) => item.ring === 2)}
+                            data={(techRadarData ?? []).filter((item) => item.ring.id === 3)}
                             isActive={activeMenuItem === 6}
                             {...{
                                 handleRing,
@@ -231,7 +226,7 @@ export const TechRadarPage = () => {
                         />
 
                         <Trial
-                            data={techRadarContent.filter((item) => item.ring === 1)}
+                            data={(techRadarData ?? []).filter((item) => item.ring.id === 2)}
                             isActive={activeMenuItem === 7}
                             {...{
                                 handleRing,
@@ -245,7 +240,7 @@ export const TechRadarPage = () => {
                         />
 
                         <Adopt
-                            data={techRadarContent.filter((item) => item.ring === 0)}
+                            data={(techRadarData ?? []).filter((item) => item.ring.id === 1)}
                             isActive={activeMenuItem === 8}
                             {...{
                                 handleRing,
@@ -259,7 +254,7 @@ export const TechRadarPage = () => {
                         />
 
                         <Radar
-                            data={techRadarContent}
+                            data={techRadarData ?? []}
                             isActive={!activeRing}
                             {...{
                                 viewBox,

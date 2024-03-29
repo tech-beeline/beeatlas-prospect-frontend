@@ -1,10 +1,10 @@
-import { IData } from 'pages/TechRadarPage/types';
+import { ITech } from 'api/tech-radar/types';
 
 export interface IFilters {
     search: string;
     filterValue: string | null;
     activeMenuItem: number;
-    filteredItems: IData[];
+    filteredItems: ITech[];
     setSearch: (search: string) => void;
     setFilterValue: (value: string | null) => void;
     setHintText: (search: string) => void;

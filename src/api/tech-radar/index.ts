@@ -1,9 +1,19 @@
+import { AxiosPromise } from 'axios';
+
 import Api from 'utils/api/axiosWrapper';
 
-import { API_URL } from '../const';
+import { GATEWAY_URL } from '../const';
 
-export const getTechRadar = () => {
+import { ICategory, ITech } from './types';
+
+export const getTechRadar = (): AxiosPromise<ITech[]> => {
     return Api.get({
-        url: `${API_URL}fdm/v1/techradar`,
+        url: `${GATEWAY_URL}techradar/v1/tech`,
+    });
+};
+
+export const getTechRadarCategories = (): AxiosPromise<ICategory[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}techradar/v1/category`,
     });
 };

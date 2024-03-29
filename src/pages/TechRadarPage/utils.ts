@@ -1,4 +1,4 @@
-import { IData } from './types';
+import { ITech } from 'api/tech-radar/types';
 
 const quadrants = [
     { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },
@@ -122,24 +122,21 @@ export const segment = (quadrant: number, ring: number, isOneRing?: boolean) => 
 
 export const getColor = (ring: number) => {
     switch (ring) {
-        case 0:
-            return 'var(--color-chart-green-active)';
         case 1:
-            return 'var(--color-chart-red-active)';
+            return 'var(--color-chart-green-active)';
         case 2:
+            return 'var(--color-chart-red-active)';
+        case 3:
             return 'var(--color-chart-blue-active)';
         default:
             return 'var(--color-chart-grey-active)';
     }
 };
 
-export const itemFilterHandler = (item: IData, search: string, filterValue: string | null) =>
+export const itemFilterHandler = (item: ITech, search: string, filterValue: string | null) =>
     Boolean(
         item.label.toLowerCase().includes(search.toLowerCase()) &&
             (filterValue
-                ? item.category
-                      ?.split(', ')
-                      .map((str) => str.trim())
-                      .includes(filterValue)
+                ? item.category.map((caregory) => caregory.name).includes(filterValue)
                 : true),
     );
