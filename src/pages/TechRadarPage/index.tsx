@@ -163,8 +163,6 @@ export const TechRadarPage = () => {
             <S.Header>
                 <S.TitleWrapper>
                     <S.Title>Технорадар</S.Title>
-
-                    {techRadarData && <S.SubTitle>(Обновление от 11/03/2024)</S.SubTitle>}
                 </S.TitleWrapper>
 
                 <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
