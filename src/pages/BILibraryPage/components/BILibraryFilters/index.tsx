@@ -64,7 +64,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilt
                 label="Продукт"
                 options={productOptions}
                 values={
-                    filterOptions.product
+                    String(filterOptions.product)
                         ? [productOptions.find((option) => option.id === filterOptions.product)!]
                         : []
                 }
