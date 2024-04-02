@@ -88,9 +88,10 @@ export const FDMPage = () => {
                             )}
 
                             {activeItem.descr && (
-                                <S.JustText data-testid="Description">
-                                    {activeItem.descr}
-                                </S.JustText>
+                                <S.JustText
+                                    dangerouslySetInnerHTML={{ __html: activeItem.descr }}
+                                    data-testid="Description"
+                                />
                             )}
 
                             {activeItem.domain_ref && (
