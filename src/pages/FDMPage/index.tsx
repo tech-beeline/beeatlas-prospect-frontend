@@ -106,7 +106,7 @@ export const FDMPage = () => {
 
                             {activeItem.stereotype === 'TECHNICAL' && (
                                 <>
-                                    <S.DomainText>ТС Реализован в продукте</S.DomainText>
+                                    <S.DomainText>ТС Реализована в продукте</S.DomainText>
                                     <S.ChipsContainer>
                                         {isLoadingProducts && (
                                             <Skeleton height={32} radius={30} width={123} />
