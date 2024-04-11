@@ -2,7 +2,7 @@ import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
 
-import { API_URL } from '../const';
+import { API_URL, CAPABILITIES_URL } from '../const';
 
 import * as T from './types';
 
@@ -28,4 +28,29 @@ export const getTechCapabilityProducts = (guid: string): AxiosPromise<T.ICapabil
     return Api.get({
         url: `${API_URL}fdm/v1/capabilities/${guid}/products`,
     });
+};
+
+export const getCoreBusinessCapabilities = (): AxiosPromise<T.IBusinessCapability[]> => {
+    return Api.get({ url: `${CAPABILITIES_URL}v1/business-capability?findBy=CORE` });
+};
+
+export const getBusinessCapabilityById = (id: number): AxiosPromise<T.IBusinessCapability> => {
+    return Api.get({ url: `${CAPABILITIES_URL}v1/business-capability/${id}` });
+};
+
+export const getBusinessCapabilityChildren = (
+    id: number,
+): AxiosPromise<{
+    businessCapabilities: T.IBusinessCapability[];
+    techCapabilities: T.ITechCapability[];
+}> => {
+    return Api.get({ url: `${CAPABILITIES_URL}v1/business-capability/${id}/children` });
+};
+
+export const getBusinessCapabilityParents = (id: number): AxiosPromise<T.IParentsData> => {
+    return Api.get({ url: `${CAPABILITIES_URL}v1/business-capability/${id}/parents` });
+};
+
+export const getTechCapabilityParents = (id: number): AxiosPromise<T.IParentsData> => {
+    return Api.get({ url: `${CAPABILITIES_URL}v1/tech-capabilities/${id}/parents` });
 };

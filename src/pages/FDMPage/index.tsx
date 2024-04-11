@@ -2,16 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
 
-import { Link } from 'components/other';
-
+// import { Link } from 'components/other';
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 import { useWindowResize } from 'hooks';
 
 import boxImg from './images/box.png';
 import boxWithQuestionImg from './images/boxWithQuestion.png';
 
+import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
-import { validateFDMParams } from './helpers';
+// import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
@@ -23,16 +23,15 @@ export const FDMPage = () => {
     ]);
 
     const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
-        useGetTechCapabilityProductsQuery(activeItem?.guid, activeItem?.stereotype === 'TECHNICAL');
+        useGetTechCapabilityProductsQuery('1', activeItem?.type === ItemTypes.TECH);
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const isLinkCorrect = validateFDMParams(params);
+    const isLinkCorrect = true;
 
-    const itemAliasType = activeItem?.alias?.split('.')[0];
-    const isItemGroup = itemAliasType === 'GRP';
-    const isItemDomain = itemAliasType === 'DMN';
+    const isItemGroup = activeItem?.domain && activeItem.parentId === null;
+    const isItemDomain = activeItem?.domain && activeItem.parentId !== null;
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
@@ -68,9 +67,8 @@ export const FDMPage = () => {
                                         <BreadCrumbsItem
                                             key={index}
                                             id={item.id}
-                                            level={item.level}
                                             name={item.name}
-                                            domainId={item.domainId}
+                                            type={item.type}
                                         />
                                     ))}
                                 </Breadcrumbs>
@@ -78,7 +76,7 @@ export const FDMPage = () => {
 
                             <S.H4 data-testid="Title">{activeItem.name}</S.H4>
 
-                            <S.AliasText data-testid="Alias">{activeItem.alias}</S.AliasText>
+                            <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
 
                             {isItemDomain && activeItem.children?.length === 0 && (
                                 <S.MockWrapper data-testid="Mock">
@@ -87,14 +85,14 @@ export const FDMPage = () => {
                                 </S.MockWrapper>
                             )}
 
-                            {activeItem.descr && (
+                            {activeItem.description && (
                                 <S.JustText
-                                    dangerouslySetInnerHTML={{ __html: activeItem.descr }}
+                                    dangerouslySetInnerHTML={{ __html: activeItem.description }}
                                     data-testid="Description"
                                 />
                             )}
 
-                            {activeItem.domain_ref && (
+                            {/* {activeItem.domain_ref && (
                                 <>
                                     <S.DomainText>Домен</S.DomainText>
                                     <Link
@@ -102,9 +100,9 @@ export const FDMPage = () => {
                                         url={`/models/fdm?id=${activeItem.domain_ref?.id}&domainId=${activeItem.domain_ref?.id}`}
                                     />
                                 </>
-                            )}
+                            )} */}
 
-                            {activeItem.stereotype === 'TECHNICAL' && (
+                            {activeItem.type === ItemTypes.TECH && (
                                 <>
                                     <S.DomainText>ТС Реализована в продукте</S.DomainText>
                                     <S.ChipsContainer>
@@ -131,7 +129,7 @@ export const FDMPage = () => {
                                 !!activeItem.children &&
                                 activeItem.children?.length > 0 && (
                                     <S.FlexBlock>
-                                        {activeItem.alias?.includes('DMN')
+                                        {isItemDomain
                                             ? 'Все бизнес возможности домена'
                                             : 'Связанные технические возможности'}
                                         <S.ListSwitcherWrapper className="ListSwitcherWrapper">
@@ -176,7 +174,7 @@ export const FDMPage = () => {
                     ) : (
                         <></>
                     )}
-                    {paramId && !activeItem && loading && <Skeleton height={100} radius={10} />}
+                    {!activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
             </S.Wrapper>
         </S.PageWrapper>

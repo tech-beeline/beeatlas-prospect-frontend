@@ -1,5 +1,3 @@
-import { Item } from './store/types';
-
 const authParams = ['auth_code', 'auth_state', 'auth_provider'];
 
 export const validateFDMParams = (params: URLSearchParams): boolean => {
@@ -33,5 +31,3 @@ export const validateFDMParams = (params: URLSearchParams): boolean => {
 
     return false;
 };
-
-export const checkForDomainType = (item: Item) => item.alias?.split('.')[0] === 'DMN';

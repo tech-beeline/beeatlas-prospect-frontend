@@ -2,11 +2,11 @@ import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Skeleton } from '@beeline/design-system-react';
 
-import { Link, PivotArrow } from 'components/other';
+import { PivotArrow } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-import { checkForDomainType } from 'pages/FDMPage/helpers';
-import { Item } from 'pages/FDMPage/store/types';
+import { useFDMStore } from 'pages/FDMPage/store';
+import { Item, ItemTypes } from 'pages/FDMPage/store/types';
 
 import { getItemIcon } from '../utils';
 
@@ -15,30 +15,30 @@ import * as S from './units';
 
 export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
     const [, setParams] = useSearchParams();
-    const isTypeDMN = checkForDomainType(item);
+
+    const { getСhildrenСapabilities } = useFDMStore();
 
     const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
-        item?.guid,
-        item?.stereotype === 'TECHNICAL',
+        '1',
+        item.type === ItemTypes.TECH,
     );
 
     const [isOpen, setOpen] = useState(false);
 
     const handleTitleClick = (clickedItem: Item) => {
-        let itemDomain = {};
-        if (clickedItem.domain_ref) {
-            itemDomain = { domainId: String(clickedItem.domain_ref.id) };
-        }
-        if (isTypeDMN) {
-            itemDomain = { domainId: String(clickedItem.id) };
-        }
         setParams(
             new URLSearchParams({
-                ...itemDomain,
-                level: String(clickedItem.level),
                 id: String(clickedItem.id),
+                type: clickedItem.type,
             }),
         );
+    };
+
+    const handleRelatedCapabilitiesClick = async () => {
+        if (!isOpen) {
+            await getСhildrenСapabilities(item.id);
+        }
+        setOpen(!isOpen);
     };
 
     return (
@@ -54,16 +54,16 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         <div>
                             <S.Title data-testid="TreeCardTitle">{item.name}</S.Title>
 
-                            <S.TitleSecond>{item.alias}</S.TitleSecond>
+                            <S.TitleSecond>{item.code}</S.TitleSecond>
                         </div>
                     </S.TitleContainer>
 
                     <S.Text
-                        dangerouslySetInnerHTML={{ __html: item.descr }}
+                        dangerouslySetInnerHTML={{ __html: item.description }}
                         data-testid="TreeCardDescription"
                     />
 
-                    {item.domain_ref && (
+                    {/* {item.domain_ref && (
                         <S.MarginContainer>
                             <S.TitleSecond>Домен</S.TitleSecond>
                             <Link
@@ -71,9 +71,9 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                                 url={`/models/fdm?id=${item.domain_ref?.id}&domainId=${item.domain_ref?.id}`}
                             />
                         </S.MarginContainer>
-                    )}
+                    )} */}
 
-                    {item.stereotype === 'TECHNICAL' && (
+                    {item.type === ItemTypes.TECH && (
                         <S.MarginContainer>
                             <S.TitleSecond>ТС Реализована в продукте</S.TitleSecond>
                             <S.ChipsContainer>
@@ -92,17 +92,17 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         </S.MarginContainer>
                     )}
 
-                    {item.owner && (
+                    {item.author && (
                         <S.MarginContainer>
                             <S.TitleSecond>Владелец</S.TitleSecond>
-                            <S.Text>{item.owner}</S.Text>
+                            <S.Text>{item.author}</S.Text>
                         </S.MarginContainer>
                     )}
                 </div>
 
-                {item.children && item.children.length > 0 && (
+                {item.type === ItemTypes.BUSINESS && (
                     <S.ChildrenExpandTitle
-                        onClick={() => setOpen(!isOpen)}
+                        onClick={handleRelatedCapabilitiesClick}
                         data-testid="TreeCardChildrenExpandTitle"
                     >
                         Связанные возможности
@@ -111,7 +111,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 )}
             </S.InnerFlex>
 
-            <S.ExpandStyled {...{ isOpen }} isAutoHeight>
+            <S.ExpandStyled isOpen={isOpen} isAutoHeight>
                 {item.children?.map((item: Item, index: number) => (
                     <S.ChildrenLinkTitle
                         key={index}
@@ -121,6 +121,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         {item.name}
                     </S.ChildrenLinkTitle>
                 ))}
+                {item.children.length === 0 && <S.TextInactive>Возможностей нет</S.TextInactive>}
             </S.ExpandStyled>
         </S.Wrapper>
     );

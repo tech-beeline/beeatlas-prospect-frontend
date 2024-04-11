@@ -1,64 +1,109 @@
 import { create } from 'zustand';
 
-import { getGeneralItems, getItemChildren } from 'api/fdm';
+import {
+    getBusinessCapabilityChildren,
+    getBusinessCapabilityParents,
+    getCoreBusinessCapabilities,
+    getTechCapabilityParents,
+} from 'api/fdm';
 
-import { IFDMStore } from './types';
-import { findItemInTreeById, formatMenuItems, getItemPathAndBreadcrumbs } from './utils';
+import { IFDMStore, Item, ItemTypes } from './types';
+import { findItemInTree, getItemPathAndBreadcrumbs } from './utils';
 
 export const useFDMStore = create<IFDMStore>()((set, get) => ({
     activeItem: null,
-    activeItemPath: [],
+    path: [],
     breadcrumbs: [],
-    flatItems: [],
-    menuItems: [],
-    requesetedDomainIds: [],
+    items: [],
+    requestedCapabilities: [],
     loading: false,
 
-    setActiveItem: (itemId, level) => {
-        set(() => {
-            const foundItem = findItemInTreeById(get().menuItems, itemId, level);
-            const { path, breadcrumbs } = getItemPathAndBreadcrumbs(get().menuItems, itemId, level);
-            return { activeItem: foundItem, activeItemPath: path, breadcrumbs };
-        });
+    setActiveItem: (itemId, type) => {
+        const foundItem = findItemInTree(get().items, itemId, type);
+        const { path, breadcrumbs } = getItemPathAndBreadcrumbs(get().items, itemId, type);
+        set(() => ({
+            activeItem: foundItem,
+            path: path,
+            breadcrumbs: breadcrumbs,
+        }));
     },
 
     clearActiveItem: () => {
         set(() => ({
             activeItem: null,
-            activeItemPath: [],
+            path: [],
             breadcrumbs: [],
-            requesetedDomainIds: [],
+            requestedCapabilities: [],
         }));
     },
 
-    getGroupsAndDomains: async () => {
+    getCoreCababilities: async () => {
         set(() => ({ loading: true }));
-        const res = await getGeneralItems();
+        const res = await getCoreBusinessCapabilities();
         set(() => ({
-            flatItems: [...res.data],
-            menuItems: formatMenuItems([...res.data]),
+            items: [
+                ...res.data.map((capability) => ({
+                    ...capability,
+                    type: ItemTypes.BUSINESS,
+                    children: [] as Item[],
+                    parentId: null,
+                })),
+            ],
             loading: false,
         }));
     },
 
-    getEntitiesByDomain: async (domainId: number) => {
-        if (!get().requesetedDomainIds.includes(domainId)) {
-            set(() => ({ loading: true }));
-            const res = await getItemChildren(domainId);
+    getParentCapabilities: async (id, type) => {
+        const ids = [];
+        set(() => ({ loading: true }));
+        if (type === ItemTypes.BUSINESS) {
+            const res = await getBusinessCapabilityParents(id);
+            ids.push(...res.data.parents);
+        }
 
-            const flatItemsWithChildren = get().flatItems.map((item) =>
-                item.id === domainId ? { ...item, children: res.data ?? [] } : item,
-            );
+        if (type === ItemTypes.TECH) {
+            const res = await getTechCapabilityParents(id);
+            ids.push(...res.data.parents);
+        }
+
+        for (const id of ids) {
+            await get().getСhildrenСapabilities(id);
+        }
+
+        await get().getСhildrenСapabilities(id);
+        set(() => ({ loading: false }));
+    },
+
+    getСhildrenСapabilities: async (id) => {
+        const treeItems = [...get().items];
+        const item = findItemInTree(treeItems, id, ItemTypes.BUSINESS);
+
+        if (item && !get().requestedCapabilities.includes(item.type + item.id)) {
+            const res = await getBusinessCapabilityChildren(id);
+            const children: Item[] = [
+                ...res.data.businessCapabilities.map((capability) => ({
+                    ...capability,
+                    domain: capability.domain || capability.isDomain,
+                    type: ItemTypes.BUSINESS,
+                    children: [] as Item[],
+                    parentId: id,
+                })),
+                ...res.data.techCapabilities.map((capability) => ({
+                    ...capability,
+                    type: ItemTypes.TECH,
+                    children: [] as Item[],
+                    parentId: id,
+                })),
+            ];
+
+            if (item) {
+                item.children = [...children];
+            }
 
             set(() => ({
-                flatItems: [...flatItemsWithChildren],
-                menuItems: formatMenuItems([...flatItemsWithChildren]),
-                requesetedDomainIds: [...get().requesetedDomainIds, domainId],
-                loading: false,
+                items: treeItems,
+                requestedCapabilities: [...get().requestedCapabilities, item.type + item.id],
             }));
-
-            return res.data.length > 0;
         }
-        return true;
     },
 }));

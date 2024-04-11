@@ -1,4 +1,4 @@
-import { Icon } from '@beeline/design-system-react';
+import { Icon, Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
@@ -58,6 +58,10 @@ export const ExpandStyled = styled(Expand)`
 
 export const IconStyled = styled(Icon)`
     color: ${({ type }) => !type && 'var(--color-text-inactive)'};
+`;
+
+export const SkeletonStyled = styled(Skeleton)`
+    margin-bottom: 4px;
 `;
 
 export const Name = styled.p`
