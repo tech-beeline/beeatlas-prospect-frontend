@@ -55,6 +55,6 @@ export const putCJStepBIs = (stepId: string, data: T.ICJStepBIForm) => {
 
 export const deleteCJStepBI = (stepId: string, biId: string) => {
     return Api.delete({
-        url: `${GATEWAY_URL}cx/v1/step/${stepId}/bi/${biId}`,
+        url: `${GATEWAY_URL}cx/v1/cj/step/${stepId}/bi/${biId}`,
     });
 };
