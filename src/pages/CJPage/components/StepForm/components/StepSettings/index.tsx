@@ -8,7 +8,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 import { Stage } from '../../types';
 import * as S from '../../units';
 
-import emptyBox from './images/empty-box.png';
+import emptyBox from '../../images/empty-box.png';
 
 import { BiItem } from './components';
 import { IStepSettings } from './types';

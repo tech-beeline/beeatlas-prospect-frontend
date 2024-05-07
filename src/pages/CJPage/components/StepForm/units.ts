@@ -1,4 +1,4 @@
-import { Banner } from '@beeline/design-system-react';
+import { Banner, Tabs } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const FlexWrapper = styled.div`
@@ -51,6 +51,10 @@ export const SubtitleFlexWrapper2 = styled(FlexWrapper)`
     margin-top: 32px;
 `;
 
+export const BIContainer = styled.div`
+    margin-top: 24px;
+`;
+
 export const BIFlexWrapper = styled(FlexWrapper)`
     padding: 12px 0px;
 `;
@@ -73,6 +77,17 @@ export const Body3 = styled.div<{ marginTop?: boolean }>`
     color: var(--color-text-inactive);
 
     margin-top: ${({ marginTop }) => (marginTop ? '12px' : '0px')};
+`;
+
+export const TabsContainer = styled.div`
+    margin-top: 24px;
+`;
+
+export const TabsStyled = styled(Tabs)`
+    // Убрать скролл кнопки в табах
+    & > div > div > button {
+        display: none;
+    }
 `;
 
 export const TextFieldContainer = styled.div`
@@ -105,6 +120,7 @@ export const FlexContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
+    width: 320px;
     min-height: 100%;
 `;
 
@@ -152,6 +168,14 @@ export const LabelsContainer = styled.div`
 
     margin-top: 24px;
     margin-bottom: 20px;
+`;
+
+export const SkeletonContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    margin-top: 36px;
 `;
 
 export const EmptyState = styled.div`
