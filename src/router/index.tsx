@@ -23,6 +23,7 @@ import {
     MainPage,
     ModelsPage,
     NotFoundPage,
+    NotificationsPage,
     PersonalArea,
     RollSettingsPage,
     SearchPage,
@@ -371,6 +372,17 @@ export const NavigationRouter = () => {
                     />
 
                     <Route path={`${C.CX_PATH}${C.BI_PATH}${C.ADD_PATH}`} element={<BIAddPage />} />
+
+                    <Route
+                        path={`${C.NOTIFICATIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <NotificationsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

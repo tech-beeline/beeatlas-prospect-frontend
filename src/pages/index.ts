@@ -1,6 +1,5 @@
-export { AppInfoPage } from './AppInfoPage';
-// TODO: убрать
 export { AddRollPage } from './AddRollPage';
+export { AppInfoPage } from './AppInfoPage';
 export { ArchCommPage } from './ArchCommPage';
 export { BIAddPage } from './BIAddPage';
 export { BILibraryPage } from './BILibraryPage';
@@ -20,6 +19,7 @@ export { ImportedDataPage } from './ImportedDataPage';
 export { MainPage } from './MainPage';
 export { ModelsPage } from './ModelsPage';
 export { NotFoundPage } from './NotFoundPage';
+export { NotificationsPage } from './NotificationsPage';
 export { PackagePage } from './PackagePage';
 export { PersonalArea } from './PersonalArea';
 export { ProductsPage } from './ProductsPage';
