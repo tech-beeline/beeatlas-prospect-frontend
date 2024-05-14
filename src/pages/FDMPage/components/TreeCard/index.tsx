@@ -1,12 +1,17 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Skeleton } from '@beeline/design-system-react';
+import { Button, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { PivotArrow } from 'components/other';
+import { Link, PivotArrow } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
+import { useModal } from 'hooks';
+import { getItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
 import { useFDMStore } from 'pages/FDMPage/store';
 import { Item, ItemTypes } from 'pages/FDMPage/store/types';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { getItemIcon } from '../utils';
 
@@ -14,6 +19,12 @@ import { ITreeCard } from './types';
 import * as S from './units';
 
 export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
+    const [subscribed, setSubscribed] = useState(false);
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const { modalOpened, openModal, closeModal } = useModal();
+
     const [, setParams] = useSearchParams();
 
     const { getСhildrenСapabilities } = useFDMStore();
@@ -41,6 +52,27 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
         setOpen(!isOpen);
     };
 
+    const handleSubscribeButtonClick = () => {
+        if (!subscribed) {
+            setSubscribed(true);
+            showSnackbar({
+                message: `Вы подписаны на изменения (перемещение, добавление новых сущностей) ${
+                    itemNameMap[getItemClassification(item)]
+                }. Уведомления будут приходить на почту`,
+            });
+        } else {
+            openModal();
+        }
+    };
+
+    const handleModalConfirm = () => {
+        setSubscribed(false);
+        closeModal();
+        showSnackbar({
+            message: `Вы отписаны от изменений ${itemNameMap[getItemClassification(item)]}`,
+        });
+    };
+
     return (
         <S.Wrapper data-testid="TreeCard" isFullWidthCard={isFullWidthCard}>
             <S.InnerFlex>
@@ -63,15 +95,15 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         data-testid="TreeCardDescription"
                     />
 
-                    {/* {item.domain_ref && (
+                    {item.domainData && (
                         <S.MarginContainer>
                             <S.TitleSecond>Домен</S.TitleSecond>
                             <Link
-                                title={item.domain_ref?.name}
-                                url={`/models/fdm?id=${item.domain_ref?.id}&domainId=${item.domain_ref?.id}`}
+                                title={item.domainData.name}
+                                url={`/models/fdm?id=${item.domainData.id}&type=BUSINESS`}
                             />
                         </S.MarginContainer>
-                    )} */}
+                    )}
 
                     {item.type === ItemTypes.TECH && (
                         <S.MarginContainer>
@@ -123,6 +155,21 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 ))}
                 {item.children.length === 0 && <S.TextInactive>Возможностей нет</S.TextInactive>}
             </S.ExpandStyled>
+
+            <S.SubscribeButtonContainer>
+                <Button size="small" variant="outlined" onClick={handleSubscribeButtonClick}>
+                    <S.IconStyled
+                        iconName={subscribed ? Icons.NotificationOff : Icons.Notification}
+                        size="small"
+                    />
+                    Подписаться
+                </Button>
+            </S.SubscribeButtonContainer>
+
+            <Dialog opened={modalOpened} onClose={closeModal} onConfirm={handleModalConfirm}>
+                Вы уверены, что хотите отписаться от изменений{' '}
+                {itemNameMap[getItemClassification(item)]}?
+            </Dialog>
         </S.Wrapper>
     );
 };

@@ -25,13 +25,13 @@ export const getItemPathAndBreadcrumbs = (
     const breadcrumbs: Breadcrumb[] = [];
     const item = findItemInTree(menuItems, id, type);
 
-    if (item?.parentId) {
-        path.push(item.parentId);
+    if (item?.parent) {
+        path.push(item.parent);
         breadcrumbs.unshift({ id: item.id, name: item.name, type: item.type });
 
         const { path: itemPath, breadcrumbs: itemBreadcrumbs } = getItemPathAndBreadcrumbs(
             menuItems,
-            item.parentId,
+            item.parent,
             ItemTypes.BUSINESS,
         );
         path.push(...itemPath);

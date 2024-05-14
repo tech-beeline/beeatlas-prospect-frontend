@@ -3,6 +3,11 @@ export enum ItemTypes {
     BUSINESS = 'BUSINESS',
 }
 
+export interface DomainData {
+    id: number;
+    name: string;
+}
+
 export interface Item {
     id: number;
     name: string;
@@ -11,9 +16,10 @@ export interface Item {
     author: string;
     children: Item[];
     type: ItemTypes;
-    domain?: boolean;
+    isDomain?: boolean;
     hasChildren?: boolean;
-    parentId: number | null;
+    parent: number | null;
+    domainData?: DomainData;
 }
 
 export interface Breadcrumb {

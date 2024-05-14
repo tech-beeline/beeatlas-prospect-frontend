@@ -7,7 +7,7 @@ import {
     getTechCapabilityParents,
 } from 'api/fdm';
 
-import { IFDMStore, Item, ItemTypes } from './types';
+import { DomainData, IFDMStore, Item, ItemTypes } from './types';
 import { findItemInTree, getItemPathAndBreadcrumbs } from './utils';
 
 export const useFDMStore = create<IFDMStore>()((set, get) => ({
@@ -46,7 +46,7 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
                     ...capability,
                     type: ItemTypes.BUSINESS,
                     children: [] as Item[],
-                    parentId: null,
+                    parent: null,
                 })),
             ],
             loading: false,
@@ -79,20 +79,29 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
         const item = findItemInTree(treeItems, id, ItemTypes.BUSINESS);
 
         if (item && !get().requestedCapabilities.includes(item.type + item.id)) {
+            let domainData: DomainData;
+
+            if (item.isDomain && item.parent !== null) {
+                domainData = { id: item.id, name: item.name };
+            } else if (item.domainData) {
+                domainData = item.domainData;
+            }
+
             const res = await getBusinessCapabilityChildren(id);
             const children: Item[] = [
                 ...res.data.businessCapabilities.map((capability) => ({
                     ...capability,
-                    domain: capability.domain || capability.isDomain,
                     type: ItemTypes.BUSINESS,
                     children: [] as Item[],
-                    parentId: id,
+                    parent: id,
+                    domainData,
                 })),
                 ...res.data.techCapabilities.map((capability) => ({
                     ...capability,
                     type: ItemTypes.TECH,
                     children: [] as Item[],
-                    parentId: id,
+                    parent: id,
+                    domainData,
                 })),
             ];
 

@@ -10,11 +10,11 @@ const IconStyled = styled(Icon)`
 `;
 
 export const getItemIcon = (item: Item): JSX.Element => {
-    if (item.domain && item.parentId === null) {
+    if (item.isDomain && item.parent === null) {
         return <IconStyled iconName={Icons.Folder} />;
     }
 
-    if (item.domain && item.parentId === null) {
+    if (item.isDomain && item.parent !== null) {
         return <IconStyled iconName={Icons.PagesMultipleEmpty} />;
     }
 

@@ -1,4 +1,4 @@
-import { Chip } from '@beeline/design-system-react';
+import { Banner, Chip, Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { GrayText } from 'styles/units';
@@ -38,6 +38,16 @@ export const Container = styled.div`
     width: 100%;
 `;
 
+export const BannerStyled = styled(Banner)`
+    margin-bottom: 16px;
+`;
+
+export const TitleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 export const H4 = styled.h4`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
@@ -45,6 +55,10 @@ export const H4 = styled.h4`
     letter-spacing: var(--font-letter-spacing-body3);
 
     margin: 8px 0;
+`;
+
+export const IconStyled = styled(Icon)`
+    margin-right: 8px;
 `;
 
 export const JustText = styled.p`

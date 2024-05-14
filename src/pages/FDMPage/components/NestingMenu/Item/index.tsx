@@ -53,11 +53,7 @@ export const Item: FC<IItem> = ({ item }) => {
             >
                 <PivotArrow
                     onClick={handleArrowClick}
-                    color={
-                        item.type === ItemTypes.BUSINESS
-                            ? 'var(--color-text-inactive)'
-                            : 'transparent'
-                    }
+                    color={item.hasChildren ? 'var(--color-text-inactive)' : 'transparent'}
                     position={isOpen ? '' : 'right'}
                 />
 

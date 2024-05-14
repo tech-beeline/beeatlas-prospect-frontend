@@ -1,4 +1,4 @@
-import { Chip } from '@beeline/design-system-react';
+import { Chip, Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
@@ -119,4 +119,15 @@ export const ChipsContainer = styled.div`
 
 export const ChipStyled = styled(Chip)`
     cursor: auto !important;
+`;
+
+export const SubscribeButtonContainer = styled.div`
+    display: flex;
+    justify-content: end;
+
+    margin-top: 12px;
+`;
+
+export const IconStyled = styled(Icon)`
+    margin-right: 8px;
 `;

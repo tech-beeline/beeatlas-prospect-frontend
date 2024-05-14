@@ -1,21 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Button, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import { Link } from 'components/other';
+import { Link } from 'components/other';
+
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-import { useWindowResize } from 'hooks';
+import { useModal, useWindowResize } from 'hooks';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import boxImg from './images/box.png';
 import boxWithQuestionImg from './images/boxWithQuestion.png';
 
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
+import { getItemClassification, itemNameMap } from './helpers';
 // import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
 export const FDMPage = () => {
+    const [subscribed, setSubscribed] = useState(false);
+    const [showBanner, setShowBanner] = useState(true);
+
+    const handleCloseBannerClick = () => {
+        setShowBanner(false);
+    };
+
+    const { modalOpened, openModal, closeModal } = useModal();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
         state.activeItem,
         state.breadcrumbs,
@@ -30,8 +46,8 @@ export const FDMPage = () => {
 
     const isLinkCorrect = true;
 
-    const isItemGroup = activeItem?.domain && activeItem.parentId === null;
-    const isItemDomain = activeItem?.domain && activeItem.parentId !== null;
+    const isItemGroup = activeItem?.isDomain && activeItem.parent === null;
+    const isItemDomain = activeItem?.isDomain && activeItem.parent !== null;
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
@@ -49,6 +65,31 @@ export const FDMPage = () => {
             setFullWidthCard(width <= 623);
         }
     }, [windowWidth, activeItem]);
+
+    const handleSubscribeButtonClick = () => {
+        if (!subscribed && activeItem) {
+            setSubscribed(true);
+            showSnackbar({
+                message: `Вы подписаны на изменения (перемещение, добавление новых сущностей) ${
+                    itemNameMap[getItemClassification(activeItem)]
+                }. Уведомления будут приходить на почту`,
+            });
+        } else {
+            openModal();
+        }
+    };
+
+    const handleModalConfirm = () => {
+        if (activeItem) {
+            setSubscribed(false);
+            closeModal();
+            showSnackbar({
+                message: `Вы отписаны от изменений ${
+                    itemNameMap[getItemClassification(activeItem)]
+                }`,
+            });
+        }
+    };
 
     return (
         <S.PageWrapper>
@@ -74,7 +115,31 @@ export const FDMPage = () => {
                                 </Breadcrumbs>
                             )}
 
-                            <S.H4 data-testid="Title">{activeItem.name}</S.H4>
+                            {showBanner && (
+                                <S.BannerStyled
+                                    color="error"
+                                    title="Не удалось подписаться, обновите страницу и попробуйте снова"
+                                    iconName={Icons.InfoCircled}
+                                    onClose={handleCloseBannerClick}
+                                />
+                            )}
+
+                            <S.TitleContainer>
+                                <S.H4 data-testid="Title">{activeItem.name}</S.H4>
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    onClick={handleSubscribeButtonClick}
+                                >
+                                    <S.IconStyled
+                                        iconName={
+                                            subscribed ? Icons.NotificationOff : Icons.Notification
+                                        }
+                                        size="small"
+                                    />
+                                    Подписаться
+                                </Button>
+                            </S.TitleContainer>
 
                             <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
 
@@ -92,15 +157,15 @@ export const FDMPage = () => {
                                 />
                             )}
 
-                            {/* {activeItem.domain_ref && (
+                            {activeItem.domainData && (
                                 <>
                                     <S.DomainText>Домен</S.DomainText>
                                     <Link
-                                        title={activeItem.domain_ref?.name}
-                                        url={`/models/fdm?id=${activeItem.domain_ref?.id}&domainId=${activeItem.domain_ref?.id}`}
+                                        title={activeItem.domainData.name}
+                                        url={`/models/fdm?id=${activeItem.domainData.id}&type=BUSINESS`}
                                     />
                                 </>
-                            )} */}
+                            )}
 
                             {activeItem.type === ItemTypes.TECH && (
                                 <>
@@ -177,6 +242,12 @@ export const FDMPage = () => {
                     {!activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
             </S.Wrapper>
+            {activeItem && (
+                <Dialog opened={modalOpened} onClose={closeModal} onConfirm={handleModalConfirm}>
+                    Вы уверены, что хотите отписаться от изменений{' '}
+                    {itemNameMap[getItemClassification(activeItem)]}?
+                </Dialog>
+            )}
         </S.PageWrapper>
     );
 };

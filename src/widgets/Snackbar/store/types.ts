@@ -11,6 +11,7 @@ type ISnackbarData = Omit<ISnackbar, 'isOpen'>;
 
 export interface ISnackbarStore {
     activeSnackbar: ISnackbar;
+    timerId: number | null;
     clearSnackbar: () => void;
     showSnackbar: (snackbarData: ISnackbarData) => void;
 }

@@ -35,8 +35,7 @@ export interface IBusinessCapability {
     owner: number;
     hasChildren: boolean;
     parent: Omit<IBusinessCapability, 'parent'> | null;
-    domain: boolean;
-    isDomain?: boolean;
+    isDomain: boolean;
     updatedDate: string;
 }
 
