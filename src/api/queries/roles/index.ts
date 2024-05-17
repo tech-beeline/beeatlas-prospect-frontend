@@ -14,11 +14,7 @@ import { IPermission, IRole } from 'api/personal-area/types';
 const ROLE_PREFIX = 'ROLE_PREFIX';
 
 export const useGetAllRolesQuery = () => {
-    return useQuery([ROLE_PREFIX, 'roles'], () =>
-        getRoles()
-            .then((res) => res.data)
-            .catch((error) => console.error(error)),
-    );
+    return useQuery([ROLE_PREFIX, 'roles'], () => getRoles().then((res) => res.data));
 };
 
 export const useGetRoleByIdQuery = (id: number | undefined | null) => {
