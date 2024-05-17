@@ -16,7 +16,7 @@ import { IProfile } from 'api/personal-area/types';
 import { useGetProfilesQuery } from 'api/queries/profile';
 import * as ROUTER from 'router/const';
 
-import { EmptyState, SortIndicator, UserTableProfile } from './components';
+import { EditRolesMenu, EmptyState, SortIndicator, UserTableProfile } from './components';
 import * as S from './units';
 
 import 'react-tooltip/dist/react-tooltip.css';
@@ -169,7 +169,7 @@ export const PersonalArea = () => {
                     </TableHead>
 
                     <TableBody>
-                        {displayedProfiles.map((profile) => {
+                        {displayedProfiles.map((profile, i) => {
                             return (
                                 <TableRow key={profile.id}>
                                     <TableData>
@@ -181,8 +181,19 @@ export const PersonalArea = () => {
 
                                     <TableData>Нет данных (бэк)</TableData>
                                     <TableData>
-                                        {profile.roles?.length > 0 &&
-                                            profile.roles.map((role: any) => role.name)}
+                                        <S.RolesContainer>
+                                            <EditRolesMenu
+                                                id={i}
+                                                roles={profile.roles}
+                                                login={profile.login}
+                                            />
+                                            <div>
+                                                {profile.roles?.length > 0 &&
+                                                    profile.roles
+                                                        .map((role) => role.name)
+                                                        .join(', ')}
+                                            </div>
+                                        </S.RolesContainer>
                                     </TableData>
                                     <TableData alignRight>{profile.last_login}</TableData>
                                 </TableRow>

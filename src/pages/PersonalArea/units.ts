@@ -61,3 +61,9 @@ export const TableHeaderDataStyled = styled(TableHeaderData)`
 export const TableStyled = styled(Table)`
     width: 100%;
 `;
+
+export const RolesContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+`;
