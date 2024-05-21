@@ -194,7 +194,7 @@ export const Radar: FC<T.IRadar> = (props) => {
                 })}
             </animated.svg>
 
-            {referenceElement && (
+            {referenceElement && props.isActive && (
                 <Popper
                     placement="top"
                     modifiers={[

@@ -158,7 +158,7 @@ export const RingRadar: FC<T.IRingRadar> = (props) => {
                 </g>
             </svg>
 
-            {referenceElement && (
+            {referenceElement && props.isActive && (
                 <Popper
                     placement="top"
                     modifiers={[
