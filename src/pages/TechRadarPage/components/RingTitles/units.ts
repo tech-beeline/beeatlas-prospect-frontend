@@ -23,7 +23,7 @@ export const RingTitle = styled.p<{
         type === 'adopt'
             ? 'var(--color-chart-green-active)'
             : type === 'trial'
-            ? 'var(--color-chart-red-active)'
+            ? 'var(--color-palette-amber-300)'
             : type === 'assess'
             ? 'var(--color-chart-blue-active)'
             : 'var(--color-chart-grey-active)'};

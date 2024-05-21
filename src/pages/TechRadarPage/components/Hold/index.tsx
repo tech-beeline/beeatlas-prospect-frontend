@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Popper } from 'react-popper';
 import * as d3 from 'd3';
+import dayjs from 'dayjs';
 import { sendAnalytics } from 'features/analytics';
 
 import * as STYLE from 'pages/TechRadarPage/units';
@@ -27,6 +28,8 @@ export const Hold: FC<T.IHold> = (props) => {
 
         return {
             ...item,
+            isNewTech: Math.abs(dayjs(item.createdDate).diff(new Date(), 'days')) <= 30,
+            isUpdatedTech: Math.abs(dayjs(item.lastModifiedDate).diff(new Date(), 'days')) <= 30,
             segment: itemSegment,
             x: coords.x,
             y: coords.y,
@@ -89,14 +92,51 @@ export const Hold: FC<T.IHold> = (props) => {
                     {formatedData.map((point, i) => {
                         refs.current[i] = useRef(null);
 
-                        return (
+                        return point.isNewTech ? (
                             <STYLE.CircleStyled
-                                isVisible={point.visible}
                                 className="point"
                                 key={i}
                                 cx={0}
                                 cy={0}
                                 r={1}
+                                isVisible={point.visible}
+                                fill="var(--color-background-base)"
+                                strokeWidth={0.2}
+                                stroke="#B6B7BF"
+                                ref={refs.current[i]}
+                                onMouseEnter={() => onHintShow(point.label)}
+                                onMouseLeave={onHintHide}
+                                onClick={() => {
+                                    props.setShowInMenu(true);
+                                    sendAnalytics(['techradar', 'click', point.label]);
+                                }}
+                            />
+                        ) : point.isUpdatedTech ? (
+                            <STYLE.PolygonStyled
+                                className="point"
+                                key={i}
+                                points="-0.8,0.8 0,-0.6 0.8,0.8"
+                                strokeLinejoin="round"
+                                strokeWidth={0.2}
+                                stroke="#B6B7BF"
+                                fill="#B6B7BF"
+                                isVisible={point.visible}
+                                ref={refs.current[i] as any}
+                                onMouseEnter={() => onHintShow(point.label)}
+                                onMouseLeave={onHintHide}
+                                onClick={() => {
+                                    props.setShowInMenu(true);
+                                    sendAnalytics(['techradar', 'click', point.label]);
+                                }}
+                            />
+                        ) : (
+                            <STYLE.CircleStyled
+                                className="point"
+                                key={i}
+                                cx={0}
+                                cy={0}
+                                r={1}
+                                isVisible={point.visible}
                                 fill="#B6B7BF"
                                 ref={refs.current[i]}
                                 onMouseEnter={() => onHintShow(point.label)}

@@ -3,6 +3,7 @@ export { Assess } from './Assess';
 export { Filters } from './Filters';
 export { Hold } from './Hold';
 export { LeftMenu } from './LeftMenu';
+export { Legend } from './Legend';
 export { QuadrantTitles } from './QuadrantTitles';
 export { Radar } from './Radar';
 export { RingTitles } from './RingTitles';

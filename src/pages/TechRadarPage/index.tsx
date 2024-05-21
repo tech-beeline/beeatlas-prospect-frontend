@@ -2,7 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 import { useGetTechradarDataQuery } from 'api/queries/techradar';
 
-import { Adopt, Assess, Filters, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
+import {
+    Adopt,
+    Assess,
+    Filters,
+    Hold,
+    LeftMenu,
+    Legend,
+    Radar,
+    TopMenu,
+    Trial,
+} from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
@@ -270,6 +280,8 @@ export const TechRadarPage = () => {
                                 filterValue,
                             }}
                         />
+
+                        <Legend />
                     </S.RadarsContainer>
                 </S.ContentWrapper>
             )}

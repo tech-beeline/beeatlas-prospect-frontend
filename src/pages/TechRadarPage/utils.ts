@@ -125,7 +125,7 @@ export const getColor = (ring: number) => {
         case 1:
             return 'var(--color-chart-green-active)';
         case 2:
-            return 'var(--color-chart-red-active)';
+            return 'var(--color-palette-amber-300)';
         case 3:
             return 'var(--color-chart-blue-active)';
         default:
