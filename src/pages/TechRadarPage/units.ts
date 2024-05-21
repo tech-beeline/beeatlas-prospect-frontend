@@ -110,6 +110,12 @@ export const CircleStyled = styled.circle<{ isVisible?: boolean }>`
     display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
+export const PolygonStyled = styled.polygon<{ isVisible?: boolean }>`
+    cursor: pointer;
+
+    display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+`;
+
 export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
     max-width: 360px;
     width: max-content;

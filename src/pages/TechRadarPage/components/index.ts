@@ -1,10 +1,8 @@
-export { Adopt } from './Adopt';
-export { Assess } from './Assess';
 export { Filters } from './Filters';
-export { Hold } from './Hold';
 export { LeftMenu } from './LeftMenu';
+export { Legend } from './Legend';
 export { QuadrantTitles } from './QuadrantTitles';
 export { Radar } from './Radar';
+export { RingRadar } from './RingRadar';
 export { RingTitles } from './RingTitles';
 export { TopMenu } from './TopMenu';
-export { Trial } from './Trial';

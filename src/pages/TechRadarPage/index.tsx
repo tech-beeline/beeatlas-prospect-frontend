@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useGetTechradarDataQuery } from 'api/queries/techradar';
 
-import { Adopt, Assess, Filters, Hold, LeftMenu, Radar, TopMenu, Trial } from './components';
+import { Filters, LeftMenu, Legend, Radar, RingRadar, TopMenu } from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
@@ -197,9 +197,11 @@ export const TechRadarPage = () => {
                     />
 
                     <S.RadarsContainer>
-                        <Hold
+                        <RingRadar
                             data={(techRadarData ?? []).filter((item) => item.ring.id === 4)}
                             isActive={activeMenuItem === 5}
+                            color="#B6B7BF"
+                            ring="hold"
                             {...{
                                 handleRing,
                                 hintText,
@@ -211,9 +213,11 @@ export const TechRadarPage = () => {
                             }}
                         />
 
-                        <Assess
+                        <RingRadar
                             data={(techRadarData ?? []).filter((item) => item.ring.id === 3)}
                             isActive={activeMenuItem === 6}
+                            color="var(--color-palette-blue-300)"
+                            ring="assess"
                             {...{
                                 handleRing,
                                 hintText,
@@ -225,9 +229,11 @@ export const TechRadarPage = () => {
                             }}
                         />
 
-                        <Trial
+                        <RingRadar
                             data={(techRadarData ?? []).filter((item) => item.ring.id === 2)}
                             isActive={activeMenuItem === 7}
+                            color="var(--color-palette-amber-300)"
+                            ring="trial"
                             {...{
                                 handleRing,
                                 hintText,
@@ -239,9 +245,11 @@ export const TechRadarPage = () => {
                             }}
                         />
 
-                        <Adopt
+                        <RingRadar
                             data={(techRadarData ?? []).filter((item) => item.ring.id === 1)}
                             isActive={activeMenuItem === 8}
+                            color="var(--color-chart-green-active)"
+                            ring="adopt"
                             {...{
                                 handleRing,
                                 hintText,
@@ -270,6 +278,8 @@ export const TechRadarPage = () => {
                                 filterValue,
                             }}
                         />
+
+                        <Legend />
                     </S.RadarsContainer>
                 </S.ContentWrapper>
             )}
