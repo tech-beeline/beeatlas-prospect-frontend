@@ -159,7 +159,7 @@ export const PersonalArea = () => {
                                 alignRight
                             >
                                 <S.TableHeaderFlexWrapper style={{ justifyContent: 'right' }}>
-                                    <p>Дата активности</p>{' '}
+                                    <p>Дата&nbsp;активности</p>{' '}
                                     {sortKey === 'last_login' && (
                                         <SortIndicator order={sortOrder} />
                                     )}

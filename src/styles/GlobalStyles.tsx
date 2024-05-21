@@ -195,6 +195,11 @@ export const GlobalStyles = () => {
                 .dsb__select__options__item {
                     color: var(--color-text-active);
                 }
+
+                /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_table {
+                    border-radius: var(--size-border-radius-x6);
+                }
             `}
         />
     );
