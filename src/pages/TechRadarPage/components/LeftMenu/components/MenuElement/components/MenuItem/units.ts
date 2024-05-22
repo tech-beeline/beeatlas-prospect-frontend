@@ -1,4 +1,5 @@
 import { Tooltip } from 'react-tooltip';
+import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Item = styled.div<{ isActive?: boolean }>`
@@ -63,4 +64,10 @@ export const TooltipContainer = styled(Tooltip)`
     user-select: none;
 
     z-index: 30;
+`;
+
+export const IconButtonStyled = styled(IconButton)<{ visible: boolean }>`
+    span {
+        visibility: ${({ visible }) => (visible ? 'visible' : '')};
+    }
 `;
