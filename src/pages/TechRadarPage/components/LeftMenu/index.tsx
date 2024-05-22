@@ -3,7 +3,7 @@ import { unescape } from 'lodash';
 
 import emptyBox from './images/empty-box.png';
 
-import { MenuElement } from './MenuElement';
+import { MenuElement } from './components';
 import * as T from './types';
 import * as S from './units';
 

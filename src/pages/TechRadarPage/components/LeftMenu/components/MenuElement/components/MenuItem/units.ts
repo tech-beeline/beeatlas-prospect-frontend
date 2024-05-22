@@ -1,0 +1,66 @@
+import { Tooltip } from 'react-tooltip';
+import styled from '@emotion/styled';
+
+export const Item = styled.div<{ isActive?: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 300px;
+    padding: 12px 24px;
+
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body2);
+    line-height: var(--font-line-height-body2);
+
+    border-radius: var(--size-border-radius-x6);
+
+    background-color: ${({ isActive }) => isActive && 'var(--color-background-base-hover)'};
+
+    color: var(--color-text-active);
+
+    transition: background-color 0.25s ease-in-out;
+
+    cursor: pointer;
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: var(--color-background-base-hover);
+        }
+    }
+
+    &:hover > span {
+        visibility: visible;
+    }
+
+    span {
+        visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
+    }
+`;
+
+export const IconsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+export const TooltipContainer = styled(Tooltip)`
+    max-width: 300px;
+    width: max-content;
+    padding: 4px 8px;
+
+    background-color: var(--color-background-inverse);
+    color: var(--color-text-active-inverse);
+
+    border-radius: var(--size-border-radius-x8);
+
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-caption);
+    line-height: var(--font-line-height-caption);
+    text-align: start;
+    white-space: pre-line;
+
+    user-select: none;
+
+    z-index: 30;
+`;

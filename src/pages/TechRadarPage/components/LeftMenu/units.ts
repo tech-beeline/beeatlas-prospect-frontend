@@ -1,11 +1,6 @@
-import { Tooltip } from 'react-tooltip';
-import { Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import * as STYLE from 'pages/TechRadarPage/units';
-
-import { ReactComponent as ArrowSVG } from './images/arrow-icon.svg';
 import { ReactComponent as InfoSVG } from './images/info-icon.svg';
 
 export const Wrapper = styled.div<{ withScroll?: boolean }>`
@@ -109,29 +104,6 @@ export const Item = styled.div<{ isActive?: boolean }>`
     }
 `;
 
-export const StyledIcon = styled(Icon)`
-    color: var(--color-text-link);
-
-    cursor: pointer;
-
-    visibility: hidden;
-`;
-
-export const ArrowIcon = styled(ArrowSVG)<{ isreverse: string }>`
-    min-width: 24px;
-    min-height: 24px;
-
-    transform: ${({ isreverse = '' }) => isreverse && 'rotateX(180deg)'};
-
-    /* color: var(--color-text-active); */
-
-    transition: transform 0.4s ease-in-out;
-
-    & > * {
-        fill: var(--color-text-active);
-    }
-`;
-
 export const InfoIcon = styled(InfoSVG)`
     min-width: 24px;
     min-height: 24px;
@@ -145,43 +117,6 @@ export const InfoIcon = styled(InfoSVG)`
     &:focus {
         outline: none;
     }
-`;
-
-export const HintWrapper = styled.div`
-    display: flex;
-
-    position: relative;
-
-    width: max-content;
-
-    cursor: pointer;
-
-    &:focus-visible {
-        outline: none;
-    }
-`;
-
-export const TooltipContainerStyled = styled(STYLE.TooltipContainer)`
-    padding: 16px;
-
-    background-color: var(--color-text-active);
-`;
-
-export const TooltipStyled = styled(Tooltip)`
-    position: fixed;
-
-    max-width: 360px;
-    width: max-content;
-    padding: 16px;
-
-    background-color: var(--color-background-inverse);
-
-    border-radius: var(--size-border-radius-x8);
-
-    font-size: var(--font-size-caption);
-    text-align: start;
-
-    z-index: 5;
 `;
 
 export const NoData = styled.div`

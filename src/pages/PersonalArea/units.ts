@@ -1,7 +1,7 @@
 import { Search, Table, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { Hint } from 'pages/TechRadarPage/components/LeftMenu/Hint';
+import { Hint } from 'pages/TechRadarPage/components/LeftMenu/components';
 
 export const PageWrapper = styled.div`
     /* display: flex;
