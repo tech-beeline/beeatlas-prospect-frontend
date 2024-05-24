@@ -15,7 +15,7 @@ export const SearchContainer = styled.div`
 
 export const MenuBlock = styled.div`
     position: absolute;
-    bottom: -8px;
+    bottom: 0px;
     left: 0;
 
     transform: translateY(100%);
