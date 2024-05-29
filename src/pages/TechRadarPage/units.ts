@@ -8,11 +8,15 @@ export const PageWrapper = styled.div`
     height: calc(100vh - 64px);
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     padding-left: 32px;
 
     background-color: var(--color-background-base);
+`;
+
+export const PageContainer = styled.div`
+    width: 100%;
 `;
 
 export const Title = styled.h4`
@@ -68,7 +72,7 @@ export const RadarsContainer = styled.div`
     width: 100%;
     height: 100%;
 
-    overflow-y: scroll;
+    overflow-y: auto;
 
     &::-webkit-scrollbar-thumb {
         background-color: var(--color-utilities-scroll-hover);

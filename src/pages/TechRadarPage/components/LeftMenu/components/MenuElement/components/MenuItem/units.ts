@@ -8,6 +8,7 @@ export const Item = styled.div<{ isActive?: boolean }>`
     justify-content: space-between;
 
     width: 300px;
+    height: 48px;
     padding: 12px 24px;
 
     font-weight: var(--font-weight-regular);
@@ -39,8 +40,8 @@ export const Item = styled.div<{ isActive?: boolean }>`
     }
 `;
 
-export const IconsContainer = styled.div`
-    display: flex;
+export const IconsContainer = styled.div<{ hidden?: boolean }>`
+    display: ${({ hidden }) => (hidden ? 'none' : 'flex')};
     align-items: center;
     gap: 8px;
 `;

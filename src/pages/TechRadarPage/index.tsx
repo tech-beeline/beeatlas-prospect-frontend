@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
+import { ITech } from 'api/technologies/types';
 
-import { Filters, LeftMenu, Legend, Radar, RingRadar, TopMenu } from './components';
+import {
+    Filters,
+    LeftMenu,
+    Legend,
+    Radar,
+    RingRadar,
+    TechnologySideblock,
+    TopMenu,
+} from './components';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
@@ -17,6 +26,8 @@ export const TechRadarPage = () => {
     const filteredItems = (techRadarData ?? []).filter((item) =>
         itemFilterHandler(item, search, filterValue),
     );
+
+    const [selectedTech, setSelectedTech] = useState<ITech | null>(null);
 
     const [isSubMenu, setSubMenu] = useState(false);
 
@@ -160,129 +171,140 @@ export const TechRadarPage = () => {
 
     return (
         <S.PageWrapper>
-            <S.Header>
-                <S.TitleWrapper>
-                    <S.Title>Технорадар</S.Title>
-                </S.TitleWrapper>
+            <S.PageContainer>
+                <S.Header>
+                    <S.TitleWrapper>
+                        <S.Title>Технорадар</S.Title>
+                    </S.TitleWrapper>
 
-                <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
+                    <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
 
-                <Filters
-                    search={search}
-                    filterValue={filterValue}
-                    activeMenuItem={activeMenuItem}
-                    filteredItems={filteredItems}
-                    setActiveMenuItem={setActiveMenuItem}
-                    setActiveRing={setActiveRing}
-                    setHintText={setHintText}
-                    setSearch={setSearch}
-                    setFilterValue={setFilterValue}
-                    setShowInMenu={setShowInMenu}
-                />
-            </S.Header>
-
-            {techRadarData && techRadarData.length > 0 && (
-                <S.ContentWrapper>
-                    <LeftMenu
-                        data={filteredItems}
-                        {...{
-                            hintText,
-                            setHintText,
-                            activeRing,
-                            activeMenuItem,
-                            isZoomed,
-                            showInMenu,
-                            setShowInMenu,
-                        }}
+                    <Filters
+                        search={search}
+                        filterValue={filterValue}
+                        activeMenuItem={activeMenuItem}
+                        filteredItems={filteredItems}
+                        setActiveMenuItem={setActiveMenuItem}
+                        setActiveRing={setActiveRing}
+                        setHintText={setHintText}
+                        setSearch={setSearch}
+                        setFilterValue={setFilterValue}
+                        setShowInMenu={setShowInMenu}
                     />
+                </S.Header>
 
-                    <S.RadarsContainer>
-                        <RingRadar
-                            data={(techRadarData ?? []).filter((item) => item.ring.id === 4)}
-                            isActive={activeMenuItem === 5}
-                            color="#B6B7BF"
-                            ring="hold"
-                            {...{
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                                isElementSelected,
-                                search,
-                                filterValue,
-                            }}
+                {techRadarData && techRadarData.length > 0 && (
+                    <S.ContentWrapper>
+                        <LeftMenu
+                            data={filteredItems}
+                            selectedTech={selectedTech}
+                            setSelectedTech={setSelectedTech}
+                            hintText={hintText}
+                            setHintText={setHintText}
+                            activeRing={activeRing}
+                            activeMenuItem={activeMenuItem}
+                            isZoomed={isZoomed}
+                            showInMenu={showInMenu}
+                            setShowInMenu={setShowInMenu}
                         />
 
-                        <RingRadar
-                            data={(techRadarData ?? []).filter((item) => item.ring.id === 3)}
-                            isActive={activeMenuItem === 6}
-                            color="var(--color-palette-blue-300)"
-                            ring="assess"
-                            {...{
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                                isElementSelected,
-                                search,
-                                filterValue,
-                            }}
-                        />
+                        <S.RadarsContainer>
+                            <RingRadar
+                                data={(techRadarData ?? []).filter((item) => item.ring.id === 4)}
+                                isActive={activeMenuItem === 5}
+                                color="#B6B7BF"
+                                ring="hold"
+                                {...{
+                                    handleRing,
+                                    hintText,
+                                    setHintText,
+                                    setShowInMenu,
+                                    isElementSelected,
+                                    search,
+                                    filterValue,
+                                }}
+                            />
 
-                        <RingRadar
-                            data={(techRadarData ?? []).filter((item) => item.ring.id === 2)}
-                            isActive={activeMenuItem === 7}
-                            color="var(--color-palette-amber-300)"
-                            ring="trial"
-                            {...{
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                                isElementSelected,
-                                search,
-                                filterValue,
-                            }}
-                        />
+                            <RingRadar
+                                data={(techRadarData ?? []).filter((item) => item.ring.id === 3)}
+                                isActive={activeMenuItem === 6}
+                                color="var(--color-palette-blue-300)"
+                                ring="assess"
+                                {...{
+                                    handleRing,
+                                    hintText,
+                                    setHintText,
+                                    setShowInMenu,
+                                    isElementSelected,
+                                    search,
+                                    filterValue,
+                                }}
+                            />
 
-                        <RingRadar
-                            data={(techRadarData ?? []).filter((item) => item.ring.id === 1)}
-                            isActive={activeMenuItem === 8}
-                            color="var(--color-chart-green-active)"
-                            ring="adopt"
-                            {...{
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                                isElementSelected,
-                                search,
-                                filterValue,
-                            }}
-                        />
+                            <RingRadar
+                                data={(techRadarData ?? []).filter((item) => item.ring.id === 2)}
+                                isActive={activeMenuItem === 7}
+                                color="var(--color-palette-amber-300)"
+                                ring="trial"
+                                {...{
+                                    handleRing,
+                                    hintText,
+                                    setHintText,
+                                    setShowInMenu,
+                                    isElementSelected,
+                                    search,
+                                    filterValue,
+                                }}
+                            />
 
-                        <Radar
-                            data={techRadarData ?? []}
-                            isActive={!activeRing}
-                            {...{
-                                viewBox,
-                                isZoomed,
-                                topTitlesPosition,
-                                leftTitlesPosition,
-                                handleRing,
-                                hintText,
-                                setHintText,
-                                setShowInMenu,
-                                isElementSelected,
-                                search,
-                                filterValue,
-                            }}
-                        />
+                            <RingRadar
+                                data={(techRadarData ?? []).filter((item) => item.ring.id === 1)}
+                                isActive={activeMenuItem === 8}
+                                color="var(--color-chart-green-active)"
+                                ring="adopt"
+                                {...{
+                                    handleRing,
+                                    hintText,
+                                    setHintText,
+                                    setShowInMenu,
+                                    isElementSelected,
+                                    search,
+                                    filterValue,
+                                }}
+                            />
 
-                        <Legend />
-                    </S.RadarsContainer>
-                </S.ContentWrapper>
-            )}
+                            <Radar
+                                data={techRadarData ?? []}
+                                isActive={!activeRing}
+                                {...{
+                                    viewBox,
+                                    isZoomed,
+                                    topTitlesPosition,
+                                    leftTitlesPosition,
+                                    handleRing,
+                                    hintText,
+                                    setHintText,
+                                    setShowInMenu,
+                                    isElementSelected,
+                                    search,
+                                    filterValue,
+                                }}
+                            />
+
+                            <Legend />
+                        </S.RadarsContainer>
+                    </S.ContentWrapper>
+                )}
+            </S.PageContainer>
+            <TechnologySideblock
+                selectedTech={selectedTech}
+                isOpen={!!selectedTech}
+                onClose={() => {
+                    setSelectedTech(null);
+                    setHintText('');
+                    setShowInMenu(false);
+                }}
+            />
         </S.PageWrapper>
     );
 };

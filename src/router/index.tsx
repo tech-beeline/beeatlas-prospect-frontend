@@ -248,7 +248,7 @@ export const NavigationRouter = () => {
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
-                                <S.ContentWrapper>
+                                <S.ContentWrapper hideXOverflow>
                                     <TechRadarPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>

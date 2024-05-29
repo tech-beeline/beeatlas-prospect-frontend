@@ -14,6 +14,8 @@ export const SideBlock: FC<ISideBlock> = ({
     hasBackdrop,
     toggleId,
     closeOnOutsideClick = false,
+    outsideClickExceptionIds,
+    aboveContent = true,
 }) => {
     const sideBlockRef = useRef(null);
 
@@ -25,13 +27,21 @@ export const SideBlock: FC<ISideBlock> = ({
         }
     });
 
-    useOutsideClick(sideBlockRef, isOpen && closeOnOutsideClick, onClose, toggleRef);
+    useOutsideClick(
+        sideBlockRef,
+        isOpen && closeOnOutsideClick,
+        onClose,
+        toggleRef,
+        outsideClickExceptionIds,
+    );
+
+    const Container = aboveContent ? S.ContainerFixed : S.ContainerBlock;
 
     return (
         <>
-            <S.Container ref={sideBlockRef} isOpen={isOpen}>
+            <Container ref={sideBlockRef} isOpen={isOpen}>
                 {children}
-            </S.Container>
+            </Container>
             {hasBackdrop && <S.Backdrop onClick={onClose} isOpen={isOpen} />}
         </>
     );
