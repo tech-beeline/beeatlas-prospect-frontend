@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextArea as DesignSystemTextArea } from '@beeline/design-system-react';
+import { Select as DesignSystemSelect } from '@beeline/design-system-react';
 import get from 'lodash/get';
 
-import { ITextArea } from './types';
+import { IMultiSelect } from './types';
 
-export const TextArea: FC<ITextArea> = ({
+export const MultiSelect: FC<IMultiSelect> = ({
     name,
     label,
-    maxLength,
-    helperText,
+    options,
     disabled = false,
     fullWidth = true,
+    defaultValue = [],
 }) => {
     const {
         control,
@@ -26,17 +26,18 @@ export const TextArea: FC<ITextArea> = ({
         <Controller
             name={name}
             control={control}
-            defaultValue=""
+            defaultValue={defaultValue}
             render={({ field }) => (
-                <DesignSystemTextArea
-                    key={name}
+                <DesignSystemSelect
+                    multiple
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}
                     error={isError}
-                    helperText={errorMessage ?? helperText}
-                    maxLength={maxLength}
-                    {...field}
+                    helperText={errorMessage}
+                    options={options}
+                    values={options.filter((option) => field.value.includes(option.id))}
+                    onChange={(value) => field.onChange(value.map((v) => v.id))}
                 />
             )}
         />

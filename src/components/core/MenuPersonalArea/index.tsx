@@ -24,7 +24,9 @@ export const MenuPersonalArea = () => {
             active={
                 location.pathname.includes(R.PERSONAL_AREA_PATH)
                     ? R.PERSONAL_AREA_PATH
-                    : R.IMPORTED_DATA_PATH
+                    : location.pathname.includes(R.IMPORTED_DATA_PATH)
+                    ? R.IMPORTED_DATA_PATH
+                    : R.TECHNOLOGIES_PATH
             }
             groups={[
                 {
@@ -37,8 +39,13 @@ export const MenuPersonalArea = () => {
                         },
                         {
                             icon: Icons.Import,
-                            name: 'Импортируемые\xa0данные',
+                            name: 'Импортируемые\nданные\xa0\xa0',
                             path: `${R.IMPORTED_DATA_PATH}`,
+                        },
+                        {
+                            icon: Icons.Radar,
+                            name: 'Управление\nтехнологиями',
+                            path: `${R.TECHNOLOGIES_PATH}`,
                         },
                     ],
                 },

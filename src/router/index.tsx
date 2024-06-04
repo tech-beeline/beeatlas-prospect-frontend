@@ -27,6 +27,8 @@ import {
     RollSettingsPage,
     SearchPage,
     ServicesPage,
+    TechnologiesPage,
+    TechnologyAddPage,
     TechPolicyPage,
     TechRadarPage,
     TemplatesPage,
@@ -107,6 +109,30 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <PackagePage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={C.TECHNOLOGIES_PATH}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <TechnologiesPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.TECHNOLOGIES_PATH}${C.ADD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <TechnologyAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

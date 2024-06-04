@@ -1,4 +1,4 @@
-import { ITech } from 'api/tech-radar/types';
+import { ITech } from 'api/technologies/types';
 
 const quadrants = [
     { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },

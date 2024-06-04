@@ -1,0 +1,119 @@
+import { Tooltip } from 'react-tooltip';
+import { Icon, Search, Table, TableHeaderData } from '@beeline/design-system-react';
+import styled from '@emotion/styled';
+
+export const PageWrapper = styled.div`
+    width: 100%;
+    padding: 0px 54px 54px;
+
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
+`;
+
+export const TitleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 36px;
+`;
+
+export const SearchStyled = styled(Search)`
+    max-width: 520px;
+
+    margin-top: 24px;
+    margin-bottom: 24px;
+`;
+
+export const Title = styled.h4`
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-h4);
+    line-height: var(--font-line-height-h4);
+`;
+
+export const FiltersContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    margin: 24px 0px;
+`;
+
+export const TableStyled = styled(Table)`
+    width: 100%;
+`;
+
+export const TableHeaderDataNoWrap = styled(TableHeaderData)`
+    white-space: nowrap;
+`;
+
+export const TableHeaderName = styled(TableHeaderDataNoWrap)`
+    min-width: 214px;
+`;
+
+export const TableHeaderStatus = styled(TableHeaderDataNoWrap)`
+    min-width: 100px;
+`;
+
+export const TableHeaderDataMaxWidth = styled(TableHeaderDataNoWrap)`
+    width: 100%;
+`;
+
+export const NameContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+export const MenuButtonContainer = styled.div`
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const TooltipContainer = styled(Tooltip)<{ largePadding?: boolean }>`
+    max-width: 300px;
+    width: max-content;
+    padding: ${({ largePadding }) => (largePadding ? '16px' : '4px 8px')};
+
+    background-color: var(--color-background-inverse);
+    color: var(--color-text-active-inverse);
+
+    border-radius: var(--size-border-radius-x8);
+
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-caption);
+    line-height: var(--font-line-height-caption);
+    text-align: start;
+    white-space: pre-line;
+
+    user-select: none;
+
+    z-index: 30;
+`;
+
+export const BoldSpan = styled.span`
+    font-weight: var(--font-weight-subtitle3);
+`;
+
+export const DescriptionContainer = styled.p`
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    max-width: fit-content;
+`;
+
+export const IconStyled = styled(Icon)`
+    cursor: pointer;
+
+    color: var(--color-text-inactive);
+
+    &:hover {
+        color: var(--color-text-active);
+    }
+`;

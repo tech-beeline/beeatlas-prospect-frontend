@@ -3,4 +3,6 @@ export interface ITextArea {
     label: string;
     disabled?: boolean;
     fullWidth?: boolean;
+    maxLength?: number;
+    helperText?: string;
 }
