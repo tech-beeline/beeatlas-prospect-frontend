@@ -37,11 +37,11 @@ export const MenuPersonalArea = () => {
                             name: 'Управление\xa0ролями',
                             path: `${R.PERSONAL_AREA_PATH}`,
                         },
-                        {
-                            icon: Icons.Import,
-                            name: 'Импортируемые\nданные\xa0\xa0',
-                            path: `${R.IMPORTED_DATA_PATH}`,
-                        },
+                        // {
+                        //     icon: Icons.Import,
+                        //     name: 'Импортируемые\nданные\xa0\xa0',
+                        //     path: `${R.IMPORTED_DATA_PATH}`,
+                        // },
                         {
                             icon: Icons.Radar,
                             name: 'Управление\nтехнологиями',

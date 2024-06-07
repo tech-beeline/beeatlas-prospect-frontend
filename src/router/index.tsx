@@ -18,11 +18,9 @@ import {
     DataBasePage,
     FDMPage,
     HowToPage,
-    ImportedDataPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
-    PackagePage,
     PersonalArea,
     RollSettingsPage,
     SearchPage,
@@ -90,7 +88,7 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route
+                    {/* <Route
                         path={C.IMPORTED_DATA_PATH}
                         element={
                             <S.RouteWithDrawer>
@@ -100,9 +98,9 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    />
+                    /> */}
 
-                    <Route
+                    {/* <Route
                         path={`${C.IMPORTED_DATA_PATH}${C.PACKAGE_PATH}`}
                         element={
                             <S.RouteWithDrawer>
@@ -112,7 +110,7 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    />
+                    /> */}
 
                     <Route
                         path={C.TECHNOLOGIES_PATH}
