@@ -1,0 +1,45 @@
+import React, { FC } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { Select as DesignSystemSelect } from '@beeline/design-system-react';
+import get from 'lodash/get';
+
+import { IMultiSelect } from './types';
+
+export const MultiSelect: FC<IMultiSelect> = ({
+    name,
+    label,
+    options,
+    disabled = false,
+    fullWidth = true,
+    defaultValue = [],
+}) => {
+    const {
+        control,
+        formState: { errors },
+    } = useFormContext();
+
+    const error = get(errors, name);
+    const errorMessage = error?.message ? String(error.message) : undefined;
+    const isError = Boolean(error);
+
+    return (
+        <Controller
+            name={name}
+            control={control}
+            defaultValue={defaultValue}
+            render={({ field }) => (
+                <DesignSystemSelect
+                    multiple
+                    fullWidth={fullWidth}
+                    disabled={disabled}
+                    label={label}
+                    error={isError}
+                    helperText={errorMessage}
+                    options={options}
+                    values={options.filter((option) => field.value.includes(option.id))}
+                    onChange={(value) => field.onChange(value.map((v) => v.id))}
+                />
+            )}
+        />
+    );
+};

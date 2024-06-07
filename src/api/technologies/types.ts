@@ -27,3 +27,13 @@ export interface ITech {
     ring: IRing;
     sector: ISector;
 }
+
+export interface ITechForm {
+    id: number;
+    categories: { id: number }[];
+    descr: string;
+    label: string;
+    link: string;
+    ring_id: number;
+    sector_id: number;
+}

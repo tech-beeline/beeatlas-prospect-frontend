@@ -2,8 +2,8 @@ import React, { FC, useState } from 'react';
 import { Button, Search, Select } from '@beeline/design-system-react';
 import { sendAnalytics } from 'features/analytics';
 
-import { useGetTechradarCategoriesQuery } from 'api/queries/techradar';
-import { ITech } from 'api/tech-radar/types';
+import { useGetTechnologyCategoriesQuery } from 'api/queries/technologies';
+import { ITech } from 'api/technologies/types';
 
 import { IFilters } from './types';
 import * as S from './units';
@@ -20,7 +20,7 @@ export const Filters: FC<IFilters> = ({
     setShowInMenu,
     setActiveRing,
 }) => {
-    const { data: categoriesData, isLoading } = useGetTechradarCategoriesQuery();
+    const { data: categoriesData, isLoading } = useGetTechnologyCategoriesQuery();
 
     const [menuOpened, setMenuOpened] = useState(false);
 

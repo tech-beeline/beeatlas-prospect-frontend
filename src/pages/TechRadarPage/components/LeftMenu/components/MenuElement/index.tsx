@@ -3,7 +3,7 @@ import { sendAnalytics } from 'features/analytics';
 
 import { Expand } from 'components/other';
 
-import { ITech } from 'api/tech-radar/types';
+import { ITech } from 'api/technologies/types';
 
 import { Hint } from '..';
 

@@ -1,4 +1,4 @@
-import { Icon, Search } from '@beeline/design-system-react';
+import { Icon, Label, Search } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -27,10 +27,15 @@ export const Container = styled.div`
 export const FlexContainer = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
 
     margin-right: 48px;
 
     cursor: pointer;
+`;
+
+export const LabelStyled = styled(Label)`
+    margin-left: -24px;
 `;
 
 export const BaseIcon = styled(Icon)`

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useGetTechradarDataQuery } from 'api/queries/techradar';
+import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 
 import { Filters, LeftMenu, Legend, Radar, RingRadar, TopMenu } from './components';
 import * as C from './const';
@@ -9,7 +9,7 @@ import * as S from './units';
 import { itemFilterHandler } from './utils';
 
 export const TechRadarPage = () => {
-    const { data: techRadarData } = useGetTechradarDataQuery();
+    const { data: techRadarData } = useGetAllTechnologiesQuery();
 
     const [search, setSearch] = useState('');
     const [filterValue, setFilterValue] = useState<string | null>(null);

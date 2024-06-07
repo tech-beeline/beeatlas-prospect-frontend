@@ -1,48 +1,56 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
-import { Item } from './Item';
 import * as S from './units';
 
 export const MenuPersonalArea = () => {
-    // const [activeItem, setActiveItem] = useState('');
+    const navigate = useNavigate();
 
-    // const navigate = useNavigate();
-    // const location = useLocation();
+    const location = useLocation();
 
-    // useEffect(() => {
-    //     // !activeMenuItem && setActiveMenuItem(location.pathname);
-    //     // if (location.pathname !== activeMenuItem) {
-    //     //     setActiveMenuItem('');
-    //     // }
-
-    //     console.log('location', location.pathname);
-    // }, [location]);
+    const handleItemClick = (item: string) => {
+        if (item !== location.pathname) {
+            navigate(item);
+        }
+    };
 
     return (
-        <S.Wrapper className="MenuPersonalAreaWrapper">
-            <Item
-                iconName={Icons.Group}
-                title="Управление ролями"
-                url={ROUTER.PERSONAL_AREA_PATH}
-            />
-
-            {/* <Item
-                iconName={Icons.Calendar}
-                title="Календарь заседаний"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
-                disabled
-            /> */}
-
-            <Item
-                // iconName={Icons.Radar}
-                title="Технорадар"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
-                disabled
-                isRadar
-            />
-        </S.Wrapper>
+        <S.NavigationDrawerStyled
+            isGroupTitle={false}
+            isGroupDivider={false}
+            active={
+                location.pathname.includes(R.PERSONAL_AREA_PATH)
+                    ? R.PERSONAL_AREA_PATH
+                    : location.pathname.includes(R.IMPORTED_DATA_PATH)
+                    ? R.IMPORTED_DATA_PATH
+                    : R.TECHNOLOGIES_PATH
+            }
+            groups={[
+                {
+                    title: '',
+                    items: [
+                        {
+                            icon: Icons.Group,
+                            name: 'Управление\xa0ролями',
+                            path: `${R.PERSONAL_AREA_PATH}`,
+                        },
+                        // {
+                        //     icon: Icons.Import,
+                        //     name: 'Импортируемые\nданные\xa0\xa0',
+                        //     path: `${R.IMPORTED_DATA_PATH}`,
+                        // },
+                        {
+                            icon: Icons.Radar,
+                            name: 'Управление\nтехнологиями',
+                            path: `${R.TECHNOLOGIES_PATH}`,
+                        },
+                    ],
+                },
+            ]}
+            onClickItem={handleItemClick}
+        />
     );
 };

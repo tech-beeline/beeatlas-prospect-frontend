@@ -1,4 +1,4 @@
-import { ITech } from 'api/tech-radar/types';
+import { ITech } from 'api/technologies/types';
 
 export interface IMenuItem {
     item: ITech;

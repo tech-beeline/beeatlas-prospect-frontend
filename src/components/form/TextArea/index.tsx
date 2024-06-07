@@ -5,7 +5,14 @@ import get from 'lodash/get';
 
 import { ITextArea } from './types';
 
-export const TextArea: FC<ITextArea> = ({ name, label, disabled = false, fullWidth = true }) => {
+export const TextArea: FC<ITextArea> = ({
+    name,
+    label,
+    maxLength,
+    helperText,
+    disabled = false,
+    fullWidth = true,
+}) => {
     const {
         control,
         formState: { errors },
@@ -27,7 +34,8 @@ export const TextArea: FC<ITextArea> = ({ name, label, disabled = false, fullWid
                     disabled={disabled}
                     label={label}
                     error={isError}
-                    helperText={errorMessage}
+                    helperText={errorMessage ?? helperText}
+                    maxLength={maxLength}
                     {...field}
                 />
             )}

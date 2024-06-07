@@ -5,9 +5,8 @@ import { Checkbox } from 'components/form';
 export const PageWrapper = styled.div`
     position: relative;
 
-    height: 100%;
     width: 100%;
-    padding: 64px 54px;
+    padding: 0px 54px 54px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
@@ -37,9 +36,9 @@ export const TitleFlexGap = styled(TitleFlex)`
 export const BottomBlock = styled.div<{ isShown: boolean }>`
     position: fixed;
     bottom: ${({ isShown }) => (isShown ? 0 : '-95px')};
+    right: 54px;
 
     height: 95px;
-    width: calc(100% - 256px - (2 * 54px));
 
     transition: all 0.25s ease-in-out;
 `;
