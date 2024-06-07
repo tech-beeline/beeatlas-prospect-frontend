@@ -1,54 +1,41 @@
-import React, { FC } from 'react';
+import React, { FC, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// import { useNavigate } from 'react-router-dom';
-// import { Icon } from '@beeline/design-system-react';
-// import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-// import { Nullable } from 'types/common';
-// import { useOutsideClick } from 'hooks/useOutsideClick';
-// import * as ROUTER from 'router/const';
+import { useOutsideClick } from 'hooks/useOutsideClick';
+import * as ROUTER from 'router/const';
+
 import { IProfileIcon } from './types';
 import * as S from './units';
 
 export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
-    // const [isShowDropdown, setShowDropdown] = useState(false);
+    const [isShowDropdown, setShowDropdown] = useState(false);
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const dropdownRef = useRef(null);
+    const dropdownRef = useRef(null);
 
-    // const profileIconRef = useRef<Nullable<HTMLElement>>(null);
+    const profileIconRef = useRef<HTMLDivElement>(null);
 
-    // useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
+    useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
 
-    // const handleNavigateClick = () => {
-    //     navigate(!isPersonalArea ? ROUTER.PERSONAL_AREA_PATH : ROUTER.MAIN_PAGE_PATH);
-    //     setShowDropdown(false);
-    // };
+    const handleSubscriptionsClick = () => {
+        navigate(ROUTER.SUBSCRIPTIONS_PATH);
+        setShowDropdown(false);
+    };
 
     return (
         <>
-            <S.Wrapper
-            // onClick={() => setShowDropdown(!isShowDropdown)}
-            // ref={profileIconRef as any}
-            >
+            <S.Wrapper onClick={() => setShowDropdown(!isShowDropdown)} ref={profileIconRef}>
                 {initials}
             </S.Wrapper>
 
-            {/* <S.ExpandStyled isOpen={isShowDropdown}>
-                <p onClick={() => clearAuth()}>Выход</p>
-            </S.ExpandStyled> */}
-
-            {/* {isShowDropdown && (
-                // <S.BlurContainer onClick={() => setShowDropdown(false)}>
+            {isShowDropdown && (
                 <S.Dropdown className="Dropdown" ref={dropdownRef}>
-                    <S.DropdownItem className="DropdownItem">Профиль</S.DropdownItem>
-                    <S.DropdownItem className="DropdownItem" onClick={handleNavigateClick}>
-                        {!isPersonalArea ? 'Админка' : 'Вернуться в продукт'}{' '}
-                        <Icon iconName={Icons.OpenInWindow} />
+                    <S.DropdownItem onClick={handleSubscriptionsClick} className="DropdownItem">
+                        Мои подписки
                     </S.DropdownItem>
                 </S.Dropdown>
-                // </S.BlurContainer>
-            )} */}
+            )}
         </>
     );
 };

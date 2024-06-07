@@ -175,6 +175,21 @@ export const GlobalStyles = () => {
                 .dsb_table {
                     border-radius: var(--size-border-radius-x6);
                 }
+
+                /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_pagination-cell__text-active {
+                    background-color: #fdd835;
+                    border-color: #fdd835;
+                    color: rgba(9, 11, 22, 0.94);
+                }
+                .dsb_pagination-cell__text-active:hover:not(:disabled),
+                .dsb_pagination-cell__text-active:active {
+                    background-color: #fdd835;
+                    border-color: #fdd835;
+                }
+                .dsb_pagination-cell__text-active:focus-visible {
+                    background-color: #fdd835;
+                }
             `}
         />
     );

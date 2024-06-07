@@ -31,6 +31,7 @@ export const PACKAGE_PATH = '/package';
 export const TECHNOLOGIES_PATH = '/technologies';
 export const CAPABILITIES_PATH = '/capabilities';
 export const NOTIFICATIONS_PATH = '/notifications';
+export const SUBSCRIPTIONS_PATH = '/subscriptions';
 // Utils
 export const ADD_PATH = '/add';
 export const VIEW_PATH = '/view';

@@ -26,6 +26,7 @@ export { ProductsPage } from './ProductsPage';
 export { RollSettingsPage } from './RollSettingsPage';
 export { SearchPage } from './SearchPage';
 export { ServicesPage } from './ServicesPage';
+export { SubscriptionsPage } from './SubscriptionsPage';
 export { TechnologiesPage } from './TechnologiesPage';
 export { TechnologyAddPage } from './TechnologyAddPage';
 export { TechPolicyPage } from './TechPolicyPage';

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from '@beeline/design-system-react';
+import { Button, Icon } from '@beeline/design-system-react';
 
 import questionBox from './images/box-with-question.png';
 import emptyBox from './images/empty-box.png';
@@ -28,7 +28,16 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
                 <S.Text marginTop={Boolean(title)}>{text}</S.Text>
                 {buttonProps && (
                     <S.ButtonContainer>
-                        <Button size="small" variant="contained" onClick={buttonProps.onClick}>
+                        <Button
+                            size={buttonProps.size ?? 'small'}
+                            variant="contained"
+                            onClick={buttonProps.onClick}
+                            endIcon={
+                                buttonProps.endIconName ? (
+                                    <Icon iconName={buttonProps.endIconName} />
+                                ) : undefined
+                            }
+                        >
                             {buttonProps.text}
                         </Button>
                     </S.ButtonContainer>

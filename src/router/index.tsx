@@ -28,6 +28,7 @@ import {
     RollSettingsPage,
     SearchPage,
     ServicesPage,
+    SubscriptionsPage,
     TechnologiesPage,
     TechnologyAddPage,
     TechPolicyPage,
@@ -379,6 +380,17 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <S.ContentWrapper>
                                     <NotificationsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.SUBSCRIPTIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <SubscriptionsPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
