@@ -56,6 +56,7 @@ export const NavigationRouter = () => {
 
         if (
             location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH) ||
+            location.pathname?.includes(ROUTER.TECHNOLOGIES_PATH) ||
             location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH)
         ) {
             setIsPersonalArea(true);
