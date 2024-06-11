@@ -11,8 +11,14 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
     const [selectedBiId, setSelectedBiId] = useState<number | null>(null);
 
     useEffect(() => {
+        if (!isOpen) {
+            setName(step.name);
+        }
+    }, [isOpen, step]);
+
+    useEffect(() => {
         setName(step.name);
-    }, [step]);
+    }, [step.id]);
 
     const handleCloseClick = () => {
         onClose();
