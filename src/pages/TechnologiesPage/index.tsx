@@ -74,8 +74,14 @@ export const TechnologiesPage = () => {
                 placeholder="Поиск"
                 disabled={isLoading}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onClear={() => setSearch('')}
+                onChange={(e) => {
+                    setSearch(e.target.value);
+                    setCountPage(1);
+                }}
+                onClear={() => {
+                    setSearch('');
+                    setCountPage(1);
+                }}
             />
 
             {isLoading && <Skeleton height={300} />}
