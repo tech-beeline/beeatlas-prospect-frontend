@@ -70,7 +70,7 @@ export const BIViewPage = () => {
                                 <S.BannerStyled
                                     color="default"
                                     iconName={Icons.InfoCircled}
-                                    title="BI используется в других опубликованных CJ, редактирование недоступно!"
+                                    title="BI используется в других опубликованных CJ, редактирование недоступно"
                                 />
                             )}
                             {data.communal && !data.draft && (

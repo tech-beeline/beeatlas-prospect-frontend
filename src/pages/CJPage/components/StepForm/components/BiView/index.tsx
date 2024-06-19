@@ -65,7 +65,7 @@ export const BiView: FC<IBiView> = ({
                     <S.BannerStyled
                         color="default"
                         iconName={Icons.InfoCircled}
-                        title="BI используется в других опубликованных CJ, редактирование недоступно!"
+                        title="BI используется в других опубликованных CJ, редактирование недоступно"
                     />
                 )}
                 {isBiCommunalAndPublished && (
