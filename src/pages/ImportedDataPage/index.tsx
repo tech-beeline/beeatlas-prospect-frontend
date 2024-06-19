@@ -86,7 +86,7 @@ export const ImportedDataPage = () => {
                         ))}
 
                         <TableRow>
-                            <TableData colSpan={8}>
+                            <TableData colSpan={8} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
                                         setCountPage(e.page);

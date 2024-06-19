@@ -1,5 +1,5 @@
 import { Tooltip } from 'react-tooltip';
-import { Icon, Search, Table, TableHeaderData } from '@beeline/design-system-react';
+import { Icon, Search, Table, TableData, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -120,4 +120,10 @@ export const IconStyled = styled(Icon)`
 
 export const NotFoundContainer = styled.div`
     margin-top: 160px;
+`;
+
+export const TableDataFullWidth = styled(TableData)`
+    & > div > div {
+        width: 100%;
+    }
 `;

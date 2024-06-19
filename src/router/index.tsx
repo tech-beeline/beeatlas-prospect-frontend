@@ -73,7 +73,16 @@ export const NavigationRouter = () => {
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
-                    <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
+                    <Route
+                        path={C.MAIN_PAGE_PATH}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <MainPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
 
                     <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 

@@ -26,18 +26,6 @@ export const Title = styled.h4`
 
 export const SearchStyled = styled(Search)`
     margin: 20px 0 16px 0;
-
-    /* Если в компоненте Search есть фильтры, то позиция кнопки очистки высчитывается неверно. */
-    /* @TODO: Следить за версиями библиотеки. Когда поправят, этот тихий ужас можно будет убрать. */
-    button:nth-of-type(2) {
-        left: 240px;
-
-        z-index: 2;
-    }
-
-    & > div > div {
-        margin-left: 30px;
-    }
 `;
 
 export const HintStyled = styled(Hint)`
