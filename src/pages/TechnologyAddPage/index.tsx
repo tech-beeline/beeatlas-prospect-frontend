@@ -9,14 +9,14 @@ import { MultiSelect, Select, TextArea, TextField } from 'components/form';
 
 import {
     useCreateTechnologyMutation,
-    useGetTechByIdQuery,
+    useGetTechFormDataQuery,
     useGetTechnologyCategoriesQuery,
     useUpdateTechnologyMutation,
 } from 'api/queries/technologies';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { FormValues, validationSchema } from './form';
+import { FormValues, getValidationSchema } from './form';
 import * as S from './units';
 
 export const TechnologyAddPage = () => {
@@ -25,14 +25,19 @@ export const TechnologyAddPage = () => {
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const { data: techData, isLoading: isLoadingTech } = useGetTechByIdQuery(paramId);
+    const { data, isLoading: isLoadingTech } = useGetTechFormDataQuery(paramId);
+    const { allTech, techData } = data ?? {};
     const { data: categoriesData, isLoading: isLoadingCategories } =
         useGetTechnologyCategoriesQuery();
     const { mutateAsync: createTechnology } = useCreateTechnologyMutation();
     const { mutateAsync: updateTechnology } = useUpdateTechnologyMutation();
 
+    const invalidNames = (allTech ?? [])
+        .filter((tech) => tech.id !== techData?.id)
+        .map((tech) => tech.label);
+
     const form = useForm<FormValues>({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(getValidationSchema(invalidNames)),
     });
 
     const { handleSubmit, reset } = form;

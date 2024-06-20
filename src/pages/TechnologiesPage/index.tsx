@@ -13,6 +13,8 @@ import {
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { ImageVariants, NotFoundBlock } from 'components/other';
+
 import { useDeleteTechnologyMutation, useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
 import * as R from 'router/const';
@@ -210,6 +212,15 @@ export const TechnologiesPage = () => {
                         </TableRow>
                     </TableBody>
                 </S.TableStyled>
+            )}
+            {!isLoading && displayedTechnologies.length === 0 && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title="Нет результатов, подходящих под параметры поиска"
+                        text="Попробуйте изменить поисковой запрос"
+                    />
+                </S.NotFoundContainer>
             )}
             <Dialog
                 title="Удалить технологию?"
