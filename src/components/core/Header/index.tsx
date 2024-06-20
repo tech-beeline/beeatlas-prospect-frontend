@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
@@ -10,9 +10,10 @@ import { MAIN_PAGE_PATH } from 'router/const';
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { NotificationsPopup, ProfileIcon } from './components';
+import { IHeader } from './types';
 import * as S from './units';
 
-export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
+export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
     const [isAuth, userInfo] = useAuthStore((state) => [state.isAuth, state.userInfo]);
 
     const { themeIsDark, toggleTheme } = useThemeStore();
@@ -37,9 +38,9 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
                     <Logo />
                 </S.FlexContainer>
 
-                {isPersonalArea && <S.LabelStyled title="Консоль администратора" />}
+                {isAdminPanel && isAdmin && <S.LabelStyled title="Консоль администратора" />}
 
-                {!isPersonalArea && (
+                {!isAdminPanel && (
                     <Tabs>
                         {tabs.map((tab, index) => (
                             <Tab
@@ -65,7 +66,8 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
                     {isAuth ? (
                         <ProfileIcon
                             initials={userInfo?.family_name[0] + userInfo?.given_name[0]}
-                            {...{ isPersonalArea }}
+                            isAdmin={isAdmin}
+                            isAdminPanel={isAdminPanel}
                         />
                     ) : (
                         <BaseIcon iconName={Icons.User} type="default" />

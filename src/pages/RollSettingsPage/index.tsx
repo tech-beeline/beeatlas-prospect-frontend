@@ -6,7 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { TitleBack } from 'components/interaction';
 
 import { useGetAllRolesQuery } from 'api/queries';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import * as S from './units';
 
@@ -15,11 +15,11 @@ export const RollSettingsPage = () => {
 
     const { data: roles, isLoading } = useGetAllRolesQuery();
 
-    const navigateToPersonalArea = () => navigate(`${ROUTER.PERSONAL_AREA_PATH}`);
+    const navigateToPersonalArea = () => navigate(`${R.ADMIN_PATH}${R.USERS_PATH}`);
 
     const openCurrentRoleHandler = (id?: number) => {
         navigate({
-            pathname: `${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}${ROUTER.ADD_PATH}`,
+            pathname: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}${R.ADD_PATH}`,
             search: id ? createSearchParams({ id: String(id) }).toString() : '',
         });
     };

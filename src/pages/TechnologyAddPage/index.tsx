@@ -58,7 +58,7 @@ export const TechnologyAddPage = () => {
     const navigate = useNavigate();
 
     const returnToTechnologies = () => {
-        navigate(R.TECHNOLOGIES_PATH);
+        navigate(`${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`);
     };
 
     const onSubmit = handleSubmit(async (values) => {

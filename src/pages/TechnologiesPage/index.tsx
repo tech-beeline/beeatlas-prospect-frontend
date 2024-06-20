@@ -60,7 +60,7 @@ export const TechnologiesPage = () => {
             <S.TitleContainer>
                 <S.Title>Управление технологиями</S.Title>
                 <Button
-                    onClick={() => navigate(`${R.TECHNOLOGIES_PATH}${R.ADD_PATH}`)}
+                    onClick={() => navigate(`${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}`)}
                     startIcon={<Icon iconName={Icons.Add} />}
                     size="small"
                     variant="contained"

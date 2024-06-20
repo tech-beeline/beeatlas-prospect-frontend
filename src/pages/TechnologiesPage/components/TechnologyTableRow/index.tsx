@@ -100,7 +100,9 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                         iconName={Icons.Edit}
                         size="medium"
                         onClick={() =>
-                            navigate(`${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`)
+                            navigate(
+                                `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
+                            )
                         }
                         data-tooltip-id={`${technology.id}-edit`}
                     />

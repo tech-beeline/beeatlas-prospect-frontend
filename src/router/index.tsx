@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
@@ -11,6 +11,7 @@ import {
     MenuProfile,
 } from 'components/core';
 
+import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AddRollPage,
     AppInfoPage,
@@ -42,51 +43,45 @@ import {
     TechRadarPage,
     TemplatesPage,
 } from 'pages';
-import * as ROUTER from 'router/const';
 
-import * as C from './const';
+import * as R from './const';
 import * as S from './units';
-import { RouteAdapter } from './utils';
+import { RouteAdapter, withAdminRole } from './utils';
 
 const PATHS_WITHOUT_HEADER = [
-    `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-    `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
-    `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
+    `${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`,
+    `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
+    `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
-    const [isPersonalArea, setIsPersonalArea] = useState(false);
+    const { data: rolesData, isLoading } = useGetMyRolesQuery();
+
+    const isAdmin =
+        rolesData?.some((role) => role.alias === 'ADMINISTRATOR' && role.deleted === false) ??
+        false;
 
     const location = useLocation();
+
+    const isAdminPanel = location.pathname?.includes(R.ADMIN_PATH);
 
     useEffect(() => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
         });
-
-        if (
-            location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH) ||
-            location.pathname?.includes(ROUTER.TECHNOLOGIES_PATH) ||
-            location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH) ||
-            location.pathname?.includes(ROUTER.CAPABILITIES_PATH)
-        ) {
-            setIsPersonalArea(true);
-        } else {
-            setIsPersonalArea(false);
-        }
     }, [location]);
 
     return (
         <>
             {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
-                <Header {...{ isPersonalArea }} />
+                <Header isAdminPanel={isAdminPanel} isAdmin={isAdmin} />
             )}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
                     <Route
-                        path={C.MAIN_PAGE_PATH}
+                        path={R.MAIN_PAGE_PATH}
                         element={
                             <S.RouteWithDrawer>
                                 <S.ContentWrapper>
@@ -96,19 +91,49 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
+                    <Route path={R.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 
-                    <Route
-                        path={C.PERSONAL_AREA_PATH}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.USERS_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <PersonalArea />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    />
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <RollSettingsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}${R.ADD_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <AddRollPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
                     {/* <Route
                         path={C.IMPORTED_DATA_PATH}
@@ -134,80 +159,64 @@ export const NavigationRouter = () => {
                         }
                     /> */}
 
-                    <Route
-                        path={C.TECHNOLOGIES_PATH}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <TechnologiesPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    />
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
-                    <Route
-                        path={`${C.TECHNOLOGIES_PATH}${C.ADD_PATH}`}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <TechnologyAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    />
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
-                    <Route
-                        path={C.CAPABILITIES_PATH}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <CapabilitiesPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    />
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
-                    <Route
-                        path={`${C.CAPABILITIES_PATH}${C.ADD_PATH}`}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}${R.ADD_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <CapabilityAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    />
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
                     <Route
-                        path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <RollSettingsPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
-
-                    <Route
-                        path={`${C.PERSONAL_AREA_PATH}${C.ROLL_SETTINGS_PATH}${C.ADD_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <AddRollPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
-
-                    <Route
-                        path={C.MODELS_PATH}
+                        path={R.MODELS_PATH}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
@@ -219,7 +228,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.MODELS_PATH}${C.SEARCH_PATH}`}
+                        path={`${R.MODELS_PATH}${R.SEARCH_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
@@ -231,7 +240,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.MODELS_PATH}${C.FDM_PATH}`}
+                        path={`${R.MODELS_PATH}${R.FDM_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
@@ -243,7 +252,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.MODELS_PATH}${C.TECH_RADAR_PATH}`}
+                        path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
@@ -255,7 +264,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.MODELS_PATH}${C.APPS_PATH}`}
+                        path={`${R.MODELS_PATH}${R.APPS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
@@ -267,7 +276,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.MODELS_PATH}${C.E2E_PATH}`}
+                        path={`${R.MODELS_PATH}${R.E2E_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
@@ -279,7 +288,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={C.DATA_BASE_PATH}
+                        path={R.DATA_BASE_PATH}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuDatabase />
@@ -291,7 +300,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}`}
+                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuDatabase />
@@ -303,7 +312,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_HOW_TO_PATH}`}
+                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuDatabase />
@@ -315,7 +324,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.DATA_BASE_PATH}${C.ARCH_COMM_PATH}${C.ARCH_TEMPLATES_PATH}`}
+                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuDatabase />
@@ -327,7 +336,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.DATA_BASE_PATH}${C.TECH_POLICY_PATH}`}
+                        path={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuDatabase />
@@ -339,7 +348,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}`}
+                        path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuDatabase />
@@ -350,7 +359,7 @@ export const NavigationRouter = () => {
                         }
                     />
                     <Route
-                        path={`${C.DATA_BASE_PATH}${C.SERVICES_PATH}${C.CONSULTATION_PATH}`}
+                        path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <S.ContentWrapper>
@@ -361,7 +370,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={C.CX_PATH}
+                        path={R.CX_PATH}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuCX />
@@ -373,7 +382,7 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.CX_PATH}${C.CJ_PATH}`}
+                        path={`${R.CX_PATH}${R.CJ_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuCX />
@@ -384,10 +393,10 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route path={`${C.CX_PATH}${C.CJ_PATH}${C.ADD_PATH}`} element={<CJPage />} />
+                    <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`} element={<CJPage />} />
 
                     <Route
-                        path={`${C.CX_PATH}${C.BI_PATH}`}
+                        path={`${R.CX_PATH}${R.BI_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuCX />
@@ -399,14 +408,14 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.CX_PATH}${C.BI_PATH}${C.VIEW_PATH}`}
+                        path={`${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`}
                         element={<BIViewPage />}
                     />
 
-                    <Route path={`${C.CX_PATH}${C.BI_PATH}${C.ADD_PATH}`} element={<BIAddPage />} />
+                    <Route path={`${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`} element={<BIAddPage />} />
 
                     <Route
-                        path={`${C.NOTIFICATIONS_PATH}`}
+                        path={`${R.NOTIFICATIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <S.ContentWrapper>
@@ -417,7 +426,7 @@ export const NavigationRouter = () => {
                     />
 
                     {/* <Route
-                        path={`${C.PROFILE_PATH}${C.INFO_PATH}`}
+                        path={`${R.PROFILE_PATH}${R.INFO_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuProfile />
@@ -429,7 +438,7 @@ export const NavigationRouter = () => {
                     /> */}
 
                     <Route
-                        path={`${C.PROFILE_PATH}${C.SUBSCRIPTIONS_PATH}`}
+                        path={`${R.PROFILE_PATH}${R.SUBSCRIPTIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuProfile />
@@ -441,7 +450,7 @@ export const NavigationRouter = () => {
                     />
 
                     {/* <Route
-                        path={`${C.PROFILE_PATH}${C.APPLICATIONS_PATH}`}
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuProfile />

@@ -15,7 +15,7 @@ export const CapabilitiesPage = () => {
                 <S.Title>Управление возможностями</S.Title>
             </S.TitleContainer>
             <Button
-                onClick={() => navigate(`${R.CAPABILITIES_PATH}${R.ADD_PATH}`)}
+                onClick={() => navigate(`${R.ADMIN_PATH}${R.CAPABILITIES_PATH}${R.ADD_PATH}`)}
                 size="small"
                 variant="contained"
             >

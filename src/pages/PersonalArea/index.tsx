@@ -14,7 +14,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { IProfile } from 'api/personal-area/types';
 import { useGetProfilesQuery } from 'api/queries/profile';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { EditRolesMenu, EmptyState, SortIndicator, UserTableProfile } from './components';
 import * as S from './units';
@@ -116,9 +116,7 @@ export const PersonalArea = () => {
                 <S.HintStyled text="Настройки ролей" tooltipId={`100`}>
                     <Icon
                         iconName={Icons.Settings}
-                        onClick={() =>
-                            navigate(`${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}`)
-                        }
+                        onClick={() => navigate(`${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}`)}
                     />
                 </S.HintStyled>
             </S.Title>

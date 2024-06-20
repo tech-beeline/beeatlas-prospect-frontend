@@ -21,7 +21,7 @@ import {
 } from 'api/queries';
 import { useModal } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -88,8 +88,7 @@ export const AddRollPage = () => {
 
     const navigate = useNavigate();
 
-    const navigateToAllRoles = () =>
-        navigate(`${ROUTER.PERSONAL_AREA_PATH}${ROUTER.ROLL_SETTINGS_PATH}`);
+    const navigateToAllRoles = () => navigate(`${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}`);
 
     const handleDeleteRole = async () => {
         if (roleId) {

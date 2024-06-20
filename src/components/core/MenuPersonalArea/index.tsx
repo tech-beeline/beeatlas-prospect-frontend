@@ -22,13 +22,13 @@ export const MenuPersonalArea = () => {
             isGroupTitle={false}
             isGroupDivider={false}
             active={
-                location.pathname.includes(R.PERSONAL_AREA_PATH)
-                    ? R.PERSONAL_AREA_PATH
+                location.pathname.includes(R.USERS_PATH)
+                    ? `${R.ADMIN_PATH}${R.USERS_PATH}`
                     : location.pathname.includes(R.IMPORTED_DATA_PATH)
-                    ? R.IMPORTED_DATA_PATH
+                    ? `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`
                     : location.pathname.includes(R.CAPABILITIES_PATH)
-                    ? R.CAPABILITIES_PATH
-                    : R.TECHNOLOGIES_PATH
+                    ? `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`
+                    : `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`
             }
             groups={[
                 {
@@ -37,22 +37,22 @@ export const MenuPersonalArea = () => {
                         {
                             icon: Icons.Group,
                             name: 'Управление\xa0ролями',
-                            path: `${R.PERSONAL_AREA_PATH}`,
+                            path: `${R.ADMIN_PATH}${R.USERS_PATH}`,
                         },
                         // {
                         //     icon: Icons.Import,
                         //     name: 'Импортируемые\nданные\xa0\xa0',
-                        //     path: `${R.IMPORTED_DATA_PATH}`,
+                        //     path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
                         // },
                         {
                             icon: Icons.Radar,
                             name: 'Управление\nтехнологиями',
-                            path: `${R.TECHNOLOGIES_PATH}`,
+                            path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,
                         },
                         {
                             icon: Icons.Capability,
                             name: 'Управление\nвозможностями',
-                            path: `${R.CAPABILITIES_PATH}`,
+                            path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`,
                         },
                     ],
                 },

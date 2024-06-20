@@ -38,7 +38,7 @@ export const CapabilityAddPage = () => {
     const navigate = useNavigate();
 
     const returnToCapabilities = () => {
-        navigate(R.CAPABILITIES_PATH);
+        navigate(`${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`);
     };
 
     const onSubmit = handleSubmit(async (values) => {
