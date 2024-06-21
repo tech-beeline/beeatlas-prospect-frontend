@@ -17,14 +17,15 @@ export const useGetAllTechnologiesQuery = () => {
     );
 };
 
-export const useGetTechByIdQuery = (id: string | undefined | null) => {
-    return useQuery<ITech | undefined>(
-        [TECHNOLOGIES_PREFIX, 'tech', id],
-        () => getAllTechnologies().then((res) => res.data.find((tech) => tech.id === Number(id))),
-        {
-            enabled: Boolean(id),
-        },
-    );
+interface ITechFormData {
+    techData: ITech | undefined;
+    allTech: ITech[];
+}
+export const useGetTechFormDataQuery = (id: string | undefined | null) => {
+    return useQuery<ITechFormData>([TECHNOLOGIES_PREFIX, 'tech', id], async () => {
+        const data = await getAllTechnologies().then((res) => res.data);
+        return { techData: data.find((tech) => tech.id === Number(id)), allTech: data };
+    });
 };
 
 export const useGetTechnologyCategoriesQuery = () => {

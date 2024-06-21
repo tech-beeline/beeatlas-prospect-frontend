@@ -117,3 +117,7 @@ export const IconStyled = styled(Icon)`
         color: var(--color-text-active);
     }
 `;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 160px;
+`;
