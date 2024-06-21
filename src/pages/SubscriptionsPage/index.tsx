@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox, Chip, Icon, Pagination } from '@beeline/design-system-react';
+import { Pagination } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -8,15 +8,22 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 import { useGetSubscriptionsQuery } from 'api/queries/subscriptions';
 import { ISubscription } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
+import { pluralize } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { SubscriptionCard, SubscriptionCardSkeleton } from './components';
 import {
-    CHIPS,
+    ActionRow,
+    SubscriptionCard,
+    SubscriptionCardSkeleton,
+    SubscriptionFilters,
+} from './components';
+import {
     FilterVariants,
     filterVariantToButtonTextMap,
     filterVariantToNotFoundTextMap,
     filterVariantToRouteMap,
+    subscriptionTypeToTitleMap,
 } from './const';
 import * as S from './units';
 import { subscriptionFilterFunction } from './utils';
@@ -29,13 +36,26 @@ export const SubscriptionsPage = () => {
     const [search, setSearch] = useState('');
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
 
-    const { modalOpened, openModal, closeModal } = useModal();
+    const {
+        modalOpened: singleUnsubscriptionsModalOpened,
+        openModal: openSingleUnsubscriptionModal,
+        closeModal: closeSingleUnsubscriptionModal,
+    } = useModal();
+    const {
+        modalOpened: multipleUnsubscriptionsModalOpened,
+        openModal: openMultipleUnsubscriptionModal,
+        closeModal: closeMultipleUnsubscriptionModal,
+    } = useModal();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const navigate = useNavigate();
 
     const { data, isLoading } = useGetSubscriptionsQuery();
 
     const [selectedSubscriptions, setSelectedSubscriptions] = useState<ISubscription[]>([]);
+    const [selectedSingleSubscription, setSelectedSingleSubscription] =
+        useState<ISubscription | null>(null);
     const seletedSubscriptionsIds = selectedSubscriptions.map((subscription) => subscription.id);
 
     const startIndex = (page - 1) * SUBS_PER_PAGE;
@@ -50,100 +70,36 @@ export const SubscriptionsPage = () => {
 
     const slicedSubscriptions = filteredSubscriptions.slice(startIndex, endIndex);
 
-    const handleActionRowCheckboxClick = () => {
-        if (data && selectedSubscriptions.length === data?.length) {
-            setSelectedSubscriptions([]);
-        } else {
-            setSelectedSubscriptions([
-                ...selectedSubscriptions,
-                ...slicedSubscriptions.filter(
-                    (subscription) => !seletedSubscriptionsIds.includes(subscription.id),
-                ),
-            ]);
-        }
-    };
-
-    const handleCardCheckboxClick = (subscription: ISubscription) => {
-        if (seletedSubscriptionsIds.includes(subscription.id)) {
-            setSelectedSubscriptions(
-                selectedSubscriptions.filter(
-                    (selectedSubscription) => selectedSubscription.id !== subscription.id,
-                ),
-            );
-        } else {
-            setSelectedSubscriptions([...selectedSubscriptions, subscription]);
-        }
-    };
-
     return (
         <S.PageWrapper>
             <S.Container>
                 <S.Header>
                     <S.Title>Мои подписки</S.Title>
                 </S.Header>
-                <S.FiltersContainer>
-                    <S.SearchStyled
-                        placeholder="Поиск"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value);
-                            setPage(1);
-                        }}
-                        onClear={() => {
-                            setSearch('');
-                            setPage(1);
-                        }}
-                    />
-                </S.FiltersContainer>
-                <S.ChipsContainer>
-                    {CHIPS.map((chip) => (
-                        <Chip
-                            key={chip.value}
-                            label={chip.label}
-                            active={filterVariant === chip.value}
-                            onClick={() => {
-                                setFilterVariant(chip.value);
-                                setPage(1);
-                            }}
-                        />
-                    ))}
-                </S.ChipsContainer>
+
+                <SubscriptionFilters
+                    search={search}
+                    filterVariant={filterVariant}
+                    setSearch={setSearch}
+                    setFilterVariant={setFilterVariant}
+                    setPage={setPage}
+                />
 
                 <S.CardsContainer>
-                    <S.ActionsRow>
-                        <Checkbox
-                            checked={selectedSubscriptions.length > 0}
-                            type={
-                                selectedSubscriptions.length === data?.length ||
-                                selectedSubscriptions.length === 0
-                                    ? 'checkbox'
-                                    : 'indeterminate'
-                            }
-                            onChange={handleActionRowCheckboxClick}
-                        />
-                        <S.ButtonsContainer>
-                            <S.CustomButton
-                                disabled={selectedSubscriptions.length === 0}
-                                onClick={openModal}
-                            >
-                                <Icon iconName={Icons.NotificationOff} size="large" />
-                                Отписаться
-                            </S.CustomButton>
-                            <S.CustomButton
-                                disabled={filteredSubscriptions.length < 3}
-                                onClick={() => {
-                                    setAscendingOrder(!ascendingOrder);
-                                    setPage(1);
-                                }}
-                            >
-                                <Icon
-                                    iconName={ascendingOrder ? Icons.SortDown : Icons.SortUp}
-                                    size="large"
-                                />
-                                Сортировка
-                            </S.CustomButton>
-                        </S.ButtonsContainer>
-                    </S.ActionsRow>
+                    <ActionRow
+                        data={data}
+                        ascendingOrder={ascendingOrder}
+                        selectedSubscriptions={selectedSubscriptions}
+                        filteredSubscriptions={filteredSubscriptions}
+                        slicedSubscriptions={slicedSubscriptions}
+                        selectedSubscriptionsIds={seletedSubscriptionsIds}
+                        setAscendingOrder={setAscendingOrder}
+                        setPage={setPage}
+                        openMultipleUnsubscriptionModal={openMultipleUnsubscriptionModal}
+                        openSingleUnsubscriptionModal={openSingleUnsubscriptionModal}
+                        setSelectedSingleSubscription={setSelectedSingleSubscription}
+                        setSelectedSubscriptions={setSelectedSubscriptions}
+                    />
                     {isLoading &&
                         Array.from({ length: 3 }).map((_, i) => (
                             <SubscriptionCardSkeleton key={i} />
@@ -151,9 +107,12 @@ export const SubscriptionsPage = () => {
                     {slicedSubscriptions.map((subscription) => (
                         <SubscriptionCard
                             key={subscription.id}
-                            onCheckboxClick={handleCardCheckboxClick}
+                            selectedSubscriptions={selectedSubscriptions}
                             selectedSubscriptionsIds={seletedSubscriptionsIds}
+                            setSelectedSubscriptions={setSelectedSubscriptions}
                             subscription={subscription}
+                            openModal={openSingleUnsubscriptionModal}
+                            setSelectedSingleSubscription={setSelectedSingleSubscription}
                         />
                     ))}
                     {!isLoading && slicedSubscriptions.length === 0 && (
@@ -189,20 +148,36 @@ export const SubscriptionsPage = () => {
                 )}
             </S.Container>
             <Dialog
-                opened={modalOpened}
+                opened={multipleUnsubscriptionsModalOpened}
                 title="Отписаться?"
-                onClose={closeModal}
+                onClose={closeMultipleUnsubscriptionModal}
                 onConfirm={() => {
-                    console.log(selectedSubscriptions);
                     setSelectedSubscriptions([]);
-                    closeModal();
+                    closeMultipleUnsubscriptionModal();
+                    showSnackbar({ message: 'Вы отписаны от уведомлений' });
                 }}
                 confirmText="Отписаться"
             >
-                Вы отписываетесь от{' '}
-                <S.BoldSpan>
-                    {selectedSubscriptions.map((subscription) => subscription.title).join(', ')}
-                </S.BoldSpan>
+                Вы отказываетесь от <S.BoldSpan>{selectedSubscriptions.length}</S.BoldSpan>{' '}
+                {pluralize(['подписки', 'подписок', 'подписок'], selectedSubscriptions.length)}
+            </Dialog>
+            <Dialog
+                opened={singleUnsubscriptionsModalOpened}
+                title={`Отписаться от ${
+                    selectedSingleSubscription
+                        ? subscriptionTypeToTitleMap[selectedSingleSubscription.type]
+                        : ''
+                }?`}
+                onClose={closeSingleUnsubscriptionModal}
+                onConfirm={() => {
+                    setSelectedSubscriptions([]);
+                    setSelectedSingleSubscription(null);
+                    closeSingleUnsubscriptionModal();
+                    showSnackbar({ message: 'Вы отписаны от уведомлений' });
+                }}
+                confirmText="Отписаться"
+            >
+                Вы отписываетесь от <S.BoldSpan>{selectedSingleSubscription?.title}</S.BoldSpan>
             </Dialog>
         </S.PageWrapper>
     );

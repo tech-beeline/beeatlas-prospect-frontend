@@ -1,16 +1,36 @@
 import { Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const SubscriptionCard = styled.div`
+export const SubscriptionCard = styled.div<{ isSelected?: boolean }>`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
 
     padding: 24px 16px;
 
-    &:not(:last-child) {
+    background-color: ${({ isSelected }) =>
+        isSelected ? 'var(--color-background-base-focused)' : 'var(--color-background-base)'};
+
+    overflow: hidden;
+
+    :not(:last-child) {
         border-bottom: 1px solid var(--color-divider);
     }
+
+    > button {
+        display: none;
+    }
+
+    :hover > button {
+        display: flex;
+    }
+`;
+
+export const ContentContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 16px;
 `;
 
 export const Body3 = styled.div`

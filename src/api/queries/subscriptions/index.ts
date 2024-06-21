@@ -19,7 +19,7 @@ export const useGetSubscriptionsQuery = () => {
                         {
                             id: 2,
                             type: SubscriptionType.TECH_CAPABILITY,
-                            title: 'Заголовок',
+                            title: 'Проверка контактной политики в СКП по каждой коммуникации в соответствии с заданной целью и ограничить отправку коммуникаций с учетом настроек КП',
                         },
                         {
                             id: 3,

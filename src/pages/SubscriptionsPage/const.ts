@@ -1,3 +1,4 @@
+import { SubscriptionType } from 'api/subscriptions/types';
 import * as R from 'router/const';
 
 export enum FilterVariants {
@@ -43,4 +44,13 @@ export const filterVariantToRouteMap = {
     [FilterVariants.CAPABILITIES]: `${R.MODELS_PATH}${R.FDM_PATH}`,
     [FilterVariants.TECHNOLOGIES]: `${R.MODELS_PATH}${R.TECH_RADAR_PATH}`,
     [FilterVariants.CJS]: `${R.CX_PATH}${R.CJ_PATH}`,
+};
+
+export const subscriptionTypeToTitleMap = {
+    [SubscriptionType.BUSINESS_CAPABILITY]: 'возможности',
+    [SubscriptionType.TECH_CAPABILITY]: 'возможности',
+    [SubscriptionType.GROUP]: 'группировки',
+    [SubscriptionType.DOMAIN]: 'домена',
+    [SubscriptionType.CJ]: 'CJ',
+    [SubscriptionType.TECHNOLOGY]: 'технологии',
 };
