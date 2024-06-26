@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
+import { Button } from '@beeline/design-system-react';
 
 import questionBox from './images/box-with-question.png';
 import emptyBox from './images/empty-box.png';
@@ -18,6 +18,7 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
     title,
     text = 'Такой страницы не существует или указана неверная ссылка',
     imageVariant = ImageVariants.QUESTION_BOX,
+    buttonText,
     buttonProps,
 }) => {
     return (
@@ -26,19 +27,10 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
             <S.Content>
                 {title && <S.Title>{title}</S.Title>}
                 <S.Text marginTop={Boolean(title)}>{text}</S.Text>
-                {buttonProps && (
+                {buttonText && (
                     <S.ButtonContainer>
-                        <Button
-                            size={buttonProps.size ?? 'small'}
-                            variant="contained"
-                            onClick={buttonProps.onClick}
-                            endIcon={
-                                buttonProps.endIconName ? (
-                                    <Icon iconName={buttonProps.endIconName} />
-                                ) : undefined
-                            }
-                        >
-                            {buttonProps.text}
+                        <Button variant="contained" {...buttonProps}>
+                            {buttonText}
                         </Button>
                     </S.ButtonContainer>
                 )}

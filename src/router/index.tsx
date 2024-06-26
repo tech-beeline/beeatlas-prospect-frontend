@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, MenuCX, MenuDatabase, MenuModels, MenuPersonalArea } from 'components/core';
+import {
+    Header,
+    MenuCX,
+    MenuDatabase,
+    MenuModels,
+    MenuPersonalArea,
+    MenuProfile,
+} from 'components/core';
 
 import {
     AddRollPage,
@@ -20,6 +27,7 @@ import {
     DataBasePage,
     FDMPage,
     HowToPage,
+    InDevelopmentPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
@@ -386,11 +394,36 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
-                        path={`${C.SUBSCRIPTIONS_PATH}`}
+                        path={`${C.PROFILE_PATH}${C.INFO_PATH}`}
                         element={
                             <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <InDevelopmentPage title="Профиль" />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PROFILE_PATH}${C.SUBSCRIPTIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
                                 <S.ContentWrapper>
                                     <SubscriptionsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PROFILE_PATH}${C.APPLICATIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <InDevelopmentPage title="Мои заявки" />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

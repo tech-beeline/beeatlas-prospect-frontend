@@ -9,7 +9,7 @@ export const FiltersContainer = styled.div`
 `;
 
 export const SearchStyled = styled(Search)`
-    flex: 1;
+    width: 528px;
 `;
 
 export const ChipsContainer = styled.div`

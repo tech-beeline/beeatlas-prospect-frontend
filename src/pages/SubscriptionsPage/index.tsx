@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from '@beeline/design-system-react';
+import { Icon, Pagination } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -121,17 +121,18 @@ export const SubscriptionsPage = () => {
                                 imageVariant={ImageVariants.EMPTY_BOX}
                                 title="Пока здесь пусто"
                                 text={filterVariantToNotFoundTextMap[filterVariant]}
-                                buttonProps={
+                                buttonText={
                                     filterVariant === FilterVariants.ALL
-                                        ? undefined
-                                        : {
-                                              text: filterVariantToButtonTextMap[filterVariant],
-                                              size: 'medium',
-                                              endIconName: Icons.ArrowRight,
-                                              onClick: () =>
-                                                  navigate(filterVariantToRouteMap[filterVariant]),
-                                          }
+                                        ? ''
+                                        : filterVariantToButtonTextMap[filterVariant]
                                 }
+                                buttonProps={{
+                                    size: 'medium',
+                                    endIcon: <Icon iconName={Icons.ArrowRight} />,
+                                    onClick: () =>
+                                        filterVariant !== FilterVariants.ALL &&
+                                        navigate(filterVariantToRouteMap[filterVariant]),
+                                }}
                             />
                         </S.NotFoundContainer>
                     )}

@@ -1,5 +1,4 @@
-import { ButtonSizeVariants } from '@beeline/design-system-react/build/components/Button/Button.types';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { ButtonProps } from '@beeline/design-system-react/types/components/Button/Button.types';
 
 export enum ImageVariants {
     EMPTY_BOX = 'EMPTY_BOX',
@@ -11,10 +10,6 @@ export interface INotFoundBlock {
     title?: string;
     text?: string;
     imageVariant?: ImageVariants;
-    buttonProps?: {
-        text: string;
-        onClick: () => void;
-        size?: ButtonSizeVariants;
-        endIconName?: Icons;
-    };
+    buttonText?: string;
+    buttonProps?: ButtonProps;
 }
