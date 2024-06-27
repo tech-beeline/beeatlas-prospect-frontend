@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/other';
@@ -15,7 +15,7 @@ import boxWithQuestionImg from './images/boxWithQuestion.png';
 
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
-import { getItemClassification, itemNameMap } from './helpers';
+import { getItemClassification, ItemClassification, itemNameMap } from './helpers';
 // import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
@@ -70,9 +70,11 @@ export const FDMPage = () => {
         if (!subscribed && activeItem) {
             setSubscribed(true);
             showSnackbar({
-                message: `Вы подписаны на изменения (перемещение, добавление новых сущностей) ${
+                message: `Вы подписаны на изменения ${
                     itemNameMap[getItemClassification(activeItem)]
-                }. Уведомления будут приходить на почту`,
+                } и ${
+                    getItemClassification(activeItem) === ItemClassification.DOMAIN ? 'его' : 'ее'
+                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
             });
         } else {
             openModal();
@@ -84,9 +86,7 @@ export const FDMPage = () => {
             setSubscribed(false);
             closeModal();
             showSnackbar({
-                message: `Вы отписаны от изменений ${
-                    itemNameMap[getItemClassification(activeItem)]
-                }`,
+                message: `Вы отписаны от уведомлений`,
             });
         }
     };
@@ -130,13 +130,16 @@ export const FDMPage = () => {
                                     size="small"
                                     variant="outlined"
                                     onClick={handleSubscribeButtonClick}
+                                    startIcon={
+                                        <Icon
+                                            iconName={
+                                                subscribed
+                                                    ? Icons.NotificationOff
+                                                    : Icons.Notification
+                                            }
+                                        />
+                                    }
                                 >
-                                    <S.IconStyled
-                                        iconName={
-                                            subscribed ? Icons.NotificationOff : Icons.Notification
-                                        }
-                                        size="small"
-                                    />
                                     Подписаться
                                 </Button>
                             </S.TitleContainer>
@@ -243,9 +246,13 @@ export const FDMPage = () => {
                 </S.Container>
             </S.Wrapper>
             {activeItem && (
-                <Dialog opened={modalOpened} onClose={closeModal} onConfirm={handleModalConfirm}>
-                    Вы уверены, что хотите отписаться от изменений{' '}
-                    {itemNameMap[getItemClassification(activeItem)]}?
+                <Dialog
+                    opened={modalOpened}
+                    onClose={closeModal}
+                    onConfirm={handleModalConfirm}
+                    title={`Отписаться от ${itemNameMap[getItemClassification(activeItem)]}`}
+                >
+                    Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
                 </Dialog>
             )}
         </S.PageWrapper>

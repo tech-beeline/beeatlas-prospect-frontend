@@ -1,4 +1,4 @@
-import { Banner, Chip, Icon } from '@beeline/design-system-react';
+import { Banner, Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { GrayText } from 'styles/units';
@@ -55,10 +55,6 @@ export const H4 = styled.h4`
     letter-spacing: var(--font-letter-spacing-body3);
 
     margin: 8px 0;
-`;
-
-export const IconStyled = styled(Icon)`
-    margin-right: 8px;
 `;
 
 export const JustText = styled.p`
@@ -205,4 +201,8 @@ export const FlexBlock = styled.div`
 
 export const ChipStyled = styled(Chip)`
     cursor: auto !important;
+`;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
 `;

@@ -1,4 +1,4 @@
-import { Chip, Icon } from '@beeline/design-system-react';
+import { Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
@@ -128,6 +128,6 @@ export const SubscribeButtonContainer = styled.div`
     margin-top: 12px;
 `;
 
-export const IconStyled = styled(Icon)`
-    margin-right: 8px;
+export const BoldSpan = styled.span`
+    font-weight: 500;
 `;

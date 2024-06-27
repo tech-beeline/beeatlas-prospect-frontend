@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Skeleton } from '@beeline/design-system-react';
+import { Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 import { useModal } from 'hooks';
-import { getItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
+import { getItemClassification, ItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
 import { useFDMStore } from 'pages/FDMPage/store';
 import { Item, ItemTypes } from 'pages/FDMPage/store/types';
 import { Dialog } from 'widgets/Dialog';
@@ -56,9 +56,9 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
         if (!subscribed) {
             setSubscribed(true);
             showSnackbar({
-                message: `Вы подписаны на изменения (перемещение, добавление новых сущностей) ${
-                    itemNameMap[getItemClassification(item)]
-                }. Уведомления будут приходить на почту`,
+                message: `Вы подписаны на изменения ${itemNameMap[getItemClassification(item)]} и ${
+                    getItemClassification(item) === ItemClassification.DOMAIN ? 'его' : 'ее'
+                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
             });
         } else {
             openModal();
@@ -157,18 +157,25 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
             </S.ExpandStyled>
 
             <S.SubscribeButtonContainer>
-                <Button size="small" variant="outlined" onClick={handleSubscribeButtonClick}>
-                    <S.IconStyled
-                        iconName={subscribed ? Icons.NotificationOff : Icons.Notification}
-                        size="small"
-                    />
+                <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={handleSubscribeButtonClick}
+                    startIcon={
+                        <Icon iconName={subscribed ? Icons.NotificationOff : Icons.Notification} />
+                    }
+                >
                     Подписаться
                 </Button>
             </S.SubscribeButtonContainer>
 
-            <Dialog opened={modalOpened} onClose={closeModal} onConfirm={handleModalConfirm}>
-                Вы уверены, что хотите отписаться от изменений{' '}
-                {itemNameMap[getItemClassification(item)]}?
+            <Dialog
+                opened={modalOpened}
+                onClose={closeModal}
+                onConfirm={handleModalConfirm}
+                title={`Отписаться от ${itemNameMap[getItemClassification(item)]}`}
+            >
+                Вы отписываетесь от <S.BoldSpan>{item.name}</S.BoldSpan>
             </Dialog>
         </S.Wrapper>
     );
