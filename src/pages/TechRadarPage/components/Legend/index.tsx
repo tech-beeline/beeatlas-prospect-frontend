@@ -22,7 +22,7 @@ export const Legend: FC = () => {
                         strokeWidth={2}
                     />
                 </svg>
-                <div>Новая</div>
+                <div>Новое</div>
             </S.LegendItem>
             <S.LegendItem>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width={20} height={20}>
@@ -34,7 +34,7 @@ export const Legend: FC = () => {
                         strokeWidth={2}
                     />
                 </svg>
-                <div>Изменён статус</div>
+                <div>Обновлено</div>
             </S.LegendItem>
         </S.LegendContainer>
     );
