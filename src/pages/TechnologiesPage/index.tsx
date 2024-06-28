@@ -103,7 +103,7 @@ export const TechnologiesPage = () => {
                     <TableBody>
                         {displayedTechnologies.map((technology) => (
                             <TableRow key={technology.id}>
-                                <TableData>
+                                <S.TableDataFullWidth>
                                     <S.NameContainer>
                                         <div>{technology.label}</div>
                                         {technology.link && (
@@ -127,7 +127,7 @@ export const TechnologiesPage = () => {
                                             </>
                                         )}
                                     </S.NameContainer>
-                                </TableData>
+                                </S.TableDataFullWidth>
                                 <TableData>{technology.sector.name}</TableData>
                                 <TableData>
                                     <Label
@@ -196,7 +196,7 @@ export const TechnologiesPage = () => {
                         ))}
 
                         <TableRow>
-                            <TableData colSpan={8}>
+                            <TableData colSpan={8} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
                                         setCountPage(e.page);

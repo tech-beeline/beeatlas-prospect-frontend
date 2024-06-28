@@ -130,7 +130,7 @@ export const PersonalArea = () => {
                     { id: 'all', value: 'Везде' },
                     { id: 'full_name', value: 'ФИО' },
                     { id: 'role', value: 'Роль' },
-                    { id: 'email', value: 'E-mail' },
+                    { id: 'email', value: 'E‑mail' },
                     { id: 'login', value: 'Логин' },
                 ]}
                 selectedFilter={filterOption}
@@ -201,13 +201,11 @@ export const PersonalArea = () => {
                         })}
 
                         <TableRow>
-                            <TableData colSpan={7}>
+                            <TableData colSpan={7} alignRight>
                                 <TablePagination
-                                    onPageChange={setCountPage}
-                                    onRowsPerPageChange={(perPage) => {
-                                        setItemsCountOnPage(perPage);
-
-                                        setCountPage(1);
+                                    onUserActions={(e) => {
+                                        setCountPage(e.page);
+                                        setItemsCountOnPage(e.rowsPerPage);
                                     }}
                                     page={countPage}
                                     rowsCount={profiles.length}

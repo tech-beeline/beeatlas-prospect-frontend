@@ -28,6 +28,8 @@ export const Title = styled.h4`
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-h4);
     line-height: var(--font-line-height-h4);
+
+    color: var(--color-text-active);
 `;
 
 export const FormContainer = styled.div`

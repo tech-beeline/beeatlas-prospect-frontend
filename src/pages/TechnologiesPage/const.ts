@@ -1,4 +1,4 @@
-import { AllStatuses } from '@beeline/design-system-react/build/types/status';
+import { AllStatuses } from '@beeline/design-system-react/types/types/status';
 
 export const ringIdToStatusMap: Record<number, AllStatuses> = {
     1: 'success',

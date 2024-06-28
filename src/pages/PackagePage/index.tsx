@@ -75,7 +75,7 @@ export const PackagePage = () => {
                         ))}
 
                         <TableRow>
-                            <TableData colSpan={4}>
+                            <TableData colSpan={4} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
                                         setCountPage(e.page);

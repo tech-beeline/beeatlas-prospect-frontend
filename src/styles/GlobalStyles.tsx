@@ -166,34 +166,9 @@ export const GlobalStyles = () => {
                     all: unset;
                 }
 
-                /* ---------TODO: bug in library-------- */
-                .lk-ui_sidesheet {
-                    background-color: var(--color-background-base);
-                }
-
-                /* position in Autocomplete dropdown */
-                .lk-ui__positioner {
-                    position: fixed;
-                }
-
-                /* search and filter component */
-
-                /* .dsb__select__options {
-                    color: var(--color-background-base);
-                } */
-
-                .dsb__positioner {
-                    z-index: 1001;
-                }
-
-                /* Для случая, когда на странице несколько TextArea, т.к. при нажатии на лейбл фокус всегда ставится на первый TextArea */
-                .dsb_textarea-label {
-                    pointer-events: none;
-                    user-select: none;
-                }
-
-                .dsb__select__options__item {
-                    color: var(--color-text-active);
+                div[data-floating-ui-portal] {
+                    z-index: 104;
+                    position: relative;
                 }
 
                 /* @TODO: Убрать с обновлением UI-кита */

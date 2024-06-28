@@ -2,14 +2,14 @@ import React from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { DropdownContext } from '@beeline/design-system-react';
 import { useAuth } from 'features/auth';
+import { useTheme } from 'features/theme';
 
 import { ErrorBoundary } from 'components/core';
 
 import { queryClient } from 'api/queries';
 import { NavigationRouter } from 'router';
-import { GlobalStyles, Theme, THEME_ELEMENT_ID } from 'styles';
+import { GlobalStyles } from 'styles';
 import { Snackbar } from 'widgets/Snackbar';
 
 import '@beeline/design-tokens/css/tokens/globals/index.css';
@@ -20,24 +20,16 @@ import '@beeline/design-tokens/css/font-face.css';
 
 const App = () => {
     useAuth();
+    useTheme();
 
     return (
         <>
             <QueryClientProvider client={queryClient}>
-                <Theme>
-                    <ErrorBoundary>
-                        <DropdownContext.Provider
-                            value={{
-                                applicationRootElementID: THEME_ELEMENT_ID,
-                                dropdownElementID: 'dsb__positioner',
-                            }}
-                        >
-                            <Router>
-                                <NavigationRouter />
-                            </Router>
-                        </DropdownContext.Provider>
-                    </ErrorBoundary>
-                </Theme>
+                <ErrorBoundary>
+                    <Router>
+                        <NavigationRouter />
+                    </Router>
+                </ErrorBoundary>
                 <Snackbar />
                 <GlobalStyles />
                 <ReactQueryDevtools initialIsOpen={false} />
