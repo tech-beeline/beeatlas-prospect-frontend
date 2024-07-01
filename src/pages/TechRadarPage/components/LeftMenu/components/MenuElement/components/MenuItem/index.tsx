@@ -30,8 +30,7 @@ export const MenuItem: FC<T.IMenuItem> = ({
         closeModal();
         setIsSubscribed(false);
         showSnackbar({
-            message:
-                'Вы отписались от изменений технологии. Уведомления больше не будут приходить на почту',
+            message: 'Вы отписаны от уведомлений',
         });
     };
 
@@ -43,7 +42,7 @@ export const MenuItem: FC<T.IMenuItem> = ({
             setIsSubscribed(true);
             showSnackbar({
                 message:
-                    'Вы подписались на изменения технологии. Уведомления будут приходить на почту',
+                    'Вы подписались на изменения технологии. Уведомления будут приходить на почту и отображаться на витрине ФДМ',
             });
         }
     };
@@ -109,8 +108,13 @@ export const MenuItem: FC<T.IMenuItem> = ({
             >
                 {isSubscribed ? 'Отписаться от технологии' : 'Подписаться на технологию'}
             </S.TooltipContainer>
-            <Dialog opened={modalOpened} onClose={closeModal} onConfirm={handleUnsubscribe}>
-                Вы уверены, что хотите отписаться от изменений технологии?
+            <Dialog
+                opened={modalOpened}
+                onClose={closeModal}
+                onConfirm={handleUnsubscribe}
+                title="Отписаться от технологии?"
+            >
+                Вы отписываетесь от <S.BoldSpan>{item.label}</S.BoldSpan>
             </Dialog>
         </>
     );

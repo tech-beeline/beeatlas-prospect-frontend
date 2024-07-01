@@ -76,3 +76,7 @@ export const AppsContainer = styled.div<{ open: boolean }>`
 
     transition: all 0.25s;
 `;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
+`;

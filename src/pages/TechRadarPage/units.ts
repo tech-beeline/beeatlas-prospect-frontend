@@ -61,7 +61,7 @@ export const ContentWrapper = styled.div`
     gap: 70px;
 
     width: 100%;
-    height: calc(100% - 184px);
+    height: calc(100% - 186px);
 
     padding-top: 20px;
 `;

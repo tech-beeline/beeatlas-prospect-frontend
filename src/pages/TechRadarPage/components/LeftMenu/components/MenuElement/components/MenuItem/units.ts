@@ -72,3 +72,7 @@ export const IconButtonStyled = styled(IconButton)<{ visible: boolean }>`
         visibility: ${({ visible }) => (visible ? 'visible' : '')};
     }
 `;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
+`;
