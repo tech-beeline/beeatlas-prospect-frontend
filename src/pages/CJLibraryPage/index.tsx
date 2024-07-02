@@ -6,6 +6,7 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { CJLibraryStatus } from 'api/cj/types';
 import { useDeleteCJMutation, useGetCJCollectionQuery } from 'api/queries/cj';
+import { useGetUserProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
@@ -27,6 +28,9 @@ export const CJLibraryPage = () => {
     });
 
     const { modalOpened, closeModal, openModal } = useModal();
+
+    const { data: productsData } = useGetUserProductsQuery();
+    const userProductIds = (productsData ?? []).map((product) => product.id);
 
     const { data, isLoading } = useGetCJCollectionQuery({
         search: filterOptions.search,
@@ -71,6 +75,7 @@ export const CJLibraryPage = () => {
                                     <CjMenu
                                         cjId={cj.id}
                                         draft={cj.draft}
+                                        canEdit={userProductIds.includes(cj.id_product)}
                                         onDeleteClick={() => deleteCj(String(cj.id))}
                                         onEditClick={() => handleCJClick(cj.id)}
                                     />
