@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'components/interaction';
+import { Link } from 'components/other';
 import { IconCard } from 'components/other';
 
 import * as ROUTER from 'router/const';
@@ -40,12 +40,10 @@ export const TemplatesPage = () => {
             <S.SmallText className="SmallText">
                 Обратитесь за&nbsp;
                 <Link
-                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
-                    fontSize={19}
-                    isInner
-                >
-                    консультацией
-                </Link>
+                    outer={false}
+                    title="консультацией"
+                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                />
             </S.SmallText>
         </S.PageWrapper>
     );

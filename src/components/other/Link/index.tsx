@@ -1,23 +1,27 @@
 import React, { FC } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ILink } from './types';
 import * as S from './units';
 
-export const Link: FC<ILink> = ({ title = 'Ссылка', url, outer = true }) => {
+export const Link: FC<ILink> = ({ title = 'Ссылка', url, showOuterIcon, outer = true }) => {
     return (
         <>
             {outer ? (
                 url && Boolean(url) ? (
                     <S.Link target="_blank" rel="noreferrer" href={url}>
-                        {title}
+                        <span>{title}</span>
+                        {showOuterIcon && <S.IconOuter iconName={Icons.OpenInBrowser} />}
                     </S.Link>
                 ) : (
                     '—'
                 )
             ) : (
                 <ReactRouterLink to={url ?? ''}>
-                    <S.Link>{title}</S.Link>
+                    <S.Link>
+                        <span>{title}</span>
+                    </S.Link>
                 </ReactRouterLink>
             )}
         </>

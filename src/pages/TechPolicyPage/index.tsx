@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { InDevelopingMock } from './InDevelopingMock';
+import { Link } from 'components/other';
+
 import * as S from './units';
 
 export const TechPolicyPage = () => {
@@ -12,8 +13,14 @@ export const TechPolicyPage = () => {
                 необходимо руководствоваться при принятии решений, связанных с изменением
                 и развитием ИТ-ландшафта ПАО «ВымпелКом» и его составляющих.
             </S.Description>
-
-            <InDevelopingMock />
+            <S.Description>
+                Актуальную версию технической политики вы можете найти в{' '}
+                <Link
+                    showOuterIcon
+                    title="BeeWorks Docs"
+                    url="https://docs.bw.vimpelcom.ru/techpolicy/"
+                />
+            </S.Description>
         </S.PageWrapper>
     );
 };

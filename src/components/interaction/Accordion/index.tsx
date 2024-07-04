@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 
-import { PivotArrow } from 'components/other';
+import { Link, PivotArrow } from 'components/other';
 
 import * as ROUTER from 'router/const';
-
-import { Link } from '..';
 
 import * as S from './units';
 
@@ -14,27 +12,21 @@ const TextBlock1 = () => {
         <S.TextBlock className="TextBlock">
             Мы подготовили для вас{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
-                fontSize={19}
-                isInner
-            >
-                инструкцию по выходу на АК,
-            </Link>{' '}
+                outer={false}
+                title="инструкцию по выходу на АК,"
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+            />{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
-                fontSize={19}
-                isInner
-            >
-                шаблоны и чеклисты для материалов,
-            </Link>{' '}
+                outer={false}
+                title="шаблоны и чеклисты для материалов,"
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+            />{' '}
             требуемых на Архитектурном комитете. А еще можно{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
-                fontSize={19}
-                isInner
-            >
-                проконсультироваться
-            </Link>{' '}
+                outer={false}
+                title="проконсультироваться"
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+            />{' '}
             у корпоративного архитектора по вопросам подготовки концепции, позиционирования и другим
             вопросам в рамках сервиса Корпоративной архитектуры.
         </S.TextBlock>
@@ -45,9 +37,11 @@ const TextBlock2 = () => {
     return (
         <S.TextBlock className="TextBlock">
             На этот вопрос дает ответ{' '}
-            <Link path={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`} fontSize={19} isInner>
-                Функционально-Доменная модель
-            </Link>{' '}
+            <Link
+                outer={false}
+                title="Функционально-Доменная модель"
+                url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`}
+            />{' '}
             ИТ-ландшафта ВК. По ней есть поиск, а можно просмотреть интересующие группировки и
             возможности доменов. По каждой возможности можно посмотреть детали – владельца,
             ИТ-продукт, API который можно вызвать.
@@ -61,12 +55,10 @@ const TextBlock3 = () => {
             Можно сделать это самостоятельно, ознакомившись с методикой описания возможностей, а
             если приходится делать это впервые – можно воспользоваться{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
-                fontSize={19}
-                isInner
-            >
-                консультацией
-            </Link>{' '}
+                outer={false}
+                title="консультацией"
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+            />{' '}
             корпоративного архитектора, который подскажет правильные формулировки, и провалидирует
             подготовленный список.
         </S.TextBlock>
@@ -83,9 +75,11 @@ const TextBlock4 = () => {
             корпоративный архитектор предложит позиционирование самостоятельно исходя из
             предоставленной концепции продукта. Воспользоваться сервисом позиционирования
             корпоративной архитектуры можно{' '}
-            <Link path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`} fontSize={19} isInner>
-                тут.
-            </Link>{' '}
+            <Link
+                outer={false}
+                title="тут."
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
+            />{' '}
         </S.TextBlock>
     );
 };
@@ -98,19 +92,15 @@ const TextBlock5 = () => {
             архитектурой и роадмапом продукта. Чтобы не запутаться и ничего не забыть, можно
             воспользоваться подготовленной{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
-                fontSize={19}
-                isInner
-            >
-                инструкцией,
-            </Link>{' '}
+                outer={false}
+                title="инструкцией,"
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+            />{' '}
             <Link
-                path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
-                fontSize={19}
-                isInner
-            >
-                шаблоном,
-            </Link>{' '}
+                outer={false}
+                title="шаблоном,"
+                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+            />{' '}
             или посмотреть примеры концепций продуктов, которые уже прошли защиту на Архитектурном
             комитете.
         </S.TextBlock>

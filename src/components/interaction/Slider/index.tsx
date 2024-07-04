@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-// import { Card } from './Card';
 import { Card } from 'components/interaction/Card';
+import { Link } from 'components/other';
 
 import * as ROUTER from 'router/const';
-
-import { Link } from '..';
 
 import * as C from './const';
 import * as S from './units';
@@ -186,13 +184,10 @@ export const Slider = () => {
                     <Card colorType="green" title="модели" withImage to="models">
                         Функционально-доменная модель позволяет{' '}
                         <Link
-                            path={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`}
-                            fontSize={19}
-                            isInner
-                            isInline
-                        >
-                            узнать о существующих в компании возможностях,
-                        </Link>{' '}
+                            outer={false}
+                            title="узнать о существующих в компании возможностях,"
+                            url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`}
+                        />{' '}
                         переиспользовать их, и заказать необходимую возможность у владельца домена,
                         а также получить информацию о состоянии ИТ–ландшафта
                     </Card>
@@ -200,23 +195,15 @@ export const Slider = () => {
                     <Card colorType="pink" title="база знаний" withImage to="data-base">
                         В базе знаний вы можете найти все{' '}
                         <Link
-                            path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}`}
-                            fontSize={19}
-                            isInner
-                            isInline
-                            noLine
-                        >
-                            документы для подготовки к архитектурному комитету,
-                        </Link>{' '}
+                            outer={false}
+                            title="документы для подготовки к архитектурному комитету,"
+                            url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}`}
+                        />{' '}
                         <Link
-                            path={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
-                            fontSize={19}
-                            isInner
-                            isInline
-                            noLine
-                        >
-                            организации производственного процесса,
-                        </Link>{' '}
+                            outer={false}
+                            title="организации производственного процесса,"
+                            url={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
+                        />{' '}
                         а также обратиться за помощью, узнать опыт коллег
                     </Card>
 
