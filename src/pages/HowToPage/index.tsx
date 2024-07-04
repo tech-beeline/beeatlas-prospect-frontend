@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Link } from 'components/interaction';
-import { IconText } from 'components/other';
+import { IconText, Link } from 'components/other';
 
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
@@ -32,12 +31,10 @@ export const HowToPage = () => {
                 <br />
                 Если вопросы ещё остались, можно изучить опыт коллег, а также обратиться за 
                 <Link
-                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
-                    fontSize={19}
-                    isInner
-                >
-                    консультацией.
-                </Link>
+                    outer={false}
+                    title="консультацией."
+                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                />
             </STYLES.GrayText>
 
             <S.IconTextStyled number={2} text="Подготовьте презентацию" color="info" />
@@ -52,21 +49,17 @@ export const HowToPage = () => {
                 В зависимости от вопроса, который вам необходимо решить на заседании, нужно
                 использовать подходящий{' '}
                 <Link
-                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
-                    fontSize={19}
-                    isInner
-                >
-                    шаблон
-                </Link>{' '}
+                    outer={false}
+                    title="шаблон"
+                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+                />{' '}
                 для составления презентации. Убедитесь, что ваша концепция/продукт соответствует
                 всем{' '}
                 <Link
-                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
-                    fontSize={19}
-                    isInner
-                >
-                    принципам Технической политики.
-                </Link>
+                    outer={false}
+                    title="принципам Технической политики."
+                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
+                />
             </STYLES.GrayText>
 
             <S.IconTextStyled
@@ -78,12 +71,10 @@ export const HowToPage = () => {
             <STYLES.GrayText className="GrayText" style={{ marginBottom: '40px' }}>
                 Воспользуйтесь сервисом{' '}
                 <Link
-                    path={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
-                    fontSize={19}
-                    isInner
-                >
-                    заказа услуги
-                </Link>{' '}
+                    title="заказа услуги"
+                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
+                    outer={false}
+                />{' '}
                 по составлению оппонирующей позиции.
                 <br />
                 Этот шаг обязателен.

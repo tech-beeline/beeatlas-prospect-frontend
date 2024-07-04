@@ -2,8 +2,6 @@ import React, { FC } from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { Link } from 'components/interaction';
-
 import { ICalendarCard } from './types';
 import * as S from './units';
 
@@ -19,13 +17,13 @@ export const CalendarCard: FC<ICalendarCard> = (props) => {
 
                 <S.LinkContainer className="CalendarCardLinkContainer">
                     {/* TODO: название файла из апи + ссылка + скачивание */}
-                    <Link type="file" path="">
+                    {/* <Link type="file" path="">
                         Презентация.pttx
                     </Link>
 
                     <Link path="">Оппонирующая позиция.pttx</Link>
 
-                    <Link path="">Запись заседания</Link>
+                    <Link path="">Запись заседания</Link> */}
                 </S.LinkContainer>
             </div>
 
