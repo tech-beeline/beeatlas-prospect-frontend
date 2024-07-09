@@ -1,65 +1,66 @@
 import React, { FC } from 'react';
 import { Avatar, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/other';
 
+import { NotificationType } from 'api/notifications/types';
+
+import {
+    notificationTypeToColorMap,
+    notificationTypeToIconMap,
+    notificationTypeToNameMap,
+} from './const';
 import { INotificationCard } from './types';
 import * as S from './units';
 
-export const NotificationCard: FC<INotificationCard> = ({
-    type,
-    loading = false,
-    unread = false,
-}) => {
+export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
     return (
-        <S.NotificationCard unread={unread}>
+        <S.NotificationCard unread={notification.webNotify}>
             <S.CardContainer>
                 <S.AvatarContainer>
-                    {unread && <S.Indicator />}
-                    {loading ? (
-                        <Skeleton height={40} width={40} radius={12} />
-                    ) : (
-                        <Avatar
-                            iconName={type === 'capability' ? Icons.Capability : Icons.Radar}
-                            color={type === 'capability' ? 'orange' : 'blue'}
-                        />
-                    )}
+                    {notification.webNotify && <S.Indicator />}
+                    <Avatar
+                        iconName={notificationTypeToIconMap[notification.entityType]}
+                        color={notificationTypeToColorMap[notification.entityType]}
+                    />
                 </S.AvatarContainer>
-                {loading ? (
-                    <S.SkeletonContainer>
-                        <Skeleton width={60} height={14} radius={12} />
-                        <Skeleton height={14} radius={12} />
-                        <Skeleton height={14} radius={12} />
-                    </S.SkeletonContainer>
-                ) : type === 'capability' ? (
-                    <div>
-                        <S.Overline>18.03.2024</S.Overline>
-                        <S.Body2>Изменения возможности</S.Body2>
-                        <S.Body3>
-                            Бизнес возможность{' '}
-                            <Link
-                                title="Управление исходящими коммуникациями"
-                                url={'/models/fdm'}
-                            />{' '}
-                            перенесена в домен{' '}
-                            <Link
-                                title="Омниканальное управление взаимодействие"
-                                url={'/models/fdm'}
-                            />
-                        </S.Body3>
-                    </div>
-                ) : (
-                    <div>
-                        <S.Overline>18.03.2024</S.Overline>
-                        <S.Body2>Изменение статуса технологии</S.Body2>
-                        <S.Body3>
-                            Инструмент <Link title="«Figma»" url="/models/tech-radar" /> переведен в
-                            статус «Hold»
-                        </S.Body3>
-                    </div>
-                )}
+
+                <div>
+                    <S.Overline>18.03.2024</S.Overline>
+                    <S.Body2>{notificationTypeToNameMap[notification.entityType]}</S.Body2>
+                    <S.Body3>
+                        {notification.entityType === NotificationType.CAPABILITY ? (
+                            <>
+                                Бизнес возможность{' '}
+                                <S.Name>Управление исходящими коммуникациями</S.Name> обновлена
+                            </>
+                        ) : (
+                            <>
+                                Технология <S.Name>Figma</S.Name> обновлена
+                            </>
+                        )}
+                    </S.Body3>
+                    <S.LinkContainer>
+                        <Link outer={false} title="Перейти" url="/techradar" />
+                    </S.LinkContainer>
+                </div>
             </S.CardContainer>
         </S.NotificationCard>
     );
 };
+
+export const NotificationCardSkeleton = () => (
+    <S.NotificationCard>
+        <S.CardContainer>
+            <S.AvatarContainer>
+                <Skeleton height={40} width={40} radius={12} />
+            </S.AvatarContainer>
+
+            <S.SkeletonContainer>
+                <Skeleton width={60} height={14} radius={12} />
+                <Skeleton height={14} radius={12} />
+                <Skeleton height={14} radius={12} />
+            </S.SkeletonContainer>
+        </S.CardContainer>
+    </S.NotificationCard>
+);

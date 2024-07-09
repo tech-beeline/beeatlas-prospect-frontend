@@ -46,11 +46,17 @@ export const SearchStyled = styled(Search)`
     flex: 1;
 `;
 
+export const ControlsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 24px;
+`;
+
 export const ChipsContainer = styled.div`
     display: flex;
     gap: 12px;
-
-    margin-top: 24px;
 `;
 
 export const CardsContainer = styled.div`
@@ -64,4 +70,11 @@ export const CardsContainer = styled.div`
 
 export const NotFoundContainer = styled.div`
     margin-top: 68px;
+`;
+
+export const PaginationContainer = styled.div`
+    display: flex;
+    justify-content: center;
+
+    margin-top: 32px;
 `;

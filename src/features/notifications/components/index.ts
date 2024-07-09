@@ -1,1 +1,1 @@
-export { NotificationCard } from './NotificationCard';
+export { NotificationCard, NotificationCardSkeleton } from './NotificationCard';

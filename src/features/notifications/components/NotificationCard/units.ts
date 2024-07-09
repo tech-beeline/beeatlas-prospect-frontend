@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const NotificationCard = styled.div<{ unread?: boolean }>`
-    padding: 24px;
+    padding: 24px 24px 12px 24px;
 
     background-color: ${({ unread }) =>
         unread ? 'var(--color-background-base-selected)' : 'var(--color-background-base)'};
@@ -70,4 +70,17 @@ export const SkeletonContainer = styled.div`
     gap: 6px;
 
     width: 100%;
+`;
+
+export const Name = styled.span`
+    color: var(--color-text-active);
+`;
+
+export const LinkContainer = styled.div`
+    margin-top: 12px;
+    padding: 10px 0px;
+
+    font-weight: var(--font-weight-subtitle3);
+    font-size: var(--font-size-subtitle3);
+    line-height: var(--font-line-height-subtitle3);
 `;

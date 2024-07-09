@@ -2,16 +2,13 @@ import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Counter, Divider, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { NotificationCard } from 'features/notifications';
+import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
 
+import { useGetNotificationsQuery } from 'api/queries/notifications';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
 
 import * as S from './units';
-
-const isLoading = false;
-const isEmpty = false;
-const isError = false;
 
 export const NotificationsPopup: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +19,10 @@ export const NotificationsPopup: FC = () => {
 
     const iconRef = useRef<HTMLButtonElement>(null);
 
+    const { data, isError, isLoading } = useGetNotificationsQuery();
+
+    const isEmpty = data && data.length === 0;
+
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
 
     const handleNavigateButtonClick = () => {
@@ -31,12 +32,12 @@ export const NotificationsPopup: FC = () => {
 
     return (
         <S.Container>
-            <Counter count={5}>
-                <IconButton
+            <Counter size="small" count={5}>
+                <S.IconStyled
                     size="large"
                     ref={iconRef}
                     iconName={Icons.Notification}
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setIsOpen(!isOpen)}
                     data-tooltip-id="notificationsIcon"
                 />
             </Counter>
@@ -46,81 +47,76 @@ export const NotificationsPopup: FC = () => {
             </S.TooltipStyled>
 
             {isOpen && (
-                <>
-                    <S.Backdrop />
-                    <S.Dropdown ref={dropdownRef}>
-                        <S.Header>
-                            <S.TitleContainer>
-                                <S.Title>Уведомления</S.Title>
-                                <Counter count={5} />
-                            </S.TitleContainer>
-                            <IconButton
-                                iconName={Icons.Close}
-                                size="large"
-                                onClick={() => setIsOpen(false)}
-                            />
-                        </S.Header>
-                        <Divider />
-                        <S.Content>
-                            {!isLoading && !isEmpty && !isError && (
-                                <>
-                                    <NotificationCard type="capability" unread />
-                                    <NotificationCard type="tech" unread />
-                                    <NotificationCard type="capability" />
-                                    <NotificationCard type="tech" />
-                                </>
-                            )}
-                            {isLoading && (
-                                <>
-                                    <NotificationCard loading type="capability" />
-                                    <NotificationCard loading type="capability" />
-                                    <NotificationCard loading type="capability" />
-                                </>
-                            )}
-                            {isEmpty && (
-                                <S.EmptyContainer>
-                                    <Icon contained iconName={Icons.PageEmpty} />
-                                    <S.Subtitle3>Список уведомлений пуст</S.Subtitle3>
-                                    <S.Body3>
-                                        Здесь будет отображаться список ваших уведомлений
-                                    </S.Body3>
-                                </S.EmptyContainer>
-                            )}
-                            {isError && (
-                                <S.EmptyContainer>
-                                    <Icon contained iconName={Icons.InfoCircled} color="red" />
-                                    <S.Subtitle3>
-                                        Не удалось загрузить список уведомлений
-                                    </S.Subtitle3>
-                                    <S.ButtonContainer>
-                                        <Button
-                                            variant="plain"
-                                            startIcon={<Icon iconName={Icons.RefreshDouble} />}
-                                        >
-                                            Обновить
-                                        </Button>
-                                    </S.ButtonContainer>
-                                </S.EmptyContainer>
-                            )}
-                        </S.Content>
-
-                        {!isLoading && !isEmpty && !isError && (
+                <S.Dropdown ref={dropdownRef}>
+                    <S.Header>
+                        <S.TitleContainer>
+                            <S.Title>Уведомления</S.Title>
+                            <Counter count={5} />
+                        </S.TitleContainer>
+                        <IconButton
+                            iconName={Icons.Close}
+                            size="large"
+                            onClick={() => setIsOpen(false)}
+                        />
+                    </S.Header>
+                    <Divider />
+                    <S.Content>
+                        {!isLoading && !isEmpty && !isError && data && (
                             <>
-                                <Divider />
-                                <S.Footer>
-                                    <S.ButtonsContainer>
-                                        <Button variant="plain" disabled>
-                                            Прочитать все
-                                        </Button>
-                                        <Button variant="plain" onClick={handleNavigateButtonClick}>
-                                            Все уведомления
-                                        </Button>
-                                    </S.ButtonsContainer>
-                                </S.Footer>
+                                {data.map((notification) => (
+                                    <NotificationCard
+                                        key={notification.id}
+                                        notification={notification}
+                                    />
+                                ))}
                             </>
                         )}
-                    </S.Dropdown>
-                </>
+                        {isLoading && (
+                            <>
+                                <NotificationCardSkeleton />
+                                <NotificationCardSkeleton />
+                                <NotificationCardSkeleton />
+                            </>
+                        )}
+                        {isEmpty && (
+                            <S.EmptyContainer>
+                                <Icon contained iconName={Icons.PageEmpty} />
+                                <S.Subtitle3>Список уведомлений пуст</S.Subtitle3>
+                                <S.Body3>Здесь будет отображаться список ваших уведомлений</S.Body3>
+                            </S.EmptyContainer>
+                        )}
+                        {isError && (
+                            <S.EmptyContainer>
+                                <Icon contained iconName={Icons.InfoCircled} color="red" />
+                                <S.Subtitle3>Не удалось загрузить список уведомлений</S.Subtitle3>
+                                <S.ButtonContainer>
+                                    <Button
+                                        variant="plain"
+                                        startIcon={<Icon iconName={Icons.RefreshDouble} />}
+                                    >
+                                        Обновить
+                                    </Button>
+                                </S.ButtonContainer>
+                            </S.EmptyContainer>
+                        )}
+                    </S.Content>
+
+                    {!isLoading && !isEmpty && !isError && (
+                        <>
+                            <Divider />
+                            <S.Footer>
+                                <S.ButtonsContainer>
+                                    <Button variant="plain" disabled>
+                                        Прочитать все
+                                    </Button>
+                                    <Button variant="plain" onClick={handleNavigateButtonClick}>
+                                        Все уведомления
+                                    </Button>
+                                </S.ButtonsContainer>
+                            </S.Footer>
+                        </>
+                    )}
+                </S.Dropdown>
             )}
         </S.Container>
     );

@@ -1,8 +1,11 @@
 import { Tooltip } from 'react-tooltip';
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
     position: relative;
+
+    height: 24px;
 
     color: var(--color-text-active);
 `;
@@ -15,15 +18,15 @@ export const Backdrop = styled.div`
     width: 100vw;
     height: 100vh;
 
-    background-color: var(--color-background-backdrop);
+    background-color: transparent;
 
     z-index: 1;
 `;
 
 export const Dropdown = styled.div`
     position: absolute;
-    top: 24px;
-    right: 48px;
+    top: 40px;
+    right: 0px;
 
     width: 440px;
 
@@ -127,6 +130,7 @@ export const TooltipStyled = styled(Tooltip)`
     padding: 4px 8px;
 
     background-color: var(--color-background-inverse);
+    color: var(--color-text-active-inverse);
 
     border-radius: 8px;
 
@@ -135,4 +139,14 @@ export const TooltipStyled = styled(Tooltip)`
     line-height: var(--font-line-height-caption);
 
     z-index: 5;
+`;
+
+export const IconStyled = styled(Icon)`
+    color: var(--color-text-inactive);
+
+    cursor: pointer;
+
+    :hover {
+        color: var(--color-text-active);
+    }
 `;

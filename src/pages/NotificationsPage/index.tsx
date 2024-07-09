@@ -1,71 +1,81 @@
 import React, { useState } from 'react';
-import { Button, Chip, DatePickerRange } from '@beeline/design-system-react';
-import { NotificationCard } from 'features/notifications';
+import { Button, Chip, DatePickerRange, Pagination } from '@beeline/design-system-react';
+import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+
+import { useGetNotificationsQuery } from 'api/queries/notifications';
 
 import { CHIPS, FilterVariants } from './const';
 import * as S from './units';
 
-const isLoading = false;
-const isEmpty = false;
+const NOTIFICATIONS_PER_PAGE = 20;
 
 export const NotificationsPage = () => {
-    const [search, setSearch] = useState('');
     const [date, setDate] = useState<string[]>([]);
+    const [page, setPage] = useState(1);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
 
-    const areFiltersEmpty = search === '' && date.length === 0;
+    const { data, isLoading } = useGetNotificationsQuery();
+
+    const isEmpty = data && data.length === 0;
+    const areFiltersEmpty = date.length === 0;
 
     return (
         <S.PageWrapper>
             <S.Container>
                 <S.Header>
                     <S.Title>Уведомления</S.Title>
-                    <Button variant="plain">Прочитать все</Button>
                 </S.Header>
                 <S.FiltersContainer>
-                    <S.SearchStyled
-                        placeholder="Поиск"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onClear={() => setSearch('')}
-                    />
                     <DatePickerRange
                         placeholder="Дата"
                         value={date}
                         onChange={(dates) => setDate(dates as string[])}
                     />
                 </S.FiltersContainer>
-                <S.ChipsContainer>
-                    {CHIPS.map((chip) => (
-                        <Chip
-                            key={chip.value}
-                            label={chip.label}
-                            active={filterVariant === chip.value}
-                            onClick={() => setFilterVariant(chip.value)}
-                        />
-                    ))}
-                </S.ChipsContainer>
-
-                {!isLoading && !isEmpty && (
-                    <S.CardsContainer>
-                        <NotificationCard type="capability" unread />
-                        <NotificationCard type="tech" unread />
-                        <NotificationCard type="capability" />
-                        <NotificationCard type="tech" />
-                        <NotificationCard type="tech" />
-                        <NotificationCard type="tech" />
-                        <NotificationCard type="tech" />
-                    </S.CardsContainer>
-                )}
+                <S.ControlsContainer>
+                    <S.ChipsContainer>
+                        {CHIPS.map((chip) => (
+                            <Chip
+                                key={chip.value}
+                                label={chip.label}
+                                active={filterVariant === chip.value}
+                                onClick={() => setFilterVariant(chip.value)}
+                            />
+                        ))}
+                    </S.ChipsContainer>
+                    <Button disabled variant="plain" size="small">
+                        Прочитать все
+                    </Button>
+                </S.ControlsContainer>
 
                 {isLoading && (
                     <S.CardsContainer>
-                        <NotificationCard type="capability" loading />
-                        <NotificationCard type="capability" loading />
-                        <NotificationCard type="capability" loading />
+                        <NotificationCardSkeleton />
+                        <NotificationCardSkeleton />
+                        <NotificationCardSkeleton />
                     </S.CardsContainer>
+                )}
+
+                {!isLoading && !isEmpty && data && (
+                    <>
+                        <S.CardsContainer>
+                            {data.map((notification) => (
+                                <NotificationCard
+                                    key={notification.id}
+                                    notification={notification}
+                                />
+                            ))}
+                        </S.CardsContainer>
+                        <S.PaginationContainer>
+                            <Pagination
+                                count={Math.ceil(data.length / NOTIFICATIONS_PER_PAGE)}
+                                page={page}
+                                onChange={setPage}
+                            />
+                        </S.PaginationContainer>
+                    </>
                 )}
 
                 {isEmpty && (

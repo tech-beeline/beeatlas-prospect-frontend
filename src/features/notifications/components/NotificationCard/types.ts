@@ -1,5 +1,5 @@
+import { INotification } from 'api/notifications/types';
+
 export interface INotificationCard {
-    type: 'capability' | 'tech';
-    loading?: boolean;
-    unread?: boolean;
+    notification: INotification;
 }
