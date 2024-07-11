@@ -10,14 +10,21 @@ export const Row = styled.tr<{ isHidden?: boolean }>`
     color: ${({ isHidden }) => isHidden && '#a9a9a9'};
 `;
 
-export const Td = styled.td<{ isClickable?: boolean }>`
+export const Td = styled.td<{
+    isClickable?: boolean;
+    borderRight?: boolean;
+    noBottomBorder?: boolean;
+}>`
     min-width: 320px;
     height: 52px;
     padding: 18px 16px;
 
     background-color: var(--color-background-base);
 
-    border-bottom: 1px solid var(--color-divider);
+    border-bottom: ${({ noBottomBorder }) =>
+        noBottomBorder ? 'none' : '1px solid var(--color-divider)'};
+
+    border-right: ${({ borderRight }) => (borderRight ? '1px solid var(--color-divider)' : 'none')};
 
     white-space: pre-wrap;
 
@@ -33,12 +40,16 @@ export const Td = styled.td<{ isClickable?: boolean }>`
         padding-right: 24px;
     }
 
+    pointer-events: none;
+
     ${({ isClickable }) =>
         isClickable &&
         css`
             cursor: pointer;
 
             transition: color 0.25s ease-in-out;
+
+            pointer-events: all;
 
             @media (hover: hover) {
                 &:hover {
@@ -107,4 +118,10 @@ export const IconContainer = styled.div`
 
 export const IconStyled = styled(Icon)`
     color: var(--color-text-link);
+`;
+
+export const NamesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 `;

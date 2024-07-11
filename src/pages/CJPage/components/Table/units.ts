@@ -1,3 +1,4 @@
+import { Tooltip } from 'react-tooltip';
 import { Divider, Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -36,6 +37,8 @@ export const TableWrapper = styled.div`
 export const Table = styled.table`
     border-spacing: 0;
     background-color: transparent;
+
+    /* border-collapse: collapse; */
 
     td {
         margin: 0;
@@ -76,6 +79,8 @@ export const Th = styled.th<{ backgroundColor?: string }>`
 
     background-color: ${({ backgroundColor }) =>
         !!backgroundColor ? `${backgroundColor}` : `var(--color-background-base)`};
+
+    border-bottom: 1px solid var(--color-divider);
 
     &:first-of-type {
         position: sticky;
@@ -137,14 +142,46 @@ export const LabelTd = styled(Td)`
     z-index: 2;
 `;
 
-// -----------------------------------------------------------
-
 export const FlexWrapper = styled.div`
     position: relative;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+
+export const TitleWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+`;
+
+export const TooltipStyled = styled(Tooltip)`
+    position: fixed;
+
+    width: max-content;
+    padding: 4px 8px;
+
+    background-color: var(--color-background-inverse);
+    color: var(--color-text-active-inverse);
+
+    border-radius: 8px;
+
+    font-weight: var(--font-weight-caption);
+    font-size: var(--font-size-caption);
+    line-height: var(--font-line-height-caption);
+
+    z-index: 100;
+`;
+
+export const CollapseIcon = styled(Icon)`
+    color: var(--color-text-inactive);
+
+    cursor: pointer;
+
+    :hover {
+        color: var(--color-text-active);
+    }
 `;
 
 export const MenuBlock = styled.div`
@@ -216,16 +253,22 @@ export const AlignItemsCenterWrapper = styled.div`
     }
 `;
 
-export const HideOrShowButton = styled.div`
+export const TableActionButton = styled.button`
+    position: sticky;
+    left: 0;
+    top: 0;
+
     display: flex;
     align-items: center;
     gap: 8px;
+
+    padding: 10px 16px;
 
     width: max-content;
 
     color: var(--color-text-link);
 
-    /* background: none; */
+    background-color: var(--color-background-base);
 
     border: none;
 

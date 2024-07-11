@@ -6,3 +6,20 @@ export interface ITable {
     draft: boolean;
     tableData: ICompleteStepData[];
 }
+
+export enum RowIds {
+    NAME = 'name',
+    IDENTIFICATOR = 'identificator',
+    DESCRIPTION = 'descr',
+    COMMUNAL = 'communal',
+    TYPE = 'type',
+    STATUS = 'status',
+    PARTICIPANTS = 'participants',
+    FEELING = 'feeling',
+    CLIENT_SCENARIO = 'clientScenario',
+    FLOW_LINK = 'flowLink',
+    UCS_REACTION = 'ucsReaction',
+    CHANNEL = 'channel',
+    DOCUMENT = 'document',
+    MOCKUP = 'mockup',
+}
