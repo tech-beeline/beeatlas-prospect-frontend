@@ -40,7 +40,7 @@ export const Td = styled.td<{
         padding-right: 24px;
     }
 
-    pointer-events: none;
+    pointer-events: ${({ isClickable }) => (isClickable === false ? 'none' : 'all')};
 
     ${({ isClickable }) =>
         isClickable &&
@@ -48,8 +48,6 @@ export const Td = styled.td<{
             cursor: pointer;
 
             transition: color 0.25s ease-in-out;
-
-            pointer-events: all;
 
             @media (hover: hover) {
                 &:hover {
@@ -124,4 +122,6 @@ export const NamesContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 32px;
+
+    height: 100%;
 `;
