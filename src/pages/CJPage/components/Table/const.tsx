@@ -12,6 +12,8 @@ import {
 } from 'pages/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 
+import { RowIds } from './types';
+
 export const COLORS = [
     'var(--color-accent-lemon-background)',
     'var(--color-status-success-background)',
@@ -20,7 +22,7 @@ export const COLORS = [
 ];
 
 export interface RowData<T> {
-    rowId: string;
+    rowId: RowIds;
     label: string;
 
     formatData: (data: T) => JSX.Element | string;
@@ -29,61 +31,61 @@ export interface RowData<T> {
 
 export const rowsData: RowData<any>[] = [
     {
-        rowId: 'name',
+        rowId: RowIds.NAME,
         label: 'Наименование BI',
         formatData: formatNullableString,
         parseData: (bi: IBIData) => bi.name,
     },
     {
-        rowId: 'identificator',
+        rowId: RowIds.IDENTIFICATOR,
         label: 'Идентификатор BI',
         formatData: formatNullableString,
         parseData: (bi: IBIData) => bi.uniqueIdent,
     },
     {
-        rowId: 'descr',
+        rowId: RowIds.DESCRIPTION,
         label: 'Описание',
         formatData: formatNullableString,
         parseData: (bi: IBIData) => bi.descr,
     },
     {
-        rowId: 'communal',
+        rowId: RowIds.COMMUNAL,
         label: 'Коммунальный',
         formatData: formatCommunal,
         parseData: (bi: IBIData) => bi.communal,
     },
     {
-        rowId: 'type',
+        rowId: RowIds.TYPE,
         label: 'Характеристики',
         formatData: formatTarget,
         parseData: (bi: IBIData) => bi.target,
     },
     {
-        rowId: 'status',
+        rowId: RowIds.STATUS,
         label: 'Статус стадии ЖЦ',
         formatData: formatStatus,
         parseData: (bi: IBIData) => bi.status,
     },
     {
-        rowId: 'participants',
+        rowId: RowIds.PARTICIPANTS,
         label: 'Участники взаимодействия',
         formatData: formatParticipants,
         parseData: (bi: IBIData) => bi.participants,
     },
     {
-        rowId: 'feeling',
+        rowId: RowIds.FEELING,
         label: 'Чувства и эмоции клиента',
         formatData: formatFeeling,
         parseData: (bi: IBIData) => bi.feelings.id,
     },
     {
-        rowId: 'clientScenario',
+        rowId: RowIds.CLIENT_SCENARIO,
         label: 'Клиентский сценарий',
         formatData: formatNullableString,
         parseData: (bi: IBIData) => bi.clientScenario,
     },
     {
-        rowId: 'flowLink',
+        rowId: RowIds.FLOW_LINK,
         label: 'Ссылка на флоу',
         formatData: (flowLinks: IBILink[]) => (
             <>
@@ -99,20 +101,20 @@ export const rowsData: RowData<any>[] = [
         parseData: (bi: IBIData) => bi.flowLink,
     },
     {
-        rowId: 'ucsReaction',
+        rowId: RowIds.UCS_REACTION,
         label: 'Описание реакции ЕКП',
         formatData: formatNullableString,
         parseData: (bi: IBIData) => bi.ucsReaction,
     },
     {
-        rowId: 'channel',
+        rowId: RowIds.CHANNEL,
         label: 'Канал',
         formatData: (channels: { name: string }[]) =>
             formatNullableString(channels.map((channel) => channel.name).join(', ')),
         parseData: (bi: IBIData) => bi.channel,
     },
     {
-        rowId: 'document',
+        rowId: RowIds.DOCUMENT,
         label: 'Документация',
         formatData: (documents: IBILink[]) => (
             <>
@@ -128,7 +130,7 @@ export const rowsData: RowData<any>[] = [
         parseData: (bi: IBIData) => bi.document,
     },
     {
-        rowId: 'mockup',
+        rowId: RowIds.MOCKUP,
         label: 'Макет',
         formatData: (mockups: IBILink[]) => (
             <>

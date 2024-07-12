@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
-import { IBIData } from 'api/bi/types';
 import { useModal } from 'hooks';
 
 import { StepForm } from '../StepForm';
@@ -10,15 +9,38 @@ import { StepForm } from '../StepForm';
 import { ColumnMenu, Row } from './components';
 import { COLORS, rowsData } from './const';
 import { useHiddenRowsStore } from './store';
-import { ITable } from './types';
+import { ITable, RowIds } from './types';
 import * as S from './units';
 
 export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
-    const [hiddenRows, showHiddenRows, setShowHiddenRows] = useHiddenRowsStore((state) => [
-        state.hiddenRows,
-        state.showHiddenRows,
-        state.setShowHiddenRows,
-    ]);
+    const [hiddenRows, showHiddenRows, setHiddenRows, setShowHiddenRows] = useHiddenRowsStore(
+        (state) => [
+            state.hiddenRows,
+            state.showHiddenRows,
+            state.setHiddenRows,
+            state.setShowHiddenRows,
+        ],
+    );
+
+    const [collapsedStepIds, setCollapsedStepIds] = useState<number[]>([]);
+
+    const handleCollapseStepButtonClick = (stepId: number) => {
+        if (collapsedStepIds.includes(stepId)) {
+            setCollapsedStepIds(collapsedStepIds.filter((id) => id !== stepId));
+        } else {
+            setCollapsedStepIds([...collapsedStepIds, stepId]);
+            setHiddenRows(hiddenRows.filter((row) => row !== RowIds.NAME));
+        }
+    };
+
+    const handleCollapseAllButtonClick = () => {
+        if (collapsedStepIds.length > 0) {
+            setCollapsedStepIds([]);
+        } else {
+            setCollapsedStepIds(tableData.map((step) => step.id));
+            setHiddenRows(hiddenRows.filter((row) => row !== RowIds.NAME));
+        }
+    };
 
     const [selectedStep, setSelectedStep] = useState<Nullable<number>>(null);
 
@@ -28,15 +50,17 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
         closeModal: closeStepForm,
     } = useModal();
 
-    const allBIs = tableData.reduce(
-        (acc, step) => [...acc, ...(step.bi.length > 0 ? step.bi : [])],
-        [] as IBIData[],
-    );
-
     const handleAddRowButtonClick = (biIndex: number) => {
         setSelectedStep(biIndex);
         openStepFrom();
     };
+
+    const rowsFiltered =
+        collapsedStepIds.length === tableData.length
+            ? rowsData.filter((rowData) => rowData.rowId === RowIds.NAME)
+            : showHiddenRows
+            ? rowsData
+            : rowsData.filter((rowData) => !hiddenRows.includes(rowData.rowId));
 
     return (
         <S.PageWrapper>
@@ -48,12 +72,37 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
 
                             {tableData.map((step, stepIndex) => (
                                 <S.Th
-                                    colSpan={step.bi.length ?? 1}
+                                    colSpan={
+                                        collapsedStepIds.includes(step.id) ? 1 : step.bi?.length
+                                    }
                                     key={stepIndex}
                                     backgroundColor={COLORS[stepIndex % COLORS.length]}
                                 >
                                     <S.FlexWrapper>
-                                        <p data-testid={`${stepIndex}Step`}>{step.name}</p>
+                                        <S.TitleWrapper>
+                                            <S.CollapseIcon
+                                                iconName={
+                                                    collapsedStepIds.includes(step.id)
+                                                        ? Icons.ArrowSeparateVertical
+                                                        : Icons.ArrowUnionVertical
+                                                }
+                                                onClick={() =>
+                                                    handleCollapseStepButtonClick(step.id)
+                                                }
+                                                data-tooltip-id={`collapse-${step.id}`}
+                                            />
+                                            <S.TooltipStyled
+                                                id={`collapse-${step.id}`}
+                                                place="bottom"
+                                                noArrow
+                                            >
+                                                {collapsedStepIds.includes(step.id)
+                                                    ? 'Развернуть'
+                                                    : 'Свернуть'}{' '}
+                                                шаг
+                                            </S.TooltipStyled>
+                                            <p data-testid={`${stepIndex}Step`}>{step.name}</p>
+                                        </S.TitleWrapper>
 
                                         {draft && (
                                             <ColumnMenu
@@ -73,40 +122,46 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                     </S.Thead>
 
                     <S.Tbody>
-                        {(showHiddenRows
-                            ? rowsData
-                            : rowsData.filter((rowData) => !hiddenRows.includes(rowData.rowId))
-                        ).map((rowData, i) => (
+                        {rowsFiltered.map((rowData, i) => (
                             <Row
                                 key={rowData.rowId}
                                 draft={draft}
                                 firstRow={i === 0}
+                                lastRow={i === rowsFiltered.length - 1}
                                 rowId={rowData.rowId}
                                 label={rowData.label}
                                 onAddButtonClick={handleAddRowButtonClick}
                                 formatData={rowData.formatData}
                                 parseData={rowData.parseData}
                                 steps={tableData}
+                                collapsedStedIds={collapsedStepIds}
                             />
                         ))}
-
-                        <S.Row>
-                            <S.LabelTd>
-                                <S.HideOrShowButton
-                                    onClick={() => setShowHiddenRows(!showHiddenRows)}
-                                >
-                                    {showHiddenRows ? 'Скрыть' : 'Показать скрытые'}
-
-                                    <S.IconStyled
-                                        size="large"
-                                        iconName={showHiddenRows ? Icons.EyeOff : Icons.Eye}
-                                    />
-                                </S.HideOrShowButton>
-                            </S.LabelTd>
-
-                            {allBIs.length !== 0 && <S.Td colSpan={allBIs.length}></S.Td>}
-                        </S.Row>
                     </S.Tbody>
+
+                    {collapsedStepIds.length !== tableData.length && (
+                        <S.TableActionButton onClick={() => setShowHiddenRows(!showHiddenRows)}>
+                            {showHiddenRows ? 'Скрыть' : 'Показать скрытые'}
+
+                            <S.IconStyled
+                                size="large"
+                                iconName={showHiddenRows ? Icons.EyeOff : Icons.Eye}
+                            />
+                        </S.TableActionButton>
+                    )}
+
+                    <S.TableActionButton onClick={handleCollapseAllButtonClick}>
+                        {collapsedStepIds.length > 0 ? 'Развернуть CJ' : 'Свернуть CJ'}
+
+                        <S.IconStyled
+                            size="large"
+                            iconName={
+                                collapsedStepIds.length > 0
+                                    ? Icons.ArrowSeparateVertical
+                                    : Icons.ArrowUnionVertical
+                            }
+                        />
+                    </S.TableActionButton>
                 </S.Table>
             </S.TableWrapper>
 

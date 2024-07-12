@@ -1,7 +1,9 @@
+import { RowIds } from '../types';
+
 export interface IHiddenRowsStore {
-    hiddenRows: string[];
+    hiddenRows: RowIds[];
     showHiddenRows: boolean;
 
-    setHiddenRows: (rowIds: string[]) => void;
+    setHiddenRows: (rowIds: RowIds[]) => void;
     setShowHiddenRows: (flag: boolean) => void;
 }
