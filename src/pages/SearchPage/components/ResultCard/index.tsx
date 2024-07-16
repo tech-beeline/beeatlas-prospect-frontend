@@ -1,42 +1,24 @@
 import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
+import { Icon, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import DOMPurify from 'dompurify';
 
-import { useIconOfItem } from 'hooks/useIconOfItem';
-
+// import { useIconOfItem } from 'hooks/useIconOfItem';
 import { IResultCard } from './types';
 import * as S from './units';
 
-export const ResultCard: FC<IResultCard> = (props) => {
-    // const {
-    //     generalStore: { setResultTitle },
-    // } = useRootStore();
-
-    // const navigate = useNavigate();
-
-    // const [, setTitle] = useQueryParam('title', StringParam);
-
-    const icon = props.data && useIconOfItem(props.data.alias, props.data.stereotype);
-    // console.log(props);
-
+export const ResultCard: FC<IResultCard> = ({ data, request }) => {
     const handleTextToBold = (text: string) => {
-        if (props.request) {
-            // const regEx = new RegExp(props.request, 'ig');
-
+        if (request) {
             return (
                 (text ?? '')
-                    .replaceAll(
-                        props.request.toLowerCase(),
-                        `<b>${props.request.toLowerCase()}</b>`,
-                    )
+                    .replaceAll(request.toLowerCase(), `<b>${request.toLowerCase()}</b>`)
                     // для слов с первой заглавной буквой
                     // toLowerCase если юзер допускает капс в запросе
                     .replaceAll(
-                        props.request.charAt(0).toUpperCase() +
-                            props.request.slice(1).toLowerCase(),
+                        request.charAt(0).toUpperCase() + request.slice(1).toLowerCase(),
                         `<b>${
-                            props.request.charAt(0).toUpperCase() +
-                            props.request.slice(1).toLowerCase()
+                            request.charAt(0).toUpperCase() + request.slice(1).toLowerCase()
                         }</b>`,
                     )
             );
@@ -45,110 +27,92 @@ export const ResultCard: FC<IResultCard> = (props) => {
         return '';
     };
 
-    // const NewlineText = ({ str }: any) => {
-    //     return str
-    //         .split(/(https?:\/\/\S+)/ || '\\r\\n' || '\\n' || '\\r' || '\n')
-    //         .map((st: any, index: number) => {
-    //             return st.startsWith('https') ? (
-    //                 <Link path={st}>{st}</Link>
-    //             ) : (
-    //                 <p dangerouslySetInnerHTML={{ __html: handleTextToBold(st) }} key={index} />
-    //             );
-    //         });
-    // };
-
     return (
         <S.Wrapper className="ResultCardWrapper">
-            {props.data ? (
-                <>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                        {icon}
+            <div style={{ display: 'flex', gap: '8px' }}>
+                <Icon
+                    iconName={Icons.Capability}
+                    type={data.type === 'TECH' ? 'info' : 'warning'}
+                />
 
-                        <div style={{ marginBottom: '12px' }}>
-                            <a
-                                // href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.guid}`}
-                                // href={`https://ms-seaapp001.bee.vimpelcom.ru/?guid=${props.data.guid}`}
-                                href={`/models/fdm?id=${props.data.id}&domainId=${props.data.domain_ref.id}`}
-                                rel="noopener noreferrer"
-                                target="_blank"
-                            >
-                                <S.Title
-                                    dangerouslySetInnerHTML={{
-                                        __html: DOMPurify.sanitize(
-                                            handleTextToBold(props.data.name),
-                                        ),
-                                    }}
-                                />
-                            </a>
-
-                            <S.TitleSecond className="TreeCardTitleSecond">
-                                {props.data.alias}
-                            </S.TitleSecond>
-                        </div>
-                    </div>
-
-                    <S.Text
-                        className="ResultCardText"
-                        dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(handleTextToBold(props.data.descr)),
-                        }}
-                    >
-                        {/* <NewlineText str={props.data.descr} /> */}
-                    </S.Text>
-
-                    <S.TitleSecond className="ResultCardTitleSecond" style={{ marginTop: '24px' }}>
-                        Домен
-                    </S.TitleSecond>
-
+                <div style={{ marginBottom: '12px' }}>
                     <a
-                        // href={`https://ms-seaapp001.bee.vimpelcom.ru:83/index.php?m=1&o=${props.data.domain_ref?.guid}`}
-                        href={`/models/fdm?id=${props.data.domain_ref.id}&domainId=${props.data.domain_ref.id}`}
+                        href={`/models/fdm?id=${data.id}&type=${data.type}`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >
-                        <S.DomenText className="ResultCardDomenText">
-                            {props.data.domain_ref?.name}
-                        </S.DomenText>
+                        <S.Title
+                            dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(handleTextToBold(data.name)),
+                            }}
+                        />
                     </a>
 
-                    <S.FlexBlock className="ResultCardFlexBlock">
-                        <div>
-                            <S.TitleSecond className="ResultCardTitleSecond">
-                                {props.data.owner && 'Владелец'}
-                            </S.TitleSecond>
+                    <S.TitleSecond className="TreeCardTitleSecond">{data.code}</S.TitleSecond>
+                </div>
+            </div>
 
-                            <S.Text className="ResultCardText">{props.data.owner || ''}</S.Text>
-                        </div>
+            <S.Text
+                className="ResultCardText"
+                dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(handleTextToBold(data.description)),
+                }}
+            >
+                {/* <NewlineText str={props.data.descr} /> */}
+            </S.Text>
 
-                        <div>
-                            <S.TitleSecond className="ResultCardTitleSecond">
-                                Дата последнего изменения
-                            </S.TitleSecond>
-                            <S.Text className="ResultCardText">{props.data.last_modified}</S.Text>
-                        </div>
-                    </S.FlexBlock>
-                </>
-            ) : (
-                <>
-                    <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
-                    <Skeleton height={37} width={663} margin={{ bottom: 16 }} />
+            {/* <S.TitleSecond className="ResultCardTitleSecond" style={{ marginTop: '24px' }}>
+                Домен
+            </S.TitleSecond> */}
 
-                    <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
-                    <Skeleton height={37} width={663} margin={{ bottom: 16 }} />
+            {/* <a
+                href={`/models/fdm?id=${props.data.domain_ref.id}&domainId=${props.data.domain_ref.id}`}
+                rel="noopener noreferrer"
+                target="_blank"
+            >
+                <S.DomenText className="ResultCardDomenText">
+                    {props.data.domain_ref?.name}
+                </S.DomenText>
+            </a> */}
 
-                    <S.FlexBlock className="ResultCardFlexBlock">
-                        <div>
-                            <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
-                            <Skeleton height={37} width={323} />
-                        </div>
+            {/* <S.FlexBlock className="ResultCardFlexBlock">
+                <div>
+                    <S.TitleSecond className="ResultCardTitleSecond">
+                        {props.data.owner && 'Владелец'}
+                    </S.TitleSecond>
 
-                        <div>
-                            <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
-                            <Skeleton height={37} width={323} />
-                        </div>
-                    </S.FlexBlock>
-                </>
-            )}
+                    <S.Text className="ResultCardText">{props.data.owner || ''}</S.Text>
+                </div>
+
+                <div>
+                    <S.TitleSecond className="ResultCardTitleSecond">
+                        Дата последнего изменения
+                    </S.TitleSecond>
+                    <S.Text className="ResultCardText">{props.data.last_modified}</S.Text>
+                </div>
+            </S.FlexBlock> */}
         </S.Wrapper>
     );
 };
+
+export const ResultCardSkeleton = () => (
+    <S.Wrapper className="ResultCardWrapper">
+        <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
+        <Skeleton height={37} width={663} margin={{ bottom: 16 }} />
+
+        <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
+        <Skeleton height={37} width={663} margin={{ bottom: 16 }} />
+
+        <S.FlexBlock className="ResultCardFlexBlock">
+            <div>
+                <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
+                <Skeleton height={37} width={323} />
+            </div>
+
+            <div>
+                <Skeleton height={16} width={290} margin={{ bottom: 16 }} />
+                <Skeleton height={37} width={323} />
+            </div>
+        </S.FlexBlock>
+    </S.Wrapper>
+);

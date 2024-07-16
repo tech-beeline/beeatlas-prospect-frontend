@@ -1,3 +1,3 @@
 export { NotFoundBlock } from './NotFoundBlock';
 export { RefineRequestBlock } from './RefineRequestBlock';
-export { ResultCard } from './ResultCard';
+export { ResultCard, ResultCardSkeleton } from './ResultCard';

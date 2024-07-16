@@ -9,7 +9,7 @@ import { useMountEffect } from 'hooks';
 import { getStorage, persistStorage } from 'stores/utils';
 import * as STYLES from 'styles/units';
 
-import { NotFoundBlock, RefineRequestBlock, ResultCard } from './components';
+import { NotFoundBlock, RefineRequestBlock, ResultCard, ResultCardSkeleton } from './components';
 import { STORAGE_KEY } from './const';
 import * as S from './units';
 
@@ -113,7 +113,7 @@ export const SearchPage = () => {
 
                 <S.ResultContainer className="ResultContainer">
                     {isLoading ? (
-                        Array.from({ length: 3 }).map((_, i) => <ResultCard key={i} />)
+                        Array.from({ length: 3 }).map((_, i) => <ResultCardSkeleton key={i} />)
                     ) : data?.length && data.length > 200 ? (
                         <RefineRequestBlock />
                     ) : data?.length === 0 ? (

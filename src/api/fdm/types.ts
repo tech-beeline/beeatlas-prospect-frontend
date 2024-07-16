@@ -56,3 +56,11 @@ export interface ITechCapability {
 export interface IParentsData {
     parents: number[];
 }
+
+export interface ISearchResult {
+    code: string;
+    description: string;
+    id: number;
+    name: string;
+    type: string;
+}

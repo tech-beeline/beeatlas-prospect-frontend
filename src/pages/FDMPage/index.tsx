@@ -1,36 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Icon, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-import { useModal, useWindowResize } from 'hooks';
-import { Dialog } from 'widgets/Dialog';
-import { useSnackbarStore } from 'widgets/Snackbar';
+import { useWindowResize } from 'hooks';
 
+// import { Dialog } from 'widgets/Dialog';
+// import { useSnackbarStore } from 'widgets/Snackbar';
 import boxImg from './images/box.png';
 import boxWithQuestionImg from './images/boxWithQuestion.png';
 
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
-import { getItemClassification, ItemClassification, itemNameMap } from './helpers';
+// import { getItemClassification, itemNameMap } from './helpers';
 // import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
 export const FDMPage = () => {
-    const [subscribed, setSubscribed] = useState(false);
-    const [showBanner, setShowBanner] = useState(true);
+    // const [subscribed, setSubscribed] = useState(false);
+    const [showBanner, setShowBanner] = useState(false);
 
     const handleCloseBannerClick = () => {
         setShowBanner(false);
     };
 
-    const { modalOpened, openModal, closeModal } = useModal();
+    // const { modalOpened, openModal, closeModal } = useModal();
 
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
         state.activeItem,
@@ -66,30 +66,30 @@ export const FDMPage = () => {
         }
     }, [windowWidth, activeItem]);
 
-    const handleSubscribeButtonClick = () => {
-        if (!subscribed && activeItem) {
-            setSubscribed(true);
-            showSnackbar({
-                message: `Вы подписаны на изменения ${
-                    itemNameMap[getItemClassification(activeItem)]
-                } и ${
-                    getItemClassification(activeItem) === ItemClassification.DOMAIN ? 'его' : 'ее'
-                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
-            });
-        } else {
-            openModal();
-        }
-    };
+    // const handleSubscribeButtonClick = () => {
+    //     if (!subscribed && activeItem) {
+    //         setSubscribed(true);
+    //         showSnackbar({
+    //             message: `Вы подписаны на изменения ${
+    //                 itemNameMap[getItemClassification(activeItem)]
+    //             } и ${
+    //                 getItemClassification(activeItem) === ItemClassification.DOMAIN ? 'его' : 'ее'
+    //             } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
+    //         });
+    //     } else {
+    //         openModal();
+    //     }
+    // };
 
-    const handleModalConfirm = () => {
-        if (activeItem) {
-            setSubscribed(false);
-            closeModal();
-            showSnackbar({
-                message: `Вы отписаны от уведомлений`,
-            });
-        }
-    };
+    // const handleModalConfirm = () => {
+    //     if (activeItem) {
+    //         setSubscribed(false);
+    //         closeModal();
+    //         showSnackbar({
+    //             message: `Вы отписаны от уведомлений`,
+    //         });
+    //     }
+    // };
 
     return (
         <S.PageWrapper>
@@ -126,7 +126,7 @@ export const FDMPage = () => {
 
                             <S.TitleContainer>
                                 <S.H4 data-testid="Title">{activeItem.name}</S.H4>
-                                <Button
+                                {/* <Button
                                     size="small"
                                     variant="outlined"
                                     onClick={handleSubscribeButtonClick}
@@ -141,7 +141,7 @@ export const FDMPage = () => {
                                     }
                                 >
                                     Подписаться
-                                </Button>
+                                </Button> */}
                             </S.TitleContainer>
 
                             <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
@@ -245,7 +245,7 @@ export const FDMPage = () => {
                     {!activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
             </S.Wrapper>
-            {activeItem && (
+            {/* {activeItem && (
                 <Dialog
                     opened={modalOpened}
                     onClose={closeModal}
@@ -254,7 +254,7 @@ export const FDMPage = () => {
                 >
                     Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
                 </Dialog>
-            )}
+            )} */}
         </S.PageWrapper>
     );
 };

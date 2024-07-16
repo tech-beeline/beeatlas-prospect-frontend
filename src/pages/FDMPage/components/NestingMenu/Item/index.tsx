@@ -29,7 +29,6 @@ export const Item: FC<IItem> = ({ item }) => {
     const handleItemClick = async () => {
         if (item.type === ItemTypes.BUSINESS) {
             await getСhildrenСapabilities(item.id);
-            // getСhildrenСapabilities(item.id);
         }
 
         setParams(
@@ -39,10 +38,6 @@ export const Item: FC<IItem> = ({ item }) => {
             }),
         );
     };
-
-    if (activeItem?.id === item.id && activeItem.type === item.type) {
-        console.log(item);
-    }
 
     return (
         <>
