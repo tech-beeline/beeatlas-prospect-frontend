@@ -112,6 +112,8 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                                 stepIndex={stepIndex}
                                                 setOpenSideBlockName={openStepFrom}
                                                 setRenameIndex={setSelectedStep}
+                                                collapsedStepIds={collapsedStepIds}
+                                                setCollapsedStepIds={setCollapsedStepIds}
                                                 tableDataLength={tableData.length}
                                             />
                                         )}
