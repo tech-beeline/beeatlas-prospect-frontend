@@ -55,6 +55,13 @@ export const getTechCapabilityParents = (id: number): AxiosPromise<T.IParentsDat
     return Api.get({ url: `${CAPABILITIES_URL}v1/tech-capabilities/${id}/parents` });
 };
 
-export const getCapabilitiesBySearch = (search: string): AxiosPromise<T.ISearchResult[]> => {
-    return Api.get({ url: `${CAPABILITIES_URL}v1/find?findBy=ALL&search=${search}` });
+export const getCapabilitiesBySearch = (
+    search: string,
+    searchVariant = T.CapabilitySearchVariant.ALL,
+): AxiosPromise<T.ISearchResult[]> => {
+    return Api.get({ url: `${CAPABILITIES_URL}v1/find?findBy=${searchVariant}&search=${search}` });
+};
+
+export const putBusinessCapability = (data: T.IBusinessCapabilityForm) => {
+    return Api.put({ url: `${CAPABILITIES_URL}v1/business-capability`, data });
 };

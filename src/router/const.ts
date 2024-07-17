@@ -27,8 +27,9 @@ export const TECH_RADAR_PATH = '/tech-radar';
 export const PERSONAL_AREA_PATH = '/personal-area';
 export const ROLL_SETTINGS_PATH = '/roll-settings';
 export const IMPORTED_DATA_PATH = '/imported-data';
-export const TECHNOLOGIES_PATH = '/technologies';
 export const PACKAGE_PATH = '/package';
+export const TECHNOLOGIES_PATH = '/technologies';
+export const CAPABILITIES_PATH = '/capabilities';
 // Utils
 export const ADD_PATH = '/add';
 export const VIEW_PATH = '/view';

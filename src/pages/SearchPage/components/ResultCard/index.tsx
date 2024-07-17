@@ -32,7 +32,7 @@ export const ResultCard: FC<IResultCard> = ({ data, request }) => {
             <div style={{ display: 'flex', gap: '8px' }}>
                 <Icon
                     iconName={Icons.Capability}
-                    type={data.type === 'TECH' ? 'info' : 'warning'}
+                    type={data.type === 'BUSINESS_CAPABILITY' ? 'warning' : 'info'}
                 />
 
                 <div style={{ marginBottom: '12px' }}>

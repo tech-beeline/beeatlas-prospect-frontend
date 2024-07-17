@@ -6,6 +6,8 @@ export { BIAddPage } from './BIAddPage';
 export { BILibraryPage } from './BILibraryPage';
 export { BIViewPage } from './BIViewPage';
 export { CalendarPage } from './CalendarPage';
+export { CapabilitiesPage } from './CapabilitiesPage';
+export { CapabilityAddPage } from './CapabilityAddPage';
 export { CJLibraryPage } from './CJLibraryPage';
 export { CJPage } from './CJPage';
 export { ConsultationPage } from './ConsultationPage';

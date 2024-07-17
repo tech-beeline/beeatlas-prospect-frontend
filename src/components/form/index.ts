@@ -1,3 +1,4 @@
+export { Autocomplete } from './Autocomplete';
 export { Checkbox } from './Checkbox';
 export { FeelingPicker } from './FeelingPicker';
 export { MultiSelect } from './MultiSelect';

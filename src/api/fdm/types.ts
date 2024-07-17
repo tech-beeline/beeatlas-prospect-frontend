@@ -57,10 +57,24 @@ export interface IParentsData {
     parents: number[];
 }
 
+export enum CapabilitySearchVariant {
+    ALL = 'ALL',
+    BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
+    TECH_CAPABILITY = 'TECH_CAPABILITY',
+}
+
 export interface ISearchResult {
     code: string;
     description: string;
     id: number;
     name: string;
     type: string;
+}
+
+export interface IBusinessCapabilityForm {
+    parent: string;
+    name: string;
+    description: string;
+    owner: string;
+    link: string;
 }

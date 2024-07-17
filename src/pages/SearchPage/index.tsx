@@ -4,7 +4,7 @@ import { Button, Search } from '@beeline/design-system-react';
 
 import { Expand } from 'components/other';
 
-import { useGetFDMSearchQuery } from 'api/queries/fdm';
+import { useGetCapabilitiesQuery } from 'api/queries/fdm';
 import { useMountEffect } from 'hooks';
 import { getStorage, persistStorage } from 'stores/utils';
 import * as STYLES from 'styles/units';
@@ -20,7 +20,7 @@ export const SearchPage = () => {
     const [request, setRequest] = useState('');
     const [searchInput, setSearchInput] = useState('');
 
-    const { data, isLoading } = useGetFDMSearchQuery(request);
+    const { data, isLoading } = useGetCapabilitiesQuery({ search: request });
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
