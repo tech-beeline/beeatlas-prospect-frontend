@@ -16,17 +16,8 @@ export const validateFDMParams = (params: URLSearchParams): boolean => {
 
     if (
         paramsLength === 2 &&
-        ((filteredParams.id && filteredParams.level) ||
-            (filteredParams.id && filteredParams.domainId))
-    ) {
-        return true;
-    }
-
-    if (
-        paramsLength === 3 &&
         filteredParams.id &&
-        filteredParams.level &&
-        filteredParams.domainId
+        (filteredParams.type === ItemTypes.BUSINESS || filteredParams.type === ItemTypes.TECH)
     ) {
         return true;
     }

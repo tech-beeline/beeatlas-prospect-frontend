@@ -49,6 +49,20 @@ export interface ITechCapability {
     createdDate: string;
     deletedDate: string | null;
     owner: number;
+    parents: Array<Omit<IBusinessCapability, 'parent'>>;
+    updatedDate: string;
+}
+
+export interface ITechCapability {
+    id: number;
+    code: string;
+    name: string;
+    description: string;
+    author: string;
+    link: string;
+    createdDate: string;
+    deletedDate: string | null;
+    owner: number;
     parents: Omit<IBusinessCapability, 'parent'>[];
     updatedDate: string;
 }
@@ -77,4 +91,6 @@ export interface IBusinessCapabilityForm {
     description: string;
     owner: string;
     link: string;
+    code: string;
+    author: string;
 }

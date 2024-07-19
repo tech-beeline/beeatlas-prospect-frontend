@@ -19,12 +19,12 @@ export const useGetCapabilitiesQuery = (params: IGetCapabilitiesParams) => {
     );
 };
 
-export const useGetTechCapabilityProductsQuery = (guid?: string, enabled = true) => {
+export const useGetTechCapabilityProductsQuery = (code?: string, enabled = true) => {
     return useQuery(
-        [FDM_SEARCH_PREFIX, 'techCapability', guid],
-        () => getTechCapabilityProducts(guid!).then((res) => res.data),
+        [FDM_SEARCH_PREFIX, 'techCapability', code],
+        () => getTechCapabilityProducts(code!).then((res) => res.data),
         {
-            enabled: enabled && Boolean(guid),
+            enabled: enabled && Boolean(code),
         },
     );
 };

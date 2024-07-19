@@ -4,7 +4,7 @@ import {
     getBusinessCapabilityChildren,
     getBusinessCapabilityParents,
     getCoreBusinessCapabilities,
-    getTechCapabilityParents,
+    getTechCapabilityById,
 } from 'api/fdm';
 
 import { DomainData, IFDMStore, Item, ItemTypes } from './types';
@@ -39,39 +39,53 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
 
     getCoreCababilities: async () => {
         set(() => ({ loading: true }));
-        const res = await getCoreBusinessCapabilities();
-        set(() => ({
-            items: [
-                ...res.data.map((capability) => ({
-                    ...capability,
-                    type: ItemTypes.BUSINESS,
-                    children: [] as Item[],
-                    parent: null,
-                })),
-            ],
-            loading: false,
-        }));
+        try {
+            const res = await getCoreBusinessCapabilities();
+            set(() => ({
+                items: [
+                    ...res.data.map((capability) => ({
+                        ...capability,
+                        type: ItemTypes.BUSINESS,
+                        children: [] as Item[],
+                        parent: null,
+                    })),
+                ],
+            }));
+        } catch (e) {
+            console.log(e);
+        } finally {
+            set(() => ({ loading: false }));
+        }
     },
 
     getParentCapabilities: async (id, type) => {
         const ids = [];
         set(() => ({ loading: true }));
-        if (type === ItemTypes.BUSINESS) {
-            const res = await getBusinessCapabilityParents(id);
-            ids.push(...res.data.parents);
-        }
+        try {
+            if (type === ItemTypes.BUSINESS) {
+                const res = await getBusinessCapabilityParents(id);
+                ids.push(...res.data.parents);
+            }
 
-        if (type === ItemTypes.TECH) {
-            const res = await getTechCapabilityParents(id);
-            ids.push(...res.data.parents);
-        }
+            if (type === ItemTypes.TECH) {
+                const techCapability = await getTechCapabilityById(id);
+                const parentId = techCapability.data.parents[0]?.id;
+                const res = await getBusinessCapabilityParents(parentId);
+                ids.push(...res.data.parents, parentId);
+            }
 
-        for (const id of ids) {
-            await get().getСhildrenСapabilities(id);
-        }
+            for (const id of ids) {
+                await get().getСhildrenСapabilities(id);
+            }
 
-        await get().getСhildrenСapabilities(id);
-        set(() => ({ loading: false }));
+            if (type === ItemTypes.BUSINESS) {
+                await get().getСhildrenСapabilities(id);
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            set(() => ({ loading: false }));
+        }
     },
 
     getСhildrenСapabilities: async (id) => {

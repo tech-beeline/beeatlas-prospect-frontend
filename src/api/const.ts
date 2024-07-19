@@ -13,6 +13,3 @@ export const API_URL = IS_DEV ? MONOLITH_LINK : PROD_MONOLITH;
 export const GATEWAY_URL = IS_DEV ? GATEWAY_LINK : PROD_GATEWAY;
 
 export const MOCK_PRODUCT_ID = 1;
-
-export const CAPABILITIES_URL =
-    'https://capability-backend-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api/';

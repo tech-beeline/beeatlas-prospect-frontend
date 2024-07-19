@@ -16,7 +16,7 @@ import boxWithQuestionImg from './images/boxWithQuestion.png';
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
 // import { getItemClassification, itemNameMap } from './helpers';
-// import { validateFDMParams } from './helpers';
+import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
@@ -39,12 +39,13 @@ export const FDMPage = () => {
     ]);
 
     const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
-        useGetTechCapabilityProductsQuery('1', activeItem?.type === ItemTypes.TECH);
+        useGetTechCapabilityProductsQuery(activeItem?.code, activeItem?.type === ItemTypes.TECH);
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const isLinkCorrect = true;
+    // const isLinkCorrect = true;
+    const isLinkCorrect = validateFDMParams(params);
 
     const isItemGroup = activeItem?.isDomain && activeItem.parent === null;
     const isItemDomain = activeItem?.isDomain && activeItem.parent !== null;
