@@ -88,13 +88,24 @@ export const CapabilityAddPage = () => {
                             />
 
                             <S.Subtitle>Описание</S.Subtitle>
-                            <TextField fullWidth name="name" label="Краткое наименование*" />
+                            <TextField
+                                fullWidth
+                                name="name"
+                                label="Краткое наименование*"
+                                maxLength={255}
+                            />
                             <TextArea name="description" label="Полное определение" />
-                            <TextField fullWidth name="owner" label="ФИО владельца возможности" />
+                            <TextField
+                                fullWidth
+                                name="owner"
+                                label="ФИО владельца возможности"
+                                maxLength={255}
+                            />
                             <TextField
                                 fullWidth
                                 name="link"
                                 label="Ссылка на страницу с описанием"
+                                maxLength={255}
                             />
 
                             <S.ButtonsContainer>
