@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 interface Option {
-    id: number;
+    id: number | string;
     value: string;
 }
 

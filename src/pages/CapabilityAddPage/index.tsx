@@ -54,7 +54,7 @@ export const CapabilityAddPage = () => {
 
     const parentOptions = (data ?? []).map((capability) => ({
         value: capability.name,
-        id: capability.id,
+        id: capability.code,
     }));
 
     return (
