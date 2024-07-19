@@ -2,6 +2,24 @@ server {
     listen       8080;
     server_name  localhost;
 
+    location /actuator/health/liveness {
+            access_log off;
+            add_header 'Content-Type' 'application/json';
+            return 200 '{"status":"UP"}';
+    }
+
+    location /api-gateway {
+        proxy_pass https://fdm-gateway-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api-gateway;
+        proxy_ssl_verify off;
+        client_max_body_size 100M;
+    }
+
+    location /api {
+        proxy_pass http://eafdmmart-backend-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api;
+        proxy_ssl_verify off;
+        client_max_body_size 100M;
+    }
+
     location / {
         root   /usr/share/nginx/html;
         index  index.html index.htm;

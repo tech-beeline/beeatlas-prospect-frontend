@@ -1,14 +1,3 @@
-podAnnotations:
-  vault.security.banzaicloud.io/vault-role: "false"
-  vault.security.banzaicloud.io/vault-path: "false"
-  vault.security.banzaicloud.io/vault-addr: "false"
-  vault.security.banzaicloud.io/vault-skip-verify: "false"
-  vault.security.banzaicloud.io/vault-agent: "false"
-  prometheus.io/path: "false"
-  prometheus.io/scheme: "false"
-  prometheus.io/scrape: "false"
-  prometheus.io/port: "false"
-
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/server-snippet: |
@@ -19,57 +8,23 @@ ingress:
         rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
       }
 
+  className: ingress-waf
+
   hosts:
     - host: "changehost"
       paths:
       - path: /
         pathType: ImplementationSpecific
-    - host: "eafdmmart-prod.apps.yd-k03.vimpelcom.ru"
-      paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
-      - path: /
-        pathType: ImplementationSpecific
     - host: "beeatlas.vimpelcom.ru"
       paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
     - host: "techradar.vimpelcom.ru"
       paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
     - host: "tr.vimpelcom.ru"
       paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
 
