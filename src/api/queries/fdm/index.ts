@@ -1,25 +1,43 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { getSearchResult, getTechCapabilityProducts } from 'api/fdm';
+import { getCapabilitiesBySearch, getTechCapabilityProducts, putBusinessCapability } from 'api/fdm';
+import { CapabilitySearchVariant, IBusinessCapabilityForm } from 'api/fdm/types';
 
 const FDM_SEARCH_PREFIX = 'FDM_SEARCH_PREFIX';
 
-export const useGetFDMSearchQuery = (request: string) => {
+interface IGetCapabilitiesParams {
+    search: string;
+    searchVariant?: CapabilitySearchVariant;
+}
+export const useGetCapabilitiesQuery = (params: IGetCapabilitiesParams) => {
     return useQuery(
-        [FDM_SEARCH_PREFIX, 'ALL', request],
-        () => getSearchResult(request).then((res) => res.data),
+        [FDM_SEARCH_PREFIX, 'ALL', params],
+        () => getCapabilitiesBySearch(params.search, params.searchVariant).then((res) => res.data),
         {
-            enabled: request !== '',
+            enabled: params.search !== '',
         },
     );
 };
 
-export const useGetTechCapabilityProductsQuery = (guid?: string, enabled = true) => {
+export const useGetTechCapabilityProductsQuery = (code?: string, enabled = true) => {
     return useQuery(
-        [FDM_SEARCH_PREFIX, 'techCapability', guid],
-        () => getTechCapabilityProducts(guid!).then((res) => res.data),
+        [FDM_SEARCH_PREFIX, 'techCapability', code],
+        () => getTechCapabilityProducts(code!).then((res) => res.data),
         {
-            enabled: enabled && Boolean(guid),
+            enabled: enabled && Boolean(code),
         },
     );
 };
+
+export function useCreateBusinessCapabilityMutation() {
+    const queryClient = useQueryClient();
+    return useMutation(
+        [FDM_SEARCH_PREFIX, 'create'],
+        (data: IBusinessCapabilityForm) => putBusinessCapability(data),
+        {
+            onSuccess: () => {
+                void queryClient.invalidateQueries(FDM_SEARCH_PREFIX);
+            },
+        },
+    );
+}

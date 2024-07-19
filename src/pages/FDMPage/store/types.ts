@@ -1,34 +1,43 @@
+export enum ItemTypes {
+    TECH = 'TECH',
+    BUSINESS = 'BUSINESS',
+}
+
+export interface DomainData {
+    id: number;
+    name: string;
+}
+
 export interface Item {
     id: number;
     name: string;
-    guid: string;
-    descr: string;
-    parent: number;
-    alias?: string;
-    level: number;
-    children?: Item[];
-    stereotype?: 'TECHNICAL' | 'BUSINESS';
-    domain_ref?: { id: number; name: string };
-    owner?: string;
+    description: string;
+    code: string;
+    author: string;
+    children: Item[];
+    type: ItemTypes;
+    isDomain?: boolean;
+    hasChildren?: boolean;
+    parent: number | null;
+    domainData?: DomainData;
 }
 
 export interface Breadcrumb {
     id: number;
-    level: number;
+    type: ItemTypes;
     name: string;
-    domainId?: number;
 }
 
 export interface IFDMStore {
     activeItem: Item | null;
-    activeItemPath: number[];
+    path: number[];
     breadcrumbs: Breadcrumb[];
-    flatItems: Item[];
-    menuItems: Item[];
-    requesetedDomainIds: number[];
+    items: Item[];
+    requestedCapabilities: string[];
     loading: boolean;
-    setActiveItem: (itemId: number, level: number) => void;
+    setActiveItem: (itemId: number, typ: ItemTypes) => void;
     clearActiveItem: () => void;
-    getGroupsAndDomains: () => Promise<void>;
-    getEntitiesByDomain: (domainId: number) => Promise<boolean>;
+    getCoreCababilities: () => Promise<void>;
+    getParentCapabilities: (id: number, type: ItemTypes) => Promise<void>;
+    getСhildrenСapabilities: (id: number) => Promise<void>;
 }

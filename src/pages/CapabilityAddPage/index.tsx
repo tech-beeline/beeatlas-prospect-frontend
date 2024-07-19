@@ -1,0 +1,119 @@
+import React, { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { Button, IconButton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { Autocomplete, TextArea, TextField } from 'components/form';
+
+import { CapabilitySearchVariant } from 'api/fdm/types';
+import { useCreateBusinessCapabilityMutation, useGetCapabilitiesQuery } from 'api/queries/fdm';
+import { useDebounce } from 'hooks';
+import * as R from 'router/const';
+import { useSnackbarStore } from 'widgets/Snackbar';
+
+import { FormValues, validationSchema } from './form';
+import * as S from './units';
+
+export const CapabilityAddPage = () => {
+    const [searchText, setSearchText] = useState('');
+    const debouncedSearchText = useDebounce(searchText);
+
+    const { data, isLoading } = useGetCapabilitiesQuery({
+        search: debouncedSearchText,
+        searchVariant: CapabilitySearchVariant.BUSINESS_CAPABILITY,
+    });
+    const { mutateAsync: createCapability, isLoading: creatingCapability } =
+        useCreateBusinessCapabilityMutation();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const form = useForm<FormValues>({
+        resolver: yupResolver(validationSchema),
+    });
+
+    const { handleSubmit } = form;
+
+    const navigate = useNavigate();
+
+    const returnToCapabilities = () => {
+        navigate(R.CAPABILITIES_PATH);
+    };
+
+    const onSubmit = handleSubmit(async (values) => {
+        await createCapability({
+            ...values,
+            parent: String(values.parent),
+            code: String(Date.now()),
+            author: 'author',
+        });
+        returnToCapabilities();
+        showSnackbar({ message: 'Бизнес-возможность создана' });
+    });
+
+    const parentOptions = (data ?? []).map((capability) => ({
+        value: capability.name,
+        id: capability.id,
+    }));
+
+    return (
+        <S.PageWrapper>
+            <S.Content>
+                <S.TitleContainer>
+                    <IconButton
+                        iconName={Icons.ArrowLeft}
+                        size="large"
+                        onClick={returnToCapabilities}
+                    />
+                    <S.Title>Создать бизнес-возможность</S.Title>
+                </S.TitleContainer>
+                <FormProvider {...form}>
+                    <form onSubmit={onSubmit}>
+                        <S.FormContainer>
+                            <S.Subtitle>Родительская возможность</S.Subtitle>
+                            <Autocomplete
+                                fullWidth
+                                name="parent"
+                                loading={isLoading}
+                                loadingText="Загрузка..."
+                                noOptionsText={
+                                    debouncedSearchText === ''
+                                        ? 'Начните вводить название родительской возможности'
+                                        : 'Нет совпадений'
+                                }
+                                label="Название родительской возможности (бизнес-возможность, домен, группа)*"
+                                options={parentOptions}
+                                onInputChange={setSearchText}
+                            />
+
+                            <S.Subtitle>Описание</S.Subtitle>
+                            <TextField fullWidth name="name" label="Краткое наименование*" />
+                            <TextArea name="description" label="Полное определение" />
+                            <TextField fullWidth name="owner" label="ФИО владельца возможности" />
+                            <TextField
+                                fullWidth
+                                name="link"
+                                label="Ссылка на страницу с описанием"
+                            />
+
+                            <S.ButtonsContainer>
+                                <Button onClick={returnToCapabilities} size="medium" type="button">
+                                    Отменить
+                                </Button>
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    type="submit"
+                                    disabled={creatingCapability}
+                                >
+                                    Создать бизнес-возможность
+                                </Button>
+                            </S.ButtonsContainer>
+                        </S.FormContainer>
+                    </form>
+                </FormProvider>
+            </S.Content>
+        </S.PageWrapper>
+    );
+};

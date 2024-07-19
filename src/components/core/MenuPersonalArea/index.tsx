@@ -26,6 +26,8 @@ export const MenuPersonalArea = () => {
                     ? R.PERSONAL_AREA_PATH
                     : location.pathname.includes(R.IMPORTED_DATA_PATH)
                     ? R.IMPORTED_DATA_PATH
+                    : location.pathname.includes(R.CAPABILITIES_PATH)
+                    ? R.CAPABILITIES_PATH
                     : R.TECHNOLOGIES_PATH
             }
             groups={[
@@ -46,6 +48,11 @@ export const MenuPersonalArea = () => {
                             icon: Icons.Radar,
                             name: 'Управление\nтехнологиями',
                             path: `${R.TECHNOLOGIES_PATH}`,
+                        },
+                        {
+                            icon: Icons.Capability,
+                            name: 'Управление\nвозможностями',
+                            path: `${R.CAPABILITIES_PATH}`,
                         },
                     ],
                 },

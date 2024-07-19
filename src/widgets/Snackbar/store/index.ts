@@ -9,15 +9,20 @@ const defaultSnackbar = {
 
 export const useSnackbarStore = create<ISnackbarStore>((set, get) => ({
     activeSnackbar: defaultSnackbar,
+    timerId: null,
     clearSnackbar: () => {
-        set(() => ({ activeSnackbar: defaultSnackbar }));
+        set(() => ({ activeSnackbar: { ...get().activeSnackbar, isOpen: false } }));
     },
     showSnackbar: (snackbarProps) => {
+        const timer = get().timerId;
+        if (timer) {
+            clearTimeout(timer);
+        }
         set(() => ({
             activeSnackbar: { ...snackbarProps, isOpen: true },
+            timerId: setTimeout(() => {
+                get().clearSnackbar();
+            }, 3000) as unknown as number,
         }));
-        setTimeout(() => {
-            get().clearSnackbar();
-        }, 3000);
     },
 }));

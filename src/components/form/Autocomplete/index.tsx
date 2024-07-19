@@ -1,0 +1,64 @@
+import React, { FC } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { Autocomplete as DesignSystemAutocomplete } from '@beeline/design-system-react';
+import get from 'lodash/get';
+
+import { IAutocomplete } from './types';
+
+export const Autocomplete: FC<IAutocomplete> = ({
+    name,
+    label,
+    options,
+    disabled = false,
+    fullWidth = true,
+    defaultValue = null,
+    loading,
+    loadingText,
+    noOptionsText,
+    onInputChange,
+}) => {
+    const {
+        control,
+        formState: { errors },
+    } = useFormContext();
+
+    const error = get(errors, name);
+    const errorMessage = error?.message ? String(error.message) : undefined;
+    const isError = Boolean(error);
+
+    return (
+        <Controller
+            name={name}
+            control={control}
+            defaultValue={defaultValue}
+            render={({ field }) => (
+                <DesignSystemAutocomplete
+                    fullWidth={fullWidth}
+                    disabled={disabled}
+                    label={label}
+                    error={isError}
+                    helperText={errorMessage}
+                    options={options}
+                    value={options.find((option) => option.id === field.value) ?? null}
+                    noOptionsText={noOptionsText}
+                    loading={loading}
+                    loadingText={loadingText}
+                    onChange={(value) => {
+                        field.onChange(value.id);
+                        onInputChange(value.value);
+                    }}
+                    onInputChange={(v) => {
+                        onInputChange(v);
+                        field.onChange(null);
+                    }}
+                    onInputClear={() => {
+                        onInputChange('');
+                        field.onChange(null);
+                    }}
+                    renderValue={(v) => v.value}
+                    type="select"
+                />
+            )}
+        />
+    );
+};

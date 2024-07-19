@@ -4,12 +4,12 @@ import { Button, Search } from '@beeline/design-system-react';
 
 import { Expand } from 'components/other';
 
-import { useGetFDMSearchQuery } from 'api/queries/fdm';
+import { useGetCapabilitiesQuery } from 'api/queries/fdm';
 import { useMountEffect } from 'hooks';
 import { getStorage, persistStorage } from 'stores/utils';
 import * as STYLES from 'styles/units';
 
-import { NotFoundBlock, RefineRequestBlock, ResultCard } from './components';
+import { NotFoundBlock, RefineRequestBlock, ResultCard, ResultCardSkeleton } from './components';
 import { STORAGE_KEY } from './const';
 import * as S from './units';
 
@@ -20,7 +20,7 @@ export const SearchPage = () => {
     const [request, setRequest] = useState('');
     const [searchInput, setSearchInput] = useState('');
 
-    const { data, isLoading } = useGetFDMSearchQuery(request);
+    const { data, isLoading } = useGetCapabilitiesQuery({ search: request });
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -113,7 +113,7 @@ export const SearchPage = () => {
 
                 <S.ResultContainer className="ResultContainer">
                     {isLoading ? (
-                        Array.from({ length: 3 }).map((_, i) => <ResultCard key={i} />)
+                        Array.from({ length: 3 }).map((_, i) => <ResultCardSkeleton key={i} />)
                     ) : data?.length && data.length > 200 ? (
                         <RefineRequestBlock />
                     ) : data?.length === 0 ? (

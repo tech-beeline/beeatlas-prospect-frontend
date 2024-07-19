@@ -5,41 +5,76 @@ import { Skeleton } from '@beeline/design-system-react';
 import { Link, PivotArrow } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-import { checkForDomainType } from 'pages/FDMPage/helpers';
-import { Item } from 'pages/FDMPage/store/types';
+// import { useModal } from 'hooks';
+// import { getItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
+import { useFDMStore } from 'pages/FDMPage/store';
+import { Item, ItemTypes } from 'pages/FDMPage/store/types';
 
+// import { Dialog } from 'widgets/Dialog';
+// import { useSnackbarStore } from 'widgets/Snackbar';
 import { getItemIcon } from '../utils';
 
 import { ITreeCard } from './types';
 import * as S from './units';
 
 export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
+    // const [subscribed, setSubscribed] = useState(false);
+
+    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    // const { modalOpened, openModal, closeModal } = useModal();
+
     const [, setParams] = useSearchParams();
-    const isTypeDMN = checkForDomainType(item);
+
+    const { getСhildrenСapabilities } = useFDMStore();
 
     const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
-        item?.guid,
-        item?.stereotype === 'TECHNICAL',
+        '1',
+        item.type === ItemTypes.TECH,
     );
 
     const [isOpen, setOpen] = useState(false);
 
-    const handleTitleClick = (clickedItem: Item) => {
-        let itemDomain = {};
-        if (clickedItem.domain_ref) {
-            itemDomain = { domainId: String(clickedItem.domain_ref.id) };
+    const handleTitleClick = async (clickedItem: Item) => {
+        if (item.type === ItemTypes.BUSINESS) {
+            await getСhildrenСapabilities(item.id);
         }
-        if (isTypeDMN) {
-            itemDomain = { domainId: String(clickedItem.id) };
-        }
+
         setParams(
             new URLSearchParams({
-                ...itemDomain,
-                level: String(clickedItem.level),
                 id: String(clickedItem.id),
+                type: clickedItem.type,
             }),
         );
     };
+
+    const handleRelatedCapabilitiesClick = async () => {
+        if (!isOpen) {
+            await getСhildrenСapabilities(item.id);
+        }
+        setOpen(!isOpen);
+    };
+
+    // const handleSubscribeButtonClick = () => {
+    //     if (!subscribed) {
+    //         setSubscribed(true);
+    //         showSnackbar({
+    //             message: `Вы подписаны на изменения ${itemNameMap[getItemClassification(item)]} и ${
+    //                 getItemClassification(item) === ItemClassification.DOMAIN ? 'его' : 'ее'
+    //             } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
+    //         });
+    //     } else {
+    //         openModal();
+    //     }
+    // };
+
+    // const handleModalConfirm = () => {
+    //     setSubscribed(false);
+    //     closeModal();
+    //     showSnackbar({
+    //         message: `Вы отписаны от изменений ${itemNameMap[getItemClassification(item)]}`,
+    //     });
+    // };
 
     return (
         <S.Wrapper data-testid="TreeCard" isFullWidthCard={isFullWidthCard}>
@@ -54,26 +89,26 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         <div>
                             <S.Title data-testid="TreeCardTitle">{item.name}</S.Title>
 
-                            <S.TitleSecond>{item.alias}</S.TitleSecond>
+                            <S.TitleSecond>{item.code}</S.TitleSecond>
                         </div>
                     </S.TitleContainer>
 
                     <S.Text
-                        dangerouslySetInnerHTML={{ __html: item.descr }}
+                        dangerouslySetInnerHTML={{ __html: item.description }}
                         data-testid="TreeCardDescription"
                     />
 
-                    {item.domain_ref && (
+                    {item.domainData && (
                         <S.MarginContainer>
                             <S.TitleSecond>Домен</S.TitleSecond>
                             <Link
-                                title={item.domain_ref?.name}
-                                url={`/models/fdm?id=${item.domain_ref?.id}&domainId=${item.domain_ref?.id}`}
+                                title={item.domainData.name}
+                                url={`/models/fdm?id=${item.domainData.id}&type=BUSINESS`}
                             />
                         </S.MarginContainer>
                     )}
 
-                    {item.stereotype === 'TECHNICAL' && (
+                    {item.type === ItemTypes.TECH && (
                         <S.MarginContainer>
                             <S.TitleSecond>ТС Реализована в продукте</S.TitleSecond>
                             <S.ChipsContainer>
@@ -92,17 +127,17 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         </S.MarginContainer>
                     )}
 
-                    {item.owner && (
+                    {item.author && (
                         <S.MarginContainer>
                             <S.TitleSecond>Владелец</S.TitleSecond>
-                            <S.Text>{item.owner}</S.Text>
+                            <S.Text>{item.author}</S.Text>
                         </S.MarginContainer>
                     )}
                 </div>
 
-                {item.children && item.children.length > 0 && (
+                {item.type === ItemTypes.BUSINESS && (
                     <S.ChildrenExpandTitle
-                        onClick={() => setOpen(!isOpen)}
+                        onClick={handleRelatedCapabilitiesClick}
                         data-testid="TreeCardChildrenExpandTitle"
                     >
                         Связанные возможности
@@ -111,7 +146,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 )}
             </S.InnerFlex>
 
-            <S.ExpandStyled {...{ isOpen }} isAutoHeight>
+            <S.ExpandStyled isOpen={isOpen} isAutoHeight>
                 {item.children?.map((item: Item, index: number) => (
                     <S.ChildrenLinkTitle
                         key={index}
@@ -121,7 +156,30 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         {item.name}
                     </S.ChildrenLinkTitle>
                 ))}
+                {item.children.length === 0 && <S.TextInactive>Возможностей нет</S.TextInactive>}
             </S.ExpandStyled>
+
+            {/* <S.SubscribeButtonContainer>
+                <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={handleSubscribeButtonClick}
+                    startIcon={
+                        <Icon iconName={subscribed ? Icons.NotificationOff : Icons.Notification} />
+                    }
+                >
+                    Подписаться
+                </Button>
+            </S.SubscribeButtonContainer> */}
+
+            {/* <Dialog
+                opened={modalOpened}
+                onClose={closeModal}
+                onConfirm={handleModalConfirm}
+                title={`Отписаться от ${itemNameMap[getItemClassification(item)]}`}
+            >
+                Вы отписываетесь от <S.BoldSpan>{item.name}</S.BoldSpan>
+            </Dialog> */}
         </S.Wrapper>
     );
 };

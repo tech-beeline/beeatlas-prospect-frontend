@@ -11,6 +11,8 @@ import {
     BIAddPage,
     BILibraryPage,
     BIViewPage,
+    CapabilitiesPage,
+    CapabilityAddPage,
     CJLibraryPage,
     CJPage,
     ConsultationPage,
@@ -57,7 +59,8 @@ export const NavigationRouter = () => {
         if (
             location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH) ||
             location.pathname?.includes(ROUTER.TECHNOLOGIES_PATH) ||
-            location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH)
+            location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH) ||
+            location.pathname?.includes(ROUTER.CAPABILITIES_PATH)
         ) {
             setIsPersonalArea(true);
         } else {
@@ -141,6 +144,30 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <TechnologyAddPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={C.CAPABILITIES_PATH}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <CapabilitiesPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.CAPABILITIES_PATH}${C.ADD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <CapabilityAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
