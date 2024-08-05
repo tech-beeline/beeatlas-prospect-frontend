@@ -3,6 +3,9 @@ import { Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import DOMPurify from 'dompurify';
 
+import { CapabilitySearchResultTypeVariant } from 'api/fdm/types';
+import { ItemTypes } from 'pages/FDMPage/store/types';
+
 // import { useIconOfItem } from 'hooks/useIconOfItem';
 import { IResultCard } from './types';
 import * as S from './units';
@@ -32,12 +35,20 @@ export const ResultCard: FC<IResultCard> = ({ data, request }) => {
             <div style={{ display: 'flex', gap: '8px' }}>
                 <Icon
                     iconName={Icons.Capability}
-                    type={data.type === 'BUSINESS_CAPABILITY' ? 'warning' : 'info'}
+                    type={
+                        data.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY
+                            ? 'warning'
+                            : 'info'
+                    }
                 />
 
                 <div style={{ marginBottom: '12px' }}>
                     <a
-                        href={`/models/fdm?id=${data.id}&type=${data.type}`}
+                        href={`/models/fdm?id=${data.id}&type=${
+                            data.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY
+                                ? ItemTypes.BUSINESS
+                                : ItemTypes.TECH
+                        }`}
                         rel="noopener noreferrer"
                         target="_blank"
                     >

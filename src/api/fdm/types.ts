@@ -77,12 +77,17 @@ export enum CapabilitySearchVariant {
     TECH_CAPABILITY = 'TECH_CAPABILITY',
 }
 
+export enum CapabilitySearchResultTypeVariant {
+    BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
+    TECH_CAPABILITY = 'TECH_CAPABILITY',
+}
+
 export interface ISearchResult {
     code: string;
     description: string;
     id: number;
     name: string;
-    type: string;
+    type: CapabilitySearchResultTypeVariant;
 }
 
 export interface IBusinessCapabilityForm {
