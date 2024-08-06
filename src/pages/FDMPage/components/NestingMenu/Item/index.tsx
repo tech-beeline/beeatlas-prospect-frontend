@@ -52,10 +52,9 @@ export const Item: FC<IItem> = ({ item }) => {
                     position={isOpen ? '' : 'right'}
                 />
 
-                <S.LeftWrapper>
-                    {getItemIcon(item)}
-                    <S.Name>{item.name}</S.Name>
-                </S.LeftWrapper>
+                {getItemIcon(item)}
+
+                <S.Name>{item.name}</S.Name>
             </S.Wrapper>
 
             <S.ExpandStyled

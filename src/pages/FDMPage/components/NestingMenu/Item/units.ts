@@ -40,18 +40,6 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     }
 `;
 
-export const LeftWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    /* white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    min-width: 0; */
-`;
-
 export const ExpandStyled = styled(Expand)`
     padding-left: 36px;
 `;
