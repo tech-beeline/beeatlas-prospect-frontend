@@ -3,16 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { Link } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 import { useWindowResize } from 'hooks';
 
 // import { Dialog } from 'widgets/Dialog';
 // import { useSnackbarStore } from 'widgets/Snackbar';
-import boxImg from './images/box.png';
-import boxWithQuestionImg from './images/boxWithQuestion.png';
-
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
 // import { getItemClassification, itemNameMap } from './helpers';
@@ -147,13 +144,6 @@ export const FDMPage = () => {
 
                             <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
 
-                            {isItemDomain && activeItem.children?.length === 0 && (
-                                <S.MockWrapper data-testid="Mock">
-                                    <S.Image src={boxImg} />
-                                    <S.MockText>Возможностей пока нет</S.MockText>
-                                </S.MockWrapper>
-                            )}
-
                             {activeItem.description && (
                                 <S.JustText
                                     dangerouslySetInnerHTML={{ __html: activeItem.description }}
@@ -210,6 +200,15 @@ export const FDMPage = () => {
                                     </S.FlexBlock>
                                 )}
 
+                            {isItemDomain && activeItem.children?.length === 0 && (
+                                <S.NoChildrenContainer data-testid="Mock">
+                                    <NotFoundBlock
+                                        imageVariant={ImageVariants.EMPTY_BOX}
+                                        text="Возможностей пока нет"
+                                    />
+                                </S.NoChildrenContainer>
+                            )}
+
                             <S.TreeContainer
                                 {...{ activeViewList }}
                                 ref={refTreeContainer}
@@ -227,19 +226,19 @@ export const FDMPage = () => {
                         </>
                     )}
                     {isLinkCorrect && !paramId && !loading ? (
-                        <>
-                            <S.MockWrapper>
-                                <S.Image src={boxImg} />
-                                <S.MockText>Выберите сущность из списка</S.MockText>
-                            </S.MockWrapper>
-                        </>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                imageVariant={ImageVariants.EMPTY_BOX}
+                                text="Выберите сущность из списка"
+                            />
+                        </S.NotFoundContainer>
                     ) : !loading && !activeItem ? (
-                        <>
-                            <S.MockWrapper>
-                                <S.Image src={boxWithQuestionImg} />
-                                <S.MockText>Указана неверная ссылка или возможность</S.MockText>
-                            </S.MockWrapper>
-                        </>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                imageVariant={ImageVariants.QUESTION_BOX}
+                                text="Указана неверная ссылка или возможность"
+                            />
+                        </S.NotFoundContainer>
                     ) : (
                         <></>
                     )}
