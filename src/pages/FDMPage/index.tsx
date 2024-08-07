@@ -46,6 +46,7 @@ export const FDMPage = () => {
 
     const isItemGroup = activeItem?.isDomain && activeItem.parent === null;
     const isItemDomain = activeItem?.isDomain && activeItem.parent !== null;
+    const hasDomainChildren = activeItem?.children.some((child) => child.isDomain);
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
@@ -189,7 +190,9 @@ export const FDMPage = () => {
                                 activeItem.children?.length > 0 && (
                                     <S.FlexBlock>
                                         {isItemDomain
-                                            ? 'Все бизнес возможности домена'
+                                            ? hasDomainChildren
+                                                ? 'Все дочерние элементы домена'
+                                                : 'Все бизнес возможности домена'
                                             : 'Связанные технические возможности'}
                                         <S.ListSwitcherWrapper className="ListSwitcherWrapper">
                                             <ViewItemSwitcher
