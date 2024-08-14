@@ -11,15 +11,16 @@ export const subscriptionFilterFunction = (
     subscriptions
         .filter((subscription) => {
             if (filterVariant === FilterVariants.ALL) return true;
-            if (filterVariant === FilterVariants.CAPABILITIES)
+            if (filterVariant === FilterVariants.BUSINESS_CAPABILITIES)
                 return (
                     subscription.type === SubscriptionType.BUSINESS_CAPABILITY ||
-                    subscription.type === SubscriptionType.TECH_CAPABILITY ||
                     subscription.type === SubscriptionType.GROUP ||
                     subscription.type === SubscriptionType.DOMAIN
                 );
-            if (filterVariant === FilterVariants.CJS)
-                return subscription.type === SubscriptionType.CJ;
+            if (filterVariant === FilterVariants.TECH_CAPABILITIES)
+                return subscription.type === SubscriptionType.TECH_CAPABILITY;
+            // if (filterVariant === FilterVariants.CJS)
+            //     return subscription.type === SubscriptionType.CJ;
             if (filterVariant === FilterVariants.TECHNOLOGIES)
                 return subscription.type === SubscriptionType.TECHNOLOGY;
         })

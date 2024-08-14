@@ -17,7 +17,7 @@ import * as S from './units';
 
 export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const { mutateAsync: updateCJ, isLoading: updatingCj } = useUpdateCJMutation();
+    const { mutateAsync: updateCJ, isPending: updatingCj } = useUpdateCJMutation();
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),

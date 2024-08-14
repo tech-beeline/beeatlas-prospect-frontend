@@ -1,13 +1,13 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { IPackage, IPackageWithParts } from 'api/imported-packages/types';
 
 const PACKAGES_PREFIX = 'PACKAGES_PREFIX';
 
 export const useGetPackagesQuery = () => {
-    return useQuery<IPackage[]>(
-        [PACKAGES_PREFIX, 'ALL'],
-        () =>
+    return useQuery<IPackage[]>({
+        queryKey: [PACKAGES_PREFIX, 'ALL'],
+        queryFn: () =>
             new Promise<IPackage[]>((res) => {
                 setTimeout(() => {
                     res([
@@ -32,13 +32,13 @@ export const useGetPackagesQuery = () => {
                     ]);
                 }, 500);
             }),
-    );
+    });
 };
 
 export const useGetPackageWithPartsByIdQuery = (packageId: string | undefined | null) => {
-    return useQuery<IPackageWithParts>(
-        [PACKAGES_PREFIX, 'parts', packageId],
-        () =>
+    return useQuery<IPackageWithParts>({
+        queryKey: [PACKAGES_PREFIX, 'parts', packageId],
+        queryFn: () =>
             new Promise<IPackageWithParts>((res) => {
                 setTimeout(() => {
                     res({
@@ -75,6 +75,6 @@ export const useGetPackageWithPartsByIdQuery = (packageId: string | undefined | 
                     });
                 }, 500);
             }),
-        { enabled: Boolean(packageId) },
-    );
+        enabled: Boolean(packageId),
+    });
 };

@@ -18,13 +18,13 @@ export const SubscriptionCard = styled.div<{ isSelected?: boolean }>`
         border-bottom: 1px solid var(--color-divider);
     }
 
-    > button {
+    /* > button {
         display: none;
     }
 
     :hover > button {
         display: flex;
-    }
+    } */
 `;
 
 export const ContentContainer = styled.div`

@@ -18,7 +18,7 @@ import { ICJCreateForm } from './types';
 import * as S from './units';
 
 export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
-    const { mutateAsync: createCJ, isLoading: creatingCJ } = useCreateCJWithEmptyStepMutation();
+    const { mutateAsync: createCJ, isPending: creatingCJ } = useCreateCJWithEmptyStepMutation();
     const { data: products, isLoading: isLoadingProducts } = useGetUserProductsQuery();
 
     const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React from 'react';
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useAuth } from 'features/auth';
 import { useTheme } from 'features/theme';
 
@@ -32,7 +32,7 @@ const App = () => {
                 </ErrorBoundary>
                 <Snackbar />
                 <GlobalStyles />
-                <ReactQueryDevtools initialIsOpen={false} />
+                <ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
             </QueryClientProvider>
         </>
     );

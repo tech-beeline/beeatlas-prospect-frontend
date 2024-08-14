@@ -1,6 +1,12 @@
-export enum NotificationType {
-    CAPABILITY = 'CAPABILITY',
+export enum NotificationEntityType {
+    TECH_CAPABILITY = 'TECH_CAPABILITY',
+    BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
     TECHNOLOGY = 'TECHNOLOGY',
+}
+
+export enum NotificationChangeType {
+    CREATE = 'CREATE',
+    UPDATE = 'UPDATE',
 }
 
 export interface INotification {
@@ -8,8 +14,8 @@ export interface INotification {
     webNotify: boolean;
     changeDate: Date;
     entityId: number;
-    changeType: string;
+    changeType: NotificationChangeType;
     entityName: string;
     entityLink: string;
-    entityType: NotificationType;
+    entityType: NotificationEntityType;
 }

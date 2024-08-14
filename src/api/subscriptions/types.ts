@@ -12,3 +12,14 @@ export interface ISubscription {
     type: SubscriptionType;
     title: string;
 }
+
+export enum SubscriptionEntityVariants {
+    BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
+    TECH_CAPABILITY = 'TECH_CAPABILITY',
+    TECHNOLOGY = 'TECHNOLOGY',
+}
+
+export interface ISubscriptionForm {
+    entityType: SubscriptionEntityVariants;
+    id: number;
+}

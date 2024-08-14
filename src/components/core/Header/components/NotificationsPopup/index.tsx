@@ -4,7 +4,10 @@ import { Button, Counter, Divider, Icon, IconButton } from '@beeline/design-syst
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
 
-import { useGetNotificationsQuery } from 'api/queries/notifications';
+import {
+    useGetNotificationsQuery,
+    useUpdateNotificationsMutation,
+} from 'api/queries/notifications';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
 
@@ -21,7 +24,20 @@ export const NotificationsPopup: FC = () => {
 
     const { data, isError, isLoading } = useGetNotificationsQuery();
 
+    const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
+
     const isEmpty = data && data.length === 0;
+
+    const hasUnreadNotifications =
+        data?.some((notification) => notification.webNotify === false) ?? false;
+
+    const handleReadAllClick = () => {
+        updateNotifications(
+            (data ?? [])
+                .filter((notification) => notification.webNotify === false)
+                .map((notification) => notification.id),
+        );
+    };
 
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
 
@@ -32,7 +48,7 @@ export const NotificationsPopup: FC = () => {
 
     return (
         <S.Container>
-            <Counter size="small" count={5}>
+            <Counter size="small" count={data?.length}>
                 <S.IconStyled
                     size="large"
                     ref={iconRef}
@@ -51,7 +67,7 @@ export const NotificationsPopup: FC = () => {
                     <S.Header>
                         <S.TitleContainer>
                             <S.Title>Уведомления</S.Title>
-                            <Counter count={5} />
+                            <Counter count={data?.length} />
                         </S.TitleContainer>
                         <IconButton
                             iconName={Icons.Close}
@@ -106,7 +122,11 @@ export const NotificationsPopup: FC = () => {
                             <Divider />
                             <S.Footer>
                                 <S.ButtonsContainer>
-                                    <Button variant="plain" disabled>
+                                    <Button
+                                        variant="plain"
+                                        disabled={!hasUnreadNotifications}
+                                        onClick={handleReadAllClick}
+                                    >
                                         Прочитать все
                                     </Button>
                                     <Button variant="plain" onClick={handleNavigateButtonClick}>

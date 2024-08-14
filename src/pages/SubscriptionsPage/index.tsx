@@ -5,15 +5,15 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetSubscriptionsQuery } from 'api/queries/subscriptions';
+import { useGetAllSubscriptionsQuery } from 'api/queries/subscriptions';
 import { ISubscription } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
-import { pluralize } from 'utils/helpers';
+// import { pluralize } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
-    ActionRow,
+    // ActionRow,
     SubscriptionCard,
     SubscriptionCardSkeleton,
     SubscriptionFilters,
@@ -28,11 +28,11 @@ import {
 import * as S from './units';
 import { subscriptionFilterFunction } from './utils';
 
-const SUBS_PER_PAGE = 5;
+const SUBS_PER_PAGE = 20;
 
 export const SubscriptionsPage = () => {
     const [page, setPage] = useState(1);
-    const [ascendingOrder, setAscendingOrder] = useState(true);
+    // const [ascendingOrder, setAscendingOrder] = useState(true);
     const [search, setSearch] = useState('');
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
 
@@ -41,17 +41,17 @@ export const SubscriptionsPage = () => {
         openModal: openSingleUnsubscriptionModal,
         closeModal: closeSingleUnsubscriptionModal,
     } = useModal();
-    const {
-        modalOpened: multipleUnsubscriptionsModalOpened,
-        openModal: openMultipleUnsubscriptionModal,
-        closeModal: closeMultipleUnsubscriptionModal,
-    } = useModal();
+    // const {
+    //     modalOpened: multipleUnsubscriptionsModalOpened,
+    //     openModal: openMultipleUnsubscriptionModal,
+    //     closeModal: closeMultipleUnsubscriptionModal,
+    // } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const navigate = useNavigate();
 
-    const { data, isLoading } = useGetSubscriptionsQuery();
+    const { data, isLoading } = useGetAllSubscriptionsQuery();
 
     const [selectedSubscriptions, setSelectedSubscriptions] = useState<ISubscription[]>([]);
     const [selectedSingleSubscription, setSelectedSingleSubscription] =
@@ -65,7 +65,8 @@ export const SubscriptionsPage = () => {
         data ?? [],
         filterVariant,
         search,
-        ascendingOrder,
+        // ascendingOrder,
+        true,
     );
 
     const slicedSubscriptions = filteredSubscriptions.slice(startIndex, endIndex);
@@ -86,7 +87,8 @@ export const SubscriptionsPage = () => {
                 />
 
                 <S.CardsContainer>
-                    <ActionRow
+                    {/* Задел под массовую отписку, пока отказались */}
+                    {/* <ActionRow
                         data={data}
                         ascendingOrder={ascendingOrder}
                         selectedSubscriptions={selectedSubscriptions}
@@ -99,7 +101,7 @@ export const SubscriptionsPage = () => {
                         openSingleUnsubscriptionModal={openSingleUnsubscriptionModal}
                         setSelectedSingleSubscription={setSelectedSingleSubscription}
                         setSelectedSubscriptions={setSelectedSubscriptions}
-                    />
+                    /> */}
                     {isLoading &&
                         Array.from({ length: 3 }).map((_, i) => (
                             <SubscriptionCardSkeleton key={i} />
@@ -148,7 +150,7 @@ export const SubscriptionsPage = () => {
                     </S.PaginationContainer>
                 )}
             </S.Container>
-            <Dialog
+            {/* <Dialog
                 opened={multipleUnsubscriptionsModalOpened}
                 title="Отписаться?"
                 onClose={closeMultipleUnsubscriptionModal}
@@ -161,7 +163,7 @@ export const SubscriptionsPage = () => {
             >
                 Вы отказываетесь от <S.BoldSpan>{selectedSubscriptions.length}</S.BoldSpan>{' '}
                 {pluralize(['подписки', 'подписок', 'подписок'], selectedSubscriptions.length)}
-            </Dialog>
+            </Dialog> */}
             <Dialog
                 opened={singleUnsubscriptionsModalOpened}
                 title={`Отписаться от ${

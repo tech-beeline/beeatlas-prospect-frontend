@@ -71,3 +71,11 @@ export const getCapabilitiesBySearch = (
 export const putBusinessCapability = (data: T.IBusinessCapabilityForm) => {
     return Api.put({ url: `${GATEWAY_URL}capability/v1/business`, data });
 };
+
+export const getSubscribedCapabilities = (
+    entityType: T.CapabilitySearchResultTypeVariant,
+): AxiosPromise<T.ISubscribedCapabilityData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}capability/v1/capabilities-subscribed?entity-type=${entityType}`,
+    });
+};

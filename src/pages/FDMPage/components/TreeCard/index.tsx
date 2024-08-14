@@ -1,39 +1,58 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Skeleton } from '@beeline/design-system-react';
+import { Button, Icon, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-// import { useModal } from 'hooks';
-// import { getItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetBusinessCapabilitiySubscriptionIdsQuery,
+    useGetTechCapabilitiySubscriptionIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
+import { useModal } from 'hooks';
+import { getItemClassification, ItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
 import { useFDMStore } from 'pages/FDMPage/store';
 import { Item, ItemTypes } from 'pages/FDMPage/store/types';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
-// import { Dialog } from 'widgets/Dialog';
-// import { useSnackbarStore } from 'widgets/Snackbar';
 import { getItemIcon } from '../utils';
 
 import { ITreeCard } from './types';
 import * as S from './units';
 
 export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
-    // const [subscribed, setSubscribed] = useState(false);
+    const [isOpen, setOpen] = useState(false);
 
-    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    // const { modalOpened, openModal, closeModal } = useModal();
+    const { modalOpened, openModal, closeModal } = useModal();
 
     const [, setParams] = useSearchParams();
 
     const { getСhildrenСapabilities } = useFDMStore();
 
     const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
-        '1',
+        item.code,
         item.type === ItemTypes.TECH,
     );
 
-    const [isOpen, setOpen] = useState(false);
+    const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+
+    const { data: subscribedBusinessCapabilitiyIds } =
+        useGetBusinessCapabilitiySubscriptionIdsQuery();
+    const { data: subscribedTechCapabilitiyIds } = useGetTechCapabilitiySubscriptionIdsQuery();
+
+    const isSubscribed = Boolean(
+        item.type === ItemTypes.BUSINESS
+            ? subscribedBusinessCapabilitiyIds?.includes(item.id)
+            : subscribedTechCapabilitiyIds?.includes(item.id),
+    );
 
     const handleTitleClick = async (clickedItem: Item) => {
         if (item.type === ItemTypes.BUSINESS) {
@@ -55,26 +74,38 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
         setOpen(!isOpen);
     };
 
-    // const handleSubscribeButtonClick = () => {
-    //     if (!subscribed) {
-    //         setSubscribed(true);
-    //         showSnackbar({
-    //             message: `Вы подписаны на изменения ${itemNameMap[getItemClassification(item)]} и ${
-    //                 getItemClassification(item) === ItemClassification.DOMAIN ? 'его' : 'ее'
-    //             } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
-    //         });
-    //     } else {
-    //         openModal();
-    //     }
-    // };
+    const handleSubscribeButtonClick = async () => {
+        if (!isSubscribed) {
+            await createSubscription({
+                entityType:
+                    item.type === ItemTypes.BUSINESS
+                        ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
+                        : SubscriptionEntityVariants.TECH_CAPABILITY,
+                id: item.id,
+            });
+            showSnackbar({
+                message: `Вы подписаны на изменения ${itemNameMap[getItemClassification(item)]} и ${
+                    getItemClassification(item) === ItemClassification.DOMAIN ? 'его' : 'ее'
+                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
+            });
+        } else {
+            openModal();
+        }
+    };
 
-    // const handleModalConfirm = () => {
-    //     setSubscribed(false);
-    //     closeModal();
-    //     showSnackbar({
-    //         message: `Вы отписаны от изменений ${itemNameMap[getItemClassification(item)]}`,
-    //     });
-    // };
+    const handleModalConfirm = async () => {
+        await deleteSubscrition({
+            entityType:
+                item.type === ItemTypes.BUSINESS
+                    ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
+                    : SubscriptionEntityVariants.TECH_CAPABILITY,
+            id: item.id,
+        });
+        closeModal();
+        showSnackbar({
+            message: `Вы отписаны от изменений ${itemNameMap[getItemClassification(item)]}`,
+        });
+    };
 
     return (
         <S.Wrapper data-testid="TreeCard" isFullWidthCard={isFullWidthCard}>
@@ -159,27 +190,29 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 {item.children.length === 0 && <S.TextInactive>Возможностей нет</S.TextInactive>}
             </S.ExpandStyled>
 
-            {/* <S.SubscribeButtonContainer>
+            <S.SubscribeButtonContainer>
                 <Button
                     size="small"
                     variant="outlined"
                     onClick={handleSubscribeButtonClick}
                     startIcon={
-                        <Icon iconName={subscribed ? Icons.NotificationOff : Icons.Notification} />
+                        <Icon
+                            iconName={isSubscribed ? Icons.NotificationOff : Icons.Notification}
+                        />
                     }
                 >
-                    Подписаться
+                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
                 </Button>
-            </S.SubscribeButtonContainer> */}
+            </S.SubscribeButtonContainer>
 
-            {/* <Dialog
+            <Dialog
                 opened={modalOpened}
                 onClose={closeModal}
                 onConfirm={handleModalConfirm}
                 title={`Отписаться от ${itemNameMap[getItemClassification(item)]}`}
             >
                 Вы отписываетесь от <S.BoldSpan>{item.name}</S.BoldSpan>
-            </Dialog> */}
+            </Dialog>
         </S.Wrapper>
     );
 };
