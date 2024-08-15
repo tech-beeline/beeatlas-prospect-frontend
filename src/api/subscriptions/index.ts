@@ -6,12 +6,12 @@ import * as T from './types';
 
 export const postSubscription = (params: T.ISubscriptionForm) => {
     return Api.post({
-        url: `${GATEWAY_URL}notifications/v1/subscribe/${params.entityType}/${params.id}`,
+        url: `${GATEWAY_URL}notify/v1/subscribe/${params.entityType}/${params.id}`,
     });
 };
 
 export const deleteSubscription = (params: T.ISubscriptionForm) => {
     return Api.delete({
-        url: `${GATEWAY_URL}notifications/v1/subscribe/${params.entityType}/${params.id}`,
+        url: `${GATEWAY_URL}notify/v1/subscribe/${params.entityType}/${params.id}`,
     });
 };

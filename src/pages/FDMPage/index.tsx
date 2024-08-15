@@ -9,8 +9,8 @@ import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
-    useGetBusinessCapabilitiySubscriptionIdsQuery,
-    useGetTechCapabilitiySubscriptionIdsQuery,
+    useGetSubscribedBusinessCapabilitiesIdsQuery,
+    useGetSubscribedTechCapabilitiesIdsQuery,
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal, useWindowResize } from 'hooks';
@@ -45,16 +45,18 @@ export const FDMPage = () => {
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
 
     const { data: subscribedBusinessCapabilitiyIds } =
-        useGetBusinessCapabilitiySubscriptionIdsQuery();
-    const { data: subscribedTechCapabilitiyIds } = useGetTechCapabilitiySubscriptionIdsQuery();
+        useGetSubscribedBusinessCapabilitiesIdsQuery();
+    const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
 
     const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
         useGetTechCapabilityProductsQuery(activeItem?.code, activeItem?.type === ItemTypes.TECH);
 
     const isSubscribed = Boolean(
-        !!activeItem && activeItem.type === ItemTypes.BUSINESS
-            ? subscribedBusinessCapabilitiyIds?.includes(activeItem.id)
-            : subscribedTechCapabilitiyIds?.includes(activeItem!.id),
+        activeItem
+            ? activeItem.type === ItemTypes.BUSINESS
+                ? subscribedBusinessCapabilitiyIds?.includes(activeItem?.id)
+                : subscribedTechCapabilitiyIds?.includes(activeItem?.id)
+            : false,
     );
 
     useEffect(() => {

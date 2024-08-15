@@ -8,6 +8,11 @@ export const formatNullableNumberParam = (
     param: number | undefined | null,
 ): string => (typeof param === 'number' ? `&${paramName}=${param}` : '');
 
+export const formatNullableStringParam = (
+    paramName: string,
+    param: string | undefined | null,
+): string => (typeof param === 'string' ? `&${paramName}=${param}` : '');
+
 export const formatNullableBooleanParam = (
     paramName: string,
     param: boolean | undefined | null,

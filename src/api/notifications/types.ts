@@ -1,7 +1,7 @@
 export enum NotificationEntityType {
     TECH_CAPABILITY = 'TECH_CAPABILITY',
     BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
-    TECHNOLOGY = 'TECHNOLOGY',
+    TECH = 'TECH',
 }
 
 export enum NotificationChangeType {
@@ -18,4 +18,11 @@ export interface INotification {
     entityName: string;
     entityLink: string;
     entityType: NotificationEntityType;
+}
+
+export interface INotificationParams {
+    afterDate?: string;
+    beforeDate?: string;
+    page?: number;
+    type?: NotificationEntityType;
 }

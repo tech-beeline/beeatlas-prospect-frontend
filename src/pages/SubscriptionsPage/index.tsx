@@ -5,7 +5,10 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetAllSubscriptionsQuery } from 'api/queries/subscriptions';
+import {
+    useDeleteSubscriptionMutation,
+    useGetAllSubscriptionsQuery,
+} from 'api/queries/subscriptions';
 import { ISubscription } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 // import { pluralize } from 'utils/helpers';
@@ -23,6 +26,7 @@ import {
     filterVariantToButtonTextMap,
     filterVariantToNotFoundTextMap,
     filterVariantToRouteMap,
+    subscriptionTypeToEntityVariantMap,
     subscriptionTypeToTitleMap,
 } from './const';
 import * as S from './units';
@@ -52,11 +56,12 @@ export const SubscriptionsPage = () => {
     const navigate = useNavigate();
 
     const { data, isLoading } = useGetAllSubscriptionsQuery();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
 
-    const [selectedSubscriptions, setSelectedSubscriptions] = useState<ISubscription[]>([]);
+    // const [selectedSubscriptions, setSelectedSubscriptions] = useState<ISubscription[]>([]);
     const [selectedSingleSubscription, setSelectedSingleSubscription] =
         useState<ISubscription | null>(null);
-    const seletedSubscriptionsIds = selectedSubscriptions.map((subscription) => subscription.id);
+    // const seletedSubscriptionsIds = selectedSubscriptions.map((subscription) => subscription.id);
 
     const startIndex = (page - 1) * SUBS_PER_PAGE;
     const endIndex = page * SUBS_PER_PAGE;
@@ -70,6 +75,18 @@ export const SubscriptionsPage = () => {
     );
 
     const slicedSubscriptions = filteredSubscriptions.slice(startIndex, endIndex);
+
+    const handleModalConfirmClick = async () => {
+        if (selectedSingleSubscription) {
+            await deleteSubscrition({
+                entityType: subscriptionTypeToEntityVariantMap[selectedSingleSubscription.type],
+                id: selectedSingleSubscription.id,
+            });
+            setSelectedSingleSubscription(null);
+            closeSingleUnsubscriptionModal();
+            showSnackbar({ message: 'Вы отписаны от уведомлений' });
+        }
+    };
 
     return (
         <S.PageWrapper>
@@ -109,9 +126,9 @@ export const SubscriptionsPage = () => {
                     {slicedSubscriptions.map((subscription) => (
                         <SubscriptionCard
                             key={subscription.id}
-                            selectedSubscriptions={selectedSubscriptions}
-                            selectedSubscriptionsIds={seletedSubscriptionsIds}
-                            setSelectedSubscriptions={setSelectedSubscriptions}
+                            // selectedSubscriptions={selectedSubscriptions}
+                            // selectedSubscriptionsIds={seletedSubscriptionsIds}
+                            // setSelectedSubscriptions={setSelectedSubscriptions}
                             subscription={subscription}
                             openModal={openSingleUnsubscriptionModal}
                             setSelectedSingleSubscription={setSelectedSingleSubscription}
@@ -172,12 +189,7 @@ export const SubscriptionsPage = () => {
                         : ''
                 }?`}
                 onClose={closeSingleUnsubscriptionModal}
-                onConfirm={() => {
-                    setSelectedSubscriptions([]);
-                    setSelectedSingleSubscription(null);
-                    closeSingleUnsubscriptionModal();
-                    showSnackbar({ message: 'Вы отписаны от уведомлений' });
-                }}
+                onConfirm={handleModalConfirmClick}
                 confirmText="Отписаться"
             >
                 Вы отписываетесь от <S.BoldSpan>{selectedSingleSubscription?.title}</S.BoldSpan>

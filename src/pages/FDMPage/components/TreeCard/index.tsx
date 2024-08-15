@@ -9,8 +9,8 @@ import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
-    useGetBusinessCapabilitiySubscriptionIdsQuery,
-    useGetTechCapabilitiySubscriptionIdsQuery,
+    useGetSubscribedBusinessCapabilitiesIdsQuery,
+    useGetSubscribedTechCapabilitiesIdsQuery,
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
@@ -45,8 +45,8 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
 
     const { data: subscribedBusinessCapabilitiyIds } =
-        useGetBusinessCapabilitiySubscriptionIdsQuery();
-    const { data: subscribedTechCapabilitiyIds } = useGetTechCapabilitiySubscriptionIdsQuery();
+        useGetSubscribedBusinessCapabilitiesIdsQuery();
+    const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
 
     const isSubscribed = Boolean(
         item.type === ItemTypes.BUSINESS

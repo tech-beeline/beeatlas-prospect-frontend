@@ -16,7 +16,7 @@ export interface ISubscription {
 export enum SubscriptionEntityVariants {
     BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
     TECH_CAPABILITY = 'TECH_CAPABILITY',
-    TECHNOLOGY = 'TECHNOLOGY',
+    TECH = 'TECH',
 }
 
 export interface ISubscriptionForm {

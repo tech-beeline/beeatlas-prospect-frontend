@@ -1,10 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Button, Icon, IconButton, Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
-import { PivotArrow } from 'components/other';
 
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetSubscribedTechnologiesIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -21,31 +26,47 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { modalOpened, openModal, closeModal } = useModal();
 
-    const [showApps, setShowApps] = useState(false);
-    const [subscribed, setSubscribed] = useState(false);
+    // const [showApps, setShowApps] = useState(false);
 
-    const handleArrowClick = () => {
-        setShowApps(!showApps);
-    };
+    const { data: subscribedTechnologiesIds } = useGetSubscribedTechnologiesIdsQuery();
 
-    const handleSubscribeButtonClick = () => {
-        if (subscribed) {
+    const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+
+    const isSubscribed = Boolean(
+        selectedTech && subscribedTechnologiesIds?.includes(selectedTech.id),
+    );
+
+    // const handleArrowClick = () => {
+    //     setShowApps(!showApps);
+    // };
+
+    const handleSubscribeButtonClick = async () => {
+        if (isSubscribed) {
             openModal();
-        } else {
+        } else if (selectedTech) {
+            await createSubscription({
+                entityType: SubscriptionEntityVariants.TECH,
+                id: selectedTech.id,
+            });
             showSnackbar({
                 message:
                     'Вы подписались на изменения технологии. Уведомления будут приходить на почту и отображаться на витрине ФДМ',
             });
-            setSubscribed(true);
         }
     };
 
-    const handleUnsubscribe = () => {
-        closeModal();
-        setSubscribed(false);
-        showSnackbar({
-            message: 'Вы отписаны от уведомлений',
-        });
+    const handleUnsubscribe = async () => {
+        if (selectedTech) {
+            await deleteSubscrition({
+                entityType: SubscriptionEntityVariants.TECH,
+                id: selectedTech.id,
+            });
+            closeModal();
+            showSnackbar({
+                message: 'Вы отписаны от уведомлений',
+            });
+        }
     };
 
     return (
@@ -75,14 +96,14 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                             startIcon={
                                 <Icon
                                     iconName={
-                                        subscribed ? Icons.NotificationOff : Icons.Notification
+                                        isSubscribed ? Icons.NotificationOff : Icons.Notification
                                     }
                                 />
                             }
                             onClick={handleSubscribeButtonClick}
                             variant="plain"
                         >
-                            Подписаться
+                            {isSubscribed ? 'Отписаться' : 'Подписаться'}
                         </Button>
                     </S.ButtonsContainer>
                     <S.NameContainer>
@@ -97,7 +118,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                     <S.Description>{selectedTech?.description}</S.Description>
                     <S.SubtitleMargin>Последние изменения</S.SubtitleMargin>
                     <S.LastChanges>Раздел ещё в разработке</S.LastChanges>
-                    <S.ButtonsContainer>
+                    {/* <S.ButtonsContainer>
                         <S.Subtitle>Приложения (7)</S.Subtitle>
                         <PivotArrow
                             style={{ cursor: 'pointer' }}
@@ -113,7 +134,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         <S.Description>Beeworks (App)</S.Description>
                         <S.Description>Beeworks (App)</S.Description>
                         <S.Description>Beeworks (App)</S.Description>
-                    </S.AppsContainer>
+                    </S.AppsContainer> */}
                 </S.Container>
             </SideBlock>
             <Dialog

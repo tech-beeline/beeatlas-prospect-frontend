@@ -1,6 +1,7 @@
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SubscriptionType } from 'api/subscriptions/types';
+import * as R from 'router/const';
 
 export const subscriptionTypeToIconMap = {
     [SubscriptionType.BUSINESS_CAPABILITY]: Icons.Capability,
@@ -30,4 +31,17 @@ export const subscriptionTypeToColorMap: Record<
     [SubscriptionType.DOMAIN]: 'grey',
     [SubscriptionType.CJ]: 'purple',
     [SubscriptionType.TECHNOLOGY]: 'teal',
+};
+
+export const subscriptionTypeToLinkFormatterMap = {
+    [SubscriptionType.BUSINESS_CAPABILITY]: (id: number) =>
+        `${R.MODELS_PATH}${R.FDM_PATH}?id=${id}&type=BUSINESS`,
+    [SubscriptionType.GROUP]: (id: number) =>
+        `${R.MODELS_PATH}${R.FDM_PATH}?id=${id}&type=BUSINESS`,
+    [SubscriptionType.DOMAIN]: (id: number) =>
+        `${R.MODELS_PATH}${R.FDM_PATH}?id=${id}&type=BUSINESS`,
+    [SubscriptionType.TECH_CAPABILITY]: (id: number) =>
+        `${R.MODELS_PATH}${R.FDM_PATH}?id=${id}&type=TECH`,
+    [SubscriptionType.CJ]: () => `${R.CX_PATH}${R.CJ_PATH}`,
+    [SubscriptionType.TECHNOLOGY]: () => `${R.MODELS_PATH}${R.TECH_RADAR_PATH}`,
 };

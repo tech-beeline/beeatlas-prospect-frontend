@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Avatar, Skeleton } from '@beeline/design-system-react';
+import dayjs from 'dayjs';
 
 import { Link } from 'components/other';
 
@@ -36,7 +37,7 @@ export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
                 </S.AvatarContainer>
 
                 <div>
-                    <S.Overline>18.03.2024</S.Overline>
+                    <S.Overline>{dayjs(notification.changeDate).format('DD.MM.YYYY')}</S.Overline>
                     <S.Body2>{notificationEntityTypeToTitleMap[notification.entityType]}</S.Body2>
                     <S.Body3>
                         {notificationEntityTypeToNameMap[notification.entityType]}{' '}
@@ -44,7 +45,7 @@ export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
                         {notificationChangeTypeToNameMap[notification.changeType]}
                     </S.Body3>
                     <S.LinkContainer>
-                        <Link outer={false} title="Перейти" url={notification.entityLink} />
+                        <Link title="Перейти" url={notification.entityLink} />
                     </S.LinkContainer>
                 </div>
             </S.CardContainer>

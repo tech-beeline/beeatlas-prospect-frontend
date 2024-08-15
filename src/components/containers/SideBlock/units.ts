@@ -31,7 +31,7 @@ export const ContainerBlock = styled.div<{ isOpen: boolean }>`
 
     border-left: 1px solid var(--color-divider);
 
-    z-index: 102;
+    z-index: 4;
 
     text-overflow: clip;
 

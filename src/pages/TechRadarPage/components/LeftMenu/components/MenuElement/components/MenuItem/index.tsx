@@ -3,6 +3,12 @@ import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
 
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetSubscribedTechnologiesIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -20,26 +26,35 @@ export const MenuItem: FC<T.IMenuItem> = ({
 }) => {
     const [isLinkIconHovered, setIsLinkIconHovered] = useState(false);
     const [isNotificationIconHovered, setIsNotificationIconHovered] = useState(false);
-    const [isSubscribed, setIsSubscribed] = useState(false);
 
     const { modalOpened, openModal, closeModal } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const handleUnsubscribe = () => {
+    const { data: subscribedTechnologiesIds } = useGetSubscribedTechnologiesIdsQuery();
+
+    const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+
+    const isSubscribed = Boolean(subscribedTechnologiesIds?.includes(item.id));
+
+    const handleUnsubscribe = async () => {
+        await deleteSubscrition({ entityType: SubscriptionEntityVariants.TECH, id: item.id });
         closeModal();
-        setIsSubscribed(false);
         showSnackbar({
             message: 'Вы отписаны от уведомлений',
         });
     };
 
-    const handleNotificationButtonClick = (e: MouseEvent) => {
+    const handleNotificationButtonClick = async (e: MouseEvent) => {
         e.stopPropagation();
         if (isSubscribed) {
             openModal();
         } else {
-            setIsSubscribed(true);
+            await createSubscription({
+                entityType: SubscriptionEntityVariants.TECH,
+                id: item.id,
+            });
             showSnackbar({
                 message:
                     'Вы подписались на изменения технологии. Уведомления будут приходить на почту и отображаться на витрине ФДМ',

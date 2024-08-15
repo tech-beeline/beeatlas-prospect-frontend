@@ -1,4 +1,4 @@
-import { SubscriptionType } from 'api/subscriptions/types';
+import { SubscriptionEntityVariants, SubscriptionType } from 'api/subscriptions/types';
 import * as R from 'router/const';
 
 export enum FilterVariants {
@@ -60,4 +60,13 @@ export const subscriptionTypeToTitleMap = {
     [SubscriptionType.DOMAIN]: 'домена',
     [SubscriptionType.CJ]: 'CJ',
     [SubscriptionType.TECHNOLOGY]: 'технологии',
+};
+
+export const subscriptionTypeToEntityVariantMap = {
+    [SubscriptionType.BUSINESS_CAPABILITY]: SubscriptionEntityVariants.BUSINESS_CAPABILITY,
+    [SubscriptionType.TECH_CAPABILITY]: SubscriptionEntityVariants.TECH_CAPABILITY,
+    [SubscriptionType.GROUP]: SubscriptionEntityVariants.BUSINESS_CAPABILITY,
+    [SubscriptionType.DOMAIN]: SubscriptionEntityVariants.BUSINESS_CAPABILITY,
+    [SubscriptionType.CJ]: SubscriptionEntityVariants.TECH,
+    [SubscriptionType.TECHNOLOGY]: SubscriptionEntityVariants.TECH,
 };

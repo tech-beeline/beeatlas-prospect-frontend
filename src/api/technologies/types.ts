@@ -37,3 +37,9 @@ export interface ITechForm {
     ring_id: number;
     sector_id: number;
 }
+
+export interface ISubscribedTechnologyData {
+    desription: string;
+    id: number;
+    label: string;
+}

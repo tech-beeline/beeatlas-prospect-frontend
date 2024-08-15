@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Chip, DatePickerRange, Pagination } from '@beeline/design-system-react';
+import dayjs from 'dayjs';
 import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetNotificationsQuery } from 'api/queries/notifications';
+import {
+    useGetNotificationsQuery,
+    useUpdateNotificationsMutation,
+} from 'api/queries/notifications';
 
-import { CHIPS, FilterVariants } from './const';
+import { CHIPS, FilterVariants, filterVariantToNotificationEntityMap } from './const';
 import * as S from './units';
 
 const NOTIFICATIONS_PER_PAGE = 20;
@@ -16,8 +20,31 @@ export const NotificationsPage = () => {
     const [page, setPage] = useState(1);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
 
-    const { data, isLoading } = useGetNotificationsQuery();
+    const { data, isLoading } = useGetNotificationsQuery({
+        page: page,
+        afterDate: date[0] ? dayjs(date[0]).format('YYYY-MM-DD 00:00:00') : undefined,
+        beforeDate: date[1] ? dayjs(date[1]).format('YYYY-MM-DD 00:00:00') : undefined,
+        type:
+            filterVariant !== FilterVariants.ALL
+                ? filterVariantToNotificationEntityMap[filterVariant]
+                : undefined,
+    });
 
+    const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
+
+    const handleReadAllClick = () => {
+        if (data) {
+            updateNotifications(
+                data
+                    .filter((notification) => notification.webNotify === false)
+                    .map((notification) => notification.id),
+            );
+        }
+    };
+
+    const hasUnreadNotifications = (data ?? []).some(
+        (notification) => notification.webNotify === false,
+    );
     const isEmpty = data && data.length === 0;
     const areFiltersEmpty = date.length === 0;
 
@@ -45,7 +72,12 @@ export const NotificationsPage = () => {
                             />
                         ))}
                     </S.ChipsContainer>
-                    <Button disabled variant="plain" size="small">
+                    <Button
+                        disabled={!hasUnreadNotifications}
+                        variant="plain"
+                        size="small"
+                        onClick={handleReadAllClick}
+                    >
                         Прочитать все
                     </Button>
                 </S.ControlsContainer>
@@ -68,13 +100,15 @@ export const NotificationsPage = () => {
                                 />
                             ))}
                         </S.CardsContainer>
-                        <S.PaginationContainer>
-                            <Pagination
-                                count={Math.ceil(data.length / NOTIFICATIONS_PER_PAGE)}
-                                page={page}
-                                onChange={setPage}
-                            />
-                        </S.PaginationContainer>
+                        {data.length > NOTIFICATIONS_PER_PAGE && (
+                            <S.PaginationContainer>
+                                <Pagination
+                                    count={Math.ceil(data.length / NOTIFICATIONS_PER_PAGE)}
+                                    page={page}
+                                    onChange={setPage}
+                                />
+                            </S.PaginationContainer>
+                        )}
                     </>
                 )}
 

@@ -6,25 +6,25 @@ import { NotificationChangeType, NotificationEntityType } from 'api/notification
 export const notificationEntityTypeToIconMap: Record<NotificationEntityType, Icons> = {
     [NotificationEntityType.TECH_CAPABILITY]: Icons.Capability,
     [NotificationEntityType.BUSINESS_CAPABILITY]: Icons.Capability,
-    [NotificationEntityType.TECHNOLOGY]: Icons.Radar,
+    [NotificationEntityType.TECH]: Icons.Radar,
 };
 
 export const notificationEntityTypeToColorMap: Record<NotificationEntityType, ColorTypes> = {
     [NotificationEntityType.TECH_CAPABILITY]: 'blue',
     [NotificationEntityType.BUSINESS_CAPABILITY]: 'orange',
-    [NotificationEntityType.TECHNOLOGY]: 'teal',
+    [NotificationEntityType.TECH]: 'teal',
 };
 
 export const notificationEntityTypeToTitleMap: Record<NotificationEntityType, string> = {
     [NotificationEntityType.TECH_CAPABILITY]: 'ФДМ',
     [NotificationEntityType.BUSINESS_CAPABILITY]: 'ФДМ',
-    [NotificationEntityType.TECHNOLOGY]: 'Технорадар',
+    [NotificationEntityType.TECH]: 'Технорадар',
 };
 
 export const notificationEntityTypeToNameMap: Record<NotificationEntityType, string> = {
     [NotificationEntityType.TECH_CAPABILITY]: 'Техническая возможность',
     [NotificationEntityType.BUSINESS_CAPABILITY]: 'Бизнес-возможность',
-    [NotificationEntityType.TECHNOLOGY]: 'Технология',
+    [NotificationEntityType.TECH]: 'Технология',
 };
 
 export const notificationChangeTypeToNameMap: Record<NotificationChangeType, string> = {

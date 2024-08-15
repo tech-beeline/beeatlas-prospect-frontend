@@ -22,21 +22,20 @@ export const NotificationsPopup: FC = () => {
 
     const iconRef = useRef<HTMLButtonElement>(null);
 
-    const { data, isError, isLoading } = useGetNotificationsQuery();
+    const { data, isError, isLoading, refetch } = useGetNotificationsQuery({});
+
+    const unreadNotifications = (data ?? []).filter(
+        (notification) => notification.webNotify === false,
+    );
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
 
     const isEmpty = data && data.length === 0;
 
-    const hasUnreadNotifications =
-        data?.some((notification) => notification.webNotify === false) ?? false;
+    const hasUnreadNotifications = unreadNotifications.length > 0;
 
     const handleReadAllClick = () => {
-        updateNotifications(
-            (data ?? [])
-                .filter((notification) => notification.webNotify === false)
-                .map((notification) => notification.id),
-        );
+        updateNotifications(unreadNotifications.map((notification) => notification.id));
     };
 
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
@@ -48,7 +47,10 @@ export const NotificationsPopup: FC = () => {
 
     return (
         <S.Container>
-            <Counter size="small" count={data?.length}>
+            <Counter
+                size="small"
+                count={unreadNotifications.length === 0 ? null : unreadNotifications.length}
+            >
                 <S.IconStyled
                     size="large"
                     ref={iconRef}
@@ -67,7 +69,9 @@ export const NotificationsPopup: FC = () => {
                     <S.Header>
                         <S.TitleContainer>
                             <S.Title>Уведомления</S.Title>
-                            <Counter count={data?.length} />
+                            {unreadNotifications.length !== 0 && (
+                                <Counter count={unreadNotifications.length} />
+                            )}
                         </S.TitleContainer>
                         <IconButton
                             iconName={Icons.Close}
@@ -109,6 +113,7 @@ export const NotificationsPopup: FC = () => {
                                     <Button
                                         variant="plain"
                                         startIcon={<Icon iconName={Icons.RefreshDouble} />}
+                                        onClick={() => refetch()}
                                     >
                                         Обновить
                                     </Button>
