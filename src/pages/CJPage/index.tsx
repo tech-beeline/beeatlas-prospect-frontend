@@ -36,7 +36,7 @@ export const CJPage = () => {
             .reduce((acc, step) => [...acc, ...step.bi], [] as IBIData[])
             .some((bi) => bi.draft) ?? false;
 
-    const { mutateAsync: updateCJ, isLoading: updatingCj } = usePartialUpdateCJMutation();
+    const { mutateAsync: updateCJ, isPending: updatingCj } = usePartialUpdateCJMutation();
 
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
 

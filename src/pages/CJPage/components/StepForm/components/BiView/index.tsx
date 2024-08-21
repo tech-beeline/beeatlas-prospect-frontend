@@ -30,7 +30,7 @@ export const BiView: FC<IBiView> = ({
     const { data: editabilityData, isLoading: isLoadingEditability } = useGetBIEditabilityByIdQuery(
         String(selectedBiId),
     );
-    const { mutateAsync: updateStepBis, isLoading: updatingStep } = useUpdateCJStepBIsMutation();
+    const { mutateAsync: updateStepBis, isPending: updatingStep } = useUpdateCJStepBIsMutation();
 
     const isLoading = isLoadingData || isLoadingEditability;
 

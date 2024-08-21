@@ -24,7 +24,7 @@ export const CapabilityAddPage = () => {
         search: debouncedSearchText,
         searchVariant: CapabilitySearchVariant.BUSINESS_CAPABILITY,
     });
-    const { mutateAsync: createCapability, isLoading: creatingCapability } =
+    const { mutateAsync: createCapability, isPending: creatingCapability } =
         useCreateBusinessCapabilityMutation();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);

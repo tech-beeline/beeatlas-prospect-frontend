@@ -1,33 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-import { useWindowResize } from 'hooks';
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetSubscribedBusinessCapabilitiesIdsQuery,
+    useGetSubscribedTechCapabilitiesIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
+import { useModal, useWindowResize } from 'hooks';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
-// import { Dialog } from 'widgets/Dialog';
-// import { useSnackbarStore } from 'widgets/Snackbar';
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
-// import { getItemClassification, itemNameMap } from './helpers';
+import { getItemClassification, ItemClassification, itemNameMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
 export const FDMPage = () => {
-    // const [subscribed, setSubscribed] = useState(false);
     const [showBanner, setShowBanner] = useState(false);
 
     const handleCloseBannerClick = () => {
         setShowBanner(false);
     };
 
-    // const { modalOpened, openModal, closeModal } = useModal();
+    const { modalOpened, openModal, closeModal } = useModal();
 
-    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
         state.activeItem,
@@ -35,13 +41,33 @@ export const FDMPage = () => {
         state.loading,
     ]);
 
+    const { mutateAsync: createSubscription, error } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+
+    const { data: subscribedBusinessCapabilitiyIds } =
+        useGetSubscribedBusinessCapabilitiesIdsQuery();
+    const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
+
     const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
         useGetTechCapabilityProductsQuery(activeItem?.code, activeItem?.type === ItemTypes.TECH);
+
+    const isSubscribed = Boolean(
+        activeItem
+            ? activeItem.type === ItemTypes.BUSINESS
+                ? subscribedBusinessCapabilitiyIds?.includes(activeItem?.id)
+                : subscribedTechCapabilitiyIds?.includes(activeItem?.id)
+            : false,
+    );
+
+    useEffect(() => {
+        if (error) {
+            setShowBanner(true);
+        }
+    }, [error]);
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    // const isLinkCorrect = true;
     const isLinkCorrect = validateFDMParams(params);
 
     const isItemGroup = activeItem?.isDomain && activeItem.parent === null;
@@ -65,30 +91,42 @@ export const FDMPage = () => {
         }
     }, [windowWidth, activeItem]);
 
-    // const handleSubscribeButtonClick = () => {
-    //     if (!subscribed && activeItem) {
-    //         setSubscribed(true);
-    //         showSnackbar({
-    //             message: `Вы подписаны на изменения ${
-    //                 itemNameMap[getItemClassification(activeItem)]
-    //             } и ${
-    //                 getItemClassification(activeItem) === ItemClassification.DOMAIN ? 'его' : 'ее'
-    //             } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
-    //         });
-    //     } else {
-    //         openModal();
-    //     }
-    // };
+    const handleSubscribeButtonClick = async () => {
+        if (!isSubscribed && activeItem) {
+            await createSubscription({
+                entityType:
+                    activeItem.type === ItemTypes.BUSINESS
+                        ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
+                        : SubscriptionEntityVariants.TECH_CAPABILITY,
+                id: activeItem.id,
+            });
+            showSnackbar({
+                message: `Вы подписаны на изменения ${
+                    itemNameMap[getItemClassification(activeItem)]
+                } и ${
+                    getItemClassification(activeItem) === ItemClassification.DOMAIN ? 'его' : 'ее'
+                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
+            });
+        } else {
+            openModal();
+        }
+    };
 
-    // const handleModalConfirm = () => {
-    //     if (activeItem) {
-    //         setSubscribed(false);
-    //         closeModal();
-    //         showSnackbar({
-    //             message: `Вы отписаны от уведомлений`,
-    //         });
-    //     }
-    // };
+    const handleModalConfirm = async () => {
+        if (activeItem) {
+            await deleteSubscrition({
+                entityType:
+                    activeItem.type === ItemTypes.BUSINESS
+                        ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
+                        : SubscriptionEntityVariants.TECH_CAPABILITY,
+                id: activeItem.id,
+            });
+            closeModal();
+            showSnackbar({
+                message: `Вы отписаны от уведомлений`,
+            });
+        }
+    };
 
     return (
         <S.PageWrapper>
@@ -125,22 +163,22 @@ export const FDMPage = () => {
 
                             <S.TitleContainer>
                                 <S.H4 data-testid="Title">{activeItem.name}</S.H4>
-                                {/* <Button
+                                <Button
                                     size="small"
                                     variant="outlined"
                                     onClick={handleSubscribeButtonClick}
                                     startIcon={
                                         <Icon
                                             iconName={
-                                                subscribed
+                                                isSubscribed
                                                     ? Icons.NotificationOff
                                                     : Icons.Notification
                                             }
                                         />
                                     }
                                 >
-                                    Подписаться
-                                </Button> */}
+                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                                </Button>
                             </S.TitleContainer>
 
                             <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
@@ -248,7 +286,7 @@ export const FDMPage = () => {
                     {!activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
             </S.Wrapper>
-            {/* {activeItem && (
+            {activeItem && (
                 <Dialog
                     opened={modalOpened}
                     onClose={closeModal}
@@ -257,7 +295,7 @@ export const FDMPage = () => {
                 >
                     Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
                 </Dialog>
-            )} */}
+            )}
         </S.PageWrapper>
     );
 };

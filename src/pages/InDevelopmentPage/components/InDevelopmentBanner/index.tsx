@@ -8,7 +8,7 @@ import image from './images/empty-list.png';
 
 import * as S from './units';
 
-export const InDevelopingMock = () => {
+export const InDevelopmentBanner = () => {
     const navigate = useNavigate();
 
     return (

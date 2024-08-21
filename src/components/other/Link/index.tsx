@@ -10,7 +10,12 @@ export const Link: FC<ILink> = ({ title = 'Ссылка', url, showOuterIcon, ou
         <>
             {outer ? (
                 url && Boolean(url) ? (
-                    <S.Link target="_blank" rel="noreferrer" href={url}>
+                    <S.Link
+                        onClick={(e) => e.stopPropagation()}
+                        target="_blank"
+                        rel="noreferrer"
+                        href={url}
+                    >
                         <span>{title}</span>
                         {showOuterIcon && <S.IconOuter iconName={Icons.OpenInBrowser} />}
                     </S.Link>
@@ -19,7 +24,7 @@ export const Link: FC<ILink> = ({ title = 'Ссылка', url, showOuterIcon, ou
                 )
             ) : (
                 <ReactRouterLink to={url ?? ''}>
-                    <S.Link>
+                    <S.Link onClick={(e) => e.stopPropagation()}>
                         <span>{title}</span>
                     </S.Link>
                 </ReactRouterLink>

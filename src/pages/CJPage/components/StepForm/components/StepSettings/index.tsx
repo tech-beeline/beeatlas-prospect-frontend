@@ -22,7 +22,7 @@ export const StepSettings: FC<IStepSettings> = ({
     setName,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const { mutateAsync: updateStep, isLoading: updatingStep } = useUpdateCJStepMutation();
+    const { mutateAsync: updateStep, isPending: updatingStep } = useUpdateCJStepMutation();
 
     const handleSave = async () => {
         await updateStep({

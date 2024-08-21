@@ -21,12 +21,12 @@ export const Wrapper = styled.div`
     border-radius: var(--size-border-radius-x6);
 
     user-select: none;
-    /* cursor: pointer; */
+    cursor: pointer;
 `;
 
 export const Dropdown = styled.div`
     position: absolute;
-    top: 52px;
+    top: 56px;
     right: 24px;
 
     width: 280px;

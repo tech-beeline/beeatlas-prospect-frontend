@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     deleteRole,
@@ -14,59 +14,54 @@ import { IPermission, IRole } from 'api/personal-area/types';
 const ROLE_PREFIX = 'ROLE_PREFIX';
 
 export const useGetAllRolesQuery = () => {
-    return useQuery([ROLE_PREFIX, 'roles'], () => getRoles().then((res) => res.data));
+    return useQuery({
+        queryKey: [ROLE_PREFIX, 'roles'],
+        queryFn: () => getRoles().then((res) => res.data),
+    });
 };
 
 export const useGetRoleByIdQuery = (id: number | undefined | null) => {
-    return useQuery<IRole>(
-        [ROLE_PREFIX, 'role', id],
-        () =>
+    return useQuery<IRole>({
+        queryKey: [ROLE_PREFIX, 'role', id],
+        queryFn: () =>
             getRoleById(id!)
                 .then((res) => res.data)
                 .catch((error) => console.error(error)),
-        {
-            enabled: Boolean(id),
-        },
-    );
+        enabled: Boolean(id),
+    });
 };
 
 export const useGetRolePermissionsByIdQuery = (id: number | undefined | null) => {
-    return useQuery<IPermission[]>(
-        [ROLE_PREFIX, 'rolePermission', id],
-        () =>
+    return useQuery<IPermission[]>({
+        queryKey: [ROLE_PREFIX, 'rolePermission', id],
+        queryFn: () =>
             getRolePermission(id!)
                 .then((res) => res.data)
                 .catch((error) => console.error(error)),
-        {
-            enabled: Boolean(id),
-        },
-    );
+        enabled: Boolean(id),
+    });
 };
 
 export function useCreateRoleMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [ROLE_PREFIX, 'createRole'],
-        (params: IRole) => postRole({ name: params.name }),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(ROLE_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [ROLE_PREFIX, 'createRole'],
+        mutationFn: (params: IRole) => postRole({ name: params.name }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [ROLE_PREFIX] });
         },
-    );
+    });
 }
 
 export function useUpdateRoleMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [ROLE_PREFIX, 'updateRole'],
-        (params: IRole) => patchRole({ id: params.id, name: params.name }),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(ROLE_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [ROLE_PREFIX, 'updateRole'],
+        mutationFn: (params: IRole) => patchRole({ id: params.id, name: params.name }),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: [ROLE_PREFIX] });
         },
-    );
+    });
 }
 
 interface IUpdateRolePermissionsParams {
@@ -76,23 +71,23 @@ interface IUpdateRolePermissionsParams {
 
 export function useUpdateRolePermissionsMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [ROLE_PREFIX, 'updateRole'],
-        (params: IUpdateRolePermissionsParams) =>
+    return useMutation({
+        mutationKey: [ROLE_PREFIX, 'updateRole'],
+        mutationFn: (params: IUpdateRolePermissionsParams) =>
             putRolePermission(params.roleId, params.permissions),
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries(ROLE_PREFIX);
-            },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [ROLE_PREFIX] });
         },
-    );
+    });
 }
 
 export function useDeleteRoleMutation() {
     const queryClient = useQueryClient();
-    return useMutation([ROLE_PREFIX, 'deleteRole'], (id: number) => deleteRole(id), {
+    return useMutation({
+        mutationKey: [ROLE_PREFIX, 'deleteRole'],
+        mutationFn: (id: number) => deleteRole(id),
         onSuccess: () => {
-            void queryClient.invalidateQueries(ROLE_PREFIX);
+            queryClient.invalidateQueries({ queryKey: [ROLE_PREFIX] });
         },
     });
 }

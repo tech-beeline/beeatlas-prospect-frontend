@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { useAuthStore } from 'features/auth';
 import { useThemeStore } from 'features/theme';
@@ -8,7 +9,7 @@ import { MAIN_PAGE_PATH } from 'router/const';
 
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
-import { ProfileIcon } from './ProfileIcon';
+import { NotificationsPopup, ProfileIcon } from './components';
 import * as S from './units';
 
 export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
@@ -53,10 +54,13 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
                 )}
 
                 <S.ControlPanel className="HeaderControlPanel">
-                    <BaseIcon
+                    <IconButton
+                        size="large"
                         iconName={!themeIsDark ? Icons.HalfMoon : Icons.Sun}
                         onClick={toggleTheme}
                     />
+
+                    <NotificationsPopup />
 
                     {isAuth ? (
                         <ProfileIcon

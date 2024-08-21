@@ -1,4 +1,5 @@
 import { Tooltip } from 'react-tooltip';
+import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Item = styled.div<{ isActive?: boolean }>`
@@ -7,6 +8,7 @@ export const Item = styled.div<{ isActive?: boolean }>`
     justify-content: space-between;
 
     width: 300px;
+    height: 48px;
     padding: 12px 24px;
 
     font-weight: var(--font-weight-regular);
@@ -38,8 +40,8 @@ export const Item = styled.div<{ isActive?: boolean }>`
     }
 `;
 
-export const IconsContainer = styled.div`
-    display: flex;
+export const IconsContainer = styled.div<{ hidden?: boolean }>`
+    display: ${({ hidden }) => (hidden ? 'none' : 'flex')};
     align-items: center;
     gap: 8px;
 `;
@@ -63,4 +65,14 @@ export const TooltipContainer = styled(Tooltip)`
     user-select: none;
 
     z-index: 30;
+`;
+
+export const IconButtonStyled = styled(IconButton)<{ visible: boolean }>`
+    span {
+        visibility: ${({ visible }) => (visible ? 'visible' : '')};
+    }
+`;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
 `;

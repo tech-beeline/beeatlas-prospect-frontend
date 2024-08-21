@@ -5,4 +5,5 @@ export { QuadrantTitles } from './QuadrantTitles';
 export { Radar } from './Radar';
 export { RingRadar } from './RingRadar';
 export { RingTitles } from './RingTitles';
+export { TechnologySideblock } from './TechnologySideblock';
 export { TopMenu } from './TopMenu';

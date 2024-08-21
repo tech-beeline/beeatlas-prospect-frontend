@@ -90,6 +90,16 @@ export interface ISearchResult {
     type: CapabilitySearchResultTypeVariant;
 }
 
+export interface ISubscribedCapabilityData {
+    code: string;
+    description: string;
+    id: number;
+    isDomain: boolean;
+    name: string;
+    owner: string;
+    parentId: number;
+}
+
 export interface IBusinessCapabilityForm {
     parent: string;
     name: string;

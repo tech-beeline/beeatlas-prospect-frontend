@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, MenuCX, MenuDatabase, MenuModels, MenuPersonalArea } from 'components/core';
+import {
+    Header,
+    MenuCX,
+    MenuDatabase,
+    MenuModels,
+    MenuPersonalArea,
+    MenuProfile,
+} from 'components/core';
 
 import {
     AddRollPage,
@@ -20,13 +27,16 @@ import {
     DataBasePage,
     FDMPage,
     HowToPage,
+    InDevelopmentPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
+    NotificationsPage,
     PersonalArea,
     RollSettingsPage,
     SearchPage,
     ServicesPage,
+    SubscriptionsPage,
     TechnologiesPage,
     TechnologyAddPage,
     TechPolicyPage,
@@ -238,7 +248,7 @@ export const NavigationRouter = () => {
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
-                                <S.ContentWrapper>
+                                <S.ContentWrapper hideXOverflow>
                                     <TechRadarPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
@@ -371,6 +381,53 @@ export const NavigationRouter = () => {
                     />
 
                     <Route path={`${C.CX_PATH}${C.BI_PATH}${C.ADD_PATH}`} element={<BIAddPage />} />
+
+                    <Route
+                        path={`${C.NOTIFICATIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <NotificationsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PROFILE_PATH}${C.INFO_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <InDevelopmentPage title="Профиль" />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PROFILE_PATH}${C.SUBSCRIPTIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <SubscriptionsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.PROFILE_PATH}${C.APPLICATIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <InDevelopmentPage title="Мои заявки" />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

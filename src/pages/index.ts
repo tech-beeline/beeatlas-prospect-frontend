@@ -1,6 +1,5 @@
-export { AppInfoPage } from './AppInfoPage';
-// TODO: убрать
 export { AddRollPage } from './AddRollPage';
+export { AppInfoPage } from './AppInfoPage';
 export { ArchCommPage } from './ArchCommPage';
 export { BIAddPage } from './BIAddPage';
 export { BILibraryPage } from './BILibraryPage';
@@ -17,15 +16,17 @@ export { FDMPage } from './FDMPage';
 export { FDMResultPage } from './FDMResultPage';
 export { HowToPage } from './HowToPage';
 export { ImportedDataPage } from './ImportedDataPage';
+export { InDevelopmentPage } from './InDevelopmentPage';
 export { MainPage } from './MainPage';
 export { ModelsPage } from './ModelsPage';
 export { NotFoundPage } from './NotFoundPage';
+export { NotificationsPage } from './NotificationsPage';
 export { PackagePage } from './PackagePage';
 export { PersonalArea } from './PersonalArea';
-export { ProductsPage } from './ProductsPage';
 export { RollSettingsPage } from './RollSettingsPage';
 export { SearchPage } from './SearchPage';
 export { ServicesPage } from './ServicesPage';
+export { SubscriptionsPage } from './SubscriptionsPage';
 export { TechnologiesPage } from './TechnologiesPage';
 export { TechnologyAddPage } from './TechnologyAddPage';
 export { TechPolicyPage } from './TechPolicyPage';
