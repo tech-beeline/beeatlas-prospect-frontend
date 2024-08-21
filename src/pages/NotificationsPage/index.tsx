@@ -22,8 +22,8 @@ export const NotificationsPage = () => {
 
     const { data, isLoading } = useGetNotificationsQuery({
         page: page,
-        afterDate: date[0] ? dayjs(date[0]).format('YYYY-MM-DD 00:00:00') : undefined,
-        beforeDate: date[1] ? dayjs(date[1]).format('YYYY-MM-DD 00:00:00') : undefined,
+        afterDate: date[0] ? dayjs(date[0]).format('YYYY-MM-DD HH:mm:ss') : undefined,
+        beforeDate: date[1] ? dayjs(date[1]).format('YYYY-MM-DD HH:mm:ss') : undefined,
         type:
             filterVariant !== FilterVariants.ALL
                 ? filterVariantToNotificationEntityMap[filterVariant]
