@@ -21,7 +21,7 @@ export const NotificationsPage = () => {
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
 
     const { data, isLoading } = useGetNotificationsQuery({
-        page: page,
+        page: page - 1,
         afterDate: date[0] ? dayjs(date[0]).format('YYYY-MM-DD HH:mm:ss') : undefined,
         beforeDate: date[1] ? dayjs(date[1]).format('YYYY-MM-DD HH:mm:ss') : undefined,
         type:
