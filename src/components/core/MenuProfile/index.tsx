@@ -29,21 +29,21 @@ export const MenuProfile = () => {
                     title: '',
                     items: [
                         ...[
-                            {
-                                icon: Icons.User,
-                                name: 'Профиль',
-                                path: `${R.PROFILE_PATH}${R.INFO_PATH}`,
-                            },
+                            // {
+                            //     icon: Icons.User,
+                            //     name: 'Профиль',
+                            //     path: `${R.PROFILE_PATH}${R.INFO_PATH}`,
+                            // },
                             {
                                 icon: Icons.Suitcase,
                                 name: 'Мои\xa0подписки',
                                 path: `${R.PROFILE_PATH}${R.SUBSCRIPTIONS_PATH}`,
                             },
-                            {
-                                icon: Icons.PagesMultiple,
-                                name: 'Мои\xa0заявки',
-                                path: `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`,
-                            },
+                            // {
+                            //     icon: Icons.PagesMultiple,
+                            //     name: 'Мои\xa0заявки',
+                            //     path: `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`,
+                            // },
                         ],
                         ...(isAdmin
                             ? [

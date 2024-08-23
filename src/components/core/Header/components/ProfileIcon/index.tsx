@@ -19,7 +19,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
     useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
 
     const handleSubscriptionsClick = () => {
-        navigate(`${ROUTER.PROFILE_PATH}${ROUTER.INFO_PATH}`);
+        navigate(`${ROUTER.PROFILE_PATH}${ROUTER.SUBSCRIPTIONS_PATH}`);
         setShowDropdown(false);
     };
 
@@ -32,7 +32,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
             {isShowDropdown && (
                 <S.Dropdown className="Dropdown" ref={dropdownRef}>
                     <S.DropdownItem onClick={handleSubscriptionsClick} className="DropdownItem">
-                        Профиль
+                        Мои подписки
                     </S.DropdownItem>
                 </S.Dropdown>
             )}

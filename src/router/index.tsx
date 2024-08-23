@@ -27,7 +27,6 @@ import {
     DataBasePage,
     FDMPage,
     HowToPage,
-    InDevelopmentPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
@@ -393,7 +392,7 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route
+                    {/* <Route
                         path={`${C.PROFILE_PATH}${C.INFO_PATH}`}
                         element={
                             <S.RouteWithDrawer>
@@ -403,7 +402,7 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    />
+                    /> */}
 
                     <Route
                         path={`${C.PROFILE_PATH}${C.SUBSCRIPTIONS_PATH}`}
@@ -417,7 +416,7 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route
+                    {/* <Route
                         path={`${C.PROFILE_PATH}${C.APPLICATIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
@@ -427,7 +426,7 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    />
+                    /> */}
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
