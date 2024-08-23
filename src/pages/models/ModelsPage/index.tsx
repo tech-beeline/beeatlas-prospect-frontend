@@ -42,6 +42,15 @@ export const ModelsPage = () => {
                     </S.CardStyled>
 
                     <S.CardStyled
+                        variant={CardVariant.AQUAMARINE}
+                        title="Карта возможностей"
+                        to={`${R.MODELS_PATH}${R.MAP_PATH}`}
+                    >
+                        Это инструмент, который позволяет анализировать и контролировать состояние
+                        возможностей в рамках функционально-доменной модели
+                    </S.CardStyled>
+
+                    <S.CardStyled
                         variant={CardVariant.PURPLE}
                         title="Каталог приложений"
                         to={`${R.MODELS_PATH}${R.APPS_PATH}`}

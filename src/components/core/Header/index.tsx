@@ -12,6 +12,7 @@ import { BaseIcon, Logo, Tab, Tabs } from '..';
 import { NotificationsPopup, ProfileIcon } from './components';
 import { IHeader } from './types';
 import * as S from './units';
+import { preventDefault } from './utils';
 
 export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
     const userInfo = useAuthStore((state) => state.userInfo);
@@ -29,14 +30,16 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
     return (
         <>
             <S.Container className="HeaderContainer">
-                <S.FlexContainer
-                    className="HeaderFlexContainer"
-                    onClick={() => navigate(MAIN_PAGE_PATH)}
-                >
-                    <S.Title className="HeaderTitle">витрина ФДМ</S.Title>
+                <a href="/" onClick={preventDefault}>
+                    <S.FlexContainer
+                        className="HeaderFlexContainer"
+                        onClick={() => navigate(MAIN_PAGE_PATH)}
+                    >
+                        <S.Title className="HeaderTitle">витрина ФДМ</S.Title>
 
-                    <Logo />
-                </S.FlexContainer>
+                        <Logo />
+                    </S.FlexContainer>
+                </a>
 
                 {isAdminPanel && isAdmin && <S.LabelStyled title="Консоль администратора" />}
 
@@ -44,9 +47,13 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
                     <Tabs>
                         {tabs.map((tab, index) => (
                             <Tab
-                                isActive={location.pathname?.includes(tab.url)}
                                 key={index}
-                                onClick={() => navigate(tab.url)}
+                                href={`/${tab.url}`}
+                                isActive={location.pathname?.includes(tab.url)}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(tab.url);
+                                }}
                             >
                                 {tab.name}
                             </Tab>

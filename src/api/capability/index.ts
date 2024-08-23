@@ -79,3 +79,9 @@ export const getSubscribedCapabilities = (
         url: `${GATEWAY_URL}capability/v1/capabilities-subscribed?entity-type=${entityType}`,
     });
 };
+
+export const getMapData = (id?: number): AxiosPromise<T.IMapItemData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}capability/v1/business/tree/${id ?? ''}`,
+    });
+};

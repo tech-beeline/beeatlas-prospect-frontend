@@ -3,7 +3,7 @@ import { Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import DOMPurify from 'dompurify';
 
-import { CapabilitySearchResultTypeVariant } from 'api/fdm/types';
+import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';
 
 // import { useIconOfItem } from 'hooks/useIconOfItem';

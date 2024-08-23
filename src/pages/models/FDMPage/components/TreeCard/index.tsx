@@ -5,7 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
 
-import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
+import { useGetTechCapabilityProductsQuery } from 'api/queries/capability';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,

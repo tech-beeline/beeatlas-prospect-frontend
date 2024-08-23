@@ -29,6 +29,8 @@ import {
     HowToPage,
     ImportedDataPage,
     MainPage,
+    MapAddPage,
+    MapPage,
     ModelsPage,
     NotFoundPage,
     NotificationsPage,
@@ -54,6 +56,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -267,6 +270,23 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.MAP_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <MapPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`}
+                        element={<MapAddPage />}
                     />
 
                     <Route

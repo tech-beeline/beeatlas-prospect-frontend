@@ -12,6 +12,7 @@ export const Select: FC<ISelect> = ({
     disabled = false,
     fullWidth = true,
     defaultValue = 1,
+    ...rest
 }) => {
     const {
         control,
@@ -29,6 +30,7 @@ export const Select: FC<ISelect> = ({
             defaultValue={defaultValue}
             render={({ field }) => (
                 <DesignSystemSelect
+                    {...rest}
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}
