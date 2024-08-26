@@ -22,4 +22,5 @@ export enum SubscriptionEntityVariants {
 export interface ISubscriptionForm {
     entityType: SubscriptionEntityVariants;
     id: number;
+    subChildren?: boolean;
 }

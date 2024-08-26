@@ -99,6 +99,7 @@ export const FDMPage = () => {
                         ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
                         : SubscriptionEntityVariants.TECH_CAPABILITY,
                 id: activeItem.id,
+                subChildren: activeItem.type === ItemTypes.BUSINESS ? true : undefined,
             });
             showSnackbar({
                 message: `Вы подписаны на изменения ${

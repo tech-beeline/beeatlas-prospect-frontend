@@ -82,6 +82,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
                         : SubscriptionEntityVariants.TECH_CAPABILITY,
                 id: item.id,
+                subChildren: item.type === ItemTypes.BUSINESS ? true : undefined,
             });
             showSnackbar({
                 message: `Вы подписаны на изменения ${itemNameMap[getItemClassification(item)]} и ${
