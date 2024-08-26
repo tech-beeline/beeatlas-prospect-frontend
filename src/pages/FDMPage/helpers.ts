@@ -48,9 +48,20 @@ export const getItemClassification = (item: Item): ItemClassification => {
     return ItemClassification.BUSINESS_CAPABILITY;
 };
 
-export const itemNameMap: Record<ItemClassification, string> = {
+export const itemToNameMap: Record<ItemClassification, string> = {
     [ItemClassification.GROUP]: 'группы',
     [ItemClassification.DOMAIN]: 'домена',
     [ItemClassification.BUSINESS_CAPABILITY]: 'бизнес-возможности',
     [ItemClassification.TECH_CAPABILITY]: 'технической возможности',
+};
+
+export const itemToSubscriptionMessageMap: Record<ItemClassification, string> = {
+    [ItemClassification.GROUP]:
+        'Вы подписаны на изменения группы и её дочерних элементов. Уведомления будут отображаться на витрине ФДМ',
+    [ItemClassification.DOMAIN]:
+        'Вы подписаны на изменения домена и его дочерних элементов. Уведомления будут отображаться на витрине ФДМ',
+    [ItemClassification.BUSINESS_CAPABILITY]:
+        'Вы подписаны на изменения бизнес-возможности и её дочерних элементов. Уведомления будут отображаться на витрине ФДМ',
+    [ItemClassification.TECH_CAPABILITY]:
+        'Вы подписаны на изменения технической возможности. Уведомления будут отображаться на витрине ФДМ',
 };

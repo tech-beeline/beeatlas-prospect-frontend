@@ -19,7 +19,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
-import { getItemClassification, ItemClassification, itemNameMap } from './helpers';
+import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
@@ -102,11 +102,7 @@ export const FDMPage = () => {
                 subChildren: activeItem.type === ItemTypes.BUSINESS ? true : undefined,
             });
             showSnackbar({
-                message: `Вы подписаны на изменения ${
-                    itemNameMap[getItemClassification(activeItem)]
-                } и ${
-                    getItemClassification(activeItem) === ItemClassification.DOMAIN ? 'его' : 'ее'
-                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
+                message: itemToSubscriptionMessageMap[getItemClassification(activeItem)],
             });
         } else {
             openModal();
@@ -292,7 +288,7 @@ export const FDMPage = () => {
                     opened={modalOpened}
                     onClose={closeModal}
                     onConfirm={handleModalConfirm}
-                    title={`Отписаться от ${itemNameMap[getItemClassification(activeItem)]}`}
+                    title={`Отписаться от ${itemToNameMap[getItemClassification(activeItem)]}?`}
                 >
                     Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
                 </Dialog>

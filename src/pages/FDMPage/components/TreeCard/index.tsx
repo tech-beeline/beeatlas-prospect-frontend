@@ -14,7 +14,11 @@ import {
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
-import { getItemClassification, ItemClassification, itemNameMap } from 'pages/FDMPage/helpers';
+import {
+    getItemClassification,
+    itemToNameMap,
+    itemToSubscriptionMessageMap,
+} from 'pages/FDMPage/helpers';
 import { useFDMStore } from 'pages/FDMPage/store';
 import { Item, ItemTypes } from 'pages/FDMPage/store/types';
 import { Dialog } from 'widgets/Dialog';
@@ -85,9 +89,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 subChildren: item.type === ItemTypes.BUSINESS ? true : undefined,
             });
             showSnackbar({
-                message: `Вы подписаны на изменения ${itemNameMap[getItemClassification(item)]} и ${
-                    getItemClassification(item) === ItemClassification.DOMAIN ? 'его' : 'ее'
-                } дочерних элементов. Уведомления будут приходить на почту и отображаться на витрине ФДМ`,
+                message: itemToSubscriptionMessageMap[getItemClassification(item)],
             });
         } else {
             openModal();
@@ -104,7 +106,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
         });
         closeModal();
         showSnackbar({
-            message: `Вы отписаны от изменений ${itemNameMap[getItemClassification(item)]}`,
+            message: `Вы отписаны от уведомлений`,
         });
     };
 
@@ -210,7 +212,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                 opened={modalOpened}
                 onClose={closeModal}
                 onConfirm={handleModalConfirm}
-                title={`Отписаться от ${itemNameMap[getItemClassification(item)]}`}
+                title={`Отписаться от ${itemToNameMap[getItemClassification(item)]}?`}
             >
                 Вы отписываетесь от <S.BoldSpan>{item.name}</S.BoldSpan>
             </Dialog>
