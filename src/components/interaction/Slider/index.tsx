@@ -181,7 +181,13 @@ export const Slider = () => {
             <S.SliderContainer className="SliderContainer">
                 <S.Slider className="Slider" ref={sliderRef} {...{ transformX }}>
                     {/* <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}> */}
-                    <Card colorType="green" title="модели" withImage to="models">
+                    <Card
+                        useTitleAsAttribute
+                        colorType="green"
+                        title="модели"
+                        withImage
+                        to="models"
+                    >
                         Функционально-доменная модель позволяет{' '}
                         <Link
                             outer={false}
@@ -192,7 +198,13 @@ export const Slider = () => {
                         а также получить информацию о состоянии ИТ–ландшафта
                     </Card>
 
-                    <Card colorType="pink" title="база знаний" withImage to="data-base">
+                    <Card
+                        useTitleAsAttribute
+                        colorType="pink"
+                        title="база знаний"
+                        withImage
+                        to="data-base"
+                    >
                         В базе знаний вы можете найти все{' '}
                         <Link
                             outer={false}
@@ -207,7 +219,13 @@ export const Slider = () => {
                         а также обратиться за помощью, узнать опыт коллег
                     </Card>
 
-                    <Card colorType="blue" title="поддержка Сх" withImage to="cx">
+                    <Card
+                        useTitleAsAttribute
+                        colorType="blue"
+                        title="поддержка Сх"
+                        withImage
+                        to="cx"
+                    >
                         С помощью данного раздела создавайте CJ и BI продукта, просматривайте
                         библиотеку и ищите необходимые решения
                     </Card>

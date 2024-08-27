@@ -51,12 +51,12 @@ export const Title = styled.h4<{ withImage: boolean }>`
     transition: all 0.25s ease-out;
 `;
 
-export const Card = styled.div<any>`
+export const Card = styled.div<{ withImage?: boolean; colorType: string }>`
     position: relative;
 
-    min-width: ${({ withImage }) => (withImage ? '612px' : '500px')};
-    width: ${({ withImage }) => (withImage ? '612px' : '500px')};
-    height: ${({ withImage }) => (withImage ? '300px' : '193px')};
+    min-width: ${({ withImage }) => (withImage ? '612px' : '100%')};
+    width: ${({ withImage }) => (withImage ? '612px' : '100%')};
+    height: ${({ withImage }) => (withImage ? '300px' : '192px')};
     padding: 32px;
     margin-right: 24px;
 

@@ -16,10 +16,19 @@ export const ContentWrapper = styled.div`
 `;
 
 export const CardContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+
+    width: 100%;
+
+    margin-top: 24px;
+
+    @media only screen and (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export const CardStyled = styled(Card)`
-    margin-top: 24px;
+    min-width: 300px;
 `;

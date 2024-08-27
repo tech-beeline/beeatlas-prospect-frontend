@@ -24,18 +24,19 @@ export const ContentWrapper = styled.div`
 `;
 
 export const CardContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    /* justify-content: space-between; */
-    /* flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
 
-    @media only screen and (max-width: 960px) {
-        flex-direction: column;
+    width: 100%;
+
+    margin-top: 24px;
+
+    @media only screen and (max-width: 1390px) {
+        grid-template-columns: 1fr;
     }
 `;
 
 export const CardStyled = styled(Card)`
-    width: 45%;
-    min-width: 300px;
-    margin-top: 24px;
+    min-width: 400px;
 `;
