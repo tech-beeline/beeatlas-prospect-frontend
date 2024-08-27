@@ -20,9 +20,16 @@ export interface INotification {
     entityType: NotificationEntityType;
 }
 
+export interface INotificationData {
+    content: INotification[];
+    totalElements: number;
+    totalPages: number;
+}
+
 export interface INotificationParams {
     afterDate?: string;
     beforeDate?: string;
     page?: number;
     type?: NotificationEntityType;
+    wasNotify?: boolean;
 }

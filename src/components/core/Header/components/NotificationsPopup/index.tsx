@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Counter, Divider, Icon, IconButton } from '@beeline/design-system-react';
+import { Button, Counter, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
 
@@ -22,20 +22,14 @@ export const NotificationsPopup: FC = () => {
 
     const iconRef = useRef<HTMLButtonElement>(null);
 
-    const { data, isError, isLoading, refetch } = useGetNotificationsQuery({});
-
-    const unreadNotifications = (data ?? []).filter(
-        (notification) => notification.webNotify === false,
-    );
+    const { data, isError, isLoading, refetch } = useGetNotificationsQuery({ wasNotify: false });
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
 
-    const isEmpty = data && data.length === 0;
-
-    const hasUnreadNotifications = unreadNotifications.length > 0;
+    const isEmpty = data && data.content.length === 0;
 
     const handleReadAllClick = () => {
-        updateNotifications(unreadNotifications.map((notification) => notification.id));
+        updateNotifications((data?.content ?? []).map((notification) => notification.id));
     };
 
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
@@ -49,7 +43,7 @@ export const NotificationsPopup: FC = () => {
         <S.Container>
             <Counter
                 size="small"
-                count={unreadNotifications.length === 0 ? null : unreadNotifications.length}
+                count={data && data.totalElements > 0 ? data.totalElements : null}
             >
                 <S.IconStyled
                     size="large"
@@ -66,24 +60,10 @@ export const NotificationsPopup: FC = () => {
 
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
-                    <S.Header>
-                        <S.TitleContainer>
-                            <S.Title>Уведомления</S.Title>
-                            {unreadNotifications.length !== 0 && (
-                                <Counter count={unreadNotifications.length} />
-                            )}
-                        </S.TitleContainer>
-                        <IconButton
-                            iconName={Icons.Close}
-                            size="large"
-                            onClick={() => setIsOpen(false)}
-                        />
-                    </S.Header>
-                    <Divider />
                     <S.Content>
                         {!isLoading && !isEmpty && !isError && data && (
                             <>
-                                {data.map((notification) => (
+                                {data.content.map((notification) => (
                                     <NotificationCard
                                         key={notification.id}
                                         notification={notification}
@@ -101,8 +81,7 @@ export const NotificationsPopup: FC = () => {
                         {isEmpty && (
                             <S.EmptyContainer>
                                 <Icon contained iconName={Icons.PageEmpty} />
-                                <S.Subtitle3>Список уведомлений пуст</S.Subtitle3>
-                                <S.Body3>Здесь будет отображаться список ваших уведомлений</S.Body3>
+                                <S.Subtitle3>Новых уведомлений нет</S.Subtitle3>
                             </S.EmptyContainer>
                         )}
                         {isError && (
@@ -122,14 +101,14 @@ export const NotificationsPopup: FC = () => {
                         )}
                     </S.Content>
 
-                    {!isLoading && !isEmpty && !isError && (
+                    {!isLoading && !isError && (
                         <>
                             <Divider />
                             <S.Footer>
                                 <S.ButtonsContainer>
                                     <Button
                                         variant="plain"
-                                        disabled={!hasUnreadNotifications}
+                                        disabled={!data || data.totalElements === 0}
                                         onClick={handleReadAllClick}
                                     >
                                         Прочитать все

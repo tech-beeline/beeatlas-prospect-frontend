@@ -13,8 +13,6 @@ import {
 import { CHIPS, FilterVariants, filterVariantToNotificationEntityMap } from './const';
 import * as S from './units';
 
-const NOTIFICATIONS_PER_PAGE = 20;
-
 export const NotificationsPage = () => {
     const [date, setDate] = useState<string[]>([]);
     const [page, setPage] = useState(1);
@@ -35,17 +33,17 @@ export const NotificationsPage = () => {
     const handleReadAllClick = () => {
         if (data) {
             updateNotifications(
-                data
+                data.content
                     .filter((notification) => notification.webNotify === false)
                     .map((notification) => notification.id),
             );
         }
     };
 
-    const hasUnreadNotifications = (data ?? []).some(
+    const hasUnreadNotifications = (data?.content ?? []).some(
         (notification) => notification.webNotify === false,
     );
-    const isEmpty = data && data.length === 0;
+    const isEmpty = data && data.content.length === 0;
     const areFiltersEmpty = date.length === 0;
 
     return (
@@ -93,17 +91,17 @@ export const NotificationsPage = () => {
                 {!isLoading && !isEmpty && data && (
                     <>
                         <S.CardsContainer>
-                            {data.map((notification) => (
+                            {data.content.map((notification) => (
                                 <NotificationCard
                                     key={notification.id}
                                     notification={notification}
                                 />
                             ))}
                         </S.CardsContainer>
-                        {data.length > NOTIFICATIONS_PER_PAGE && (
+                        {data.totalPages > 1 && (
                             <S.PaginationContainer>
                                 <Pagination
-                                    count={Math.ceil(data.length / NOTIFICATIONS_PER_PAGE)}
+                                    count={data.totalPages}
                                     page={page}
                                     onChange={setPage}
                                 />

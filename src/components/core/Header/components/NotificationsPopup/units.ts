@@ -83,7 +83,7 @@ export const EmptyContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-    padding: 75px 0px 145px;
+    padding: 125px 0px 90px;
 `;
 
 export const Subtitle3 = styled.div`

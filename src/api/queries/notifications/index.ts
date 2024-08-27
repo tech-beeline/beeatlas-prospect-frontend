@@ -2,12 +2,12 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 
 import { patchNotifications } from 'api/notifications';
 import { getNotifications } from 'api/notifications';
-import { INotification, INotificationParams } from 'api/notifications/types';
+import { INotificationData, INotificationParams } from 'api/notifications/types';
 
 const NOTIFICATIONS_PREFIX = 'NOTIFICATIONS_PREFIX';
 
 export const useGetNotificationsQuery = (params: INotificationParams) => {
-    return useQuery<INotification[]>({
+    return useQuery<INotificationData>({
         queryKey: [NOTIFICATIONS_PREFIX, 'ALL', params],
         queryFn: () => getNotifications(params).then((res) => res.data),
         placeholderData: keepPreviousData,
