@@ -160,22 +160,6 @@ export const FDMPage = () => {
 
                             <S.TitleContainer>
                                 <S.H4 data-testid="Title">{activeItem.name}</S.H4>
-                                <Button
-                                    size="small"
-                                    variant="outlined"
-                                    onClick={handleSubscribeButtonClick}
-                                    startIcon={
-                                        <Icon
-                                            iconName={
-                                                isSubscribed
-                                                    ? Icons.NotificationOff
-                                                    : Icons.Notification
-                                            }
-                                        />
-                                    }
-                                >
-                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
-                                </Button>
                             </S.TitleContainer>
 
                             <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
@@ -219,6 +203,25 @@ export const FDMPage = () => {
                                     </S.ChipsContainer>
                                 </>
                             )}
+
+                            <S.SubscribeButtonContainer>
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    onClick={handleSubscribeButtonClick}
+                                    startIcon={
+                                        <Icon
+                                            iconName={
+                                                isSubscribed
+                                                    ? Icons.NotificationOff
+                                                    : Icons.Notification
+                                            }
+                                        />
+                                    }
+                                >
+                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                                </Button>
+                            </S.SubscribeButtonContainer>
 
                             {!isItemGroup &&
                                 !!activeItem.children &&

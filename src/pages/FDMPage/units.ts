@@ -166,6 +166,10 @@ export const ListSwitcherWrapper = styled.div`
     justify-content: space-between;
 `;
 
+export const SubscribeButtonContainer = styled.div`
+    margin-top: 24px;
+`;
+
 export const FlexBlock = styled.div`
     display: flex;
     justify-content: space-between;
