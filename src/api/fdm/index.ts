@@ -24,9 +24,9 @@ export const getItemChildren = (id: number) => {
     });
 };
 
-export const getTechCapabilityProducts = (guid: string): AxiosPromise<T.ICapabilityProduct[]> => {
+export const getTechCapabilityProducts = (code: string): AxiosPromise<T.ICapabilityProduct[]> => {
     return Api.get({
-        url: `${API_URL}fdm/v1/capabilities/${guid}/products`,
+        url: `${API_URL}fdm/v2/capabilities/${code}/products`,
     });
 };
 
