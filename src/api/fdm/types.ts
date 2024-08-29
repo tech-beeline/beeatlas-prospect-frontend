@@ -106,6 +106,5 @@ export interface IBusinessCapabilityForm {
     description: string;
     owner: string;
     link: string;
-    code: string;
     author: string;
 }

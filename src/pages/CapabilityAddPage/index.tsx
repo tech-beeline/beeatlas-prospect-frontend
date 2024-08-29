@@ -45,7 +45,6 @@ export const CapabilityAddPage = () => {
         await createCapability({
             ...values,
             parent: String(values.parent),
-            code: String(Date.now()),
             author: 'author',
         });
         returnToCapabilities();
