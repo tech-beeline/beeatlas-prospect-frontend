@@ -42,3 +42,12 @@ export const ContentWrapper = styled.div<{ hideXOverflow?: boolean }>`
         height: 8px;
     }
 `;
+
+export const IFrameStyled = styled.iframe`
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+`;

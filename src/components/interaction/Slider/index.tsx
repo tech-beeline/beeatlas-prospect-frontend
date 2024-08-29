@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Card } from 'components/interaction/Card';
+import { Card, CardVariant } from 'components/interaction';
 import { Link } from 'components/other';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import * as C from './const';
 import * as S from './units';
@@ -183,16 +183,16 @@ export const Slider = () => {
                     {/* <S.Slider ref={sliderRef} {...{ transformX, isScrolling }}> */}
                     <Card
                         useTitleAsAttribute
-                        colorType="green"
+                        variant={CardVariant.LEMON}
                         title="модели"
                         withImage
-                        to="models"
+                        to={R.MODELS_PATH}
                     >
                         Функционально-доменная модель позволяет{' '}
                         <Link
                             outer={false}
                             title="узнать о существующих в компании возможностях,"
-                            url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`}
+                            url={`${R.MODELS_PATH}${R.FDM_PATH}`}
                         />{' '}
                         переиспользовать их, и заказать необходимую возможность у владельца домена,
                         а также получить информацию о состоянии ИТ–ландшафта
@@ -200,31 +200,31 @@ export const Slider = () => {
 
                     <Card
                         useTitleAsAttribute
-                        colorType="pink"
+                        variant={CardVariant.MAGENTA}
                         title="база знаний"
                         withImage
-                        to="data-base"
+                        to={R.DATA_BASE_PATH}
                     >
                         В базе знаний вы можете найти все{' '}
                         <Link
                             outer={false}
                             title="документы для подготовки к архитектурному комитету,"
-                            url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}`}
+                            url={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}`}
                         />{' '}
                         <Link
                             outer={false}
                             title="организации производственного процесса,"
-                            url={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
+                            url={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
                         />{' '}
                         а также обратиться за помощью, узнать опыт коллег
                     </Card>
 
                     <Card
                         useTitleAsAttribute
-                        colorType="blue"
+                        variant={CardVariant.TEAL}
                         title="поддержка Сх"
                         withImage
-                        to="cx"
+                        to={R.CX_PATH}
                     >
                         С помощью данного раздела создавайте CJ и BI продукта, просматривайте
                         библиотеку и ищите необходимые решения

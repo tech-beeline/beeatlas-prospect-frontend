@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
-import { ICard } from './types';
+import { CardVariant, ICard } from './types';
 import * as S from './units';
 
-export const Card: FC<ICard> = ({
+const Card: FC<ICard> = ({
     title,
     children,
     to,
     withImage = false,
-    colorType,
+    variant,
     useTitleAsAttribute = false,
     ...props
 }) => {
@@ -20,7 +20,7 @@ export const Card: FC<ICard> = ({
     return (
         <S.Card
             className="Card"
-            colorType={colorType}
+            variant={variant}
             withImage={withImage}
             title={useTitleAsAttribute ? title : String(children)}
             {...props}
@@ -44,3 +44,5 @@ export const Card: FC<ICard> = ({
         </S.Card>
     );
 };
+
+export { Card, CardVariant };
