@@ -41,6 +41,16 @@ export const MenuModels = () => {
                             name: 'Технорадар',
                             path: `${R.MODELS_PATH}${R.TECH_RADAR_PATH}`,
                         },
+                        {
+                            icon: Icons.List,
+                            name: 'Каталог\xa0приложений',
+                            path: `${R.MODELS_PATH}${R.APPS_PATH}`,
+                        },
+                        {
+                            icon: Icons.List,
+                            name: 'E2E\xa0сценарии',
+                            path: `${R.MODELS_PATH}${R.E2E_PATH}`,
+                        },
                     ],
                 },
             ]}
