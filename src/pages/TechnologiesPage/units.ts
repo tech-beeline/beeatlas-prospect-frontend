@@ -65,10 +65,11 @@ export const NameContainer = styled.div`
     justify-content: space-between;
 `;
 
-export const MenuButtonContainer = styled.div`
+export const ButtonsContainer = styled.div`
     position: relative;
 
     display: flex;
+    gap: 32px;
     align-items: center;
     justify-content: center;
 `;
@@ -81,7 +82,8 @@ export const TooltipContainer = styled(Tooltip)<{ largePadding?: boolean }>`
     background-color: var(--color-background-inverse);
     color: var(--color-text-active-inverse);
 
-    border-radius: var(--size-border-radius-x8);
+    border-radius: ${({ largePadding }) =>
+        largePadding ? 'var(--size-border-radius-x8)' : 'var(--size-border-radius-x4)'};
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-caption);

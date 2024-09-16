@@ -21,7 +21,6 @@ import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { TechnologyMenu } from './components';
 import { ringIdToStatusMap } from './const';
 import * as S from './units';
 
@@ -180,17 +179,42 @@ export const TechnologiesPage = () => {
                                     </S.TooltipContainer>
                                 </TableData>
                                 <TableData>
-                                    <S.MenuButtonContainer>
-                                        <TechnologyMenu
-                                            technologyId={technology.id}
-                                            onEditClick={() =>
+                                    <S.ButtonsContainer>
+                                        <S.IconStyled
+                                            iconName={Icons.Edit}
+                                            size="medium"
+                                            onClick={() =>
                                                 navigate(
                                                     `${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
                                                 )
                                             }
-                                            onDeleteClick={() => setTechToDelete(technology)}
+                                            data-tooltip-id={`${technology.id}-edit`}
                                         />
-                                    </S.MenuButtonContainer>
+                                        <S.IconStyled
+                                            iconName={Icons.Delete}
+                                            size="medium"
+                                            onClick={() => setTechToDelete(technology)}
+                                            data-tooltip-id={`${technology.id}-delete`}
+                                        />
+                                        <S.TooltipContainer
+                                            noArrow
+                                            // @ts-ignore Ошибка в .d.ts
+                                            place="top-end"
+                                            offset={8}
+                                            id={`${technology.id}-edit`}
+                                        >
+                                            Редактировать
+                                        </S.TooltipContainer>
+                                        <S.TooltipContainer
+                                            noArrow
+                                            // @ts-ignore Ошибка в .d.ts
+                                            place="top-end"
+                                            offset={8}
+                                            id={`${technology.id}-delete`}
+                                        >
+                                            Удалить
+                                        </S.TooltipContainer>
+                                    </S.ButtonsContainer>
                                 </TableData>
                             </TableRow>
                         ))}
