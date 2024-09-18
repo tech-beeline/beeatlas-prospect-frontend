@@ -19,11 +19,11 @@ ingress:
       paths:
       - path: /api/
         pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-dev-service
-        servicePort: "8080"
       - path: /api-gateway/
         pathType: ImplementationSpecific
-        serviceName: fdm-gateway-dev-service
-        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
+
+env:
+  NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-dev-service:8080
+  NGINX_LOCATION_API: http://eafdmmart-backend-dev-service:8080

@@ -1,0 +1,8 @@
+FROM harbor.vimpelcom.ru/common/nginx-uno
+
+COPY /nginx/  /etc/nginx/
+COPY /build/  /www/
+RUN chown -R nginx:root /www && chmod o+r /www -R
+# COPY /public/ /www/public/
+
+USER nginx
