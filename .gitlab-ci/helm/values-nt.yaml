@@ -29,3 +29,7 @@ ingress:
         pathType: ImplementationSpecific
 
 replicaCount: 3
+
+env:
+  NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-prod-service:8080
+  NGINX_LOCATION_API: http://eafdmmart-backend-prod-service:8080

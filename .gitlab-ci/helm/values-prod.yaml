@@ -1,3 +1,14 @@
+podAnnotations:
+  vault.security.banzaicloud.io/vault-role: "false"
+  vault.security.banzaicloud.io/vault-path: "false"
+  vault.security.banzaicloud.io/vault-addr: "false"
+  vault.security.banzaicloud.io/vault-skip-verify: "false"
+  vault.security.banzaicloud.io/vault-agent: "false"
+  prometheus.io/path: "false"
+  prometheus.io/scheme: "false"
+  prometheus.io/scrape: "false"
+  prometheus.io/port: "false"
+
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/server-snippet: |
@@ -7,14 +18,7 @@ ingress:
       if ($host = "techradar.vimpelcom.ru") {
         rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
       }
-
-  className: ingress-waf
-
   hosts:
-    - host: "changehost"
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
     - host: "beeatlas.vimpelcom.ru"
       paths:
       - path: /
@@ -27,7 +31,6 @@ ingress:
       paths:
       - path: /
         pathType: ImplementationSpecific
-
   tls:
     - hosts:
         - beeatlas.vimpelcom.ru
@@ -39,5 +42,8 @@ ingress:
         - techradar.vimpelcom.ru
       secretName: techradar-tls
 
+env:
+  NGINX_LOCATION_API_GATEWAY: https://fdm-gateway-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api-gateway
+  NGINX_LOCATION_API: https://eafdmmart-backend-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api
 
 replicaCount: 1
