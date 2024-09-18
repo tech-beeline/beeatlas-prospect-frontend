@@ -19,6 +19,10 @@ ingress:
         rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
       }
   hosts:
+    - host: "changehost"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
     - host: "beeatlas.vimpelcom.ru"
       paths:
       - path: /
