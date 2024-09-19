@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Container = styled.div<{ isOpen: boolean }>`
+export const ContainerFixed = styled.div<{ isOpen: boolean }>`
     position: fixed;
     top: 0;
     right: 0;
@@ -18,6 +18,24 @@ export const Container = styled.div<{ isOpen: boolean }>`
     z-index: 102;
 
     transition: transform 0.25s ease-out;
+`;
+
+export const ContainerBlock = styled.div<{ isOpen: boolean }>`
+    height: calc(100vh - 64px);
+    width: ${({ isOpen }) => (isOpen ? '320px' : '0px')};
+
+    flex-grow: 1;
+
+    background-color: var(--color-background-base);
+    color: var(--color-text-active);
+
+    border-left: 1px solid var(--color-divider);
+
+    z-index: 4;
+
+    text-overflow: clip;
+
+    transition: width 0.25s ease-out;
 `;
 
 export const Backdrop = styled.div<{ isOpen: boolean }>`

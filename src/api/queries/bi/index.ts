@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     deleteBI,
@@ -21,46 +21,44 @@ interface IGetBICollectionParams {
     draft?: boolean;
 }
 export const useGetBICollectionQuery = (params: IGetBICollectionParams) => {
-    return useQuery<IBIData[]>(
-        [BI_PREFIX, 'all', params],
-        () =>
+    return useQuery<IBIData[]>({
+        queryKey: [BI_PREFIX, 'all', params],
+        queryFn: () =>
             getBICollection(params.search, params.productId, params.status, params.draft).then(
                 (res) => res.data,
             ),
-        { keepPreviousData: true },
-    );
+        placeholderData: keepPreviousData,
+    });
 };
 
 export const useGetBIByIdQuery = (id: string | undefined | null) => {
-    return useQuery<IBIData>([BI_PREFIX, id], () => getBIById(id!).then((res) => res.data), {
+    return useQuery<IBIData>({
+        queryKey: [BI_PREFIX, id],
+        queryFn: () => getBIById(id!).then((res) => res.data),
         enabled: Boolean(id),
     });
 };
 
 export const useGetBIEditabilityByIdQuery = (id: string | undefined | null) => {
-    return useQuery(
-        [BI_PREFIX, 'editability', id],
-        () => getBIEditabilityById(id!).then((res) => res.data),
-        {
-            enabled: Boolean(id),
-        },
-    );
+    return useQuery({
+        queryKey: [BI_PREFIX, 'editability', id],
+        queryFn: () => getBIEditabilityById(id!).then((res) => res.data),
+        enabled: Boolean(id),
+    });
 };
 
 export function useCreateBIMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [BI_PREFIX, 'create'],
-        async (params: IBIForm) => {
+    return useMutation({
+        mutationKey: [BI_PREFIX, 'create'],
+        mutationFn: async (params: IBIForm) => {
             const biData = await postBI(params);
             return { biId: biData.data.id as string };
         },
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(BI_PREFIX);
-            },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
         },
-    );
+    });
 }
 
 interface IUpdateBIParams {
@@ -69,24 +67,24 @@ interface IUpdateBIParams {
 }
 export function useUpdateBIMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [BI_PREFIX, 'update'],
-        ({ id, data }: IUpdateBIParams) => patchBI(id, data),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-                void queryClient.invalidateQueries(BI_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [BI_PREFIX, 'update'],
+        mutationFn: ({ id, data }: IUpdateBIParams) => patchBI(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+            queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
         },
-    );
+    });
 }
 
 export function useDeleteBIMutation() {
     const queryClient = useQueryClient();
-    return useMutation([BI_PREFIX, 'delete'], (id: string) => deleteBI(id), {
+    return useMutation({
+        mutationKey: [BI_PREFIX, 'delete'],
+        mutationFn: (id: string) => deleteBI(id),
         onSuccess: () => {
-            void queryClient.invalidateQueries(CJ_PREFIX);
-            void queryClient.invalidateQueries(BI_PREFIX);
+            void queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+            void queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
         },
     });
 }

@@ -25,8 +25,8 @@ export const BIAddPage = () => {
 
     const { data, isLoading: isLoadingBI } = useGetBIByIdQuery(paramId);
     const { data: editabilityData } = useGetBIEditabilityByIdQuery(paramId);
-    const { mutateAsync: createBi, isLoading: creatingBi } = useCreateBIMutation();
-    const { mutateAsync: updateBi, isLoading: updatingBi } = useUpdateBIMutation();
+    const { mutateAsync: createBi, isPending: creatingBi } = useCreateBIMutation();
+    const { mutateAsync: updateBi, isPending: updatingBi } = useUpdateBIMutation();
 
     const isLoading = creatingBi || updatingBi;
 
@@ -75,8 +75,8 @@ export const BIAddPage = () => {
                                 ? 'BI используется в других опубликованных CJ, редактирование недоступно'
                                 : 'Коммунальный опубликованный BI нельзя редактировать'
                         }
+                        buttonText="Вернуться в библиотеку BI"
                         buttonProps={{
-                            text: 'Вернуться в библиотеку BI',
                             onClick: navigateToBiLibrary,
                         }}
                     />

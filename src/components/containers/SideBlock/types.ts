@@ -6,4 +6,6 @@ export interface ISideBlock {
     toggleId?: string;
     hasBackdrop?: boolean;
     closeOnOutsideClick?: boolean;
+    outsideClickExceptionIds?: string[];
+    aboveContent?: boolean;
 }

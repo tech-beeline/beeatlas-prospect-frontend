@@ -19,6 +19,8 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     stepName,
     tableDataLength,
     stepIndex,
+    collapsedStepIds,
+    setCollapsedStepIds,
     setOpenSideBlockName,
     setRenameIndex,
 }) => {
@@ -81,6 +83,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
 
     const handleDeleteStepClick = async () => {
         await deleteStep({ stepId: String(stepId) });
+        setCollapsedStepIds(collapsedStepIds.filter((id) => id !== stepId));
         showSnackbar({ message: 'Шаг удалён' });
         hideMenuHandler();
     };

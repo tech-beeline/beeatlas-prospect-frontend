@@ -18,6 +18,7 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
     title,
     text = 'Такой страницы не существует или указана неверная ссылка',
     imageVariant = ImageVariants.QUESTION_BOX,
+    buttonText,
     buttonProps,
 }) => {
     return (
@@ -26,10 +27,10 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
             <S.Content>
                 {title && <S.Title>{title}</S.Title>}
                 <S.Text marginTop={Boolean(title)}>{text}</S.Text>
-                {buttonProps && (
+                {buttonText && (
                     <S.ButtonContainer>
-                        <Button size="small" variant="contained" onClick={buttonProps.onClick}>
-                            {buttonProps.text}
+                        <Button variant="contained" {...buttonProps}>
+                            {buttonText}
                         </Button>
                     </S.ButtonContainer>
                 )}

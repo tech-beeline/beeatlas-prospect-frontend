@@ -1,4 +1,4 @@
-import { Icon } from '@beeline/design-system-react';
+import { Icon, Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
@@ -40,24 +40,16 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     }
 `;
 
-export const LeftWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    /* white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    min-width: 0; */
-`;
-
 export const ExpandStyled = styled(Expand)`
     padding-left: 36px;
 `;
 
 export const IconStyled = styled(Icon)`
     color: ${({ type }) => !type && 'var(--color-text-inactive)'};
+`;
+
+export const SkeletonStyled = styled(Skeleton)`
+    margin-bottom: 4px;
 `;
 
 export const Name = styled.p`

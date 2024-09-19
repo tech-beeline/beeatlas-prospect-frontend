@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ, putCJ } from 'api/cj';
 import {
@@ -22,15 +22,18 @@ interface IGetCJCollectionParams {
     productId?: number;
 }
 export const useGetCJCollectionQuery = (params: IGetCJCollectionParams) => {
-    return useQuery<ICJData[]>(
-        [CJ_PREFIX, 'all', params],
-        () => getAllCJs(params.search, params.sample, params.productId).then((res) => res.data),
-        { keepPreviousData: true },
-    );
+    return useQuery<ICJData[]>({
+        queryKey: [CJ_PREFIX, 'all', params],
+        queryFn: () =>
+            getAllCJs(params.search, params.sample, params.productId).then((res) => res.data),
+        placeholderData: keepPreviousData,
+    });
 };
 
 export const useGetCJByIdQuery = (id: string | undefined | null) => {
-    return useQuery<ICJData>([CJ_PREFIX, id], () => getCJById(id!).then((res) => res.data), {
+    return useQuery<ICJData>({
+        queryKey: [CJ_PREFIX, id],
+        queryFn: () => getCJById(id!).then((res) => res.data),
         enabled: Boolean(id),
     });
 };
@@ -41,15 +44,13 @@ interface ICreateCJParams {
 }
 export function useCreateCJMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, 'create'],
-        (params: ICreateCJParams) => postCJ(params.data, params.productId),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'create'],
+        mutationFn: (params: ICreateCJParams) => postCJ(params.data, params.productId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 interface ICreateCJWithEmptyStepParams {
@@ -58,9 +59,9 @@ interface ICreateCJWithEmptyStepParams {
 }
 export function useCreateCJWithEmptyStepMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, 'createWithStep'],
-        async (params: ICreateCJWithEmptyStepParams) => {
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'createWithStep'],
+        mutationFn: async (params: ICreateCJWithEmptyStepParams) => {
             const cjData = await postCJ(
                 {
                     ...params.data,
@@ -71,12 +72,10 @@ export function useCreateCJWithEmptyStepMutation() {
             await postCJStep(cjData.data.id, { name: 'Название шага', order: 0 });
             return { cjId: cjData.data.id as string };
         },
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 interface IPartialUpdateCJParams {
@@ -85,17 +84,15 @@ interface IPartialUpdateCJParams {
 }
 export function usePartialUpdateCJMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, 'partialUpdate'],
-        async ({ id, data }: IPartialUpdateCJParams) => {
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'partialUpdate'],
+        mutationFn: async ({ id, data }: IPartialUpdateCJParams) => {
             await patchCJ(id, data);
         },
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 interface IUpdateCJParams {
@@ -104,24 +101,24 @@ interface IUpdateCJParams {
 }
 export function useUpdateCJMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, 'update'],
-        async ({ id, data }: IUpdateCJParams) => {
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'update'],
+        mutationFn: async ({ id, data }: IUpdateCJParams) => {
             await putCJ(id, data);
         },
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 export function useDeleteCJMutation() {
     const queryClient = useQueryClient();
-    return useMutation([CJ_PREFIX, 'delete'], (id: string) => deleteCJ(id), {
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'delete'],
+        mutationFn: (id: string) => deleteCJ(id),
         onSuccess: () => {
-            void queryClient.invalidateQueries(CJ_PREFIX);
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
     });
 }
@@ -130,13 +127,11 @@ export const useGetCJStepByIdQuery = (
     cjId: string | undefined | null,
     stepId: string | undefined | null,
 ) => {
-    return useQuery<ICJStepData>(
-        [CJ_PREFIX, STEP_PREFIX, cjId, stepId],
-        ({}) => getCJStepById(cjId!, stepId!).then((res) => res.data),
-        {
-            enabled: Boolean(cjId) && Boolean(stepId),
-        },
-    );
+    return useQuery<ICJStepData>({
+        queryKey: [CJ_PREFIX, STEP_PREFIX, cjId, stepId],
+        queryFn: ({}) => getCJStepById(cjId!, stepId!).then((res) => res.data),
+        enabled: Boolean(cjId) && Boolean(stepId),
+    });
 };
 
 interface ICreateCJStepParams {
@@ -145,15 +140,13 @@ interface ICreateCJStepParams {
 }
 export function useCreateCJStepMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, STEP_PREFIX, 'create'],
-        ({ cjId, data }: ICreateCJStepParams) => postCJStep(cjId, data),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [CJ_PREFIX, STEP_PREFIX, 'create'],
+        mutationFn: ({ cjId, data }: ICreateCJStepParams) => postCJStep(cjId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 interface IUpdateCJStepParams {
@@ -162,15 +155,13 @@ interface IUpdateCJStepParams {
 }
 export function useUpdateCJStepMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, STEP_PREFIX, 'update'],
-        ({ stepId, data }: IUpdateCJStepParams) => patchCJStep(stepId, data),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [CJ_PREFIX, STEP_PREFIX, 'update'],
+        mutationFn: ({ stepId, data }: IUpdateCJStepParams) => patchCJStep(stepId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 interface IDeleteCJStepParams {
@@ -178,25 +169,21 @@ interface IDeleteCJStepParams {
 }
 export function useDeleteCJStepMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, STEP_PREFIX, 'delete'],
-        ({ stepId }: IDeleteCJStepParams) => deleteCJStep(stepId),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [CJ_PREFIX, STEP_PREFIX, 'delete'],
+        mutationFn: ({ stepId }: IDeleteCJStepParams) => deleteCJStep(stepId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 export const useGetCompleteCJDataByIdQuery = (id: string | undefined | null) => {
-    return useQuery<ICompleteCJData>(
-        [CJ_PREFIX, 'complete', id],
-        () => getCJById(id!).then((res) => res.data),
-        {
-            enabled: Boolean(id),
-        },
-    );
+    return useQuery<ICompleteCJData>({
+        queryKey: [CJ_PREFIX, 'complete', id],
+        queryFn: () => getCJById(id!).then((res) => res.data),
+        enabled: Boolean(id),
+    });
 };
 
 interface IUpdateCJStepBIsParams {
@@ -205,15 +192,13 @@ interface IUpdateCJStepBIsParams {
 }
 export function useUpdateCJStepBIsMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, STEP_PREFIX, 'update', 'bi'],
-        ({ stepId, data }: IUpdateCJStepBIsParams) => putCJStepBIs(stepId, data),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [CJ_PREFIX, STEP_PREFIX, 'update', 'bi'],
+        mutationFn: ({ stepId, data }: IUpdateCJStepBIsParams) => putCJStepBIs(stepId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 interface IDeleteStepBIParams {
@@ -222,21 +207,19 @@ interface IDeleteStepBIParams {
 }
 export function useDeleteBIFromStepMutation() {
     const queryClient = useQueryClient();
-    return useMutation(
-        [CJ_PREFIX, STEP_PREFIX, 'delete', 'bi'],
-        ({ stepId, biId }: IDeleteStepBIParams) => deleteCJStepBI(stepId, biId),
-        {
-            onSuccess: () => {
-                void queryClient.invalidateQueries(CJ_PREFIX);
-            },
+    return useMutation({
+        mutationKey: [CJ_PREFIX, STEP_PREFIX, 'delete', 'bi'],
+        mutationFn: ({ stepId, biId }: IDeleteStepBIParams) => deleteCJStepBI(stepId, biId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
-    );
+    });
 }
 
 export const useGetCJCollectionByBIIdQuery = (biId: string | undefined | null, enabled = true) => {
-    return useQuery<ICJData[]>(
-        [CJ_PREFIX, 'byBi', biId],
-        () => getCJsByBIId(biId!).then((res) => res.data),
-        { enabled: enabled && Boolean(biId) },
-    );
+    return useQuery<ICJData[]>({
+        queryKey: [CJ_PREFIX, 'byBi', biId],
+        queryFn: () => getCJsByBIId(biId!).then((res) => res.data),
+        enabled: enabled && Boolean(biId),
+    });
 };

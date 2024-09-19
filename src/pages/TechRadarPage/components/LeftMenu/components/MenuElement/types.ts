@@ -8,7 +8,9 @@ export interface IMenuElement {
     activeRing?: string | null;
     hintText: string;
     hidden: boolean;
+    selectedTech: ITech | null;
 
+    setSelectedTech: (tech: ITech | null) => void;
     setOpen: (bool: boolean) => void;
     setHintText: (value: string) => void;
     setHoverInMenu: (bool: boolean) => void;

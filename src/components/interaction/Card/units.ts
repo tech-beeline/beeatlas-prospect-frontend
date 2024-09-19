@@ -5,6 +5,9 @@ import card1 from './images/card-1.png';
 import card2 from './images/card-2.png';
 import card3 from './images/card-3.png';
 
+import { cardVariantToBackgroundColorMap } from './const';
+import { CardVariant } from './types';
+
 export const TitleWrapper = styled.div<{ withImage: boolean }>`
     display: flex;
     align-items: center;
@@ -51,26 +54,19 @@ export const Title = styled.h4<{ withImage: boolean }>`
     transition: all 0.25s ease-out;
 `;
 
-export const Card = styled.div<any>`
+export const Card = styled.div<{ withImage?: boolean; variant: CardVariant }>`
     position: relative;
 
-    min-width: ${({ withImage }) => (withImage ? '612px' : '500px')};
-    width: ${({ withImage }) => (withImage ? '612px' : '500px')};
-    height: ${({ withImage }) => (withImage ? '300px' : '193px')};
+    min-width: ${({ withImage }) => (withImage ? '612px' : '100%')};
+    width: ${({ withImage }) => (withImage ? '612px' : '100%')};
+    height: ${({ withImage }) => (withImage ? '300px' : '192px')};
     padding: 32px;
     margin-right: 24px;
 
     border-radius: var(--size-border-radius-x6);
 
     color: var(--color-text-active);
-    background-color: ${({ colorType }) =>
-        colorType === 'green'
-            ? 'var(--color-accent-lemon-background)'
-            : colorType === 'pink'
-            ? 'var(--color-accent-magenta-background)'
-            : colorType === 'blue'
-            ? 'var(--color-accent-teal-background)'
-            : 'gray'};
+    background-color: ${({ variant }) => cardVariantToBackgroundColorMap[variant]};
 
     transition: all 0.25s ease-out;
 
@@ -95,13 +91,13 @@ export const Card = styled.div<any>`
         top: -61px;
         right: -25px;
 
-        content: ${({ colorType, withImage }) =>
+        content: ${({ variant, withImage }) =>
             withImage &&
-            (colorType === 'green'
+            (variant === CardVariant.LEMON
                 ? `url(${card1})`
-                : colorType === 'pink'
+                : variant === CardVariant.MAGENTA
                 ? `url(${card2})`
-                : colorType === 'blue'
+                : variant === CardVariant.TEAL
                 ? `url(${card3})`
                 : 'null')};
     }

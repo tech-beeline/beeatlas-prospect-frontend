@@ -17,13 +17,11 @@ ingress:
         pathType: ImplementationSpecific
     - host: "eafdmmart-func.apps.yd-m6-kt22.vimpelcom.ru"
       paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-func-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-func-service
-        servicePort: "8080"
       - path: /
         pathType: ImplementationSpecific
+
+env:
+  NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-func-service:8080
+  NGINX_LOCATION_API: http://eafdmmart-backend-func-service:8080
+  NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: ''
+  NGINX_LOCATION_API_ADDITIONAL_PARAMS: ''

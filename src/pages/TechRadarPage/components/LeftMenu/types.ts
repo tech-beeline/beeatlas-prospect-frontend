@@ -8,7 +8,9 @@ export interface ILeftMenu {
     activeMenuItem: number;
     isZoomed: boolean;
     showInMenu: boolean;
+    selectedTech: ITech | null;
 
+    setSelectedTech: (tech: ITech | null) => void;
     setHintText: (value: string) => void;
     setShowInMenu: (bool: boolean) => void;
 }

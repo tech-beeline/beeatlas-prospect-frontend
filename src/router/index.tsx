@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { Header, MenuCX, MenuDatabase, MenuModels, MenuPersonalArea } from 'components/core';
+import {
+    Header,
+    MenuCX,
+    MenuDatabase,
+    MenuModels,
+    MenuPersonalArea,
+    MenuProfile,
+} from 'components/core';
 
 import {
     AddRollPage,
@@ -11,6 +18,8 @@ import {
     BIAddPage,
     BILibraryPage,
     BIViewPage,
+    CapabilitiesPage,
+    CapabilityAddPage,
     CJLibraryPage,
     CJPage,
     ConsultationPage,
@@ -21,10 +30,12 @@ import {
     MainPage,
     ModelsPage,
     NotFoundPage,
+    NotificationsPage,
     PersonalArea,
     RollSettingsPage,
     SearchPage,
     ServicesPage,
+    SubscriptionsPage,
     TechnologiesPage,
     TechnologyAddPage,
     TechPolicyPage,
@@ -57,7 +68,8 @@ export const NavigationRouter = () => {
         if (
             location.pathname?.includes(ROUTER.PERSONAL_AREA_PATH) ||
             location.pathname?.includes(ROUTER.TECHNOLOGIES_PATH) ||
-            location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH)
+            location.pathname?.includes(ROUTER.IMPORTED_DATA_PATH) ||
+            location.pathname?.includes(ROUTER.CAPABILITIES_PATH)
         ) {
             setIsPersonalArea(true);
         } else {
@@ -73,7 +85,16 @@ export const NavigationRouter = () => {
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
                 <Routes>
-                    <Route path={C.MAIN_PAGE_PATH} element={<MainPage />} />
+                    <Route
+                        path={C.MAIN_PAGE_PATH}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <MainPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
 
                     <Route path={C.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 
@@ -132,6 +153,30 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <TechnologyAddPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={C.CAPABILITIES_PATH}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <CapabilitiesPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.CAPABILITIES_PATH}${C.ADD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <CapabilityAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -202,8 +247,32 @@ export const NavigationRouter = () => {
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
-                                <S.ContentWrapper>
+                                <S.ContentWrapper hideXOverflow>
                                     <TechRadarPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.MODELS_PATH}${C.APPS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <S.IFrameStyled src="https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/systems" />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${C.MODELS_PATH}${C.E2E_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <S.IFrameStyled src="https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e" />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -335,6 +404,53 @@ export const NavigationRouter = () => {
                     />
 
                     <Route path={`${C.CX_PATH}${C.BI_PATH}${C.ADD_PATH}`} element={<BIAddPage />} />
+
+                    <Route
+                        path={`${C.NOTIFICATIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <S.ContentWrapper>
+                                    <NotificationsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    {/* <Route
+                        path={`${C.PROFILE_PATH}${C.INFO_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <InDevelopmentPage title="Профиль" />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    /> */}
+
+                    <Route
+                        path={`${C.PROFILE_PATH}${C.SUBSCRIPTIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <SubscriptionsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    {/* <Route
+                        path={`${C.PROFILE_PATH}${C.APPLICATIONS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <InDevelopmentPage title="Мои заявки" />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    /> */}
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

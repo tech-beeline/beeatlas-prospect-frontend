@@ -18,61 +18,27 @@ ingress:
       if ($host = "techradar.vimpelcom.ru") {
         rewrite / https://beeatlas.vimpelcom.ru/models/tech-radar permanent;
       }
-
   hosts:
     - host: "changehost"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+    - host: "beeatlas.vimpelcom.ru"
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+    - host: "techradar.vimpelcom.ru"
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+    - host: "tr.vimpelcom.ru"
       paths:
       - path: /
         pathType: ImplementationSpecific
     - host: "eafdmmart-prod.apps.yd-k03.vimpelcom.ru"
       paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
-      - path: /
-        pathType: ImplementationSpecific
-    - host: "beeatlas.vimpelcom.ru"
-      paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
-      - path: /
-        pathType: ImplementationSpecific
-    - host: "techradar.vimpelcom.ru"
-      paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
-      - path: /
-        pathType: ImplementationSpecific
-    - host: "tr.vimpelcom.ru"
-      paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-        serviceName: eafdmmart-backend-prod-service
-        servicePort: "8080"
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
-        serviceName: fdm-gateway-prod-service
-        servicePort: "8080"
-      - path: /
-        pathType: ImplementationSpecific
-
+        - path: /
+          pathType: ImplementationSpecific
   tls:
     - hosts:
         - beeatlas.vimpelcom.ru
@@ -84,5 +50,10 @@ ingress:
         - techradar.vimpelcom.ru
       secretName: techradar-tls
 
+env:
+  NGINX_LOCATION_API_GATEWAY: https://fdm-gateway-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api-gateway
+  NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: 'proxy_set_header Host fdm-gateway-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru;'
+  NGINX_LOCATION_API: https://eafdmmart-backend-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api
+  NGINX_LOCATION_API_ADDITIONAL_PARAMS: 'proxy_set_header Host eafdmmart-backend-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru;'
 
 replicaCount: 1

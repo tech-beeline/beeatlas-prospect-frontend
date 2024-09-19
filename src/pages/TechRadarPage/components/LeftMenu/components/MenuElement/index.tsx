@@ -48,15 +48,17 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
 
     /* показывает тултип */
     const onHintShow = (label: string) => {
-        props.setHintText(label);
-
+        if (!props.selectedTech) {
+            props.setHintText(label);
+        }
         props.setHoverInMenu(true);
     };
 
     /* скрывает тултип */
     const onHintHide = () => {
-        props.setHintText('');
-
+        if (!props.selectedTech) {
+            props.setHintText('');
+        }
         props.setHoverInMenu(false);
     };
 
@@ -106,6 +108,12 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                   key={item.id}
                                                   item={item}
                                                   hintText={props.hintText}
+                                                  selectedTech={props.selectedTech}
+                                                  onClick={() => {
+                                                      props.setSelectedTech(item);
+                                                      props.setHintText(item.label);
+                                                      props.setHoverInMenu(true);
+                                                  }}
                                                   onMouseEnter={(label) => onHintShow(label)}
                                                   onMouseLeave={onHintHide}
                                               />
@@ -129,6 +137,12 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                   key={item.id}
                                                   item={item}
                                                   hintText={props.hintText}
+                                                  selectedTech={props.selectedTech}
+                                                  onClick={() => {
+                                                      props.setSelectedTech(item);
+                                                      props.setHintText(item.label);
+                                                      props.setHoverInMenu(true);
+                                                  }}
                                                   onMouseEnter={(label) => onHintShow(label)}
                                                   onMouseLeave={onHintHide}
                                               />

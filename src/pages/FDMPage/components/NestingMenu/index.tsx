@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useMountEffect } from 'hooks';
+import { ItemTypes } from 'pages/FDMPage/store/types';
 
 import { useFDMStore } from '../../store';
 
@@ -9,22 +10,25 @@ import { Item } from './Item';
 import * as S from './units';
 
 export const NestingMenu = () => {
-    const { menuItems, setActiveItem, clearActiveItem, getGroupsAndDomains, getEntitiesByDomain } =
-        useFDMStore();
+    const {
+        items,
+        loading,
+        setActiveItem,
+        getCoreCababilities,
+        getParentCapabilities,
+        clearActiveItem,
+    } = useFDMStore();
 
     const [params] = useSearchParams();
     const id = Number(params.get('id'));
-    const domainId = Number(params.get('domainId'));
-    const level = Number(params.get('level'));
+    const type = String(params.get('type'));
 
     useMountEffect(() => {
         (async () => {
-            await getGroupsAndDomains();
-            if (domainId) {
-                await getEntitiesByDomain(domainId);
-            }
-            if (id) {
-                setActiveItem(id, level);
+            await getCoreCababilities();
+            if (id && type) {
+                await getParentCapabilities(id, type as ItemTypes);
+                setActiveItem(id, type as ItemTypes);
             }
         })();
 
@@ -32,10 +36,8 @@ export const NestingMenu = () => {
     });
 
     useEffect(() => {
-        const id = Number(params.get('id'));
-        const level = Number(params.get('level'));
         if (id) {
-            setActiveItem(id, level);
+            setActiveItem(id, type as ItemTypes);
         } else {
             clearActiveItem();
         }
@@ -53,9 +55,11 @@ export const NestingMenu = () => {
                 maxWidth={640}
             >
                 <S.RightSide data-testid="Tree">
-                    {(menuItems[0]?.children ?? []).map((item) => (
-                        <Item key={item.id} item={item} />
-                    ))}
+                    {loading
+                        ? Array.from({ length: 3 }).map((_, i) => (
+                              <S.SkeletonStyled key={i} height={52} radius={12} />
+                          ))
+                        : items.map((item) => <Item key={item.id} item={item} />)}
                 </S.RightSide>
             </S.ResizableStyled>
         </S.Wrapper>

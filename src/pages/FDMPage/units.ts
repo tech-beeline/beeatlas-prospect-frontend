@@ -1,7 +1,5 @@
-import { Chip } from '@beeline/design-system-react';
+import { Banner, Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
-
-import { GrayText } from 'styles/units';
 
 export const PageWrapper = styled.div`
     display: flex;
@@ -36,6 +34,16 @@ export const Container = styled.div`
     position: relative;
 
     width: 100%;
+`;
+
+export const BannerStyled = styled(Banner)`
+    margin-bottom: 16px;
+`;
+
+export const TitleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 export const H4 = styled.h4`
@@ -138,42 +146,28 @@ export const TreeContainer = styled.div<{ activeViewList: number }>`
     }
 `;
 
-export const MockWrapperNoChild = styled.div`
+export const NoChildrenContainer = styled.div`
+    margin-top: 100px;
+`;
+
+export const NotFoundContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 20px;
 
-    width: 400px;
-    margin: 20px auto;
+    height: 100%;
+    width: 100%;
 
-    text-align: center;
-`;
-
-export const MockWrapper = styled(MockWrapperNoChild)`
-    display: inline-block;
-
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    margin-top: 0;
-`;
-
-export const Image = styled.img`
-    width: 200px;
-    height: 200px;
-`;
-
-export const MockText = styled(GrayText)`
-    font-weight: var(--font-weight-medium);
+    padding-bottom: 132px;
 `;
 
 export const ListSwitcherWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+`;
+
+export const SubscribeButtonContainer = styled.div`
+    margin-top: 24px;
 `;
 
 export const FlexBlock = styled.div`
@@ -191,4 +185,8 @@ export const FlexBlock = styled.div`
 
 export const ChipStyled = styled(Chip)`
     cursor: auto !important;
+`;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
 `;

@@ -7,7 +7,7 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import { ICjMenu } from './types';
 import * as S from './units';
 
-export const CjMenu: FC<ICjMenu> = ({ cjId, draft, onEditClick, onDeleteClick }) => {
+export const CjMenu: FC<ICjMenu> = ({ cjId, draft, canEdit, onEditClick, onDeleteClick }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -32,6 +32,7 @@ export const CjMenu: FC<ICjMenu> = ({ cjId, draft, onEditClick, onDeleteClick })
                 <S.MenuBlock ref={menuRef}>
                     <>
                         <S.MenuItem
+                            disabled={!canEdit}
                             onClick={() => {
                                 onEditClick();
                                 setMenuOpen(false);
@@ -45,7 +46,7 @@ export const CjMenu: FC<ICjMenu> = ({ cjId, draft, onEditClick, onDeleteClick })
                         <S.MenuDivider />
 
                         <S.MenuItem
-                            disabled={!draft}
+                            disabled={!draft || !canEdit}
                             onClick={() => {
                                 onDeleteClick();
                                 setMenuOpen(false);

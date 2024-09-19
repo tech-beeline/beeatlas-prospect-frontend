@@ -1,38 +1,78 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Button, Icon, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { Link } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
-import { useWindowResize } from 'hooks';
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetSubscribedBusinessCapabilitiesIdsQuery,
+    useGetSubscribedTechCapabilitiesIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
+import { useModal, useWindowResize } from 'hooks';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
-import boxImg from './images/box.png';
-import boxWithQuestionImg from './images/boxWithQuestion.png';
-
+import { ItemTypes } from './store/types';
 import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
+import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import * as S from './units';
 
 export const FDMPage = () => {
+    const [showBanner, setShowBanner] = useState(false);
+
+    const handleCloseBannerClick = () => {
+        setShowBanner(false);
+    };
+
+    const { modalOpened, openModal, closeModal } = useModal();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
         state.activeItem,
         state.breadcrumbs,
         state.loading,
     ]);
 
+    const { mutateAsync: createSubscription, error } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+
+    const { data: subscribedBusinessCapabilitiyIds } =
+        useGetSubscribedBusinessCapabilitiesIdsQuery();
+    const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
+
     const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
-        useGetTechCapabilityProductsQuery(activeItem?.guid, activeItem?.stereotype === 'TECHNICAL');
+        useGetTechCapabilityProductsQuery(activeItem?.code, activeItem?.type === ItemTypes.TECH);
+
+    const isSubscribed = Boolean(
+        activeItem
+            ? activeItem.type === ItemTypes.BUSINESS
+                ? subscribedBusinessCapabilitiyIds?.includes(activeItem?.id)
+                : subscribedTechCapabilitiyIds?.includes(activeItem?.id)
+            : false,
+    );
+
+    useEffect(() => {
+        if (error) {
+            setShowBanner(true);
+        }
+    }, [error]);
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
     const isLinkCorrect = validateFDMParams(params);
 
-    const itemAliasType = activeItem?.alias?.split('.')[0];
-    const isItemGroup = itemAliasType === 'GRP';
-    const isItemDomain = itemAliasType === 'DMN';
+    const isItemGroup = activeItem?.isDomain && activeItem.parent === null;
+    const isItemDomain = activeItem?.isDomain && activeItem.parent !== null;
+    const hasDomainChildren = activeItem?.children.some((child) => child.isDomain);
 
     const [isFullWidthCard, setFullWidthCard] = useState(false);
     const [activeViewList, setActiveViewList] = useState(0);
@@ -51,6 +91,40 @@ export const FDMPage = () => {
         }
     }, [windowWidth, activeItem]);
 
+    const handleSubscribeButtonClick = async () => {
+        if (!isSubscribed && activeItem) {
+            await createSubscription({
+                entityType:
+                    activeItem.type === ItemTypes.BUSINESS
+                        ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
+                        : SubscriptionEntityVariants.TECH_CAPABILITY,
+                id: activeItem.id,
+                subChildren: activeItem.type === ItemTypes.BUSINESS ? true : undefined,
+            });
+            showSnackbar({
+                message: itemToSubscriptionMessageMap[getItemClassification(activeItem)],
+            });
+        } else {
+            openModal();
+        }
+    };
+
+    const handleModalConfirm = async () => {
+        if (activeItem) {
+            await deleteSubscrition({
+                entityType:
+                    activeItem.type === ItemTypes.BUSINESS
+                        ? SubscriptionEntityVariants.BUSINESS_CAPABILITY
+                        : SubscriptionEntityVariants.TECH_CAPABILITY,
+                id: activeItem.id,
+            });
+            closeModal();
+            showSnackbar({
+                message: `Вы отписаны от уведомлений`,
+            });
+        }
+    };
+
     return (
         <S.PageWrapper>
             <NestingMenu />
@@ -68,43 +142,46 @@ export const FDMPage = () => {
                                         <BreadCrumbsItem
                                             key={index}
                                             id={item.id}
-                                            level={item.level}
                                             name={item.name}
-                                            domainId={item.domainId}
+                                            type={item.type}
                                         />
                                     ))}
                                 </Breadcrumbs>
                             )}
 
-                            <S.H4 data-testid="Title">{activeItem.name}</S.H4>
-
-                            <S.AliasText data-testid="Alias">{activeItem.alias}</S.AliasText>
-
-                            {isItemDomain && activeItem.children?.length === 0 && (
-                                <S.MockWrapper data-testid="Mock">
-                                    <S.Image src={boxImg} />
-                                    <S.MockText>Возможностей пока нет</S.MockText>
-                                </S.MockWrapper>
+                            {showBanner && (
+                                <S.BannerStyled
+                                    color="error"
+                                    title="Не удалось подписаться, обновите страницу и попробуйте снова"
+                                    iconName={Icons.InfoCircled}
+                                    onClose={handleCloseBannerClick}
+                                />
                             )}
 
-                            {activeItem.descr && (
+                            <S.TitleContainer>
+                                <S.H4 data-testid="Title">{activeItem.name}</S.H4>
+                            </S.TitleContainer>
+
+                            <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
+
+                            {activeItem.description && (
                                 <S.JustText
-                                    dangerouslySetInnerHTML={{ __html: activeItem.descr }}
+                                    dangerouslySetInnerHTML={{ __html: activeItem.description }}
                                     data-testid="Description"
                                 />
                             )}
 
-                            {activeItem.domain_ref && (
+                            {activeItem.domainData && (
                                 <>
                                     <S.DomainText>Домен</S.DomainText>
                                     <Link
-                                        title={activeItem.domain_ref?.name}
-                                        url={`/models/fdm?id=${activeItem.domain_ref?.id}&domainId=${activeItem.domain_ref?.id}`}
+                                        title={activeItem.domainData.name}
+                                        url={`/models/fdm?id=${activeItem.domainData.id}&type=BUSINESS`}
                                     />
                                 </>
                             )}
 
-                            {activeItem.stereotype === 'TECHNICAL' && (
+                            {activeItem.type === ItemTypes.TECH && (
                                 <>
                                     <S.DomainText>ТС Реализована в продукте</S.DomainText>
                                     <S.ChipsContainer>
@@ -127,12 +204,33 @@ export const FDMPage = () => {
                                 </>
                             )}
 
+                            <S.SubscribeButtonContainer>
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    onClick={handleSubscribeButtonClick}
+                                    startIcon={
+                                        <Icon
+                                            iconName={
+                                                isSubscribed
+                                                    ? Icons.NotificationOff
+                                                    : Icons.Notification
+                                            }
+                                        />
+                                    }
+                                >
+                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                                </Button>
+                            </S.SubscribeButtonContainer>
+
                             {!isItemGroup &&
                                 !!activeItem.children &&
                                 activeItem.children?.length > 0 && (
                                     <S.FlexBlock>
-                                        {activeItem.alias?.includes('DMN')
-                                            ? 'Все бизнес возможности домена'
+                                        {isItemDomain
+                                            ? hasDomainChildren
+                                                ? 'Все дочерние элементы домена'
+                                                : 'Все бизнес возможности домена'
                                             : 'Связанные технические возможности'}
                                         <S.ListSwitcherWrapper className="ListSwitcherWrapper">
                                             <ViewItemSwitcher
@@ -142,6 +240,15 @@ export const FDMPage = () => {
                                         </S.ListSwitcherWrapper>
                                     </S.FlexBlock>
                                 )}
+
+                            {isItemDomain && activeItem.children?.length === 0 && (
+                                <S.NoChildrenContainer data-testid="Mock">
+                                    <NotFoundBlock
+                                        imageVariant={ImageVariants.EMPTY_BOX}
+                                        text="Возможностей пока нет"
+                                    />
+                                </S.NoChildrenContainer>
+                            )}
 
                             <S.TreeContainer
                                 {...{ activeViewList }}
@@ -160,25 +267,35 @@ export const FDMPage = () => {
                         </>
                     )}
                     {isLinkCorrect && !paramId && !loading ? (
-                        <>
-                            <S.MockWrapper>
-                                <S.Image src={boxImg} />
-                                <S.MockText>Выберите сущность из списка</S.MockText>
-                            </S.MockWrapper>
-                        </>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                imageVariant={ImageVariants.EMPTY_BOX}
+                                text="Выберите сущность из списка"
+                            />
+                        </S.NotFoundContainer>
                     ) : !loading && !activeItem ? (
-                        <>
-                            <S.MockWrapper>
-                                <S.Image src={boxWithQuestionImg} />
-                                <S.MockText>Указана неверная ссылка или возможность</S.MockText>
-                            </S.MockWrapper>
-                        </>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                imageVariant={ImageVariants.QUESTION_BOX}
+                                text="Указана неверная ссылка или возможность"
+                            />
+                        </S.NotFoundContainer>
                     ) : (
                         <></>
                     )}
-                    {paramId && !activeItem && loading && <Skeleton height={100} radius={10} />}
+                    {!activeItem && loading && <Skeleton height={100} radius={10} />}
                 </S.Container>
             </S.Wrapper>
+            {activeItem && (
+                <Dialog
+                    opened={modalOpened}
+                    onClose={closeModal}
+                    onConfirm={handleModalConfirm}
+                    title={`Отписаться от ${itemToNameMap[getItemClassification(activeItem)]}?`}
+                >
+                    Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
+                </Dialog>
+            )}
         </S.PageWrapper>
     );
 };

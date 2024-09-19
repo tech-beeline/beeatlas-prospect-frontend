@@ -1,21 +1,23 @@
 import { MutableRefObject, useEffect } from 'react';
 import { Nullable } from 'types/common';
 
-const exceptionIds = ['dsb__positioner'];
+const GLOBAL_EXCEPTION_IDS = ['dsb__positioner'];
 
 export const useOutsideClick = (
     ref: MutableRefObject<Nullable<HTMLDivElement | HTMLFormElement>>,
     isOpen: boolean,
     stateSetter: (bool: boolean) => void,
     exceptionRef?: MutableRefObject<Nullable<HTMLElement>>,
+    exceptionIds?: string[],
 ) => {
     useEffect(() => {
-        const handleClickOutside = (event: Event) => {
-            const exceptionElements = exceptionIds.map((id) => document.getElementById(id));
+        const handleClickOutside = (event: MouseEvent) => {
+            const exceptionElements = GLOBAL_EXCEPTION_IDS.map((id) => document.getElementById(id));
 
             const conditionOutside =
                 !!ref.current &&
                 !ref.current.contains(event.target as Node) &&
+                !(exceptionIds ?? []).some((id) => id === (event.target as Element).id) &&
                 isOpen &&
                 (!!exceptionRef?.current
                     ? !exceptionRef.current.isEqualNode(event.target as Node)

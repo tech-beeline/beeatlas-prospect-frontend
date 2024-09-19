@@ -1,3 +1,4 @@
+import { Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 import { Resizable } from 're-resizable';
 
@@ -42,4 +43,8 @@ export const RightSide = styled.div`
     padding: 16px 16px 16px 16px;
 
     /* border-right: 1px solid var(--color-divider); */
+`;
+
+export const SkeletonStyled = styled(Skeleton)`
+    margin-bottom: 4px;
 `;

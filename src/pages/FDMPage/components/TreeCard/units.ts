@@ -48,6 +48,15 @@ export const Text = styled(Title)`
     cursor: inherit;
 `;
 
+export const TextInactive = styled(Title)`
+    font-weight: var(--font-weight-regular);
+    white-space: pre-wrap;
+
+    color: var(--color-text-inactive);
+
+    cursor: inherit;
+`;
+
 export const MarginContainer = styled.div`
     margin-top: 24px;
 `;
@@ -110,4 +119,15 @@ export const ChipsContainer = styled.div`
 
 export const ChipStyled = styled(Chip)`
     cursor: auto !important;
+`;
+
+export const SubscribeButtonContainer = styled.div`
+    display: flex;
+    justify-content: end;
+
+    margin-top: 12px;
+`;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
 `;

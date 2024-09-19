@@ -4,15 +4,15 @@ import Api from 'utils/api/axiosWrapper';
 
 import { GATEWAY_URL } from '../const';
 
-import { ICategory, ITech, ITechForm } from './types';
+import * as T from './types';
 
-export const getAllTechnologies = (): AxiosPromise<ITech[]> => {
+export const getAllTechnologies = (): AxiosPromise<T.ITech[]> => {
     return Api.get({
         url: `${GATEWAY_URL}techradar/v1/tech`,
     });
 };
 
-export const getTechnologyCategories = (): AxiosPromise<ICategory[]> => {
+export const getTechnologyCategories = (): AxiosPromise<T.ICategory[]> => {
     return Api.get({
         url: `${GATEWAY_URL}techradar/v1/category`,
     });
@@ -24,16 +24,22 @@ export const deleteTechnologyById = (id: string | number) => {
     });
 };
 
-export const postTechnology = (data: Omit<ITechForm, 'id'>[]) => {
+export const postTechnology = (data: Omit<T.ITechForm, 'id'>[]) => {
     return Api.post({
         url: `${GATEWAY_URL}techradar/v1/tech`,
         data,
     });
 };
 
-export const patchTechnology = (data: ITechForm[]) => {
+export const patchTechnology = (data: T.ITechForm[]) => {
     return Api.patch({
         url: `${GATEWAY_URL}techradar/v1/tech`,
         data,
+    });
+};
+
+export const getSubscribedTechnologies = (): AxiosPromise<T.ISubscribedTechnologyData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}techradar/v1/tech/subscribed`,
     });
 };

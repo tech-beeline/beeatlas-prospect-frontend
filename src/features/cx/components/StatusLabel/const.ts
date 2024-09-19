@@ -1,4 +1,4 @@
-import { AllStatuses } from '@beeline/design-system-react/build/types/status';
+import { AllStatuses } from '@beeline/design-system-react/types/types/status';
 
 export const statusIdToLabelTypeMap: Record<string, AllStatuses> = {
     '1': 'info',

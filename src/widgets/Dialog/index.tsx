@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { Button } from '@beeline/design-system-react';
 
-import { THEME_ELEMENT_ID } from 'styles';
-
 import { IDialog } from './types';
 import * as S from './units';
 
@@ -31,7 +29,7 @@ export const Dialog: FC<IDialog> = ({
     );
 
     return (
-        <S.DialogStyled open={opened} onClose={onClose} applicationRootElement={THEME_ELEMENT_ID}>
+        <S.DialogStyled open={opened} onClose={onClose}>
             <S.DialogContentStyled title={title} footer={footer} variant="desktop">
                 {children}
             </S.DialogContentStyled>

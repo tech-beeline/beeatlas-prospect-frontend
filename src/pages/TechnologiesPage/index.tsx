@@ -13,13 +13,14 @@ import {
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { ImageVariants, NotFoundBlock } from 'components/other';
+
 import { useDeleteTechnologyMutation, useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
 import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { TechnologyMenu } from './components';
 import { ringIdToStatusMap } from './const';
 import * as S from './units';
 
@@ -101,7 +102,7 @@ export const TechnologiesPage = () => {
                     <TableBody>
                         {displayedTechnologies.map((technology) => (
                             <TableRow key={technology.id}>
-                                <TableData>
+                                <S.TableDataFullWidth>
                                     <S.NameContainer>
                                         <div>{technology.label}</div>
                                         {technology.link && (
@@ -125,7 +126,7 @@ export const TechnologiesPage = () => {
                                             </>
                                         )}
                                     </S.NameContainer>
-                                </TableData>
+                                </S.TableDataFullWidth>
                                 <TableData>{technology.sector.name}</TableData>
                                 <TableData>
                                     <Label
@@ -178,23 +179,48 @@ export const TechnologiesPage = () => {
                                     </S.TooltipContainer>
                                 </TableData>
                                 <TableData>
-                                    <S.MenuButtonContainer>
-                                        <TechnologyMenu
-                                            technologyId={technology.id}
-                                            onEditClick={() =>
+                                    <S.ButtonsContainer>
+                                        <S.IconStyled
+                                            iconName={Icons.Edit}
+                                            size="medium"
+                                            onClick={() =>
                                                 navigate(
                                                     `${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
                                                 )
                                             }
-                                            onDeleteClick={() => setTechToDelete(technology)}
+                                            data-tooltip-id={`${technology.id}-edit`}
                                         />
-                                    </S.MenuButtonContainer>
+                                        <S.IconStyled
+                                            iconName={Icons.Delete}
+                                            size="medium"
+                                            onClick={() => setTechToDelete(technology)}
+                                            data-tooltip-id={`${technology.id}-delete`}
+                                        />
+                                        <S.TooltipContainer
+                                            noArrow
+                                            // @ts-ignore Ошибка в .d.ts
+                                            place="top-end"
+                                            offset={8}
+                                            id={`${technology.id}-edit`}
+                                        >
+                                            Редактировать
+                                        </S.TooltipContainer>
+                                        <S.TooltipContainer
+                                            noArrow
+                                            // @ts-ignore Ошибка в .d.ts
+                                            place="top-end"
+                                            offset={8}
+                                            id={`${technology.id}-delete`}
+                                        >
+                                            Удалить
+                                        </S.TooltipContainer>
+                                    </S.ButtonsContainer>
                                 </TableData>
                             </TableRow>
                         ))}
 
                         <TableRow>
-                            <TableData colSpan={8}>
+                            <TableData colSpan={8} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
                                         setCountPage(e.page);
@@ -210,6 +236,15 @@ export const TechnologiesPage = () => {
                         </TableRow>
                     </TableBody>
                 </S.TableStyled>
+            )}
+            {!isLoading && displayedTechnologies.length === 0 && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title="Нет результатов, подходящих под параметры поиска"
+                        text="Попробуйте изменить поисковой запрос"
+                    />
+                </S.NotFoundContainer>
             )}
             <Dialog
                 title="Удалить технологию?"

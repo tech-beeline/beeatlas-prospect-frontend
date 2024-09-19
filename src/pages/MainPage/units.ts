@@ -13,13 +13,13 @@ export const PageWrapper = styled.div`
 `;
 
 export const GeneralBlock = styled.div`
-    padding: 124px 96px 0 96px;
+    padding: 60px 96px 0 96px;
 
     background-image: url(${general});
     background-size: 653px 588px;
     background-repeat: no-repeat;
     /* background-position: 112% 100%; */
-    background-position: 894px 129px;
+    background-position: 894px 65px;
 `;
 
 export const Title = styled.h1`

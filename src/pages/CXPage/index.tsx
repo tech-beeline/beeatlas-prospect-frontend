@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { CardVariant } from 'components/interaction';
+
+import * as R from 'router/const';
 import * as STYLES from 'styles/units';
 
 import * as S from './units';
@@ -16,12 +19,20 @@ export const CXPage = () => {
                 </S.Description>
 
                 <S.CardContainer>
-                    <S.CardStyled colorType="pink" title="Библиотека CJ" to="cj">
+                    <S.CardStyled
+                        variant={CardVariant.MAGENTA}
+                        title="Библиотека CJ"
+                        to={`${R.CX_PATH}${R.CJ_PATH}`}
+                    >
                         CJ — это конечный набор взаимодействий человека с компанией, реализация
                         которого приводит к достижению целей как клиента, так и компании
                     </S.CardStyled>
 
-                    <S.CardStyled colorType="blue" title="Библиотека BI" to="bi">
+                    <S.CardStyled
+                        variant={CardVariant.TEAL}
+                        title="Библиотека BI"
+                        to={`${R.CX_PATH}${R.BI_PATH}`}
+                    >
                         BI — выделяемые в составе CJ наборы действий, итогом которых является
                         законченный промежуточный результат, значимый с точки зрения решаемой
                         клиентом задачи

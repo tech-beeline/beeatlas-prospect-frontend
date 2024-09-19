@@ -1,25 +1,39 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getSearchResult, getTechCapabilityProducts } from 'api/fdm';
+import { getCapabilitiesBySearch, getTechCapabilityProducts, putBusinessCapability } from 'api/fdm';
+import { CapabilitySearchVariant, IBusinessCapabilityForm } from 'api/fdm/types';
 
 const FDM_SEARCH_PREFIX = 'FDM_SEARCH_PREFIX';
 
-export const useGetFDMSearchQuery = (request: string) => {
-    return useQuery(
-        [FDM_SEARCH_PREFIX, 'ALL', request],
-        () => getSearchResult(request).then((res) => res.data),
-        {
-            enabled: request !== '',
-        },
-    );
+interface IGetCapabilitiesParams {
+    search: string;
+    searchVariant?: CapabilitySearchVariant;
+}
+export const useGetCapabilitiesQuery = (params: IGetCapabilitiesParams) => {
+    return useQuery({
+        queryKey: [FDM_SEARCH_PREFIX, 'ALL', params],
+        queryFn: () =>
+            getCapabilitiesBySearch(params.search, params.searchVariant).then((res) => res.data),
+        enabled: params.search !== '',
+    });
 };
 
-export const useGetTechCapabilityProductsQuery = (guid?: string, enabled = true) => {
-    return useQuery(
-        [FDM_SEARCH_PREFIX, 'techCapability', guid],
-        () => getTechCapabilityProducts(guid!).then((res) => res.data),
-        {
-            enabled: enabled && Boolean(guid),
-        },
-    );
+export const useGetTechCapabilityProductsQuery = (code?: string, enabled = true) => {
+    return useQuery({
+        queryKey: [FDM_SEARCH_PREFIX, 'techCapability', code],
+        queryFn: () => getTechCapabilityProducts(code!).then((res) => res.data),
+        enabled: enabled && Boolean(code),
+    });
 };
+
+export function useCreateBusinessCapabilityMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [FDM_SEARCH_PREFIX, 'create'],
+        mutationFn: (data: IBusinessCapabilityForm) => putBusinessCapability(data),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [FDM_SEARCH_PREFIX] });
+        },
+    });
+}
