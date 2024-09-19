@@ -23,3 +23,5 @@ ingress:
 env:
   NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-e2e-service:8080
   NGINX_LOCATION_API: http://eafdmmart-backend-e2e-service:8080
+  NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: ''
+  NGINX_LOCATION_API_ADDITIONAL_PARAMS: ''
