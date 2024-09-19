@@ -11,12 +11,12 @@ podAnnotations:
   
 ingress:
   hosts:
+    - host: "changehost"
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
     - host: "eafdmmart-e2e.apps.yd-m6-kt22.vimpelcom.ru"
       paths:
-      - path: /api/
-        pathType: ImplementationSpecific
-      - path: /api-gateway/
-        pathType: ImplementationSpecific
       - path: /
         pathType: ImplementationSpecific
 
