@@ -35,6 +35,10 @@ ingress:
       paths:
       - path: /
         pathType: ImplementationSpecific
+    - host: "eafdmmart-prod.apps.yd-k03.vimpelcom.ru"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls:
     - hosts:
         - beeatlas.vimpelcom.ru
