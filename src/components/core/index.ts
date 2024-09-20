@@ -9,3 +9,4 @@ export { MenuModels } from './MenuModels';
 export { MenuPersonalArea } from './MenuPersonalArea';
 export { MenuProfile } from './MenuProfile';
 export { Tab, Tabs } from './Tabs';
+export { Text } from './Text';
