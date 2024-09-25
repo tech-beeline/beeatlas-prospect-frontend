@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -68,8 +68,11 @@ export const CJPage = () => {
         }
     };
 
-    const [nameRef, showNameTooltip] = useShowTooltip<HTMLDivElement>();
-    const [descriptionRef, showDescriptionTooltip] = useShowTooltip<HTMLDivElement>();
+    const nameRef = useRef<HTMLDivElement>(null);
+    const showNameTooltip = useShowTooltip<HTMLDivElement>(nameRef);
+
+    const descriptionRef = useRef<HTMLDivElement>(null);
+    const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
 
     return (
         <S.PageWrapper>
@@ -81,35 +84,24 @@ export const CJPage = () => {
                         style={{ cursor: 'pointer' }}
                     />
 
-                    {data && (
-                        <div>
-                            <S.Name key={data.name} data-tooltip-id="name" ref={nameRef}>
-                                {data.name}
-                            </S.Name>
-                            {showNameTooltip && (
-                                <S.TooltipContainer id="name" offset={8} place="bottom" noArrow>
-                                    {data.name}
-                                </S.TooltipContainer>
-                            )}
-                            <S.Desription
-                                key={data.user_portrait}
-                                data-tooltip-id="description"
-                                ref={descriptionRef}
-                            >
-                                {data.user_portrait}
-                            </S.Desription>
-                            {showDescriptionTooltip && (
-                                <S.TooltipContainer
-                                    id="description"
-                                    offset={8}
-                                    place="bottom"
-                                    noArrow
-                                >
-                                    {data.user_portrait}
-                                </S.TooltipContainer>
-                            )}
-                        </div>
-                    )}
+                    <div>
+                        <S.Name data-tooltip-id="name" ref={nameRef}>
+                            {data?.name}
+                        </S.Name>
+                        {showNameTooltip && (
+                            <S.TooltipContainer id="name" offset={8} place="bottom" noArrow>
+                                {data?.name}
+                            </S.TooltipContainer>
+                        )}
+                        <S.Desription data-tooltip-id="description" ref={descriptionRef}>
+                            {data?.user_portrait}
+                        </S.Desription>
+                        {showDescriptionTooltip && (
+                            <S.TooltipContainer id="description" offset={8} place="bottom" noArrow>
+                                {data?.user_portrait}
+                            </S.TooltipContainer>
+                        )}
+                    </div>
 
                     {canEditCJ && (
                         <S.ButtonStyled
