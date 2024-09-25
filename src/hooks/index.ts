@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 export const useMountEffect = (effectCallback: () => (() => void) | void) => {
     useEffect(effectCallback, []);
@@ -72,4 +72,16 @@ export const useDebounce = <T>(value: T, delay = DEFAULT_DEBOUNCE_TIMEOUT) => {
     }, [value, delay]);
 
     return debouncedValue;
+};
+
+export const useShowTooltip = <T extends HTMLElement>() => {
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    const ref = useCallback((node: T | null) => {
+        if (node !== null) {
+            setShowTooltip((node.scrollWidth ?? 0) > (node.offsetWidth ?? 0));
+        }
+    }, []);
+
+    return [ref, showTooltip] as [(node: T | null) => void, boolean];
 };

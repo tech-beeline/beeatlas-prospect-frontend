@@ -8,7 +8,7 @@ import { NotFoundBlock } from 'components/other';
 import { IBIData } from 'api/bi/types';
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
 import { useGetUserProductsQuery } from 'api/queries/product';
-import { useModal } from 'hooks';
+import { useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
@@ -68,6 +68,9 @@ export const CJPage = () => {
         }
     };
 
+    const [nameRef, showNameTooltip] = useShowTooltip<HTMLDivElement>();
+    const [descriptionRef, showDescriptionTooltip] = useShowTooltip<HTMLDivElement>();
+
     return (
         <S.PageWrapper>
             <S.Header>
@@ -80,8 +83,31 @@ export const CJPage = () => {
 
                     {data && (
                         <div>
-                            <S.Name>{data.name}</S.Name>
-                            <S.Desription>{data.user_portrait}</S.Desription>
+                            <S.Name key={data.name} data-tooltip-id="name" ref={nameRef}>
+                                {data.name}
+                            </S.Name>
+                            {showNameTooltip && (
+                                <S.TooltipContainer id="name" offset={8} place="bottom" noArrow>
+                                    {data.name}
+                                </S.TooltipContainer>
+                            )}
+                            <S.Desription
+                                key={data.user_portrait}
+                                data-tooltip-id="description"
+                                ref={descriptionRef}
+                            >
+                                {data.user_portrait}
+                            </S.Desription>
+                            {showDescriptionTooltip && (
+                                <S.TooltipContainer
+                                    id="description"
+                                    offset={8}
+                                    place="bottom"
+                                    noArrow
+                                >
+                                    {data.user_portrait}
+                                </S.TooltipContainer>
+                            )}
                         </div>
                     )}
 
