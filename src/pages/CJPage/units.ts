@@ -25,8 +25,8 @@ export const FlexSideContainer = styled.div`
     gap: 16px;
 `;
 
-export const Name = styled.p`
-    max-width: 300px;
+export const Name = styled.div`
+    max-width: 500px;
     height: var(--font-line-height-body2);
 
     font-weight: var(--font-weight-regular);
@@ -36,11 +36,12 @@ export const Name = styled.p`
     color: var(--color-text-active);
 
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 `;
 
-export const Desription = styled.p`
-    max-width: 300px;
+export const Desription = styled.div`
+    max-width: 500px;
     height: var(--font-line-height-body2);
 
     font-weight: var(--font-weight-regular);
@@ -50,6 +51,7 @@ export const Desription = styled.p`
     color: var(--color-text-inactive);
 
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 `;
 
