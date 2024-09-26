@@ -13,7 +13,6 @@ import {
 
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
-    AddRollPage,
     AppInfoPage,
     ArchCommPage,
     BIAddPage,
@@ -32,8 +31,8 @@ import {
     ModelsPage,
     NotFoundPage,
     NotificationsPage,
-    PersonalArea,
-    RollSettingsPage,
+    RoleAddPage,
+    RolesPage,
     SearchPage,
     ServicesPage,
     SubscriptionsPage,
@@ -42,6 +41,7 @@ import {
     TechPolicyPage,
     TechRadarPage,
     TemplatesPage,
+    UsersPage,
 } from 'pages';
 
 import * as R from './const';
@@ -99,7 +99,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
-                                    <PersonalArea />
+                                    <UsersPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),
@@ -113,7 +113,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
-                                    <RollSettingsPage />
+                                    <RolesPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),
@@ -127,7 +127,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
-                                    <AddRollPage />
+                                    <RoleAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),
