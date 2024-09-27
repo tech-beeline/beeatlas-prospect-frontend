@@ -1,9 +1,0 @@
-export { Filters } from './Filters';
-export { LeftMenu } from './LeftMenu';
-export { Legend } from './Legend';
-export { QuadrantTitles } from './QuadrantTitles';
-export { Radar } from './Radar';
-export { RingRadar } from './RingRadar';
-export { RingTitles } from './RingTitles';
-export { TechnologySideblock } from './TechnologySideblock';
-export { TopMenu } from './TopMenu';

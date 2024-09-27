@@ -1,4 +1,5 @@
 export interface IProfileIcon {
     initials: string;
-    isPersonalArea: boolean;
+    isAdmin: boolean;
+    isAdminPanel: boolean;
 }

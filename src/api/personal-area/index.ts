@@ -12,6 +12,10 @@ export const getProfiles = (): AxiosPromise<T.IProfile[]> => {
     });
 };
 
+export const getProfileRoles = (login: string): AxiosPromise<T.IRole[]> => {
+    return Api.get({ url: `${GATEWAY_URL}auth/v1/user/${login}/roles` });
+};
+
 export const putProfileRoles = (login: string, data: { id: number }[]) => {
     return Api.put({ url: `${GATEWAY_URL}auth/v1/user/${login}/roles`, data });
 };
