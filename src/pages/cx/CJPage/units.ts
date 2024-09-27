@@ -26,6 +26,7 @@ export const FlexSideContainer = styled.div`
 `;
 
 export const Name = styled.div`
+    width: max-content;
     max-width: 500px;
     height: var(--font-line-height-body2);
 
@@ -41,6 +42,7 @@ export const Name = styled.div`
 `;
 
 export const Desription = styled.div`
+    width: max-content;
     max-width: 500px;
     height: var(--font-line-height-body2);
 
