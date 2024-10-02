@@ -14,7 +14,7 @@ import { IHeader } from './types';
 import * as S from './units';
 
 export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
-    const [isAuth, userInfo] = useAuthStore((state) => [state.isAuth, state.userInfo]);
+    const userInfo = useAuthStore((state) => state.userInfo);
 
     const { themeIsDark, toggleTheme } = useThemeStore();
 
@@ -63,7 +63,7 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
 
                     <NotificationsPopup />
 
-                    {isAuth ? (
+                    {userInfo ? (
                         <ProfileIcon
                             initials={userInfo?.family_name[0] + userInfo?.given_name[0]}
                             isAdmin={isAdmin}

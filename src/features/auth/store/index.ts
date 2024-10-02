@@ -4,18 +4,14 @@ import { persist } from 'zustand/middleware';
 import { IAuthStore } from './types';
 
 const defaultValues = {
-    isAuth: false,
     userInfo: null,
-    isAuthorizing: null,
+    isAuthorizing: true,
 };
 
 export const useAuthStore = create<IAuthStore>()(
     persist(
         (set) => ({
             ...defaultValues,
-            setIsAuth: (isAuth) => {
-                set(() => ({ isAuth }));
-            },
             setUserInfo: (userInfo) => {
                 set(() => ({ userInfo }));
             },
@@ -26,6 +22,11 @@ export const useAuthStore = create<IAuthStore>()(
                 set(() => ({ ...defaultValues }));
             },
         }),
-        { name: 'auth-store' },
+        {
+            name: 'auth-store',
+            partialize: (state) => ({
+                userInfo: state.userInfo,
+            }),
+        },
     ),
 );
