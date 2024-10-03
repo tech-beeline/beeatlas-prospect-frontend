@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-    Label,
     Skeleton,
     TableBody,
     TableData,
@@ -9,28 +8,27 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 
-import { Link } from 'components/other';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetPackagesQuery } from 'api/queries/imported-packages';
-import * as R from 'router/const';
+import { useGetAllPackagesQuery } from 'api/queries/imported-packages';
 
-import { IFilterOptions, ImportedDataFilters, StatusVariants } from './components';
+import { IFilterOptions, ImportedDataFilters, ImportedDataRow, StatusVariants } from './components';
 import * as S from './units';
 
 export const ImportedDataPage = () => {
-    const { data, isLoading } = useGetPackagesQuery();
-
     const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
         status: StatusVariants.ALL,
         dates: [],
     });
 
-    const [itemsCountOnPage, setItemsCountOnPage] = useState(5);
+    const [itemsCountOnPage, setItemsCountOnPage] = useState(25);
     const [countPage, setCountPage] = useState(1);
 
-    const startIndex = (countPage - 1) * itemsCountOnPage;
-    const endIndex = countPage * itemsCountOnPage;
-    const displayedPackages = (data ?? []).slice(startIndex, endIndex);
+    const { data, isLoading } = useGetAllPackagesQuery({
+        page: countPage - 1,
+        perPage: itemsCountOnPage,
+        status: filterOptions.status === StatusVariants.ALL ? undefined : filterOptions.status,
+    });
 
     return (
         <S.PageWrapper>
@@ -42,7 +40,7 @@ export const ImportedDataPage = () => {
             />
 
             {isLoading && <Skeleton height={300} />}
-            {displayedPackages.length > 0 && (
+            {data && data.content.length > 0 && (
                 <S.TableStyled>
                     <TableHead>
                         <TableRow>
@@ -50,10 +48,7 @@ export const ImportedDataPage = () => {
                             <S.TableHeaderDataMaxWidth>Операция</S.TableHeaderDataMaxWidth>
                             <S.TableHeaderDataNoWrap>Дата загрузки</S.TableHeaderDataNoWrap>
                             <S.TableHeaderDataNoWrap alignRight>
-                                Все части пакета
-                            </S.TableHeaderDataNoWrap>
-                            <S.TableHeaderDataNoWrap alignRight>
-                                Обработанные
+                                Обработанные/Все
                             </S.TableHeaderDataNoWrap>
                             <S.TableHeaderDataNoWrap alignRight>С ошибкой</S.TableHeaderDataNoWrap>
                             <S.TableHeaderDataNoWrap alignRight>
@@ -64,25 +59,11 @@ export const ImportedDataPage = () => {
                     </TableHead>
 
                     <TableBody>
-                        {displayedPackages.map((packageData) => (
-                            <TableRow key={packageData.packageId}>
-                                <TableData>
-                                    <Link
-                                        outer={false}
-                                        title="5.18.191.164"
-                                        url={`${R.IMPORTED_DATA_PATH}${R.PACKAGE_PATH}?id=${packageData.packageId}`}
-                                    />
-                                </TableData>
-                                <TableData>{packageData.operation}</TableData>
-                                <TableData>12.06.2023</TableData>
-                                <TableData alignRight>{packageData.allParts}</TableData>
-                                <TableData alignRight>{packageData.sucsessParts}</TableData>
-                                <TableData alignRight>{packageData.processParts}</TableData>
-                                <TableData alignRight>{packageData.errorParts}</TableData>
-                                <TableData>
-                                    <Label title="Успешно" variant="contained" type="success" />
-                                </TableData>
-                            </TableRow>
+                        {data.content.map((packageData) => (
+                            <ImportedDataRow
+                                key={packageData.packageId}
+                                packageData={packageData}
+                            />
                         ))}
 
                         <TableRow>
@@ -93,15 +74,24 @@ export const ImportedDataPage = () => {
                                         setItemsCountOnPage(e.rowsPerPage);
                                     }}
                                     page={countPage}
-                                    rowsCount={displayedPackages.length}
+                                    rowsCount={data?.totalElements}
                                     rowsPerPage={itemsCountOnPage}
-                                    rowsPerPageOptions={[5, 10, 30, 50]}
+                                    rowsPerPageOptions={[25, 50, 75, 100]}
                                     showFirstAndLastButtons
                                 />
                             </TableData>
                         </TableRow>
                     </TableBody>
                 </S.TableStyled>
+            )}
+            {data && data.content.length === 0 && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title="Нет результатов, подходящих под параметры поиска"
+                        text="Попробуйте изменить поисковой запрос"
+                    />
+                </S.NotFoundContainer>
             )}
         </S.PageWrapper>
     );

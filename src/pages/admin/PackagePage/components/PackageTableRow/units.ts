@@ -19,6 +19,10 @@ export const TableDataStyled = styled(TableData)`
     border-left: 4px solid var(--color-background-brand);
 `;
 
+export const PayloadContainer = styled.div`
+    max-width: 100%;
+`;
+
 export const MoreButtonContainer = styled.div`
     display: flex;
     flex-direction: row;

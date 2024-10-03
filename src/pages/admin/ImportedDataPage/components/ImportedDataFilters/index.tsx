@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, DatePickerRange, Select } from '@beeline/design-system-react';
+import { Button, Select } from '@beeline/design-system-react';
 
 import { StatusVariants } from './const';
 import { IImportedDataFilters } from './types';
@@ -13,8 +13,8 @@ export const ImportedDataFilters: FC<IImportedDataFilters> = ({
         { id: StatusVariants.ALL, value: 'Все' },
         { id: StatusVariants.SUCCESS, value: 'Успешно' },
         { id: StatusVariants.ERROR, value: 'С ошибкой' },
-        { id: StatusVariants.PROBLEM, value: 'Проблемные' },
-        { id: StatusVariants.PROCESSED, value: 'В обработке' },
+        { id: StatusVariants.PROCESS, value: 'В обработке' },
+        { id: StatusVariants.WARNING, value: 'Проблемный' },
     ];
 
     const handleResetButtonClick = () => {
@@ -36,14 +36,14 @@ export const ImportedDataFilters: FC<IImportedDataFilters> = ({
                     setFilterOptions({ ...filterOptions, status: values[0].id });
                 }}
             />
-            <DatePickerRange
+            {/* <DatePickerRange
                 label="Дата"
                 value={filterOptions.dates}
                 onChange={(values) =>
                     setFilterOptions({ ...filterOptions, dates: values as string[] })
                 }
                 maxDate={new Date().toISOString()}
-            />
+            /> */}
             <Button
                 variant="plain"
                 onClick={handleResetButtonClick}
@@ -51,7 +51,7 @@ export const ImportedDataFilters: FC<IImportedDataFilters> = ({
                     filterOptions.status === StatusVariants.ALL && filterOptions.dates.length === 0
                 }
             >
-                Сбросить все
+                Сбросить
             </Button>
         </S.FiltersContainer>
     );

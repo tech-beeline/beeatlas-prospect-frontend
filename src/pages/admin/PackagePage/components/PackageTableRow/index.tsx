@@ -1,11 +1,14 @@
 import React, { FC, useState } from 'react';
 import { Label, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { packageStatusToLabelTypeMap, packageStatusToStatusNameMap } from 'features/imported-data';
+
+import { prettifyJSONString } from 'utils/helpers';
 
 import { IPackageTableRow } from './types';
 import * as S from './units';
 
-export const PackageTableRow: FC<IPackageTableRow> = ({ index, packagePart }) => {
+export const PackageTableRow: FC<IPackageTableRow> = ({ packagePart }) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -19,17 +22,27 @@ export const PackageTableRow: FC<IPackageTableRow> = ({ index, packagePart }) =>
                             iconName={Icons.NavArrowDown}
                             onClick={() => setExpanded(!expanded)}
                         />
-                        <div>{index + 1}</div>
+                        <div>{packagePart.partNum}</div>
                     </S.FlexContainer>
                 </TableData>
                 <TableData>{packagePart.partId}</TableData>
                 <TableData>
-                    <Label title="Ошибка" type="error" />
+                    <Label
+                        title={
+                            packageStatusToStatusNameMap[packagePart.status] ?? packagePart.status
+                        }
+                        variant="outline"
+                        type={packageStatusToLabelTypeMap[packagePart.status] ?? 'default'}
+                    />
                 </TableData>
             </TableRow>
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={4}>{packagePart.payload}</S.TableDataStyled>
+                    <S.TableDataStyled colSpan={4}>
+                        <S.PayloadContainer>
+                            {prettifyJSONString(packagePart.payload)}
+                        </S.PayloadContainer>
+                    </S.TableDataStyled>
                 </TableRow>
             )}
         </>
