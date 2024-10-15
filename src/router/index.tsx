@@ -27,10 +27,12 @@ import {
     DataBasePage,
     FDMPage,
     HowToPage,
+    ImportedDataPage,
     MainPage,
     ModelsPage,
     NotFoundPage,
     NotificationsPage,
+    PackagePage,
     RoleAddPage,
     RolesPage,
     SearchPage,
@@ -135,29 +137,33 @@ export const NavigationRouter = () => {
                         isLoading,
                     })}
 
-                    {/* <Route
-                        path={C.IMPORTED_DATA_PATH}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <ImportedDataPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    /> */}
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
-                    {/* <Route
-                        path={`${C.IMPORTED_DATA_PATH}${C.PACKAGE_PATH}`}
-                        element={
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}${R.PACKAGE_PATH}`,
+                        element: (
                             <S.RouteWithDrawer>
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <PackagePage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
-                        }
-                    /> */}
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
 
                     {withAdminRole({
                         path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,

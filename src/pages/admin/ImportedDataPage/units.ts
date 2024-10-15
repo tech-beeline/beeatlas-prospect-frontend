@@ -40,3 +40,17 @@ export const TableHeaderDataNoWrap = styled(TableHeaderData)`
 export const TableHeaderDataMaxWidth = styled(TableHeaderDataNoWrap)`
     width: 100%;
 `;
+
+export const OperationContainer = styled.div`
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    max-width: fit-content;
+`;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 100px;
+`;

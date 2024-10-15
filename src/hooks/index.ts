@@ -115,7 +115,6 @@ export const useShowTooltip = <T extends HTMLElement>(elementRef: MutableRefObje
     );
 
     useEffect(() => {
-        console.log(elementRef);
         if (elementRef.current) {
             observer.current.observe(elementRef.current);
         }

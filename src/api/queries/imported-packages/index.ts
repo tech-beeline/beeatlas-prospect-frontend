@@ -1,80 +1,33 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { IPackage, IPackageWithParts } from 'api/imported-packages/types';
+import { getAllPackages, getPackageById } from 'api/imported-packages';
+import { IPackageWithParts } from 'api/imported-packages/types';
 
 const PACKAGES_PREFIX = 'PACKAGES_PREFIX';
 
-export const useGetPackagesQuery = () => {
-    return useQuery<IPackage[]>({
-        queryKey: [PACKAGES_PREFIX, 'ALL'],
+interface IGetAllPackagesParams {
+    page?: number;
+    perPage?: number;
+    status?: string;
+}
+export const useGetAllPackagesQuery = (params?: IGetAllPackagesParams) => {
+    return useQuery({
+        queryKey: [PACKAGES_PREFIX, 'ALL', params],
         queryFn: () =>
-            new Promise<IPackage[]>((res) => {
-                setTimeout(() => {
-                    res([
-                        {
-                            packageId: 1,
-                            operation: 'Обновление',
-                            status: 'success',
-                            allParts: 1000,
-                            sucsessParts: 900,
-                            errorParts: 10,
-                            processParts: 90,
-                        },
-                        {
-                            packageId: 2,
-                            operation: 'Операция',
-                            status: 'error',
-                            allParts: 1000,
-                            sucsessParts: 0,
-                            errorParts: 910,
-                            processParts: 90,
-                        },
-                    ]);
-                }, 500);
-            }),
+            getAllPackages(params?.page, params?.perPage, params?.status).then((res) => res.data),
     });
 };
 
-export const useGetPackageWithPartsByIdQuery = (packageId: string | undefined | null) => {
+interface IGetPackageWithContentParams {
+    id: string | undefined | null;
+    page?: number;
+    perPage?: number;
+}
+export const useGetPackageWithContentByIdQuery = (params: IGetPackageWithContentParams) => {
     return useQuery<IPackageWithParts>({
-        queryKey: [PACKAGES_PREFIX, 'parts', packageId],
+        queryKey: [PACKAGES_PREFIX, 'parts', params],
         queryFn: () =>
-            new Promise<IPackageWithParts>((res) => {
-                setTimeout(() => {
-                    res({
-                        packageId: 1,
-                        operation: 'Операция',
-                        status: 'error',
-                        parts: [
-                            {
-                                partId: 1,
-                                partNum: 1,
-                                status: 'error',
-                                payload: 'payload',
-                            },
-                            {
-                                partId: 2,
-                                partNum: 2,
-                                status: 'error',
-                                payload: 'payload',
-                            },
-                            {
-                                partId: 3,
-                                partNum: 3,
-                                status: 'error',
-                                payload: `[
-    {
-        "partId": 0,
-        "partNum": 0,
-        "status": "string",
-        "payload": "string"
-    }
-]`,
-                            },
-                        ],
-                    });
-                }, 500);
-            }),
-        enabled: Boolean(packageId),
+            getPackageById(params.id ?? '0', params.page, params.perPage).then((res) => res.data),
+        enabled: Boolean(params.id),
     });
 };

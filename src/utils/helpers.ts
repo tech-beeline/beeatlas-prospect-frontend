@@ -9,3 +9,11 @@ export const pluralize = (variants: [string, string, string], n: number) => {
     if (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) return variants[1];
     return variants[2];
 };
+
+export const prettifyJSONString = (json: string) => {
+    try {
+        return JSON.stringify(JSON.parse(json), null, 2);
+    } catch {
+        return json;
+    }
+};

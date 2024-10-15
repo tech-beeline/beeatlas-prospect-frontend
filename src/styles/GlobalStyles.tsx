@@ -79,6 +79,11 @@ export const GlobalStyles = () => {
                     line-height: inherit;
                 }
 
+                pre {
+                    margin: 0;
+                    font-family: inherit;
+                }
+
                 label {
                     display: inline-block;
                 }

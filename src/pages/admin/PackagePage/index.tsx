@@ -11,31 +11,35 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { packageStatusToLabelTypeMap, packageStatusToStatusNameMap } from 'features/imported-data';
 
-import { useGetPackageWithPartsByIdQuery } from 'api/queries/imported-packages';
+import { PackageStatus } from 'api/imported-packages/types';
+import { useGetPackageWithContentByIdQuery } from 'api/queries/imported-packages';
 import * as R from 'router/const';
 
 import { PackageTableRow } from './components';
+// import { StatusSortVariant } from './types';
 import * as S from './units';
 
 export const PackagePage = () => {
+    // const [sortVariant, setSortVariant] = useState(StatusSortVariant.ASC);
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { data, isLoading } = useGetPackageWithPartsByIdQuery(paramId);
-
-    const [itemsCountOnPage, setItemsCountOnPage] = useState(5);
+    const [itemsCountOnPage, setItemsCountOnPage] = useState(25);
     const [countPage, setCountPage] = useState(1);
+
+    const { data, isLoading } = useGetPackageWithContentByIdQuery({
+        id: paramId,
+        page: countPage - 1,
+        perPage: itemsCountOnPage,
+    });
 
     const navigate = useNavigate();
 
     const handleReturnButtonClick = () => {
-        navigate(R.IMPORTED_DATA_PATH);
+        navigate(`${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`);
     };
-
-    const startIndex = (countPage - 1) * itemsCountOnPage;
-    const endIndex = countPage * itemsCountOnPage;
-    const displayedParts = (data?.parts ?? []).slice(startIndex, endIndex);
 
     return (
         <S.PageWrapper>
@@ -46,32 +50,56 @@ export const PackagePage = () => {
                     onClick={handleReturnButtonClick}
                 />
                 <S.Title>Части пакета</S.Title>
-                {isLoading ? (
-                    <Skeleton height={24} width={100} radius={12} />
-                ) : (
-                    <Label title="В обработке" variant="contained" />
+
+                {data && (
+                    <Label
+                        title={
+                            packageStatusToStatusNameMap[data.packageDTO.status as PackageStatus] ??
+                            data.packageDTO.status
+                        }
+                        variant="contained"
+                        type={
+                            packageStatusToLabelTypeMap[data.packageDTO.status as PackageStatus] ??
+                            'default'
+                        }
+                    />
                 )}
             </S.TitleContainer>
             <S.Identificator>Идентификатор пакета {paramId}</S.Identificator>
             {isLoading && <Skeleton height={300} />}
-            {displayedParts.length > 0 && (
+            {data && data.packagePartDTOS.content.length > 0 && (
                 <S.TableStyled>
                     <TableHead>
                         <TableRow>
                             <S.TableHeaderDataNoWrap>№ части пакета</S.TableHeaderDataNoWrap>
                             <S.TableHeaderDataNoWrap>Идентификатор</S.TableHeaderDataNoWrap>
                             <S.TableHeaderDataMaxWidth>
-                                <S.HeaderContent>
+                                Статус
+                                {/* <S.HeaderContent>
                                     <div>Статус</div>
-                                    <IconButton iconName={Icons.ArrowUp} size="medium" />
-                                </S.HeaderContent>
+                                    <IconButton
+                                        onClick={() =>
+                                            setSortVariant(
+                                                sortVariant === StatusSortVariant.ASC
+                                                    ? StatusSortVariant.DESC
+                                                    : StatusSortVariant.ASC,
+                                            )
+                                        }
+                                        iconName={
+                                            sortVariant === StatusSortVariant.ASC
+                                                ? Icons.ArrowUp
+                                                : Icons.ArrowDown
+                                        }
+                                        size="medium"
+                                    />
+                                </S.HeaderContent> */}
                             </S.TableHeaderDataMaxWidth>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
-                        {displayedParts.map((part, i) => (
-                            <PackageTableRow key={i} index={i} packagePart={part} />
+                        {data.packagePartDTOS.content.map((part) => (
+                            <PackageTableRow key={part.partNum} packagePart={part} />
                         ))}
 
                         <TableRow>
@@ -82,9 +110,9 @@ export const PackagePage = () => {
                                         setItemsCountOnPage(e.rowsPerPage);
                                     }}
                                     page={countPage}
-                                    rowsCount={displayedParts.length}
+                                    rowsCount={data.packagePartDTOS.totalElements}
                                     rowsPerPage={itemsCountOnPage}
-                                    rowsPerPageOptions={[5, 10, 30, 50]}
+                                    rowsPerPageOptions={[25, 50, 75, 100]}
                                     showFirstAndLastButtons
                                 />
                             </TableData>
