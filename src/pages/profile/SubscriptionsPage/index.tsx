@@ -103,9 +103,10 @@ export const SubscriptionsPage = () => {
                     setPage={setPage}
                 />
 
-                <S.CardsContainer>
-                    {/* Задел под массовую отписку, пока отказались */}
-                    {/* <ActionRow
+                {(isLoading || slicedSubscriptions.length !== 0) && (
+                    <S.CardsContainer>
+                        {/* Задел под массовую отписку, пока отказались */}
+                        {/* <ActionRow
                         data={data}
                         ascendingOrder={ascendingOrder}
                         selectedSubscriptions={selectedSubscriptions}
@@ -119,43 +120,44 @@ export const SubscriptionsPage = () => {
                         setSelectedSingleSubscription={setSelectedSingleSubscription}
                         setSelectedSubscriptions={setSelectedSubscriptions}
                     /> */}
-                    {isLoading &&
-                        Array.from({ length: 3 }).map((_, i) => (
-                            <SubscriptionCardSkeleton key={i} />
-                        ))}
-                    {slicedSubscriptions.map((subscription) => (
-                        <SubscriptionCard
-                            key={subscription.id}
-                            // selectedSubscriptions={selectedSubscriptions}
-                            // selectedSubscriptionsIds={seletedSubscriptionsIds}
-                            // setSelectedSubscriptions={setSelectedSubscriptions}
-                            subscription={subscription}
-                            openModal={openSingleUnsubscriptionModal}
-                            setSelectedSingleSubscription={setSelectedSingleSubscription}
-                        />
-                    ))}
-                    {!isLoading && slicedSubscriptions.length === 0 && (
-                        <S.NotFoundContainer>
-                            <NotFoundBlock
-                                imageVariant={ImageVariants.EMPTY_BOX}
-                                title="Пока здесь пусто"
-                                text={filterVariantToNotFoundTextMap[filterVariant]}
-                                buttonText={
-                                    filterVariant === FilterVariants.ALL
-                                        ? ''
-                                        : filterVariantToButtonTextMap[filterVariant]
-                                }
-                                buttonProps={{
-                                    size: 'medium',
-                                    endIcon: <Icon iconName={Icons.ArrowRight} />,
-                                    onClick: () =>
-                                        filterVariant !== FilterVariants.ALL &&
-                                        navigate(filterVariantToRouteMap[filterVariant]),
-                                }}
+                        {isLoading &&
+                            Array.from({ length: 3 }).map((_, i) => (
+                                <SubscriptionCardSkeleton key={i} />
+                            ))}
+                        {slicedSubscriptions.map((subscription) => (
+                            <SubscriptionCard
+                                key={subscription.id}
+                                // selectedSubscriptions={selectedSubscriptions}
+                                // selectedSubscriptionsIds={seletedSubscriptionsIds}
+                                // setSelectedSubscriptions={setSelectedSubscriptions}
+                                subscription={subscription}
+                                openModal={openSingleUnsubscriptionModal}
+                                setSelectedSingleSubscription={setSelectedSingleSubscription}
                             />
-                        </S.NotFoundContainer>
-                    )}
-                </S.CardsContainer>
+                        ))}
+                    </S.CardsContainer>
+                )}
+                {!isLoading && slicedSubscriptions.length === 0 && (
+                    <S.NotFoundContainer>
+                        <NotFoundBlock
+                            imageVariant={ImageVariants.EMPTY_BOX}
+                            title="Пока здесь пусто"
+                            text={filterVariantToNotFoundTextMap[filterVariant]}
+                            buttonText={
+                                filterVariant === FilterVariants.ALL
+                                    ? ''
+                                    : filterVariantToButtonTextMap[filterVariant]
+                            }
+                            buttonProps={{
+                                size: 'medium',
+                                endIcon: <Icon iconName={Icons.ArrowRight} />,
+                                onClick: () =>
+                                    filterVariant !== FilterVariants.ALL &&
+                                    navigate(filterVariantToRouteMap[filterVariant]),
+                            }}
+                        />
+                    </S.NotFoundContainer>
+                )}
                 {filteredSubscriptions.length > SUBS_PER_PAGE && (
                     <S.PaginationContainer>
                         <Pagination

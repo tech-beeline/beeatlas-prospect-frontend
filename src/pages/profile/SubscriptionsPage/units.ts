@@ -41,7 +41,7 @@ export const CardsContainer = styled.div`
 `;
 
 export const NotFoundContainer = styled.div`
-    padding: 180px 0px;
+    margin-top: 140px;
 `;
 
 export const PaginationContainer = styled.div`
