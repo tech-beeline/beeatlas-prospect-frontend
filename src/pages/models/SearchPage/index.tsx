@@ -4,7 +4,7 @@ import { Button, Search } from '@beeline/design-system-react';
 
 import { Expand } from 'components/other';
 
-import { useGetCapabilitiesQuery } from 'api/queries/fdm';
+import { useGetCapabilitiesQuery } from 'api/queries/capability';
 import { useMountEffect } from 'hooks';
 import { getStorage, persistStorage } from 'stores/utils';
 import * as STYLES from 'styles/units';

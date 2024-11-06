@@ -3,8 +3,21 @@ import React, { FC } from 'react';
 import { IText } from './types';
 import * as S from './units';
 
-export const Text: FC<IText> = ({ variant, children, inactive = false }) => (
-    <S.TypographyStyled variant={variant} inactive={inactive}>
+export const Text: FC<IText> = ({
+    variant,
+    children,
+    inactive = false,
+    link = false,
+    pointer = false,
+    ...rest
+}) => (
+    <S.TypographyStyled
+        {...rest}
+        variant={variant}
+        inactive={inactive}
+        link={link}
+        pointer={pointer}
+    >
         {children}
     </S.TypographyStyled>
 );

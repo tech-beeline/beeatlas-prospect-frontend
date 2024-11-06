@@ -7,8 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Autocomplete, TextArea, TextField } from 'components/form';
 
-import { CapabilitySearchVariant } from 'api/fdm/types';
-import { useCreateBusinessCapabilityMutation, useGetCapabilitiesQuery } from 'api/queries/fdm';
+import { CapabilitySearchVariant } from 'api/capability/types';
+import {
+    useCreateBusinessCapabilityMutation,
+    useGetCapabilitiesQuery,
+} from 'api/queries/capability';
 import { useDebounce } from 'hooks';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';

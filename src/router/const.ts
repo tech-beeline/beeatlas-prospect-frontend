@@ -20,6 +20,9 @@ export const PRODUCTS_PATH = '/products';
 export const MODELS_PATH = '/models';
 export const SEARCH_PATH = '/search';
 export const FDM_PATH = '/fdm';
+export const MAP_PATH = '/map';
+
+// техрадар
 export const TECH_RADAR_PATH = '/tech-radar';
 export const APPS_PATH = '/apps';
 export const E2E_PATH = '/e2e';

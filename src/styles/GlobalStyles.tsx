@@ -177,6 +177,11 @@ export const GlobalStyles = () => {
                 }
 
                 /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_inline-edit-modal_positioner > .dsb_card {
+                    padding: 8px;
+                }
+
+                /* @TODO: Убрать с обновлением UI-кита */
                 .dsb_table {
                     border-radius: var(--size-border-radius-x6);
                 }

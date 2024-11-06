@@ -5,9 +5,14 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { ILink } from './types';
 import * as S from './units';
 
-export const Link: FC<ILink> = ({ title = 'Ссылка', url, showOuterIcon, outer = true }) => {
+export const Link: FC<ILink> = ({
+    title = 'Ссылка',
+    url,
+    showOuterIcon,
+    outer = true,
+    light = false,
+}) => {
     const navigate = useNavigate();
-
     return (
         <>
             {outer ? (
@@ -17,6 +22,7 @@ export const Link: FC<ILink> = ({ title = 'Ссылка', url, showOuterIcon, ou
                         target="_blank"
                         rel="noreferrer"
                         href={url}
+                        light={light}
                     >
                         <span>{title}</span>
                         {showOuterIcon && <S.IconOuter iconName={Icons.OpenInBrowser} />}

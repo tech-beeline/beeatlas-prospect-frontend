@@ -1,4 +1,4 @@
-import { ISearchResult } from 'api/fdm/types';
+import { ISearchResult } from 'api/capability/types';
 
 // interface IDataForResult {
 //     name: string;

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Tab = styled.button<{ isActive: boolean }>`
+export const Tab = styled.a<{ isActive: boolean }>`
     position: relative;
 
     display: flex;
@@ -9,6 +9,8 @@ export const Tab = styled.button<{ isActive: boolean }>`
 
     width: fit-content;
 
+    padding: 1px 6px;
+
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-body3);
     line-height: var(--font-line-height-subtitle3);
@@ -16,6 +18,8 @@ export const Tab = styled.button<{ isActive: boolean }>`
 
     color: ${({ isActive }) =>
         isActive ? 'var(--color-text-active)' : 'var(--color-text-inactive)'};
+
+    cursor: pointer;
 
     &::after {
         position: absolute;

@@ -5,7 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
-import { useGetTechCapabilityProductsQuery } from 'api/queries/fdm';
+import { useGetTechCapabilityProductsQuery } from 'api/queries/capability';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,

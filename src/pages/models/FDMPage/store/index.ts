@@ -5,7 +5,7 @@ import {
     getBusinessCapabilityParents,
     getCoreBusinessCapabilities,
     getTechCapabilityById,
-} from 'api/fdm';
+} from 'api/capability';
 
 import { DomainData, IFDMStore, Item, ItemTypes } from './types';
 import { findItemInTree, getItemPathAndBreadcrumbs } from './utils';

@@ -108,3 +108,26 @@ export interface IBusinessCapabilityForm {
     link: string;
     author: string;
 }
+
+interface ICriteria {
+    criterion_id: number;
+    grade: number;
+    value: number;
+}
+
+export interface IMapItemData {
+    author: string;
+    children: IMapItemData[];
+    code: string;
+    createdDate: Date;
+    criteria: ICriteria[];
+    description: string;
+    id: number;
+    isDomain: boolean;
+    link: string;
+    name: string;
+    owner: string;
+    status: string;
+    updatedDate: Date;
+    parent?: { id: number; name: string }[];
+}

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getSubscribedCapabilities } from 'api/fdm';
-import { CapabilitySearchResultTypeVariant } from 'api/fdm/types';
+import { getSubscribedCapabilities } from 'api/capability';
+import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { deleteSubscription, postSubscription } from 'api/subscriptions';
 import { ISubscription, ISubscriptionForm, SubscriptionType } from 'api/subscriptions/types';
 import { getSubscribedTechnologies } from 'api/technologies';
