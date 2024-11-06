@@ -232,6 +232,7 @@ export const FDMPage = () => {
                                                 ? 'Все дочерние элементы домена'
                                                 : 'Все бизнес возможности домена'
                                             : 'Связанные технические возможности'}
+                                        &nbsp;({activeItem.children.length})
                                         <S.ListSwitcherWrapper className="ListSwitcherWrapper">
                                             <ViewItemSwitcher
                                                 activeElement={activeViewList}
