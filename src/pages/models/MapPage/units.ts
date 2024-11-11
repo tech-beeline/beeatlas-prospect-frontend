@@ -5,6 +5,7 @@ export const PageWrapper = styled.div`
     display: flex;
     justify-content: center;
 
+    height: 100%;
     max-height: 100%;
 
     background-color: var(--color-background-base);
@@ -189,4 +190,13 @@ export const NotFoundContainer = styled.div`
 
     width: 100%;
     margin: 32px 0;
+`;
+
+export const ErrorContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
 `;

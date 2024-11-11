@@ -39,7 +39,11 @@ export const MapPage = () => {
     const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
     const [chipsDisabled, setChipsDisabled] = useState(false);
 
-    const { data, isLoading: isLoadingMapData } = useGetMapDataQuery(id ? Number(id) : undefined);
+    const {
+        data,
+        isLoading: isLoadingMapData,
+        error,
+    } = useGetMapDataQuery(id ? Number(id) : undefined);
     const activeItem = data ? (id ? (data as any as IMapItemData) : data[0]) : null;
 
     const { data: childrenCapabilitiesData, isLoading: isLoadingTechCapabilities } =
@@ -70,32 +74,33 @@ export const MapPage = () => {
     return (
         <S.PageWrapper>
             <S.Container>
-                <S.InfoContainer>
-                    {id && activeItem?.parent && (
-                        <Breadcrumbs>
-                            {[...activeItem.parent].reverse().map((item, index) => (
-                                <BreadCrumbsItem
-                                    key={item.id}
-                                    index={index}
-                                    id={item.id}
-                                    name={item.name}
-                                />
-                            ))}
-                        </Breadcrumbs>
-                    )}
+                {!error && (
+                    <S.InfoContainer>
+                        {id && activeItem?.parent && (
+                            <Breadcrumbs>
+                                {[...activeItem.parent].reverse().map((item, index) => (
+                                    <BreadCrumbsItem
+                                        key={item.id}
+                                        index={index}
+                                        id={item.id}
+                                        name={item.name}
+                                    />
+                                ))}
+                            </Breadcrumbs>
+                        )}
 
-                    <S.TitleContainer>
-                        <S.Title>
-                            {id && activeItem ? activeItem.name : 'Карты возможностей'}
-                        </S.Title>
-                        {/* {!id && (
+                        <S.TitleContainer>
+                            <S.Title>
+                                {id && activeItem ? activeItem.name : 'Карты возможностей'}
+                            </S.Title>
+                            {/* {!id && (
                             <Button variant="contained" size="small" onClick={openSideblock}>
                                 Создать карту
                             </Button>
                         )} */}
-                    </S.TitleContainer>
+                        </S.TitleContainer>
 
-                    {/* {!id && (
+                        {/* {!id && (
                         <S.TabsStyled>
                             {TABS.map((tab) => (
                                 <Tab
@@ -108,64 +113,76 @@ export const MapPage = () => {
                         </S.TabsStyled>
                     )} */}
 
-                    {tabVariant === TabVariant.GENERAL && (
-                        <>
-                            {id && activeItem && activeItem.description && (
-                                <>
-                                    <S.Description
-                                        ref={descriptionRef}
-                                        isExpanded={isExpanded}
-                                        dangerouslySetInnerHTML={{ __html: activeItem.description }}
-                                    />
-                                    {isExpanded && (
-                                        <Text variant="body2">
-                                            Посмотреть детальную информацию по дочерним элементам
-                                            можно{' '}
-                                            <Link
-                                                title="в древе ФДМ"
-                                                url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
-                                            />
-                                        </Text>
-                                    )}
-                                    <S.ExpandButton onClick={() => setIsExpanded(!isExpanded)}>
-                                        <div>{isExpanded ? 'Скрыть' : 'Показать полностью'}</div>
-                                        <S.IconStyled
-                                            iconName={
-                                                isExpanded
-                                                    ? Icons.FastArrowTop
-                                                    : Icons.FastArrowDown
-                                            }
-                                            size="small"
+                        {tabVariant === TabVariant.GENERAL && (
+                            <>
+                                {id && activeItem && activeItem.description && (
+                                    <>
+                                        <S.Description
+                                            ref={descriptionRef}
+                                            isExpanded={isExpanded}
+                                            dangerouslySetInnerHTML={{
+                                                __html: activeItem.description,
+                                            }}
                                         />
-                                    </S.ExpandButton>
-                                </>
-                            )}
+                                        {isExpanded && (
+                                            <Text variant="body2">
+                                                Посмотреть детальную информацию по дочерним
+                                                элементам можно{' '}
+                                                <Link
+                                                    title="в древе ФДМ"
+                                                    url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
+                                                />
+                                            </Text>
+                                        )}
+                                        <S.ExpandButton onClick={() => setIsExpanded(!isExpanded)}>
+                                            <div>
+                                                {isExpanded ? 'Скрыть' : 'Показать полностью'}
+                                            </div>
+                                            <S.IconStyled
+                                                iconName={
+                                                    isExpanded
+                                                        ? Icons.FastArrowTop
+                                                        : Icons.FastArrowDown
+                                                }
+                                                size="small"
+                                            />
+                                        </S.ExpandButton>
+                                    </>
+                                )}
 
-                            <S.ChipsContainer>
-                                {CHIPS.map((chip, i) => (
-                                    <Chip
-                                        key={i}
-                                        disabled={chipsDisabled && i !== 0}
-                                        active={chip.value === mapVariant}
-                                        label={chip.label}
-                                        onClick={() => setMapVariant(chip.value)}
-                                    />
-                                ))}
-                            </S.ChipsContainer>
+                                <S.ChipsContainer>
+                                    {CHIPS.map((chip, i) => (
+                                        <Chip
+                                            key={i}
+                                            disabled={chipsDisabled && i !== 0}
+                                            active={chip.value === mapVariant}
+                                            label={chip.label}
+                                            onClick={() => setMapVariant(chip.value)}
+                                        />
+                                    ))}
+                                </S.ChipsContainer>
 
-                            <S.SubtitleContainer>
-                                <S.Subtitle>
-                                    {!id
-                                        ? 'Домены'
-                                        : activeItem?.children.length === 0 && !activeItem.isDomain
-                                        ? 'Технические возможности'
-                                        : 'Бизнес-возможности'}
-                                </S.Subtitle>
-                                {mapVariant !== MapVariant.DEFAULT && <Legend />}
-                            </S.SubtitleContainer>
-                        </>
-                    )}
-                </S.InfoContainer>
+                                <S.SubtitleContainer>
+                                    <S.Subtitle>
+                                        {!id
+                                            ? 'Домены'
+                                            : activeItem?.children.length === 0 &&
+                                              !activeItem.isDomain
+                                            ? 'Технические возможности'
+                                            : 'Бизнес-возможности'}
+                                    </S.Subtitle>
+                                    {mapVariant !== MapVariant.DEFAULT && <Legend />}
+                                </S.SubtitleContainer>
+                            </>
+                        )}
+                    </S.InfoContainer>
+                )}
+
+                {!isLoading && error && (
+                    <S.ErrorContainer>
+                        <NotFoundBlock imageVariant={ImageVariants.QUESTION_BOX} />
+                    </S.ErrorContainer>
+                )}
 
                 {tabVariant === TabVariant.PERSONAL && <PersonalMapsLibrary />}
 
@@ -180,8 +197,8 @@ export const MapPage = () => {
                         )}
                         {activeItem &&
                             activeItem.children.length === 0 &&
-                            (childrenCapabilitiesData === undefined ||
-                                childrenCapabilitiesData.techCapabilities.length == 0) && (
+                            ((!childrenCapabilitiesData && !isLoadingTechCapabilities) ||
+                                childrenCapabilitiesData?.techCapabilities.length === 0) && (
                                 <S.NotFoundContainer>
                                     <NotFoundBlock
                                         imageVariant={ImageVariants.EMPTY_BOX}
