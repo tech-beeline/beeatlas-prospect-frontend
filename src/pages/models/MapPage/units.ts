@@ -141,7 +141,9 @@ export const CardContainer = styled.div`
 
     flex: 1 1 auto;
 
-    padding: 24px 32px 32px 32px;
+    padding: 0px 32px 32px 32px;
+
+    margin-top: 24px;
 
     max-width: 100%;
 
