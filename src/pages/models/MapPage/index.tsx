@@ -164,7 +164,7 @@ export const MapPage = () => {
 
                                 <S.SubtitleContainer>
                                     <S.Subtitle>
-                                        {!id
+                                        {!id || activeItem?.children.some((child) => child.isDomain)
                                             ? 'Домены'
                                             : activeItem?.children.length === 0 &&
                                               !activeItem.isDomain
