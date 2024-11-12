@@ -1,4 +1,4 @@
-import { Banner, Chip } from '@beeline/design-system-react';
+import { Banner, Chip, ProgressButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -168,6 +168,18 @@ export const ListSwitcherWrapper = styled.div`
 
 export const SubscribeButtonContainer = styled.div`
     margin-top: 24px;
+`;
+
+export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boolean }>`
+    .dsb-button-progress__svg {
+        display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
+    }
+`;
+
+export const ProgressButtonContent = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
 `;
 
 export const FlexBlock = styled.div`

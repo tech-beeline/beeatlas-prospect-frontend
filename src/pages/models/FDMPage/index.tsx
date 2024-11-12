@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Icon, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
@@ -41,8 +41,15 @@ export const FDMPage = () => {
         state.loading,
     ]);
 
-    const { mutateAsync: createSubscription, error } = useCreateSubscriptionMutation();
-    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+    const {
+        mutateAsync: createSubscription,
+        isPending: isCreatingSubscription,
+        error,
+    } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition, isPending: isDeletingSubscription } =
+        useDeleteSubscriptionMutation();
+
+    const isUpdatingSubscriptions = isCreatingSubscription || isDeletingSubscription;
 
     const { data: subscribedBusinessCapabilitiyIds } =
         useGetSubscribedBusinessCapabilitiesIdsQuery();
@@ -111,6 +118,7 @@ export const FDMPage = () => {
 
     const handleModalConfirm = async () => {
         if (activeItem) {
+            closeModal();
             await deleteSubscrition({
                 entityType:
                     activeItem.type === ItemTypes.BUSINESS
@@ -118,7 +126,6 @@ export const FDMPage = () => {
                         : SubscriptionEntityVariants.TECH_CAPABILITY,
                 id: activeItem.id,
             });
-            closeModal();
             showSnackbar({
                 message: `Вы отписаны от уведомлений`,
             });
@@ -205,11 +212,14 @@ export const FDMPage = () => {
                             )}
 
                             <S.SubscribeButtonContainer>
-                                <Button
+                                <S.ProgressButtonStyled
                                     size="small"
                                     variant="outlined"
                                     onClick={handleSubscribeButtonClick}
-                                    startIcon={
+                                    state={isUpdatingSubscriptions ? 'loading' : 'default'}
+                                    showProgress={isUpdatingSubscriptions}
+                                >
+                                    <S.ProgressButtonContent>
                                         <Icon
                                             iconName={
                                                 isSubscribed
@@ -217,10 +227,9 @@ export const FDMPage = () => {
                                                     : Icons.Notification
                                             }
                                         />
-                                    }
-                                >
-                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
-                                </Button>
+                                        {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                                    </S.ProgressButtonContent>
+                                </S.ProgressButtonStyled>
                             </S.SubscribeButtonContainer>
 
                             {!isItemGroup &&
