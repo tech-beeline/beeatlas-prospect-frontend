@@ -61,6 +61,7 @@ export const MapPage = () => {
         } else {
             setChipsDisabled(false);
         }
+        setIsExpanded(false);
     }, [activeItem]);
 
     const descriptionRef = useRef<HTMLDivElement>(null);
@@ -115,15 +116,31 @@ export const MapPage = () => {
 
                         {tabVariant === TabVariant.GENERAL && (
                             <>
-                                {id && activeItem && activeItem.description && (
+                                {id && activeItem && (
                                     <>
-                                        <S.Description
-                                            ref={descriptionRef}
-                                            isExpanded={isExpanded}
-                                            dangerouslySetInnerHTML={{
-                                                __html: activeItem.description,
-                                            }}
-                                        />
+                                        {activeItem.description && (
+                                            <S.Description
+                                                ref={descriptionRef}
+                                                isExpanded={isExpanded}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: activeItem.description,
+                                                }}
+                                            />
+                                        )}
+                                        {!activeItem.description &&
+                                            (activeItem.children.length !== 0 ||
+                                                (childrenCapabilitiesData &&
+                                                    childrenCapabilitiesData.techCapabilities
+                                                        .length !== 0)) && (
+                                                <S.Description isExpanded>
+                                                    Описания нет. Посмотреть детальную информацию по
+                                                    дочерним элементам можно{' '}
+                                                    <Link
+                                                        title="в древе ФДМ"
+                                                        url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
+                                                    />
+                                                </S.Description>
+                                            )}
                                         {isExpanded && (
                                             <Text variant="body2">
                                                 Посмотреть детальную информацию по дочерним
@@ -134,19 +151,23 @@ export const MapPage = () => {
                                                 />
                                             </Text>
                                         )}
-                                        <S.ExpandButton onClick={() => setIsExpanded(!isExpanded)}>
-                                            <div>
-                                                {isExpanded ? 'Скрыть' : 'Показать полностью'}
-                                            </div>
-                                            <S.IconStyled
-                                                iconName={
-                                                    isExpanded
-                                                        ? Icons.FastArrowTop
-                                                        : Icons.FastArrowDown
-                                                }
-                                                size="small"
-                                            />
-                                        </S.ExpandButton>
+                                        {activeItem.description && (
+                                            <S.ExpandButton
+                                                onClick={() => setIsExpanded(!isExpanded)}
+                                            >
+                                                <div>
+                                                    {isExpanded ? 'Скрыть' : 'Показать полностью'}
+                                                </div>
+                                                <S.IconStyled
+                                                    iconName={
+                                                        isExpanded
+                                                            ? Icons.FastArrowTop
+                                                            : Icons.FastArrowDown
+                                                    }
+                                                    size="small"
+                                                />
+                                            </S.ExpandButton>
+                                        )}
                                     </>
                                 )}
 
