@@ -85,7 +85,7 @@ export const GroupCardTitle = styled.div`
 
 export const TechCapabilityCard = styled.div`
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     gap: 16px;
 

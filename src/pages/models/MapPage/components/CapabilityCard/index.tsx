@@ -108,7 +108,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                 <Text variant="h5">Описание возможности</Text>
                 <Text variant="body3">{techCapability.description || 'Описания нет'}</Text>
                 <Text variant="body3">
-                    Посмотреть детальную информацию можно{' '}
+                    Посмотреть детальную информацию можно{'\n'}
                     <Link
                         light
                         title="в древе ФДМ"
