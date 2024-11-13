@@ -10,7 +10,7 @@ import { ICapabilitiesSideblock } from './types';
 import * as S from './units';
 
 export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = () => {
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState('П');
     const debouncedSearch = useDebounce(search);
 
     const { data: searchData, isLoading: isLoadingSearchData } = useGetCapabilitiesQuery({

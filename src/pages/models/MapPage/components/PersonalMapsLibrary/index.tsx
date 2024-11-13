@@ -28,9 +28,14 @@ export const PersonalMapsLibrary: FC = () => {
                 {Array.from({ length: 12 }).map((_, i) => (
                     <S.MapCard key={i}>
                         <S.FlexContainer>
-                            <Text link pointer variant="subtitle1" onClick={handleNavigate}>
-                                Ключевые возможности B2C
-                            </Text>
+                            <div>
+                                <Text link pointer variant="subtitle1" onClick={handleNavigate}>
+                                    Ключевые возможности B2C
+                                </Text>
+                                <Text inactive variant="body3">
+                                    Бизнес-возможности
+                                </Text>
+                            </div>
                             <DropdownMenu
                                 id={String(i)}
                                 items={[
@@ -59,7 +64,28 @@ export const PersonalMapsLibrary: FC = () => {
                                 ]}
                             />
                         </S.FlexContainer>
-                        <Text variant="body2">Краткое описание</Text>
+                        <Text variant="body2">
+                            Карта представляет собой инструмент для анализа и визуализации ключевых
+                            направлений развития бизнеса, связанных с использованием современных
+                            технологий и услуг в сфере связи и телекоммуникаций (BSS). Она позволяет
+                            компаниям определить свои сильные стороны, оценить потенциальные риски и
+                            возможности, а также разработать стратегии для успешного роста и
+                            развития на рынке
+                        </Text>
+                        <S.DatesContainer>
+                            <S.GrowContainer>
+                                <Text inactive variant="overline">
+                                    ДАТА СОЗДАНИЯ
+                                </Text>
+                                <Text variant="body2">18.08.2024</Text>
+                            </S.GrowContainer>
+                            <S.GrowContainer>
+                                <Text inactive variant="overline">
+                                    ДАТА ИЗМЕНЕНИЯ
+                                </Text>
+                                <Text variant="body2">27.09.2024</Text>
+                            </S.GrowContainer>
+                        </S.DatesContainer>
                     </S.MapCard>
                 ))}
             </S.PersonalMapsContainer>
