@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Chip, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Button, Chip, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CreateMapSideblock } from 'features/maps';
 
@@ -20,19 +20,18 @@ import {
     TechCapabilitiesLegend,
     TechCapabilityCard,
 } from './components';
-import { CHIPS, MapVariant, TabVariant } from './const';
+import { CHIPS, MapVariant, TABS, TabVariant } from './const';
 import * as S from './units';
 
 export const MapPage = () => {
-    const [tabVariant] = useState(TabVariant.GENERAL);
-    // const [activeItem, setActiveItem] = useState<IMapItemData | null>(null);
+    const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
     const [isExpanded, setIsExpanded] = useState(false);
     const [params] = useSearchParams();
     const id = params.get('id');
 
     const {
         modalOpened: sideblockOpened,
-        // openModal: openSideblock,
+        openModal: openSideblock,
         closeModal: closeSideblock,
     } = useModal();
 
@@ -94,25 +93,25 @@ export const MapPage = () => {
                             <S.Title>
                                 {id && activeItem ? activeItem.name : 'Карты возможностей'}
                             </S.Title>
-                            {/* {!id && (
-                            <Button variant="contained" size="small" onClick={openSideblock}>
-                                Создать карту
-                            </Button>
-                        )} */}
+                            {!id && (
+                                <Button variant="contained" size="small" onClick={openSideblock}>
+                                    Создать карту
+                                </Button>
+                            )}
                         </S.TitleContainer>
 
-                        {/* {!id && (
-                        <S.TabsStyled>
-                            {TABS.map((tab) => (
-                                <Tab
-                                    key={tab.value}
-                                    label={tab.label}
-                                    value={tab.value}
-                                    onClick={setTabVariant}
-                                />
-                            ))}
-                        </S.TabsStyled>
-                    )} */}
+                        {!id && (
+                            <S.TabsStyled>
+                                {TABS.map((tab) => (
+                                    <Tab
+                                        key={tab.value}
+                                        label={tab.label}
+                                        value={tab.value}
+                                        onClick={setTabVariant}
+                                    />
+                                ))}
+                            </S.TabsStyled>
+                        )}
 
                         {tabVariant === TabVariant.GENERAL && (
                             <>
