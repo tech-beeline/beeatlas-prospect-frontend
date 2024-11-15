@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    getBusinessCapabilityById,
     getBusinessCapabilityChildren,
     getCapabilitiesBySearch,
     getCoreBusinessCapabilities,
     getMapData,
+    getTechCapabilityById,
     getTechCapabilityProducts,
     putBusinessCapability,
 } from 'api/capability';
@@ -45,10 +47,11 @@ export function useCreateBusinessCapabilityMutation() {
     });
 }
 
-export const useGetMapDataQuery = (id?: number) => {
+export const useGetMapDataQuery = (id?: number, enabled = true) => {
     return useQuery({
         queryKey: [CAPABILITY_PREFIX, 'map', id],
         queryFn: () => getMapData(id).then((res) => res.data),
+        enabled,
     });
 };
 
@@ -56,6 +59,14 @@ export const useGetCoreCapabilitiesQuery = () => {
     return useQuery({
         queryKey: [CAPABILITY_PREFIX, 'core'],
         queryFn: () => getCoreBusinessCapabilities().then((res) => res.data),
+    });
+};
+
+export const useGetCapabilityByIdQuery = (id?: string | null) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'id', id],
+        queryFn: () => getBusinessCapabilityById(id!).then((res) => res.data),
+        enabled: !!id,
     });
 };
 
@@ -69,6 +80,20 @@ export const useGetChildrenCapabilitiesQuery = ({
     return useQuery({
         queryKey: [CAPABILITY_PREFIX, 'chdilren', id],
         queryFn: () => getBusinessCapabilityChildren(id).then((res) => res.data),
+        enabled,
+    });
+};
+
+export const useGetTechCapabilityByIdQuery = ({
+    id,
+    enabled,
+}: {
+    id: number;
+    enabled: boolean;
+}) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'tech', 'parents', id],
+        queryFn: () => getTechCapabilityById(id).then((res) => res.data),
         enabled,
     });
 };

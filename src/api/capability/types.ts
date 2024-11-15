@@ -129,5 +129,5 @@ export interface IMapItemData {
     owner: string;
     status: string;
     updatedDate: Date;
-    parent?: { id: number; name: string }[];
+    parent?: { id: number; name: string; isDomain: boolean }[];
 }

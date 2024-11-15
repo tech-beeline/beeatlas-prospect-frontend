@@ -1,33 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Button, Chip, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { CreateMapSideblock } from 'features/maps';
+import {
+    BreadCrumbsItem,
+    CapabilityCard,
+    CreateMapSideblock,
+    MapFormValues,
+    ScenariosLegend,
+    TechCapabilitiesLegend,
+    TechCapabilityCard,
+} from 'features/maps';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { IMapItemData } from 'api/capability/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
+import { useCreatePersonalMapMutation } from 'api/queries/maps';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 
-import {
-    BreadCrumbsItem,
-    CapabilityCard,
-    PersonalMapsLibrary,
-    ScenariosLegend,
-    TechCapabilitiesLegend,
-    TechCapabilityCard,
-} from './components';
+import { PersonalMapsLibrary } from './components';
 import { CHIPS, MapVariant, TABS, TabVariant } from './const';
 import * as S from './units';
 
 export const MapPage = () => {
     const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [params] = useSearchParams();
+    const [params, setParams] = useSearchParams();
     const id = params.get('id');
+    const tabParam = params.get('tab') as TabVariant | null;
+
+    useEffect(() => {
+        if (tabParam && tabParam === TabVariant.PERSONAL) {
+            setTabVariant(TabVariant.PERSONAL);
+        } else {
+            setTabVariant(TabVariant.GENERAL);
+        }
+    }, [tabParam]);
+
+    const navigate = useNavigate();
 
     const {
         modalOpened: sideblockOpened,
@@ -37,6 +50,13 @@ export const MapPage = () => {
 
     const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
     const [chipsDisabled, setChipsDisabled] = useState(false);
+
+    const { mutateAsync: createMap } = useCreatePersonalMapMutation();
+
+    const handleFormSave = async (values: MapFormValues) => {
+        const { mapId } = await createMap({ ...values, typeId: values.type });
+        navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}${ROUTER.ADD_PATH}?id=${mapId}`);
+    };
 
     const {
         data,
@@ -101,13 +121,23 @@ export const MapPage = () => {
                         </S.TitleContainer>
 
                         {!id && (
-                            <S.TabsStyled>
+                            <S.TabsStyled
+                                selectedTabIndex={tabVariant === TabVariant.PERSONAL ? 1 : 0}
+                            >
                                 {TABS.map((tab) => (
                                     <Tab
                                         key={tab.value}
                                         label={tab.label}
                                         value={tab.value}
-                                        onClick={setTabVariant}
+                                        onClick={(variant) =>
+                                            setParams(
+                                                new URLSearchParams(
+                                                    (variant as TabVariant) === TabVariant.PERSONAL
+                                                        ? { tab: TabVariant.PERSONAL }
+                                                        : {},
+                                                ),
+                                            )
+                                        }
                                     />
                                 ))}
                             </S.TabsStyled>
@@ -261,7 +291,11 @@ export const MapPage = () => {
                     </>
                 )}
             </S.Container>
-            <CreateMapSideblock isOpen={sideblockOpened} onClose={closeSideblock} />
+            <CreateMapSideblock
+                isOpen={sideblockOpened}
+                onClose={closeSideblock}
+                onSave={handleFormSave}
+            />
         </S.PageWrapper>
     );
 };

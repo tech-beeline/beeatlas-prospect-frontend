@@ -1,6 +1,6 @@
 import { number, object, string } from 'yup';
 
-export type FormValues = {
+export type MapFormValues = {
     name: string;
     type: number;
     description: string;

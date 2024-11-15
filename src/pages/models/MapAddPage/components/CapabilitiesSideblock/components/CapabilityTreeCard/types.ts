@@ -16,4 +16,5 @@ type TreeCapability =
 
 export type ICapabilityTreeCard = TreeCapability & {
     level: number;
+    mapTypeId: number;
 };

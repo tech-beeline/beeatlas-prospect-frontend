@@ -1,12 +1,17 @@
 import React, { FC, useState } from 'react';
-import { Avatar, Icon } from '@beeline/design-system-react';
+import { Avatar, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useDraggable } from '@dnd-kit/core';
 import { uniqueId } from 'lodash';
 
 import { Text } from 'components/core';
 
-import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
+import { CapabilitySearchResultTypeVariant, IMapItemData } from 'api/capability/types';
+import {
+    useGetMapDataQuery,
+    useGetTechCapabilityByIdQuery,
+    useGetTechCapabilityProductsQuery,
+} from 'api/queries/capability';
 import { PersonalMapElementType } from 'pages/models/MapAddPage/types';
 
 import { ICapabilitySearchCard, ICapabilitySearchCardOverlay } from './types';
@@ -14,6 +19,7 @@ import * as S from './units';
 
 export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
     capability,
+    mapTypeId,
     dragged = false,
 }) => {
     const [tooltipOpened, setTooltipOpened] = useState(false);
@@ -25,7 +31,34 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
             elementType: PersonalMapElementType.CAPABILITY,
             ...capability,
         },
+        disabled:
+            (capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
+                mapTypeId !== 2) ||
+            (capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
+                mapTypeId !== 1),
     });
+
+    const { data: treeData, isLoading: isLoadingTreeData } = useGetMapDataQuery(
+        capability.id,
+        capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY && tooltipOpened,
+    );
+
+    const capabilityParent = (treeData as IMapItemData | undefined)?.parent?.find(
+        (c) => c.isDomain,
+    );
+
+    const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
+        capability.code,
+        capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && tooltipOpened,
+    );
+
+    const { data: techCapabilityData, isLoading: isLoadingTechCapability } =
+        useGetTechCapabilityByIdQuery({
+            id: capability.id,
+            enabled:
+                capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
+                tooltipOpened,
+        });
 
     return (
         <>
@@ -73,14 +106,52 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                         <Text variant="caption">{capability.description || 'Нет описания'}</Text>
                     </div>
                 </div>
-                <div>
+                {capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY && (
                     <div>
-                        <Text variant="subtitle3">Домен</Text>
+                        <div>
+                            <Text variant="subtitle3">Домен</Text>
+                        </div>
+                        {isLoadingTreeData && <Skeleton height={16} radius={4} />}
+                        {capabilityParent && (
+                            <div>
+                                <Text variant="caption">{capabilityParent.name}</Text>
+                            </div>
+                        )}
                     </div>
+                )}
+                {capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && (
                     <div>
-                        <Text variant="caption">Домен</Text>
+                        <div>
+                            <Text variant="subtitle3">Бизнес-возможность</Text>
+                        </div>
+                        {isLoadingTechCapability && <Skeleton height={16} radius={4} />}
+                        {techCapabilityData && (
+                            <div>
+                                <Text variant="caption">
+                                    {techCapabilityData.parents
+                                        .map((parent) => parent.name)
+                                        .join(', ') || 'Нет бизнес-возможностей'}
+                                </Text>
+                            </div>
+                        )}
                     </div>
-                </div>
+                )}
+                {capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && (
+                    <div>
+                        <div>
+                            <Text variant="subtitle3">TC реализована в продукте</Text>
+                        </div>
+                        {isLoadingProducts && <Skeleton height={16} radius={4} />}
+                        {products && (
+                            <div>
+                                <Text variant="caption">
+                                    {products.map((product) => product.name).join(', ') ||
+                                        'Нет продуктов'}
+                                </Text>
+                            </div>
+                        )}
+                    </div>
+                )}
             </S.TooltipContainer>
         </>
     );

@@ -16,6 +16,7 @@ export interface IPersonalMapSubgroup {
     elementType: PersonalMapElementType.SUBGROUP;
     name: string;
     children: IPersonalMapCapability[];
+    groupId?: number;
 }
 
 export interface IPersonalMapGroup {
@@ -23,6 +24,7 @@ export interface IPersonalMapGroup {
     elementType: PersonalMapElementType.GROUP;
     name: string;
     children: (IPersonalMapSubgroup | IPersonalMapCapability)[];
+    groupId?: number;
 }
 
 export type IPersonalMapElement = IPersonalMapCapability | IPersonalMapSubgroup | IPersonalMapGroup;

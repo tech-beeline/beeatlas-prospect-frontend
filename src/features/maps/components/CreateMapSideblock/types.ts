@@ -1,8 +1,9 @@
-import { FormValues } from './form';
+import { MapFormValues } from './form';
 
 export interface ICreateMapSideblock {
     isOpen: boolean;
     onClose: () => void;
-    values?: FormValues;
+    onSave: (values: MapFormValues) => void;
+    values?: MapFormValues;
     typeDisabled?: boolean;
 }

@@ -14,14 +14,21 @@ import { PersonalMapElementType } from 'pages/models/MapAddPage/types';
 import { ICapabilityTreeCard } from './types';
 import * as S from './units';
 
-export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({ type, capability, level }) => {
+export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
+    type,
+    capability,
+    level,
+    mapTypeId,
+}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const { attributes, listeners, setNodeRef } = useDraggable({
         id: `TREE-${capability.id}`,
         disabled:
-            type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
-            (capability.parent === null || capability.isDomain),
+            (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
+                (capability.parent === null || capability.isDomain)) ||
+            (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY && mapTypeId !== 2) ||
+            (type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && mapTypeId !== 1),
         data: {
             elementId: uniqueId(),
             elementType: PersonalMapElementType.CAPABILITY,
@@ -76,6 +83,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({ type, capability
                         childrenData.businessCapabilities.map((capability) => (
                             <CapabilitiesTreeCard
                                 key={capability.id}
+                                mapTypeId={mapTypeId}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
                                 level={level + 1}
@@ -85,6 +93,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({ type, capability
                         childrenData.techCapabilities.map((capability) => (
                             <CapabilitiesTreeCard
                                 key={capability.id}
+                                mapTypeId={mapTypeId}
                                 type={CapabilitySearchResultTypeVariant.TECH_CAPABILITY}
                                 capability={capability}
                                 level={level + 1}

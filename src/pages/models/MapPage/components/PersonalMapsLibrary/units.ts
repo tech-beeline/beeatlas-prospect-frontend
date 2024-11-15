@@ -25,6 +25,10 @@ export const PersonalMapsContainer = styled.div`
     }
 `;
 
+export const NotFoundContainer = styled.div`
+    margin-top: 150px;
+`;
+
 export const MapCard = styled.div`
     display: flex;
     flex-direction: column;

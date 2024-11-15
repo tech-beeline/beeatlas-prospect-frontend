@@ -34,7 +34,9 @@ export const getCoreBusinessCapabilities = (): AxiosPromise<T.IBusinessCapabilit
     return Api.get({ url: `${GATEWAY_URL}capability/v1/business?findBy=CORE` });
 };
 
-export const getBusinessCapabilityById = (id: number): AxiosPromise<T.IBusinessCapability> => {
+export const getBusinessCapabilityById = (
+    id: number | string,
+): AxiosPromise<T.IBusinessCapability> => {
     return Api.get({ url: `${GATEWAY_URL}capability/v1/business/${id}` });
 };
 
