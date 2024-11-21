@@ -51,20 +51,6 @@ export const Content = styled.div`
     flex-direction: column;
 `;
 
-export const CardTitle = styled.div`
-    font-weight: var(--font-weight-overline);
-    font-size: var(--font-size-overline);
-    line-height: var(--font-line-height-overline);
-
-    color: var(--color-text-inactive);
-`;
-
-export const CardText = styled.div`
-    font-weight: var(--font-weight-body2);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-`;
-
 export const CriteriaContainer = styled.div`
     display: flex;
     align-items: center;

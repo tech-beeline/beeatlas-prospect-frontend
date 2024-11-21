@@ -42,6 +42,13 @@ export const PersonalMapsLibrary: FC = () => {
         navigate(`${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}${`?id=${id}`}`);
     };
 
+    const handleCopyClick = async (id: number) => {
+        await navigator.clipboard.writeText(
+            `${window.location.origin}${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/${id}`,
+        );
+        showSnackbar({ message: 'Ссылка скопирована' });
+    };
+
     const handleConfirmDelete = async () => {
         if (mapToDelete) {
             await deletePersonalMap(String(mapToDelete.id));
@@ -98,19 +105,12 @@ export const PersonalMapsLibrary: FC = () => {
                                         {
                                             title: 'Скопировать ссылку',
                                             icon: Icons.Link,
-                                            onClick: async () => {
-                                                await navigator.clipboard.writeText(
-                                                    `${window.location.origin}${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/${map.id}`,
-                                                );
-                                                showSnackbar({ message: 'Ссылка скопирована' });
-                                            },
+                                            onClick: () => handleCopyClick(map.id),
                                         },
                                         {
                                             title: 'Удалить',
                                             icon: Icons.Delete,
-                                            onClick: () => {
-                                                setMapToDelete(map);
-                                            },
+                                            onClick: () => setMapToDelete(map),
                                         },
                                     ]}
                                 />

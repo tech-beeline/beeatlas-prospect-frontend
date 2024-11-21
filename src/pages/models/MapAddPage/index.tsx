@@ -4,14 +4,12 @@ import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     DndContext,
-    DragEndEvent,
     DragOverlay,
     DragStartEvent,
     PointerSensor,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
 import { CreateMapSideblock, MapFormValues } from 'features/maps';
 import { mapTypeToNameMap } from 'features/maps/components/CreateMapSideblock/const';
 import { uniqueId } from 'lodash';
@@ -33,7 +31,6 @@ import {
 } from './components/CapabilitiesMapEdit/components/GroupCard';
 import { CapabilitiesSearchCardOverlay } from './components/CapabilitiesSideblock/components';
 import { CapabilitiesMapEdit, CapabilitiesSideblock } from './components';
-import { NEW_GROUP_DROPPABLE_ID } from './const';
 import {
     IPersonalMapCapability,
     IPersonalMapElement,
@@ -42,7 +39,7 @@ import {
     PersonalMapElementType,
 } from './types';
 import * as S from './units';
-import { deleteElementInMapDataByIds } from './utils';
+import { handleDragEnd } from './utils';
 
 export const MapAddPage = () => {
     const [draggedElement, setDraggedElement] = useState<IPersonalMapElement | null>(null);
@@ -156,183 +153,6 @@ export const MapAddPage = () => {
         setDraggedElement(e.active.data.current as IPersonalMapElement);
     };
 
-    const handleDragEnd = (e: DragEndEvent) => {
-        if (!e.over || e.over.id === e.active.id) {
-            setDraggedElement(null);
-            return;
-        }
-
-        const overData = e.over.data.current as IPersonalMapElement;
-        const activeData = e.active.data.current as IPersonalMapElement;
-
-        if (
-            e.over.id === NEW_GROUP_DROPPABLE_ID &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            setGroupsData(
-                deleteElementInMapDataByIds(
-                    [
-                        ...groupsData,
-                        {
-                            elementId: uniqueId(),
-                            elementType: PersonalMapElementType.GROUP,
-                            name: 'Укажите название группы',
-                            children: [
-                                {
-                                    ...activeData,
-                                    elementType: PersonalMapElementType.CAPABILITY,
-                                    elementId: uniqueId(),
-                                },
-                            ],
-                        },
-                    ],
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            e.over.id === NEW_GROUP_DROPPABLE_ID &&
-            activeData.elementType === PersonalMapElementType.SUBGROUP
-        ) {
-            setGroupsData(
-                deleteElementInMapDataByIds(
-                    [
-                        ...groupsData,
-                        {
-                            elementId: uniqueId(),
-                            elementType: PersonalMapElementType.GROUP,
-                            name: 'Укажите название группы',
-                            children: [
-                                {
-                                    ...activeData,
-                                    elementType: PersonalMapElementType.SUBGROUP,
-                                    elementId: uniqueId(),
-                                },
-                            ],
-                        },
-                    ],
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            overData.elementType === PersonalMapElementType.GROUP &&
-            activeData.elementType === PersonalMapElementType.GROUP
-        ) {
-            const activeIndex = groupsData.findIndex(
-                ({ elementId }) => elementId === activeData.elementId,
-            );
-            const overIndex = groupsData.findIndex(
-                ({ elementId }) => elementId === overData.elementId,
-            );
-            setGroupsData(arrayMove(groupsData, activeIndex, overIndex));
-        } else if (
-            overData.elementType === PersonalMapElementType.GROUP &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            setGroupsData(
-                deleteElementInMapDataByIds(
-                    groupsData.map((el) =>
-                        el.elementId === overData.elementId
-                            ? {
-                                  ...overData,
-                                  children: [
-                                      ...overData.children,
-                                      {
-                                          ...activeData,
-                                          elementId: uniqueId(),
-                                          elementType: PersonalMapElementType.CAPABILITY,
-                                      },
-                                  ],
-                              }
-                            : el,
-                    ),
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            overData.elementType === PersonalMapElementType.SUBGROUP &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            setGroupsData(
-                deleteElementInMapDataByIds(
-                    groupsData.map((g) => ({
-                        ...g,
-                        children: g.children.map((s) =>
-                            s.elementId === overData.elementId &&
-                            s.elementType === PersonalMapElementType.SUBGROUP
-                                ? {
-                                      ...s,
-                                      children: [
-                                          ...s.children,
-                                          { ...activeData, elementId: uniqueId() },
-                                      ],
-                                  }
-                                : s,
-                        ),
-                    })),
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            overData.elementType === PersonalMapElementType.GROUP &&
-            activeData.elementType === PersonalMapElementType.SUBGROUP
-        ) {
-            const group = groupsData.find((g) => g.elementId === overData.elementId);
-            if (group) {
-                setGroupsData(
-                    deleteElementInMapDataByIds(
-                        groupsData.map((g) =>
-                            g.elementId === group.elementId
-                                ? {
-                                      ...group,
-                                      children: [
-                                          ...group.children,
-                                          { ...activeData, elementId: uniqueId() },
-                                      ],
-                                  }
-                                : g,
-                        ),
-                        [activeData.elementId],
-                    ),
-                );
-            }
-        } else if (
-            overData.elementType === PersonalMapElementType.CAPABILITY &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            const group = groupsData.find((g) =>
-                g.children.some((c) => c.elementId === overData.elementId),
-            );
-            if (group) {
-                setGroupsData(
-                    deleteElementInMapDataByIds(
-                        groupsData.map((g) =>
-                            g.elementId === group.elementId
-                                ? {
-                                      ...group,
-                                      children: [
-                                          ...group.children,
-                                          {
-                                              elementId: uniqueId(),
-                                              elementType: PersonalMapElementType.SUBGROUP,
-                                              name: 'Укажите название группы',
-                                              children: [
-                                                  { ...activeData, elementId: uniqueId() },
-                                                  { ...overData, elementId: uniqueId() },
-                                              ],
-                                          },
-                                      ],
-                                  }
-                                : g,
-                        ),
-                        [activeData.elementId, overData.elementId],
-                    ),
-                );
-            }
-        }
-
-        setDraggedElement(null);
-    };
-
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
@@ -345,7 +165,7 @@ export const MapAddPage = () => {
         <>
             <DndContext
                 onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
+                onDragEnd={(e) => handleDragEnd(e, groupsData, setDraggedElement, setGroupsData)}
                 onDragCancel={() => setDraggedElement(null)}
                 sensors={sensors}
             >
@@ -361,7 +181,7 @@ export const MapAddPage = () => {
                                         {mapData?.name}
                                     </S.TooltipContainer>
                                 )}
-                                <S.Desription data-tooltip-id="description">
+                                <S.Desription>
                                     {mapTypeToNameMap[
                                         typesData?.find((type) => type.id === mapData?.typeId)
                                             ?.name ?? ''

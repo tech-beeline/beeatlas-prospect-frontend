@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Chip, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -10,7 +10,6 @@ import {
     ScenariosLegend,
     TechCapabilitiesLegend,
     TechCapabilityCard,
-    // TechCapabilityCard,
 } from 'features/maps';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -25,16 +24,16 @@ import { PersonalCapabilityCard } from './components';
 import * as S from './units';
 
 export const PersonalMapPage = () => {
+    const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
+    const [chipsDisabled, setChipsDisabled] = useState(false);
+
     const [params, setParams] = useSearchParams();
-    const { id } = useParams();
     const capabilityId = params.get('id');
+    const { id } = useParams();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const navigate = useNavigate();
-
-    const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
-    const [chipsDisabled, setChipsDisabled] = useState(false);
 
     const { data: mapData, isLoading: isLoadingMapData, error } = useGetPersonalMapByIdQuery(id);
 
@@ -43,6 +42,9 @@ export const PersonalMapPage = () => {
         Boolean(capabilityId),
     );
     const capabilityTreeData = loadedTreeData as IMapItemData | undefined;
+    const hasSubChildren =
+        capabilityTreeData?.children?.some((child) => child.children.length !== 0) ?? false;
+
     const { data: childrenCapabilitiesData, isLoading: isLoadingChildrenCapabilities } =
         useGetChildrenCapabilitiesQuery({
             id: Number(capabilityId),
@@ -52,9 +54,6 @@ export const PersonalMapPage = () => {
         });
 
     const isLoading = isLoadingMapData || isLoadingTreeData || isLoadingChildrenCapabilities;
-
-    const hasSubChildren =
-        capabilityTreeData?.children?.some((child) => child.children.length !== 0) ?? false;
 
     useEffect(() => {
         if (
@@ -67,8 +66,6 @@ export const PersonalMapPage = () => {
             setChipsDisabled(false);
         }
     }, [childrenCapabilitiesData]);
-
-    const descriptionRef = useRef<HTMLDivElement>(null);
 
     const Legend =
         mapVariant === MapVariant.E2E_SCENARIOS ? ScenariosLegend : TechCapabilitiesLegend;
@@ -121,61 +118,13 @@ export const PersonalMapPage = () => {
                             )}
                         </S.TitleContainer>
 
-                        {id && mapData && (
-                            <>
-                                {mapData.description && (
-                                    <S.Description
-                                        isExpanded
-                                        ref={descriptionRef}
-                                        dangerouslySetInnerHTML={{
-                                            __html:
-                                                capabilityTreeData?.description ??
-                                                mapData.description,
-                                        }}
-                                    />
-                                )}
-                                {/* {!activeItem.description &&
-                                            (activeItem.children.length !== 0 ||
-                                                (childrenCapabilitiesData &&
-                                                    childrenCapabilitiesData.techCapabilities
-                                                        .length !== 0)) && (
-                                                <S.Description isExpanded>
-                                                    Описания нет. Посмотреть детальную информацию по
-                                                    дочерним элементам можно{' '}
-                                                    <Link
-                                                        title="в древе ФДМ"
-                                                        url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
-                                                    />
-                                                </S.Description>
-                                            )} */}
-                                {/* {isExpanded && (
-                                            <Text variant="body2">
-                                                Посмотреть детальную информацию по дочерним
-                                                элементам можно{' '}
-                                                <Link
-                                                    title="в древе ФДМ"
-                                                    url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
-                                                />
-                                            </Text>
-                                        )} */}
-                                {/* {mapData.description && (
-                                            <S.ExpandButton
-                                                onClick={() => setIsExpanded(!isExpanded)}
-                                            >
-                                                <div>
-                                                    {isExpanded ? 'Скрыть' : 'Показать полностью'}
-                                                </div>
-                                                <S.IconStyled
-                                                    iconName={
-                                                        isExpanded
-                                                            ? Icons.FastArrowTop
-                                                            : Icons.FastArrowDown
-                                                    }
-                                                    size="small"
-                                                />
-                                            </S.ExpandButton>
-                                        )} */}
-                            </>
+                        {id && mapData && mapData.description && (
+                            <S.Description
+                                isExpanded
+                                dangerouslySetInnerHTML={{
+                                    __html: capabilityTreeData?.description ?? mapData.description,
+                                }}
+                            />
                         )}
 
                         <S.ChipsContainer>

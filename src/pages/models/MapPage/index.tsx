@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Button, Chip, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -27,7 +27,10 @@ import * as S from './units';
 
 export const MapPage = () => {
     const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
+    const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
+    const [chipsDisabled, setChipsDisabled] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+
     const [params, setParams] = useSearchParams();
     const id = params.get('id');
     const tabParam = params.get('tab') as TabVariant | null;
@@ -48,9 +51,6 @@ export const MapPage = () => {
         closeModal: closeSideblock,
     } = useModal();
 
-    const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
-    const [chipsDisabled, setChipsDisabled] = useState(false);
-
     const { mutateAsync: createMap } = useCreatePersonalMapMutation();
 
     const handleFormSave = async (values: MapFormValues) => {
@@ -63,7 +63,11 @@ export const MapPage = () => {
         isLoading: isLoadingMapData,
         error,
     } = useGetMapDataQuery(id ? Number(id) : undefined);
+
     const activeItem = data ? (id ? (data as any as IMapItemData) : data[0]) : null;
+
+    const hasSubChildren =
+        activeItem?.children.some((child) => child.children.length !== 0) ?? false;
 
     const { data: childrenCapabilitiesData, isLoading: isLoadingTechCapabilities } =
         useGetChildrenCapabilitiesQuery({
@@ -83,13 +87,8 @@ export const MapPage = () => {
         setIsExpanded(false);
     }, [activeItem]);
 
-    const descriptionRef = useRef<HTMLDivElement>(null);
-
     const Legend =
         mapVariant === MapVariant.E2E_SCENARIOS ? ScenariosLegend : TechCapabilitiesLegend;
-
-    const hasSubChildren =
-        activeItem?.children.some((child) => child.children.length !== 0) ?? false;
 
     return (
         <S.PageWrapper>
@@ -149,7 +148,6 @@ export const MapPage = () => {
                                     <>
                                         {activeItem.description && (
                                             <S.Description
-                                                ref={descriptionRef}
                                                 isExpanded={isExpanded}
                                                 dangerouslySetInnerHTML={{
                                                     __html: activeItem.description,
@@ -234,8 +232,6 @@ export const MapPage = () => {
                     </S.ErrorContainer>
                 )}
 
-                {tabVariant === TabVariant.PERSONAL && <PersonalMapsLibrary />}
-
                 {tabVariant === TabVariant.GENERAL && (
                     <>
                         {isLoading && (
@@ -290,6 +286,8 @@ export const MapPage = () => {
                         )}
                     </>
                 )}
+
+                {tabVariant === TabVariant.PERSONAL && <PersonalMapsLibrary />}
             </S.Container>
             <CreateMapSideblock
                 isOpen={sideblockOpened}

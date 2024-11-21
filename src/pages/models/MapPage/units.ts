@@ -103,39 +103,6 @@ export const Subtitle = styled.div`
     line-height: var(--font-line-height-subtitle1);
 `;
 
-export const PersonalMapsContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
-
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-    }
-
-    flex: 1 1 auto;
-
-    padding: 24px 32px 32px 32px;
-
-    overflow-y: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-`;
-
-export const FlexContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-`;
-
 export const CardContainer = styled.div`
     display: flex;
     gap: 24px;

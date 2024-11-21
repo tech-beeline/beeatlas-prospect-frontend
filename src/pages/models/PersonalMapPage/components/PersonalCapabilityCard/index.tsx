@@ -39,8 +39,10 @@ const BusinessCard: FC<{
                 );
             }}
         >
-            <S.CardTitle>БИЗНЕС-ВОЗМОЖНОСТЬ</S.CardTitle>
-            <S.CardText>{capability.name}</S.CardText>
+            <Text inactive variant="overline">
+                БИЗНЕС-ВОЗМОЖНОСТЬ
+            </Text>
+            <Text variant="body2">{capability.name}</Text>
             {mapVariant !== MapVariant.DEFAULT && (
                 <S.CriteriaContainer>
                     <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
@@ -70,8 +72,10 @@ const TechCard: FC<{
             }
         >
             <S.Content>
-                <S.CardTitle>ТЕХНИЧЕСКАЯ ВОЗМОЖНОСТЬ</S.CardTitle>
-                <S.CardText>{capability.name}</S.CardText>
+                <Text inactive variant="overline">
+                    ТЕХНИЧЕСКАЯ ВОЗМОЖНОСТЬ
+                </Text>
+                <Text variant="body2">{capability.name}</Text>
                 {mapVariant !== MapVariant.DEFAULT && (
                     <S.CriteriaContainer>
                         <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
@@ -146,7 +150,7 @@ export const PersonalCapabilityCard: FC<IPersonalCapabilityCard> = ({
                     )}
                     {subgroup.capability.length === 0 && (
                         <S.Card>
-                            <S.CardText>Возможностей нет</S.CardText>
+                            <Text variant="body2">Возможностей нет</Text>
                         </S.Card>
                     )}
                 </S.SubgroupCard>
@@ -154,7 +158,7 @@ export const PersonalCapabilityCard: FC<IPersonalCapabilityCard> = ({
             {item.capability.length === 0 &&
                 (!item.childrenGroup || item.childrenGroup.length === 0) && (
                     <S.Card>
-                        <S.CardText>Возможностей нет</S.CardText>
+                        <Text variant="body2">Возможностей нет</Text>
                     </S.Card>
                 )}
         </S.GroupCard>
