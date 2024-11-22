@@ -20,7 +20,7 @@ export const getPersonalMapById = (
     });
 };
 
-export const getPersonalMapTypes = (): AxiosPromise<T.IPersonalMapTypeData[]> => {
+export const getPersonalMapTypes = (): AxiosPromise<T.IPersonalMapType[]> => {
     return Api.get({
         url: `${GATEWAY_URL}capability/v1/capability/type`,
     });

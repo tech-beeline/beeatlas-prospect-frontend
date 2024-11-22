@@ -9,26 +9,18 @@ import { DropdownMenu } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IPersonalMapData } from 'api/maps/types';
-import {
-    useDeletePersonalMapMutation,
-    useGetPersonalMapsQuery,
-    useGetPersonalMapTypesQuery,
-} from 'api/queries/maps';
+import { useDeletePersonalMapMutation, useGetPersonalMapsQuery } from 'api/queries/maps';
 import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { mapTypeToNameMap } from './const';
 import * as S from './units';
 
 export const PersonalMapsLibrary: FC = () => {
     const [mapToDelete, setMapToDelete] = useState<IPersonalMapData | null>(null);
 
-    const { data: mapsData, isLoading: isLoadingMaps } = useGetPersonalMapsQuery();
-    const { data: typesData, isLoading: isLoadingTypes } = useGetPersonalMapTypesQuery();
+    const { data: mapsData, isLoading } = useGetPersonalMapsQuery();
     const { mutateAsync: deletePersonalMap } = useDeletePersonalMapMutation();
-
-    const isLoading = isLoadingMaps || isLoadingTypes;
 
     const navigate = useNavigate();
 
@@ -74,48 +66,46 @@ export const PersonalMapsLibrary: FC = () => {
                         <Skeleton key={i} height={200} radius={12} />
                     ))}
                 {mapsData &&
-                    typesData &&
                     mapsData.map((map) => (
                         <S.MapCard key={map.id}>
-                            <S.FlexContainer>
-                                <div>
-                                    <Text
-                                        link
-                                        pointer
-                                        variant="subtitle1"
-                                        onClick={() => handleTitleClick(map.id)}
-                                    >
-                                        {map.name}
-                                    </Text>
-                                    <Text inactive variant="body3">
-                                        {mapTypeToNameMap[
-                                            typesData.find((type) => type.id === map.typeId)
-                                                ?.name ?? ''
-                                        ] ?? map.typeId}
-                                    </Text>
-                                </div>
-                                <DropdownMenu
-                                    id={String(map.id)}
-                                    items={[
-                                        {
-                                            title: 'Редактировать',
-                                            icon: Icons.Edit,
-                                            onClick: () => handleEditClick(map.id),
-                                        },
-                                        {
-                                            title: 'Скопировать ссылку',
-                                            icon: Icons.Link,
-                                            onClick: () => handleCopyClick(map.id),
-                                        },
-                                        {
-                                            title: 'Удалить',
-                                            icon: Icons.Delete,
-                                            onClick: () => setMapToDelete(map),
-                                        },
-                                    ]}
-                                />
-                            </S.FlexContainer>
-                            <Text variant="body2">{map.description}</Text>
+                            <div>
+                                <S.FlexContainer>
+                                    <div>
+                                        <Text
+                                            link
+                                            pointer
+                                            variant="subtitle1"
+                                            onClick={() => handleTitleClick(map.id)}
+                                        >
+                                            {map.name}
+                                        </Text>
+                                        <Text inactive variant="body3">
+                                            {map.type.title}
+                                        </Text>
+                                    </div>
+                                    <DropdownMenu
+                                        id={String(map.id)}
+                                        items={[
+                                            {
+                                                title: 'Редактировать',
+                                                icon: Icons.Edit,
+                                                onClick: () => handleEditClick(map.id),
+                                            },
+                                            {
+                                                title: 'Скопировать ссылку',
+                                                icon: Icons.Link,
+                                                onClick: () => handleCopyClick(map.id),
+                                            },
+                                            {
+                                                title: 'Удалить',
+                                                icon: Icons.Delete,
+                                                onClick: () => setMapToDelete(map),
+                                            },
+                                        ]}
+                                    />
+                                </S.FlexContainer>
+                                <Text variant="body2">{map.description}</Text>
+                            </div>
                             <S.DatesContainer>
                                 <S.GrowContainer>
                                     <Text inactive variant="overline">

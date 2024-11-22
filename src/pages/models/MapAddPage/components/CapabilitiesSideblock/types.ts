@@ -1,3 +1,5 @@
+import { IPersonalMapType } from 'api/maps/types';
+
 export interface ICapabilitiesSideblock {
-    mapTypeId: number;
+    mapType: IPersonalMapType;
 }

@@ -7,7 +7,7 @@ import { MapVariant, mapVariantToColorArrayMap, mapVariantToDescriptionMap } fro
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
-import { IMapCapability } from 'api/maps/types';
+import { IMapCapability, PersonalMapTypes } from 'api/maps/types';
 import * as R from 'router/const';
 
 import { IPersonalCapabilityCard } from './types';
@@ -114,13 +114,13 @@ const TechCard: FC<{
 export const PersonalCapabilityCard: FC<IPersonalCapabilityCard> = ({
     item,
     mapVariant,
-    mapTypeId,
+    mapType,
 }) => {
     return (
         <S.GroupCard hasSubgroups={item.childrenGroup && item.childrenGroup.length !== 0}>
             <S.GroupCardTitle>{item.nameGroup}</S.GroupCardTitle>
             {item.capability.map((capability) =>
-                mapTypeId === 1 ? (
+                mapType.name === PersonalMapTypes.TECH_CAPABILITY ? (
                     <TechCard key={capability.id} capability={capability} mapVariant={mapVariant} />
                 ) : (
                     <BusinessCard
@@ -134,7 +134,7 @@ export const PersonalCapabilityCard: FC<IPersonalCapabilityCard> = ({
                 <S.SubgroupCard key={subgroup.groupId}>
                     <S.GroupCardTitle>{subgroup.nameGroup}</S.GroupCardTitle>
                     {subgroup.capability.map((capability) =>
-                        mapTypeId === 1 ? (
+                        mapType.name === PersonalMapTypes.TECH_CAPABILITY ? (
                             <TechCard
                                 key={capability.id}
                                 capability={capability}

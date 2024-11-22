@@ -1,8 +1,9 @@
 import { ISearchResult } from 'api/capability/types';
+import { IPersonalMapType } from 'api/maps/types';
 
 export interface ICapabilitySearchCard {
     capability: ISearchResult;
-    mapTypeId: number;
+    mapType: IPersonalMapType;
     dragged?: boolean;
 }
 

@@ -3,6 +3,7 @@ import {
     IBusinessCapability,
     ITechCapability,
 } from 'api/capability/types';
+import { IPersonalMapType } from 'api/maps/types';
 
 type TreeCapability =
     | {
@@ -16,5 +17,5 @@ type TreeCapability =
 
 export type ICapabilityTreeCard = TreeCapability & {
     level: number;
-    mapTypeId: number;
+    mapType: IPersonalMapType;
 };

@@ -15,6 +15,7 @@ import {
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IMapItemData } from 'api/capability/types';
+import { PersonalMapTypes } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
 import { useGetPersonalMapByIdQuery } from 'api/queries/maps';
 import * as ROUTER from 'router/const';
@@ -133,7 +134,8 @@ export const PersonalMapPage = () => {
                                     key={i}
                                     disabled={
                                         (chipsDisabled && i !== 0) ||
-                                        (mapData?.typeId === 1 && i === 1)
+                                        (mapData?.type.name === PersonalMapTypes.TECH_CAPABILITY &&
+                                            chip.value === MapVariant.TECH_CAPABILITIES)
                                     }
                                     active={chip.value === mapVariant}
                                     label={chip.label}
@@ -222,7 +224,7 @@ export const PersonalMapPage = () => {
                         {mapData.groups.map((group) => (
                             <PersonalCapabilityCard
                                 key={group.groupId}
-                                mapTypeId={mapData.typeId}
+                                mapType={mapData.type}
                                 item={group}
                                 mapVariant={mapVariant}
                             />

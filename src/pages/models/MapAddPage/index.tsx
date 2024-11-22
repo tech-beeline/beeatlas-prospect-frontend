@@ -11,13 +11,12 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { CreateMapSideblock, MapFormValues } from 'features/maps';
-import { mapTypeToNameMap } from 'features/maps/components/CreateMapSideblock/const';
 import { uniqueId } from 'lodash';
 
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
+import { PersonalMapTypes } from 'api/maps/types';
 import {
     useGetPersonalMapByIdQuery,
-    useGetPersonalMapTypesQuery,
     useUpdatePersonalMapGroupsMutation,
     useUpdatePersonalMapMutation,
 } from 'api/queries/maps';
@@ -53,7 +52,6 @@ export const MapAddPage = () => {
     const { mutateAsync: updatePersonalMap } = useUpdatePersonalMapMutation();
     const { mutateAsync: updatePersonalMapGroups } = useUpdatePersonalMapGroupsMutation();
     const { data: mapData } = useGetPersonalMapByIdQuery(paramId);
-    const { data: typesData } = useGetPersonalMapTypesQuery();
 
     useEffect(() => {
         if (mapData?.groups) {
@@ -70,7 +68,7 @@ export const MapAddPage = () => {
                             description: c.description,
                             name: c.name,
                             type:
-                                mapData.typeId === 1
+                                mapData.type.name === PersonalMapTypes.TECH_CAPABILITY
                                     ? CapabilitySearchResultTypeVariant.TECH_CAPABILITY
                                     : CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY,
                             elementType:
@@ -86,7 +84,7 @@ export const MapAddPage = () => {
                                 description: c.description,
                                 name: c.name,
                                 type:
-                                    mapData.typeId === 1
+                                    mapData.type.name === PersonalMapTypes.TECH_CAPABILITY
                                         ? CapabilitySearchResultTypeVariant.TECH_CAPABILITY
                                         : CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY,
                                 elementType:
@@ -181,12 +179,7 @@ export const MapAddPage = () => {
                                         {mapData?.name}
                                     </S.TooltipContainer>
                                 )}
-                                <S.Desription>
-                                    {mapTypeToNameMap[
-                                        typesData?.find((type) => type.id === mapData?.typeId)
-                                            ?.name ?? ''
-                                    ] ?? mapData?.typeId}
-                                </S.Desription>
+                                <S.Desription>{mapData?.type.title}</S.Desription>
                             </div>
 
                             <S.ButtonStyled
@@ -211,7 +204,7 @@ export const MapAddPage = () => {
                     </S.Header>
                     {mapData && (
                         <S.Content>
-                            <CapabilitiesSideblock mapTypeId={mapData.typeId} />
+                            <CapabilitiesSideblock mapType={mapData.type} />
                             <CapabilitiesMapEdit
                                 selectedElementId={selectedElementId}
                                 setSelectedElementId={setSelectedElementId}
@@ -239,7 +232,7 @@ export const MapAddPage = () => {
                 isOpen={sideblockOpened}
                 onClose={closeSideblock}
                 onSave={handleSideblockSave}
-                values={mapData ? { ...mapData, type: mapData.typeId } : undefined}
+                values={mapData ? { ...mapData, type: mapData.type.id } : undefined}
             />
         </>
     );

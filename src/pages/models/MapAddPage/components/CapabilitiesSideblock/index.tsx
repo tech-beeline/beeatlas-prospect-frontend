@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { Search, Skeleton } from '@beeline/design-system-react';
 
 import { CapabilitySearchResultTypeVariant, CapabilitySearchVariant } from 'api/capability/types';
+import { PersonalMapTypes } from 'api/maps/types';
 import { useGetCapabilitiesQuery, useGetCoreCapabilitiesQuery } from 'api/queries/capability';
 import { useDebounce } from 'hooks';
 
@@ -9,14 +10,14 @@ import { CapabilitiesSearchCard, CapabilitiesTreeCard } from './components';
 import { ICapabilitiesSideblock } from './types';
 import * as S from './units';
 
-export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapTypeId }) => {
+export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapType }) => {
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
 
     const { data: searchData, isLoading: isLoadingSearchData } = useGetCapabilitiesQuery({
         search: debouncedSearch,
         searchVariant:
-            mapTypeId === 1
+            mapType.name === PersonalMapTypes.TECH_CAPABILITY
                 ? CapabilitySearchVariant.TECH_CAPABILITY
                 : CapabilitySearchVariant.BUSINESS_CAPABILITY,
     });
@@ -44,11 +45,10 @@ export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapTypeId })
                         </S.SearchSkeletonContainer>
                     )}
                     {searchData &&
-                        mapTypeId &&
                         searchData.map((capability) => (
                             <CapabilitiesSearchCard
                                 key={capability.id}
-                                mapTypeId={mapTypeId}
+                                mapType={mapType}
                                 capability={capability}
                             />
                         ))}
@@ -64,11 +64,10 @@ export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapTypeId })
                         </S.SearchSkeletonContainer>
                     )}
                     {capabilitiesData &&
-                        mapTypeId &&
                         capabilitiesData.map((capability) => (
                             <CapabilitiesTreeCard
                                 key={capability.id}
-                                mapTypeId={mapTypeId}
+                                mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
                                 level={0}

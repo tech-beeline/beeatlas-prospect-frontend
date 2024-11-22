@@ -32,7 +32,7 @@ export const NotFoundContainer = styled.div`
 export const MapCard = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    justify-content: space-between;
 
     padding: 24px;
 
@@ -44,6 +44,8 @@ export const FlexContainer = styled.div`
     display: flex;
     align-items: start;
     justify-content: space-between;
+
+    margin-bottom: 12px;
 `;
 
 export const DatesContainer = styled.div`

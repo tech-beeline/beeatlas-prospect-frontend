@@ -9,7 +9,6 @@ import { Select, TextArea, TextField } from 'components/form';
 
 import { useGetPersonalMapTypesQuery } from 'api/queries/maps';
 
-import { mapTypeToNameMap } from './const';
 import { MapFormValues, validationSchema } from './form';
 import { ICreateMapSideblock } from './types';
 import * as S from './units';
@@ -82,7 +81,7 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                 disabled={typeDisabled || isLoadingTypes}
                                 options={(typesData ?? []).map((type) => ({
                                     id: type.id,
-                                    value: mapTypeToNameMap[type.name] ?? type.name,
+                                    value: type.title,
                                 }))}
                             />
                             {typeDisabled && (

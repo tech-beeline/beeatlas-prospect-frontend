@@ -1,9 +1,20 @@
+export enum PersonalMapTypes {
+    BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
+    TECH_CAPABILITY = 'TECH_CAPABILITY',
+}
+
+export interface IPersonalMapType {
+    id: number;
+    name: PersonalMapTypes;
+    title: string;
+}
+
 export interface IPersonalMapData {
     createdDate: string;
     description: string;
     id: number;
     name: string;
-    typeId: number;
+    type: IPersonalMapType;
     updatedDate?: string | null;
 }
 
@@ -39,12 +50,7 @@ export interface IPersonalMapСompleteData {
     description: string;
     groups: IPersonalMapGroup[] | null;
     name: string;
-    typeId: number;
-}
-
-export interface IPersonalMapTypeData {
-    id: number;
-    name: string;
+    type: IPersonalMapType;
 }
 
 export interface IPersonalMapForm {

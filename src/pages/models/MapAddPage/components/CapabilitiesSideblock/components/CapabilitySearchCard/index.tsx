@@ -7,6 +7,7 @@ import { uniqueId } from 'lodash';
 import { Text } from 'components/core';
 
 import { CapabilitySearchResultTypeVariant, IMapItemData } from 'api/capability/types';
+import { PersonalMapTypes } from 'api/maps/types';
 import {
     useGetMapDataQuery,
     useGetTechCapabilityByIdQuery,
@@ -19,7 +20,7 @@ import * as S from './units';
 
 export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
     capability,
-    mapTypeId,
+    mapType,
     dragged = false,
 }) => {
     const [tooltipOpened, setTooltipOpened] = useState(false);
@@ -33,9 +34,9 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
         },
         disabled:
             (capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
-                mapTypeId !== 2) ||
+                mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
             (capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
-                mapTypeId !== 1),
+                mapType.name !== PersonalMapTypes.TECH_CAPABILITY),
     });
 
     const { data: treeData, isLoading: isLoadingTreeData } = useGetMapDataQuery(
