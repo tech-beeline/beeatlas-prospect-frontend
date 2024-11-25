@@ -7,6 +7,7 @@ import {
     CapabilityCard,
     CreateMapSideblock,
     MapFormValues,
+    MapVariant,
     ScenariosLegend,
     TechCapabilitiesLegend,
     TechCapabilityCard,
@@ -22,7 +23,7 @@ import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 
 import { PersonalMapsLibrary } from './components';
-import { CHIPS, MapVariant, TABS, TabVariant } from './const';
+import { CHIPS, TABS, TabVariant } from './const';
 import * as S from './units';
 
 export const MapPage = () => {

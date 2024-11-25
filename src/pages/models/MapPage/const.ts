@@ -1,10 +1,4 @@
-import { E2E_SCENARIOS_COLORS, TECH_CAPABILITIES_COLORS } from 'features/maps';
-
-export enum MapVariant {
-    DEFAULT = 'DEFAULT',
-    TECH_CAPABILITIES = 'TECH_CAPABILITIES',
-    E2E_SCENARIOS = 'E2E_SCENARIOS',
-}
+import { MapVariant } from 'features/maps';
 
 export enum TabVariant {
     GENERAL = 'GENERAL',
@@ -30,12 +24,6 @@ export const TABS = [
     { label: 'Общая карта', value: TabVariant.GENERAL },
     { label: 'Мои карты', value: TabVariant.PERSONAL },
 ];
-
-export const mapVariantToColorArrayMap: Record<MapVariant, string[]> = {
-    [MapVariant.DEFAULT]: [],
-    [MapVariant.TECH_CAPABILITIES]: TECH_CAPABILITIES_COLORS,
-    [MapVariant.E2E_SCENARIOS]: E2E_SCENARIOS_COLORS,
-};
 
 export const mapVariantToDescriptionMap: Record<MapVariant, string> = {
     [MapVariant.DEFAULT]: '',

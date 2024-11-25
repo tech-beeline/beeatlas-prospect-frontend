@@ -2,13 +2,19 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
 import * as ROUTER from 'router/const';
 
-import { MapVariant, mapVariantToColorArrayMap, mapVariantToDescriptionMap } from '../../const';
+import {
+    MapVariant,
+    mapVariantToDarkThemeColorArrayMap,
+    mapVariantToDescriptionMap,
+    mapVariantToLightThemeColorArrayMap,
+} from '../../const';
 
 import { ICapabilityCard, ITechCapabilityCard } from './types';
 import * as S from './units';
@@ -19,6 +25,12 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
     topLevel = true,
     mapVariant,
 }) => {
+    const themeIsDark = useThemeStore((store) => store.themeIsDark);
+
+    const colorArrayMap = themeIsDark
+        ? mapVariantToDarkThemeColorArrayMap
+        : mapVariantToLightThemeColorArrayMap;
+
     const [, setParams] = useSearchParams();
 
     const isClickable = item.children.length === 0;
@@ -33,8 +45,7 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                 style={
                     mapVariant !== MapVariant.DEFAULT
                         ? {
-                              backgroundColor:
-                                  mapVariantToColorArrayMap[mapVariant][criteria?.grade ?? 0],
+                              backgroundColor: colorArrayMap[mapVariant][criteria?.grade ?? 0],
                           }
                         : {}
                 }

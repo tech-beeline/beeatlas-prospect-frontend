@@ -1,5 +1,8 @@
 import { E2E_SCENARIOS_COLORS } from './components/ScenariosLegend/const';
-import { TECH_CAPABILITIES_COLORS } from './components/TechCapabilitiesLegend/const';
+import {
+    TECH_CAPABILITIES_COLORS_DARK_THEME,
+    TECH_CAPABILITIES_COLORS_LIGHT_THEME,
+} from './components/TechCapabilitiesLegend/const';
 
 export enum MapVariant {
     DEFAULT = 'DEFAULT',
@@ -22,9 +25,15 @@ export const CHIPS = [
     // },
 ];
 
-export const mapVariantToColorArrayMap: Record<MapVariant, string[]> = {
+export const mapVariantToLightThemeColorArrayMap: Record<MapVariant, string[]> = {
     [MapVariant.DEFAULT]: [],
-    [MapVariant.TECH_CAPABILITIES]: TECH_CAPABILITIES_COLORS,
+    [MapVariant.TECH_CAPABILITIES]: TECH_CAPABILITIES_COLORS_LIGHT_THEME,
+    [MapVariant.E2E_SCENARIOS]: E2E_SCENARIOS_COLORS,
+};
+
+export const mapVariantToDarkThemeColorArrayMap: Record<MapVariant, string[]> = {
+    [MapVariant.DEFAULT]: [],
+    [MapVariant.TECH_CAPABILITIES]: TECH_CAPABILITIES_COLORS_DARK_THEME,
     [MapVariant.E2E_SCENARIOS]: E2E_SCENARIOS_COLORS,
 };
 

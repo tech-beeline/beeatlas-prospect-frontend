@@ -2,7 +2,13 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { MapVariant, mapVariantToColorArrayMap, mapVariantToDescriptionMap } from 'features/maps';
+import {
+    MapVariant,
+    mapVariantToDarkThemeColorArrayMap,
+    mapVariantToDescriptionMap,
+    mapVariantToLightThemeColorArrayMap,
+} from 'features/maps';
+import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -17,6 +23,12 @@ const BusinessCard: FC<{
     capability: IMapCapability;
     mapVariant: MapVariant;
 }> = ({ capability, mapVariant }) => {
+    const themeIsDark = useThemeStore((store) => store.themeIsDark);
+
+    const colorArrayMap = themeIsDark
+        ? mapVariantToDarkThemeColorArrayMap
+        : mapVariantToLightThemeColorArrayMap;
+
     const [, setParams] = useSearchParams();
     return (
         <S.Card
@@ -25,9 +37,7 @@ const BusinessCard: FC<{
                 mapVariant !== MapVariant.DEFAULT
                     ? {
                           backgroundColor:
-                              mapVariantToColorArrayMap[mapVariant][
-                                  capability.criteria?.grade ?? 0
-                              ],
+                              colorArrayMap[mapVariant][capability.criteria?.grade ?? 0],
                       }
                     : {}
             }
@@ -57,6 +67,12 @@ const TechCard: FC<{
     capability: IMapCapability;
     mapVariant: MapVariant;
 }> = ({ capability, mapVariant }) => {
+    const themeIsDark = useThemeStore((store) => store.themeIsDark);
+
+    const colorArrayMap = themeIsDark
+        ? mapVariantToDarkThemeColorArrayMap
+        : mapVariantToLightThemeColorArrayMap;
+
     return (
         <S.TechCard
             key={capability.id}
@@ -64,9 +80,7 @@ const TechCard: FC<{
                 mapVariant !== MapVariant.DEFAULT
                     ? {
                           backgroundColor:
-                              mapVariantToColorArrayMap[mapVariant][
-                                  capability.criteria?.grade ?? 0
-                              ],
+                              colorArrayMap[mapVariant][capability.criteria?.grade ?? 0],
                       }
                     : {}
             }
