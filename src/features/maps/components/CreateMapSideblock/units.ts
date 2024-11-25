@@ -22,10 +22,16 @@ export const SideBlockTitle = styled.div`
 export const TextFieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
 
     width: 100%;
     padding-top: 24px;
+`;
+
+export const RadioGroupContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export const ButtonContainer = styled.div`

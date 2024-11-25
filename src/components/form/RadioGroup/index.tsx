@@ -4,7 +4,7 @@ import { Radio as DesignSystemRadio } from '@beeline/design-system-react';
 
 import { IRadioGroup } from './types';
 
-export const RadioGroup: FC<IRadioGroup> = ({ name, labels }) => {
+export const RadioGroup: FC<IRadioGroup> = ({ name, options, disabled }) => {
     const { control } = useFormContext();
 
     return (
@@ -14,12 +14,13 @@ export const RadioGroup: FC<IRadioGroup> = ({ name, labels }) => {
             defaultValue={0}
             render={({ field }) => (
                 <>
-                    {labels.map((label, index) => (
+                    {options.map((option) => (
                         <DesignSystemRadio
-                            key={label}
-                            label={label}
-                            checked={index === field.value}
-                            onClick={() => field.onChange(index)}
+                            key={option.id}
+                            label={option.label}
+                            disabled={disabled}
+                            checked={option.id === field.value}
+                            onChange={() => field.onChange(option.id)}
                         />
                     ))}
                 </>

@@ -5,7 +5,8 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
-import { Select, TextArea, TextField } from 'components/form';
+import { Text } from 'components/core';
+import { RadioGroup, TextArea, TextField } from 'components/form';
 
 import { useGetPersonalMapTypesQuery } from 'api/queries/maps';
 
@@ -34,8 +35,8 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
     };
 
     useEffect(() => {
-        reset(values);
-    }, [values]);
+        reset({ ...values, type: values?.type ?? [...(typesData ?? [])].reverse()?.[0]?.id });
+    }, [values, typesData]);
 
     const description = watch('description');
 
@@ -74,18 +75,25 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
 
                             <TextField label="Название карты*" name="name" />
 
-                            <Select
-                                name="type"
-                                label="Тип карты*"
-                                data-tooltip-id="select"
-                                disabled={typeDisabled || isLoadingTypes}
-                                options={(typesData ?? []).map((type) => ({
-                                    id: type.id,
-                                    value: type.title,
-                                }))}
-                            />
+                            <Text variant="subtitle1">Тип карты</Text>
+
+                            <S.RadioGroupContainer data-tooltip-id="type-selection">
+                                <RadioGroup
+                                    name="type"
+                                    disabled={typeDisabled || isLoadingTypes}
+                                    options={[...(typesData ?? [])].reverse().map((type) => ({
+                                        label: type.title,
+                                        id: type.id,
+                                    }))}
+                                />
+                            </S.RadioGroupContainer>
                             {typeDisabled && (
-                                <S.TooltipContainer id="select" offset={8} place="bottom" noArrow>
+                                <S.TooltipContainer
+                                    id="type-selection"
+                                    offset={8}
+                                    place="bottom"
+                                    noArrow
+                                >
                                     Редактирование недоступно. Чтобы изменить тип карты, удалите все
                                     элементы
                                 </S.TooltipContainer>

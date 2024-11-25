@@ -1,4 +1,10 @@
+interface IOption {
+    label: string;
+    id: number;
+}
+
 export interface IRadioGroup {
     name: string;
-    labels: string[];
+    options: IOption[];
+    disabled?: boolean;
 }
