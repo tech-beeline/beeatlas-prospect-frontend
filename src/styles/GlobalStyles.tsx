@@ -200,6 +200,22 @@ export const GlobalStyles = () => {
                 .dsb_pagination-cell__text-active:focus-visible {
                     background-color: #fdd835;
                 }
+
+                /* Для постоянного отображения скроллбара на MacOS */
+                &.dsb__select__options {
+                    overflow-y: auto;
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: var(--color-utilities-scroll-hover);
+
+                        border-radius: var(--size-border-radius-x8);
+                    }
+
+                    &::-webkit-scrollbar {
+                        width: 8px;
+                        height: 8px;
+                    }
+                }
             `}
         />
     );
