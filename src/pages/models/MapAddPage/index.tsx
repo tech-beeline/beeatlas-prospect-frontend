@@ -1,20 +1,25 @@
-import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     DndContext,
-    DragEndEvent,
     DragOverlay,
     DragStartEvent,
     PointerSensor,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
-import { CreateMapSideblock } from 'features/maps';
+import { CreateMapSideblock, MapFormValues } from 'features/maps';
 import { uniqueId } from 'lodash';
 
+import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
+import { PersonalMapTypes } from 'api/maps/types';
+import {
+    useGetPersonalMapByIdQuery,
+    useUpdatePersonalMapGroupsMutation,
+    useUpdatePersonalMapMutation,
+} from 'api/queries/maps';
 import { useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -25,17 +30,76 @@ import {
 } from './components/CapabilitiesMapEdit/components/GroupCard';
 import { CapabilitiesSearchCardOverlay } from './components/CapabilitiesSideblock/components';
 import { CapabilitiesMapEdit, CapabilitiesSideblock } from './components';
-import { NEW_GROUP_DROPPABLE_ID } from './const';
-import { IPersonalMapElement, IPersonalMapGroup, PersonalMapElementType } from './types';
+import {
+    IPersonalMapCapability,
+    IPersonalMapElement,
+    IPersonalMapGroup,
+    IPersonalMapSubgroup,
+    PersonalMapElementType,
+} from './types';
 import * as S from './units';
-import { deleteElementInMapDataByIds } from './utils';
+import { handleDragEnd } from './utils';
 
 export const MapAddPage = () => {
     const [draggedElement, setDraggedElement] = useState<IPersonalMapElement | null>(null);
     const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
 
-    const [mapData, setMapData] = useState<IPersonalMapGroup[]>([]);
+    const [groupsData, setGroupsData] = useState<IPersonalMapGroup[]>([]);
+
+    const { mutateAsync: updatePersonalMap } = useUpdatePersonalMapMutation();
+    const { mutateAsync: updatePersonalMapGroups } = useUpdatePersonalMapGroupsMutation();
+    const { data: mapData } = useGetPersonalMapByIdQuery(paramId);
+
+    useEffect(() => {
+        if (mapData?.groups) {
+            setGroupsData(
+                mapData.groups.map((g) => ({
+                    name: g.nameGroup,
+                    groupId: g.groupId,
+                    elementId: uniqueId(),
+                    elementType: PersonalMapElementType.GROUP,
+                    children: [
+                        ...(g.capability ?? []).map((c) => ({
+                            id: c.id,
+                            code: c.code,
+                            description: c.description,
+                            name: c.name,
+                            type:
+                                mapData.type.name === PersonalMapTypes.TECH_CAPABILITY
+                                    ? CapabilitySearchResultTypeVariant.TECH_CAPABILITY
+                                    : CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY,
+                            elementType:
+                                PersonalMapElementType.CAPABILITY as PersonalMapElementType.CAPABILITY,
+                            elementId: uniqueId(),
+                        })),
+                        ...(g.childrenGroup ?? []).map((c) => ({
+                            name: c.nameGroup,
+                            groupId: c.groupId,
+                            children: (c.capability ?? []).map((c) => ({
+                                id: c.id,
+                                code: c.code,
+                                description: c.description,
+                                name: c.name,
+                                type:
+                                    mapData.type.name === PersonalMapTypes.TECH_CAPABILITY
+                                        ? CapabilitySearchResultTypeVariant.TECH_CAPABILITY
+                                        : CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY,
+                                elementType:
+                                    PersonalMapElementType.CAPABILITY as PersonalMapElementType.CAPABILITY,
+                                elementId: uniqueId(),
+                            })),
+                            elementType:
+                                PersonalMapElementType.SUBGROUP as PersonalMapElementType.SUBGROUP,
+                            elementId: uniqueId(),
+                        })),
+                    ],
+                })),
+            );
+        }
+    }, [mapData]);
 
     const {
         modalOpened: sideblockOpened,
@@ -43,202 +107,48 @@ export const MapAddPage = () => {
         closeModal: closeSideblock,
     } = useModal();
 
+    const handleSideblockSave = async (values: MapFormValues) => {
+        if (paramId) {
+            await updatePersonalMap({ id: paramId, data: { ...values, typeId: values.type } });
+            closeSideblock();
+        }
+    };
+
     const navigate = useNavigate();
 
     const handleBackIconClick = () => {
-        navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}`);
+        navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}?tab=PERSONAL`);
     };
 
-    const handleSave = () => {
-        handleBackIconClick();
-        showSnackbar({ message: 'Изменения сохранены' });
+    const handleSave = async () => {
+        if (paramId) {
+            await updatePersonalMapGroups({
+                id: paramId,
+                data: groupsData.map((g) => ({
+                    nameGroup: g.name,
+                    groupId: g.groupId,
+                    capabilityIds: g.children
+                        .filter((c) => c.elementType === PersonalMapElementType.CAPABILITY)
+                        .map((c) => (c as IPersonalMapCapability).id),
+                    childrenGroups: g.children
+                        .filter((c) => c.elementType === PersonalMapElementType.SUBGROUP)
+                        .map((c) => ({
+                            nameGroup: c.name,
+                            groupId: (c as IPersonalMapSubgroup).groupId,
+                            capabilityId: (c as IPersonalMapSubgroup).children.map((c) => c.id),
+                        })),
+                })),
+            });
+            handleBackIconClick();
+            showSnackbar({ message: 'Изменения сохранены' });
+        }
     };
 
     const nameRef = useRef<HTMLDivElement>(null);
     const showNameTooltip = useShowTooltip<HTMLDivElement>(nameRef);
 
-    const descriptionRef = useRef<HTMLDivElement>(null);
-    const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
-
     const handleDragStart = (e: DragStartEvent) => {
         setDraggedElement(e.active.data.current as IPersonalMapElement);
-    };
-
-    const handleDragEnd = (e: DragEndEvent) => {
-        if (!e.over || e.over.id === e.active.id) {
-            setDraggedElement(null);
-            return;
-        }
-
-        const overData = e.over.data.current as IPersonalMapElement;
-        const activeData = e.active.data.current as IPersonalMapElement;
-
-        if (
-            e.over.id === NEW_GROUP_DROPPABLE_ID &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            setMapData(
-                deleteElementInMapDataByIds(
-                    [
-                        ...mapData,
-                        {
-                            elementId: uniqueId(),
-                            elementType: PersonalMapElementType.GROUP,
-                            name: 'Укажите название группы',
-                            children: [
-                                {
-                                    ...activeData,
-                                    elementType: PersonalMapElementType.CAPABILITY,
-                                    elementId: uniqueId(),
-                                },
-                            ],
-                        },
-                    ],
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            e.over.id === NEW_GROUP_DROPPABLE_ID &&
-            activeData.elementType === PersonalMapElementType.SUBGROUP
-        ) {
-            setMapData(
-                deleteElementInMapDataByIds(
-                    [
-                        ...mapData,
-                        {
-                            elementId: uniqueId(),
-                            elementType: PersonalMapElementType.GROUP,
-                            name: 'Укажите название группы',
-                            children: [
-                                {
-                                    ...activeData,
-                                    elementType: PersonalMapElementType.SUBGROUP,
-                                    elementId: uniqueId(),
-                                },
-                            ],
-                        },
-                    ],
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            overData.elementType === PersonalMapElementType.GROUP &&
-            activeData.elementType === PersonalMapElementType.GROUP
-        ) {
-            const activeIndex = mapData.findIndex(
-                ({ elementId }) => elementId === activeData.elementId,
-            );
-            const overIndex = mapData.findIndex(
-                ({ elementId }) => elementId === overData.elementId,
-            );
-            setMapData(arrayMove(mapData, activeIndex, overIndex));
-        } else if (
-            overData.elementType === PersonalMapElementType.GROUP &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            setMapData(
-                deleteElementInMapDataByIds(
-                    mapData.map((el) =>
-                        el.elementId === overData.elementId
-                            ? {
-                                  ...overData,
-                                  children: [
-                                      ...overData.children,
-                                      {
-                                          ...activeData,
-                                          elementId: uniqueId(),
-                                          elementType: PersonalMapElementType.CAPABILITY,
-                                      },
-                                  ],
-                              }
-                            : el,
-                    ),
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            overData.elementType === PersonalMapElementType.SUBGROUP &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            setMapData(
-                deleteElementInMapDataByIds(
-                    mapData.map((g) => ({
-                        ...g,
-                        children: g.children.map((s) =>
-                            s.elementId === overData.elementId &&
-                            s.elementType === PersonalMapElementType.SUBGROUP
-                                ? {
-                                      ...s,
-                                      children: [
-                                          ...s.children,
-                                          { ...activeData, elementId: uniqueId() },
-                                      ],
-                                  }
-                                : s,
-                        ),
-                    })),
-                    [activeData.elementId],
-                ),
-            );
-        } else if (
-            overData.elementType === PersonalMapElementType.GROUP &&
-            activeData.elementType === PersonalMapElementType.SUBGROUP
-        ) {
-            const group = mapData.find((g) => g.elementId === overData.elementId);
-            if (group) {
-                setMapData(
-                    deleteElementInMapDataByIds(
-                        mapData.map((g) =>
-                            g.elementId === group.elementId
-                                ? {
-                                      ...group,
-                                      children: [
-                                          ...group.children,
-                                          { ...activeData, elementId: uniqueId() },
-                                      ],
-                                  }
-                                : g,
-                        ),
-                        [activeData.elementId],
-                    ),
-                );
-            }
-        } else if (
-            overData.elementType === PersonalMapElementType.CAPABILITY &&
-            activeData.elementType === PersonalMapElementType.CAPABILITY
-        ) {
-            const group = mapData.find((g) =>
-                g.children.some((c) => c.elementId === overData.elementId),
-            );
-            if (group) {
-                setMapData(
-                    deleteElementInMapDataByIds(
-                        mapData.map((g) =>
-                            g.elementId === group.elementId
-                                ? {
-                                      ...group,
-                                      children: [
-                                          ...group.children,
-                                          {
-                                              elementId: uniqueId(),
-                                              elementType: PersonalMapElementType.SUBGROUP,
-                                              name: 'Укажите название группы',
-                                              children: [
-                                                  { ...activeData, elementId: uniqueId() },
-                                                  { ...overData, elementId: uniqueId() },
-                                              ],
-                                          },
-                                      ],
-                                  }
-                                : g,
-                        ),
-                        [activeData.elementId, overData.elementId],
-                    ),
-                );
-            }
-        }
-
-        setDraggedElement(null);
     };
 
     const sensors = useSensors(
@@ -253,7 +163,7 @@ export const MapAddPage = () => {
         <>
             <DndContext
                 onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
+                onDragEnd={(e) => handleDragEnd(e, groupsData, setDraggedElement, setGroupsData)}
                 onDragCancel={() => setDraggedElement(null)}
                 sensors={sensors}
             >
@@ -262,26 +172,14 @@ export const MapAddPage = () => {
                         <S.FlexSideContainer>
                             <div>
                                 <S.Name data-tooltip-id="name" ref={nameRef}>
-                                    Ключевые возможности BSS
+                                    {mapData?.name}
                                 </S.Name>
                                 {showNameTooltip && (
                                     <S.TooltipContainer id="name" offset={8} place="bottom" noArrow>
-                                        Ключевые возможности BSS
+                                        {mapData?.name}
                                     </S.TooltipContainer>
                                 )}
-                                <S.Desription data-tooltip-id="description" ref={descriptionRef}>
-                                    Бизнес-возможности
-                                </S.Desription>
-                                {showDescriptionTooltip && (
-                                    <S.TooltipContainer
-                                        id="description"
-                                        offset={8}
-                                        place="bottom"
-                                        noArrow
-                                    >
-                                        Бизнес-возможности
-                                    </S.TooltipContainer>
-                                )}
+                                <S.Desription>{mapData?.type.title}</S.Desription>
                             </div>
 
                             <S.ButtonStyled
@@ -291,23 +189,31 @@ export const MapAddPage = () => {
                         </S.FlexSideContainer>
 
                         <S.FlexSideContainer>
-                            <Button onClick={() => navigate(-1)}>Закрыть</Button>
+                            <Button
+                                onClick={() =>
+                                    navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}?tab=PERSONAL`)
+                                }
+                            >
+                                Закрыть
+                            </Button>
 
                             <Button variant="contained" onClick={handleSave}>
                                 Сохранить
                             </Button>
                         </S.FlexSideContainer>
                     </S.Header>
-                    <S.Content>
-                        <CapabilitiesSideblock />
-                        <CapabilitiesMapEdit
-                            selectedElementId={selectedElementId}
-                            setSelectedElementId={setSelectedElementId}
-                            mapData={mapData}
-                            setMapData={setMapData}
-                            draggedElement={draggedElement}
-                        />
-                    </S.Content>
+                    {mapData && (
+                        <S.Content>
+                            <CapabilitiesSideblock mapType={mapData.type} />
+                            <CapabilitiesMapEdit
+                                selectedElementId={selectedElementId}
+                                setSelectedElementId={setSelectedElementId}
+                                mapData={groupsData}
+                                setMapData={setGroupsData}
+                                draggedElement={draggedElement}
+                            />
+                        </S.Content>
+                    )}
                 </S.PageWrapper>
                 <DragOverlay dropAnimation={null}>
                     {draggedElement?.elementType === PersonalMapElementType.CAPABILITY && (
@@ -322,14 +228,11 @@ export const MapAddPage = () => {
                 </DragOverlay>
             </DndContext>
             <CreateMapSideblock
-                typeDisabled
+                typeDisabled={groupsData.length !== 0}
                 isOpen={sideblockOpened}
                 onClose={closeSideblock}
-                values={{
-                    name: 'Ключевые возможности BSS',
-                    description: 'Бизнес-возможности',
-                    type: 2,
-                }}
+                onSave={handleSideblockSave}
+                values={mapData ? { ...mapData, type: mapData.type.id } : undefined}
             />
         </>
     );

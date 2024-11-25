@@ -7,17 +7,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SideBlock } from 'components/containers';
 import { Select, TextArea, TextField } from 'components/form';
 
-import { FormValues, validationSchema } from './form';
+import { useGetPersonalMapTypesQuery } from 'api/queries/maps';
+
+import { MapFormValues, validationSchema } from './form';
 import { ICreateMapSideblock } from './types';
 import * as S from './units';
 
 export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
     isOpen,
     onClose,
+    onSave,
     values,
     typeDisabled,
 }) => {
-    const form = useForm<FormValues>({
+    const { data: typesData, isLoading: isLoadingTypes } = useGetPersonalMapTypesQuery();
+
+    const form = useForm<MapFormValues>({
         resolver: yupResolver(validationSchema),
     });
 
@@ -34,8 +39,10 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
 
     const description = watch('description');
 
-    const onSubmit = handleSubmit(async () => {
+    const onSubmit = handleSubmit(async (values) => {
         try {
+            await onSave(values);
+            onClose();
         } catch (error) {}
     });
 
@@ -71,11 +78,11 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                 name="type"
                                 label="Тип карты*"
                                 data-tooltip-id="select"
-                                disabled={typeDisabled}
-                                options={[
-                                    { id: 1, value: 'Бизнес-возможности' },
-                                    { id: 2, value: 'Технические возможности' },
-                                ]}
+                                disabled={typeDisabled || isLoadingTypes}
+                                options={(typesData ?? []).map((type) => ({
+                                    id: type.id,
+                                    value: type.title,
+                                }))}
                             />
                             {typeDisabled && (
                                 <S.TooltipContainer id="select" offset={8} place="bottom" noArrow>

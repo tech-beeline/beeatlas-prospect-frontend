@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
-import { E2E_SCENARIOS_COLORS } from '../../const';
-
+import { E2E_SCENARIOS_COLORS } from './const';
 import * as S from './units';
 
 export const ScenariosLegend: FC = () => {

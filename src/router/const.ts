@@ -21,6 +21,7 @@ export const MODELS_PATH = '/models';
 export const SEARCH_PATH = '/search';
 export const FDM_PATH = '/fdm';
 export const MAP_PATH = '/map';
+export const PERSONAL_PATH = '/personal';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';

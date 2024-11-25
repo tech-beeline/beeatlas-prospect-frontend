@@ -35,6 +35,7 @@ import {
     NotFoundPage,
     NotificationsPage,
     PackagePage,
+    PersonalMapPage,
     RoleAddPage,
     RolesPage,
     SearchPage,
@@ -279,6 +280,18 @@ export const NavigationRouter = () => {
                                 <MenuModels />
                                 <S.ContentWrapper>
                                     <MapPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/:id`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <PersonalMapPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

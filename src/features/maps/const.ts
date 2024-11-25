@@ -1,14 +1,10 @@
-import { E2E_SCENARIOS_COLORS, TECH_CAPABILITIES_COLORS } from 'features/maps';
+import { E2E_SCENARIOS_COLORS } from './components/ScenariosLegend/const';
+import { TECH_CAPABILITIES_COLORS } from './components/TechCapabilitiesLegend/const';
 
 export enum MapVariant {
     DEFAULT = 'DEFAULT',
     TECH_CAPABILITIES = 'TECH_CAPABILITIES',
     E2E_SCENARIOS = 'E2E_SCENARIOS',
-}
-
-export enum TabVariant {
-    GENERAL = 'GENERAL',
-    PERSONAL = 'PERSONAL',
 }
 
 export const CHIPS = [
@@ -24,11 +20,6 @@ export const CHIPS = [
     //     label: 'e2e сценарии',
     //     value: MapVariant.E2E_SCENARIOS,
     // },
-];
-
-export const TABS = [
-    { label: 'Общая карта', value: TabVariant.GENERAL },
-    { label: 'Мои карты', value: TabVariant.PERSONAL },
 ];
 
 export const mapVariantToColorArrayMap: Record<MapVariant, string[]> = {

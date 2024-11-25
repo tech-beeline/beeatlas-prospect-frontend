@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
+import { IPersonalMapType } from 'api/maps/types';
 
 export interface ICapabilitiesSideblock {
-    children?: ReactNode;
+    mapType: IPersonalMapType;
 }

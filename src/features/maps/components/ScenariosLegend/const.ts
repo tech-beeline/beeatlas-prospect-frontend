@@ -1,0 +1,1 @@
+export const E2E_SCENARIOS_COLORS = ['#E0F7FB', '#B2EBF5', '#80DEEF', '#4DD0E7', '#25C6E0'];

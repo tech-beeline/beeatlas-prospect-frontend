@@ -9,8 +9,6 @@ export const PersonalMapsContainer = styled.div`
         grid-template-columns: 1fr;
     }
 
-    flex: 1 1 auto;
-
     padding: 24px 32px 32px 32px;
 
     overflow-y: auto;
@@ -27,10 +25,14 @@ export const PersonalMapsContainer = styled.div`
     }
 `;
 
+export const NotFoundContainer = styled.div`
+    margin-top: 150px;
+`;
+
 export const MapCard = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    justify-content: space-between;
 
     padding: 24px;
 
@@ -40,8 +42,20 @@ export const MapCard = styled.div`
 
 export const FlexContainer = styled.div`
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
+
+    margin-bottom: 12px;
+`;
+
+export const DatesContainer = styled.div`
+    display: flex;
+
+    margin-top: 12px;
+`;
+
+export const GrowContainer = styled.div`
+    flex-grow: 1;
 `;
 
 export const BoldSpan = styled.span`

@@ -8,20 +8,30 @@ import { Text } from 'components/core';
 import { Expand } from 'components/other';
 
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
+import { PersonalMapTypes } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery } from 'api/queries/capability';
 import { PersonalMapElementType } from 'pages/models/MapAddPage/types';
 
 import { ICapabilityTreeCard } from './types';
 import * as S from './units';
 
-export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({ type, capability, level }) => {
+export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
+    type,
+    capability,
+    level,
+    mapType,
+}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const { attributes, listeners, setNodeRef } = useDraggable({
         id: `TREE-${capability.id}`,
         disabled:
-            type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
-            (capability.parent === null || capability.isDomain),
+            (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
+                (capability.parent === null || capability.isDomain)) ||
+            (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
+                mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
+            (type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
+                mapType.name !== PersonalMapTypes.TECH_CAPABILITY),
         data: {
             elementId: uniqueId(),
             elementType: PersonalMapElementType.CAPABILITY,
@@ -76,6 +86,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({ type, capability
                         childrenData.businessCapabilities.map((capability) => (
                             <CapabilitiesTreeCard
                                 key={capability.id}
+                                mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
                                 level={level + 1}
@@ -85,6 +96,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({ type, capability
                         childrenData.techCapabilities.map((capability) => (
                             <CapabilitiesTreeCard
                                 key={capability.id}
+                                mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.TECH_CAPABILITY}
                                 capability={capability}
                                 level={level + 1}
