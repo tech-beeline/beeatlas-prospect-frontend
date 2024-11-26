@@ -17,7 +17,7 @@ export const MenuBlock = styled.div<{ topPlacement?: boolean }>`
 
     z-index: 100;
 
-    background-color: var(--color-background-base);
+    background-color: var(--color-background-medium);
 
     border-radius: var(--size-border-radius-x6);
 

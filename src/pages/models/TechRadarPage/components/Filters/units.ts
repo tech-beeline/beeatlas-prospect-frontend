@@ -25,7 +25,7 @@ export const MenuBlock = styled.div`
     padding: 8px 0px;
     width: 100%;
 
-    background-color: var(--color-background-base);
+    background-color: var(--color-background-medium);
 
     border-radius: var(--size-border-radius-x6);
 

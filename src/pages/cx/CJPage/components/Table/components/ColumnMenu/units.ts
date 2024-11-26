@@ -15,7 +15,7 @@ export const MenuBlock = styled.div<{ top: number; left: number }>`
 
     z-index: 10;
 
-    background-color: var(--color-background-base);
+    background-color: var(--color-background-medium);
 
     border-radius: var(--size-border-radius-x6);
 

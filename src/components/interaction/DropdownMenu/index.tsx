@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { Icon } from '@beeline/design-system-react';
+import { Divider } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
@@ -30,17 +30,28 @@ export const DropdownMenu: FC<IDropdownMenu> = ({ id, items }) => {
 
             {isMenuOpen && (
                 <S.MenuBlock ref={menuRef}>
-                    {items.map((item, i) => (
-                        <S.MenuItem
-                            key={i}
-                            onClick={async () => {
-                                await item.onClick();
-                                setMenuOpen(false);
-                            }}
-                        >
-                            <Icon iconName={item.icon} />
-                            <S.MenuItemText>{item.title}</S.MenuItemText>
-                        </S.MenuItem>
+                    {items.map((group, i) => (
+                        <>
+                            {group.map((item) => (
+                                <S.MenuItem
+                                    key={i}
+                                    disabled={item.disabled}
+                                    danegerous={item.dangerous}
+                                    onClick={async () => {
+                                        await item.onClick();
+                                        setMenuOpen(false);
+                                    }}
+                                >
+                                    <S.ItemIcon danegerous={item.dangerous} iconName={item.icon} />
+                                    <S.MenuItemText>{item.title}</S.MenuItemText>
+                                </S.MenuItem>
+                            ))}
+                            {i !== items.length - 1 && (
+                                <S.DividerContainer>
+                                    <Divider />
+                                </S.DividerContainer>
+                            )}
+                        </>
                     ))}
                 </S.MenuBlock>
             )}

@@ -214,18 +214,18 @@ export const MapAddPage = () => {
                             />
                         </S.Content>
                     )}
+                    <DragOverlay dropAnimation={null}>
+                        {draggedElement?.elementType === PersonalMapElementType.CAPABILITY && (
+                            <CapabilitiesSearchCardOverlay capability={draggedElement} />
+                        )}
+                        {draggedElement?.elementType === PersonalMapElementType.SUBGROUP && (
+                            <SubgroupCardOverlay element={draggedElement} />
+                        )}
+                        {draggedElement?.elementType === PersonalMapElementType.GROUP && (
+                            <GroupCardOverlay element={draggedElement} />
+                        )}
+                    </DragOverlay>
                 </S.PageWrapper>
-                <DragOverlay dropAnimation={null}>
-                    {draggedElement?.elementType === PersonalMapElementType.CAPABILITY && (
-                        <CapabilitiesSearchCardOverlay capability={draggedElement} />
-                    )}
-                    {draggedElement?.elementType === PersonalMapElementType.SUBGROUP && (
-                        <SubgroupCardOverlay element={draggedElement} />
-                    )}
-                    {draggedElement?.elementType === PersonalMapElementType.GROUP && (
-                        <GroupCardOverlay element={draggedElement} />
-                    )}
-                </DragOverlay>
             </DndContext>
             <CreateMapSideblock
                 typeDisabled={groupsData.length !== 0}

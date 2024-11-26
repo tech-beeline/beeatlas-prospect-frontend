@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Button, Label, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { DropdownMenu } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { CJLibraryStatus } from 'api/cj/types';
@@ -11,13 +13,7 @@ import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
-import {
-    CJCreateForm,
-    CJLibraryFilters,
-    CjMenu,
-    IFilterOptions,
-    ProductVariant,
-} from './components';
+import { CJCreateForm, CJLibraryFilters, IFilterOptions, ProductVariant } from './components';
 import * as S from './units';
 
 export const CJLibraryPage = () => {
@@ -72,12 +68,31 @@ export const CJLibraryPage = () => {
                                         title={cj.draft ? 'Черновик' : 'Опубликован'}
                                         type={cj.draft ? 'default' : 'success'}
                                     />
-                                    <CjMenu
-                                        cjId={cj.id}
-                                        draft={cj.draft}
-                                        canEdit={userProductIds.includes(cj.id_product)}
-                                        onDeleteClick={() => deleteCj(String(cj.id))}
-                                        onEditClick={() => handleCJClick(cj.id)}
+                                    <DropdownMenu
+                                        id={String(cj.id)}
+                                        items={[
+                                            [
+                                                {
+                                                    title: 'Редактировать',
+                                                    icon: Icons.Edit,
+                                                    onClick: () => handleCJClick(cj.id),
+                                                    disabled: !userProductIds.includes(
+                                                        cj.id_product,
+                                                    ),
+                                                },
+                                            ],
+                                            [
+                                                {
+                                                    title: 'Удалить',
+                                                    icon: Icons.Delete,
+                                                    onClick: async () => deleteCj(String(cj.id)),
+                                                    dangerous: true,
+                                                    disabled:
+                                                        !userProductIds.includes(cj.id_product) ||
+                                                        !cj.draft,
+                                                },
+                                            ],
+                                        ]}
                                     />
                                 </S.FlexContainer>
                                 <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>

@@ -86,21 +86,23 @@ export const PersonalMapsLibrary: FC = () => {
                                     <DropdownMenu
                                         id={String(map.id)}
                                         items={[
-                                            {
-                                                title: 'Редактировать',
-                                                icon: Icons.Edit,
-                                                onClick: () => handleEditClick(map.id),
-                                            },
-                                            {
-                                                title: 'Скопировать ссылку',
-                                                icon: Icons.Link,
-                                                onClick: () => handleCopyClick(map.id),
-                                            },
-                                            {
-                                                title: 'Удалить',
-                                                icon: Icons.Delete,
-                                                onClick: () => setMapToDelete(map),
-                                            },
+                                            [
+                                                {
+                                                    title: 'Редактировать',
+                                                    icon: Icons.Edit,
+                                                    onClick: () => handleEditClick(map.id),
+                                                },
+                                                {
+                                                    title: 'Скопировать ссылку',
+                                                    icon: Icons.Link,
+                                                    onClick: () => handleCopyClick(map.id),
+                                                },
+                                                {
+                                                    title: 'Удалить',
+                                                    icon: Icons.Delete,
+                                                    onClick: () => setMapToDelete(map),
+                                                },
+                                            ],
                                         ]}
                                     />
                                 </S.FlexContainer>

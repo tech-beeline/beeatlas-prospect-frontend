@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 export const PageWrapper = styled.div`
     height: 100vh;
 
+    color: var(--color-text-active);
     background-color: var(--color-background-base);
 `;
 

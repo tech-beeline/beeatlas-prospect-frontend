@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Label, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CommunalLabel, TargetLabel } from 'features/cx';
 
+import { DropdownMenu } from 'components/interaction';
 import { Link, PivotArrow } from 'components/other';
 
 import { getBIEditabilityById } from 'api/bi';
@@ -13,7 +15,6 @@ import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
-import { BiMenu } from './components';
 import { IBiCard } from './types';
 import * as S from './units';
 
@@ -93,10 +94,25 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                         {!bi.draft && bi.communal && <CommunalLabel />}
                         {!bi.draft && <TargetLabel target={bi.target} />}
                     </S.LabelsContainer>
-                    <BiMenu
-                        biId={bi.id}
-                        onEditClick={() => handleEditBiClick(bi)}
-                        onDeleteClick={() => handleDeleteBiClick(bi)}
+                    <DropdownMenu
+                        id={String(bi.id)}
+                        items={[
+                            [
+                                {
+                                    title: 'Редактировать',
+                                    icon: Icons.Edit,
+                                    onClick: () => handleEditBiClick(bi),
+                                },
+                            ],
+                            [
+                                {
+                                    title: 'Удалить',
+                                    icon: Icons.Delete,
+                                    onClick: () => handleDeleteBiClick(bi),
+                                    dangerous: true,
+                                },
+                            ],
+                        ]}
                     />
                 </S.FlexContainer>
                 <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>

@@ -17,7 +17,7 @@ export const MenuBlock = styled.div`
     padding: 8px 0px;
     width: 280px;
 
-    background-color: var(--color-background-base);
+    background-color: var(--color-background-medium);
 
     border-radius: var(--size-border-radius-x6);
 
@@ -26,7 +26,7 @@ export const MenuBlock = styled.div`
     z-index: 1000;
 `;
 
-export const MenuItem = styled.div<{ disabled?: boolean }>`
+export const MenuItem = styled.div<{ disabled?: boolean; danegerous?: boolean }>`
     display: flex;
     align-items: center;
     gap: 8px;
@@ -34,6 +34,8 @@ export const MenuItem = styled.div<{ disabled?: boolean }>`
     padding: 12px 16px;
 
     transition: background-color 0.25s ease-in-out;
+
+    color: ${({ danegerous }) => (danegerous ? 'var(--color-border-error)' : '')};
 
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
@@ -44,6 +46,15 @@ export const MenuItem = styled.div<{ disabled?: boolean }>`
     &:hover {
         background-color: var(--color-background-base-hover);
     }
+`;
+
+export const ItemIcon = styled(Icon)<{ danegerous?: boolean }>`
+    color: ${({ danegerous }) => (danegerous ? 'var(--color-border-error)' : '')};
+`;
+
+export const DividerContainer = styled.div`
+    margin-top: 8px;
+    margin-bottom: 8px;
 `;
 
 export const MenuItemText = styled.div`
