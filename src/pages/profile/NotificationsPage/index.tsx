@@ -56,7 +56,10 @@ export const NotificationsPage = () => {
                     <DatePickerRange
                         placeholder="Дата"
                         value={date}
-                        onChange={(dates) => setDate(dates as string[])}
+                        onChange={(dates) => {
+                            setDate(dates as string[]);
+                            setPage(1);
+                        }}
                     />
                 </S.FiltersContainer>
                 <S.ControlsContainer>
