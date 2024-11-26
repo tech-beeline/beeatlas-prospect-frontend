@@ -40,6 +40,11 @@ export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     }
 `;
 
+export const ArrowContainer = styled.div`
+    min-width: 24px;
+    min-height: 24px;
+`;
+
 export const ExpandStyled = styled(Expand)`
     padding-left: 36px;
 `;

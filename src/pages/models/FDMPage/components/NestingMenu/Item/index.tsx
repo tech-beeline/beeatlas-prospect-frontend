@@ -46,11 +46,11 @@ export const Item: FC<IItem> = ({ item }) => {
                 onClick={handleItemClick}
                 data-testid="Item"
             >
-                <PivotArrow
-                    onClick={handleArrowClick}
-                    color={item.hasChildren ? 'var(--color-text-inactive)' : 'transparent'}
-                    position={isOpen ? '' : 'right'}
-                />
+                <S.ArrowContainer>
+                    {item.hasChildren && (
+                        <PivotArrow onClick={handleArrowClick} position={isOpen ? '' : 'right'} />
+                    )}
+                </S.ArrowContainer>
 
                 {getItemIcon(item)}
 
