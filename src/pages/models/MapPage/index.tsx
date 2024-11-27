@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Chip, Skeleton, Tab } from '@beeline/design-system-react';
+import { Breadcrumbs, Chip, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BreadCrumbsItem,
@@ -23,32 +23,32 @@ import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 
 import { PersonalMapsLibrary } from './components';
-import { CHIPS, TABS, TabVariant } from './const';
+import { CHIPS, TabVariant } from './const';
 import * as S from './units';
 
 export const MapPage = () => {
-    const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
+    const [tabVariant] = useState(TabVariant.GENERAL);
     const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
     const [chipsDisabled, setChipsDisabled] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const [params, setParams] = useSearchParams();
+    const [params] = useSearchParams();
     const id = params.get('id');
-    const tabParam = params.get('tab') as TabVariant | null;
+    // const tabParam = params.get('tab') as TabVariant | null;
 
-    useEffect(() => {
-        if (tabParam && tabParam === TabVariant.PERSONAL) {
-            setTabVariant(TabVariant.PERSONAL);
-        } else {
-            setTabVariant(TabVariant.GENERAL);
-        }
-    }, [tabParam]);
+    // useEffect(() => {
+    //     if (tabParam && tabParam === TabVariant.PERSONAL) {
+    //         setTabVariant(TabVariant.PERSONAL);
+    //     } else {
+    //         setTabVariant(TabVariant.GENERAL);
+    //     }
+    // }, [tabParam]);
 
     const navigate = useNavigate();
 
     const {
         modalOpened: sideblockOpened,
-        openModal: openSideblock,
+        // openModal: openSideblock,
         closeModal: closeSideblock,
     } = useModal();
 
@@ -113,14 +113,14 @@ export const MapPage = () => {
                             <S.Title>
                                 {id && activeItem ? activeItem.name : 'Карты возможностей'}
                             </S.Title>
-                            {!id && (
+                            {/* {!id && (
                                 <Button variant="contained" size="small" onClick={openSideblock}>
                                     Создать карту
                                 </Button>
-                            )}
+                            )} */}
                         </S.TitleContainer>
 
-                        {!id && (
+                        {/* {!id && (
                             <S.TabsStyled
                                 selectedTabIndex={tabVariant === TabVariant.PERSONAL ? 1 : 0}
                             >
@@ -141,7 +141,7 @@ export const MapPage = () => {
                                     />
                                 ))}
                             </S.TabsStyled>
-                        )}
+                        )} */}
 
                         {tabVariant === TabVariant.GENERAL && (
                             <>

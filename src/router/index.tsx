@@ -29,13 +29,13 @@ import {
     HowToPage,
     ImportedDataPage,
     MainPage,
-    MapAddPage,
+    // MapAddPage,
     MapPage,
     ModelsPage,
     NotFoundPage,
     NotificationsPage,
     PackagePage,
-    PersonalMapPage,
+    // PersonalMapPage,
     RoleAddPage,
     RolesPage,
     SearchPage,
@@ -285,7 +285,7 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route
+                    {/* <Route
                         path={`${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/:id`}
                         element={
                             <S.RouteWithDrawer>
@@ -295,12 +295,12 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    />
+                    /> */}
 
-                    <Route
+                    {/* <Route
                         path={`${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`}
                         element={<MapAddPage />}
-                    />
+                    /> */}
 
                     <Route
                         path={`${R.MODELS_PATH}${R.APPS_PATH}`}
