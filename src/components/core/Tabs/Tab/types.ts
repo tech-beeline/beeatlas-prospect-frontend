@@ -1,5 +1,6 @@
 export interface ITab {
     isActive?: boolean;
     children: any;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent) => void;
+    href: string;
 }

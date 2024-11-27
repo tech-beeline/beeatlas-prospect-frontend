@@ -1,40 +1,28 @@
-import { useEffect } from 'react';
-
 import { useMountEffect } from 'hooks';
-import { isFunc } from 'utils/const';
 
 import { authInstance } from '../const';
 import { useAuthStore } from '../store';
 
 export const useAuth = () => {
-    const { isAuth, setIsAuth, userInfo, setUserInfo, setIsAuthorizing } = useAuthStore();
+    const { setUserInfo, setIsAuthorizing } = useAuthStore();
 
     useMountEffect(() => {
         (async () => {
-            if (authInstance.hasNecessaryParams()) {
-                const authPromise = authInstance.exchangeCode();
+            if (authInstance.getRefreshToken()) {
+                await authInstance.refreshTokens({
+                    restartAuthFlowOnFail: true,
+                });
 
-                setIsAuthorizing(authPromise);
-
-                const { access_token } = await authPromise;
+                setIsAuthorizing(false);
+            } else if (authInstance.hasNecessaryParams()) {
+                const { access_token } = await authInstance.exchangeCode();
 
                 setUserInfo(authInstance.getClaims(access_token));
 
-                setIsAuthorizing(null);
-            } else if (!(isAuth && isFunc)) {
-                // Для остановки запросов перед авторизацией
-                // eslint-disable-next-line
-                setIsAuthorizing(new Promise(() => {}));
+                setIsAuthorizing(false);
+            } else {
                 authInstance.startAuth();
             }
         })();
     });
-
-    useEffect(() => {
-        (async () => {
-            if (userInfo && Object.keys(userInfo).length > 0 && isAuth === false) {
-                setIsAuth(true);
-            }
-        })();
-    }, [userInfo, isAuth]);
 };

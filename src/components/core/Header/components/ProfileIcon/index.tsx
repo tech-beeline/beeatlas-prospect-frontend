@@ -1,13 +1,15 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { IProfileIcon } from './types';
 import * as S from './units';
 
-export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
+export const ProfileIcon: FC<IProfileIcon> = ({ initials, isAdminPanel, isAdmin }) => {
     const [isShowDropdown, setShowDropdown] = useState(false);
 
     const navigate = useNavigate();
@@ -19,7 +21,12 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
     useOutsideClick(dropdownRef, isShowDropdown, setShowDropdown, profileIconRef);
 
     const handleSubscriptionsClick = () => {
-        navigate(`${ROUTER.PROFILE_PATH}${ROUTER.SUBSCRIPTIONS_PATH}`);
+        navigate(`${R.PROFILE_PATH}${R.SUBSCRIPTIONS_PATH}`);
+        setShowDropdown(false);
+    };
+
+    const navigateToAdminPanel = () => {
+        navigate(isAdminPanel ? R.MAIN_PAGE_PATH : `${R.ADMIN_PATH}${R.USERS_PATH}`);
         setShowDropdown(false);
     };
 
@@ -34,6 +41,12 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials }) => {
                     <S.DropdownItem onClick={handleSubscriptionsClick} className="DropdownItem">
                         Мои подписки
                     </S.DropdownItem>
+                    {isAdmin && (
+                        <S.DropdownItem onClick={navigateToAdminPanel} className="DropdownItem">
+                            {isAdminPanel ? 'Вернуться в продукт' : 'Консоль администратора'}
+                            <Icon iconName={Icons.OpenInWindow} size="large" />
+                        </S.DropdownItem>
+                    )}
                 </S.Dropdown>
             )}
         </>

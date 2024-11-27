@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
@@ -10,10 +10,12 @@ import { MAIN_PAGE_PATH } from 'router/const';
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { NotificationsPopup, ProfileIcon } from './components';
+import { IHeader } from './types';
 import * as S from './units';
+import { preventDefault } from './utils';
 
-export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
-    const [isAuth, userInfo] = useAuthStore((state) => [state.isAuth, state.userInfo]);
+export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
+    const userInfo = useAuthStore((state) => state.userInfo);
 
     const { themeIsDark, toggleTheme } = useThemeStore();
 
@@ -28,24 +30,30 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
     return (
         <>
             <S.Container className="HeaderContainer">
-                <S.FlexContainer
-                    className="HeaderFlexContainer"
-                    onClick={() => navigate(MAIN_PAGE_PATH)}
-                >
-                    <S.Title className="HeaderTitle">витрина ФДМ</S.Title>
+                <a href="/" onClick={preventDefault}>
+                    <S.FlexContainer
+                        className="HeaderFlexContainer"
+                        onClick={() => navigate(MAIN_PAGE_PATH)}
+                    >
+                        <S.Title className="HeaderTitle">витрина ФДМ</S.Title>
 
-                    <Logo />
-                </S.FlexContainer>
+                        <Logo />
+                    </S.FlexContainer>
+                </a>
 
-                {isPersonalArea && <S.LabelStyled title="Консоль администратора" />}
+                {isAdminPanel && isAdmin && <S.LabelStyled title="Консоль администратора" />}
 
-                {!isPersonalArea && (
+                {!isAdminPanel && (
                     <Tabs>
                         {tabs.map((tab, index) => (
                             <Tab
-                                isActive={location.pathname?.includes(tab.url)}
                                 key={index}
-                                onClick={() => navigate(tab.url)}
+                                href={`/${tab.url}`}
+                                isActive={location.pathname?.includes(tab.url)}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(tab.url);
+                                }}
                             >
                                 {tab.name}
                             </Tab>
@@ -62,10 +70,11 @@ export const Header = ({ isPersonalArea }: { isPersonalArea: boolean }) => {
 
                     <NotificationsPopup />
 
-                    {isAuth ? (
+                    {userInfo ? (
                         <ProfileIcon
                             initials={userInfo?.family_name[0] + userInfo?.given_name[0]}
-                            {...{ isPersonalArea }}
+                            isAdmin={isAdmin}
+                            isAdminPanel={isAdminPanel}
                         />
                     ) : (
                         <BaseIcon iconName={Icons.User} type="default" />

@@ -1,4 +1,12 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+    Dispatch,
+    MutableRefObject,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 
 export const useMountEffect = (effectCallback: () => (() => void) | void) => {
     useEffect(effectCallback, []);
@@ -72,4 +80,46 @@ export const useDebounce = <T>(value: T, delay = DEFAULT_DEBOUNCE_TIMEOUT) => {
     }, [value, delay]);
 
     return debouncedValue;
+};
+
+export const useShowTooltipOld = <T extends HTMLElement>() => {
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    const ref = useCallback((node: T | null) => {
+        if (node !== null) {
+            console.log(node.scrollHeight, node.offsetHeight);
+            setShowTooltip(
+                (node.scrollWidth ?? 0) > (node.offsetWidth ?? 0) ||
+                    (node.scrollHeight ?? 0) > (node.offsetHeight ?? 0),
+            );
+        }
+    }, []);
+
+    return [ref, showTooltip] as [(node: T | null) => void, boolean];
+};
+
+export const useShowTooltip = <T extends HTMLElement>(elementRef: MutableRefObject<T | null>) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    const observer = useRef(
+        new ResizeObserver((entries) => {
+            if (entries[0]) {
+                setShowTooltip(
+                    (elementRef.current?.scrollWidth ?? 0) >
+                        (elementRef.current?.offsetWidth ?? 0) ||
+                        (elementRef.current?.scrollHeight ?? 0) >
+                            (elementRef.current?.offsetHeight ?? 0),
+                );
+            }
+        }),
+    );
+
+    useEffect(() => {
+        if (elementRef.current) {
+            observer.current.observe(elementRef.current);
+        }
+        return () => observer.current.disconnect();
+    }, [elementRef, observer]);
+
+    return showTooltip;
 };

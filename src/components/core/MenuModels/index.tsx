@@ -42,7 +42,12 @@ export const MenuModels = () => {
                             path: `${R.MODELS_PATH}${R.TECH_RADAR_PATH}`,
                         },
                         {
-                            icon: Icons.List,
+                            icon: Icons.Map,
+                            name: 'Карта\xa0возможностей',
+                            path: `${R.MODELS_PATH}${R.MAP_PATH}`,
+                        },
+                        {
+                            icon: Icons.Catalog,
                             name: 'Каталог\xa0приложений',
                             path: `${R.MODELS_PATH}${R.APPS_PATH}`,
                         },

@@ -79,6 +79,11 @@ export const GlobalStyles = () => {
                     line-height: inherit;
                 }
 
+                pre {
+                    margin: 0;
+                    font-family: inherit;
+                }
+
                 label {
                     display: inline-block;
                 }
@@ -172,6 +177,11 @@ export const GlobalStyles = () => {
                 }
 
                 /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_inline-edit-modal_positioner > .dsb_card {
+                    padding: 8px;
+                }
+
+                /* @TODO: Убрать с обновлением UI-кита */
                 .dsb_table {
                     border-radius: var(--size-border-radius-x6);
                 }
@@ -189,6 +199,29 @@ export const GlobalStyles = () => {
                 }
                 .dsb_pagination-cell__text-active:focus-visible {
                     background-color: #fdd835;
+                }
+
+                /* Для постоянного отображения скроллбара на MacOS */
+                &.dsb__select__options {
+                    overflow-y: auto;
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: var(--color-utilities-scroll-hover);
+
+                        border-radius: var(--size-border-radius-x8);
+                    }
+
+                    &::-webkit-scrollbar {
+                        width: 8px;
+                        height: 8px;
+                    }
+                }
+
+                /* @TODO: Неправильный цвет активного чипса в тёмной теме, убрать с новой версией UI-кита */
+                .dsb_chip--active {
+                    & > p {
+                        color: rgba(9, 11, 22, 0.94);
+                    }
                 }
             `}
         />

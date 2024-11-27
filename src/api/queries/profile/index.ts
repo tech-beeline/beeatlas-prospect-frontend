@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAuthStore } from 'features/auth';
 
-import { getProfiles, putProfileRoles } from 'api/personal-area';
+import { getProfileRoles, getProfiles, putProfileRoles } from 'api/personal-area';
 
 const PROFILE_PREFIX = 'PROFILE_PREFIX';
 
@@ -8,6 +9,18 @@ export const useGetProfilesQuery = () => {
     return useQuery({
         queryKey: [PROFILE_PREFIX, 'ALL'],
         queryFn: () => getProfiles().then((res) => res.data),
+    });
+};
+
+export const useGetMyRolesQuery = () => {
+    return useQuery({
+        queryKey: [PROFILE_PREFIX, 'myRoles'],
+        queryFn: () => {
+            const { userInfo } = useAuthStore.getState();
+            return getProfileRoles(userInfo?.sub ?? '').then((res) => res.data);
+        },
+        staleTime: Infinity,
+        gcTime: Infinity,
     });
 };
 

@@ -110,7 +110,13 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                             <S.SubTitle id="characteristics">Характеристики</S.SubTitle>
 
                             <S.FlexContainer>
-                                <RadioGroup name="type" labels={['Целевой', 'Фактический']} />
+                                <RadioGroup
+                                    name="type"
+                                    options={[
+                                        { label: 'Целевой', id: 0 },
+                                        { label: 'Фактический', id: 1 },
+                                    ]}
+                                />
                             </S.FlexContainer>
 
                             <S.FlexContainer>

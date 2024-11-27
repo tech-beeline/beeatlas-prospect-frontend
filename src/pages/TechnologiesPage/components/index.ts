@@ -1,1 +1,0 @@
-export { TechnologyMenu } from './TechnologyMenu';
