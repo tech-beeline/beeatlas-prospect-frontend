@@ -49,64 +49,65 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
 
     return (
         <SideBlock hasBackdrop isOpen={isOpen} onClose={handleCloseClick}>
-            <S.Container>
-                <FormProvider {...form}>
-                    <form onSubmit={onSubmit}>
-                        <S.FlexWrapper>
-                            <S.SideBlockTitle>
-                                {values ? 'Настройка карты' : 'Создать карту'}
-                            </S.SideBlockTitle>
+            <FormProvider {...form}>
+                <form onSubmit={onSubmit}>
+                    <S.FlexContainer>
+                        <S.ContentContainer>
+                            <S.FlexWrapper>
+                                <S.SideBlockTitle>
+                                    {values ? 'Настройка карты' : 'Создать карту'}
+                                </S.SideBlockTitle>
 
-                            <IconButton
-                                iconName={Icons.Close}
-                                onClick={handleCloseClick}
-                                size="large"
-                            />
-                        </S.FlexWrapper>
+                                <IconButton
+                                    iconName={Icons.Close}
+                                    onClick={handleCloseClick}
+                                    size="large"
+                                />
+                            </S.FlexWrapper>
 
-                        <S.TextFieldContainer>
-                            <Banner
-                                color="info"
-                                iconName={Icons.InfoCircled}
-                                title="Тип карты — это параметр, который определяет, какие объекты могут
+                            <S.TextFieldContainer>
+                                <Banner
+                                    color="info"
+                                    iconName={Icons.InfoCircled}
+                                    title="Тип карты — это параметр, который определяет, какие объекты могут
                                 быть размещены на ней. Выбирая определённый тип карты, вы
                                 автоматически задаёте набор доступных объектов"
-                            />
-
-                            <TextField label="Название карты*" name="name" />
-
-                            <Text variant="subtitle1">Тип карты</Text>
-
-                            <S.RadioGroupContainer data-tooltip-id="type-selection">
-                                <RadioGroup
-                                    name="type"
-                                    disabled={typeDisabled || isLoadingTypes}
-                                    options={[...(typesData ?? [])].reverse().map((type) => ({
-                                        label: type.title,
-                                        id: type.id,
-                                    }))}
                                 />
-                            </S.RadioGroupContainer>
-                            {typeDisabled && (
-                                <S.TooltipContainer
-                                    id="type-selection"
-                                    offset={8}
-                                    place="bottom"
-                                    noArrow
-                                >
-                                    Редактирование недоступно. Чтобы изменить тип карты, удалите все
-                                    элементы
-                                </S.TooltipContainer>
-                            )}
 
-                            <TextArea
-                                label="Описание"
-                                name="description"
-                                maxLength={300}
-                                helperText={`${description?.length ?? 0}/300`}
-                            />
-                        </S.TextFieldContainer>
+                                <TextField label="Название карты*" name="name" />
 
+                                <Text variant="subtitle1">Тип карты</Text>
+
+                                <S.RadioGroupContainer data-tooltip-id="type-selection">
+                                    <RadioGroup
+                                        name="type"
+                                        disabled={typeDisabled || isLoadingTypes}
+                                        options={[...(typesData ?? [])].reverse().map((type) => ({
+                                            label: type.title,
+                                            id: type.id,
+                                        }))}
+                                    />
+                                </S.RadioGroupContainer>
+                                {typeDisabled && (
+                                    <S.TooltipContainer
+                                        id="type-selection"
+                                        offset={8}
+                                        place="bottom"
+                                        noArrow
+                                    >
+                                        Редактирование недоступно. Чтобы изменить тип карты, удалите
+                                        все элементы
+                                    </S.TooltipContainer>
+                                )}
+
+                                <TextArea
+                                    label="Описание"
+                                    name="description"
+                                    maxLength={250}
+                                    helperText={`${description?.length ?? 0}/250`}
+                                />
+                            </S.TextFieldContainer>
+                        </S.ContentContainer>
                         <S.ButtonContainer>
                             <Button type="button" onClick={handleCloseClick}>
                                 Отменить
@@ -116,9 +117,9 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                 {values ? 'Сохранить' : 'Создать'}
                             </Button>
                         </S.ButtonContainer>
-                    </form>
-                </FormProvider>
-            </S.Container>
+                    </S.FlexContainer>
+                </form>
+            </FormProvider>
         </SideBlock>
     );
 };
