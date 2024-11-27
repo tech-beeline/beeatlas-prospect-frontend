@@ -21,6 +21,7 @@ import * as S from './units';
 export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
     capability,
     mapType,
+    selectedCapabilitiesIds,
     dragged = false,
 }) => {
     const [tooltipOpened, setTooltipOpened] = useState(false);
@@ -36,7 +37,8 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
             (capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                 mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
             (capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
-                mapType.name !== PersonalMapTypes.TECH_CAPABILITY),
+                mapType.name !== PersonalMapTypes.TECH_CAPABILITY) ||
+            selectedCapabilitiesIds.includes(capability.id),
     });
 
     const { data: treeData, isLoading: isLoadingTreeData } = useGetMapDataQuery(
@@ -103,9 +105,9 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                     <div>
                         <Text variant="subtitle3">Описание</Text>
                     </div>
-                    <div>
+                    <S.DescriptionContainer>
                         <Text variant="caption">{capability.description || 'Нет описания'}</Text>
-                    </div>
+                    </S.DescriptionContainer>
                 </div>
                 {capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY && (
                     <div>

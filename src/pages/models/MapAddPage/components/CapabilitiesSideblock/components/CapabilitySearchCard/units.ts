@@ -56,3 +56,12 @@ export const TooltipContainer = styled(Tooltip)`
 
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 `;
+
+export const DescriptionContainer = styled.div`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    line-clamp: 10;
+    -webkit-box-orient: vertical;
+`;

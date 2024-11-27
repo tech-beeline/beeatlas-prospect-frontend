@@ -10,7 +10,10 @@ import { CapabilitiesSearchCard, CapabilitiesTreeCard } from './components';
 import { ICapabilitiesSideblock } from './types';
 import * as S from './units';
 
-export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapType }) => {
+export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({
+    mapType,
+    selectedCapabilitiesIds,
+}) => {
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
 
@@ -50,6 +53,7 @@ export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapType }) =
                                 key={capability.id}
                                 mapType={mapType}
                                 capability={capability}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
                             />
                         ))}
                 </S.SearchResultContainer>
@@ -70,6 +74,7 @@ export const CapabilitiesSideblock: FC<ICapabilitiesSideblock> = ({ mapType }) =
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
                                 level={0}
                             />
                         ))}

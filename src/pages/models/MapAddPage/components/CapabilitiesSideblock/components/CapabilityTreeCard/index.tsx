@@ -19,6 +19,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
     type,
     capability,
     level,
+    selectedCapabilitiesIds,
     mapType,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,8 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
             (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                 mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
             (type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
-                mapType.name !== PersonalMapTypes.TECH_CAPABILITY),
+                mapType.name !== PersonalMapTypes.TECH_CAPABILITY) ||
+            selectedCapabilitiesIds.includes(capability.id),
         data: {
             elementId: uniqueId(),
             elementType: PersonalMapElementType.CAPABILITY,
@@ -89,6 +91,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
                                 level={level + 1}
                             />
                         ))}
@@ -99,6 +102,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.TECH_CAPABILITY}
                                 capability={capability}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
                                 level={level + 1}
                             />
                         ))}

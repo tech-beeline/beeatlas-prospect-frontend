@@ -49,6 +49,20 @@ export const MapAddPage = () => {
 
     const [groupsData, setGroupsData] = useState<IPersonalMapGroup[]>([]);
 
+    const selectedCapabilitiesIds = groupsData.reduce(
+        (acc, g) => [
+            ...acc,
+            ...g.children
+                .map((child) =>
+                    child.elementType === PersonalMapElementType.CAPABILITY
+                        ? [child.id]
+                        : child.children.map((c) => c.id),
+                )
+                .flat(),
+        ],
+        [] as number[],
+    );
+
     const { mutateAsync: updatePersonalMap } = useUpdatePersonalMapMutation();
     const { mutateAsync: updatePersonalMapGroups } = useUpdatePersonalMapGroupsMutation();
     const { data: mapData } = useGetPersonalMapByIdQuery(paramId);
@@ -204,7 +218,10 @@ export const MapAddPage = () => {
                     </S.Header>
                     {mapData && (
                         <S.Content>
-                            <CapabilitiesSideblock mapType={mapData.type} />
+                            <CapabilitiesSideblock
+                                mapType={mapData.type}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
+                            />
                             <CapabilitiesMapEdit
                                 selectedElementId={selectedElementId}
                                 setSelectedElementId={setSelectedElementId}

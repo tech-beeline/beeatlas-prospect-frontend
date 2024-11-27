@@ -4,6 +4,7 @@ import { IPersonalMapType } from 'api/maps/types';
 export interface ICapabilitySearchCard {
     capability: ISearchResult;
     mapType: IPersonalMapType;
+    selectedCapabilitiesIds: number[];
     dragged?: boolean;
 }
 
