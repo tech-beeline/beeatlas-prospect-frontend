@@ -5,7 +5,6 @@ export interface ICapabilitySearchCard {
     capability: ISearchResult;
     mapType: IPersonalMapType;
     selectedCapabilitiesIds: number[];
-    dragged?: boolean;
 }
 
 export interface ICapabilitySearchCardOverlay {

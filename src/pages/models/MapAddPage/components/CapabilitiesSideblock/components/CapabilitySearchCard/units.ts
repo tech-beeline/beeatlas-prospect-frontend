@@ -1,7 +1,7 @@
 import { Tooltip } from 'react-tooltip';
 import styled from '@emotion/styled';
 
-export const CapabilityCard = styled.div<{ dragged: boolean }>`
+export const CapabilityCard = styled.div<{ dragged?: boolean; isUsed?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -10,6 +10,8 @@ export const CapabilityCard = styled.div<{ dragged: boolean }>`
     width: ${({ dragged }) => (dragged ? 'fit-content' : 'auto')};
 
     padding: 4px 16px;
+
+    opacity: ${({ isUsed }) => (isUsed ? '0.48' : '1')};
 
     background-color: var(--color-background-base);
 

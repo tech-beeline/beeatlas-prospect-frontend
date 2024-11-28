@@ -24,6 +24,8 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const isUsed = selectedCapabilitiesIds.includes(capability.id);
+
     const { attributes, listeners, setNodeRef } = useDraggable({
         id: `TREE-${capability.id}`,
         disabled:
@@ -33,7 +35,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                 mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
             (type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
                 mapType.name !== PersonalMapTypes.TECH_CAPABILITY) ||
-            selectedCapabilitiesIds.includes(capability.id),
+            isUsed,
         data: {
             elementId: uniqueId(),
             elementType: PersonalMapElementType.CAPABILITY,
@@ -49,7 +51,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
 
     return (
         <>
-            <S.CapabilityCard ref={setNodeRef} {...attributes} {...listeners}>
+            <S.CapabilityCard isUsed={isUsed} ref={setNodeRef} {...attributes} {...listeners}>
                 <S.ArrowContainer>
                     {type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                         capability.hasChildren && (
