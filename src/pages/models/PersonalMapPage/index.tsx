@@ -12,7 +12,8 @@ import {
     TechCapabilityCard,
 } from 'features/maps';
 
-import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Text } from 'components/core';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { IMapItemData } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
@@ -27,6 +28,7 @@ import * as S from './units';
 export const PersonalMapPage = () => {
     const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
     const [chipsDisabled, setChipsDisabled] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const [params, setParams] = useSearchParams();
     const capabilityId = params.get('id');
@@ -67,6 +69,10 @@ export const PersonalMapPage = () => {
             setChipsDisabled(false);
         }
     }, [childrenCapabilitiesData]);
+
+    useEffect(() => {
+        setIsExpanded(false);
+    }, [capabilityId]);
 
     const Legend =
         mapVariant === MapVariant.E2E_SCENARIOS ? ScenariosLegend : TechCapabilitiesLegend;
@@ -119,13 +125,55 @@ export const PersonalMapPage = () => {
                             )}
                         </S.TitleContainer>
 
-                        {id && mapData && mapData.description && (
+                        {id && !capabilityId && mapData && mapData.description && (
                             <S.Description
                                 isExpanded
                                 dangerouslySetInnerHTML={{
-                                    __html: capabilityTreeData?.description ?? mapData.description,
+                                    __html: mapData.description,
                                 }}
                             />
+                        )}
+
+                        {capabilityId && capabilityTreeData && capabilityTreeData.description && (
+                            <S.Description
+                                isExpanded={isExpanded}
+                                dangerouslySetInnerHTML={{
+                                    __html: capabilityTreeData.description,
+                                }}
+                            />
+                        )}
+
+                        {capabilityId && capabilityTreeData && !capabilityTreeData.description && (
+                            <S.Description isExpanded>
+                                Описания нет. Посмотреть детальную информацию по дочерним элементам
+                                можно{' '}
+                                <Link
+                                    title="в древе ФДМ"
+                                    url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${capabilityTreeData.id}&type=BUSINESS`}
+                                />
+                            </S.Description>
+                        )}
+                        {capabilityId &&
+                            capabilityTreeData &&
+                            capabilityTreeData.description &&
+                            isExpanded && (
+                                <Text variant="body2">
+                                    Посмотреть детальную информацию по дочерним элементам можно{' '}
+                                    <Link
+                                        title="в древе ФДМ"
+                                        url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${capabilityTreeData.id}&type=BUSINESS`}
+                                    />
+                                </Text>
+                            )}
+
+                        {capabilityId && capabilityTreeData && capabilityTreeData.description && (
+                            <S.ExpandButton onClick={() => setIsExpanded(!isExpanded)}>
+                                <div>{isExpanded ? 'Скрыть' : 'Показать полностью'}</div>
+                                <S.IconStyled
+                                    iconName={isExpanded ? Icons.FastArrowTop : Icons.FastArrowDown}
+                                    size="small"
+                                />
+                            </S.ExpandButton>
                         )}
 
                         <S.ChipsContainer>
@@ -170,7 +218,7 @@ export const PersonalMapPage = () => {
                         <Skeleton radius={15} height={100} />
                     </S.CardContainer>
                 )}
-                {mapData && (!mapData.groups || mapData.groups.length === 0) && (
+                {mapData && !isLoading && (!mapData.groups || mapData.groups.length === 0) && (
                     <S.NotFoundContainer>
                         <NotFoundBlock
                             imageVariant={ImageVariants.EMPTY_BOX}
