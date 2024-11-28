@@ -56,7 +56,7 @@ const BusinessCard: FC<{
             {mapVariant !== MapVariant.DEFAULT && (
                 <S.CriteriaContainer>
                     <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
-                    <Text variant="subtitle3">{capability.criteria?.grade ?? 0}</Text>
+                    <Text variant="subtitle3">{capability.criteria?.value ?? 0}</Text>
                 </S.CriteriaContainer>
             )}
         </S.Card>
@@ -93,7 +93,7 @@ const TechCard: FC<{
                 {mapVariant !== MapVariant.DEFAULT && (
                     <S.CriteriaContainer>
                         <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
-                        <Text variant="subtitle3">{capability.criteria?.grade ?? 0}</Text>
+                        <Text variant="subtitle3">{capability.criteria?.value ?? 0}</Text>
                     </S.CriteriaContainer>
                 )}
             </S.Content>
