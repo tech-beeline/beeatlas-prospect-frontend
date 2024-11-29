@@ -11,3 +11,9 @@ export const getUserProducts = (): AxiosPromise<T.IProductData[]> => {
         url: `${GATEWAY_URL}auth/v1/product`,
     });
 };
+
+export const getProductsByTechnologyId = (id: number): AxiosPromise<T.IProductData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/tech/${id}/product`,
+    });
+};

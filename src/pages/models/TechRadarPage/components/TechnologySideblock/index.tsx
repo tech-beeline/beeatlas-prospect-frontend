@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
-import { Button, Icon, IconButton, Label } from '@beeline/design-system-react';
+import React, { FC, useState } from 'react';
+import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
+import { PivotArrow } from 'components/other';
 
+import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -26,7 +28,11 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { modalOpened, openModal, closeModal } = useModal();
 
-    // const [showApps, setShowApps] = useState(false);
+    const [showApps, setShowApps] = useState(false);
+
+    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsByTechnologyIdQuery(
+        selectedTech?.id,
+    );
 
     const { data: subscribedTechnologiesIds } = useGetSubscribedTechnologiesIdsQuery();
 
@@ -37,9 +43,9 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
         selectedTech && subscribedTechnologiesIds?.includes(selectedTech.id),
     );
 
-    // const handleArrowClick = () => {
-    //     setShowApps(!showApps);
-    // };
+    const handleArrowClick = () => {
+        setShowApps(!showApps);
+    };
 
     const handleSubscribeButtonClick = async () => {
         if (isSubscribed) {
@@ -118,8 +124,10 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                     <S.Description>{selectedTech?.description}</S.Description>
                     <S.SubtitleMargin>Последние изменения</S.SubtitleMargin>
                     <S.LastChanges>Раздел ещё в разработке</S.LastChanges>
-                    {/* <S.ButtonsContainer>
-                        <S.Subtitle>Приложения (7)</S.Subtitle>
+                    <S.ButtonsContainer>
+                        <S.Subtitle>
+                            Приложения{productsData && ` (${productsData.length})`}
+                        </S.Subtitle>
                         <PivotArrow
                             style={{ cursor: 'pointer' }}
                             position={showApps && 'top'}
@@ -127,14 +135,20 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         />
                     </S.ButtonsContainer>
                     <S.AppsContainer open={showApps}>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                    </S.AppsContainer> */}
+                        {productsData &&
+                            productsData.map((product) => (
+                                <S.Description key={product.id}>{product.alias}</S.Description>
+                            ))}
+                        {productsData && productsData.length === 0 && (
+                            <S.Description>
+                                Нет информации о приложениях, но мы работаем над этим
+                            </S.Description>
+                        )}
+                        {isLoadingProducts &&
+                            Array.from({ length: 3 }).map((_, i) => (
+                                <Skeleton key={i} height={22} radius={4} />
+                            ))}
+                    </S.AppsContainer>
                 </S.Container>
             </SideBlock>
             <Dialog

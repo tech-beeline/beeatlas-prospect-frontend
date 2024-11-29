@@ -70,7 +70,7 @@ export const AppsContainer = styled.div<{ open: boolean }>`
 
     height: ${({ open }) => (open ? 'auto' : '0px')};
 
-    margin-top: ${({ open }) => (open ? '24px' : '0px')};
+    margin-top: ${({ open }) => (open ? '12px' : '0px')};
 
     overflow: hidden;
 
