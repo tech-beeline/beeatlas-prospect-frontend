@@ -245,7 +245,7 @@ export const MapAddPage = () => {
                 </S.PageWrapper>
             </DndContext>
             <CreateMapSideblock
-                typeDisabled={groupsData.length !== 0}
+                typeDisabled
                 isOpen={sideblockOpened}
                 onClose={closeSideblock}
                 onSave={handleSideblockSave}

@@ -95,8 +95,7 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                         place="bottom"
                                         noArrow
                                     >
-                                        Редактирование недоступно. Чтобы изменить тип карты, удалите
-                                        все элементы
+                                        Редактирование типа карты пока недоступно
                                     </S.TooltipContainer>
                                 )}
 
