@@ -56,7 +56,10 @@ export const PersonalMapPage = () => {
             ),
         });
 
-    const isLoading = isLoadingMapData || isLoadingTreeData || isLoadingChildrenCapabilities;
+    const isLoading =
+        isLoadingMapData ||
+        (capabilityId ? isLoadingTreeData : false) ||
+        isLoadingChildrenCapabilities;
 
     useEffect(() => {
         if (
