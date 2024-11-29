@@ -42,13 +42,13 @@ ingress:
   tls:
     - hosts:
         - beeatlas.vimpelcom.ru
-      secretName: beeatlas-tls
+      secretName: fdm-tls
     - hosts:
         - tr.vimpelcom.ru
-      secretName: tr-tls
+      secretName: fdm-tls
     - hosts:
         - techradar.vimpelcom.ru
-      secretName: techradar-tls
+      secretName: fdm-tls
 
 env:
   NGINX_LOCATION_API_GATEWAY: https://fdm-gateway-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api-gateway
