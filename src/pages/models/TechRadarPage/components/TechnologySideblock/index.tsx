@@ -3,6 +3,7 @@ import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-syste
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
+import { Text } from 'components/core';
 import { PivotArrow } from 'components/other';
 
 import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
@@ -16,6 +17,7 @@ import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { ProductCard } from './components';
 import { ringIdToStatusMap } from './const';
 import { ITechnologySideblock } from './types';
 import * as S from './units';
@@ -113,21 +115,25 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         </Button>
                     </S.ButtonsContainer>
                     <S.NameContainer>
-                        <S.Subtitle>{selectedTech?.label}</S.Subtitle>
+                        <Text variant="subtitle2">{selectedTech?.label}</Text>
                         <Label
                             title={selectedTech?.ring.name}
                             variant="contained"
                             type={ringIdToStatusMap[selectedTech?.ring.id ?? 1]}
                         />
                     </S.NameContainer>
-                    <S.DescriptionHeader>Описание</S.DescriptionHeader>
-                    <S.Description>{selectedTech?.description}</S.Description>
-                    <S.SubtitleMargin>Последние изменения</S.SubtitleMargin>
-                    <S.LastChanges>Раздел ещё в разработке</S.LastChanges>
+                    <S.DescriptionHeader inactive variant="body3">
+                        Описание
+                    </S.DescriptionHeader>
+                    <Text variant="body2">{selectedTech?.description}</Text>
+                    <S.SubtitleMargin>
+                        <Text variant="subtitle2">Последние изменения</Text>
+                    </S.SubtitleMargin>
+                    <S.LastChanges variant="body2">Раздел ещё в разработке</S.LastChanges>
                     <S.ButtonsContainer>
-                        <S.Subtitle>
+                        <Text variant="subtitle2">
                             Приложения{productsData && ` (${productsData.length})`}
-                        </S.Subtitle>
+                        </Text>
                         <PivotArrow
                             style={{ cursor: 'pointer' }}
                             position={showApps && 'top'}
@@ -137,17 +143,14 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                     <S.AppsContainer open={showApps}>
                         {productsData &&
                             productsData.map((product) => (
-                                <S.Description key={product.id}>{product.alias}</S.Description>
+                                <ProductCard key={product.id} product={product} />
                             ))}
                         {productsData && productsData.length === 0 && (
-                            <S.Description>
+                            <Text variant="body2">
                                 Нет информации о приложениях, но мы работаем над этим
-                            </S.Description>
+                            </Text>
                         )}
-                        {isLoadingProducts &&
-                            Array.from({ length: 3 }).map((_, i) => (
-                                <Skeleton key={i} height={22} radius={4} />
-                            ))}
+                        {isLoadingProducts && <Skeleton height={44} radius={8} />}
                     </S.AppsContainer>
                 </S.Container>
             </SideBlock>

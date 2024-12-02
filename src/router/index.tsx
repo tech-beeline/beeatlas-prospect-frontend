@@ -14,6 +14,7 @@ import {
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AppInfoPage,
+    AppsPage,
     ArchCommPage,
     BIAddPage,
     BILibraryPage,
@@ -308,7 +309,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <S.IFrameStyled src="https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/systems" />
+                                    <AppsPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
