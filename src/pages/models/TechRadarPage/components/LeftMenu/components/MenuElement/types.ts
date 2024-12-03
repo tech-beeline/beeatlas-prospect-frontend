@@ -10,7 +10,6 @@ export interface IMenuElement {
     hidden: boolean;
     selectedTech: ITech | null;
 
-    setSelectedTech: (tech: ITech | null) => void;
     setOpen: (bool: boolean) => void;
     setHintText: (value: string) => void;
     setHoverInMenu: (bool: boolean) => void;
