@@ -14,7 +14,6 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
     isZoomed,
     selectedTech,
     setHintText,
-    setSelectedTech,
     setShowInMenu,
     showInMenu,
     activeRing,
@@ -129,7 +128,6 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setHintText={setHintText}
                         hidden={isZoomed && activeMenuItem !== 1}
                         selectedTech={selectedTech}
-                        setSelectedTech={setSelectedTech}
                         setHoverInMenu={setHoverInMenu}
                     />
 
@@ -144,7 +142,6 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setHintText={setHintText}
                         hidden={isZoomed && activeMenuItem !== 2}
                         selectedTech={selectedTech}
-                        setSelectedTech={setSelectedTech}
                         setHoverInMenu={setHoverInMenu}
                     />
 
@@ -159,7 +156,6 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setHintText={setHintText}
                         hidden={isZoomed && activeMenuItem !== 3}
                         selectedTech={selectedTech}
-                        setSelectedTech={setSelectedTech}
                         setHoverInMenu={setHoverInMenu}
                     />
 
@@ -174,7 +170,6 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setHintText={setHintText}
                         hidden={isZoomed && activeMenuItem !== 4}
                         selectedTech={selectedTech}
-                        setSelectedTech={setSelectedTech}
                         setHoverInMenu={setHoverInMenu}
                     />
                 </>

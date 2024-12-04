@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { sendAnalytics } from 'features/analytics';
 
 import { Expand } from 'components/other';
@@ -12,6 +13,7 @@ import * as T from './types';
 import * as S from './units';
 
 export const MenuElement: FC<T.IMenuElement> = (props) => {
+    const [, setSearchParams] = useSearchParams();
     const formatData = (quadrantData: ITech[]) => {
         const hold = quadrantData.filter((item) => item.ring.id === 4);
         const assess = quadrantData.filter((item) => item.ring.id === 3);
@@ -110,7 +112,11 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                   hintText={props.hintText}
                                                   selectedTech={props.selectedTech}
                                                   onClick={() => {
-                                                      props.setSelectedTech(item);
+                                                      setSearchParams(
+                                                          new URLSearchParams({
+                                                              id: String(item.id),
+                                                          }),
+                                                      );
                                                       props.setHintText(item.label);
                                                       props.setHoverInMenu(true);
                                                   }}
@@ -139,7 +145,11 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                   hintText={props.hintText}
                                                   selectedTech={props.selectedTech}
                                                   onClick={() => {
-                                                      props.setSelectedTech(item);
+                                                      setSearchParams(
+                                                          new URLSearchParams({
+                                                              id: String(item.id),
+                                                          }),
+                                                      );
                                                       props.setHintText(item.label);
                                                       props.setHoverInMenu(true);
                                                   }}

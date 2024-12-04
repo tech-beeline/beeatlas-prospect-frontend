@@ -10,7 +10,6 @@ export interface ILeftMenu {
     showInMenu: boolean;
     selectedTech: ITech | null;
 
-    setSelectedTech: (tech: ITech | null) => void;
     setHintText: (value: string) => void;
     setShowInMenu: (bool: boolean) => void;
 }

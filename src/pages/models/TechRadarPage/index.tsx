@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
@@ -18,6 +19,11 @@ import * as S from './units';
 import { itemFilterHandler } from './utils';
 
 export const TechRadarPage = () => {
+    const [selectedTech, setSelectedTech] = useState<ITech | null>(null);
+    const [params, setSearchParams] = useSearchParams();
+    const [isFirstId, setIsFirstId] = useState(true);
+    const id = params.get('id');
+
     const { data: techRadarData } = useGetAllTechnologiesQuery();
 
     const [search, setSearch] = useState('');
@@ -26,8 +32,6 @@ export const TechRadarPage = () => {
     const filteredItems = (techRadarData ?? []).filter((item) =>
         itemFilterHandler(item, search, filterValue),
     );
-
-    const [selectedTech, setSelectedTech] = useState<ITech | null>(null);
 
     const [isSubMenu, setSubMenu] = useState(false);
 
@@ -51,6 +55,25 @@ export const TechRadarPage = () => {
 
     const [isElementSelected, setElementSelected] = useState(false);
     const [prevHintText, setPrevHintText] = useState('');
+
+    useEffect(() => {
+        if (id && techRadarData) {
+            const tech = techRadarData.find((tech) => tech.id === Number(id));
+            if (tech) {
+                setSelectedTech(tech);
+                setHintText(tech.label);
+                // Для скролла при открытии страницы с заданным id
+                if (isFirstId) {
+                    setShowInMenu(true);
+                    setIsFirstId(false);
+                }
+            }
+        } else if (techRadarData) {
+            setIsFirstId(false);
+        } else {
+            setSelectedTech(null);
+        }
+    }, [id, techRadarData]);
 
     useEffect(() => {
         if (showInMenu) {
@@ -198,7 +221,6 @@ export const TechRadarPage = () => {
                         <LeftMenu
                             data={filteredItems}
                             selectedTech={selectedTech}
-                            setSelectedTech={setSelectedTech}
                             hintText={hintText}
                             setHintText={setHintText}
                             activeRing={activeRing}
@@ -300,7 +322,7 @@ export const TechRadarPage = () => {
                 selectedTech={selectedTech}
                 isOpen={!!selectedTech}
                 onClose={() => {
-                    setSelectedTech(null);
+                    setSearchParams({});
                     setHintText('');
                     setShowInMenu(false);
                 }}
