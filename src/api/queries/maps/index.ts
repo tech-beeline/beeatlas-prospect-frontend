@@ -9,7 +9,7 @@ import {
     patchPersonalMapGroups,
     postPersonalMap,
 } from 'api/maps';
-import { IPersonalMapForm, IPersonalMapGroupForm } from 'api/maps/types';
+import { IPersonalMapForm, IPersonalMapGroupForm, IPersonalMapUpdateForm } from 'api/maps/types';
 
 const MAPS_PREFIX = 'MAPS_PREFIX';
 const MAPS_LIBRARY_PREFIX = 'MAPS_LIBRARY_PREFIX';
@@ -52,7 +52,7 @@ export function useCreatePersonalMapMutation() {
 
 interface IUpdateMapParams {
     id: string | number;
-    data: IPersonalMapForm;
+    data: IPersonalMapUpdateForm;
 }
 export function useUpdatePersonalMapMutation() {
     const queryClient = useQueryClient();

@@ -59,6 +59,12 @@ export interface IPersonalMapForm {
     typeId: number;
 }
 
+export interface IPersonalMapUpdateForm {
+    name: string;
+    description: string;
+    type: { id: number };
+}
+
 export interface IPersonalMapGroupForm {
     nameGroup: string;
     id?: number;

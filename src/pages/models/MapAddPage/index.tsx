@@ -123,7 +123,14 @@ export const MapAddPage = () => {
 
     const handleSideblockSave = async (values: MapFormValues) => {
         if (paramId) {
-            await updatePersonalMap({ id: paramId, data: { ...values, typeId: values.type } });
+            await updatePersonalMap({
+                id: paramId,
+                data: {
+                    name: values.name,
+                    description: values.description,
+                    type: { id: values.type },
+                },
+            });
             closeSideblock();
         }
     };
@@ -173,6 +180,9 @@ export const MapAddPage = () => {
         }),
     );
 
+    const hasSavedCapabilities =
+        mapData && ((mapData.groups && mapData.groups.length !== 0) || mapData.groups !== null);
+
     return (
         <>
             <DndContext
@@ -199,6 +209,7 @@ export const MapAddPage = () => {
                             <S.ButtonStyled
                                 endIcon={<Icon iconName={Icons.Edit} />}
                                 onClick={openSideblock}
+                                disabled={!mapData}
                             />
                         </S.FlexSideContainer>
 
@@ -245,7 +256,7 @@ export const MapAddPage = () => {
                 </S.PageWrapper>
             </DndContext>
             <CreateMapSideblock
-                typeDisabled
+                typeDisabled={hasSavedCapabilities || groupsData.length !== 0}
                 isOpen={sideblockOpened}
                 onClose={closeSideblock}
                 onSave={handleSideblockSave}

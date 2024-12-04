@@ -74,8 +74,6 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                 автоматически задаёте набор доступных объектов"
                                 />
 
-                                <TextField label="Название карты*" name="name" />
-
                                 <Text variant="subtitle1">Тип карты</Text>
 
                                 <S.RadioGroupContainer data-tooltip-id="type-selection">
@@ -95,9 +93,12 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                         place="bottom"
                                         noArrow
                                     >
-                                        Редактирование типа карты пока недоступно
+                                        Редактирование недоступно. Чтобы изменить тип карты, удалите
+                                        все элементы и сохраните карту
                                     </S.TooltipContainer>
                                 )}
+
+                                <TextField label="Название карты*" name="name" />
 
                                 <TextArea
                                     label="Описание"
