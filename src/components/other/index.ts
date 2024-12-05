@@ -1,3 +1,4 @@
+export { AuthorizationErrorStub } from './AuthorizationErrorStub';
 export { AuthorizationStub } from './AuthorizationStub';
 export { CustomRadarLogo } from './CustomRadarLogo';
 export { Expand } from './Expand';

@@ -6,6 +6,7 @@ import { IAuthStore } from './types';
 const defaultValues = {
     userInfo: null,
     isAuthorizing: true,
+    isError: false,
 };
 
 export const useAuthStore = create<IAuthStore>()(
@@ -17,6 +18,9 @@ export const useAuthStore = create<IAuthStore>()(
             },
             setIsAuthorizing: (isAuthorizing) => {
                 set(() => ({ isAuthorizing }));
+            },
+            setIsError: (isError) => {
+                set(() => ({ isError }));
             },
             clearStore: () => {
                 set(() => ({ ...defaultValues }));
