@@ -6,10 +6,12 @@ export const PersonalMapsContainer = styled.div`
     gap: 24px;
 
     @media (max-width: 900px) {
-        grid-template-columns: 1fr;
+        grid-template-columns: 100%;
     }
 
     padding: 24px 32px 32px 32px;
+
+    max-width: 100%;
 
     overflow-y: auto;
 
@@ -36,6 +38,8 @@ export const MapCard = styled.div`
 
     padding: 24px;
 
+    max-width: 100%;
+
     border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
 `;
@@ -46,6 +50,11 @@ export const FlexContainer = styled.div`
     justify-content: space-between;
 
     margin-bottom: 12px;
+`;
+
+export const TitleContainer = styled.div`
+    width: calc(100% - 48px);
+    max-width: calc(100% - 48px);
 `;
 
 export const DatesContainer = styled.div`
