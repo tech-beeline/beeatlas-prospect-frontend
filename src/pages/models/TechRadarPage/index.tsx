@@ -70,6 +70,7 @@ export const TechRadarPage = () => {
             }
         } else if (techRadarData) {
             setIsFirstId(false);
+            setSelectedTech(null);
         } else {
             setSelectedTech(null);
         }
