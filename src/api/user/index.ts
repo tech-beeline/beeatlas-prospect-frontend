@@ -8,6 +8,6 @@ import * as T from './types';
 
 export const getUserInfo = (): AxiosPromise<T.IUserInfo> => {
     return Api.get({
-        url: `${GATEWAY_URL}user/v1/info`,
+        url: `${GATEWAY_URL}auth/v1/user/login/info`,
     });
 };
