@@ -26,7 +26,9 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
                 onMouseEnter={() => setIsTooltipShown(true)}
                 onMouseLeave={() => setIsTooltipShown(false)}
                 onClick={() => {
-                    window.open(`${R.MODELS_PATH}${R.APPS_PATH}?alias=${product.alias}`);
+                    window.open(
+                        `${R.MODELS_PATH}${R.APPS_PATH}?alias=${product.alias.toUpperCase()}`,
+                    );
                 }}
                 data-tooltip-id={`app-link-${product.id}`}
             />
