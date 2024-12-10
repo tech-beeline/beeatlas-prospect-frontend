@@ -31,6 +31,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
     const { modalOpened, openModal, closeModal } = useModal();
 
     const [showApps, setShowApps] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
 
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsByTechnologyIdQuery(
         selectedTech?.id,
@@ -45,7 +46,11 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
         selectedTech && subscribedTechnologiesIds?.includes(selectedTech.id),
     );
 
-    const handleArrowClick = () => {
+    const handleHistoryArrowClick = () => {
+        setShowHistory(!showHistory);
+    };
+
+    const handleAppsArrowClick = () => {
         setShowApps(!showApps);
     };
 
@@ -126,10 +131,28 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         Описание
                     </S.DescriptionHeader>
                     <Text variant="body2">{selectedTech?.description}</Text>
-                    <S.SubtitleMargin>
-                        <Text variant="subtitle2">Последние изменения</Text>
-                    </S.SubtitleMargin>
-                    <S.LastChanges variant="body2">Раздел ещё в разработке</S.LastChanges>
+                    <S.ButtonsContainer>
+                        <Text variant="subtitle2">История изменения</Text>
+                        <PivotArrow
+                            style={{ cursor: 'pointer' }}
+                            position={showHistory && 'top'}
+                            onClick={handleHistoryArrowClick}
+                        />
+                    </S.ButtonsContainer>
+                    <S.AppsContainer open={showHistory}>
+                        <div>
+                            <Text inactive variant="body3">
+                                29.09.2024
+                            </Text>
+                            <Text variant="body2">Технология переведена в статус «Adopt»</Text>
+                        </div>
+                        <div>
+                            <Text inactive variant="body3">
+                                29.09.2024
+                            </Text>
+                            <Text variant="body2">Технология переведена в статус «Adopt»</Text>
+                        </div>
+                    </S.AppsContainer>
                     <S.ButtonsContainer>
                         <Text variant="subtitle2">
                             Приложения{productsData && ` (${productsData.length})`}
@@ -137,7 +160,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         <PivotArrow
                             style={{ cursor: 'pointer' }}
                             position={showApps && 'top'}
-                            onClick={handleArrowClick}
+                            onClick={handleAppsArrowClick}
                         />
                     </S.ButtonsContainer>
                     <S.AppsContainer open={showApps}>
