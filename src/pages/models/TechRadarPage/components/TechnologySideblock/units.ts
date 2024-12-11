@@ -4,7 +4,22 @@ import { Text } from 'components/core';
 
 export const Container = styled.div`
     padding: 20px 16px;
+
+    max-height: calc(100vh - 64px);
     min-width: 320px;
+
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
 `;
 
 export const Title = styled.h5`
