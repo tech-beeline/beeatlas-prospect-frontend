@@ -6,7 +6,7 @@ import { useAuth, useAuthStore } from 'features/auth';
 import { useTheme } from 'features/theme';
 
 import { ErrorBoundary } from 'components/core';
-import { AuthorizationStub } from 'components/other';
+import { AuthorizationErrorStub, AuthorizationStub } from 'components/other';
 
 import { queryClient } from 'api/queries';
 import { NavigationRouter } from 'router';
@@ -20,7 +20,7 @@ import '@beeline/design-tokens/css/iconfont/iconfont.css';
 import '@beeline/design-tokens/css/font-face.css';
 
 const App = () => {
-    const isAuthorizing = useAuthStore((store) => store.isAuthorizing);
+    const [isAuthorizing, isError] = useAuthStore((store) => [store.isAuthorizing, store.isError]);
     useAuth();
     useTheme();
 
@@ -30,6 +30,8 @@ const App = () => {
                 <ErrorBoundary>
                     {isAuthorizing ? (
                         <AuthorizationStub />
+                    ) : isError ? (
+                        <AuthorizationErrorStub />
                     ) : (
                         <Router>
                             <NavigationRouter />

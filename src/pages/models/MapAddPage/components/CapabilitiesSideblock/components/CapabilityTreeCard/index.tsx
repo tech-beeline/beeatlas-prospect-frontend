@@ -19,9 +19,12 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
     type,
     capability,
     level,
+    selectedCapabilitiesIds,
     mapType,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const isUsed = selectedCapabilitiesIds.includes(capability.id);
 
     const { attributes, listeners, setNodeRef } = useDraggable({
         id: `TREE-${capability.id}`,
@@ -31,7 +34,8 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
             (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                 mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
             (type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
-                mapType.name !== PersonalMapTypes.TECH_CAPABILITY),
+                mapType.name !== PersonalMapTypes.TECH_CAPABILITY) ||
+            isUsed,
         data: {
             elementId: uniqueId(),
             elementType: PersonalMapElementType.CAPABILITY,
@@ -47,7 +51,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
 
     return (
         <>
-            <S.CapabilityCard ref={setNodeRef} {...attributes} {...listeners}>
+            <S.CapabilityCard isUsed={isUsed} ref={setNodeRef} {...attributes} {...listeners}>
                 <S.ArrowContainer>
                     {type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                         capability.hasChildren && (
@@ -89,6 +93,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
                                 level={level + 1}
                             />
                         ))}
@@ -99,6 +104,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.TECH_CAPABILITY}
                                 capability={capability}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
                                 level={level + 1}
                             />
                         ))}

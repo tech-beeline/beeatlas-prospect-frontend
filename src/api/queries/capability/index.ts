@@ -81,6 +81,7 @@ export const useGetChildrenCapabilitiesQuery = ({
         queryKey: [CAPABILITY_PREFIX, 'chdilren', id],
         queryFn: () => getBusinessCapabilityChildren(id).then((res) => res.data),
         enabled,
+        gcTime: 0,
     });
 };
 

@@ -1,8 +1,25 @@
 import styled from '@emotion/styled';
 
+import { Text } from 'components/core';
+
 export const Container = styled.div`
     padding: 20px 16px;
+
+    max-height: calc(100vh - 64px);
     min-width: 320px;
+
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
 `;
 
 export const Title = styled.h5`
@@ -33,33 +50,15 @@ export const NameContainer = styled.div`
     margin-top: 24px;
 `;
 
-export const Subtitle = styled.div`
-    font-weight: var(--font-weight-subtitle2);
-    font-size: var(--font-size-subtitle2);
-    line-height: var(--font-line-height-subtitle2);
-`;
-
-export const DescriptionHeader = styled.div`
-    font-weight: var(--font-weight-body3);
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
-
-    color: var(--color-text-inactive);
-
+export const DescriptionHeader = styled(Text)`
     margin-top: 12px;
 `;
 
-export const Description = styled.div`
-    font-weight: var(--font-weight-body2);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-`;
-
-export const SubtitleMargin = styled(Subtitle)`
+export const SubtitleMargin = styled.div`
     margin-top: 24px;
 `;
 
-export const LastChanges = styled(Description)`
+export const LastChanges = styled(Text)`
     margin-top: 12px;
 `;
 
@@ -70,7 +69,7 @@ export const AppsContainer = styled.div<{ open: boolean }>`
 
     height: ${({ open }) => (open ? 'auto' : '0px')};
 
-    margin-top: ${({ open }) => (open ? '24px' : '0px')};
+    margin-top: ${({ open }) => (open ? '12px' : '0px')};
 
     overflow: hidden;
 

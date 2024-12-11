@@ -33,7 +33,7 @@ export const postPersonalMap = (data: T.IPersonalMapForm) => {
     });
 };
 
-export const patchPersonalMap = (id: string | number, data: T.IPersonalMapForm) => {
+export const patchPersonalMap = (id: string | number, data: T.IPersonalMapUpdateForm) => {
     return Api.patch({
         url: `${GATEWAY_URL}capability/v1/maps/${id}`,
         data,

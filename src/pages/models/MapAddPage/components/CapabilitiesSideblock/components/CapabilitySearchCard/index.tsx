@@ -21,9 +21,11 @@ import * as S from './units';
 export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
     capability,
     mapType,
-    dragged = false,
+    selectedCapabilitiesIds,
 }) => {
     const [tooltipOpened, setTooltipOpened] = useState(false);
+
+    const isUsed = selectedCapabilitiesIds.includes(capability.id);
 
     const { attributes, listeners, setNodeRef } = useDraggable({
         id: `SEARCH-${capability.id}`,
@@ -36,7 +38,8 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
             (capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                 mapType.name !== PersonalMapTypes.BUSINESS_CAPABILITY) ||
             (capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY &&
-                mapType.name !== PersonalMapTypes.TECH_CAPABILITY),
+                mapType.name !== PersonalMapTypes.TECH_CAPABILITY) ||
+            isUsed,
     });
 
     const { data: treeData, isLoading: isLoadingTreeData } = useGetMapDataQuery(
@@ -63,7 +66,7 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
 
     return (
         <>
-            <S.CapabilityCard ref={setNodeRef} dragged={dragged} {...attributes} {...listeners}>
+            <S.CapabilityCard isUsed={isUsed} ref={setNodeRef} {...attributes} {...listeners}>
                 <S.FlexContainer>
                     <Avatar
                         iconName={Icons.Capability}
@@ -103,9 +106,9 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                     <div>
                         <Text variant="subtitle3">Описание</Text>
                     </div>
-                    <div>
+                    <S.DescriptionContainer>
                         <Text variant="caption">{capability.description || 'Нет описания'}</Text>
-                    </div>
+                    </S.DescriptionContainer>
                 </div>
                 {capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY && (
                     <div>

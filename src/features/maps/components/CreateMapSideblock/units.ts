@@ -1,8 +1,31 @@
 import { Tooltip } from 'react-tooltip';
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 320px;
+    min-height: 100vh;
+`;
+
+export const ContentContainer = styled.div`
     padding: 20px 16px;
+
+    max-height: calc(100vh - 96px);
+
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
 `;
 
 export const FlexWrapper = styled.div`
@@ -35,14 +58,11 @@ export const RadioGroupContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
     display: flex;
     justify-content: flex-end;
     gap: 10px;
 
+    border-top: 1px solid var(--color-divider);
     width: 100%;
     height: 96px;
     padding: 24px 16px;

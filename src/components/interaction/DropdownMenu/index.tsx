@@ -32,9 +32,9 @@ export const DropdownMenu: FC<IDropdownMenu> = ({ id, items }) => {
                 <S.MenuBlock ref={menuRef}>
                     {items.map((group, i) => (
                         <>
-                            {group.map((item) => (
+                            {group.map((item, j) => (
                                 <S.MenuItem
-                                    key={i}
+                                    key={`${i}-${j}`}
                                     disabled={item.disabled}
                                     danegerous={item.dangerous}
                                     onClick={async () => {

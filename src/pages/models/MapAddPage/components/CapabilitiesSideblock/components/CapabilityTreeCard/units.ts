@@ -1,7 +1,7 @@
 import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const CapabilityCard = styled.div`
+export const CapabilityCard = styled.div<{ isUsed: boolean }>`
     display: flex;
     align-items: center;
     gap: 16px;
@@ -12,6 +12,8 @@ export const CapabilityCard = styled.div`
     padding: 4px 16px;
 
     background-color: var(--color-background-base);
+
+    opacity: ${({ isUsed }) => (isUsed ? '0.48' : '1')};
 
     border-radius: 12px;
 

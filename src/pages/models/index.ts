@@ -1,3 +1,4 @@
+export { AppsPage } from './AppsPage';
 export { FDMPage } from './FDMPage';
 export { MapAddPage } from './MapAddPage';
 export { MapPage } from './MapPage';

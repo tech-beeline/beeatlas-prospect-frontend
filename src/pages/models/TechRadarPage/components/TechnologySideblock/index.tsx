@@ -1,9 +1,12 @@
-import React, { FC } from 'react';
-import { Button, Icon, IconButton, Label } from '@beeline/design-system-react';
+import React, { FC, useState } from 'react';
+import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
+import { Text } from 'components/core';
+import { PivotArrow } from 'components/other';
 
+import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -14,6 +17,7 @@ import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { ProductCard } from './components';
 import { ringIdToStatusMap } from './const';
 import { ITechnologySideblock } from './types';
 import * as S from './units';
@@ -26,7 +30,11 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { modalOpened, openModal, closeModal } = useModal();
 
-    // const [showApps, setShowApps] = useState(false);
+    const [showApps, setShowApps] = useState(false);
+
+    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsByTechnologyIdQuery(
+        selectedTech?.id,
+    );
 
     const { data: subscribedTechnologiesIds } = useGetSubscribedTechnologiesIdsQuery();
 
@@ -37,9 +45,9 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
         selectedTech && subscribedTechnologiesIds?.includes(selectedTech.id),
     );
 
-    // const handleArrowClick = () => {
-    //     setShowApps(!showApps);
-    // };
+    const handleArrowClick = () => {
+        setShowApps(!showApps);
+    };
 
     const handleSubscribeButtonClick = async () => {
         if (isSubscribed) {
@@ -107,19 +115,25 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         </Button>
                     </S.ButtonsContainer>
                     <S.NameContainer>
-                        <S.Subtitle>{selectedTech?.label}</S.Subtitle>
+                        <Text variant="subtitle2">{selectedTech?.label}</Text>
                         <Label
                             title={selectedTech?.ring.name}
                             variant="contained"
                             type={ringIdToStatusMap[selectedTech?.ring.id ?? 1]}
                         />
                     </S.NameContainer>
-                    <S.DescriptionHeader>Описание</S.DescriptionHeader>
-                    <S.Description>{selectedTech?.description}</S.Description>
-                    <S.SubtitleMargin>Последние изменения</S.SubtitleMargin>
-                    <S.LastChanges>Раздел ещё в разработке</S.LastChanges>
-                    {/* <S.ButtonsContainer>
-                        <S.Subtitle>Приложения (7)</S.Subtitle>
+                    <S.DescriptionHeader inactive variant="body3">
+                        Описание
+                    </S.DescriptionHeader>
+                    <Text variant="body2">{selectedTech?.description}</Text>
+                    <S.SubtitleMargin>
+                        <Text variant="subtitle2">Последние изменения</Text>
+                    </S.SubtitleMargin>
+                    <S.LastChanges variant="body2">Раздел ещё в разработке</S.LastChanges>
+                    <S.ButtonsContainer>
+                        <Text variant="subtitle2">
+                            Приложения{productsData && ` (${productsData.length})`}
+                        </Text>
                         <PivotArrow
                             style={{ cursor: 'pointer' }}
                             position={showApps && 'top'}
@@ -127,14 +141,17 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         />
                     </S.ButtonsContainer>
                     <S.AppsContainer open={showApps}>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                        <S.Description>Beeworks (App)</S.Description>
-                    </S.AppsContainer> */}
+                        {productsData &&
+                            productsData.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        {productsData && productsData.length === 0 && (
+                            <Text variant="body2">
+                                Нет информации о приложениях, но мы работаем над этим
+                            </Text>
+                        )}
+                        {isLoadingProducts && <Skeleton height={44} radius={8} />}
+                    </S.AppsContainer>
                 </S.Container>
             </SideBlock>
             <Dialog

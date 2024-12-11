@@ -70,7 +70,7 @@ export const PersonalMapsLibrary: FC = () => {
                         <S.MapCard key={map.id}>
                             <div>
                                 <S.FlexContainer>
-                                    <div>
+                                    <S.TitleContainer>
                                         <Text
                                             link
                                             pointer
@@ -82,7 +82,7 @@ export const PersonalMapsLibrary: FC = () => {
                                         <Text inactive variant="body3">
                                             {map.type.title}
                                         </Text>
-                                    </div>
+                                    </S.TitleContainer>
                                     <DropdownMenu
                                         id={String(map.id)}
                                         items={[

@@ -49,6 +49,20 @@ export const MapAddPage = () => {
 
     const [groupsData, setGroupsData] = useState<IPersonalMapGroup[]>([]);
 
+    const selectedCapabilitiesIds = groupsData.reduce(
+        (acc, g) => [
+            ...acc,
+            ...g.children
+                .map((child) =>
+                    child.elementType === PersonalMapElementType.CAPABILITY
+                        ? [child.id]
+                        : child.children.map((c) => c.id),
+                )
+                .flat(),
+        ],
+        [] as number[],
+    );
+
     const { mutateAsync: updatePersonalMap } = useUpdatePersonalMapMutation();
     const { mutateAsync: updatePersonalMapGroups } = useUpdatePersonalMapGroupsMutation();
     const { data: mapData } = useGetPersonalMapByIdQuery(paramId);
@@ -109,7 +123,14 @@ export const MapAddPage = () => {
 
     const handleSideblockSave = async (values: MapFormValues) => {
         if (paramId) {
-            await updatePersonalMap({ id: paramId, data: { ...values, typeId: values.type } });
+            await updatePersonalMap({
+                id: paramId,
+                data: {
+                    name: values.name,
+                    description: values.description,
+                    type: { id: values.type },
+                },
+            });
             closeSideblock();
         }
     };
@@ -159,6 +180,9 @@ export const MapAddPage = () => {
         }),
     );
 
+    const hasSavedCapabilities =
+        mapData && ((mapData.groups && mapData.groups.length !== 0) || mapData.groups !== null);
+
     return (
         <>
             <DndContext
@@ -185,6 +209,7 @@ export const MapAddPage = () => {
                             <S.ButtonStyled
                                 endIcon={<Icon iconName={Icons.Edit} />}
                                 onClick={openSideblock}
+                                disabled={!mapData}
                             />
                         </S.FlexSideContainer>
 
@@ -204,7 +229,10 @@ export const MapAddPage = () => {
                     </S.Header>
                     {mapData && (
                         <S.Content>
-                            <CapabilitiesSideblock mapType={mapData.type} />
+                            <CapabilitiesSideblock
+                                mapType={mapData.type}
+                                selectedCapabilitiesIds={selectedCapabilitiesIds}
+                            />
                             <CapabilitiesMapEdit
                                 selectedElementId={selectedElementId}
                                 setSelectedElementId={setSelectedElementId}
@@ -228,7 +256,7 @@ export const MapAddPage = () => {
                 </S.PageWrapper>
             </DndContext>
             <CreateMapSideblock
-                typeDisabled={groupsData.length !== 0}
+                typeDisabled={hasSavedCapabilities || groupsData.length !== 0}
                 isOpen={sideblockOpened}
                 onClose={closeSideblock}
                 onSave={handleSideblockSave}
