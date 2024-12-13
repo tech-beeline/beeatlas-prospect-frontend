@@ -208,6 +208,12 @@ export const FDMPage = () => {
                                                 <S.ChipStyled label="Нет продуктов" />
                                             )}
                                     </S.ChipsContainer>
+                                    {activeItem.author && (
+                                        <>
+                                            <S.DomainText>Владелец</S.DomainText>
+                                            <S.JustText>{activeItem.author}</S.JustText>
+                                        </>
+                                    )}
                                 </>
                             )}
 
