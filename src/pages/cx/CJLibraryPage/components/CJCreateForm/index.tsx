@@ -36,7 +36,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (products) {
-            reset({ product: products[0]?.id ? Number(products[0].id) : 1 });
+            reset({ product: Number.isInteger(products[0]?.id) ? Number(products[0].id) : 1 });
         }
     }, [products]);
 
