@@ -32,7 +32,7 @@ export interface IBusinessCapability {
     link: string;
     createdDate: string;
     deletedDate: string | null;
-    owner: number;
+    owner: string | null;
     hasChildren: boolean;
     parent: Omit<IBusinessCapability, 'parent'> | null;
     isDomain: boolean;
@@ -48,22 +48,8 @@ export interface ITechCapability {
     link: string;
     createdDate: string;
     deletedDate: string | null;
-    owner: number;
+    owner: string | null;
     parents: Array<Omit<IBusinessCapability, 'parent'>>;
-    updatedDate: string;
-}
-
-export interface ITechCapability {
-    id: number;
-    code: string;
-    name: string;
-    description: string;
-    author: string;
-    link: string;
-    createdDate: string;
-    deletedDate: string | null;
-    owner: number;
-    parents: Omit<IBusinessCapability, 'parent'>[];
     updatedDate: string;
 }
 

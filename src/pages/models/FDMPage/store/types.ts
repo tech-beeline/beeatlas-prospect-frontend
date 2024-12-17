@@ -14,6 +14,7 @@ export interface Item {
     description: string;
     code: string;
     author: string;
+    owner?: string | null;
     children: Item[];
     type: ItemTypes;
     isDomain?: boolean;
