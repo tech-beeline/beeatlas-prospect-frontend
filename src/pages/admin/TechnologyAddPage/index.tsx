@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { MultiSelect, Select, TextArea, TextField } from 'components/form';
 
 import {
     useCreateTechnologyMutation,
@@ -16,6 +14,7 @@ import {
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { TechnologyField } from './components';
 import { FormValues, getValidationSchema } from './form';
 import * as S from './units';
 
@@ -40,17 +39,30 @@ export const TechnologyAddPage = () => {
         resolver: yupResolver(getValidationSchema(invalidNames)),
     });
 
-    const { handleSubmit, reset } = form;
+    const { handleSubmit, reset, control } = form;
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'technologies',
+    });
 
     useEffect(() => {
         if (techData) {
             reset({
-                name: techData.label,
-                categories: techData.category.map((category) => category.id),
-                comment: techData.description,
-                link: techData.link ?? '',
-                ring: techData.ring.id,
-                sector: techData.sector.id,
+                technologies: [
+                    {
+                        name: techData.label,
+                        categories: techData.category.map((category) => category.id),
+                        comment: techData.description,
+                        link: techData.link ?? '',
+                        ring: techData.ring.id,
+                        sector: techData.sector.id,
+                    },
+                ],
+            });
+        } else {
+            reset({
+                technologies: [{}],
             });
         }
     }, [techData]);
@@ -63,32 +75,40 @@ export const TechnologyAddPage = () => {
 
     const onSubmit = handleSubmit(async (values) => {
         if (paramId) {
-            await updateTechnology({
-                data: {
-                    id: Number(paramId),
-                    label: values.name,
-                    descr: values.comment,
-                    link: values.link,
-                    ring_id: values.ring,
-                    sector_id: values.sector,
-                    categories: values.categories.map((id) => ({ id })),
-                },
-            });
+            const tech = values.technologies[0];
+            if (tech) {
+                await updateTechnology({
+                    data: {
+                        id: Number(paramId),
+                        label: tech.name,
+                        descr: tech.comment,
+                        link: tech.link,
+                        ring_id: tech.ring,
+                        sector_id: tech.sector,
+                        categories: tech.categories.map((id) => ({ id })),
+                    },
+                });
+            }
             returnToTechnologies();
             showSnackbar({ message: 'Изменения сохранены' });
         } else {
             await createTechnology({
-                data: {
-                    label: values.name,
-                    descr: values.comment,
-                    link: values.link,
-                    ring_id: values.ring,
-                    sector_id: values.sector,
-                    categories: values.categories.map((id) => ({ id })),
-                },
+                data: values.technologies.map((tech) => ({
+                    label: tech.name,
+                    descr: tech.comment,
+                    link: tech.link,
+                    ring_id: tech.ring,
+                    sector_id: tech.sector,
+                    categories: tech.categories.map((id) => ({ id })),
+                })),
             });
             returnToTechnologies();
-            showSnackbar({ message: 'Технология добавлена' });
+            showSnackbar({
+                message:
+                    values.technologies.length === 1
+                        ? 'Технология добавлена'
+                        : 'Технологии добавлены',
+            });
         }
     });
 
@@ -108,72 +128,18 @@ export const TechnologyAddPage = () => {
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.FormContainer>
-                            <S.FormRow>
-                                <S.GrowContainer>
-                                    <TextField
-                                        fullWidth
-                                        name="name"
-                                        label="Название*"
-                                        disabled={isLoading}
-                                    />
-                                </S.GrowContainer>
-                                <S.GrowContainer>
-                                    <MultiSelect
-                                        fullWidth
-                                        name="categories"
-                                        label="Группа"
-                                        options={
-                                            categoriesData?.map((category) => ({
-                                                id: category.id,
-                                                value: category.name,
-                                            })) ?? []
-                                        }
-                                        disabled={isLoading}
-                                    />
-                                </S.GrowContainer>
-                            </S.FormRow>
-                            <S.FormRow>
-                                <S.GrowContainer>
-                                    <Select
-                                        fullWidth
-                                        name="sector"
-                                        label="Сектор*"
-                                        options={[
-                                            { id: 1, value: 'Фреймворки и инструменты' },
-                                            { id: 2, value: 'Платформа и инфраструктура' },
-                                            { id: 3, value: 'Управление данными' },
-                                            { id: 4, value: 'Языки' },
-                                        ]}
-                                        disabled={isLoading}
-                                    />
-                                </S.GrowContainer>
-                                <S.GrowContainer>
-                                    <Select
-                                        fullWidth
-                                        name="ring"
-                                        label="Статус*"
-                                        options={[
-                                            { id: 1, value: 'Adopt' },
-                                            { id: 2, value: 'Trial' },
-                                            { id: 3, value: 'Assess' },
-                                            { id: 4, value: 'Hold' },
-                                        ]}
-                                        disabled={isLoading}
-                                    />
-                                </S.GrowContainer>
-                            </S.FormRow>
-                            <TextField
-                                name="link"
-                                label="Ссылка на страницу с описанием технологии"
-                                disabled={isLoading}
-                            />
-                            <TextArea
-                                name="comment"
-                                label="Короткое описание"
-                                helperText="Максимальное количество символов 255"
-                                maxLength={255}
-                                disabled={isLoading}
-                            />
+                            {fields.map((field, index) => (
+                                <TechnologyField
+                                    key={field.id}
+                                    index={index}
+                                    fieldsCount={fields.length}
+                                    categoriesData={categoriesData ?? []}
+                                    isLoading={isLoading}
+                                    showAddButton={!paramId}
+                                    append={append}
+                                    remove={remove}
+                                />
+                            ))}
                             <S.ButtonsContainer>
                                 <Button onClick={returnToTechnologies} size="medium" type="button">
                                     Отменить
