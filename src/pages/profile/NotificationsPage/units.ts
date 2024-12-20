@@ -7,14 +7,15 @@ export const PageWrapper = styled.div`
 
     width: 100%;
 
-    padding: 32px;
+    padding: 32px 266px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
 `;
 
 export const Container = styled.div`
-    width: 712px;
+    width: 100%;
+    min-width: 712px;
 `;
 
 export const Header = styled.div`

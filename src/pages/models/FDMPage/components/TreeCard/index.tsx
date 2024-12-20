@@ -161,12 +161,10 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         </S.MarginContainer>
                     )}
 
-                    {item.author && (
-                        <S.MarginContainer>
-                            <S.TitleSecond>Владелец</S.TitleSecond>
-                            <S.Text>{item.author}</S.Text>
-                        </S.MarginContainer>
-                    )}
+                    <S.MarginContainer>
+                        <S.TitleSecond>Владелец</S.TitleSecond>
+                        <S.Text>{item.owner || 'Не определён'}</S.Text>
+                    </S.MarginContainer>
                 </div>
 
                 {item.type === ItemTypes.BUSINESS && (

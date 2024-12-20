@@ -40,13 +40,13 @@ export const useGetTechnologyCategoriesQuery = () => {
 };
 
 interface ICreateTechnologyParams {
-    data: Omit<ITechForm, 'id'>;
+    data: Omit<ITechForm, 'id'>[];
 }
 export function useCreateTechnologyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [TECHNOLOGIES_PREFIX, 'create'],
-        mutationFn: (params: ICreateTechnologyParams) => postTechnology([params.data]),
+        mutationFn: (params: ICreateTechnologyParams) => postTechnology(params.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
         },

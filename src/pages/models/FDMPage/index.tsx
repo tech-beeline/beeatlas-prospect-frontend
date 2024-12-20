@@ -211,6 +211,9 @@ export const FDMPage = () => {
                                 </>
                             )}
 
+                            <S.DomainText>Владелец</S.DomainText>
+                            <S.JustText>{activeItem.owner || 'Не определён'}</S.JustText>
+
                             <S.SubscribeButtonContainer>
                                 <S.ProgressButtonStyled
                                     size="small"

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { Select } from 'components/form';
-
 export const PageWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -35,16 +33,7 @@ export const Title = styled.h4`
 export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 32px;
-`;
-
-export const FormRow = styled.div`
-    display: flex;
     gap: 24px;
-`;
-
-export const GrowContainer = styled.div`
-    flex: 1;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -53,8 +42,4 @@ export const ButtonsContainer = styled.div`
     gap: 16px;
 
     margin-top: 8px;
-`;
-
-export const SelectStyled = styled(Select)`
-    flex: 1;
 `;
