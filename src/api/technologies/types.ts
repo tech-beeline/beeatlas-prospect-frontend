@@ -16,7 +16,7 @@ export interface ICategory {
 }
 
 export interface ITech {
-    category: ICategory[];
+    categories: ICategory[];
     createdDate: Date;
     deletedDate?: Date | null;
     description: string;

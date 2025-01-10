@@ -52,7 +52,7 @@ export const TechnologyAddPage = () => {
                 technologies: [
                     {
                         name: techData.label,
-                        categories: techData.category.map((category) => category.id),
+                        categories: techData.categories.map((category) => category.id),
                         comment: techData.description,
                         link: techData.link ?? '',
                         ring: techData.ring.id,
