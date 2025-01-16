@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Icon, Skeleton } from '@beeline/design-system-react';
+import { Breadcrumbs, Icon, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
@@ -18,7 +18,15 @@ import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ItemTypes } from './store/types';
-import { BreadCrumbsItem, NestingMenu, TreeCard, ViewItemSwitcher } from './components';
+import {
+    BreadCrumbsItem,
+    HistoryTable,
+    NestingMenu,
+    TreeCard,
+    VersionInfo,
+    ViewItemSwitcher,
+} from './components';
+import { TABS, TabVariant } from './const';
 import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
@@ -26,6 +34,7 @@ import * as S from './units';
 
 export const FDMPage = () => {
     const [showBanner, setShowBanner] = useState(false);
+    const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
 
     const handleCloseBannerClick = () => {
         setShowBanner(false);
@@ -74,6 +83,7 @@ export const FDMPage = () => {
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
+    const versionId = params.get('v');
 
     const isLinkCorrect = validateFDMParams(params);
 
@@ -165,118 +175,179 @@ export const FDMPage = () => {
                                 />
                             )}
 
-                            <S.TitleContainer>
-                                <S.H4 data-testid="Title">{activeItem.name}</S.H4>
-                            </S.TitleContainer>
-
-                            <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
-
-                            {activeItem.description && (
-                                <S.JustText
-                                    dangerouslySetInnerHTML={{ __html: activeItem.description }}
-                                    data-testid="Description"
-                                />
-                            )}
-
-                            {activeItem.domainData && (
+                            {!versionId && (
                                 <>
-                                    <S.DomainText>Домен</S.DomainText>
-                                    <Link
-                                        title={activeItem.domainData.name}
-                                        url={`/models/fdm?id=${activeItem.domainData.id}&type=BUSINESS`}
-                                    />
-                                </>
-                            )}
+                                    <S.TitleContainer>
+                                        <S.H4 data-testid="Title">{activeItem.name}</S.H4>
+                                    </S.TitleContainer>
 
-                            {activeItem.type === ItemTypes.TECH && (
-                                <>
-                                    <S.DomainText>ТС Реализована в продукте</S.DomainText>
-                                    <S.ChipsContainer>
-                                        {isLoadingProducts && (
-                                            <Skeleton height={32} radius={30} width={123} />
-                                        )}
-                                        {techCapabilityProducts &&
-                                            techCapabilityProducts.length > 0 &&
-                                            techCapabilityProducts.map((product) => (
-                                                <S.ChipStyled
-                                                    key={product.eaGuid}
-                                                    label={product.name}
+                                    <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
+
+                                    {(activeItem.type === ItemTypes.TECH ||
+                                        (activeItem.type === ItemTypes.BUSINESS &&
+                                            activeItem.isDomain === false)) && (
+                                        <S.TabsStyled
+                                            selectedTabIndex={
+                                                tabVariant === TabVariant.GENERAL ? 0 : 1
+                                            }
+                                        >
+                                            {TABS.map((tab) => (
+                                                <Tab
+                                                    key={tab.value}
+                                                    label={tab.label}
+                                                    value={tab.value}
+                                                    onClick={(variant) => setTabVariant(variant)}
                                                 />
                                             ))}
-                                        {techCapabilityProducts &&
-                                            techCapabilityProducts.length === 0 && (
-                                                <S.ChipStyled label="Нет продуктов" />
+                                        </S.TabsStyled>
+                                    )}
+
+                                    {tabVariant === TabVariant.GENERAL && (
+                                        <>
+                                            {activeItem.description && (
+                                                <S.JustText
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: activeItem.description,
+                                                    }}
+                                                    data-testid="Description"
+                                                />
                                             )}
-                                    </S.ChipsContainer>
+
+                                            {activeItem.domainData && (
+                                                <>
+                                                    <S.DomainText>Домен</S.DomainText>
+                                                    <Link
+                                                        title={activeItem.domainData.name}
+                                                        url={`/models/fdm?id=${activeItem.domainData.id}&type=BUSINESS`}
+                                                    />
+                                                </>
+                                            )}
+
+                                            {activeItem.type === ItemTypes.TECH && (
+                                                <>
+                                                    <S.DomainText>
+                                                        ТС Реализована в продукте
+                                                    </S.DomainText>
+                                                    <S.ChipsContainer>
+                                                        {isLoadingProducts && (
+                                                            <Skeleton
+                                                                height={32}
+                                                                radius={30}
+                                                                width={123}
+                                                            />
+                                                        )}
+                                                        {techCapabilityProducts &&
+                                                            techCapabilityProducts.length > 0 &&
+                                                            techCapabilityProducts.map(
+                                                                (product) => (
+                                                                    <S.ChipStyled
+                                                                        key={product.eaGuid}
+                                                                        label={product.name}
+                                                                    />
+                                                                ),
+                                                            )}
+                                                        {techCapabilityProducts &&
+                                                            techCapabilityProducts.length === 0 && (
+                                                                <S.ChipStyled label="Нет продуктов" />
+                                                            )}
+                                                    </S.ChipsContainer>
+                                                </>
+                                            )}
+
+                                            <S.DomainText>Владелец</S.DomainText>
+                                            <S.JustText>
+                                                {activeItem.owner || 'Не определён'}
+                                            </S.JustText>
+
+                                            <S.SubscribeButtonContainer>
+                                                <S.ProgressButtonStyled
+                                                    size="small"
+                                                    variant="outlined"
+                                                    onClick={handleSubscribeButtonClick}
+                                                    state={
+                                                        isUpdatingSubscriptions
+                                                            ? 'loading'
+                                                            : 'default'
+                                                    }
+                                                    showProgress={isUpdatingSubscriptions}
+                                                >
+                                                    <S.ProgressButtonContent>
+                                                        <Icon
+                                                            iconName={
+                                                                isSubscribed
+                                                                    ? Icons.NotificationOff
+                                                                    : Icons.Notification
+                                                            }
+                                                        />
+                                                        {isSubscribed
+                                                            ? 'Отписаться'
+                                                            : 'Подписаться'}
+                                                    </S.ProgressButtonContent>
+                                                </S.ProgressButtonStyled>
+                                            </S.SubscribeButtonContainer>
+
+                                            {!isItemGroup &&
+                                                !!activeItem.children &&
+                                                activeItem.children?.length > 0 && (
+                                                    <S.FlexBlock>
+                                                        {isItemDomain
+                                                            ? hasDomainChildren
+                                                                ? 'Все дочерние элементы домена'
+                                                                : 'Все бизнес возможности домена'
+                                                            : 'Связанные технические возможности'}
+                                                        &nbsp;({activeItem.children.length})
+                                                        <S.ListSwitcherWrapper className="ListSwitcherWrapper">
+                                                            <ViewItemSwitcher
+                                                                activeElement={activeViewList}
+                                                                setActiveElement={setActiveViewList}
+                                                            />
+                                                        </S.ListSwitcherWrapper>
+                                                    </S.FlexBlock>
+                                                )}
+
+                                            {isItemDomain && activeItem.children?.length === 0 && (
+                                                <S.NoChildrenContainer data-testid="Mock">
+                                                    <NotFoundBlock
+                                                        imageVariant={ImageVariants.EMPTY_BOX}
+                                                        text="Возможностей пока нет"
+                                                    />
+                                                </S.NoChildrenContainer>
+                                            )}
+
+                                            <S.TreeContainer
+                                                {...{ activeViewList }}
+                                                ref={refTreeContainer}
+                                                data-testid="TreeContainer"
+                                            >
+                                                {!isItemGroup &&
+                                                    activeItem.children?.map((item, index) => (
+                                                        <TreeCard
+                                                            key={String(item.id) + index}
+                                                            isFullWidthCard={isFullWidthCard}
+                                                            item={item}
+                                                        />
+                                                    ))}
+                                            </S.TreeContainer>
+                                        </>
+                                    )}
+
+                                    {tabVariant === TabVariant.HISTORY && (
+                                        <HistoryTable
+                                            capabilityId={activeItem.id}
+                                            capabilityType={activeItem.type}
+                                            setTabVariant={setTabVariant}
+                                        />
+                                    )}
                                 </>
                             )}
 
-                            <S.DomainText>Владелец</S.DomainText>
-                            <S.JustText>{activeItem.owner || 'Не определён'}</S.JustText>
-
-                            <S.SubscribeButtonContainer>
-                                <S.ProgressButtonStyled
-                                    size="small"
-                                    variant="outlined"
-                                    onClick={handleSubscribeButtonClick}
-                                    state={isUpdatingSubscriptions ? 'loading' : 'default'}
-                                    showProgress={isUpdatingSubscriptions}
-                                >
-                                    <S.ProgressButtonContent>
-                                        <Icon
-                                            iconName={
-                                                isSubscribed
-                                                    ? Icons.NotificationOff
-                                                    : Icons.Notification
-                                            }
-                                        />
-                                        {isSubscribed ? 'Отписаться' : 'Подписаться'}
-                                    </S.ProgressButtonContent>
-                                </S.ProgressButtonStyled>
-                            </S.SubscribeButtonContainer>
-
-                            {!isItemGroup &&
-                                !!activeItem.children &&
-                                activeItem.children?.length > 0 && (
-                                    <S.FlexBlock>
-                                        {isItemDomain
-                                            ? hasDomainChildren
-                                                ? 'Все дочерние элементы домена'
-                                                : 'Все бизнес возможности домена'
-                                            : 'Связанные технические возможности'}
-                                        &nbsp;({activeItem.children.length})
-                                        <S.ListSwitcherWrapper className="ListSwitcherWrapper">
-                                            <ViewItemSwitcher
-                                                activeElement={activeViewList}
-                                                setActiveElement={setActiveViewList}
-                                            />
-                                        </S.ListSwitcherWrapper>
-                                    </S.FlexBlock>
-                                )}
-
-                            {isItemDomain && activeItem.children?.length === 0 && (
-                                <S.NoChildrenContainer data-testid="Mock">
-                                    <NotFoundBlock
-                                        imageVariant={ImageVariants.EMPTY_BOX}
-                                        text="Возможностей пока нет"
-                                    />
-                                </S.NoChildrenContainer>
+                            {versionId && (
+                                <VersionInfo
+                                    versionId={Number(versionId)}
+                                    capabilityId={String(activeItem.id)}
+                                    capabilityType={activeItem.type}
+                                />
                             )}
-
-                            <S.TreeContainer
-                                {...{ activeViewList }}
-                                ref={refTreeContainer}
-                                data-testid="TreeContainer"
-                            >
-                                {!isItemGroup &&
-                                    activeItem.children?.map((item, index) => (
-                                        <TreeCard
-                                            key={String(item.id) + index}
-                                            isFullWidthCard={isFullWidthCard}
-                                            item={item}
-                                        />
-                                    ))}
-                            </S.TreeContainer>
                         </>
                     )}
                     {isLinkCorrect && !paramId && !loading ? (

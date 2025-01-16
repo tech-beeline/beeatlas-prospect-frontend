@@ -1,4 +1,4 @@
-import { Banner, Chip, ProgressButton } from '@beeline/design-system-react';
+import { Banner, Chip, ProgressButton, Tabs } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -75,6 +75,11 @@ export const Subtitle = styled.p`
 
 export const AliasText = styled(Subtitle)`
     margin: -4px 0 12px;
+`;
+
+export const TabsStyled = styled(Tabs)`
+    margin-top: -4px;
+    margin-bottom: 24px;
 `;
 
 export const DomainText = styled(Subtitle)`
@@ -201,4 +206,14 @@ export const ChipStyled = styled(Chip)`
 
 export const BoldSpan = styled.span`
     font-weight: 500;
+`;
+
+export const BannerContainer = styled.div`
+    margin: 24px 0px;
+`;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
