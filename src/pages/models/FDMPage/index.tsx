@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Banner, Breadcrumbs, Icon, Skeleton, Tab } from '@beeline/design-system-react';
+import { Breadcrumbs, Icon, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetTechCapabilityProductsQuery } from 'api/queries/capability';
@@ -15,7 +14,6 @@ import {
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal, useWindowResize } from 'hooks';
-import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -25,6 +23,7 @@ import {
     HistoryTable,
     NestingMenu,
     TreeCard,
+    VersionInfo,
     ViewItemSwitcher,
 } from './components';
 import { TABS, TabVariant } from './const';
@@ -336,53 +335,18 @@ export const FDMPage = () => {
                                         <HistoryTable
                                             capabilityId={activeItem.id}
                                             capabilityType={activeItem.type}
+                                            setTabVariant={setTabVariant}
                                         />
                                     )}
                                 </>
                             )}
 
                             {versionId && (
-                                <>
-                                    <S.TitleContainer>
-                                        <Text variant="h4" data-testid="Title">
-                                            Версия №5 от 19.09.2024
-                                        </Text>
-                                    </S.TitleContainer>
-
-                                    <S.BannerContainer>
-                                        <Banner
-                                            iconName={Icons.InfoCircled}
-                                            title={
-                                                <>
-                                                    Вы просматриваете старую версию технической
-                                                    возможности. Посмотрите&nbsp;
-                                                    <Link
-                                                        outer={false}
-                                                        title="текущую версию"
-                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${activeItem.id}&type=${activeItem.type}`}
-                                                    />
-                                                </>
-                                            }
-                                            color="warning"
-                                        />
-                                    </S.BannerContainer>
-
-                                    <S.FlexContainer>
-                                        <div>
-                                            <Text variant="subtitle1">
-                                                Отправка коммуникаций в различные каналы
-                                            </Text>
-                                            <Text inactive variant="body3">
-                                                ВС123456
-                                            </Text>
-                                        </div>
-                                        <Text variant="body2">
-                                            Возможность управлять временем и каналом исходящих
-                                            коммуникаций с клиентом для обеспечения доставки
-                                            информации клиенту в рамках взаимодействия
-                                        </Text>
-                                    </S.FlexContainer>
-                                </>
+                                <VersionInfo
+                                    versionId={Number(versionId)}
+                                    capabilityId={String(activeItem.id)}
+                                    capabilityType={activeItem.type}
+                                />
                             )}
                         </>
                     )}

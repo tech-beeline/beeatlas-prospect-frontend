@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Button,
     Checkbox,
+    Skeleton,
     Table,
     TableBody,
     TableData,
@@ -10,17 +11,28 @@ import {
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
+import dayjs from 'dayjs';
 
 import { Link } from 'components/other';
 
+import { useGetCapabilityVersionsQuery } from 'api/queries/history';
 import * as R from 'router/const';
+
+import { formatNullableString } from '../../../../../utils/formatters';
+import { TabVariant } from '../../const';
 
 import { IHistoryTable } from './types';
 import * as S from './units';
 
-export const HistoryTable: FC<IHistoryTable> = ({ capabilityId, capabilityType }) => {
-    const [selectedVersionIds, setSelectedVertsionIds] = useState<number[]>([]);
+export const HistoryTable: FC<IHistoryTable> = ({
+    capabilityId,
+    capabilityType,
+    setTabVariant,
+}) => {
+    const [selectedVersionIds, setSelectedVersionIds] = useState<number[]>([]);
     const navigate = useNavigate();
+
+    const { data, isLoading } = useGetCapabilityVersionsQuery(String(capabilityId), capabilityType);
 
     return (
         <S.Container>
@@ -38,95 +50,79 @@ export const HistoryTable: FC<IHistoryTable> = ({ capabilityId, capabilityType }
                     Сравнить версии
                 </Button>
             </div>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableHeaderData />
-                        <TableHeaderData>Версия</TableHeaderData>
-                        <TableHeaderData>Дата</TableHeaderData>
-                        <TableHeaderData>Автор</TableHeaderData>
-                        <TableHeaderData>Источник</TableHeaderData>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow>
-                        <TableData>
-                            <Checkbox
-                                disabled={
-                                    selectedVersionIds.length === 2 &&
-                                    !selectedVersionIds.includes(1)
-                                }
-                                checked={selectedVersionIds.includes(1)}
-                                onClick={() =>
-                                    setSelectedVertsionIds(
-                                        selectedVersionIds.includes(1)
-                                            ? selectedVersionIds.filter((id) => id !== 1)
-                                            : [...selectedVersionIds, 1],
-                                    )
-                                }
-                            />
-                        </TableData>
-                        <TableData>
-                            <Link
-                                outer={false}
-                                title="Текущая (№10)"
-                                url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capabilityId}&type=${capabilityType}&v=1`}
-                            />
-                        </TableData>
-                        <TableData>23.09.2024, 00:00</TableData>
-                        <TableData>Крестовоздвиженский Евгений Константинович</TableData>
-                        <TableData>Sparx EA</TableData>
-                    </TableRow>
-                    <TableRow>
-                        <TableData>
-                            <Checkbox
-                                disabled={
-                                    selectedVersionIds.length === 2 &&
-                                    !selectedVersionIds.includes(2)
-                                }
-                                checked={selectedVersionIds.includes(2)}
-                                onClick={() =>
-                                    setSelectedVertsionIds(
-                                        selectedVersionIds.includes(2)
-                                            ? selectedVersionIds.filter((id) => id !== 2)
-                                            : [...selectedVersionIds, 2],
-                                    )
-                                }
-                            />
-                        </TableData>
-                        <TableData>
-                            <Link outer={false} title="Версия №9" url={''} />
-                        </TableData>
-                        <TableData>19.09.2024, 19:00</TableData>
-                        <TableData>—</TableData>
-                        <TableData>Structurizr</TableData>
-                    </TableRow>
-                    <TableRow>
-                        <TableData>
-                            <Checkbox
-                                disabled={
-                                    selectedVersionIds.length === 2 &&
-                                    !selectedVersionIds.includes(3)
-                                }
-                                checked={selectedVersionIds.includes(3)}
-                                onClick={() =>
-                                    setSelectedVertsionIds(
-                                        selectedVersionIds.includes(3)
-                                            ? selectedVersionIds.filter((id) => id !== 3)
-                                            : [...selectedVersionIds, 3],
-                                    )
-                                }
-                            />
-                        </TableData>
-                        <TableData>
-                            <Link outer={false} title="Версия №8" url={''} />
-                        </TableData>
-                        <TableData>19.09.2024, 11:00</TableData>
-                        <TableData>—</TableData>
-                        <TableData>Structurizr</TableData>
-                    </TableRow>
-                </TableBody>
-            </Table>
+            {isLoading ? (
+                <Skeleton radius={12} height={200} />
+            ) : (
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <S.TableHeaderDataStyled />
+                            <TableHeaderData>Версия</TableHeaderData>
+                            <TableHeaderData>Дата</TableHeaderData>
+                            <TableHeaderData>Автор</TableHeaderData>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data &&
+                            data.map((version, i) => (
+                                <TableRow key={version.version_info.version}>
+                                    <TableData>
+                                        <Checkbox
+                                            disabled={
+                                                selectedVersionIds.length === 2 &&
+                                                !selectedVersionIds.includes(
+                                                    version.version_info.version,
+                                                )
+                                            }
+                                            checked={selectedVersionIds.includes(
+                                                version.version_info.version,
+                                            )}
+                                            onClick={() =>
+                                                setSelectedVersionIds(
+                                                    selectedVersionIds.includes(
+                                                        version.version_info.version,
+                                                    )
+                                                        ? selectedVersionIds.filter(
+                                                              (id) =>
+                                                                  id !==
+                                                                  version.version_info.version,
+                                                          )
+                                                        : [
+                                                              ...selectedVersionIds,
+                                                              version.version_info.version,
+                                                          ],
+                                                )
+                                            }
+                                        />
+                                    </TableData>
+                                    <TableData>
+                                        {i === 0 ? (
+                                            <S.CustomLink
+                                                onClick={() => setTabVariant(TabVariant.GENERAL)}
+                                            >
+                                                Текущая (№{version.version_info.version})
+                                            </S.CustomLink>
+                                        ) : (
+                                            <Link
+                                                outer={false}
+                                                title={`Версия №${version.version_info.version}`}
+                                                url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capabilityId}&type=${capabilityType}&v=${version.version_info.version}`}
+                                            />
+                                        )}
+                                    </TableData>
+                                    <TableData>
+                                        {dayjs(version.version_info.modified_date).format(
+                                            'DD.MM.YYYY, HH:mm',
+                                        )}
+                                    </TableData>
+                                    <TableData>
+                                        {formatNullableString(version.version_info.author)}
+                                    </TableData>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            )}
         </S.Container>
     );
 };
