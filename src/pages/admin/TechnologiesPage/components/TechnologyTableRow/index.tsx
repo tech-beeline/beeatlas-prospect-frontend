@@ -53,16 +53,16 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
             <TableData>
                 <>
                     <span data-tooltip-id={`category-${technology.id}`}>
-                        {technology.categories &&
-                            technology.categories.length === 1 &&
-                            technology.categories[0].name}
-                        {technology.categories &&
-                            technology.categories.length > 1 &&
-                            `${technology.categories[0].name}\xa0(+${
-                                technology.categories.slice(1).length
+                        {technology.category &&
+                            technology.category.length === 1 &&
+                            technology.category[0].name}
+                        {technology.category &&
+                            technology.category.length > 1 &&
+                            `${technology.category[0].name}\xa0(+${
+                                technology.category.slice(1).length
                             })`}
                     </span>
-                    {technology.categories.length > 1 && (
+                    {technology.category.length > 1 && (
                         <S.TooltipContainer
                             largePadding
                             id={`category-${technology.id}`}
@@ -70,7 +70,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                             place="bottom"
                             noArrow
                         >
-                            {technology.categories.map((category) => category.name).join(', ')}
+                            {technology.category.map((category) => category.name).join(', ')}
                         </S.TooltipContainer>
                     )}
                 </>

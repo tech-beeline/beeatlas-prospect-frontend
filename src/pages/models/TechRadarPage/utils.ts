@@ -137,6 +137,6 @@ export const itemFilterHandler = (item: ITech, search: string, filterValue: stri
     Boolean(
         item.label.toLowerCase().includes(search.toLowerCase()) &&
             (filterValue
-                ? item.categories.map((category) => category.name).includes(filterValue)
+                ? item.category.map((category) => category.name).includes(filterValue)
                 : true),
     );
