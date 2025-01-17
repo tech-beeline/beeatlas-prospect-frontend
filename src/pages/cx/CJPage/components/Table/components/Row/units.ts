@@ -72,10 +72,10 @@ export const OnlyTd = styled(Td)`
     }
 `;
 
-export const LabelTd = styled(Td)`
+export const LabelTd = styled(Td)<{ showShadow: boolean }>`
     z-index: 2;
 
-    background-color: var(--color-status-info-background);
+    ${({ showShadow }) => (showShadow ? 'box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);' : '')}
 
     :hover span {
         display: inline;

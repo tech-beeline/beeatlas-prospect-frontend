@@ -96,8 +96,8 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     }
 `;
 
-export const LabelTh = styled(Th)`
-    background-color: var(--color-status-info-background);
+export const LabelTh = styled(Th)<{ showShadow: boolean }>`
+    ${({ showShadow }) => (showShadow ? 'box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);' : '')}
 `;
 
 export const FlexWrapper = styled.div`

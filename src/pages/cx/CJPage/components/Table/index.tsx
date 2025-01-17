@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
@@ -62,13 +62,21 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
             ? rowsData
             : rowsData.filter((rowData) => !hiddenRows.includes(rowData.rowId));
 
+    const [showShadow, setShowShadow] = useState<boolean>(false);
+
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
+    const handleTableScroll = () => {
+        setShowShadow(Boolean(wrapperRef.current && wrapperRef.current.scrollLeft !== 0));
+    };
+
     return (
         <S.PageWrapper>
-            <S.TableWrapper>
+            <S.TableWrapper ref={wrapperRef} onScroll={handleTableScroll}>
                 <S.Table>
                     <S.Thead>
                         <S.Row>
-                            <S.LabelTh>Шаги</S.LabelTh>
+                            <S.LabelTh showShadow={showShadow}>Шаги</S.LabelTh>
 
                             {tableData.map((step, stepIndex) => (
                                 <S.Th
@@ -128,6 +136,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                             <Row
                                 key={rowData.rowId}
                                 draft={draft}
+                                showShadow={showShadow}
                                 firstRow={i === 0}
                                 lastRow={i === rowsFiltered.length - 1}
                                 rowId={rowData.rowId}

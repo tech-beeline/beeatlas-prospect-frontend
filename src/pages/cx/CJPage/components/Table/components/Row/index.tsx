@@ -21,6 +21,7 @@ export const Row = <T,>({
     parseData,
     collapsedStedIds,
     draft,
+    showShadow,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -55,7 +56,11 @@ export const Row = <T,>({
             {(!isHidden || showHiddenRows) && (
                 <>
                     <S.Row isHidden={isHidden}>
-                        <S.LabelTd isClickable={isLabelClickable} onClick={handleLabelClick}>
+                        <S.LabelTd
+                            showShadow={showShadow}
+                            isClickable={isLabelClickable}
+                            onClick={handleLabelClick}
+                        >
                             <S.AlignItemsCenterWrapper>
                                 {label}
                                 <S.IconContainer>

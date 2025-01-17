@@ -17,6 +17,7 @@ export interface IRow<T> {
     collapsedStedIds: number[];
 
     draft: boolean;
+    showShadow: boolean;
 }
 
 export enum RowElementType {
