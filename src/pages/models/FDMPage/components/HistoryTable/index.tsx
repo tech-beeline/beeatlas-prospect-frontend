@@ -34,6 +34,24 @@ export const HistoryTable: FC<IHistoryTable> = ({
 
     const { data, isLoading } = useGetCapabilityVersionsQuery(String(capabilityId), capabilityType);
 
+    const handleCompareButtonClick = () => {
+        if (data) {
+            const selectedVersionIdsSorted = selectedVersionIds.sort((a, b) => b - a);
+
+            const lastVersionId = data[0].version_info.version;
+
+            navigate(
+                `${R.MODELS_PATH}${R.FDM_PATH}${
+                    R.HISTORY_PATH
+                }?id=${capabilityId}&type=${capabilityType}&v=${
+                    selectedVersionIdsSorted[0] === lastVersionId
+                        ? selectedVersionIdsSorted[1]
+                        : selectedVersionIdsSorted
+                }`,
+            );
+        }
+    };
+
     return (
         <S.Container>
             <div>
@@ -41,11 +59,7 @@ export const HistoryTable: FC<IHistoryTable> = ({
                     disabled={selectedVersionIds.length !== 2}
                     variant="outlined"
                     fullWidth={false}
-                    onClick={() =>
-                        navigate(
-                            `${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}?id=${capabilityId}&type=${capabilityType}&v=${selectedVersionIds}`,
-                        )
-                    }
+                    onClick={handleCompareButtonClick}
                 >
                     Сравнить версии
                 </Button>
