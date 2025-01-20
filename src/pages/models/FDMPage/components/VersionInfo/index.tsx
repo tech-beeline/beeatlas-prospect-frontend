@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Banner } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
@@ -13,10 +14,19 @@ import {
 } from 'api/queries/history';
 import * as R from 'router/const';
 
+import { TabVariant } from '../../const';
+
 import { IVersionInfo } from './types';
 import * as S from './units';
 
-export const VersionInfo: FC<IVersionInfo> = ({ capabilityId, versionId, capabilityType }) => {
+export const VersionInfo: FC<IVersionInfo> = ({
+    capabilityId,
+    versionId,
+    capabilityType,
+    setTabVariant,
+}) => {
+    const navigate = useNavigate();
+
     const { data: businessCapabilityData } = useGetBusinessCapabilityVersionsComparsionQuery({
         capabilityId,
         version: versionId,
@@ -34,6 +44,11 @@ export const VersionInfo: FC<IVersionInfo> = ({ capabilityId, versionId, capabil
             ? (businessCapabilityData?.[1] as IBusinessCapabilityVersion)?.capability
             : (techCapabilityData?.[1] as ITechCapabilityVersion)?.tech_capability;
 
+    const handleNavigate = () => {
+        setTabVariant(TabVariant.GENERAL);
+        navigate(`${R.MODELS_PATH}${R.FDM_PATH}?id=${capabilityId}&type=${capabilityType}`);
+    };
+
     return (
         <>
             {capabilityVersion && (
@@ -50,13 +65,12 @@ export const VersionInfo: FC<IVersionInfo> = ({ capabilityId, versionId, capabil
                             iconName={Icons.InfoCircled}
                             title={
                                 <>
-                                    Вы просматриваете старую версию технической возможности.
-                                    Посмотрите&nbsp;
-                                    <Link
-                                        outer={false}
-                                        title="текущую версию"
-                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capabilityId}&type=${capabilityType}`}
-                                    />
+                                    Вы просматриваете старую версию{' '}
+                                    {capabilityType === 'BUSINESS'
+                                        ? 'бизнес-возможности'
+                                        : 'технической возможности'}
+                                    . Посмотрите&nbsp;
+                                    <S.LinkSpan onClick={handleNavigate}>текущую версию</S.LinkSpan>
                                 </>
                             }
                             color="warning"

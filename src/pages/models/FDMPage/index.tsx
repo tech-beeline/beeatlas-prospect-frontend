@@ -50,6 +50,12 @@ export const FDMPage = () => {
         state.loading,
     ]);
 
+    useEffect(() => {
+        if (activeItem && activeItem.type === ItemTypes.BUSINESS && activeItem.isDomain) {
+            setTabVariant(TabVariant.GENERAL);
+        }
+    }, [activeItem]);
+
     const {
         mutateAsync: createSubscription,
         isPending: isCreatingSubscription,
@@ -346,6 +352,7 @@ export const FDMPage = () => {
                                     versionId={Number(versionId)}
                                     capabilityId={String(activeItem.id)}
                                     capabilityType={activeItem.type}
+                                    setTabVariant={setTabVariant}
                                 />
                             )}
                         </>

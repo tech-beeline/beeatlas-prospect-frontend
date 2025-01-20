@@ -15,3 +15,13 @@ export const FlexContainer = styled.div`
     flex-direction: column;
     gap: 24px;
 `;
+
+export const LinkSpan = styled.span`
+    color: var(--color-text-link);
+
+    cursor: pointer;
+
+    :hover {
+        text-decoration: underline;
+    }
+`;
