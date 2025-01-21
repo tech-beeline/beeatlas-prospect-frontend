@@ -76,7 +76,7 @@ export const Row = <T,>({
                                 {element.type === RowElementType.EMPTY_STEP && firstRow && (
                                     <S.OnlyTd rowSpan={999}>
                                         <S.ButtonContainer>
-                                            <div>Добавьте BI в шаг</div>
+                                            <div>Добавьте BI в этап</div>
                                             <Button
                                                 onClick={() => onAddButtonClick(element.stepIndex)}
                                                 variant="outlined"

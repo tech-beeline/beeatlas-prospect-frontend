@@ -4,15 +4,15 @@ import { Button, Checkbox as DSCheckbox } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Checkbox, FeelingPicker, RadioGroup, Select, TextArea, TextField } from 'components/form';
+import { Checkbox, RadioGroup, Select, TextArea, TextField } from 'components/form';
 
 import { useGetBIStatusesQuery } from 'api/queries/bi-library';
 import { useGetUserProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
-import { ChannelsFieldArray } from './components/ChannelsFieldArray';
-import { LinksFieldArray, ParticiapntsFieldArray } from './components';
+import { ChannelsFieldArray } from './components';
+import { LinksFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIForm } from './types';
 import * as S from './units';
@@ -30,7 +30,9 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             mode: 'onChange',
         });
 
-        const { handleSubmit, reset, watch, setValue } = form;
+        const { handleSubmit, reset, watch, setValue, formState } = form;
+
+        console.log(formState.errors);
 
         useEffect(() => {
             if (defaultValues) {
@@ -38,7 +40,6 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             } else if (products) {
                 reset({
                     product: products[0]?.id ? Number(products[0].id) : 1,
-                    participants: [{ participant: 1, value: '', descr: '' }],
                     channels: [{ value: 1 }],
                     document: [{ value: '' }],
                     mockup: [{ value: '' }],
@@ -140,19 +141,9 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 )}
                             </S.FlexContainer>
 
-                            <ParticiapntsFieldArray fullscreen={fullscreen} />
-
-                            <S.SubTitle id="feelings">Чувства и эмоции</S.SubTitle>
-
-                            <FeelingPicker name="feelings" />
-
-                            <S.SubTitle id="scenarios">Сценарии</S.SubTitle>
+                            <S.SubTitle id="scenarios">Сценарий</S.SubTitle>
 
                             <TextArea name="clientScenario" label="Клиентский сценарий*" />
-
-                            <TextField name="flowLink" label="Ссылка на флоу" />
-
-                            <TextArea name="ucsReaction" label="Описание реакции ЕКП*" />
 
                             <ChannelsFieldArray fullscreen={fullscreen} />
 
@@ -162,11 +153,9 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 title="Документация"
                             />
 
-                            <LinksFieldArray
-                                fullscreen={fullscreen}
-                                fieldName="mockup"
-                                title="Макет"
-                            />
+                            <S.SubTitle id="metrics">Метрики</S.SubTitle>
+
+                            <TextArea name="metrics" label="Текстовое описание измеримых метрик" />
                         </S.TextFieldContainer>
 
                         <S.ButtonContainer style={{ display: showButtons ? 'flex' : 'none' }}>

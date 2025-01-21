@@ -32,6 +32,7 @@ export type FormValues = {
     mockup: LinkValues[];
     channels: ChannelValues[];
     product: number;
+    metrics: string;
 };
 
 export const validationSchema = object().shape({
@@ -44,14 +45,14 @@ export const validationSchema = object().shape({
     status: number().default(0),
     feelings: number().default(2),
     clientScenario: string().required('Заполните сценарий'),
-    flowLink: string().default('').url('Укажите корректную ссылку'),
-    ucsReaction: string().required('Заполните описание реакции'),
+    flowLink: string().default(''),
+    ucsReaction: string().default(''),
     participants: array()
         .of(
             object().shape({
                 participant: number().default(0),
-                descr: string().default('').required('Заполните описание'),
-                value: string().default('').required('Заполните ценностный результат'),
+                descr: string().default(''),
+                value: string().default(''),
             }),
         )
         .default([]),
@@ -66,7 +67,7 @@ export const validationSchema = object().shape({
     mockup: array()
         .of(
             object().shape({
-                value: string().default('').url('Укажите корректную ссылку'),
+                value: string().default(''),
                 description: string().default(''),
             }),
         )
@@ -75,4 +76,5 @@ export const validationSchema = object().shape({
         .of(object().shape({ value: number().default(0) }))
         .default([]),
     product: number().required('Выберите продукт'),
+    metrics: string().default(''),
 });

@@ -1,9 +1,11 @@
 import React, { FC, useRef, useState } from 'react';
+import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Nullable } from 'types/common';
 
 import { useModal } from 'hooks';
 
+import { formatNullableString } from '../../../../../utils/formatters';
 import { StepForm } from '../StepForm';
 
 import { ColumnMenu, Row } from './components';
@@ -21,6 +23,8 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
             state.setShowHiddenRows,
         ],
     );
+
+    const [showStepDescription, setShowStepDescription] = useState(false);
 
     const [collapsedStepIds, setCollapsedStepIds] = useState<number[]>([]);
 
@@ -76,7 +80,20 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                 <S.Table>
                     <S.Thead>
                         <S.Row>
-                            <S.LabelTh showShadow={showShadow}>Шаги</S.LabelTh>
+                            <S.LabelTh showShadow={showShadow}>
+                                <S.FlexWrapper>
+                                    <div>Этапы</div>
+                                    <IconButton
+                                        iconName={
+                                            showStepDescription
+                                                ? Icons.NavArrowUp
+                                                : Icons.NavArrowDown
+                                        }
+                                        onClick={() => setShowStepDescription(!showStepDescription)}
+                                        size="medium"
+                                    />
+                                </S.FlexWrapper>
+                            </S.LabelTh>
 
                             {tableData.map((step, stepIndex) => (
                                 <S.Th
@@ -107,7 +124,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                                 {collapsedStepIds.includes(step.id)
                                                     ? 'Развернуть'
                                                     : 'Свернуть'}{' '}
-                                                шаг
+                                                этап
                                             </S.TooltipStyled>
                                             <p data-testid={`${stepIndex}Step`}>{step.name}</p>
                                         </S.TitleWrapper>
@@ -117,6 +134,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                                 cjId={cjId}
                                                 stepId={step.id}
                                                 stepName={step.name}
+                                                stepDescription={step.description ?? ''}
                                                 stepIndex={stepIndex}
                                                 setOpenSideBlockName={openStepFrom}
                                                 setRenameIndex={setSelectedStep}
@@ -129,6 +147,22 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                 </S.Th>
                             ))}
                         </S.Row>
+                        {showStepDescription && (
+                            <S.Row>
+                                <S.Td>Описание этапа</S.Td>
+                                {tableData.map((step, stepIndex) => (
+                                    <S.Td
+                                        colSpan={
+                                            collapsedStepIds.includes(step.id) ? 1 : step.bi?.length
+                                        }
+                                        key={stepIndex}
+                                        backgroundColor={COLORS[stepIndex % COLORS.length]}
+                                    >
+                                        {formatNullableString(step.description)}
+                                    </S.Td>
+                                ))}
+                            </S.Row>
+                        )}
                     </S.Thead>
 
                     <S.Tbody>

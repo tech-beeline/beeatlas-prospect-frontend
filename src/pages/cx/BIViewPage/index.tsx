@@ -2,14 +2,15 @@ import React from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
-import { IconFeeling, Link, NotFoundBlock } from 'components/other';
+import { Link, NotFoundBlock } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
-import { getFeelingType } from 'pages/cx/CJPage/utils/formatters';
+import { useGetUserProductsQuery } from 'api/queries/product';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -23,6 +24,7 @@ export const BIViewPage = () => {
     const { data: cjs, isLoading: isLoadingCjs } = useGetCJCollectionByBIIdQuery(paramId);
     const { data: editabilityData, isLoading: isLoadingEditability } =
         useGetBIEditabilityByIdQuery(paramId);
+    const { data: productsData } = useGetUserProductsQuery();
 
     const isLoading = isLoadingBI || isLoadingCjs || isLoadingEditability;
 
@@ -97,55 +99,14 @@ export const BIViewPage = () => {
                                 </div>
 
                                 <div>
-                                    <S.Subtitle id="participants">
-                                        Участники взаимодействия
-                                    </S.Subtitle>
-                                    {data.participants.map((participant, index) => (
-                                        <>
-                                            <S.Body3 marginTop>Участник {index + 1}</S.Body3>
-                                            <S.Body2>{participant.participant.name}</S.Body2>
-                                            <S.Body3 marginTop>
-                                                Описание участника {index + 1}
-                                            </S.Body3>
-                                            <S.Body2>{participant.descr}</S.Body2>
-                                            <S.Body3 marginTop>
-                                                Ценностный результат для участника {index + 1}
-                                            </S.Body3>
-                                            <S.Body2>
-                                                {formatNullableString(participant.value)}
-                                            </S.Body2>
-                                        </>
-                                    ))}
-                                </div>
-
-                                <div>
-                                    <S.Subtitle id="feelings">Чувства и эмоции клиента</S.Subtitle>
-                                    <S.IconContainer>
-                                        <IconFeeling type={getFeelingType(data.feelings.id)} />
-                                    </S.IconContainer>
-                                </div>
-
-                                <div>
-                                    <S.Subtitle id="scenarios">Сценарии</S.Subtitle>
+                                    <S.Subtitle id="scenarios">Сценарий</S.Subtitle>
                                     <S.Body3 marginTop>Клиентский сценарий</S.Body3>
                                     <S.Body2>{formatNullableString(data.clientScenario)}</S.Body2>
                                 </div>
 
                                 <div>
-                                    <S.Body3>Ссылка на флоу</S.Body3>
-                                    <S.Body2>
-                                        <Link url={data.flowLink[0]?.url} />
-                                    </S.Body2>
-                                </div>
-
-                                <div>
-                                    <S.Body3>Описание реакции ЕКП</S.Body3>
-                                    <S.Body2>{formatNullableString(data.ucsReaction)}</S.Body2>
-                                </div>
-
-                                <div>
                                     <S.Subtitle marginBottom id="channels">
-                                        Канал
+                                        Каналы
                                     </S.Subtitle>
                                     <S.Body2>
                                         {formatNullableString(
@@ -177,25 +138,10 @@ export const BIViewPage = () => {
                                 </div>
 
                                 <div>
-                                    <S.Subtitle marginBottom id="mockup">
-                                        Макет
+                                    <S.Subtitle marginBottom id="metrics">
+                                        Метрики
                                     </S.Subtitle>
-                                    <S.Body2>
-                                        {data.mockupLink.map((mockup, index) => (
-                                            <>
-                                                <Link url={mockup.url} />
-                                                <S.Body3 marginTop>Описание</S.Body3>
-                                                <S.Body2
-                                                    marginBottom={
-                                                        index + 1 !== data.mockupLink.length
-                                                    }
-                                                >
-                                                    {formatNullableString(mockup.descr)}
-                                                </S.Body2>
-                                            </>
-                                        ))}
-                                        {data.mockupLink.length === 0 && formatNullableString(null)}
-                                    </S.Body2>
+                                    <S.Body2>{formatNullableString(data.metrics)}</S.Body2>
                                 </div>
 
                                 <div>
@@ -221,6 +167,20 @@ export const BIViewPage = () => {
                                     <S.Subtitle id="service">Служебные поля</S.Subtitle>
                                     <S.Body3 marginTop>Идентификатор</S.Body3>
                                     <S.Body2>{formatNullableString(data.uniqueIdent)}</S.Body2>
+                                    <S.Body3 marginTop>Продукт</S.Body3>
+                                    <S.Body2>
+                                        {formatNullableString(
+                                            productsData?.find(
+                                                (product) => product.id === data.productId,
+                                            )?.name,
+                                        )}
+                                    </S.Body2>
+                                    <S.Body3 marginTop>Автор</S.Body3>
+                                    <S.Body2>Константинопольский Константин Константинович</S.Body2>
+                                    <S.Body3 marginTop>Дата изменения</S.Body3>
+                                    <S.Body2>
+                                        {dayjs(data.lastModifiedDate).format('DD.MM.YYYY')}
+                                    </S.Body2>
                                 </div>
                             </S.AttributesContainer>
                         </S.DataContainer>
@@ -228,12 +188,9 @@ export const BIViewPage = () => {
                             <FloatingNavigation
                                 items={[
                                     { id: 'top', label: data.name },
-                                    { id: 'participants', label: 'Участники взаимодействия' },
-                                    { id: 'feelings', label: 'Чувства и эмоции' },
-                                    { id: 'scenarios', label: 'Сценарии' },
-                                    { id: 'channels', label: 'Канал' },
+                                    { id: 'scenarios', label: 'Сценарий' },
+                                    { id: 'channels', label: 'Каналы' },
                                     { id: 'documentation', label: 'Документация' },
-                                    { id: 'mockup', label: 'Макет' },
                                     { id: 'cjs', label: 'Привязка к CJ' },
                                     { id: 'service', label: 'Служебные поля' },
                                 ]}

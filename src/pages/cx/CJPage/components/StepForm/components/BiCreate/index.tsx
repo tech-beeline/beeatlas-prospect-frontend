@@ -54,7 +54,7 @@ export const BiCreate: FC<IBiCreate> = ({
                             stepId: String(stepId),
                             data: { id_bi: Number(biId), order: stepBisLength },
                         });
-                        showSnackbar({ message: 'BI создан и добавлен в шаг' });
+                        showSnackbar({ message: 'BI создан и добавлен в этап' });
                     }}
                 />
             </S.Content>

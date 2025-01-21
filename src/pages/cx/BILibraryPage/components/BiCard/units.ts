@@ -56,7 +56,17 @@ export const TextInactive = styled(Text)`
     color: var(--color-text-inactive);
 `;
 
-export const Description = styled(Text)`
+export const Description = styled(Text)<{ clampLines: boolean }>`
+    display: -webkit-box;
+    ${({ clampLines }) => (clampLines ? '-webkit-line-clamp: 3;' : '')}
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    margin-top: 24px;
+`;
+
+export const DateContainer = styled.div`
     margin-top: 24px;
 `;
 

@@ -1,0 +1,55 @@
+import React, { FC } from 'react';
+import { IconButton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
+
+import { SideBlock } from 'components/containers';
+import { Text } from 'components/core';
+
+import { useGetUserProductsQuery } from 'api/queries/product';
+import { formatNullableString } from 'utils/formatters';
+
+import { IInfoSidesheet } from './types';
+import * as S from './units';
+
+export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
+    const { data: productsData } = useGetUserProductsQuery();
+
+    return (
+        <SideBlock isOpen={isOpen} onClose={onClose}>
+            <S.Container>
+                <S.FlexWrapper>
+                    <S.SideBlockTitle>Информация</S.SideBlockTitle>
+
+                    <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
+                </S.FlexWrapper>
+
+                <div>
+                    <Text inactive variant="body3">
+                        Автор CJ
+                    </Text>
+                    <Text variant="body2">Константинопольский Константин Константинович</Text>
+                </div>
+
+                <div>
+                    <Text inactive variant="body3">
+                        Продукт
+                    </Text>
+                    <Text variant="body2">
+                        {formatNullableString(
+                            (productsData ?? []).find((product) => product.id === cj.id_product)
+                                ?.name,
+                        )}
+                    </Text>
+                </div>
+
+                <div>
+                    <Text inactive variant="body3">
+                        Дата изменения
+                    </Text>
+                    <Text variant="body2">{dayjs(cj.lastModifiedDate).format('DD.MM.YYYY')}</Text>
+                </div>
+            </S.Container>
+        </SideBlock>
+    );
+};

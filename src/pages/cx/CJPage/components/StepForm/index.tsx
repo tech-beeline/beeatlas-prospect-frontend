@@ -8,16 +8,19 @@ import { IStepForm, Stage } from './types';
 export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose }) => {
     const [stage, setStage] = useState<Stage>(Stage.SETTINGS);
     const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
     const [selectedBiId, setSelectedBiId] = useState<number | null>(null);
 
     useEffect(() => {
         if (!isOpen) {
             setName(step.name);
+            setDescription(step.description ?? '');
         }
     }, [isOpen, step]);
 
     useEffect(() => {
         setName(step.name);
+        setDescription(step.description ?? '');
     }, [step.id]);
 
     const handleCloseClick = () => {
@@ -35,6 +38,8 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
                     step={step}
                     name={name}
                     setName={setName}
+                    description={description}
+                    setDescription={setDescription}
                     onClose={handleCloseClick}
                     setSelectedBiId={setSelectedBiId}
                     setStage={setStage}
