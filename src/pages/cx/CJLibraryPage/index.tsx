@@ -30,7 +30,10 @@ export const CJLibraryPage = () => {
 
     const { data, isLoading } = useGetCJCollectionQuery({
         search: filterOptions.search,
-        productId: filterOptions.product === ProductVariant.ALL ? undefined : filterOptions.product,
+        productId:
+            filterOptions.product === ProductVariant.ALL || filterOptions.product === null
+                ? undefined
+                : filterOptions.product,
         sample: filterOptions.status,
     });
     const { mutateAsync: deleteCj } = useDeleteCJMutation();

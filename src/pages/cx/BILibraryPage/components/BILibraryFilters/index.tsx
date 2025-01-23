@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Search, Select } from '@beeline/design-system-react';
+import { Autocomplete, Search, Select } from '@beeline/design-system-react';
 
 import { useGetBIStatusesQuery } from 'api/queries/bi-library';
 import { useGetUserProductsQuery } from 'api/queries/product';
@@ -11,6 +11,7 @@ import * as S from './units';
 
 export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilterOptions }) => {
     const [search, setSearch] = useState(filterOptions.search);
+    const [productFilterText, setProductFilterText] = useState('');
     const debouncedSearch = useDebounce(search);
 
     const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
@@ -22,10 +23,14 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilt
     const productOptions = [
         { id: ProductVariant.ALL, value: 'Все' },
         ...(productsData
-            ? productsData.map((product) => ({
-                  id: Number(product.id),
-                  value: product.name,
-              }))
+            ? productsData
+                  .filter((product) =>
+                      product.name.toLowerCase().includes(productFilterText.toLowerCase()),
+                  )
+                  .map((product) => ({
+                      id: Number(product.id),
+                      value: product.name,
+                  }))
             : []),
     ];
 
@@ -58,17 +63,30 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilt
                 onChange={(e) => setSearch(e.target.value)}
                 onClear={() => setSearch('')}
             />
-            <Select
+            <Autocomplete
                 fullWidth
                 disabled={isLoading}
                 label="Продукт"
                 options={productOptions}
-                values={
-                    String(filterOptions.product)
-                        ? [productOptions.find((option) => option.id === filterOptions.product)!]
-                        : []
-                }
-                onChange={(values) => setFilterOptions({ ...filterOptions, product: values[0].id })}
+                renderValue={(v) => v.value}
+                type="select"
+                value={productOptions.find((option) => option.id === filterOptions.product) ?? null}
+                onChange={(value) => {
+                    setProductFilterText('');
+                    setFilterOptions({
+                        ...filterOptions,
+                        product:
+                            value.id === ProductVariant.ALL ? ProductVariant.ALL : Number(value.id),
+                    });
+                }}
+                onInputChange={(v) => {
+                    setProductFilterText(v);
+                    setFilterOptions({ ...filterOptions, product: null });
+                }}
+                onInputClear={() => {
+                    setProductFilterText('');
+                    setFilterOptions({ ...filterOptions, product: null });
+                }}
             />
             <Select
                 fullWidth
