@@ -15,6 +15,15 @@ export interface ICategory {
     name: string;
 }
 
+export interface ICategoryForm {
+    name: string;
+}
+
+export interface IMergeCategoriesForm {
+    joinCategoryName: string;
+    joinedCategoriesId: number[];
+}
+
 export interface ITech {
     category: ICategory[];
     createdDate: Date;

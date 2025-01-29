@@ -18,6 +18,39 @@ export const getTechnologyCategories = (): AxiosPromise<T.ICategory[]> => {
     });
 };
 
+export const getTechnologiesByCategoryId = (id: string | number): AxiosPromise<T.ITech[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}techradar/v1/category/tech?id_category=${id}`,
+    });
+};
+
+export const postTechnologyCategory = (data: T.ICategoryForm) => {
+    return Api.post({
+        url: `${GATEWAY_URL}techradar/v1/category`,
+        data,
+    });
+};
+
+export const deleteTechnologyCategory = (id: string | number) => {
+    return Api.delete({
+        url: `${GATEWAY_URL}techradar/v1/category/${id}`,
+    });
+};
+
+export const patchTechnologyCategory = (id: string | number, data: T.ICategoryForm) => {
+    return Api.patch({
+        url: `${GATEWAY_URL}techradar/v1/category/${id}`,
+        data,
+    });
+};
+
+export const mergeTechnologyCategories = (data: T.IMergeCategoriesForm) => {
+    return Api.put({
+        url: `${GATEWAY_URL}techradar/v1/category/join`,
+        data,
+    });
+};
+
 export const deleteTechnologyById = (id: string | number) => {
     return Api.delete({
         url: `${GATEWAY_URL}techradar/v1/tech/${id}`,

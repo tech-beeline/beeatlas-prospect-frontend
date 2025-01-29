@@ -2,12 +2,22 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     deleteTechnologyById,
+    deleteTechnologyCategory,
     getAllTechnologies,
     getTechnologyCategories,
+    mergeTechnologyCategories,
     patchTechnology,
+    patchTechnologyCategory,
     postTechnology,
+    postTechnologyCategory,
 } from 'api/technologies';
-import { ICategory, ITech, ITechForm } from 'api/technologies/types';
+import {
+    ICategory,
+    ICategoryForm,
+    IMergeCategoriesForm,
+    ITech,
+    ITechForm,
+} from 'api/technologies/types';
 
 const TECHNOLOGIES_PREFIX = 'TECHNOLOGIES_PREFIX';
 
@@ -22,6 +32,7 @@ interface ITechFormData {
     techData: ITech | undefined;
     allTech: ITech[];
 }
+
 export const useGetTechFormDataQuery = (id: string | undefined | null) => {
     return useQuery<ITechFormData>({
         queryKey: [TECHNOLOGIES_PREFIX, 'tech', id],
@@ -39,9 +50,68 @@ export const useGetTechnologyCategoriesQuery = () => {
     });
 };
 
+interface ICreateCategoryParams {
+    data: ICategoryForm;
+}
+
+export function useCreateCategoryMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'category', 'create'],
+        mutationFn: (params: ICreateCategoryParams) => postTechnologyCategory(params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
+interface IUpdateCategoryParams {
+    id: string | number;
+    data: ICategoryForm;
+}
+
+export function useUpdateCategoryMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'category', 'update'],
+        mutationFn: (params: IUpdateCategoryParams) =>
+            patchTechnologyCategory(params.id, params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
+export function useDeleteCategoryMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'category', 'delete'],
+        mutationFn: (id: string | number) => deleteTechnologyCategory(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
+interface IMergeCategoriesParams {
+    data: IMergeCategoriesForm;
+}
+
+export function useMergeCategoriesMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'category', 'merge'],
+        mutationFn: (params: IMergeCategoriesParams) => mergeTechnologyCategories(params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
 interface ICreateTechnologyParams {
     data: Omit<ITechForm, 'id'>[];
 }
+
 export function useCreateTechnologyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
@@ -56,6 +126,7 @@ export function useCreateTechnologyMutation() {
 interface IUpdateTechnologyParams {
     data: ITechForm;
 }
+
 export function useUpdateTechnologyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
