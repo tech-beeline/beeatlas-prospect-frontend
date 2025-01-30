@@ -8,7 +8,7 @@ import * as T from './types';
 
 export const getUserProducts = (): AxiosPromise<T.IProductData[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}product/v1/user/product`,
+        url: `${GATEWAY_URL}product/v1/user/product/admin`,
     });
 };
 
