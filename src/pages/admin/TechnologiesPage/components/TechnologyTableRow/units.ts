@@ -12,6 +12,8 @@ export const NameContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    width: 100%;
 `;
 
 export const DescriptionContainer = styled.p`
@@ -30,7 +32,9 @@ export const ButtonsContainer = styled.div`
     display: flex;
     gap: 32px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+
+    width: 72px;
 `;
 
 export const IconStyled = styled(Icon)`

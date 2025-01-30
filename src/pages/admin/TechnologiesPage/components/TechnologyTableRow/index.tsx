@@ -3,15 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { Label, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { useUpdateTechnologyMutation } from 'api/queries/technologies';
 import { useShowTooltip } from 'hooks';
 import { ringIdToStatusMap } from 'pages/admin/TechnologiesPage/const';
 import * as R from 'router/const';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ITableRow } from './types';
 import * as S from './units';
 
 export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete }) => {
     const navigate = useNavigate();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const { mutateAsync } = useUpdateTechnologyMutation();
+
+    const handleRestoreTechnologyClick = async () => {
+        await mutateAsync({
+            data: {
+                id: technology.id,
+                link: technology.link ?? '',
+                label: technology.label,
+                descr: technology.description,
+                ring_id: technology.ring.id,
+                sector_id: technology.sector.id,
+                categories: technology.category.map((category) => ({ id: category.id })),
+            },
+        });
+        showSnackbar({ message: 'Технология восстановлена' });
+    };
 
     const descriptionRef = useRef<HTMLParagraphElement>(null);
 
@@ -95,41 +116,69 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                 )}
             </TableData>
             <TableData>
+                <Label
+                    title={technology.deletedDate ? 'Удалена' : 'Активна'}
+                    type={technology.deletedDate ? 'error' : 'success'}
+                />
+            </TableData>
+            <TableData>
                 <S.ButtonsContainer>
-                    <S.IconStyled
-                        iconName={Icons.Edit}
-                        size="medium"
-                        onClick={() =>
-                            navigate(
-                                `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
-                            )
-                        }
-                        data-tooltip-id={`${technology.id}-edit`}
-                    />
-                    <S.IconStyled
-                        iconName={Icons.Delete}
-                        size="medium"
-                        onClick={() => setTechToDelete(technology)}
-                        data-tooltip-id={`${technology.id}-delete`}
-                    />
-                    <S.TooltipContainer
-                        noArrow
-                        // @ts-ignore Ошибка в .d.ts
-                        place="top-end"
-                        offset={8}
-                        id={`${technology.id}-edit`}
-                    >
-                        Редактировать
-                    </S.TooltipContainer>
-                    <S.TooltipContainer
-                        noArrow
-                        // @ts-ignore Ошибка в .d.ts
-                        place="top-end"
-                        offset={8}
-                        id={`${technology.id}-delete`}
-                    >
-                        Удалить
-                    </S.TooltipContainer>
+                    {technology.deletedDate ? (
+                        <>
+                            <S.IconStyled
+                                iconName={Icons.Refresh}
+                                size="medium"
+                                onClick={handleRestoreTechnologyClick}
+                                data-tooltip-id={`${technology.id}-refresh`}
+                            />
+                            <S.TooltipContainer
+                                noArrow
+                                // @ts-ignore Ошибка в .d.ts
+                                place="top-end"
+                                offset={8}
+                                id={`${technology.id}-refresh`}
+                            >
+                                Восстановить технологию
+                            </S.TooltipContainer>
+                        </>
+                    ) : (
+                        <>
+                            <S.IconStyled
+                                iconName={Icons.Edit}
+                                size="medium"
+                                onClick={() =>
+                                    navigate(
+                                        `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
+                                    )
+                                }
+                                data-tooltip-id={`${technology.id}-edit`}
+                            />
+                            <S.IconStyled
+                                iconName={Icons.Delete}
+                                size="medium"
+                                onClick={() => setTechToDelete(technology)}
+                                data-tooltip-id={`${technology.id}-delete`}
+                            />
+                            <S.TooltipContainer
+                                noArrow
+                                // @ts-ignore Ошибка в .d.ts
+                                place="top-end"
+                                offset={8}
+                                id={`${technology.id}-edit`}
+                            >
+                                Редактировать
+                            </S.TooltipContainer>
+                            <S.TooltipContainer
+                                noArrow
+                                // @ts-ignore Ошибка в .d.ts
+                                place="top-end"
+                                offset={8}
+                                id={`${technology.id}-delete`}
+                            >
+                                Удалить
+                            </S.TooltipContainer>
+                        </>
+                    )}
                 </S.ButtonsContainer>
             </TableData>
         </TableRow>

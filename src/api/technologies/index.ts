@@ -1,14 +1,18 @@
 import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
+import { formatNullableBooleanParam } from 'utils/formatters';
 
 import { GATEWAY_URL } from '../const';
 
 import * as T from './types';
 
-export const getAllTechnologies = (): AxiosPromise<T.ITech[]> => {
+export const getAllTechnologies = (actualTech?: boolean): AxiosPromise<T.ITech[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}techradar/v1/tech`,
+        url: `${GATEWAY_URL}techradar/v1/tech?${formatNullableBooleanParam(
+            'actualTech',
+            actualTech,
+        )}`,
     });
 };
 
@@ -64,7 +68,14 @@ export const postTechnology = (data: Omit<T.ITechForm, 'id'>[]) => {
     });
 };
 
-export const patchTechnology = (data: T.ITechForm[]) => {
+export const patchTechnology = (id: string | number, data: T.ITechForm) => {
+    return Api.patch({
+        url: `${GATEWAY_URL}techradar/v1/tech/${id}`,
+        data,
+    });
+};
+
+export const restoreTechnology = (data: T.ITechForm[]) => {
     return Api.patch({
         url: `${GATEWAY_URL}techradar/v1/tech`,
         data,

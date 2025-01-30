@@ -28,6 +28,13 @@ export const useGetAllTechnologiesQuery = () => {
     });
 };
 
+export const useGetTechnologiesForAdminPanelQuery = () => {
+    return useQuery<ITech[]>({
+        queryKey: [TECHNOLOGIES_PREFIX, 'admin', 'tech'],
+        queryFn: () => getAllTechnologies(false).then((res) => res.data),
+    });
+};
+
 interface ITechFormData {
     techData: ITech | undefined;
     allTech: ITech[];
@@ -131,7 +138,8 @@ export function useUpdateTechnologyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [TECHNOLOGIES_PREFIX, 'update'],
-        mutationFn: (params: IUpdateTechnologyParams) => patchTechnology([params.data]),
+        mutationFn: (params: IUpdateTechnologyParams) =>
+            patchTechnology(params.data.id, params.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
         },

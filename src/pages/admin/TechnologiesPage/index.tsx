@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
-    Button,
-    Icon,
     Skeleton,
     Tab,
     TableBody,
@@ -12,37 +9,48 @@ import {
     TableRow,
     Tabs,
 } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useDeleteTechnologyMutation, useGetAllTechnologiesQuery } from 'api/queries/technologies';
+import {
+    useDeleteTechnologyMutation,
+    useGetTechnologiesForAdminPanelQuery,
+} from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
-import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { CategoriesTable, TechnologyTableRow } from './components';
+import { CategoriesTable, TechnologyFilters, TechnologyTableRow } from './components';
 import { TabVariants } from './const';
+import { IFilterOptions } from './types';
 import * as S from './units';
 
 export const TechnologiesPage = () => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.TECHNOLOGIES);
+    const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
+        search: '',
+        sector: null,
+        ring: null,
+        groups: [],
+    });
 
-    const { data, isLoading } = useGetAllTechnologiesQuery();
+    const { data, isLoading } = useGetTechnologiesForAdminPanelQuery();
 
     const { mutateAsync: deleteTechnology } = useDeleteTechnologyMutation();
-
-    const [search, setSearch] = useState('');
 
     const [techToDelete, setTechToDelete] = useState<ITech | null>(null);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const navigate = useNavigate();
-
     const filteredTechnologies = (data ?? [])
-        .filter((tech) => tech.label.toLowerCase().includes(search.toLowerCase()))
+        .filter((tech) => tech.label.toLowerCase().includes(filterOptions.search.toLowerCase()))
+        .filter((tech) => !filterOptions.sector || tech.sector.id === filterOptions.sector)
+        .filter((tech) => !filterOptions.ring || tech.ring.id === filterOptions.ring)
+        .filter(
+            (tech) =>
+                filterOptions.groups.length === 0 ||
+                tech.category.some((category) => filterOptions.groups.includes(category.id)),
+        )
         .sort((a, b) => a.label.localeCompare(b.label));
 
     const [itemsCountOnPage, setItemsCountOnPage] = useState(25);
@@ -81,32 +89,12 @@ export const TechnologiesPage = () => {
 
             {tabVariant === TabVariants.TECHNOLOGIES && (
                 <>
-                    <S.FlexContainer>
-                        <S.SearchStyled
-                            fullWidth
-                            placeholder="Поиск"
-                            disabled={isLoading}
-                            value={search}
-                            onChange={(e) => {
-                                setSearch(e.target.value);
-                                setCountPage(1);
-                            }}
-                            onClear={() => {
-                                setSearch('');
-                                setCountPage(1);
-                            }}
-                        />
-                        <Button
-                            onClick={() =>
-                                navigate(`${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}`)
-                            }
-                            startIcon={<Icon iconName={Icons.Add} />}
-                            size="medium"
-                            variant="contained"
-                        >
-                            Добавить технологию
-                        </Button>
-                    </S.FlexContainer>
+                    <TechnologyFilters
+                        filterOptions={filterOptions}
+                        setFilterOptions={setFilterOptions}
+                        setCountPage={setCountPage}
+                        isLoading={isLoading}
+                    />
 
                     {isLoading && <Skeleton height={300} />}
                     {displayedTechnologies.length > 0 && (
@@ -118,6 +106,7 @@ export const TechnologiesPage = () => {
                                     <S.TableHeaderStatus>Статус</S.TableHeaderStatus>
                                     <S.TableHeaderDataNoWrap>Группа</S.TableHeaderDataNoWrap>
                                     <S.TableHeaderDataMaxWidth>Описание</S.TableHeaderDataMaxWidth>
+                                    <S.TableHeaderDataNoWrap>Статус</S.TableHeaderDataNoWrap>
                                     <S.TableHeaderDataNoWrap> </S.TableHeaderDataNoWrap>
                                 </TableRow>
                             </TableHead>
