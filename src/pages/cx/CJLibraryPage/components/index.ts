@@ -1,3 +1,4 @@
+export { CJCard } from './CJCard';
 export { CJCreateForm } from './CJCreateForm';
 export { CJLibraryFilters } from './CJLibraryFilters';
 export { ProductVariant } from './CJLibraryFilters/const';

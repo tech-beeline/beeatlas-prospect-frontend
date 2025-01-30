@@ -1,13 +1,12 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC } from 'react';
 import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
-import { IconFeeling, Link } from 'components/other';
+import { Link } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
-import { getFeelingType } from 'pages/cx/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -43,7 +42,7 @@ export const BiView: FC<IBiView> = ({
             stepId: String(stepId),
             data: { id_bi: selectedBiId, order: stepBisLength },
         });
-        showSnackbar({ message: 'BI добавлен в шаг' });
+        showSnackbar({ message: 'BI добавлен в этап' });
         setStage(Stage.SETTINGS);
     };
 
@@ -104,49 +103,13 @@ export const BiView: FC<IBiView> = ({
                             </div>
 
                             <div>
-                                <S.Subtitle>Участники взаимодействия</S.Subtitle>
-
-                                {bi.participants.map((participant, index) => (
-                                    <Fragment key={index}>
-                                        <S.Body3 marginTop>Участник {index + 1}</S.Body3>
-                                        <S.Body2>{participant.participant.name}</S.Body2>
-                                        <S.Body3 marginTop>Описание участника {index + 1}</S.Body3>
-                                        <S.Body2>{participant.descr}</S.Body2>
-                                        <S.Body3 marginTop>
-                                            Ценностный результат для участника {index + 1}
-                                        </S.Body3>
-                                        <S.Body2>{participant.value}</S.Body2>
-                                    </Fragment>
-                                ))}
-                            </div>
-
-                            <div>
-                                <S.Subtitle>Чувства и эмоции клиента</S.Subtitle>
-                                <S.IconContainer>
-                                    <IconFeeling type={getFeelingType(bi.feelings.id)} />
-                                </S.IconContainer>
-                            </div>
-
-                            <div>
                                 <S.Subtitle>Сценарии</S.Subtitle>
-                                <S.Body3>Клиентский сценарий</S.Body3>
+                                <S.Body3>Клиентские сценарии</S.Body3>
                                 <S.Body2>{formatNullableString(bi.clientScenario)}</S.Body2>
                             </div>
 
                             <div>
-                                <S.Body3>Ссылка на флоу</S.Body3>
-                                <S.Body2>
-                                    <Link url={bi.flowLink[0]?.url} />
-                                </S.Body2>
-                            </div>
-
-                            <div>
-                                <S.Body3>Описание реакции ЕКП</S.Body3>
-                                <S.Body2>{formatNullableString(bi.ucsReaction)}</S.Body2>
-                            </div>
-
-                            <div>
-                                <S.Subtitle>Канал</S.Subtitle>
+                                <S.Subtitle>Каналы</S.Subtitle>
                                 <S.Body2>
                                     {formatNullableString(
                                         bi.channel.map((channel) => channel.name).join(', '),
@@ -173,21 +136,8 @@ export const BiView: FC<IBiView> = ({
                             </div>
 
                             <div>
-                                <S.Subtitle>Макет</S.Subtitle>
-                                <S.Body2>
-                                    {bi.mockupLink.map((mockup, index) => (
-                                        <>
-                                            <Link url={mockup.url} />
-                                            <S.Body3 marginTop>Описание</S.Body3>
-                                            <S.Body2
-                                                marginBottom={index + 1 !== bi.mockupLink.length}
-                                            >
-                                                {formatNullableString(mockup.descr)}
-                                            </S.Body2>
-                                        </>
-                                    ))}
-                                    {bi.mockupLink.length === 0 && formatNullableString(null)}
-                                </S.Body2>
+                                <S.Subtitle>Метрики</S.Subtitle>
+                                <S.Body2>{formatNullableString(bi.metrics)}</S.Body2>
                             </div>
                         </>
                     )}

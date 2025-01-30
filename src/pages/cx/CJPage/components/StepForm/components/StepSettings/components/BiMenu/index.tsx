@@ -28,7 +28,7 @@ export const BiMenu: FC<IBiMenu> = ({ biId, stepId, index, totalLength }) => {
 
     const handleDeleteClick = async () => {
         await deleteBi({ stepId: String(stepId), biId: String(biId) });
-        showSnackbar({ message: 'BI удалён из шага' });
+        showSnackbar({ message: 'BI удалён из этапа' });
     };
 
     const handleMoveClick = async (up: boolean) => {

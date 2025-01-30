@@ -2,43 +2,6 @@ import styled from '@emotion/styled';
 
 import { Subtitle1 } from 'styles/units';
 
-export const PageWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-
-    background-color: var(--color-background-base);
-    color: var(--color-text-active);
-`;
-
-export const ContentWrapper = styled.div`
-    width: 100%;
-    padding: 32px 68px;
-`;
-
-export const TitleWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-`;
-
-export const CardContainer = styled.div<{ columns: number }>`
-    display: grid;
-    grid-template-columns: repeat(${({ columns }) => columns}, minmax(0, 1fr));
-    gap: 24px;
-
-    margin-top: 24px;
-`;
-
-export const CardColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-`;
-
-export const NotFoundContainer = styled.div`
-    margin-top: 100px;
-`;
-
 export const CJCard = styled.div`
     padding: 24px;
 
@@ -71,10 +34,20 @@ export const Number = styled.div`
     letter-spacing: var(--font-letter-spacing-body3);
 `;
 
-export const Description = styled.div`
-    margin-top: 16px;
+export const Description = styled.div<{ clampLines: boolean }>`
+    display: -webkit-box;
+    ${({ clampLines }) => (clampLines ? '-webkit-line-clamp: 3;' : '')}
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    margin-top: 24px;
 
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
+`;
+
+export const DateContainer = styled.div`
+    margin-top: 24px;
 `;

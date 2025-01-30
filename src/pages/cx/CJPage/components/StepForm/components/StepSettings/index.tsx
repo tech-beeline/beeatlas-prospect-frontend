@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, IconButton, TextField } from '@beeline/design-system-react';
+import { Button, IconButton, TextArea, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useUpdateCJStepMutation } from 'api/queries/cj';
@@ -20,6 +20,8 @@ export const StepSettings: FC<IStepSettings> = ({
     setSelectedBiId,
     name,
     setName,
+    description,
+    setDescription,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { mutateAsync: updateStep, isPending: updatingStep } = useUpdateCJStepMutation();
@@ -27,7 +29,7 @@ export const StepSettings: FC<IStepSettings> = ({
     const handleSave = async () => {
         await updateStep({
             stepId: String(step.id),
-            data: { name, order: step.order },
+            data: { name, order: step.order, description },
         });
         showSnackbar({ message: 'Изменения сохранены' });
         onClose();
@@ -37,7 +39,7 @@ export const StepSettings: FC<IStepSettings> = ({
         <S.FlexContainer>
             <S.Content hasButtons>
                 <S.FlexWrapper>
-                    <S.SideBlockTitle>Настройка шага</S.SideBlockTitle>
+                    <S.SideBlockTitle>Настройка этапа</S.SideBlockTitle>
 
                     <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
                 </S.FlexWrapper>
@@ -49,10 +51,19 @@ export const StepSettings: FC<IStepSettings> = ({
                         label="Название"
                         onChange={(e) => setName(e.target.value)}
                     />
+
+                    <TextArea
+                        fullWidth
+                        value={description}
+                        label="Описание этапа"
+                        onChange={(e) => setDescription(e.target.value)}
+                        maxLength={300}
+                        helperText={`${description.length}/300`}
+                    />
                 </S.TextFieldContainer>
 
                 <S.SubtitleFlexWrapper>
-                    <S.Subtitle>BI для шага</S.Subtitle>
+                    <S.Subtitle>BI для этапа</S.Subtitle>
 
                     <IconButton
                         iconName={Icons.Add}

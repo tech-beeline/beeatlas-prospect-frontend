@@ -17,6 +17,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     cjId,
     stepId,
     stepName,
+    stepDescription,
     tableDataLength,
     stepIndex,
     collapsedStepIds,
@@ -66,25 +67,29 @@ export const ColumnMenu: FC<IColumnMenu> = ({
     const handleAddColumnClick = async (before: boolean) => {
         await createStep({
             cjId: String(cjId),
-            data: { name: 'Название шага', order: before ? stepIndex : stepIndex + 1 },
+            data: { name: 'Название этапа', order: before ? stepIndex : stepIndex + 1 },
         });
-        showSnackbar({ message: 'Шаг добавлен' });
+        showSnackbar({ message: 'Этап добавлен' });
         hideMenuHandler();
     };
 
     const handleChangePositionClick = async (right: boolean) => {
         await updateStep({
             stepId: String(stepId),
-            data: { name: stepName, order: right ? stepIndex + 1 : stepIndex - 1 },
+            data: {
+                name: stepName,
+                description: stepDescription,
+                order: right ? stepIndex + 1 : stepIndex - 1,
+            },
         });
-        showSnackbar({ message: 'Шаг перемещён' });
+        showSnackbar({ message: 'Этап перемещён' });
         hideMenuHandler();
     };
 
     const handleDeleteStepClick = async () => {
         await deleteStep({ stepId: String(stepId) });
         setCollapsedStepIds(collapsedStepIds.filter((id) => id !== stepId));
-        showSnackbar({ message: 'Шаг удалён' });
+        showSnackbar({ message: 'Этап удалён' });
         hideMenuHandler();
     };
 
@@ -105,13 +110,13 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                             <S.MenuItem onClick={() => handleAddColumnClick(true)}>
                                 <Icon iconName={Icons.AddColumnLeft} />
 
-                                <S.MenuItemText>Добавить шаг до</S.MenuItemText>
+                                <S.MenuItemText>Добавить этап до</S.MenuItemText>
                             </S.MenuItem>
 
                             <S.MenuItem onClick={() => handleAddColumnClick(false)}>
                                 <Icon iconName={Icons.AddColumnRight} />
 
-                                <S.MenuItemText>Добавить шаг после</S.MenuItemText>
+                                <S.MenuItemText>Добавить этап после</S.MenuItemText>
                             </S.MenuItem>
                         </>
                     ) : isMoveMenu ? (
@@ -120,7 +125,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                                 <S.MenuItem onClick={() => handleChangePositionClick(false)}>
                                     <Icon iconName={Icons.ArrowLeft} />
 
-                                    <S.MenuItemText>Переместить шаг влево</S.MenuItemText>
+                                    <S.MenuItemText>Переместить влево</S.MenuItemText>
                                 </S.MenuItem>
                             )}
 
@@ -128,7 +133,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                                 <S.MenuItem onClick={() => handleChangePositionClick(true)}>
                                     <Icon iconName={Icons.ArrowRight} />
 
-                                    <S.MenuItemText>Переместить шаг вправо</S.MenuItemText>
+                                    <S.MenuItemText>Переместить вправо</S.MenuItemText>
                                 </S.MenuItem>
                             )}
                         </>
@@ -159,7 +164,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                             </S.MenuItem>
 
                             <S.MenuItemStyled onClick={() => setAddStepMenu(true)}>
-                                <S.MenuItemText>Добавить шаг</S.MenuItemText>
+                                <S.MenuItemText>Добавить этап</S.MenuItemText>
 
                                 <Icon iconName={Icons.NavArrowRight} />
                             </S.MenuItemStyled>
@@ -176,7 +181,7 @@ export const ColumnMenu: FC<IColumnMenu> = ({
                                     <S.MenuItem onClick={handleDeleteStepClick}>
                                         <S.DeleteIcon iconName={Icons.Delete} />
 
-                                        <S.MenuItemRemoveText>Удалить шаг</S.MenuItemRemoveText>
+                                        <S.MenuItemRemoveText>Удалить этап</S.MenuItemRemoveText>
                                     </S.MenuItem>
                                 </>
                             )}

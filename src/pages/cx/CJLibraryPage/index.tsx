@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Button, Label, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { Button, Skeleton } from '@beeline/design-system-react';
 
-import { DropdownMenu } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { CJLibraryStatus } from 'api/cj/types';
-import { useDeleteCJMutation, useGetCJCollectionQuery } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetCJCollectionQuery } from 'api/queries/cj';
 import { useModal } from 'hooks';
-import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
-import { CJCreateForm, CJLibraryFilters, IFilterOptions, ProductVariant } from './components';
+import {
+    CJCard,
+    CJCreateForm,
+    CJLibraryFilters,
+    IFilterOptions,
+    ProductVariant,
+} from './components';
+import { COLUMNS_LENGTH } from './const';
 import * as S from './units';
+import { groupDataByColumns } from './utils';
 
 export const CJLibraryPage = () => {
     const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
@@ -25,9 +28,6 @@ export const CJLibraryPage = () => {
 
     const { modalOpened, closeModal, openModal } = useModal();
 
-    const { data: productsData } = useGetUserProductsQuery();
-    const userProductIds = (productsData ?? []).map((product) => product.id);
-
     const { data, isLoading } = useGetCJCollectionQuery({
         search: filterOptions.search,
         productId:
@@ -36,16 +36,8 @@ export const CJLibraryPage = () => {
                 : filterOptions.product,
         sample: filterOptions.status,
     });
-    const { mutateAsync: deleteCj } = useDeleteCJMutation();
 
-    const navigate = useNavigate();
-
-    const handleCJClick = (id?: number) => {
-        navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-            search: id ? createSearchParams({ id: String(id) }).toString() : '',
-        });
-    };
+    const dataByColumns = groupDataByColumns(data ?? [], COLUMNS_LENGTH);
 
     return (
         <S.PageWrapper>
@@ -62,45 +54,15 @@ export const CJLibraryPage = () => {
                     setFilterOptions={setFilterOptions}
                 />
 
-                <S.CardContainer>
+                <S.CardContainer columns={COLUMNS_LENGTH}>
                     {data &&
-                        data.map((cj) => (
-                            <S.CJCard key={cj.id}>
-                                <S.FlexContainer>
-                                    <Label
-                                        title={cj.draft ? 'Черновик' : 'Опубликован'}
-                                        type={cj.draft ? 'default' : 'success'}
-                                    />
-                                    <DropdownMenu
-                                        id={String(cj.id)}
-                                        items={[
-                                            [
-                                                {
-                                                    title: 'Редактировать',
-                                                    icon: Icons.Edit,
-                                                    onClick: () => handleCJClick(cj.id),
-                                                    disabled: !userProductIds.includes(
-                                                        cj.id_product,
-                                                    ),
-                                                },
-                                            ],
-                                            [
-                                                {
-                                                    title: 'Удалить',
-                                                    icon: Icons.Delete,
-                                                    onClick: async () => deleteCj(String(cj.id)),
-                                                    dangerous: true,
-                                                    disabled:
-                                                        !userProductIds.includes(cj.id_product) ||
-                                                        !cj.draft,
-                                                },
-                                            ],
-                                        ]}
-                                    />
-                                </S.FlexContainer>
-                                <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
-                                <S.Description>{cj.user_portrait}</S.Description>
-                            </S.CJCard>
+                        data.length > 0 &&
+                        Array.from({ length: COLUMNS_LENGTH }).map((_, i) => (
+                            <S.CardColumn key={i}>
+                                {dataByColumns[i].map((cj) => (
+                                    <CJCard key={cj.id} cj={cj} />
+                                ))}
+                            </S.CardColumn>
                         ))}
                     {isLoading &&
                         Array.from({ length: 3 }).map((_, index) => (

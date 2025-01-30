@@ -31,6 +31,7 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft'>
             url: mockup.value,
         })),
     productId: String(formValues.product),
+    metrics: formValues.metrics,
 });
 
 export const dataToFormValues = (data: IBIData): FormValues => ({
@@ -61,4 +62,5 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
         : [{ value: '', description: '' }],
     flowLink: data.flowLink[0]?.url,
     product: Number(data.productId),
+    metrics: data.metrics ?? '',
 });

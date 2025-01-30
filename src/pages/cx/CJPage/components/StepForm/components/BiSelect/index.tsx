@@ -34,7 +34,7 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                             size="large"
                             onClick={() => setStage(Stage.SETTINGS)}
                         />
-                        <S.SideBlockTitle>Выбор BI для шага</S.SideBlockTitle>
+                        <S.SideBlockTitle>Выбор BI для этапа</S.SideBlockTitle>
                     </S.TitleFlexWrapper>
 
                     <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
