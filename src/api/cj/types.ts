@@ -3,12 +3,14 @@ import { IBIData } from 'api/bi/types';
 export interface ICJStepForm {
     name: string;
     order: number;
+    description?: string;
 }
 
 export interface ICJStepData {
     id: number;
     order: number;
     name: string;
+    description: string | null;
     id_cj: number;
 }
 
@@ -22,7 +24,7 @@ export interface ICJData {
     id: number;
     name: string;
     user_portrait: string;
-    last_updated: string;
+    lastModifiedDate: string;
     draft: boolean;
     id_user_profile: number;
     id_product: string;

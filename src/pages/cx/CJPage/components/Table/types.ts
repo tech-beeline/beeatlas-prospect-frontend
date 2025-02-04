@@ -22,4 +22,5 @@ export enum RowIds {
     CHANNEL = 'channel',
     DOCUMENT = 'document',
     MOCKUP = 'mockup',
+    METRICS = 'metrics',
 }

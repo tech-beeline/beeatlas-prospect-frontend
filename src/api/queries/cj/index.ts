@@ -69,7 +69,7 @@ export function useCreateCJWithEmptyStepMutation() {
                 },
                 params.productId,
             );
-            await postCJStep(cjData.data.id, { name: 'Название шага', order: 0 });
+            await postCJStep(cjData.data.id, { name: 'Название этапа', order: 0 });
             return { cjId: cjData.data.id as string };
         },
         onSuccess: () => {

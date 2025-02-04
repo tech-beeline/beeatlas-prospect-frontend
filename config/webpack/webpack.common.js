@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { randomUUID } = require("node:crypto");
 
 const webpack = require('webpack');
 const path = require('path');
@@ -14,7 +15,7 @@ module.exports = {
     output: {
         publicPath: '/',
         path: path.join(process.env.PWD, 'build'),
-        filename: '[name].js',
+        filename: `[name]-${randomUUID()}.js`,
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],

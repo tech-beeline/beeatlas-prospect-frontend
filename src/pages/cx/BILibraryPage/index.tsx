@@ -30,7 +30,10 @@ export const BILibraryPage = () => {
 
     const { data: bis, isLoading } = useGetBICollectionQuery({
         search: filterOptions.search,
-        productId: filterOptions.product === ProductVariant.ALL ? undefined : filterOptions.product,
+        productId:
+            filterOptions.product === ProductVariant.ALL || filterOptions.product === null
+                ? undefined
+                : filterOptions.product,
         status: filterOptions.status === StatusVariant.ALL ? undefined : filterOptions.status,
         draft:
             filterOptions.draft === DraftVariants.ALL

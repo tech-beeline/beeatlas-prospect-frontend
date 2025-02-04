@@ -1,5 +1,6 @@
 import { Tooltip } from 'react-tooltip';
 import { Icon } from '@beeline/design-system-react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -96,8 +97,58 @@ export const Th = styled.th<{ backgroundColor?: string }>`
     }
 `;
 
-export const LabelTh = styled(Th)`
-    background-color: var(--color-status-info-background);
+export const Td = styled.td<{
+    isClickable?: boolean;
+    borderRight?: boolean;
+    noBottomBorder?: boolean;
+    backgroundColor?: string;
+}>`
+    min-width: 320px;
+    height: 52px;
+    padding: 18px 16px;
+
+    background-color: ${({ backgroundColor }) =>
+        !!backgroundColor ? `${backgroundColor}` : `var(--color-background-base)`};
+
+    border-bottom: ${({ noBottomBorder }) =>
+        noBottomBorder ? 'none' : '1px solid var(--color-divider)'};
+
+    border-right: ${({ borderRight }) => (borderRight ? '1px solid var(--color-divider)' : 'none')};
+
+    white-space: pre-wrap;
+
+    &:first-of-type {
+        position: sticky;
+        left: 0;
+
+        min-width: 185px;
+        padding: 10px 16px;
+    }
+
+    &:last-of-type {
+        padding-right: 24px;
+    }
+
+    pointer-events: ${({ isClickable }) => (isClickable === false ? 'none' : 'all')};
+
+    ${({ isClickable }) =>
+        isClickable &&
+        css`
+            cursor: pointer;
+
+            transition: color 0.25s ease-in-out;
+
+            @media (hover: hover) {
+                &:hover {
+                    /* TODO: change */
+                    color: #1976d2;
+                }
+            }
+        `}
+`;
+
+export const LabelTh = styled(Th)<{ showShadow: boolean }>`
+    ${({ showShadow }) => (showShadow ? 'box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);' : '')}
 `;
 
 export const FlexWrapper = styled.div`

@@ -127,17 +127,12 @@ export const BIAddPage = () => {
                                 <S.Navigation>
                                     <FloatingNavigation
                                         items={[
-                                            { id: 'top', label: 'Название' },
+                                            { id: 'top', label: 'Создание BI' },
                                             { id: 'characteristics', label: 'Характеристики' },
-                                            {
-                                                id: 'participants',
-                                                label: 'Участники взаимодействия',
-                                            },
-                                            { id: 'feelings', label: 'Чувства и эмоции' },
-                                            { id: 'scenarios', label: 'Сценарии' },
-                                            { id: 'channels', label: 'Канал' },
+                                            { id: 'scenarios', label: 'Сценарий' },
+                                            { id: 'channels', label: 'Каналы' },
                                             { id: 'document', label: 'Документация' },
-                                            { id: 'mockup', label: 'Макет' },
+                                            { id: 'metrics', label: 'Метрики' },
                                         ]}
                                     />
                                 </S.Navigation>

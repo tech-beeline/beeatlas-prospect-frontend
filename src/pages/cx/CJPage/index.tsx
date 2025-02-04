@@ -13,6 +13,7 @@ import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
 import { CJUpdateForm } from './components/CJUpdateForm';
+import { InfoSidesheet } from './components/InfoSidesheet';
 import { Table } from './components/Table';
 import * as S from './units';
 
@@ -39,6 +40,7 @@ export const CJPage = () => {
     const { mutateAsync: updateCJ, isPending: updatingCj } = usePartialUpdateCJMutation();
 
     const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
+    const [isInfoSidesheetOpened, setIsInfoSidesheetOpened] = useState(false);
 
     const navigate = useNavigate();
 
@@ -107,7 +109,10 @@ export const CJPage = () => {
                         <S.ButtonStyled
                             disabled={!data?.draft}
                             endIcon={<Icon iconName={Icons.Edit} />}
-                            onClick={() => setOpenSettingsCJ(!isOpenSettingsCJ)}
+                            onClick={() => {
+                                setOpenSettingsCJ(!isOpenSettingsCJ);
+                                setIsInfoSidesheetOpened(false);
+                            }}
                             id="buttonToggleId"
                             data-tooltip-id="editButton"
                         />
@@ -117,6 +122,14 @@ export const CJPage = () => {
                             Для редактирования CJ, его нужно сделать черновиком
                         </S.TooltipContainer>
                     )}
+
+                    <S.ButtonStyled
+                        endIcon={<Icon iconName={Icons.InfoCircled} />}
+                        onClick={() => {
+                            setIsInfoSidesheetOpened(!isInfoSidesheetOpened);
+                            setOpenSettingsCJ(false);
+                        }}
+                    />
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
@@ -150,12 +163,19 @@ export const CJPage = () => {
             )}
 
             {data && (
-                <CJUpdateForm
-                    isOpen={isOpenSettingsCJ}
-                    cjId={data.id}
-                    onClose={() => setOpenSettingsCJ(false)}
-                    values={{ name: data.name, userPortrait: data.user_portrait }}
-                />
+                <>
+                    <CJUpdateForm
+                        isOpen={isOpenSettingsCJ}
+                        cjId={data.id}
+                        onClose={() => setOpenSettingsCJ(false)}
+                        values={{ name: data.name, userPortrait: data.user_portrait }}
+                    />
+                    <InfoSidesheet
+                        isOpen={isInfoSidesheetOpened}
+                        onClose={() => setIsInfoSidesheetOpened(false)}
+                        cj={data}
+                    />
+                </>
             )}
             <Dialog
                 opened={modalOpened}

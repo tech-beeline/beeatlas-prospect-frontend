@@ -1,9 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 import { CommunalLabel, TargetLabel } from 'features/cx';
 
+import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
 import { Link, PivotArrow } from 'components/other';
 
@@ -11,8 +13,10 @@ import { getBIEditabilityById } from 'api/bi';
 import { IBIData } from 'api/bi/types';
 import { useDeleteBIMutation } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
+import { useGetUserProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 
 import { IBiCard } from './types';
@@ -23,11 +27,26 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
 
     const [showCjs, setShowCjs] = useState(false);
 
+    const [showExpandButton, setShowExpandButton] = useState<boolean>(false);
+    const [expandDescription, setExpandDescription] = useState<boolean>(false);
+    const descriptionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (
+            (descriptionRef.current?.scrollHeight ?? 0) >
+            (descriptionRef.current?.offsetHeight ?? 0)
+        ) {
+            setShowExpandButton(true);
+        }
+    }, [descriptionRef]);
+
     const {
         refetch,
         data: cjs,
         isLoading: isLoadingCjs,
     } = useGetCJCollectionByBIIdQuery(String(bi.id), false);
+
+    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
 
     const {
         modalOpened: editabilityModalOpened,
@@ -90,7 +109,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
             <S.BICard key={bi.id}>
                 <S.FlexContainer>
                     <S.LabelsContainer>
-                        {bi.draft && <Label title="Черновик" type="default" />}
+                        {bi.draft && <Label title="Черновик" type="default" variant="contained" />}
                         {!bi.draft && bi.communal && <CommunalLabel />}
                         {!bi.draft && <TargetLabel target={bi.target} />}
                     </S.LabelsContainer>
@@ -117,7 +136,39 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                 </S.FlexContainer>
                 <S.Title onClick={() => handleBiClick(bi.id)}>{bi.name}</S.Title>
                 <S.Number>{bi.uniqueIdent}</S.Number>
-                <S.Description>{bi.descr}</S.Description>
+                <S.Description ref={descriptionRef} clampLines={!expandDescription}>
+                    {bi.descr}
+                </S.Description>
+                {showExpandButton && (
+                    <Text
+                        pointer
+                        link
+                        variant={'body2'}
+                        onClick={() => setExpandDescription(!expandDescription)}
+                    >
+                        {expandDescription ? 'Скрыть' : 'Показать'}
+                    </Text>
+                )}
+                <S.DateContainer>
+                    <Text inactive variant="body3">
+                        Продукт
+                    </Text>
+                    <Text variant="body2">
+                        {isLoadingProducts || !productsData ? (
+                            <Skeleton height={22} radius={4} />
+                        ) : (
+                            formatNullableString(
+                                productsData.find((product) => product.id === bi.productId)?.name,
+                            )
+                        )}
+                    </Text>
+                </S.DateContainer>
+                <S.DateContainer>
+                    <Text inactive variant="body3">
+                        Дата изменения
+                    </Text>
+                    <Text variant="body2">{dayjs(bi.lastModifiedDate).format('DD.MM.YYYY')}</Text>
+                </S.DateContainer>
                 <S.FlexContainerWithMargin>
                     <S.Text>Связанные артефакты</S.Text>
                     <PivotArrow

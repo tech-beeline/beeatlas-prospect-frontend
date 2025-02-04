@@ -21,16 +21,18 @@ export const TitleWrapper = styled.div`
     justify-content: space-between;
 `;
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ columns: number }>`
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(${({ columns }) => columns}, minmax(0, 1fr));
     gap: 24px;
 
-    margin-top: 44px;
+    margin-top: 24px;
+`;
 
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-    }
+export const CardColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export const NotFoundContainer = styled.div`

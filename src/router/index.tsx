@@ -26,6 +26,7 @@ import {
     ConsultationPage,
     CXPage,
     DataBasePage,
+    FDMHistoryPage,
     FDMPage,
     HowToPage,
     ImportedDataPage,
@@ -257,6 +258,17 @@ export const NavigationRouter = () => {
                                 <MenuModels />
                                 <S.ContentWrapper>
                                     <FDMPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+                    <Route
+                        path={`${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <FDMHistoryPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

@@ -1,4 +1,5 @@
 export { AppsPage } from './AppsPage';
+export { FDMHistoryPage } from './FDMHistoryPage';
 export { FDMPage } from './FDMPage';
 export { MapAddPage } from './MapAddPage';
 export { MapPage } from './MapPage';

@@ -33,6 +33,7 @@ export interface IBIForm {
     };
     target: boolean;
     ucsReaction: string;
+    metrics: string;
 }
 
 export interface IBILink {
@@ -91,6 +92,8 @@ export interface IBIData {
     touchPoints: string;
     ucsReaction: string;
     uniqueIdent: string;
+    metrics: string | null;
+    lastModifiedDate: string;
 }
 
 export interface IBIEditabilityData {
