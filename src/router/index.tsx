@@ -45,6 +45,7 @@ import {
     SubscriptionsPage,
     TechnologiesPage,
     TechnologyAddPage,
+    TechnologyVersionAddPage,
     TechPolicyPage,
     TechRadarPage,
     TemplatesPage,
@@ -192,6 +193,20 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <TechnologyAddPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.VERSIONS_PATH}${R.ADD_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <TechnologyVersionAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),

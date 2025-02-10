@@ -1,7 +1,18 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Label, TableData, TableRow } from '@beeline/design-system-react';
+import {
+    Button,
+    Label,
+    Table,
+    TableBody,
+    TableData,
+    TableHead,
+    TableHeaderData,
+    TableRow,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Text } from 'components/core';
 
 import { useUpdateTechnologyMutation } from 'api/queries/technologies';
 import { useShowTooltip } from 'hooks';
@@ -9,11 +20,14 @@ import { ringIdToStatusMap } from 'pages/admin/TechnologiesPage/const';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { TechnologyVersionTableRow } from './components';
 import { ITableRow } from './types';
 import * as S from './units';
 
 export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete }) => {
     const navigate = useNavigate();
+
+    const [expanded, setExpanded] = useState(false);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -39,148 +53,229 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
     const showDescriptionTooltip = useShowTooltip(descriptionRef);
 
     return (
-        <TableRow key={technology.id}>
-            <S.TableDataFullWidth>
-                <S.NameContainer>
-                    <div>{technology.label}</div>
-                    {technology.link && (
-                        <>
-                            <S.IconStyled
+        <>
+            <S.TableRowStyled expanded={expanded} key={technology.id}>
+                <S.TableDataFullWidth>
+                    <S.NameContainer>
+                        <S.IconContainer>
+                            <S.IconButtonStyled
+                                expanded={expanded}
                                 size="medium"
-                                iconName={Icons.OpenInBrowser}
-                                onClick={() => window.open(technology.link ?? '', '_blank')}
-                                data-tooltip-id={`link-${technology.id}`}
+                                iconName={Icons.NavArrowDown}
+                                onClick={() => setExpanded(!expanded)}
                             />
+                            <div>{technology.label}</div>
+                        </S.IconContainer>
+                        {technology.link && (
+                            <>
+                                <S.IconStyled
+                                    size="medium"
+                                    iconName={Icons.OpenInBrowser}
+                                    onClick={() => window.open(technology.link ?? '', '_blank')}
+                                    data-tooltip-id={`link-${technology.id}`}
+                                />
+                                <S.TooltipContainer
+                                    id={`link-${technology.id}`}
+                                    offset={8}
+                                    place="top"
+                                    noArrow
+                                >
+                                    Перейти на страницу с описанием
+                                </S.TooltipContainer>
+                            </>
+                        )}
+                    </S.NameContainer>
+                </S.TableDataFullWidth>
+                <TableData>{technology.sector.name}</TableData>
+                <TableData>
+                    <Label
+                        title={technology.ring.name}
+                        variant="contained"
+                        type={ringIdToStatusMap[technology.ring.id]}
+                    />
+                </TableData>
+                <TableData>
+                    <>
+                        <span data-tooltip-id={`category-${technology.id}`}>
+                            {technology.category &&
+                                technology.category.length === 1 &&
+                                technology.category[0].name}
+                            {technology.category &&
+                                technology.category.length > 1 &&
+                                `${technology.category[0].name}\xa0(+${
+                                    technology.category.slice(1).length
+                                })`}
+                        </span>
+                        {technology.category.length > 1 && (
                             <S.TooltipContainer
-                                id={`link-${technology.id}`}
+                                largePadding
+                                id={`category-${technology.id}`}
                                 offset={8}
-                                place="top"
+                                place="bottom"
                                 noArrow
                             >
-                                Перейти на страницу с описанием
+                                {technology.category.map((category) => category.name).join(', ')}
                             </S.TooltipContainer>
-                        </>
-                    )}
-                </S.NameContainer>
-            </S.TableDataFullWidth>
-            <TableData>{technology.sector.name}</TableData>
-            <TableData>
-                <Label
-                    title={technology.ring.name}
-                    variant="contained"
-                    type={ringIdToStatusMap[technology.ring.id]}
-                />
-            </TableData>
-            <TableData>
-                <>
-                    <span data-tooltip-id={`category-${technology.id}`}>
-                        {technology.category &&
-                            technology.category.length === 1 &&
-                            technology.category[0].name}
-                        {technology.category &&
-                            technology.category.length > 1 &&
-                            `${technology.category[0].name}\xa0(+${
-                                technology.category.slice(1).length
-                            })`}
-                    </span>
-                    {technology.category.length > 1 && (
+                        )}
+                    </>
+                </TableData>
+                <TableData>
+                    <S.DescriptionContainer
+                        ref={descriptionRef}
+                        data-tooltip-id={`description-${technology.id}`}
+                    >
+                        {technology.description}
+                    </S.DescriptionContainer>
+                    {showDescriptionTooltip && (
                         <S.TooltipContainer
                             largePadding
-                            id={`category-${technology.id}`}
+                            id={`description-${technology.id}`}
                             offset={8}
                             place="bottom"
                             noArrow
                         >
-                            {technology.category.map((category) => category.name).join(', ')}
+                            {technology.description}
                         </S.TooltipContainer>
                     )}
-                </>
-            </TableData>
-            <TableData>
-                <S.DescriptionContainer
-                    ref={descriptionRef}
-                    data-tooltip-id={`description-${technology.id}`}
-                >
-                    {technology.description}
-                </S.DescriptionContainer>
-                {showDescriptionTooltip && (
-                    <S.TooltipContainer
-                        largePadding
-                        id={`description-${technology.id}`}
-                        offset={8}
-                        place="bottom"
-                        noArrow
-                    >
-                        {technology.description}
-                    </S.TooltipContainer>
-                )}
-            </TableData>
-            <TableData>
-                <Label
-                    title={technology.deletedDate ? 'Удалена' : 'Активна'}
-                    type={technology.deletedDate ? 'error' : 'success'}
-                />
-            </TableData>
-            <TableData>
-                <S.ButtonsContainer>
-                    {technology.deletedDate ? (
-                        <>
-                            <S.IconStyled
-                                iconName={Icons.Refresh}
-                                size="medium"
-                                onClick={handleRestoreTechnologyClick}
-                                data-tooltip-id={`${technology.id}-refresh`}
-                            />
-                            <S.TooltipContainer
-                                noArrow
-                                // @ts-ignore Ошибка в .d.ts
-                                place="top-end"
-                                offset={8}
-                                id={`${technology.id}-refresh`}
-                            >
-                                Восстановить технологию
-                            </S.TooltipContainer>
-                        </>
-                    ) : (
-                        <>
-                            <S.IconStyled
-                                iconName={Icons.Edit}
-                                size="medium"
-                                onClick={() =>
-                                    navigate(
-                                        `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
-                                    )
-                                }
-                                data-tooltip-id={`${technology.id}-edit`}
-                            />
-                            <S.IconStyled
-                                iconName={Icons.Delete}
-                                size="medium"
-                                onClick={() => setTechToDelete(technology)}
-                                data-tooltip-id={`${technology.id}-delete`}
-                            />
-                            <S.TooltipContainer
-                                noArrow
-                                // @ts-ignore Ошибка в .d.ts
-                                place="top-end"
-                                offset={8}
-                                id={`${technology.id}-edit`}
-                            >
-                                Редактировать
-                            </S.TooltipContainer>
-                            <S.TooltipContainer
-                                noArrow
-                                // @ts-ignore Ошибка в .d.ts
-                                place="top-end"
-                                offset={8}
-                                id={`${technology.id}-delete`}
-                            >
-                                Удалить
-                            </S.TooltipContainer>
-                        </>
-                    )}
-                </S.ButtonsContainer>
-            </TableData>
-        </TableRow>
+                </TableData>
+                <TableData>
+                    <Label
+                        title={technology.deletedDate ? 'Удалена' : 'Активна'}
+                        type={technology.deletedDate ? 'error' : 'success'}
+                    />
+                </TableData>
+                <TableData>
+                    <S.ButtonsContainer>
+                        {technology.deletedDate ? (
+                            <>
+                                <S.IconStyled
+                                    iconName={Icons.Refresh}
+                                    size="medium"
+                                    onClick={handleRestoreTechnologyClick}
+                                    data-tooltip-id={`${technology.id}-refresh`}
+                                />
+                                <S.TooltipContainer
+                                    noArrow
+                                    // @ts-ignore Ошибка в .d.ts
+                                    place="top-end"
+                                    offset={8}
+                                    id={`${technology.id}-refresh`}
+                                >
+                                    Восстановить технологию
+                                </S.TooltipContainer>
+                            </>
+                        ) : (
+                            <>
+                                <S.IconStyled
+                                    iconName={Icons.Edit}
+                                    size="medium"
+                                    onClick={() =>
+                                        navigate(
+                                            `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}?id=${technology.id}`,
+                                        )
+                                    }
+                                    data-tooltip-id={`${technology.id}-edit`}
+                                />
+                                <S.IconStyled
+                                    iconName={Icons.Delete}
+                                    size="medium"
+                                    onClick={() => setTechToDelete(technology)}
+                                    data-tooltip-id={`${technology.id}-delete`}
+                                />
+                                <S.TooltipContainer
+                                    noArrow
+                                    // @ts-ignore Ошибка в .d.ts
+                                    place="top-end"
+                                    offset={8}
+                                    id={`${technology.id}-edit`}
+                                >
+                                    Редактировать
+                                </S.TooltipContainer>
+                                <S.TooltipContainer
+                                    noArrow
+                                    // @ts-ignore Ошибка в .d.ts
+                                    place="top-end"
+                                    offset={8}
+                                    id={`${technology.id}-delete`}
+                                >
+                                    Удалить
+                                </S.TooltipContainer>
+                            </>
+                        )}
+                    </S.ButtonsContainer>
+                </TableData>
+            </S.TableRowStyled>
+            {expanded && (
+                <TableRow>
+                    <S.TableDataStyled colSpan={7}>
+                        <S.VersionsContainer>
+                            <S.VersionsFlexContainer>
+                                <Text variant="subtitle3">Версии</Text>
+                                <Button
+                                    data-tooltip-id={`${technology.id}-create-version`}
+                                    disabled={!!technology.deletedDate}
+                                    size="small"
+                                    variant="plain"
+                                    onClick={() =>
+                                        navigate(
+                                            `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.VERSIONS_PATH}${R.ADD_PATH}?technologyId=${technology.id}`,
+                                        )
+                                    }
+                                >
+                                    Создать версию
+                                </Button>
+                                {!!technology.deletedDate && (
+                                    <S.TooltipContainer
+                                        noArrow
+                                        // @ts-ignore Ошибка в .d.ts
+                                        place="top-end"
+                                        offset={8}
+                                        id={`${technology.id}-create-version`}
+                                    >
+                                        Сначала восстановите технологию
+                                    </S.TooltipContainer>
+                                )}
+                            </S.VersionsFlexContainer>
+                            {technology.versions.length === 0 && (
+                                <S.NoVersions>
+                                    <Text inactive variant="body2">
+                                        Нет версий
+                                    </Text>
+                                </S.NoVersions>
+                            )}
+                            {technology.versions.length > 0 && (
+                                <Table
+                                    style={{
+                                        border: 0,
+                                        borderTop: '1px solid var(--color-divider)',
+                                        boxShadow: 'none',
+                                    }}
+                                >
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableHeaderData>Начало диапазона</TableHeaderData>
+                                            <TableHeaderData>Конец диапазона</TableHeaderData>
+                                            <TableHeaderData>Статус версии</TableHeaderData>
+                                            <TableHeaderData>Дата создания</TableHeaderData>
+                                            <TableHeaderData></TableHeaderData>
+                                            <TableHeaderData></TableHeaderData>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {technology.versions.map((version) => (
+                                            <TechnologyVersionTableRow
+                                                key={version.id}
+                                                version={version}
+                                                technology={technology}
+                                            />
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            )}
+                        </S.VersionsContainer>
+                    </S.TableDataStyled>
+                </TableRow>
+            )}
+        </>
     );
 };

@@ -3,13 +3,16 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     deleteTechnologyById,
     deleteTechnologyCategory,
+    deleteTechnologyVersionById,
     getAllTechnologies,
     getTechnologyCategories,
     mergeTechnologyCategories,
     patchTechnology,
     patchTechnologyCategory,
+    patchTechnologyVersions,
     postTechnology,
     postTechnologyCategory,
+    postTechnologyVersions,
 } from 'api/technologies';
 import {
     ICategory,
@@ -17,6 +20,7 @@ import {
     IMergeCategoriesForm,
     ITech,
     ITechForm,
+    ITechVersionForm,
 } from 'api/technologies/types';
 
 const TECHNOLOGIES_PREFIX = 'TECHNOLOGIES_PREFIX';
@@ -44,7 +48,7 @@ export const useGetTechFormDataQuery = (id: string | undefined | null) => {
     return useQuery<ITechFormData>({
         queryKey: [TECHNOLOGIES_PREFIX, 'tech', id],
         queryFn: async () => {
-            const data = await getAllTechnologies().then((res) => res.data);
+            const data = await getAllTechnologies(false).then((res) => res.data);
             return { techData: data.find((tech) => tech.id === Number(id)), allTech: data };
         },
     });
@@ -152,6 +156,58 @@ export function useDeleteTechnologyMutation() {
         mutationKey: [TECHNOLOGIES_PREFIX, 'delete'],
         mutationFn: (id: string | number) => deleteTechnologyById(id),
 
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
+interface ICreateTechnologyVersionParams {
+    technologyId: string | number;
+    data: ITechVersionForm[];
+}
+
+export function useCreateTechnologyVersionMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'create', 'version'],
+        mutationFn: (params: ICreateTechnologyVersionParams) =>
+            postTechnologyVersions(params.technologyId, params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
+interface IUpdateTechnologyVersionParams {
+    technologyId: string | number;
+    versionId: string | number;
+    data: ITechVersionForm;
+}
+
+export function useUpdateTechnologyVersionMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'update', 'version'],
+        mutationFn: (params: IUpdateTechnologyVersionParams) =>
+            patchTechnologyVersions(params.technologyId, params.versionId, params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+}
+
+interface IDeleteTechnologyVersionParams {
+    techId: string | number;
+    versionId: string | number;
+}
+
+export function useDeleteTechnologyVersionMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'delete', 'version'],
+        mutationFn: (params: IDeleteTechnologyVersionParams) =>
+            deleteTechnologyVersionById(params.techId, params.versionId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
         },

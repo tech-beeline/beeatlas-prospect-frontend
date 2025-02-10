@@ -75,10 +75,33 @@ export const patchTechnology = (id: string | number, data: T.ITechForm) => {
     });
 };
 
-export const restoreTechnology = (data: T.ITechForm[]) => {
-    return Api.patch({
-        url: `${GATEWAY_URL}techradar/v1/tech`,
+export const postTechnologyVersions = (
+    technologyId: string | number,
+    data: T.ITechVersionForm[],
+) => {
+    return Api.post({
+        url: `${GATEWAY_URL}techradar/v1/tech/${technologyId}/version`,
         data,
+    });
+};
+
+export const patchTechnologyVersions = (
+    technologyId: string | number,
+    versionId: string | number,
+    data: T.ITechVersionForm,
+) => {
+    return Api.patch({
+        url: `${GATEWAY_URL}techradar/v1/tech/${technologyId}/version/${versionId}`,
+        data,
+    });
+};
+
+export const deleteTechnologyVersionById = (
+    technologyId: string | number,
+    versionId: string | number,
+) => {
+    return Api.delete({
+        url: `${GATEWAY_URL}techradar/v1/tech/${technologyId}/version/${versionId}`,
     });
 };
 
