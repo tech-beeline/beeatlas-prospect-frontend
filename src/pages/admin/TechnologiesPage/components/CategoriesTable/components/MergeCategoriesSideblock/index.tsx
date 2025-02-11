@@ -18,6 +18,7 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
 }) => {
     const [menuOpened, setMenuOpened] = useState(false);
     const [name, setName] = useState('');
+    const [error, setError] = useState(false);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -29,14 +30,18 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
     };
 
     const handleMergeClick = async () => {
-        await mutateAsync({
-            data: {
-                joinCategoryName: name,
-                joinedCategoriesId: selectedCategories.map((category) => category.id),
-            },
-        });
-        handleClose();
-        showSnackbar({ message: 'Группы объединены' });
+        if (name.length !== 0) {
+            await mutateAsync({
+                data: {
+                    joinCategoryName: name,
+                    joinedCategoriesId: selectedCategories.map((category) => category.id),
+                },
+            });
+            handleClose();
+            showSnackbar({ message: 'Группы объединены' });
+        } else {
+            setError(true);
+        }
     };
 
     const filteredCategories = selectedCategories
@@ -55,17 +60,29 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
                         <TextField
                             fullWidth
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            error={error}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                setError(false);
+                            }}
                             label="Название группы*"
                             onFocus={() => {
                                 setMenuOpened(true);
                             }}
                             onBlur={() => setMenuOpened(false)}
+                            maxLength={50}
+                            helperText={error ? 'Заполните название' : `${name.length}/50`}
                         />
                         {menuOpened && filteredCategories.length > 0 && (
                             <S.MenuBlock>
                                 {filteredCategories.map((category, i) => (
-                                    <S.MenuItem key={i} onMouseDown={() => setName(category)}>
+                                    <S.MenuItem
+                                        key={i}
+                                        onMouseDown={() => {
+                                            setName(category);
+                                            setError(false);
+                                        }}
+                                    >
                                         {category}
                                     </S.MenuItem>
                                 ))}

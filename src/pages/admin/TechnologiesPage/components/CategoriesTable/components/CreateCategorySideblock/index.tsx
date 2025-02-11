@@ -13,6 +13,7 @@ import * as S from './units';
 
 export const CreateCategorySideblock: FC<ICreateCategorySideblock> = ({ isOpen, onClose }) => {
     const [name, setName] = useState('');
+    const [error, setError] = useState(false);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -24,9 +25,13 @@ export const CreateCategorySideblock: FC<ICreateCategorySideblock> = ({ isOpen, 
     };
 
     const handleCreateClick = async () => {
-        await mutateAsync({ data: { name } });
-        handleClose();
-        showSnackbar({ message: 'Группа создана' });
+        if (name.length !== 0) {
+            await mutateAsync({ data: { name } });
+            handleClose();
+            showSnackbar({ message: 'Группа создана' });
+        } else {
+            setError(true);
+        }
     };
     return (
         <SideBlock isOpen={isOpen} onClose={handleClose}>
@@ -39,8 +44,14 @@ export const CreateCategorySideblock: FC<ICreateCategorySideblock> = ({ isOpen, 
                     <TextField
                         fullWidth
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        error={error}
+                        onChange={(e) => {
+                            setName(e.target.value);
+                            setError(false);
+                        }}
                         label="Название группы*"
+                        maxLength={50}
+                        helperText={error ? 'Заполните название' : `${name.length}/50`}
                     />
                 </S.ContentContainer>
                 <S.ButtonsContainer>
