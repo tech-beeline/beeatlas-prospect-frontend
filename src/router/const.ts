@@ -41,6 +41,7 @@ export const ROLES_PATH = '/roles';
 export const IMPORTED_DATA_PATH = '/imported-data';
 export const PACKAGE_PATH = '/package';
 export const TECHNOLOGIES_PATH = '/technologies';
+export const VERSIONS_PATH = '/versions';
 export const CAPABILITIES_PATH = '/capabilities';
 
 // Уведомления

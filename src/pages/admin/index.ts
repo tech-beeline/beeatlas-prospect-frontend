@@ -6,4 +6,5 @@ export { RoleAddPage } from './RoleAddPage';
 export { RolesPage } from './RolesPage';
 export { TechnologiesPage } from './TechnologiesPage';
 export { TechnologyAddPage } from './TechnologyAddPage';
+export { TechnologyVersionAddPage } from './TechnologyVersionAddPage';
 export { UsersPage } from './UsersPage';

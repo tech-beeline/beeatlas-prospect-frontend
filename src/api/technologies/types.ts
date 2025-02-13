@@ -15,6 +15,25 @@ export interface ICategory {
     name: string;
 }
 
+export interface ICategoryForm {
+    name: string;
+}
+
+export interface IMergeCategoriesForm {
+    joinCategoryName: string;
+    joinedCategoriesId: number[];
+}
+
+export interface ITechVersion {
+    createdDate: string;
+    deletedDate: string;
+    id: number;
+    lastModifiedDate: string;
+    ring: IRing;
+    versionEnd: string;
+    versionStart: string;
+}
+
 export interface ITech {
     category: ICategory[];
     createdDate: Date;
@@ -26,6 +45,7 @@ export interface ITech {
     link?: string | null;
     ring: IRing;
     sector: ISector;
+    versions: ITechVersion[];
 }
 
 export interface ITechForm {
@@ -36,6 +56,12 @@ export interface ITechForm {
     link: string;
     ring_id: number;
     sector_id: number;
+}
+
+export interface ITechVersionForm {
+    statusId: number;
+    versionEnd: string;
+    versionStart: string;
 }
 
 export interface ISubscribedTechnologyData {

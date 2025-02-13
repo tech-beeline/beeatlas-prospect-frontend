@@ -16,6 +16,17 @@ export const TitleContainer = styled.div`
     justify-content: space-between;
 
     margin-top: 36px;
+    margin-bottom: 16px;
+`;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 48px;
+
+    margin: 24px 0px;
 `;
 
 export const SearchStyled = styled(Search)`
