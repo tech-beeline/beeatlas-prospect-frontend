@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Chip, DatePickerRange, Pagination } from '@beeline/design-system-react';
+import { Button, Chip, DatePickerRange, Pagination, Select } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
 
@@ -10,13 +10,28 @@ import {
     useUpdateNotificationsMutation,
 } from 'api/queries/notifications';
 
-import { CHIPS, FilterVariants, filterVariantToNotificationEntityMap } from './const';
+import {
+    CHIPS,
+    FilterVariants,
+    filterVariantToNotificationEntityMap,
+    NotificationVariants,
+} from './const';
 import * as S from './units';
 
 export const NotificationsPage = () => {
     const [date, setDate] = useState<string[]>([]);
     const [page, setPage] = useState(1);
+    const [notificationVariant, setNotificationVariant] = useState(NotificationVariants.ALL);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
+
+    const notificationVariantOptions = [
+        { id: NotificationVariants.ALL, value: 'Все' },
+        { id: NotificationVariants.UNREAD, value: 'Не прочитанные' },
+        {
+            id: NotificationVariants.READ,
+            value: 'Прочитанные',
+        },
+    ];
 
     const { data, isLoading } = useGetNotificationsQuery({
         page: page - 1,
@@ -25,6 +40,12 @@ export const NotificationsPage = () => {
         type:
             filterVariant !== FilterVariants.ALL
                 ? filterVariantToNotificationEntityMap[filterVariant]
+                : undefined,
+        wasNotify:
+            notificationVariant === NotificationVariants.UNREAD
+                ? false
+                : notificationVariant === NotificationVariants.READ
+                ? true
                 : undefined,
     });
 
@@ -53,6 +74,18 @@ export const NotificationsPage = () => {
                     <S.Title>Уведомления</S.Title>
                 </S.Header>
                 <S.FiltersContainer>
+                    <Select
+                        label="Список уведолмений"
+                        options={notificationVariantOptions}
+                        onChange={(values) => {
+                            setNotificationVariant(values[0]?.id ?? NotificationVariants.ALL);
+                        }}
+                        values={[
+                            notificationVariantOptions.find(
+                                (variant) => variant.id === notificationVariant,
+                            ),
+                        ]}
+                    />
                     <DatePickerRange
                         placeholder="Дата"
                         value={date}
@@ -61,6 +94,18 @@ export const NotificationsPage = () => {
                             setPage(1);
                         }}
                     />
+                    <Button
+                        disabled={
+                            date.length === 0 && notificationVariant === NotificationVariants.ALL
+                        }
+                        onClick={() => {
+                            setDate([]);
+                            setNotificationVariant(NotificationVariants.ALL);
+                        }}
+                        variant="plain"
+                    >
+                        Сбросить
+                    </Button>
                 </S.FiltersContainer>
                 <S.ControlsContainer>
                     <S.ChipsContainer>

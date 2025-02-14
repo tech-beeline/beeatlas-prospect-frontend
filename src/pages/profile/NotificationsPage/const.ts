@@ -26,6 +26,12 @@ export const CHIPS = [
     },
 ];
 
+export enum NotificationVariants {
+    ALL = 'ALL',
+    UNREAD = 'UNREAD',
+    READ = 'READ',
+}
+
 export enum SortingVariants {
     LATEST = 'LATEST',
     OLDEST = 'OLDEST',
