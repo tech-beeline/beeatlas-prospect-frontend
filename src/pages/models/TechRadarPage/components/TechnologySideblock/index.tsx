@@ -162,11 +162,30 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         <Text variant="subtitle2">
                             Приложения{productsData && ` (${productsData.length})`}
                         </Text>
-                        <PivotArrow
-                            style={{ cursor: 'pointer' }}
-                            position={showApps && 'top'}
-                            onClick={handleAppsArrowClick}
-                        />
+                        <S.InfoContainer>
+                            <Icon
+                                iconName={Icons.InfoCircled}
+                                style={{ cursor: 'pointer' }}
+                                size="large"
+                                data-tooltip-id="apps-info"
+                            />
+                            <S.TooltipContainer
+                                noArrow
+                                largePadding
+                                // @ts-ignore Ошибка в .d.ts
+                                place="top-end"
+                                offset={8}
+                                id="apps-info"
+                            >
+                                Список приложений регулярно обновлятся из разных источников
+                                автоматически
+                            </S.TooltipContainer>
+                            <PivotArrow
+                                style={{ cursor: 'pointer' }}
+                                position={showApps && 'top'}
+                                onClick={handleAppsArrowClick}
+                            />
+                        </S.InfoContainer>
                     </S.ButtonsContainer>
                     <S.AppsContainer open={showApps}>
                         {productsData &&
