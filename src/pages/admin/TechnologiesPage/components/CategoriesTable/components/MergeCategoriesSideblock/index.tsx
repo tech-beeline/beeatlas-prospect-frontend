@@ -27,6 +27,7 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
     const handleClose = () => {
         onClose();
         setName('');
+        setError(false);
     };
 
     const handleMergeClick = async () => {

@@ -22,6 +22,7 @@ export const CreateCategorySideblock: FC<ICreateCategorySideblock> = ({ isOpen, 
     const handleClose = () => {
         onClose();
         setName('');
+        setError(false);
     };
 
     const handleCreateClick = async () => {
