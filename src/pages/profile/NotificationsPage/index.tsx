@@ -26,7 +26,7 @@ export const NotificationsPage = () => {
 
     const notificationVariantOptions = [
         { id: NotificationVariants.ALL, value: 'Все' },
-        { id: NotificationVariants.UNREAD, value: 'Не прочитанные' },
+        { id: NotificationVariants.UNREAD, value: 'Непрочитанные' },
         {
             id: NotificationVariants.READ,
             value: 'Прочитанные',
@@ -75,7 +75,7 @@ export const NotificationsPage = () => {
                 </S.Header>
                 <S.FiltersContainer>
                     <Select
-                        label="Список уведолмений"
+                        label="Список уведомлений"
                         options={notificationVariantOptions}
                         onChange={(values) => {
                             setNotificationVariant(values[0]?.id ?? NotificationVariants.ALL);

@@ -177,7 +177,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                                 offset={8}
                                 id="apps-info"
                             >
-                                Список приложений регулярно обновлятся из разных источников
+                                Список приложений регулярно обновляется из разных источников
                                 автоматически
                             </S.TooltipContainer>
                             <PivotArrow
