@@ -38,6 +38,7 @@ export const BI_PATH = '/bi';
 export const ADMIN_PATH = '/admin';
 export const USERS_PATH = '/users';
 export const ROLES_PATH = '/roles';
+export const FILE_IMPORT_PATH = '/file-import';
 export const IMPORTED_DATA_PATH = '/imported-data';
 export const PACKAGE_PATH = '/package';
 export const TECHNOLOGIES_PATH = '/technologies';

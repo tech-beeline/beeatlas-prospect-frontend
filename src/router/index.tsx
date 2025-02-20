@@ -28,6 +28,7 @@ import {
     DataBasePage,
     FDMHistoryPage,
     FDMPage,
+    FileImportPage,
     HowToPage,
     ImportedDataPage,
     MainPage,
@@ -137,6 +138,20 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <RoleAddPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <FileImportPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),
