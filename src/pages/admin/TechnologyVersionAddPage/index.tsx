@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AxiosError } from 'axios';
 
 import {
     useCreateTechnologyVersionMutation,
@@ -14,6 +15,7 @@ import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TechnologyVersionField } from './components';
+import { backendErrorMessageToErrorType, ErrorType } from './const';
 import { FormValues, getValidationSchema } from './form';
 import * as S from './units';
 
@@ -27,8 +29,27 @@ export const TechnologyVersionAddPage = () => {
     const { data, isLoading: isLoadingTech } = useGetTechFormDataQuery(paramTechnologyId);
     const { techData } = data ?? {};
 
-    const { mutateAsync: createVersion } = useCreateTechnologyVersionMutation();
-    const { mutateAsync: updateVersion } = useUpdateTechnologyVersionMutation();
+    const { mutateAsync: createVersion, error: createError } = useCreateTechnologyVersionMutation();
+    const { mutateAsync: updateVersion, error: updateError } = useUpdateTechnologyVersionMutation();
+
+    const [error, setError] = useState<ErrorType | null>(null);
+
+    useEffect(() => {
+        if (createError) {
+            setError(
+                backendErrorMessageToErrorType[
+                    (createError as AxiosError).response?.data as string
+                ] ?? null,
+            );
+        }
+        if (updateError) {
+            setError(
+                backendErrorMessageToErrorType[
+                    (updateError as AxiosError).response?.data as string
+                ] ?? null,
+            );
+        }
+    }, [createError, updateError]);
 
     const form = useForm<FormValues>({
         resolver: yupResolver(getValidationSchema()),
@@ -120,6 +141,7 @@ export const TechnologyVersionAddPage = () => {
                                     resetStatus={!paramVersionId}
                                     append={append}
                                     remove={remove}
+                                    errorType={error}
                                 />
                             ))}
                             <S.ButtonsContainer>

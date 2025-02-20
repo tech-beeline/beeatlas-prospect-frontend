@@ -1,3 +1,4 @@
+import { ErrorType } from '../../const';
 import { VersionValues } from '../../form';
 
 export interface ITechnologyVersionField {
@@ -7,6 +8,7 @@ export interface ITechnologyVersionField {
     showAddButton: boolean;
     resetStatus: boolean;
     techRingId?: number;
+    errorType: ErrorType | null;
 
     remove: (index: number) => void;
     append: (version: VersionValues) => void;
