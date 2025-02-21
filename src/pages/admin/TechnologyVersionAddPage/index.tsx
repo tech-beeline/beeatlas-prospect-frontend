@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, IconButton } from '@beeline/design-system-react';
+import { Button, IconButton, InlineAlert } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -15,7 +15,7 @@ import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TechnologyVersionField } from './components';
-import { backendErrorMessageToErrorType, ErrorType } from './const';
+import { backendErrorMessageToErrorType, ErrorType, errorTypeToMessageMap } from './const';
 import { FormValues, getValidationSchema } from './form';
 import * as S from './units';
 
@@ -55,12 +55,21 @@ export const TechnologyVersionAddPage = () => {
         resolver: yupResolver(getValidationSchema()),
     });
 
-    const { handleSubmit, reset, control } = form;
+    const { handleSubmit, reset, control, watch } = form;
 
     const { fields, append, remove } = useFieldArray({
         control,
         name: 'versions',
     });
+
+    useEffect(() => {
+        const { unsubscribe } = watch((_, info) => {
+            if (info.type === 'change' || info.name === 'versions') {
+                setError(null);
+            }
+        });
+        return () => unsubscribe();
+    }, [watch]);
 
     useEffect(() => {
         if (techData) {
@@ -127,6 +136,7 @@ export const TechnologyVersionAddPage = () => {
                     />
                     <S.Title>{paramVersionId ? 'Редактировать' : 'Создать'} версию</S.Title>
                 </S.TitleContainer>
+                {error && <InlineAlert type="error">{errorTypeToMessageMap[error]}</InlineAlert>}
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.FormContainer>
@@ -141,7 +151,6 @@ export const TechnologyVersionAddPage = () => {
                                     resetStatus={!paramVersionId}
                                     append={append}
                                     remove={remove}
-                                    errorType={error}
                                 />
                             ))}
                             <S.ButtonsContainer>

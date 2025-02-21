@@ -9,6 +9,10 @@ export const PageWrapper = styled.div`
 `;
 
 export const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
     width: 740px;
 `;
 
@@ -19,7 +23,6 @@ export const TitleContainer = styled.div`
     gap: 16px;
 
     margin-top: 40px;
-    margin-bottom: 24px;
 `;
 
 export const Title = styled.h4`

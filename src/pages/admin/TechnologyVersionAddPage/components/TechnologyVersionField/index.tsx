@@ -1,11 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, Divider, Icon, InlineAlert } from '@beeline/design-system-react';
+import { Button, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Select, TextField } from 'components/form';
 
-import { errorTypeToMessageMap } from '../../const';
 import { VersionValues } from '../../form';
 
 import { ITechnologyVersionField } from './types';
@@ -20,7 +19,6 @@ export const TechnologyVersionField: FC<ITechnologyVersionField> = ({
     resetStatus,
     remove,
     append,
-    errorType,
 }) => {
     const statusOptions = techRingId
         ? [
@@ -69,9 +67,6 @@ export const TechnologyVersionField: FC<ITechnologyVersionField> = ({
                         />
                     </S.GrowContainer>
                 </S.FormRow>
-                {errorType && (
-                    <InlineAlert type="error">{errorTypeToMessageMap[errorType]}</InlineAlert>
-                )}
             </S.FieldContainer>
             {fieldsCount !== 1 && index === 0 && <Divider />}
             {(fieldsCount === 1 || index !== 0) && (
