@@ -24,7 +24,7 @@ export const TechnologyVersionTableRow: FC<ITechnologyVersionTableRow> = ({
     const handleDeleteButtonClick = async () => {
         await deleteVersion({ techId: technology.id, versionId: version.id });
 
-        showSnackbar({ message: 'Версрия удалена' });
+        showSnackbar({ message: 'Версия удалена' });
     };
 
     return (
