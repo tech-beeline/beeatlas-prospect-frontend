@@ -9,6 +9,10 @@ export const SideblockContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
     padding: 20px 16px;
 `;
 
@@ -16,8 +20,6 @@ export const TitleContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    margin-bottom: 24px;
 `;
 
 export const ButtonsContainer = styled.div`
