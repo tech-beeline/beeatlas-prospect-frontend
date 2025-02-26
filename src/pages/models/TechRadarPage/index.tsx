@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Button, Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
@@ -199,6 +201,9 @@ export const TechRadarPage = () => {
                 <S.Header>
                     <S.TitleWrapper>
                         <S.Title>Технорадар</S.Title>
+                        <Button size="small" startIcon={<Icon iconName={Icons.ShareIos} />}>
+                            Экспорт
+                        </Button>
                     </S.TitleWrapper>
 
                     <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />
