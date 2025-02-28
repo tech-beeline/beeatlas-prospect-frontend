@@ -10,6 +10,8 @@ podAnnotations:
   prometheus.io/port: "false"
   
 ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
   hosts:
     - host: "changehost"
       paths:
