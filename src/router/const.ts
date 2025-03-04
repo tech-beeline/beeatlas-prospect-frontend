@@ -55,6 +55,7 @@ export const SUBSCRIPTIONS_PATH = '/subscriptions';
 export const APPLICATIONS_PATH = '/applications';
 export const APPLICATIONS_REVIEW_PATH = '/applications-review';
 export const EXPORT_PATH = '/export';
+export const REVIEW_PATH = '/review';
 
 // Utils
 export const ADD_PATH = '/add';

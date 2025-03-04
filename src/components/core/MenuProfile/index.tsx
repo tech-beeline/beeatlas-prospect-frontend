@@ -6,7 +6,7 @@ import * as R from 'router/const';
 
 import * as S from './units';
 
-const isAdmin = false;
+// const isAdmin = false;
 
 export const MenuProfile = () => {
     const navigate = useNavigate();
@@ -49,16 +49,26 @@ export const MenuProfile = () => {
                                 name: 'Экспорт\xa0файлов',
                                 path: `${R.PROFILE_PATH}${R.EXPORT_PATH}`,
                             },
+                            // {
+                            //     icon: Icons.PagesMultiple,
+                            //     name: 'Мои\xa0заявки',
+                            //     path: `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`,
+                            // },
+                            // {
+                            //     icon: Icons.PageSearch,
+                            //     name: 'Согласование\xa0заявок',
+                            //     path: `${R.PROFILE_PATH}${R.REVIEW_PATH}`,
+                            // },
                         ],
-                        ...(isAdmin
-                            ? [
-                                  {
-                                      icon: Icons.PagesMultiple,
-                                      name: 'Заявки\xa0на\nсогласование\xa0\xa0\xa0\xa0',
-                                      path: `${R.PROFILE_PATH}${R.APPLICATIONS_REVIEW_PATH}`,
-                                  },
-                              ]
-                            : []),
+                        // ...(isAdmin
+                        //     ? [
+                        //           {
+                        //               icon: Icons.PageSearch,
+                        //               name: 'Согласование\xa0заявок',
+                        //               path: `${R.PROFILE_PATH}${R.REVIEW_PATH}`,
+                        //           },
+                        //       ]
+                        //     : []),
                     ],
                 },
             ]}

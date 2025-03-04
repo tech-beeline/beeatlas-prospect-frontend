@@ -14,8 +14,11 @@ import {
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AppInfoPage,
+    ApplicationsPage,
+    ApplicationViewPage,
     AppsPage,
     ArchCommPage,
+    BCAddPage,
     BIAddPage,
     BILibraryPage,
     BIViewPage,
@@ -63,6 +66,8 @@ const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -544,17 +549,39 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    {/* <Route
+                    <Route
                         path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuProfile />
                                 <S.ContentWrapper>
-                                    <InDevelopmentPage title="Мои заявки" />
+                                    <ApplicationsPage key="APPLICATIONS_PAGE" review={false} />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    /> */}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`}
+                        element={<ApplicationViewPage />}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <ApplicationsPage key="REVIEW_PAGE" review={true} />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}`}
+                        element={<BCAddPage />}
+                    />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
