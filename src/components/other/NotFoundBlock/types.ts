@@ -1,14 +1,16 @@
+import { ReactNode } from 'react';
 import { ButtonProps } from '@beeline/design-system-react/types/components/Button/Button.types';
 
 export enum ImageVariants {
     EMPTY_BOX = 'EMPTY_BOX',
     QUESTION_BOX = 'QUESTION_BOX',
     UNEDITABLE = 'UNEDITABLE',
+    DIALOG_BOX = 'DIALOG_BOX',
 }
 
 export interface INotFoundBlock {
     title?: string;
-    text?: string;
+    text?: ReactNode;
     imageVariant?: ImageVariants;
     buttonText?: string;
     buttonProps?: ButtonProps;

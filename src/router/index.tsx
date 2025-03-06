@@ -48,6 +48,7 @@ import {
     SearchPage,
     ServicesPage,
     SubscriptionsPage,
+    TCAddPage,
     TechnologiesPage,
     TechnologyAddPage,
     TechnologyVersionAddPage,
@@ -581,6 +582,11 @@ export const NavigationRouter = () => {
                     <Route
                         path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}`}
                         element={<BCAddPage />}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}/tc`}
+                        element={<TCAddPage />}
                     />
 
                     <Route path="*" element={<NotFoundPage />} />

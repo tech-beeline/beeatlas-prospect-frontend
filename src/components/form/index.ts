@@ -1,5 +1,6 @@
 export { Autocomplete } from './Autocomplete';
 export { Checkbox } from './Checkbox';
+export { DatePicker } from './DatePicker';
 export { FeelingPicker } from './FeelingPicker';
 export { MultiSelect } from './MultiSelect';
 export { RadioGroup } from './RadioGroup';
