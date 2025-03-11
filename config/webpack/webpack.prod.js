@@ -3,10 +3,21 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const commonConfig = require('./webpack.common');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(commonConfig, {
     mode: 'production',
-    plugins: [new CleanWebpackPlugin()],
+    plugins: [
+        new CleanWebpackPlugin(),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'public/templates',
+                    to: 'templates',
+                },
+            ],
+        }),
+    ],
     // https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
     optimization: {
         minimize: false,
