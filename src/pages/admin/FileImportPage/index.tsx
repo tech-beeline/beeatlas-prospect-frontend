@@ -47,7 +47,7 @@ export const FileImportPage = () => {
                     FileStatus.IN_QUEUE,
                     FileStatus.PACKAGE_PARSING,
                     FileStatus.PACKAGE_PARTS_PROCESSING,
-                ].includes(file.package.status),
+                ].includes(file.package_info.status),
             )
         ) {
             setRefetchFiles(true);
@@ -153,8 +153,14 @@ export const FileImportPage = () => {
                                     </S.TableDataMinWidth>
                                     <S.TableDataMinWidth>
                                         <Label
-                                            title={fileStatusToLabelTitleMap[file.package.status]}
-                                            type={fileStatusToLabelTypeMap[file.package.status]}
+                                            title={
+                                                fileStatusToLabelTitleMap[
+                                                    file.package_info.status
+                                                ] ?? file.package_info.status
+                                            }
+                                            type={
+                                                fileStatusToLabelTypeMap[file.package_info.status]
+                                            }
                                             variant="contained"
                                         />
                                     </S.TableDataMinWidth>

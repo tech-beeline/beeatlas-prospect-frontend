@@ -20,7 +20,7 @@ export interface IFileData {
     key: string;
     entity_type: string;
     operation_type: string;
-    package: {
+    package_info: {
         allParts: number;
         createdDate: string;
         errorParts: number;
