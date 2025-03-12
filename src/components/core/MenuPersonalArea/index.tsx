@@ -24,6 +24,8 @@ export const MenuPersonalArea = () => {
             active={
                 location.pathname.includes(R.USERS_PATH)
                     ? `${R.ADMIN_PATH}${R.USERS_PATH}`
+                    : location.pathname.includes(R.FILE_IMPORT_PATH)
+                    ? `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`
                     : location.pathname.includes(R.IMPORTED_DATA_PATH)
                     ? `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`
                     : location.pathname.includes(R.CAPABILITIES_PATH)
@@ -41,7 +43,12 @@ export const MenuPersonalArea = () => {
                         },
                         {
                             icon: Icons.Import,
-                            name: 'Импортируемые\nданные\xa0\xa0',
+                            name: 'Импорт\xa0файлов',
+                            path: `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`,
+                        },
+                        {
+                            icon: Icons.Import,
+                            name: 'Процесс\xa0импорта',
                             path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
                         },
                         {
