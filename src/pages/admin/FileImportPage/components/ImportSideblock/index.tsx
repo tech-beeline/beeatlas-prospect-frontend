@@ -37,6 +37,7 @@ export const ImportSideblock: FC<IImportSideblock> = ({ isOpen, onClose }) => {
                         />
                     ))}
                     <FileUploader
+                        key={String(isOpen)}
                         hideFileList
                         multiple
                         sequentially
