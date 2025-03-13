@@ -2,6 +2,8 @@ export enum NotificationEntityType {
     TECH_CAPABILITY = 'TECH_CAPABILITY',
     BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
     TECH = 'TECH',
+    APPLICATION = 'APPLICATION',
+    EXPORT = 'EXPORT',
 }
 
 export enum NotificationChangeType {

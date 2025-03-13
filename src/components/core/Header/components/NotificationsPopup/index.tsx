@@ -1,8 +1,12 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Counter, Divider, Icon } from '@beeline/design-system-react';
+import { Button, ButtonGroup, Counter, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
+import {
+    NotificationCard,
+    NotificationCardSkeleton,
+    NotificationGroups,
+} from 'features/notifications';
 
 import {
     useGetNotificationsQuery,
@@ -15,6 +19,9 @@ import * as S from './units';
 
 export const NotificationsPopup: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [notificationGroup, setNotificationGroup] = useState(
+        NotificationGroups.LANDSCAPE_CHANGES,
+    );
 
     const navigate = useNavigate();
 
@@ -60,6 +67,29 @@ export const NotificationsPopup: FC = () => {
 
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
+                    <S.Header>
+                        <ButtonGroup
+                            size="small"
+                            selectedOption={{
+                                id: notificationGroup,
+                            }}
+                            options={[
+                                {
+                                    id: NotificationGroups.LANDSCAPE_CHANGES,
+                                    value: NotificationGroups.LANDSCAPE_CHANGES,
+                                    label: 'Изменения ландшафта',
+                                },
+                                {
+                                    id: NotificationGroups.BUSINESS_EVENTS,
+                                    value: NotificationGroups.BUSINESS_EVENTS,
+                                    label: 'События',
+                                },
+                            ]}
+                            onChange={(option) =>
+                                setNotificationGroup(option.id as NotificationGroups)
+                            }
+                        />
+                    </S.Header>
                     <S.Content>
                         {!isLoading && !isEmpty && !isError && data && (
                             <>

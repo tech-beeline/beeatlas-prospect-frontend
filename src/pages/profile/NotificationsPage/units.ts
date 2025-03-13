@@ -45,6 +45,7 @@ export const FiltersContainer = styled.div`
     gap: 24px;
 
     margin-top: 24px;
+    margin-bottom: 24px;
 `;
 
 export const SearchStyled = styled(Search)`

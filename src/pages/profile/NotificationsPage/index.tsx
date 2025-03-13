@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
-import { Button, Chip, DatePickerRange, Pagination, Select } from '@beeline/design-system-react';
+import React, { useEffect, useState } from 'react';
+import {
+    Button,
+    ButtonGroup,
+    Chip,
+    DatePickerRange,
+    Pagination,
+    Select,
+} from '@beeline/design-system-react';
 import dayjs from 'dayjs';
-import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
+import {
+    NotificationCard,
+    NotificationCardSkeleton,
+    NotificationGroups,
+} from 'features/notifications';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
@@ -21,8 +32,19 @@ import * as S from './units';
 export const NotificationsPage = () => {
     const [date, setDate] = useState<string[]>([]);
     const [page, setPage] = useState(1);
+    const [notificationGroup, setNotificationGroup] = useState(
+        NotificationGroups.LANDSCAPE_CHANGES,
+    );
     const [notificationVariant, setNotificationVariant] = useState(NotificationVariants.ALL);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
+
+    useEffect(() => {
+        if (notificationGroup === NotificationGroups.LANDSCAPE_CHANGES) {
+            setFilterVariant(FilterVariants.ALL);
+        } else {
+            setFilterVariant(FilterVariants.APPLICATIONS);
+        }
+    }, [notificationGroup]);
 
     const notificationVariantOptions = [
         { id: NotificationVariants.ALL, value: 'Все' },
@@ -107,9 +129,28 @@ export const NotificationsPage = () => {
                         Сбросить
                     </Button>
                 </S.FiltersContainer>
+                <ButtonGroup
+                    size="small"
+                    selectedOption={{
+                        id: notificationGroup,
+                    }}
+                    options={[
+                        {
+                            id: NotificationGroups.LANDSCAPE_CHANGES,
+                            value: NotificationGroups.LANDSCAPE_CHANGES,
+                            label: 'Изменения ландшафта',
+                        },
+                        {
+                            id: NotificationGroups.BUSINESS_EVENTS,
+                            value: NotificationGroups.BUSINESS_EVENTS,
+                            label: 'События',
+                        },
+                    ]}
+                    onChange={(option) => setNotificationGroup(option.id as NotificationGroups)}
+                />
                 <S.ControlsContainer>
                     <S.ChipsContainer>
-                        {CHIPS.map((chip) => (
+                        {CHIPS.filter((chip) => chip.group === notificationGroup).map((chip) => (
                             <Chip
                                 key={chip.value}
                                 label={chip.label}
