@@ -29,15 +29,11 @@ export const TitleContainer = styled.div`
 
 export const TemplatesContainer = styled.div<{ restrictHeight: boolean }>`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
 
     ${({ restrictHeight }) => (restrictHeight ? 'max-height: 90px;' : '')}
     overflow: hidden;
-
-    @media only screen and (max-width: 1280px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
 `;
 
 export const TemplateCard = styled.div`

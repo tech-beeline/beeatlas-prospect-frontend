@@ -8,11 +8,6 @@
         "name": "tech_capability.xlsx",
         "title": "TC",
         "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    },
-    {
-        "name": "tech.xlsx",
-        "title": "Технологии",
-        "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     }
 ]
 

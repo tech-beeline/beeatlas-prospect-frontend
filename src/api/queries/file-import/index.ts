@@ -11,6 +11,8 @@ export const useGetTemplateFilesQuery = () => {
     return useQuery({
         queryKey: [FILE_IMPORT_PREFIX, 'TEMPLATES'],
         queryFn: () => getTemplateFilesList().then((res) => res.data),
+        gcTime: Infinity,
+        staleTime: Infinity,
     });
 };
 

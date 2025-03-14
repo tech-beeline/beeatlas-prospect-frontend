@@ -1,7 +1,6 @@
 export enum FileTypes {
     BC = 'BC',
     TC = 'TC',
-    TECH = 'TECH',
 }
 
 export const RADIOS = [
@@ -10,5 +9,4 @@ export const RADIOS = [
         value: FileTypes.TC,
         label: 'TC',
     },
-    { value: FileTypes.TECH, label: 'Технологии' },
 ];
