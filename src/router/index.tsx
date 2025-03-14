@@ -26,6 +26,7 @@ import {
     ConsultationPage,
     CXPage,
     DataBasePage,
+    ExportPage,
     FDMHistoryPage,
     FDMPage,
     FileImportPage,
@@ -526,6 +527,18 @@ export const NavigationRouter = () => {
                                 <MenuProfile />
                                 <S.ContentWrapper>
                                     <SubscriptionsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.EXPORT_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <ExportPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
