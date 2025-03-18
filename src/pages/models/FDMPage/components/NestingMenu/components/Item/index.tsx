@@ -6,7 +6,7 @@ import { PivotArrow } from 'components/other';
 import { useFDMStore } from 'pages/models/FDMPage/store';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';
 
-import { getItemIcon } from '../../utils';
+import { getItemIcon } from '../../../utils';
 
 import { IItem } from './types';
 import * as S from './units';

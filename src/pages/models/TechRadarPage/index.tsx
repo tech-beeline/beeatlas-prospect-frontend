@@ -3,8 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
+import { ExportVariant } from 'api/file-export/types';
+import { useCreateExportMutation } from 'api/queries/file-export';
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
     Filters,
@@ -27,6 +30,18 @@ export const TechRadarPage = () => {
     const id = params.get('id');
 
     const { data: techRadarData } = useGetAllTechnologiesQuery();
+    const { mutateAsync: createExport } = useCreateExportMutation();
+
+    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
+
+    const handleExportClick = async () => {
+        await createExport(ExportVariant.TECH);
+
+        showSnackbar({
+            message:
+                'Ваш файл находится в процессе обработки. Как только экспорт будет завершен, вы получите уведомление. Проверить статус обработки можно в личном кабинете в разделе Экспорт файлов',
+        });
+    };
 
     const [search, setSearch] = useState('');
     const [filterValue, setFilterValue] = useState<string | null>(null);
@@ -201,7 +216,11 @@ export const TechRadarPage = () => {
                 <S.Header>
                     <S.TitleWrapper>
                         <S.Title>Технорадар</S.Title>
-                        <Button size="small" startIcon={<Icon iconName={Icons.ShareIos} />}>
+                        <Button
+                            onClick={handleExportClick}
+                            size="small"
+                            startIcon={<Icon iconName={Icons.ShareIos} />}
+                        >
                             Экспорт
                         </Button>
                     </S.TitleWrapper>

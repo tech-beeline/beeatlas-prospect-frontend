@@ -36,7 +36,6 @@ export const ExportButton = () => {
             <Button
                 ref={buttonRef}
                 onClick={() => setShowMenu(!showMenu)}
-                size="medium"
                 startIcon={<Icon iconName={Icons.ShareIos} />}
             >
                 Экспорт
@@ -48,9 +47,6 @@ export const ExportButton = () => {
                     </S.DropdownItem>
                     <S.DropdownItem onClick={() => handleItemClick(ExportVariant.TC)}>
                         Технических возможностей
-                    </S.DropdownItem>
-                    <S.DropdownItem onClick={() => handleItemClick(ExportVariant.TECH)}>
-                        Технологий
                     </S.DropdownItem>
                 </S.Dropdown>
             )}

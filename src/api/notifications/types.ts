@@ -35,3 +35,21 @@ export interface INotificationParams {
     type?: NotificationEntityType;
     wasNotify?: boolean;
 }
+
+export interface IBusinessNotification {
+    createdDate: string;
+    entityId: number;
+    entityTypeId: {
+        description: string;
+        id: number;
+        name: string;
+    };
+    id: number;
+    webNotify: boolean;
+}
+
+export interface IBusinessNotificationData {
+    content: IBusinessNotification[];
+    totalElements: number;
+    totalPages: number;
+}
