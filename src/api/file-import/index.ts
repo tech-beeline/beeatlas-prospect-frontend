@@ -29,7 +29,7 @@ export const uploadFile = (
     formData.append('file', file);
 
     return Api.post({
-        url: `${GATEWAY_URL}document/v1/import/${filePath}`,
+        url: `${GATEWAY_URL}document/v1/import/${filePath}?sync=false`,
         data: formData,
         headers: { 'Content-Disposition': `${file.name}` },
         onUploadProgress,
