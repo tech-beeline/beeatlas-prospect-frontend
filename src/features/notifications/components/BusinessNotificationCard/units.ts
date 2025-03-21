@@ -47,23 +47,10 @@ export const TextContainer = styled.div`
     flex-direction: column;
 `;
 
-export const SkeletonContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-    width: 100%;
-`;
-
-export const BoldText = styled.span`
-    font-weight: 500;
-`;
-
 export const LinkContainer = styled.div`
-    margin-top: 12px;
-    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 
-    font-weight: var(--font-weight-subtitle3);
-    font-size: var(--font-size-subtitle3);
-    line-height: var(--font-line-height-subtitle3);
+    margin-top: 12px;
 `;

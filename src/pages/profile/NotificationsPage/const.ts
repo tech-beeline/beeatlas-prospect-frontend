@@ -7,6 +7,11 @@ export enum FilterVariants {
     TECHNOLOGIES = 'TECHNOLOGIES',
 }
 
+export enum BusinessFilterVariants {
+    APPLICATIONS = 'APPLICATIONS',
+    EXPORT = 'EXPORT',
+}
+
 export const CHIPS = [
     {
         label: 'Все',
@@ -23,6 +28,17 @@ export const CHIPS = [
     {
         label: 'Технологии',
         value: FilterVariants.TECHNOLOGIES,
+    },
+];
+
+export const BUSINESS_CHIPS = [
+    {
+        label: 'Мои заявки',
+        value: BusinessFilterVariants.APPLICATIONS,
+    },
+    {
+        label: 'Экспорт файлов',
+        value: BusinessFilterVariants.EXPORT,
     },
 ];
 

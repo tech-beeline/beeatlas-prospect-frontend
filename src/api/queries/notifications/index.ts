@@ -1,15 +1,28 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { patchNotifications } from 'api/notifications';
+import { getBusinessNotifications, patchNotifications } from 'api/notifications';
 import { getNotifications } from 'api/notifications';
-import { INotificationData, INotificationParams } from 'api/notifications/types';
+import {
+    IBusinessNotificationData,
+    INotificationData,
+    INotificationParams,
+} from 'api/notifications/types';
 
 const NOTIFICATIONS_PREFIX = 'NOTIFICATIONS_PREFIX';
 
 export const useGetNotificationsQuery = (params: INotificationParams) => {
-    return useQuery<INotificationData>({
+    return useQuery<{
+        notifications: INotificationData;
+        businessNotifications: IBusinessNotificationData;
+    }>({
         queryKey: [NOTIFICATIONS_PREFIX, 'ALL', params],
-        queryFn: () => getNotifications(params).then((res) => res.data),
+        queryFn: async () => {
+            const res = await Promise.all([
+                getNotifications(params).then((res) => res.data),
+                getBusinessNotifications({ ...params, type: undefined }).then((res) => res.data),
+            ]);
+            return { notifications: res[0], businessNotifications: res[1] };
+        },
         placeholderData: keepPreviousData,
         refetchInterval: 30 * 1000,
     });

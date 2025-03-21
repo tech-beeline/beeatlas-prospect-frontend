@@ -42,23 +42,9 @@ export const Dropdown = styled.div`
 `;
 
 export const Header = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 16px 24px;
 
-    padding: 24px;
-`;
-
-export const TitleContainer = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-`;
-
-export const Title = styled.div`
-    font-weight: var(--font-weight-subtitle1);
-    font-size: var(--font-size-subtitle1);
-    line-height: var(--font-line-height-subtitle1);
+    border-bottom: 1px solid var(--color-divider);
 `;
 
 export const Content = styled.div`

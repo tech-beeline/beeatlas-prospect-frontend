@@ -1,8 +1,13 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Counter, Divider, Icon } from '@beeline/design-system-react';
+import { Button, ButtonGroup, Counter, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
+import {
+    BusinessNotificationCard,
+    NotificationCard,
+    NotificationCardSkeleton,
+    NotificationGroups,
+} from 'features/notifications';
 
 import {
     useGetNotificationsQuery,
@@ -15,6 +20,9 @@ import * as S from './units';
 
 export const NotificationsPopup: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [notificationGroup, setNotificationGroup] = useState(
+        NotificationGroups.LANDSCAPE_CHANGES,
+    );
 
     const navigate = useNavigate();
 
@@ -26,10 +34,25 @@ export const NotificationsPopup: FC = () => {
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
 
-    const isEmpty = data && data.content.length === 0;
+    const isEmpty =
+        data &&
+        ((notificationGroup === NotificationGroups.LANDSCAPE_CHANGES &&
+            data.notifications.content.length === 0) ||
+            (notificationGroup === NotificationGroups.BUSINESS_EVENTS &&
+                data.notifications.content.length === 0));
 
     const handleReadAllClick = () => {
-        updateNotifications((data?.content ?? []).map((notification) => notification.id));
+        if (data) {
+            updateNotifications(
+                notificationGroup === NotificationGroups.LANDSCAPE_CHANGES
+                    ? data.notifications.content
+                          .filter((notification) => !notification.webNotify)
+                          .map((notification) => notification.id)
+                    : data.businessNotifications.content
+                          .filter((notification) => !notification.webNotify)
+                          .map((notification) => notification.id),
+            );
+        }
     };
 
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
@@ -43,7 +66,13 @@ export const NotificationsPopup: FC = () => {
         <S.Container>
             <Counter
                 size="small"
-                count={data && data.totalElements > 0 ? data.totalElements : null}
+                count={
+                    data &&
+                    data.notifications.totalElements + data.businessNotifications.totalElements > 0
+                        ? data.notifications.totalElements +
+                          data.businessNotifications.totalElements
+                        : null
+                }
             >
                 <S.IconStyled
                     size="large"
@@ -60,15 +89,46 @@ export const NotificationsPopup: FC = () => {
 
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
+                    <S.Header>
+                        <ButtonGroup
+                            size="small"
+                            selectedOption={{
+                                id: notificationGroup,
+                            }}
+                            options={[
+                                {
+                                    id: NotificationGroups.LANDSCAPE_CHANGES,
+                                    value: NotificationGroups.LANDSCAPE_CHANGES,
+                                    label: 'Изменения ландшафта',
+                                },
+                                {
+                                    id: NotificationGroups.BUSINESS_EVENTS,
+                                    value: NotificationGroups.BUSINESS_EVENTS,
+                                    label: 'События',
+                                },
+                            ]}
+                            onChange={(option) =>
+                                setNotificationGroup(option.id as NotificationGroups)
+                            }
+                        />
+                    </S.Header>
                     <S.Content>
                         {!isLoading && !isEmpty && !isError && data && (
                             <>
-                                {data.content.map((notification) => (
-                                    <NotificationCard
-                                        key={notification.id}
-                                        notification={notification}
-                                    />
-                                ))}
+                                {notificationGroup === NotificationGroups.LANDSCAPE_CHANGES &&
+                                    data.notifications.content.map((notification) => (
+                                        <NotificationCard
+                                            key={notification.id}
+                                            notification={notification}
+                                        />
+                                    ))}
+                                {notificationGroup === NotificationGroups.BUSINESS_EVENTS &&
+                                    data.businessNotifications.content.map((notification) => (
+                                        <BusinessNotificationCard
+                                            key={notification.id}
+                                            businessNotification={notification}
+                                        />
+                                    ))}
                             </>
                         )}
                         {isLoading && (
@@ -108,7 +168,15 @@ export const NotificationsPopup: FC = () => {
                                 <S.ButtonsContainer>
                                     <Button
                                         variant="plain"
-                                        disabled={!data || data.totalElements === 0}
+                                        disabled={
+                                            !data ||
+                                            (notificationGroup ===
+                                                NotificationGroups.LANDSCAPE_CHANGES &&
+                                                data.notifications.content.length === 0) ||
+                                            (notificationGroup ===
+                                                NotificationGroups.BUSINESS_EVENTS &&
+                                                data.businessNotifications.content.length === 0)
+                                        }
                                         onClick={handleReadAllClick}
                                     >
                                         Прочитать все

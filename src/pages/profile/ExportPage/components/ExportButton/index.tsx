@@ -1,0 +1,59 @@
+import React, { useRef, useState } from 'react';
+import { Button, Icon } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { ExportVariant } from 'api/file-export/types';
+import { useCreateExportMutation } from 'api/queries/file-export';
+import { useOutsideClick } from 'hooks/useOutsideClick';
+import { useSnackbarStore } from 'widgets/Snackbar';
+
+import * as S from './units';
+
+export const ExportButton = () => {
+    const [showMenu, setShowMenu] = useState(false);
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const buttonRef = useRef<HTMLButtonElement>(null);
+
+    useOutsideClick(dropdownRef, showMenu, setShowMenu, buttonRef);
+
+    const { mutateAsync: createExport } = useCreateExportMutation();
+
+    const handleItemClick = async (variant: ExportVariant) => {
+        await createExport(variant);
+        showSnackbar({
+            message:
+                'Ваш файл находится в процессе обработки. Как только экспорт будет завершен, вы получите уведомление. Проверить статус обработки можно в личном кабинете в разделе Экспорт файлов',
+        });
+        setShowMenu(false);
+    };
+
+    return (
+        <S.Container>
+            <Button
+                ref={buttonRef}
+                onClick={() => setShowMenu(!showMenu)}
+                size="medium"
+                startIcon={<Icon iconName={Icons.ShareIos} />}
+            >
+                Экспорт
+            </Button>
+            {showMenu && (
+                <S.Dropdown ref={dropdownRef}>
+                    <S.DropdownItem onClick={() => handleItemClick(ExportVariant.BC)}>
+                        Бизнес-возможностей
+                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleItemClick(ExportVariant.TC)}>
+                        Технических возможностей
+                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleItemClick(ExportVariant.TECH)}>
+                        Технологий
+                    </S.DropdownItem>
+                </S.Dropdown>
+            )}
+        </S.Container>
+    );
+};

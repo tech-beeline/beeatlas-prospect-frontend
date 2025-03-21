@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Button } from '@beeline/design-system-react';
 
 import { useMountEffect } from 'hooks';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';
 
 import { useFDMStore } from '../../store';
 
-import { Item } from './Item';
+import { ExportButton, Item } from './components';
 import * as S from './units';
 
 export const NestingMenu = () => {
@@ -54,6 +55,11 @@ export const NestingMenu = () => {
                 minWidth={300}
                 maxWidth={640}
             >
+                <S.ButtonContainer>
+                    <ExportButton />
+                    <Button>Создать BC</Button>
+                    <Button>Создать TC</Button>
+                </S.ButtonContainer>
                 <S.RightSide data-testid="Tree">
                     {loading
                         ? Array.from({ length: 3 }).map((_, i) => (
@@ -61,6 +67,7 @@ export const NestingMenu = () => {
                           ))
                         : items.map((item) => <Item key={item.id} item={item} />)}
                 </S.RightSide>
+                ;
             </S.ResizableStyled>
         </S.Wrapper>
     );

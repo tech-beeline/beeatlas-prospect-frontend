@@ -39,7 +39,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, isAdminPanel, isAdmin 
             {isShowDropdown && (
                 <S.Dropdown className="Dropdown" ref={dropdownRef}>
                     <S.DropdownItem onClick={handleSubscriptionsClick} className="DropdownItem">
-                        Мои подписки
+                        Профиль
                     </S.DropdownItem>
                     {isAdmin && (
                         <S.DropdownItem onClick={navigateToAdminPanel} className="DropdownItem">
