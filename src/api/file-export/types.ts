@@ -14,6 +14,6 @@ export interface IExportResponse {
 
 export enum ExportVariant {
     TECH = 'tech',
-    BC = 'business_capability',
-    TC = 'tech_capability',
+    BC = 'business-capability',
+    TC = 'tech-capability',
 }
