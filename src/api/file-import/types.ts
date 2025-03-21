@@ -31,7 +31,7 @@ export interface IFileData {
         successParts: number;
         source: string;
         source_id: number;
-    };
+    } | null;
 }
 
 export enum FileUploadPath {

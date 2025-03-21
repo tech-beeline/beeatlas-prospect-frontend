@@ -41,13 +41,14 @@ export const FileImportPage = () => {
 
     useEffect(() => {
         if (
-            filesData?.some((file) =>
+            filesData &&
+            filesData.some((file) =>
                 [
                     FileStatus.ERROR,
                     FileStatus.IN_QUEUE,
                     FileStatus.PACKAGE_PARSING,
                     FileStatus.PACKAGE_PARTS_PROCESSING,
-                ].includes(file.package_info.status),
+                ].includes(file.package_info?.status as FileStatus),
             )
         ) {
             setRefetchFiles(true);
@@ -154,12 +155,18 @@ export const FileImportPage = () => {
                                     <S.TableDataMinWidth>
                                         <Label
                                             title={
-                                                fileStatusToLabelTitleMap[
-                                                    file.package_info.status
-                                                ] ?? file.package_info.status
+                                                file.package_info
+                                                    ? fileStatusToLabelTitleMap[
+                                                          file.package_info.status
+                                                      ] ?? file.package_info.status
+                                                    : 'Загрузка'
                                             }
                                             type={
-                                                fileStatusToLabelTypeMap[file.package_info.status]
+                                                file.package_info
+                                                    ? fileStatusToLabelTypeMap[
+                                                          file.package_info.status
+                                                      ]
+                                                    : 'warning'
                                             }
                                             variant="contained"
                                         />

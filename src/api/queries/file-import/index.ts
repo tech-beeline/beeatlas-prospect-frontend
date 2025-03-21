@@ -22,7 +22,7 @@ interface IGetAllPackagesParams {
 
 export const useGetAllFilesQuery = (params: IGetAllPackagesParams) => {
     return useQuery({
-        queryKey: [FILE_IMPORT_PREFIX, 'ALL', params],
+        queryKey: [FILE_IMPORT_PREFIX, 'ALL'],
         queryFn: () => getAllFiles().then((res) => res.data),
         refetchInterval: params.retry ? 5 * 1000 : false,
     });
