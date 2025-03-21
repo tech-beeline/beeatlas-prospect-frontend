@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button } from '@beeline/design-system-react';
 
 import { useMountEffect } from 'hooks';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';
@@ -57,8 +56,6 @@ export const NestingMenu = () => {
             >
                 <S.ButtonContainer>
                     <ExportButton />
-                    <Button>Создать BC</Button>
-                    <Button>Создать TC</Button>
                 </S.ButtonContainer>
                 <S.RightSide data-testid="Tree">
                     {loading
