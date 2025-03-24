@@ -55,6 +55,10 @@ export const SkeletonContainer = styled.div`
     width: 100%;
 `;
 
+export const LineBreak = styled.div`
+    line-break: anywhere;
+`;
+
 export const BoldText = styled.span`
     font-weight: 500;
 `;

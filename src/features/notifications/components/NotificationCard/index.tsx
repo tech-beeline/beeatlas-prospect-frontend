@@ -41,11 +41,13 @@ export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
                     <Text inactive variant="overline">
                         {notificationEntityTypeToTitleMap[notification.entityType]}
                     </Text>
-                    <Text variant="body2">
-                        {notificationEntityTypeToNameMap[notification.entityType]}{' '}
-                        <S.BoldText>{notification.entityName}</S.BoldText>{' '}
-                        {notificationChangeTypeToNameMap[notification.changeType]}
-                    </Text>
+                    <S.LineBreak>
+                        <Text variant="body2">
+                            {notificationEntityTypeToNameMap[notification.entityType]}{' '}
+                            <S.BoldText>{notification.entityName}</S.BoldText>{' '}
+                            {notificationChangeTypeToNameMap[notification.changeType]}
+                        </Text>
+                    </S.LineBreak>
                     <Text inactive variant="body3">
                         {dayjs(notification.changeDate).format('DD.MM.YYYY')}
                     </Text>

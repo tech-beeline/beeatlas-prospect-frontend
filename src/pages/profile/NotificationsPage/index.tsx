@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Button,
     ButtonGroup,
@@ -52,6 +52,10 @@ export const NotificationsPage = () => {
             value: 'Прочитанные',
         },
     ];
+
+    useEffect(() => {
+        setPage(1);
+    }, [date, notificationGroup, notificationVariant, filterVariant, businessFilterVariant]);
 
     const { data, isLoading } = useGetNotificationsQuery({
         page: page - 1,
@@ -125,7 +129,6 @@ export const NotificationsPage = () => {
                         value={date}
                         onChange={(dates) => {
                             setDate(dates as string[]);
-                            setPage(1);
                         }}
                     />
                     <Button
