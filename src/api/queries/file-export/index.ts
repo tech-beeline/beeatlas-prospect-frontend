@@ -15,7 +15,24 @@ export const useGetExportFilesQuery = () => {
 export const useDownloadFileMutation = () => {
     return useMutation({
         mutationKey: [FILE_EXPORT_PREFIX, 'DOWNLOAD'],
-        mutationFn: (id: string | number) => downloadExportFile(id).then((res) => res.data),
+        mutationFn: async (id: string | number) => {
+            const response = await downloadExportFile(id);
+            const blob = response.data;
+
+            const contentDisposition = response.headers['content-disposition'];
+            const fileName = contentDisposition
+                ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+                : 'download_file';
+
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(downloadUrl);
+        },
     });
 };
 
