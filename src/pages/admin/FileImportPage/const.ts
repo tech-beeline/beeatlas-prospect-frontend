@@ -14,6 +14,6 @@ export const fileStatusToLabelTitleMap: Record<FileStatus, string> = {
     [FileStatus.PROCESS]: 'Загрузка',
     [FileStatus.SUCCESS]: 'Успешно',
     [FileStatus.ERROR]: 'Ошибка',
-    [FileStatus.WARNING]: 'Загрузка',
-    [FileStatus.VALIDATE_ERROR]: 'Ошибка',
+    [FileStatus.WARNING]: 'Проблемный',
+    [FileStatus.VALIDATE_ERROR]: 'Ошибка валидации',
 };
