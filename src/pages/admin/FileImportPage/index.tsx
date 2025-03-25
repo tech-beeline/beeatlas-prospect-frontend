@@ -42,13 +42,12 @@ export const FileImportPage = () => {
     useEffect(() => {
         if (
             filesData &&
-            filesData.some((file) =>
-                [
-                    FileStatus.ERROR,
-                    FileStatus.IN_QUEUE,
-                    FileStatus.PACKAGE_PARSING,
-                    FileStatus.PACKAGE_PARTS_PROCESSING,
-                ].includes(file.package_info?.status as FileStatus),
+            filesData.some(
+                (file) =>
+                    !file.package_info ||
+                    [FileStatus.PROCESS, FileStatus.ERROR, FileStatus.WARNING].includes(
+                        file.package_info?.status as FileStatus,
+                    ),
             )
         ) {
             setRefetchFiles(true);

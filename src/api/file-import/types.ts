@@ -5,12 +5,11 @@ export interface ITemplateFile {
 }
 
 export enum FileStatus {
-    IN_QUEUE = 'IN QUEUE',
-    PACKAGE_PARSING = 'PACKAGE PARSING',
-    PACKAGE_PARTS_PROCESSING = 'PACKAGE PARTS PROCESSING',
-    DONE = 'DONE',
-    VALIDATE_ERROR = 'VALIDATE ERROR',
+    PROCESS = 'PROCESS',
+    SUCCESS = 'SUCCESS',
     ERROR = 'ERROR',
+    WARNING = 'WARNING',
+    VALIDATE_ERROR = 'VALIDATE ERROR',
 }
 
 export interface IFileData {

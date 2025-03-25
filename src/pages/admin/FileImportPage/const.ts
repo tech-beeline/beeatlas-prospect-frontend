@@ -3,19 +3,17 @@ import { AllStatuses } from '@beeline/design-system-react/types/types/status';
 import { FileStatus } from 'api/file-import/types';
 
 export const fileStatusToLabelTypeMap: Record<FileStatus, AllStatuses> = {
-    [FileStatus.IN_QUEUE]: 'warning',
-    [FileStatus.PACKAGE_PARSING]: 'warning',
-    [FileStatus.PACKAGE_PARTS_PROCESSING]: 'warning',
-    [FileStatus.DONE]: 'success',
-    [FileStatus.VALIDATE_ERROR]: 'error',
+    [FileStatus.PROCESS]: 'warning',
+    [FileStatus.SUCCESS]: 'success',
     [FileStatus.ERROR]: 'error',
+    [FileStatus.WARNING]: 'warning',
+    [FileStatus.VALIDATE_ERROR]: 'error',
 };
 
 export const fileStatusToLabelTitleMap: Record<FileStatus, string> = {
-    [FileStatus.IN_QUEUE]: 'Загрузка',
-    [FileStatus.PACKAGE_PARSING]: 'Загрузка',
-    [FileStatus.PACKAGE_PARTS_PROCESSING]: 'Загрузка',
-    [FileStatus.DONE]: 'Успешно',
-    [FileStatus.VALIDATE_ERROR]: 'Ошибка',
+    [FileStatus.PROCESS]: 'Загрузка',
+    [FileStatus.SUCCESS]: 'Успешно',
     [FileStatus.ERROR]: 'Ошибка',
+    [FileStatus.WARNING]: 'Загрузка',
+    [FileStatus.VALIDATE_ERROR]: 'Ошибка',
 };
