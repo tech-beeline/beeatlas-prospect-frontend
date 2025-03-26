@@ -64,7 +64,6 @@ export const NestingMenu = () => {
                           ))
                         : items.map((item) => <Item key={item.id} item={item} />)}
                 </S.RightSide>
-                ;
             </S.ResizableStyled>
         </S.Wrapper>
     );
