@@ -1,6 +1,10 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getBusinessNotifications, patchNotifications } from 'api/notifications';
+import {
+    getBusinessNotifications,
+    patchBusinessNotifications,
+    patchNotifications,
+} from 'api/notifications';
 import { getNotifications } from 'api/notifications';
 import {
     IBusinessNotificationData,
@@ -34,6 +38,19 @@ export const useUpdateNotificationsMutation = () => {
         mutationKey: [NOTIFICATIONS_PREFIX, 'update'],
         mutationFn: async (ids: number[]) => {
             await patchNotifications(ids);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_PREFIX] });
+        },
+    });
+};
+
+export const useUpdateBusinessNotificationsMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [NOTIFICATIONS_PREFIX, 'update'],
+        mutationFn: async (ids: number[]) => {
+            await patchBusinessNotifications(ids);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_PREFIX] });

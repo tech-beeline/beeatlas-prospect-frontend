@@ -53,3 +53,10 @@ export const patchNotifications = (ids: number[]) => {
         data: ids,
     });
 };
+
+export const patchBusinessNotifications = (ids: number[]) => {
+    return Api.patch({
+        url: `${GATEWAY_URL}notify/v1/business/notify?notifyType=web`,
+        data: ids,
+    });
+};

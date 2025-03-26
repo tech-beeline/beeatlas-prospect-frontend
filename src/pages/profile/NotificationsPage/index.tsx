@@ -19,6 +19,7 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import {
     useGetNotificationsQuery,
+    useUpdateBusinessNotificationsMutation,
     useUpdateNotificationsMutation,
 } from 'api/queries/notifications';
 
@@ -41,7 +42,7 @@ export const NotificationsPage = () => {
     const [notificationVariant, setNotificationVariant] = useState(NotificationVariants.ALL);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
     const [businessFilterVariant, setBusinessFilterVariant] = useState(
-        BusinessFilterVariants.APPLICATIONS,
+        BusinessFilterVariants.EXPORT,
     );
 
     const notificationVariantOptions = [
@@ -74,18 +75,23 @@ export const NotificationsPage = () => {
     });
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
+    const { mutateAsync: updateBusinessNotifications } = useUpdateBusinessNotificationsMutation();
 
     const handleReadAllClick = () => {
         if (data) {
-            updateNotifications(
-                notificationGroup === NotificationGroups.LANDSCAPE_CHANGES
-                    ? data.notifications.content
-                          .filter((notification) => !notification.webNotify)
-                          .map((notification) => notification.id)
-                    : data.businessNotifications.content
-                          .filter((notification) => !notification.webNotify)
-                          .map((notification) => notification.id),
-            );
+            if (notificationGroup === NotificationGroups.LANDSCAPE_CHANGES) {
+                updateNotifications(
+                    data.notifications.content
+                        .filter((notification) => !notification.webNotify)
+                        .map((notification) => notification.id),
+                );
+            } else {
+                updateBusinessNotifications(
+                    data.businessNotifications.content
+                        .filter((notification) => !notification.webNotify)
+                        .map((notification) => notification.id),
+                );
+            }
         }
     };
 
@@ -161,7 +167,9 @@ export const NotificationsPage = () => {
                             label: 'События',
                         },
                     ]}
-                    onChange={(option) => setNotificationGroup(option.id as NotificationGroups)}
+                    onChange={(option) =>
+                        option.id && setNotificationGroup(option.id as NotificationGroups)
+                    }
                 />
                 <S.ControlsContainer>
                     {notificationGroup === NotificationGroups.LANDSCAPE_CHANGES && (

@@ -7,7 +7,7 @@ import { Text } from 'components/core';
 import { Link } from 'components/other';
 
 import { useDownloadFileMutation } from 'api/queries/file-export';
-import { useUpdateNotificationsMutation } from 'api/queries/notifications';
+import { useUpdateBusinessNotificationsMutation } from 'api/queries/notifications';
 import * as R from 'router/const';
 
 import { IBusinessNotificationCard } from './types';
@@ -16,12 +16,12 @@ import * as S from './units';
 export const BusinessNotificationCard: FC<IBusinessNotificationCard> = ({
     businessNotification,
 }) => {
-    const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
+    const { mutateAsync: updateBusinessNotifications } = useUpdateBusinessNotificationsMutation();
     const { mutate: downloadFile } = useDownloadFileMutation();
 
     const handleCardClick = () => {
         if (!businessNotification.webNotify) {
-            updateNotifications([businessNotification.id]);
+            updateBusinessNotifications([businessNotification.id]);
         }
     };
 

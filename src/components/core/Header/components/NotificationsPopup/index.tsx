@@ -11,6 +11,7 @@ import {
 
 import {
     useGetNotificationsQuery,
+    useUpdateBusinessNotificationsMutation,
     useUpdateNotificationsMutation,
 } from 'api/queries/notifications';
 import { useOutsideClick } from 'hooks/useOutsideClick';
@@ -33,25 +34,30 @@ export const NotificationsPopup: FC = () => {
     const { data, isError, isLoading, refetch } = useGetNotificationsQuery({ wasNotify: false });
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
+    const { mutateAsync: updateBusinessNotifications } = useUpdateBusinessNotificationsMutation();
 
     const isEmpty =
         data &&
         ((notificationGroup === NotificationGroups.LANDSCAPE_CHANGES &&
             data.notifications.content.length === 0) ||
             (notificationGroup === NotificationGroups.BUSINESS_EVENTS &&
-                data.notifications.content.length === 0));
+                data.businessNotifications.content.length === 0));
 
     const handleReadAllClick = () => {
         if (data) {
-            updateNotifications(
-                notificationGroup === NotificationGroups.LANDSCAPE_CHANGES
-                    ? data.notifications.content
-                          .filter((notification) => !notification.webNotify)
-                          .map((notification) => notification.id)
-                    : data.businessNotifications.content
-                          .filter((notification) => !notification.webNotify)
-                          .map((notification) => notification.id),
-            );
+            if (notificationGroup === NotificationGroups.LANDSCAPE_CHANGES) {
+                updateNotifications(
+                    data.notifications.content
+                        .filter((notification) => !notification.webNotify)
+                        .map((notification) => notification.id),
+                );
+            } else {
+                updateBusinessNotifications(
+                    data.businessNotifications.content
+                        .filter((notification) => !notification.webNotify)
+                        .map((notification) => notification.id),
+                );
+            }
         }
     };
 
@@ -108,7 +114,7 @@ export const NotificationsPopup: FC = () => {
                                 },
                             ]}
                             onChange={(option) =>
-                                setNotificationGroup(option.id as NotificationGroups)
+                                option.id && setNotificationGroup(option.id as NotificationGroups)
                             }
                         />
                     </S.Header>
