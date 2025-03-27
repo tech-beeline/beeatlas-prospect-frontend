@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
     Button,
     ButtonGroup,
@@ -53,6 +54,20 @@ export const NotificationsPage = () => {
             value: 'Прочитанные',
         },
     ];
+
+    const [params, setParams] = useSearchParams();
+    const groupParam = params.get('group');
+
+    useEffect(() => {
+        if (
+            groupParam &&
+            [NotificationGroups.LANDSCAPE_CHANGES, NotificationGroups.BUSINESS_EVENTS].includes(
+                groupParam as NotificationGroups,
+            )
+        ) {
+            setNotificationGroup(groupParam as NotificationGroups);
+        }
+    }, [groupParam]);
 
     useEffect(() => {
         setPage(1);
@@ -167,9 +182,9 @@ export const NotificationsPage = () => {
                             label: 'События',
                         },
                     ]}
-                    onChange={(option) =>
-                        option.id && setNotificationGroup(option.id as NotificationGroups)
-                    }
+                    onChange={(option) => {
+                        option.id && setParams(new URLSearchParams({ group: option.id }));
+                    }}
                 />
                 <S.ControlsContainer>
                     {notificationGroup === NotificationGroups.LANDSCAPE_CHANGES && (

@@ -64,7 +64,7 @@ export const NotificationsPopup: FC = () => {
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
 
     const handleNavigateButtonClick = () => {
-        navigate(ROUTER.NOTIFICATIONS_PATH);
+        navigate(`${ROUTER.NOTIFICATIONS_PATH}?group=${notificationGroup}`);
         setIsOpen(false);
     };
 
