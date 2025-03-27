@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Avatar,
     IconButton,
@@ -25,7 +25,17 @@ import { ExportButton } from './components';
 import * as S from './units';
 
 export const ExportPage = () => {
-    const { data, isLoading } = useGetExportFilesQuery();
+    const [refetchFiles, setRefetchFiles] = useState(false);
+
+    const { data, isLoading } = useGetExportFilesQuery({ refetch: refetchFiles });
+
+    useEffect(() => {
+        if (data && data.some((file) => !file.key)) {
+            setRefetchFiles(true);
+        } else {
+            setRefetchFiles(false);
+        }
+    }, [data]);
 
     const { mutate: downloadFile } = useDownloadFileMutation();
 

@@ -5,10 +5,15 @@ import { ExportVariant } from 'api/file-export/types';
 
 const FILE_EXPORT_PREFIX = 'FILE_EXPORT_PREFIX';
 
-export const useGetExportFilesQuery = () => {
+interface IGetExportFilesParams {
+    refetch?: boolean;
+}
+
+export const useGetExportFilesQuery = (params: IGetExportFilesParams) => {
     return useQuery({
         queryKey: [FILE_EXPORT_PREFIX, 'ALL'],
         queryFn: () => getExportFiles().then((res) => res.data),
+        refetchInterval: params.refetch ? 5 * 1000 : false,
     });
 };
 

@@ -11,6 +11,7 @@ import * as S from './units';
 
 export const ExportButton = () => {
     const [showMenu, setShowMenu] = useState(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -23,12 +24,18 @@ export const ExportButton = () => {
     const { mutateAsync: createExport } = useCreateExportMutation();
 
     const handleItemClick = async (variant: ExportVariant) => {
-        await createExport(variant);
+        createExport(variant);
+
         showSnackbar({
             message:
                 'Ваш файл находится в процессе обработки. Как только экспорт будет завершен, вы получите уведомление. Проверить статус обработки можно в личном кабинете в разделе Экспорт файлов',
         });
         setShowMenu(false);
+
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setIsButtonDisabled(false);
+        }, 5 * 1000);
     };
 
     return (
@@ -38,6 +45,7 @@ export const ExportButton = () => {
                 onClick={() => setShowMenu(!showMenu)}
                 size="medium"
                 startIcon={<Icon iconName={Icons.ShareIos} />}
+                disabled={isButtonDisabled}
             >
                 Экспорт
             </Button>
