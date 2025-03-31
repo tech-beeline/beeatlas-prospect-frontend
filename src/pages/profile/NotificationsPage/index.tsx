@@ -66,6 +66,8 @@ export const NotificationsPage = () => {
             )
         ) {
             setNotificationGroup(groupParam as NotificationGroups);
+            setDate([]);
+            setNotificationVariant(NotificationVariants.ALL);
         }
     }, [groupParam]);
 
