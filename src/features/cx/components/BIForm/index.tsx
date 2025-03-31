@@ -67,7 +67,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                                 <Select
                                     disabled={isLoadingProducts}
                                     name="product"
-                                    label="Продукт*"
+                                    label="Приложение*"
                                     options={
                                         products?.map((product) => ({
                                             id: Number(product.id),

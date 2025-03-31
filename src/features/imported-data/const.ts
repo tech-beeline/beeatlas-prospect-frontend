@@ -5,7 +5,7 @@ import { PackageOperation, PackageStatus } from 'api/imported-packages/types';
 export const packageOperationToOperationNameMap: Record<PackageOperation, string> = {
     [PackageOperation.UPDATE_BUSINESS_CAPABILITIES]: 'Обновление бизнес-возможностей',
     [PackageOperation.UPDATE_TECH_CAPABILITIES]: 'Обновление технических возможностей',
-    [PackageOperation.UPDATE_PRODUCT]: 'Обновление продуктов',
+    [PackageOperation.UPDATE_PRODUCT]: 'Обновление приложений',
 };
 
 export const packageStatusToStatusNameMap: Record<PackageStatus, string> = {

@@ -66,7 +66,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilt
             <Autocomplete
                 fullWidth
                 disabled={isLoading}
-                label="Продукт"
+                label="Приложение"
                 options={productOptions}
                 renderValue={(v) => v.value}
                 type="select"

@@ -43,7 +43,7 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, isAdminPanel, isAdmin 
                     </S.DropdownItem>
                     {isAdmin && (
                         <S.DropdownItem onClick={navigateToAdminPanel} className="DropdownItem">
-                            {isAdminPanel ? 'Вернуться в продукт' : 'Консоль администратора'}
+                            {isAdminPanel ? 'Вернуться в приложение' : 'Консоль администратора'}
                             <Icon iconName={Icons.OpenInWindow} size="large" />
                         </S.DropdownItem>
                     )}

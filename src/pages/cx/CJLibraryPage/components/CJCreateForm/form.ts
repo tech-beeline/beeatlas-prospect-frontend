@@ -9,5 +9,5 @@ export type FormValues = {
 export const validationSchema = object().shape({
     name: string().required('Заполните название'),
     userPortrait: string().required('Заполните портрет пользователя'),
-    product: number().required('Выберите продукт'),
+    product: number().required('Выберите приложение'),
 });

@@ -167,7 +167,7 @@ export const BIViewPage = () => {
                                     <S.Subtitle id="service">Служебные поля</S.Subtitle>
                                     <S.Body3 marginTop>Идентификатор</S.Body3>
                                     <S.Body2>{formatNullableString(data.uniqueIdent)}</S.Body2>
-                                    <S.Body3 marginTop>Продукт</S.Body3>
+                                    <S.Body3 marginTop>Приложение</S.Body3>
                                     <S.Body2>
                                         {formatNullableString(
                                             productsData?.find(
