@@ -38,4 +38,5 @@ export const notificationEntityTypeToNameMap: Record<NotificationEntityType, str
 export const notificationChangeTypeToNameMap: Record<NotificationChangeType, string> = {
     [NotificationChangeType.CREATE]: 'создана',
     [NotificationChangeType.UPDATE]: 'обновлена',
+    [NotificationChangeType.DELETE]: 'удалена',
 };

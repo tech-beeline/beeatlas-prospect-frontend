@@ -9,6 +9,7 @@ export enum NotificationEntityType {
 export enum NotificationChangeType {
     CREATE = 'CREATE',
     UPDATE = 'UPDATE',
+    DELETE = 'DELETE',
 }
 
 export interface INotification {

@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
+import { NotificationChangeType } from 'api/notifications/types';
 import { useUpdateNotificationsMutation } from 'api/queries/notifications';
 
 import {
@@ -51,9 +52,11 @@ export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
                     <Text inactive variant="body3">
                         {dayjs(notification.changeDate).format('DD.MM.YYYY')}
                     </Text>
-                    <S.LinkContainer>
-                        <Link title="Перейти" url={notification.entityLink} />
-                    </S.LinkContainer>
+                    {notification.changeType !== NotificationChangeType.DELETE && (
+                        <S.LinkContainer>
+                            <Link title="Перейти" url={notification.entityLink} />
+                        </S.LinkContainer>
+                    )}
                 </S.TextContainer>
             </S.CardContainer>
         </S.NotificationCard>
