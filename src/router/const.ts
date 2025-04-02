@@ -23,11 +23,13 @@ export const FDM_PATH = '/fdm';
 export const HISTORY_PATH = '/history';
 export const MAP_PATH = '/map';
 export const PERSONAL_PATH = '/personal';
+export const APPS_PATH = '/apps';
+export const ARCHITECTURE_PATH = '/architecture';
+export const APPS_OLD_PATH = '/apps-old';
+export const E2E_PATH = '/e2e';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';
-export const APPS_PATH = '/apps';
-export const E2E_PATH = '/e2e';
 
 // CX
 export const CX_PATH = '/cx';

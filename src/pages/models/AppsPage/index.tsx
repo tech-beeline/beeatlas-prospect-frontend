@@ -1,20 +1,40 @@
-import React, { FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Search } from '@beeline/design-system-react';
+import { OldVersionBanner } from 'features/apps';
 
-import { IAppsPage } from './types';
+import { Text } from 'components/core';
+
+import { ApplicationsTableRow } from './components';
+import { APPLICATIONS } from './const';
 import * as S from './units';
 
-export const AppsPage: FC<IAppsPage> = ({ isProd }) => {
-    const [params] = useSearchParams();
-    const alias = params.get('alias');
+export const AppsPage = () => {
+    const [search, setSearch] = useState('');
 
     return (
-        <S.IFrameStyled
-            src={`${
-                isProd
-                    ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/systems'
-                    : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/systems'
-            }${alias ? '/' + alias : ''}`}
-        />
+        <S.PageWrapper>
+            <S.Container>
+                <OldVersionBanner />
+                <S.Header>
+                    <Text variant="h4">Каталог приложений</Text>
+                </S.Header>
+                <S.SearchContainer>
+                    <Search
+                        fullWidth
+                        placeholder="Название приложения или CMDB Мнемонику"
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                        }}
+                        value={search}
+                        onClear={() => setSearch('')}
+                    />
+                </S.SearchContainer>
+                <S.TableStyled>
+                    {APPLICATIONS.map((application, i) => (
+                        <ApplicationsTableRow key={i} level={0} application={application} />
+                    ))}
+                </S.TableStyled>
+            </S.Container>
+        </S.PageWrapper>
     );
 };

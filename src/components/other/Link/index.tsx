@@ -8,7 +8,8 @@ import * as S from './units';
 export const Link: FC<ILink> = ({
     title = 'Ссылка',
     url,
-    showOuterIcon,
+    showOuterIcon = false,
+    showIconPermanently = false,
     outer = true,
     light = false,
 }) => {
@@ -25,7 +26,12 @@ export const Link: FC<ILink> = ({
                         light={light}
                     >
                         <span>{title}</span>
-                        {showOuterIcon && <S.IconOuter iconName={Icons.OpenInBrowser} />}
+                        {showOuterIcon && (
+                            <S.IconOuter
+                                showIconPermanently={showIconPermanently}
+                                iconName={Icons.OpenInBrowser}
+                            />
+                        )}
                     </S.Link>
                 ) : (
                     '—'

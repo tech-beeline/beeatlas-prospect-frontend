@@ -1,0 +1,1 @@
+export { DiagramTableRow } from './DiagramTableRow';

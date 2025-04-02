@@ -15,8 +15,8 @@ export const Link = styled.a<{ light?: boolean }>`
     }
 `;
 
-export const IconOuter = styled(Icon)`
-    display: none;
+export const IconOuter = styled(Icon)<{ showIconPermanently: boolean }>`
+    display: ${({ showIconPermanently }) => (showIconPermanently ? 'inline' : 'none')};
 
     margin-left: 8px;
     vertical-align: middle;
