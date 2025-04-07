@@ -17,7 +17,7 @@ import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { ProductCard } from './components';
+import { ProductCard, VersionCard } from './components';
 import { ringIdToStatusMap } from './const';
 import { ITechnologySideblock } from './types';
 import * as S from './units';
@@ -32,6 +32,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
 
     const [showApps, setShowApps] = useState(false);
     // const [showHistory, setShowHistory] = useState(false);
+    const [showVersions, setShowVersions] = useState(false);
 
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsByTechnologyIdQuery(
         selectedTech?.id,
@@ -161,11 +162,30 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         <Text variant="subtitle2">
                             Приложения{productsData && ` (${productsData.length})`}
                         </Text>
-                        <PivotArrow
-                            style={{ cursor: 'pointer' }}
-                            position={showApps && 'top'}
-                            onClick={handleAppsArrowClick}
-                        />
+                        <S.InfoContainer>
+                            <Icon
+                                iconName={Icons.InfoCircled}
+                                style={{ cursor: 'pointer' }}
+                                size="large"
+                                data-tooltip-id="apps-info"
+                            />
+                            <S.TooltipContainer
+                                noArrow
+                                largePadding
+                                // @ts-ignore Ошибка в .d.ts
+                                place="top-end"
+                                offset={8}
+                                id="apps-info"
+                            >
+                                Список приложений регулярно обновляется из разных источников
+                                автоматически
+                            </S.TooltipContainer>
+                            <PivotArrow
+                                style={{ cursor: 'pointer' }}
+                                position={showApps && 'top'}
+                                onClick={handleAppsArrowClick}
+                            />
+                        </S.InfoContainer>
                     </S.ButtonsContainer>
                     <S.AppsContainer open={showApps}>
                         {productsData &&
@@ -178,6 +198,22 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                             </Text>
                         )}
                         {isLoadingProducts && <Skeleton height={44} radius={8} />}
+                    </S.AppsContainer>
+                    <S.ButtonsContainer>
+                        <Text variant="subtitle2">Версии</Text>
+                        <PivotArrow
+                            style={{ cursor: 'pointer' }}
+                            position={showVersions && 'top'}
+                            onClick={() => setShowVersions(!showVersions)}
+                        />
+                    </S.ButtonsContainer>
+                    <S.AppsContainer open={showVersions}>
+                        {selectedTech?.versions.map((version, i) => (
+                            <VersionCard key={version.id} first={i === 0} version={version} />
+                        ))}
+                        {selectedTech?.versions.length === 0 && (
+                            <Text variant="body2">Нет добавленных версий</Text>
+                        )}
                     </S.AppsContainer>
                 </S.Container>
             </SideBlock>

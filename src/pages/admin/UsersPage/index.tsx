@@ -149,7 +149,7 @@ export const UsersPage = () => {
                                 </S.TableHeaderFlexWrapper>
                             </S.TableHeaderDataStyled>
 
-                            <TableHeaderData>Продукт</TableHeaderData>
+                            <TableHeaderData>Приложение</TableHeaderData>
                             <TableHeaderData>Роль</TableHeaderData>
 
                             <S.TableHeaderDataStyled

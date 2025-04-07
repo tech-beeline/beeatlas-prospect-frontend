@@ -6,7 +6,7 @@ import { ItemTypes } from 'pages/models/FDMPage/store/types';
 
 import { useFDMStore } from '../../store';
 
-import { Item } from './Item';
+import { ExportButton, Item } from './components';
 import * as S from './units';
 
 export const NestingMenu = () => {
@@ -54,6 +54,9 @@ export const NestingMenu = () => {
                 minWidth={300}
                 maxWidth={640}
             >
+                <S.ButtonContainer>
+                    <ExportButton />
+                </S.ButtonContainer>
                 <S.RightSide data-testid="Tree">
                     {loading
                         ? Array.from({ length: 3 }).map((_, i) => (

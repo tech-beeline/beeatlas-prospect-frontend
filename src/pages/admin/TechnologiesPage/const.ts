@@ -1,5 +1,10 @@
 import { AllStatuses } from '@beeline/design-system-react/types/types/status';
 
+export enum TabVariants {
+    TECHNOLOGIES = 'TECHNOLOGIES',
+    CATEGORIES = 'CATEGORIES',
+}
+
 export const ringIdToStatusMap: Record<number, AllStatuses> = {
     1: 'success',
     2: 'warning',

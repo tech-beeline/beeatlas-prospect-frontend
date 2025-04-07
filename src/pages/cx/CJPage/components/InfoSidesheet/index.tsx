@@ -33,7 +33,7 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
 
                 <div>
                     <Text inactive variant="body3">
-                        Продукт
+                        Приложение
                     </Text>
                     <Text variant="body2">
                         {formatNullableString(

@@ -52,7 +52,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({ filterOptions, setFilt
             <Autocomplete
                 fullWidth
                 disabled={isLoadingProducts}
-                label="Продукт"
+                label="Приложение"
                 options={productOptions}
                 renderValue={(v) => v.value}
                 type="select"

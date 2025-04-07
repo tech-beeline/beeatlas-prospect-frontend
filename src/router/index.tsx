@@ -26,8 +26,10 @@ import {
     ConsultationPage,
     CXPage,
     DataBasePage,
+    ExportPage,
     FDMHistoryPage,
     FDMPage,
+    FileImportPage,
     HowToPage,
     ImportedDataPage,
     MainPage,
@@ -45,6 +47,7 @@ import {
     SubscriptionsPage,
     TechnologiesPage,
     TechnologyAddPage,
+    TechnologyVersionAddPage,
     TechPolicyPage,
     TechRadarPage,
     TemplatesPage,
@@ -144,6 +147,20 @@ export const NavigationRouter = () => {
                     })}
 
                     {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <FileImportPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
                         path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
                         element: (
                             <S.RouteWithDrawer>
@@ -192,6 +209,20 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <TechnologyAddPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.VERSIONS_PATH}${R.ADD_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <TechnologyVersionAddPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),
@@ -496,6 +527,18 @@ export const NavigationRouter = () => {
                                 <MenuProfile />
                                 <S.ContentWrapper>
                                     <SubscriptionsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.EXPORT_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <ExportPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

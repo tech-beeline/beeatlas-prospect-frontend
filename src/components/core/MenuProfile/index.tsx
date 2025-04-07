@@ -44,6 +44,11 @@ export const MenuProfile = () => {
                             //     name: 'Мои\xa0заявки',
                             //     path: `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`,
                             // },
+                            {
+                                icon: Icons.ShareIos,
+                                name: 'Экспорт\xa0файлов',
+                                path: `${R.PROFILE_PATH}${R.EXPORT_PATH}`,
+                            },
                         ],
                         ...(isAdmin
                             ? [

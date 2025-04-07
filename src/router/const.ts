@@ -38,9 +38,11 @@ export const BI_PATH = '/bi';
 export const ADMIN_PATH = '/admin';
 export const USERS_PATH = '/users';
 export const ROLES_PATH = '/roles';
+export const FILE_IMPORT_PATH = '/file-import';
 export const IMPORTED_DATA_PATH = '/imported-data';
 export const PACKAGE_PATH = '/package';
 export const TECHNOLOGIES_PATH = '/technologies';
+export const VERSIONS_PATH = '/versions';
 export const CAPABILITIES_PATH = '/capabilities';
 
 // Уведомления
@@ -52,6 +54,7 @@ export const INFO_PATH = '/info';
 export const SUBSCRIPTIONS_PATH = '/subscriptions';
 export const APPLICATIONS_PATH = '/applications';
 export const APPLICATIONS_REVIEW_PATH = '/applications-review';
+export const EXPORT_PATH = '/export';
 
 // Utils
 export const ADD_PATH = '/add';

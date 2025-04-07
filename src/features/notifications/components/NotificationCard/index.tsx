@@ -2,8 +2,10 @@ import React, { FC } from 'react';
 import { Avatar, Skeleton } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 
+import { Text } from 'components/core';
 import { Link } from 'components/other';
 
+import { NotificationChangeType } from 'api/notifications/types';
 import { useUpdateNotificationsMutation } from 'api/queries/notifications';
 
 import {
@@ -36,18 +38,26 @@ export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
                     />
                 </S.AvatarContainer>
 
-                <div>
-                    <S.Overline>{dayjs(notification.changeDate).format('DD.MM.YYYY')}</S.Overline>
-                    <S.Body2>{notificationEntityTypeToTitleMap[notification.entityType]}</S.Body2>
-                    <S.Body3>
-                        {notificationEntityTypeToNameMap[notification.entityType]}{' '}
-                        <S.Name>{notification.entityName}</S.Name>{' '}
-                        {notificationChangeTypeToNameMap[notification.changeType]}
-                    </S.Body3>
-                    <S.LinkContainer>
-                        <Link title="Перейти" url={notification.entityLink} />
-                    </S.LinkContainer>
-                </div>
+                <S.TextContainer>
+                    <Text inactive variant="overline">
+                        {notificationEntityTypeToTitleMap[notification.entityType]}
+                    </Text>
+                    <S.LineBreak>
+                        <Text variant="body2">
+                            {notificationEntityTypeToNameMap[notification.entityType]}{' '}
+                            <S.BoldText>{notification.entityName}</S.BoldText>{' '}
+                            {notificationChangeTypeToNameMap[notification.changeType]}
+                        </Text>
+                    </S.LineBreak>
+                    <Text inactive variant="body3">
+                        {dayjs(notification.changeDate).format('DD.MM.YYYY')}
+                    </Text>
+                    {notification.changeType !== NotificationChangeType.DELETE && (
+                        <S.LinkContainer>
+                            <Link title="Перейти" url={notification.entityLink} />
+                        </S.LinkContainer>
+                    )}
+                </S.TextContainer>
             </S.CardContainer>
         </S.NotificationCard>
     );

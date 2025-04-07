@@ -90,7 +90,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
             )}
             <S.DateContainer>
                 <Text inactive variant="body3">
-                    Продукт
+                    Приложение
                 </Text>
                 <Text variant="body2">
                     {isLoadingProducts || !productsData ? (

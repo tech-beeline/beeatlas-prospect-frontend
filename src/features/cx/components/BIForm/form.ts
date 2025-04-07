@@ -75,6 +75,6 @@ export const validationSchema = object().shape({
     channels: array()
         .of(object().shape({ value: number().default(0) }))
         .default([]),
-    product: number().required('Выберите продукт'),
+    product: number().required('Выберите приложение'),
     metrics: string().default(''),
 });

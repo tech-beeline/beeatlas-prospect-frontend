@@ -39,10 +39,13 @@ export const Header = styled.div`
 export const TitleWrapper = styled.div`
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 8px;
 
+    flex-wrap: wrap;
+
     width: 100%;
+    padding-right: 32px;
     margin-bottom: 16px;
 `;
 
@@ -61,7 +64,7 @@ export const ContentWrapper = styled.div`
     gap: 70px;
 
     width: 100%;
-    height: calc(100% - 186px);
+    height: calc(100% - 194px);
 
     padding-top: 20px;
 `;

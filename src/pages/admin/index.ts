@@ -1,9 +1,11 @@
 export { CapabilitiesPage } from './CapabilitiesPage';
 export { CapabilityAddPage } from './CapabilityAddPage';
+export { FileImportPage } from './FileImportPage';
 export { ImportedDataPage } from './ImportedDataPage';
 export { PackagePage } from './PackagePage';
 export { RoleAddPage } from './RoleAddPage';
 export { RolesPage } from './RolesPage';
 export { TechnologiesPage } from './TechnologiesPage';
 export { TechnologyAddPage } from './TechnologyAddPage';
+export { TechnologyVersionAddPage } from './TechnologyVersionAddPage';
 export { UsersPage } from './UsersPage';

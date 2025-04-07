@@ -38,6 +38,17 @@ export const Wrapper = styled.div`
     /* overflow: hidden; */
 `;
 
+export const ButtonContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding: 12px 24px;
+
+    border-bottom: 1px solid var(--color-divider);
+`;
+
 export const RightSide = styled.div`
     width: 100%;
     padding: 16px 16px 16px 16px;

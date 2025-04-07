@@ -1,22 +1,79 @@
-import React, { useState } from 'react';
-import { Button, Chip, DatePickerRange, Pagination } from '@beeline/design-system-react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import {
+    Button,
+    ButtonGroup,
+    Chip,
+    DatePickerRange,
+    Pagination,
+    Select,
+} from '@beeline/design-system-react';
 import dayjs from 'dayjs';
-import { NotificationCard, NotificationCardSkeleton } from 'features/notifications';
+import {
+    BusinessNotificationCard,
+    NotificationCard,
+    NotificationCardSkeleton,
+    NotificationGroups,
+} from 'features/notifications';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import {
     useGetNotificationsQuery,
+    useUpdateBusinessNotificationsMutation,
     useUpdateNotificationsMutation,
 } from 'api/queries/notifications';
 
-import { CHIPS, FilterVariants, filterVariantToNotificationEntityMap } from './const';
+import {
+    BUSINESS_CHIPS,
+    BusinessFilterVariants,
+    CHIPS,
+    FilterVariants,
+    filterVariantToNotificationEntityMap,
+    NotificationVariants,
+} from './const';
 import * as S from './units';
 
 export const NotificationsPage = () => {
     const [date, setDate] = useState<string[]>([]);
     const [page, setPage] = useState(1);
+    const [notificationGroup, setNotificationGroup] = useState(
+        NotificationGroups.LANDSCAPE_CHANGES,
+    );
+    const [notificationVariant, setNotificationVariant] = useState(NotificationVariants.ALL);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
+    const [businessFilterVariant, setBusinessFilterVariant] = useState(
+        BusinessFilterVariants.EXPORT,
+    );
+
+    const notificationVariantOptions = [
+        { id: NotificationVariants.ALL, value: 'Все' },
+        { id: NotificationVariants.UNREAD, value: 'Непрочитанные' },
+        {
+            id: NotificationVariants.READ,
+            value: 'Прочитанные',
+        },
+    ];
+
+    const [params, setParams] = useSearchParams();
+    const groupParam = params.get('group');
+
+    useEffect(() => {
+        if (
+            groupParam &&
+            [NotificationGroups.LANDSCAPE_CHANGES, NotificationGroups.BUSINESS_EVENTS].includes(
+                groupParam as NotificationGroups,
+            )
+        ) {
+            setNotificationGroup(groupParam as NotificationGroups);
+            setDate([]);
+            setNotificationVariant(NotificationVariants.ALL);
+        }
+    }, [groupParam]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [date, notificationGroup, notificationVariant, filterVariant, businessFilterVariant]);
 
     const { data, isLoading } = useGetNotificationsQuery({
         page: page - 1,
@@ -26,24 +83,49 @@ export const NotificationsPage = () => {
             filterVariant !== FilterVariants.ALL
                 ? filterVariantToNotificationEntityMap[filterVariant]
                 : undefined,
+        wasNotify:
+            notificationVariant === NotificationVariants.UNREAD
+                ? false
+                : notificationVariant === NotificationVariants.READ
+                ? true
+                : undefined,
     });
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
+    const { mutateAsync: updateBusinessNotifications } = useUpdateBusinessNotificationsMutation();
 
     const handleReadAllClick = () => {
         if (data) {
-            updateNotifications(
-                data.content
-                    .filter((notification) => notification.webNotify === false)
-                    .map((notification) => notification.id),
-            );
+            if (notificationGroup === NotificationGroups.LANDSCAPE_CHANGES) {
+                updateNotifications(
+                    data.notifications.content
+                        .filter((notification) => !notification.webNotify)
+                        .map((notification) => notification.id),
+                );
+            } else {
+                updateBusinessNotifications(
+                    data.businessNotifications.content
+                        .filter((notification) => !notification.webNotify)
+                        .map((notification) => notification.id),
+                );
+            }
         }
     };
 
-    const hasUnreadNotifications = (data?.content ?? []).some(
-        (notification) => notification.webNotify === false,
-    );
-    const isEmpty = data && data.content.length === 0;
+    const hasUnreadNotifications = data
+        ? (notificationGroup === NotificationGroups.LANDSCAPE_CHANGES
+              ? data.notifications.content
+              : data.businessNotifications.content
+          ).some((notification) => !notification.webNotify)
+        : false;
+
+    const isEmpty =
+        data &&
+        ((notificationGroup === NotificationGroups.LANDSCAPE_CHANGES &&
+            data.notifications.content.length === 0) ||
+            (notificationGroup === NotificationGroups.BUSINESS_EVENTS &&
+                data.businessNotifications.content.length === 0));
+
     const areFiltersEmpty = date.length === 0;
 
     return (
@@ -53,26 +135,85 @@ export const NotificationsPage = () => {
                     <S.Title>Уведомления</S.Title>
                 </S.Header>
                 <S.FiltersContainer>
+                    <Select
+                        label="Список уведомлений"
+                        options={notificationVariantOptions}
+                        onChange={(values) => {
+                            setNotificationVariant(values[0]?.id ?? NotificationVariants.ALL);
+                        }}
+                        values={[
+                            notificationVariantOptions.find(
+                                (variant) => variant.id === notificationVariant,
+                            ),
+                        ]}
+                    />
                     <DatePickerRange
                         placeholder="Дата"
                         value={date}
                         onChange={(dates) => {
                             setDate(dates as string[]);
-                            setPage(1);
                         }}
                     />
+                    <Button
+                        disabled={
+                            date.length === 0 && notificationVariant === NotificationVariants.ALL
+                        }
+                        onClick={() => {
+                            setDate([]);
+                            setNotificationVariant(NotificationVariants.ALL);
+                        }}
+                        variant="plain"
+                    >
+                        Сбросить
+                    </Button>
                 </S.FiltersContainer>
+                <ButtonGroup
+                    size="small"
+                    selectedOption={{
+                        id: notificationGroup,
+                    }}
+                    options={[
+                        {
+                            id: NotificationGroups.LANDSCAPE_CHANGES,
+                            value: NotificationGroups.LANDSCAPE_CHANGES,
+                            label: 'Изменения ландшафта',
+                        },
+                        {
+                            id: NotificationGroups.BUSINESS_EVENTS,
+                            value: NotificationGroups.BUSINESS_EVENTS,
+                            label: 'События',
+                        },
+                    ]}
+                    onChange={(option) => {
+                        option.id && setParams(new URLSearchParams({ group: option.id }));
+                    }}
+                />
                 <S.ControlsContainer>
-                    <S.ChipsContainer>
-                        {CHIPS.map((chip) => (
-                            <Chip
-                                key={chip.value}
-                                label={chip.label}
-                                active={filterVariant === chip.value}
-                                onClick={() => setFilterVariant(chip.value)}
-                            />
-                        ))}
-                    </S.ChipsContainer>
+                    {notificationGroup === NotificationGroups.LANDSCAPE_CHANGES && (
+                        <S.ChipsContainer>
+                            {CHIPS.map((chip) => (
+                                <Chip
+                                    key={chip.value}
+                                    label={chip.label}
+                                    active={filterVariant === chip.value}
+                                    onClick={() => setFilterVariant(chip.value)}
+                                />
+                            ))}
+                        </S.ChipsContainer>
+                    )}
+                    {notificationGroup === NotificationGroups.BUSINESS_EVENTS && (
+                        <S.ChipsContainer>
+                            {BUSINESS_CHIPS.map((chip) => (
+                                <Chip
+                                    key={chip.value}
+                                    label={chip.label}
+                                    active={businessFilterVariant === chip.value}
+                                    onClick={() => setBusinessFilterVariant(chip.value)}
+                                />
+                            ))}
+                        </S.ChipsContainer>
+                    )}
+
                     <Button
                         disabled={!hasUnreadNotifications}
                         variant="plain"
@@ -93,18 +234,37 @@ export const NotificationsPage = () => {
 
                 {!isLoading && !isEmpty && data && (
                     <>
-                        <S.CardsContainer>
-                            {data.content.map((notification) => (
-                                <NotificationCard
-                                    key={notification.id}
-                                    notification={notification}
-                                />
-                            ))}
-                        </S.CardsContainer>
-                        {data.totalPages > 1 && (
+                        {notificationGroup === NotificationGroups.LANDSCAPE_CHANGES && (
+                            <S.CardsContainer>
+                                {data.notifications.content.map((notification) => (
+                                    <NotificationCard
+                                        key={notification.id}
+                                        notification={notification}
+                                    />
+                                ))}
+                            </S.CardsContainer>
+                        )}
+                        {notificationGroup === NotificationGroups.BUSINESS_EVENTS && (
+                            <S.CardsContainer>
+                                {data.businessNotifications.content.map((notification) => (
+                                    <BusinessNotificationCard
+                                        key={notification.id}
+                                        businessNotification={notification}
+                                    />
+                                ))}
+                            </S.CardsContainer>
+                        )}
+                        {((notificationGroup === NotificationGroups.LANDSCAPE_CHANGES &&
+                            data.notifications.totalPages > 1) ||
+                            (notificationGroup === NotificationGroups.BUSINESS_EVENTS &&
+                                data.businessNotifications.totalPages > 1)) && (
                             <S.PaginationContainer>
                                 <Pagination
-                                    count={data.totalPages}
+                                    count={
+                                        notificationGroup === NotificationGroups.LANDSCAPE_CHANGES
+                                            ? data.notifications.totalPages
+                                            : data.businessNotifications.totalPages
+                                    }
                                     page={page}
                                     onChange={setPage}
                                 />

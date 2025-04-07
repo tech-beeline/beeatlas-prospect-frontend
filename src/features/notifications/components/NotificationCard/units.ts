@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const NotificationCard = styled.div<{ unread?: boolean }>`
-    padding: 24px 24px 12px 24px;
+    padding: 24px;
 
     background-color: ${({ unread }) =>
         unread ? 'var(--color-background-base-selected)' : 'var(--color-background-base)'};
@@ -42,26 +42,9 @@ export const Indicator = styled.div`
     background-color: var(--color-text-link);
 `;
 
-export const Overline = styled.div`
-    font-weight: var(--font-weight-overline);
-    font-size: var(--font-size-overline);
-    line-height: var(--font-line-height-overline);
-
-    color: var(--color-text-inactive);
-`;
-
-export const Body2 = styled.div`
-    font-weight: var(--font-weight-body2);
-    font-size: var(--font-size-body2);
-    line-height: var(--font-line-height-body2);
-`;
-
-export const Body3 = styled.div`
-    font-weight: var(--font-weight-body3);
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
-
-    color: var(--color-text-inactive);
+export const TextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 export const SkeletonContainer = styled.div`
@@ -72,13 +55,17 @@ export const SkeletonContainer = styled.div`
     width: 100%;
 `;
 
-export const Name = styled.span`
-    color: var(--color-text-active);
+export const LineBreak = styled.div`
+    line-break: anywhere;
+`;
+
+export const BoldText = styled.span`
+    font-weight: 500;
 `;
 
 export const LinkContainer = styled.div`
-    margin-top: 12px;
-    padding: 10px 0px;
+    margin-top: 24px;
+    padding: 0px;
 
     font-weight: var(--font-weight-subtitle3);
     font-size: var(--font-size-subtitle3);

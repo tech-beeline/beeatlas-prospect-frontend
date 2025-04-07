@@ -12,6 +12,7 @@ export const TextField: FC<ITextField> = ({
     id,
     disabled = false,
     fullWidth = true,
+    helperPosition = 'absolute',
 }) => {
     const {
         control,
@@ -35,6 +36,7 @@ export const TextField: FC<ITextField> = ({
                     label={label}
                     error={isError}
                     helperText={errorMessage}
+                    helperPosition={errorMessage ? helperPosition : 'absolute'}
                     maxLength={maxLength}
                     {...field}
                 />

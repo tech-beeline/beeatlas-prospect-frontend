@@ -143,14 +143,14 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                 {capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && (
                     <div>
                         <div>
-                            <Text variant="subtitle3">TC реализована в продукте</Text>
+                            <Text variant="subtitle3">TC реализована в приложении</Text>
                         </div>
                         {isLoadingProducts && <Skeleton height={16} radius={4} />}
                         {products && (
                             <div>
                                 <Text variant="caption">
                                     {products.map((product) => product.name).join(', ') ||
-                                        'Нет продуктов'}
+                                        'Нет приложений'}
                                 </Text>
                             </div>
                         )}

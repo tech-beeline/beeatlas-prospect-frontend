@@ -7,6 +7,7 @@ export const PageWrapper = styled.div`
 
     width: 100%;
 
+    max-height: calc(100vh - 64px);
     padding: 32px 266px;
 
     background-color: var(--color-background-base);
@@ -14,6 +15,9 @@ export const PageWrapper = styled.div`
 `;
 
 export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+
     width: 100%;
     min-width: 712px;
 `;
@@ -38,9 +42,10 @@ export const Title = styled.h4`
 
 export const FiltersContainer = styled.div`
     display: flex;
-    gap: 16px;
+    gap: 24px;
 
     margin-top: 24px;
+    margin-bottom: 24px;
 `;
 
 export const SearchStyled = styled(Search)`
@@ -63,10 +68,20 @@ export const ChipsContainer = styled.div`
 export const CardsContainer = styled.div`
     margin-top: 24px;
 
-    overflow: hidden;
-
     border-radius: var(--size-border-radius-x6);
     border: 1px solid var(--color-divider);
+
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-utilities-scroll-hover);
+
+        border-radius: var(--size-border-radius-x8);
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
 `;
 
 export const NotFoundContainer = styled.div`

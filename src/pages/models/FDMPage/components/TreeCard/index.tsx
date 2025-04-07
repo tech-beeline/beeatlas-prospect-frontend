@@ -144,7 +144,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
 
                     {item.type === ItemTypes.TECH && (
                         <S.MarginContainer>
-                            <S.TitleSecond>ТС Реализована в продукте</S.TitleSecond>
+                            <S.TitleSecond>ТС Реализована в приложении</S.TitleSecond>
                             <S.ChipsContainer>
                                 {isLoadingProducts && (
                                     <Skeleton height={32} radius={30} width={123} />
@@ -155,7 +155,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                                         <S.ChipStyled key={product.eaGuid} label={product.name} />
                                     ))}
                                 {products && products.length === 0 && (
-                                    <S.ChipStyled label="Нет продуктов" />
+                                    <S.ChipStyled label="Нет приложений" />
                                 )}
                             </S.ChipsContainer>
                         </S.MarginContainer>

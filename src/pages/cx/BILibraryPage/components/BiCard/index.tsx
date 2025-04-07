@@ -151,7 +151,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                 )}
                 <S.DateContainer>
                     <Text inactive variant="body3">
-                        Продукт
+                        Приложение
                     </Text>
                     <Text variant="body2">
                         {isLoadingProducts || !productsData ? (

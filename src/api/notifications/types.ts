@@ -2,11 +2,14 @@ export enum NotificationEntityType {
     TECH_CAPABILITY = 'TECH_CAPABILITY',
     BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
     TECH = 'TECH',
+    APPLICATION = 'APPLICATION',
+    EXPORT = 'EXPORT',
 }
 
 export enum NotificationChangeType {
     CREATE = 'CREATE',
     UPDATE = 'UPDATE',
+    DELETE = 'DELETE',
 }
 
 export interface INotification {
@@ -32,4 +35,22 @@ export interface INotificationParams {
     page?: number;
     type?: NotificationEntityType;
     wasNotify?: boolean;
+}
+
+export interface IBusinessNotification {
+    createdDate: string;
+    entityId: number;
+    entityTypeId: {
+        description: string;
+        id: number;
+        name: string;
+    };
+    id: number;
+    webNotify: boolean;
+}
+
+export interface IBusinessNotificationData {
+    content: IBusinessNotification[];
+    totalElements: number;
+    totalPages: number;
 }

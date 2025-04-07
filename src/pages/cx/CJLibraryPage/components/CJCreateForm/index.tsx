@@ -80,7 +80,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             <Select
                                 disabled={isLoadingProducts}
                                 name="product"
-                                label="Продукт*"
+                                label="Приложение*"
                                 options={
                                     products?.map((product) => ({
                                         id: Number(product.id),

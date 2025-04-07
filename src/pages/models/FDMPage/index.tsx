@@ -232,7 +232,7 @@ export const FDMPage = () => {
                                             {activeItem.type === ItemTypes.TECH && (
                                                 <>
                                                     <S.DomainText>
-                                                        ТС Реализована в продукте
+                                                        ТС Реализована в приложении
                                                     </S.DomainText>
                                                     <S.ChipsContainer>
                                                         {isLoadingProducts && (
@@ -254,7 +254,7 @@ export const FDMPage = () => {
                                                             )}
                                                         {techCapabilityProducts &&
                                                             techCapabilityProducts.length === 0 && (
-                                                                <S.ChipStyled label="Нет продуктов" />
+                                                                <S.ChipStyled label="Нет приложений" />
                                                             )}
                                                     </S.ChipsContainer>
                                                 </>
