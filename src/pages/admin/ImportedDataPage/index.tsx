@@ -32,7 +32,7 @@ export const ImportedDataPage = () => {
 
     return (
         <S.PageWrapper>
-            <S.Title>Импортируемые данные</S.Title>
+            <S.Title>Процесс импорта</S.Title>
 
             <ImportedDataFilters
                 filterOptions={filterOptions}
