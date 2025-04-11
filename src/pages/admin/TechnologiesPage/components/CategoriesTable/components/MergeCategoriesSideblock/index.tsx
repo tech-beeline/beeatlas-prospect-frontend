@@ -15,6 +15,7 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
     isOpen,
     onClose,
     selectedCategories,
+    setSelectedCategories,
 }) => {
     const [menuOpened, setMenuOpened] = useState(false);
     const [name, setName] = useState('');
@@ -38,6 +39,9 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
                     joinedCategoriesId: selectedCategories.map((category) => category.id),
                 },
             });
+
+            setSelectedCategories([]);
+
             handleClose();
             showSnackbar({ message: 'Группы объединены' });
         } else {

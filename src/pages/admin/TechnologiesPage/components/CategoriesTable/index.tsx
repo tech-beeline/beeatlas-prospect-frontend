@@ -76,6 +76,7 @@ export const CategoriesTable: FC = () => {
                 isOpen={mergeSideblockOpened}
                 onClose={closeMergeSideblock}
                 selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
             />
         </>
     );
