@@ -5,7 +5,16 @@ export const PageWrapper = styled.div`
     justify-content: center;
 
     width: 100%;
+    height: 100%;
     padding: 0px 54px 54px;
+`;
+
+export const NotFoundContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    height: 100%;
 `;
 
 export const Content = styled.div`

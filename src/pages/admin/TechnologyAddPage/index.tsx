@@ -5,6 +5,8 @@ import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { NotFoundBlock } from 'components/other';
+
 import {
     useCreateTechnologyMutation,
     useGetTechFormDataQuery,
@@ -116,42 +118,53 @@ export const TechnologyAddPage = () => {
 
     return (
         <S.PageWrapper>
-            <S.Content>
-                <S.TitleContainer>
-                    <IconButton
-                        iconName={Icons.ArrowLeft}
-                        size="large"
-                        onClick={returnToTechnologies}
-                    />
-                    <S.Title>{paramId ? 'Редактировать' : 'Добавить'} технологию</S.Title>
-                </S.TitleContainer>
-                <FormProvider {...form}>
-                    <form onSubmit={onSubmit}>
-                        <S.FormContainer>
-                            {fields.map((field, index) => (
-                                <TechnologyField
-                                    key={field.id}
-                                    index={index}
-                                    fieldsCount={fields.length}
-                                    categoriesData={categoriesData ?? []}
-                                    isLoading={isLoading}
-                                    showAddButton={!paramId}
-                                    append={append}
-                                    remove={remove}
-                                />
-                            ))}
-                            <S.ButtonsContainer>
-                                <Button onClick={returnToTechnologies} size="medium" type="button">
-                                    Отменить
-                                </Button>
-                                <Button size="medium" variant="contained" type="submit">
-                                    {paramId ? 'Сохранить изменения' : 'Добавить технологию'}
-                                </Button>
-                            </S.ButtonsContainer>
-                        </S.FormContainer>
-                    </form>
-                </FormProvider>
-            </S.Content>
+            {!isLoading && (techData === undefined || techData.deletedDate) && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock />
+                </S.NotFoundContainer>
+            )}
+            {(isLoading || (techData && !techData.deletedDate)) && (
+                <S.Content>
+                    <S.TitleContainer>
+                        <IconButton
+                            iconName={Icons.ArrowLeft}
+                            size="large"
+                            onClick={returnToTechnologies}
+                        />
+                        <S.Title>{paramId ? 'Редактировать' : 'Добавить'} технологию</S.Title>
+                    </S.TitleContainer>
+                    <FormProvider {...form}>
+                        <form onSubmit={onSubmit}>
+                            <S.FormContainer>
+                                {fields.map((field, index) => (
+                                    <TechnologyField
+                                        key={field.id}
+                                        index={index}
+                                        fieldsCount={fields.length}
+                                        categoriesData={categoriesData ?? []}
+                                        isLoading={isLoading}
+                                        showAddButton={!paramId}
+                                        append={append}
+                                        remove={remove}
+                                    />
+                                ))}
+                                <S.ButtonsContainer>
+                                    <Button
+                                        onClick={returnToTechnologies}
+                                        size="medium"
+                                        type="button"
+                                    >
+                                        Отменить
+                                    </Button>
+                                    <Button size="medium" variant="contained" type="submit">
+                                        {paramId ? 'Сохранить изменения' : 'Добавить технологию'}
+                                    </Button>
+                                </S.ButtonsContainer>
+                            </S.FormContainer>
+                        </form>
+                    </FormProvider>
+                </S.Content>
+            )}
         </S.PageWrapper>
     );
 };
