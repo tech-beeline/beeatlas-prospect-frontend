@@ -43,16 +43,6 @@ export const Content = styled.div`
     padding: 0px 150px 50px;
 
     overflow-y: scroll;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
 `;
 
 export const NotFoundContainer = styled.div`

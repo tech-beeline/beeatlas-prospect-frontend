@@ -117,17 +117,6 @@ export const PersonalMapsContainer = styled.div`
     padding: 24px 32px 32px 32px;
 
     overflow-y: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const FlexContainer = styled.div`
@@ -149,17 +138,6 @@ export const CardContainer = styled.div`
     max-width: 100%;
 
     overflow-x: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const CardGridContainer = styled.div`
@@ -170,17 +148,6 @@ export const CardGridContainer = styled.div`
     padding: 24px 32px 32px 32px;
 
     max-width: 100%;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const NotFoundContainer = styled.div`

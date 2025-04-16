@@ -72,16 +72,6 @@ export const CardsContainer = styled.div`
     border: 1px solid var(--color-divider);
 
     overflow: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
 `;
 
 export const NotFoundContainer = styled.div`

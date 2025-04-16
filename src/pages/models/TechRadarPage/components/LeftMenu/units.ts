@@ -17,16 +17,6 @@ export const Wrapper = styled.div<{ withScroll?: boolean }>`
 
             overflow: hidden scroll;
         `}
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
 `;
 
 export const TitleWrapper = styled.div`

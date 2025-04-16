@@ -26,17 +26,6 @@ export const GroupContainer = styled.div`
     flex: 1;
 
     overflow: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        height: 8px;
-        width: 8px;
-    }
 `;
 
 export const DropdownArea = styled.div<{ isOver: boolean; column?: boolean }>`

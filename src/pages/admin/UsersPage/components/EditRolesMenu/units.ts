@@ -33,16 +33,6 @@ export const ItemsContainer = styled.div`
 
     overflow: auto;
     overflow-x: hidden;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
 `;
 
 export const MenuItem = styled.div`

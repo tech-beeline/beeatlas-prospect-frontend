@@ -16,16 +16,6 @@ export const ContentContainer = styled.div`
     max-height: calc(100vh - 96px);
 
     overflow-y: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
 `;
 
 export const FlexWrapper = styled.div`
