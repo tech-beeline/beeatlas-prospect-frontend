@@ -118,12 +118,12 @@ export const TechnologyAddPage = () => {
 
     return (
         <S.PageWrapper>
-            {!isLoading && (techData === undefined || techData.deletedDate) && (
+            {!isLoading && paramId && (techData === undefined || techData.deletedDate) && (
                 <S.NotFoundContainer>
                     <NotFoundBlock />
                 </S.NotFoundContainer>
             )}
-            {(isLoading || (techData && !techData.deletedDate)) && (
+            {(isLoading || !paramId || (techData && !techData.deletedDate)) && (
                 <S.Content>
                     <S.TitleContainer>
                         <IconButton
