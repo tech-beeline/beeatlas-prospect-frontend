@@ -9,6 +9,9 @@ podAnnotations:
   prometheus.io/scrape: "false"
   prometheus.io/port: "false"
 
+podAnnotations:
+  vault.security.banzaicloud.io/vault-addr: "https://vault-test.vimpelcom.ru/"
+
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 50m
