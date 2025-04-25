@@ -18,11 +18,11 @@ import * as S from './units';
 
 export const MenuItem: FC<T.IMenuItem> = ({
     item,
-    hintText,
+    // hintText,
     selectedTech,
     onClick,
-    onMouseEnter,
-    onMouseLeave,
+    hoveredTechId,
+    setHoveredTechId,
 }) => {
     const [isLinkIconHovered, setIsLinkIconHovered] = useState(false);
     const [isNotificationIconHovered, setIsNotificationIconHovered] = useState(false);
@@ -66,10 +66,10 @@ export const MenuItem: FC<T.IMenuItem> = ({
         <>
             <S.Item
                 onClick={onClick}
-                onMouseEnter={() => onMouseEnter(item.label)}
-                onMouseLeave={onMouseLeave}
-                isActive={selectedTech?.id === item.id || item.label === hintText || modalOpened}
-                id="menuItem"
+                onMouseEnter={() => setHoveredTechId(item.id)}
+                onMouseLeave={() => setHoveredTechId(null)}
+                isActive={selectedTech?.id === item.id || item.id === hoveredTechId || modalOpened}
+                id={`menu-item-${item.id}`}
             >
                 <p id="menuItem" className="menuItem">
                     {item.label}
@@ -93,7 +93,7 @@ export const MenuItem: FC<T.IMenuItem> = ({
                     <S.IconButtonStyled
                         visible={isSubscribed}
                         iconName={
-                            isSubscribed && item.label === hintText
+                            isSubscribed && item.id === hoveredTechId
                                 ? Icons.NotificationOff
                                 : Icons.Notification
                         }

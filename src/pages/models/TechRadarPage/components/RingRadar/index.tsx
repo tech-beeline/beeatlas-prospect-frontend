@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
-import { Popper } from 'react-popper';
+import React, { FC, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
 import { sendAnalytics } from 'features/analytics';
 
+import { ITech } from 'api/technologies/types';
 import * as STYLE from 'pages/models/TechRadarPage/units';
 import * as UTILS from 'pages/models/TechRadarPage/utils';
 
@@ -13,16 +13,24 @@ import { RingTitles } from '../RingTitles';
 
 import * as T from './types';
 
-export const RingRadar: FC<T.IRingRadar> = (props) => {
-    /* данные для расположения тултивов внутри свг */
-    const [referenceElement, setReferenceElement] = useState<SVGCircleElement | null>(null);
-    const refs = useRef<React.RefObject<SVGCircleElement>[]>([]);
+export const RingRadar: FC<T.IRingRadar> = ({
+    color,
+    data,
+    filterValue,
+    handleRing,
+    hoveredTechId,
+    isActive,
+    ring,
+    search,
+    setHoveredTechId,
+}) => {
+    const lastClickedTechId = useRef<number | null>(null);
 
     /* реф для запуска симуляции с помощью D3 */
     const svgRef = useRef<SVGSVGElement>(null);
 
     /* данные для отрисовки точек дополненые координатами и нкобходимыми функциями */
-    const formatedData = props.data
+    const formatedData = data
         .filter(
             (item) =>
                 item.sector.order >= 0 &&
@@ -42,7 +50,7 @@ export const RingRadar: FC<T.IRingRadar> = (props) => {
                 segment: itemSegment,
                 x: coords.x,
                 y: coords.y,
-                visible: UTILS.itemFilterHandler(item, props.search, props.filterValue),
+                visible: UTILS.itemFilterHandler(item, search, filterValue),
             };
         });
 
@@ -65,30 +73,48 @@ export const RingRadar: FC<T.IRingRadar> = (props) => {
     }, []);
 
     useEffect(() => {
-        if (refs.current) {
-            const activeItemIndex = formatedData.findIndex((item) => item.label === props.hintText);
+        const tooltip = document.getElementById('general-tooltip');
 
-            activeItemIndex >= 0 && setReferenceElement(refs.current[activeItemIndex].current);
+        if (hoveredTechId) {
+            const target = document.getElementById(`radar-element-${hoveredTechId}`);
+            if (tooltip && target) {
+                tooltip.innerHTML = target.dataset.title ?? '';
+                tooltip.style.display = 'block';
+                tooltip.style.opacity = '1';
+                tooltip.style.left =
+                    target.getBoundingClientRect().x -
+                    tooltip.clientWidth / 2 +
+                    target.getBoundingClientRect().width / 2 +
+                    'px';
+                tooltip.style.top = target.getBoundingClientRect().y - 29 + 'px';
+            }
+        } else {
+            if (tooltip) {
+                tooltip.style.display = 'none';
+                tooltip.style.opacity = '0';
+            }
         }
-    }, [props.hintText]);
+    }, [hoveredTechId]);
 
-    /* показывает тултип */
-    const onHintShow = (label: string) => {
-        props.setHintText(label);
+    const handleMouseEnter = (id: number) => {
+        setHoveredTechId(id);
     };
 
-    /* скрывает тултип */
-    // const onHintHide = () => {
-    //     props.setHintText('');
-    // };
+    const handleMouseLeave = (id: number) => {
+        if (id !== lastClickedTechId.current) {
+            setHoveredTechId(null);
+        }
+    };
 
-    const onHintHide = () => {
-        !props.isElementSelected && props.setHintText('');
+    const handleTechClick = (tech: ITech) => {
+        lastClickedTechId.current = tech.id;
+        UTILS.openTechInLeftMenu(tech.id);
+        sendAnalytics(['techradar', 'click', tech.label]);
     };
 
     return (
-        <STYLE.RadarWrapper isActive={props.isActive}>
-            <RingTitles type={props.ring} handleRing={props.handleRing} />
+        <STYLE.RadarWrapper isActive={isActive}>
+            <RingTitles type={ring} handleRing={handleRing} />
 
             <svg ref={svgRef} viewBox="-45 -45 90 90">
                 <QuadrantTitles />
@@ -96,20 +122,13 @@ export const RingRadar: FC<T.IRingRadar> = (props) => {
                 <g>
                     <Lines />
 
-                    <circle
-                        cx={0}
-                        cy={0}
-                        r={45}
-                        stroke={props.color}
-                        strokeWidth="0.2"
-                        fill="none"
-                    />
+                    <circle cx={0} cy={0} r={45} stroke={color} strokeWidth="0.2" fill="none" />
 
                     {formatedData.map((point, i) => {
-                        refs.current[i] = useRef(null);
-
                         return point.isNewTech ? (
                             <STYLE.CircleStyled
+                                id={isActive ? `radar-element-${point.id}` : ''}
+                                data-title={point.label}
                                 className="point"
                                 key={i}
                                 cx={0}
@@ -118,80 +137,48 @@ export const RingRadar: FC<T.IRingRadar> = (props) => {
                                 isVisible={point.visible}
                                 fill="var(--color-background-base)"
                                 strokeWidth={0.2}
-                                stroke={props.color}
-                                ref={refs.current[i]}
-                                onMouseEnter={() => onHintShow(point.label)}
-                                onMouseLeave={onHintHide}
-                                onClick={() => {
-                                    props.setShowInMenu(true);
-                                    sendAnalytics(['techradar', 'click', point.label]);
-                                }}
+                                stroke={color}
+                                onMouseEnter={() => handleMouseEnter(point.id)}
+                                onMouseLeave={() => handleMouseLeave(point.id)}
+                                onClick={() => handleTechClick(point)}
                             />
                         ) : point.isUpdatedTech ? (
                             <STYLE.PolygonStyled
+                                id={isActive ? `radar-element-${point.id}` : ''}
+                                data-title={point.label}
                                 className="point"
                                 key={i}
                                 points="-0.8,0.8 0,-0.6 0.8,0.8"
                                 strokeLinejoin="round"
                                 strokeWidth={0.2}
-                                stroke={props.color}
-                                fill={props.color}
+                                stroke={color}
+                                fill={color}
                                 isVisible={point.visible}
-                                ref={refs.current[i] as any}
-                                onMouseEnter={() => onHintShow(point.label)}
-                                onMouseLeave={onHintHide}
-                                onClick={() => {
-                                    props.setShowInMenu(true);
-                                    sendAnalytics(['techradar', 'click', point.label]);
-                                }}
+                                onMouseEnter={() => handleMouseEnter(point.id)}
+                                onMouseLeave={() => handleMouseLeave(point.id)}
+                                onClick={() => handleTechClick(point)}
                             />
                         ) : (
                             <STYLE.CircleStyled
+                                id={isActive ? `radar-element-${point.id}` : ''}
+                                data-title={point.label}
                                 className="point"
                                 key={i}
                                 cx={0}
                                 cy={0}
                                 r={1}
                                 isVisible={point.visible}
-                                fill={props.color}
-                                ref={refs.current[i]}
-                                onMouseEnter={() => onHintShow(point.label)}
-                                onMouseLeave={onHintHide}
-                                onClick={() => {
-                                    props.setShowInMenu(true);
-                                    sendAnalytics(['techradar', 'click', point.label]);
-                                }}
+                                fill={color}
+                                onMouseEnter={() => handleMouseEnter(point.id)}
+                                onMouseLeave={() => handleMouseLeave(point.id)}
+                                onClick={() => handleTechClick(point)}
                             />
                         );
                     })}
                 </g>
             </svg>
 
-            {referenceElement && props.isActive && (
-                <Popper
-                    placement="top"
-                    modifiers={[
-                        {
-                            name: 'offset',
-                            options: {
-                                offset: [0, 5],
-                            },
-                        },
-                    ]}
-                    referenceElement={referenceElement}
-                >
-                    {({ ref, style, placement }) => (
-                        <STYLE.TooltipContainer
-                            ref={ref}
-                            style={style}
-                            data-placement={placement}
-                            isVisibleHint={!!props.hintText}
-                        >
-                            <STYLE.HintText>{props.hintText}</STYLE.HintText>
-                        </STYLE.TooltipContainer>
-                    )}
-                </Popper>
-            )}
+            {isActive && <STYLE.TooltipContainerNew id="general-tooltip" />}
         </STYLE.RadarWrapper>
     );
 };
