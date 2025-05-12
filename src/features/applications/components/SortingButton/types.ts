@@ -1,4 +1,4 @@
-import { SortingVariant } from '../../const';
+import { SortingVariant } from 'features/applications';
 
 export interface ISortingButton {
     sortingVariant: SortingVariant;

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, Button, Icon, IconButton } from '@beeline/design-system-react';
+import { Button, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuthStore } from 'features/auth';
@@ -9,20 +9,23 @@ import { useAuthStore } from 'features/auth';
 import { Text } from 'components/core';
 import { TextArea, TextField } from 'components/form';
 
-import { useCreateBCApplicationMutation } from 'api/queries/applications';
-import { useGetCapabilityByIdQuery } from 'api/queries/capability';
+import { ApplicationStatus } from 'api/applications/types';
+import {
+    useGetApplicationByBusinessKeyQuery,
+    usePatchApplicationEntityMutation,
+    // usePatchBCApplicationStatusMutation,
+} from 'api/queries/applications';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { CapabilityAutocomplete } from './components';
 import { FormValues, validationSchema } from './form';
+import { IApplicationEditPage } from './types';
 import * as S from './units';
 
-export const BCAddPage = () => {
-    const [showBanner, setShowBanner] = useState(true);
-
+export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
     const [params] = useSearchParams();
-    const paramId = params.get('id');
+    const paramKey = params.get('key');
 
     const navigate = useNavigate();
 
@@ -31,16 +34,20 @@ export const BCAddPage = () => {
     const userInfo = useAuthStore((store) => store.userInfo);
     const userName = `${userInfo?.family_name} ${userInfo?.given_name}`;
 
-    const { data: capabilityData, isLoading: isLoadingCapabilityData } =
-        useGetCapabilityByIdQuery(paramId);
+    const { data: applicationData, isLoading: isLoadingApplicationData } =
+        useGetApplicationByBusinessKeyQuery(paramKey);
 
-    const { mutateAsync, isPending: isCreatingApplication } = useCreateBCApplicationMutation();
+    // const { mutateAsync: patchApplicationStatus, isPending: isUpdatingApplication } =
+    //     usePatchBCApplicationStatusMutation();
+
+    const { mutateAsync: updateApplication, isPending: isUpdatingApplication } =
+        usePatchApplicationEntityMutation();
 
     const navigateBack = () => {
         navigate(
-            paramId
-                ? `${R.MODELS_PATH}${R.FDM_PATH}?id=${paramId}&type=BUSINESS`
-                : `${R.MODELS_PATH}${R.FDM_PATH}`,
+            review
+                ? `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}?key=${paramKey}`
+                : `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}?key=${paramKey}`,
         );
     };
 
@@ -53,19 +60,41 @@ export const BCAddPage = () => {
     const onSubmit = () =>
         handleSubmit(async (values) => {
             try {
-                await mutateAsync({
-                    name: values.name,
-                    description: values.description,
-                    parentId: values.domain ? Number(values.domain) : undefined,
-                    owner: values.owner,
-                    author: userName,
-                    mutableBcId: paramId ? Number(paramId) : undefined,
-                    comment: values.comment,
-                });
-                showSnackbar({
-                    message:
-                        'Заявка отправлена. Внести изменения в заявку и отследить ее статус можно в разделе Мои заявки',
-                });
+                if (review) {
+                    if (applicationData) {
+                        await updateApplication({
+                            id: applicationData.entity_id,
+                            data: {
+                                name: values.name,
+                                description: values.description,
+                                parentId: Number(values.domain),
+                                owner: values.owner,
+                                comment: values.comment ? values.comment : undefined,
+                            },
+                            nextStatus: ApplicationStatus.DN,
+                        });
+                    }
+                    showSnackbar({
+                        message: 'Возможность создана, заявка закрыта',
+                    });
+                } else {
+                    if (applicationData) {
+                        await updateApplication({
+                            id: applicationData.entity_id,
+                            data: {
+                                name: values.name,
+                                description: values.description,
+                                parentId: Number(values.domain),
+                                owner: values.owner,
+                                comment: values.comment ? values.comment : undefined,
+                            },
+                            nextStatus: ApplicationStatus.RW,
+                        });
+                    }
+                    showSnackbar({
+                        message: 'Заявка отредактирована',
+                    });
+                }
                 navigateBack();
             } catch (error) {}
         });
@@ -75,13 +104,13 @@ export const BCAddPage = () => {
     };
 
     useEffect(() => {
-        if (capabilityData) {
-            setValue('name', capabilityData.name);
-            setValue('description', capabilityData.description);
-            setValue('owner', capabilityData.owner ?? '');
-            if (capabilityData.parent) setValue('domain', String(capabilityData.parent.id));
+        if (applicationData) {
+            setValue('name', applicationData.name);
+            setValue('description', applicationData.entity.description);
+            setValue('owner', applicationData.entity.owner);
+            setValue('domain', String(applicationData.entity.parent.id));
         }
-    }, [capabilityData]);
+    }, [applicationData]);
 
     return (
         <FormProvider {...form}>
@@ -98,26 +127,12 @@ export const BCAddPage = () => {
 
                     <S.Content>
                         <S.ContentContainer>
-                            <Text variant="h4">
-                                {paramId ? 'Редактирование' : 'Создание'} бизнес-возможности
-                            </Text>
-                            {showBanner && (
-                                <Banner
-                                    color="info"
-                                    iconName={Icons.InfoCircled}
-                                    title={
-                                        paramId
-                                            ? 'Внесенные изменения проходят этап согласования корпоративным архитектором, по результату рассмотрения заявки вам придет уведомление'
-                                            : 'Создание бизнес-возможности проходит этап согласования корпоративным архитектором, по результату рассмотрения заявки вам придет уведомление'
-                                    }
-                                    onClose={() => setShowBanner(false)}
-                                />
-                            )}
+                            <Text variant="h4">Редактирование заявки</Text>
                             <S.RelativeContainer>
                                 <TextField
                                     name="name"
                                     label="Название*"
-                                    disabled={isLoadingCapabilityData}
+                                    disabled={isLoadingApplicationData}
                                     helperPosition="block"
                                 />
                                 <S.IconContainer data-tooltip-id="name-icon">
@@ -147,7 +162,7 @@ export const BCAddPage = () => {
                                 <S.TextAreaStyled
                                     name="description"
                                     label="Определение*"
-                                    disabled={isLoadingCapabilityData}
+                                    disabled={isLoadingApplicationData}
                                 />
                                 <S.IconContainer data-tooltip-id="description-icon">
                                     <Icon iconName={Icons.InfoCircled} size="medium" />
@@ -173,15 +188,14 @@ export const BCAddPage = () => {
                                 </S.TooltipContainer>
                             </S.RelativeContainer>
                             <CapabilityAutocomplete
-                                isLoadingCapability={isLoadingCapabilityData}
-                                parent={capabilityData?.parent}
+                                isLoadingCapability={isLoadingApplicationData}
+                                parent={applicationData?.entity.parent}
                             />
                             <S.FlexContainer>
                                 <TextField
                                     name="owner"
                                     label="Владелец возможности"
-                                    disabled={isLoadingCapabilityData}
-                                    helperPosition="block"
+                                    disabled={false}
                                 />
                                 <Button
                                     type="button"
@@ -195,7 +209,7 @@ export const BCAddPage = () => {
                             <TextArea
                                 name="comment"
                                 label="Комментарий к заявке"
-                                disabled={isLoadingCapabilityData}
+                                disabled={false}
                             />
                             {/* @TODO: Scroll issue */}
                             <S.EmptyDiv />
@@ -203,17 +217,25 @@ export const BCAddPage = () => {
                     </S.Content>
                     <S.Footer>
                         <S.ButtonContainer>
-                            {/* <Button size="medium" type="button" onClick={onSubmit(true)}>
-                                Сохранить как черновик
-                            </Button> */}
-                            <Button
-                                size="medium"
-                                variant="contained"
-                                disabled={isCreatingApplication}
-                                type="submit"
-                            >
-                                Отправить заявку
-                            </Button>
+                            {review ? (
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    disabled={isUpdatingApplication}
+                                    type="submit"
+                                >
+                                    Согласовать
+                                </Button>
+                            ) : (
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    disabled={isUpdatingApplication}
+                                    type="submit"
+                                >
+                                    Редактировать
+                                </Button>
+                            )}
                         </S.ButtonContainer>
                     </S.Footer>
                 </S.PageWrapper>

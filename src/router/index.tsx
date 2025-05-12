@@ -14,7 +14,9 @@ import {
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AppInfoPage,
+    ApplicationEditPage,
     ApplicationsPage,
+    ApplicationsReviewPage,
     ApplicationViewPage,
     AppsPage,
     ArchCommPage,
@@ -48,7 +50,6 @@ import {
     SearchPage,
     ServicesPage,
     SubscriptionsPage,
-    TCAddPage,
     TechnologiesPage,
     TechnologyAddPage,
     TechnologyVersionAddPage,
@@ -68,7 +69,10 @@ const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`,
     `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`,
-    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
+    `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -299,6 +303,12 @@ export const NavigationRouter = () => {
                             </S.RouteWithDrawer>
                         }
                     />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`}
+                        element={<BCAddPage />}
+                    />
+
                     <Route
                         path={`${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}`}
                         element={
@@ -556,7 +566,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuProfile />
                                 <S.ContentWrapper>
-                                    <ApplicationsPage key="APPLICATIONS_PAGE" review={false} />
+                                    <ApplicationsPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -568,25 +578,30 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`}
+                        element={<ApplicationEditPage />}
+                    />
+
+                    <Route
                         path={`${R.PROFILE_PATH}${R.REVIEW_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuProfile />
                                 <S.ContentWrapper>
-                                    <ApplicationsPage key="REVIEW_PAGE" review={true} />
+                                    <ApplicationsReviewPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
                     />
 
                     <Route
-                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}`}
-                        element={<BCAddPage />}
+                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`}
+                        element={<ApplicationViewPage review />}
                     />
 
                     <Route
-                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.ADD_PATH}/tc`}
-                        element={<TCAddPage />}
+                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`}
+                        element={<ApplicationEditPage review />}
                     />
 
                     <Route path="*" element={<NotFoundPage />} />

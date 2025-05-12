@@ -59,4 +59,5 @@ export const REVIEW_PATH = '/review';
 
 // Utils
 export const ADD_PATH = '/add';
+export const EDIT_PATH = '/edit';
 export const VIEW_PATH = '/view';

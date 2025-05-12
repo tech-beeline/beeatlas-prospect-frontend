@@ -1,4 +1,6 @@
+export { ApplicationEditPage } from './ApplicationEditPage';
 export { ApplicationsPage } from './ApplicationsPage';
+export { ApplicationsReviewPage } from './ApplicationsReviewPage';
 export { ApplicationViewPage } from './ApplicationViewPage';
 export { BCAddPage } from './BCAddPage';
 export { ExportPage } from './ExportPage';

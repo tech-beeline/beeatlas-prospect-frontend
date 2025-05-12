@@ -11,25 +11,31 @@ import {
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetApplicationsQuery } from 'api/queries/applications';
+import { useGetArchitectApplicationsQuery } from 'api/queries/applications';
 
 import { APPLICATIONS_PER_PAGE, availableStatusIdsForTab, TABS } from './const';
 import * as S from './units';
 
-export const ApplicationsPage: FC = () => {
+export const ApplicationsReviewPage: FC = () => {
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * APPLICATIONS_PER_PAGE;
     const endIndex = page * APPLICATIONS_PER_PAGE;
 
-    const [tabVariant, setTabVariant] = useState(TabVariant.ACTIVE);
+    const [tabVariant, setTabVariant] = useState(TabVariant.AWAITING_EXECUTOR);
     const [sortingVariant, setSortingVariant] = useState<SortingVariant>(SortingVariant.DESC);
     const [search, setSearch] = useState('');
 
-    const { data: applicationsData, isLoading: isLoadingApplications } = useGetApplicationsQuery({
-        enabled: true,
-    });
+    const { data: allApplicationsData, isLoading: isLoadingArchitectApplications } =
+        useGetArchitectApplicationsQuery({
+            enabled: true,
+        });
 
-    const applicationsSorted = (applicationsData ?? []).sort((a, b) =>
+    const architectApplicationsData =
+        tabVariant === TabVariant.AWAITING_EXECUTOR
+            ? allApplicationsData?.nobody
+            : allApplicationsData?.executor;
+
+    const applicationsSorted = (architectApplicationsData ?? []).sort((a, b) =>
         sortingVariant === SortingVariant.ASC
             ? // @ts-ignore
               new Date(a.createDate) - new Date(b.createDate)
@@ -38,7 +44,9 @@ export const ApplicationsPage: FC = () => {
     );
 
     const applicationsFiltered = applicationsSorted
-        .filter((applcation) => availableStatusIdsForTab[tabVariant].includes(applcation.status.id))
+        .filter((application) =>
+            availableStatusIdsForTab[tabVariant].includes(application.status.id),
+        )
         .filter(
             (application) =>
                 application.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -46,12 +54,12 @@ export const ApplicationsPage: FC = () => {
         )
         .slice(startIndex, endIndex);
 
-    const isEmpty = !isLoadingApplications && applicationsFiltered.length === 0;
+    const isEmpty = !isLoadingArchitectApplications && applicationsFiltered.length === 0;
 
     return (
         <S.PageWrapper>
             <S.Container>
-                <Text variant="h4">Мои заявки</Text>
+                <Text variant="h4">Согласование заявок</Text>
 
                 <S.TabsContainer>
                     <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.value === tabVariant)}>
@@ -84,18 +92,14 @@ export const ApplicationsPage: FC = () => {
                     />
                 </S.FiltersContainer>
 
-                {isLoadingApplications &&
+                {isLoadingArchitectApplications &&
                     Array.from({ length: 3 }).map((_, i) => (
                         <Skeleton key={i} height={100} radius={12} />
                     ))}
 
                 {applicationsFiltered.map((application) => (
-                    <ApplicationCard key={application.id} application={application} />
+                    <ApplicationCard review key={application.id} application={application} />
                 ))}
-
-                {/* {Array.from({ length: 15 }).map((_, i) => ( */}
-                {/*     <ApplicationCard key={i} /> */}
-                {/* ))} */}
 
                 {isEmpty && (
                     <S.NotFoundContainer>

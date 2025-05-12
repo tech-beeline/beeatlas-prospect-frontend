@@ -46,15 +46,15 @@ instanceOfAxios.interceptors.response.use(
                 break;
             case 404:
                 break;
-            // case 401:
-            // try {
-            //     await authInstance.refreshTokens({ restartAuthFlowOnFail: true });
-            //
-            //     return instanceOfAxios.request(error.config);
-            // } catch (e) {
-            //     console.error(e);
-            // }
-            // break;
+            case 401:
+                try {
+                    await authInstance.refreshTokens({ restartAuthFlowOnFail: true });
+
+                    return instanceOfAxios.request(error.config);
+                } catch (e) {
+                    console.error(e);
+                }
+                break;
         }
         return Promise.reject(error);
     },
