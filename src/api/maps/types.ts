@@ -3,6 +3,18 @@ export enum PersonalMapTypes {
     TECH_CAPABILITY = 'TECH_CAPABILITY',
 }
 
+export interface IMapCriteria {
+    id: number;
+    name: string;
+    description: string | null;
+    interval: number | null;
+    maxDesc: string | null;
+    minDesc: string | null;
+    revers: boolean;
+    threshold: number | null;
+    type: string;
+}
+
 export interface IPersonalMapType {
     id: number;
     name: PersonalMapTypes;
@@ -31,7 +43,7 @@ export interface IMapCapability {
     responsibilityProductId: number;
     status: string;
     updatedDate: string;
-    criteria: { criteria_id: number; grade: number; value: number };
+    criteria: { criteria_id: number; grade: number; value: number }[];
 }
 
 export interface IPersonalMapGroup {
