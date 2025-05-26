@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     deletePersonalMap,
+    getMapCriterias,
     getPersonalMapById,
     getPersonalMaps,
     getPersonalMapTypes,
@@ -13,6 +14,13 @@ import { IPersonalMapForm, IPersonalMapGroupForm, IPersonalMapUpdateForm } from 
 
 const MAPS_PREFIX = 'MAPS_PREFIX';
 const MAPS_LIBRARY_PREFIX = 'MAPS_LIBRARY_PREFIX';
+
+export const useGetMapCriteriasQuery = () => {
+    return useQuery({
+        queryKey: [MAPS_PREFIX, 'CRITERIAS'],
+        queryFn: () => getMapCriterias().then((res) => res.data),
+    });
+};
 
 export const useGetPersonalMapsQuery = () => {
     return useQuery({

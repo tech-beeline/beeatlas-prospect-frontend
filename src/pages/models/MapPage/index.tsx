@@ -6,10 +6,10 @@ import {
     BreadCrumbsItem,
     CapabilityCard,
     CreateMapSideblock,
+    DEFAULT_MAP_CHIP,
+    DynamicLegend,
     MapFormValues,
     MapVariant,
-    ScenariosLegend,
-    TechCapabilitiesLegend,
     TechCapabilityCard,
 } from 'features/maps';
 
@@ -17,18 +17,19 @@ import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { IMapItemData } from 'api/capability/types';
+import { IMapCriteria } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
-import { useCreatePersonalMapMutation } from 'api/queries/maps';
+import { useCreatePersonalMapMutation, useGetMapCriteriasQuery } from 'api/queries/maps';
 import { useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 
 import { PersonalMapsLibrary } from './components';
-import { CHIPS, TABS, TabVariant } from './const';
+import { TABS, TabVariant } from './const';
 import * as S from './units';
 
 export const MapPage = () => {
     const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
-    const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
+    const [mapVariant, setMapVariant] = useState<MapVariant | IMapCriteria>(MapVariant.DEFAULT);
     const [chipsDisabled, setChipsDisabled] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -65,6 +66,8 @@ export const MapPage = () => {
         error,
     } = useGetMapDataQuery(id ? Number(id) : undefined);
 
+    const { data: criteriasData, isLoading: isLoadingCriterias } = useGetMapCriteriasQuery();
+
     const activeItem = data ? (id ? (data as any as IMapItemData) : data[0]) : null;
 
     const hasSubChildren =
@@ -87,9 +90,6 @@ export const MapPage = () => {
         }
         setIsExpanded(false);
     }, [activeItem]);
-
-    const Legend =
-        mapVariant === MapVariant.E2E_SCENARIOS ? ScenariosLegend : TechCapabilitiesLegend;
 
     return (
         <S.PageWrapper>
@@ -200,15 +200,36 @@ export const MapPage = () => {
                                 )}
 
                                 <S.ChipsContainer>
-                                    {CHIPS.map((chip, i) => (
+                                    {[
+                                        DEFAULT_MAP_CHIP,
+                                        ...(criteriasData ?? []).map((criteria) => ({
+                                            label: criteria.name,
+                                            value: criteria.id,
+                                        })),
+                                    ].map((chip, i) => (
                                         <Chip
-                                            key={i}
+                                            key={chip.value}
                                             disabled={chipsDisabled && i !== 0}
-                                            active={chip.value === mapVariant}
+                                            active={
+                                                chip.value === mapVariant ||
+                                                chip.value === (mapVariant as any)?.id
+                                            }
                                             label={chip.label}
-                                            onClick={() => setMapVariant(chip.value)}
+                                            onClick={() =>
+                                                setMapVariant(
+                                                    criteriasData?.find(
+                                                        (criteria) => criteria.id === chip.value,
+                                                    ) ?? MapVariant.DEFAULT,
+                                                )
+                                            }
                                         />
                                     ))}
+                                    {isLoadingCriterias && (
+                                        <>
+                                            <Skeleton height={32} width={100} />
+                                            <Skeleton height={32} width={100} />
+                                        </>
+                                    )}
                                 </S.ChipsContainer>
 
                                 <S.SubtitleContainer>
@@ -220,7 +241,9 @@ export const MapPage = () => {
                                             ? 'Технические возможности'
                                             : 'Бизнес-возможности'}
                                     </S.Subtitle>
-                                    {mapVariant !== MapVariant.DEFAULT && <Legend />}
+                                    {mapVariant !== MapVariant.DEFAULT && (
+                                        <DynamicLegend criteria={mapVariant} />
+                                    )}
                                 </S.SubtitleContainer>
                             </>
                         )}

@@ -6,6 +6,12 @@ import { GATEWAY_URL } from '../const';
 
 import * as T from './types';
 
+export const getMapCriterias = (): AxiosPromise<T.IMapCriteria[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}capability/v1/criterias`,
+    });
+};
+
 export const getPersonalMaps = (): AxiosPromise<T.IPersonalMapData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}capability/v1/maps`,
