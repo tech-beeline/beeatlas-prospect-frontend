@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { MapVariant } from 'features/maps';
+import { CapabilityCardCriteriaComment, MapVariant } from 'features/maps';
 import { generateMapColorGradient } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
@@ -62,6 +62,10 @@ const BusinessCard: FC<{
                     <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                 </S.CriteriaContainer>
             )}
+            <CapabilityCardCriteriaComment
+                id={`capability-${capability.id}`}
+                comment={criteria?.comment}
+            />
         </S.Card>
     );
 };
@@ -105,6 +109,10 @@ const TechCard: FC<{
                         <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                     </S.CriteriaContainer>
                 )}
+                <CapabilityCardCriteriaComment
+                    id={`capability-${capability.id}`}
+                    comment={criteria?.comment}
+                />
             </S.Content>
             <Icon
                 data-tooltip-id={`TECH-${capability.id}`}

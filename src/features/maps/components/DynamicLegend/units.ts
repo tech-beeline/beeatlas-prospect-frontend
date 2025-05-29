@@ -1,25 +1,23 @@
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-`;
-
-export const Item = styled.div`
+    width: 600px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 2px;
 `;
 
 export const TilesWrapper = styled.div`
     display: flex;
     gap: 1px;
+
+    width: 100%;
 `;
 
 export const Tile = styled.div<{ color: string; first?: boolean; last?: boolean }>`
-    width: 80px;
     height: 24px;
+    width: 100%;
 
     background-color: ${({ color }) => color};
 
@@ -30,10 +28,9 @@ export const Tile = styled.div<{ color: string; first?: boolean; last?: boolean 
     border-bottom-right-radius: ${({ last }) => (last ? '12px' : '0px')};
 `;
 
-export const Text = styled.div`
-    font-weight: var(--font-weight-body3);
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
+export const TextWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
 
-    color: var(--color-text-inactive);
+    width: 100%;
 `;

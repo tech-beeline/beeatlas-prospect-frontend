@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import { generateMapColorGradient } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
+import { Text } from 'components/core';
+
 import { IDynamicLegend } from './types';
 import * as S from './units';
 
@@ -12,15 +14,24 @@ export const DynamicLegend: FC<IDynamicLegend> = ({ criteria }) => {
 
     return (
         <S.Wrapper>
-            <S.Text>{criteria.revers ? criteria.maxDesc : criteria.minDesc}</S.Text>
             <S.TilesWrapper>
                 {gradient.map((color, i) => (
-                    <S.Item key={i}>
-                        <S.Tile first={i === 0} last={i === gradient.length - 1} color={color} />
-                    </S.Item>
+                    <S.Tile
+                        key={i}
+                        first={i === 0}
+                        last={i === gradient.length - 1}
+                        color={color}
+                    />
                 ))}
             </S.TilesWrapper>
-            <S.Text>{criteria.revers ? criteria.minDesc : criteria.maxDesc}</S.Text>
+            <S.TextWrapper>
+                <Text inactive variant="body3">
+                    {criteria.revers ? criteria.maxDesc : criteria.minDesc}
+                </Text>
+                <Text inactive variant="body3">
+                    {criteria.revers ? criteria.minDesc : criteria.maxDesc}
+                </Text>
+            </S.TextWrapper>
         </S.Wrapper>
     );
 };

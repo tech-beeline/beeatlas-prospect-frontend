@@ -1,4 +1,5 @@
 export { BreadCrumbsItem } from './BreadCrumbsItem';
+export { CapabilityCardCriteriaComment } from './CapabailityCardCriteriaComment';
 export { CapabilityCard, TechCapabilityCard } from './CapabilityCard';
 export * from './CreateMapSideblock';
 export type { MapFormValues } from './CreateMapSideblock/form';

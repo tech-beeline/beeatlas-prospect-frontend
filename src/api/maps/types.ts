@@ -43,7 +43,7 @@ export interface IMapCapability {
     responsibilityProductId: number;
     status: string;
     updatedDate: string;
-    criteria: { criteria_id: number; grade: number; value: number }[];
+    criteria: { criteria_id: number; grade: number; value: number; comment: string | null }[];
 }
 
 export interface IPersonalMapGroup {

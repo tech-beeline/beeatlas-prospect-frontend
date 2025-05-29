@@ -85,9 +85,7 @@ export const GroupCardTitle = styled.div`
 
 export const TechCapabilityCard = styled.div`
     display: flex;
-    align-items: start;
-    justify-content: space-between;
-    gap: 16px;
+    flex-direction: column;
 
     width: 100%;
 
@@ -95,6 +93,13 @@ export const TechCapabilityCard = styled.div`
 
     border-radius: 12px;
     border: 1px solid var(--color-divider);
+`;
+
+export const TechCapabilityTitleContainer = styled.div`
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 16px;
 `;
 
 export const TooltipContainer = styled(Tooltip)`

@@ -142,3 +142,11 @@ export const TooltipContainer = styled(Tooltip)`
 
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 `;
+
+export const CommentContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    margin-top: 16px;
+`;

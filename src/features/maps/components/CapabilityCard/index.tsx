@@ -11,6 +11,7 @@ import { Link } from 'components/other';
 import * as ROUTER from 'router/const';
 
 import { MapVariant } from '../../const';
+import { CapabilityCardCriteriaComment } from '../CapabailityCardCriteriaComment';
 
 import { ICapabilityCard, ITechCapabilityCard } from './types';
 import * as S from './units';
@@ -64,6 +65,10 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                         <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                     </S.CriteriaContainer>
                 )}
+                <CapabilityCardCriteriaComment
+                    id={`capability-${item.id}`}
+                    comment={criteria?.comment}
+                />
             </S.Card>
         );
     }
@@ -101,12 +106,14 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
     return (
         <>
             <S.TechCapabilityCard>
-                <S.CardText>{techCapability.name}</S.CardText>
-                <Icon
-                    data-tooltip-id={`TECH-${techCapability.id}`}
-                    iconName={Icons.InfoCircled}
-                    size="large"
-                />
+                <S.TechCapabilityTitleContainer>
+                    <S.CardText>{techCapability.name}</S.CardText>
+                    <Icon
+                        data-tooltip-id={`TECH-${techCapability.id}`}
+                        iconName={Icons.InfoCircled}
+                        size="large"
+                    />
+                </S.TechCapabilityTitleContainer>
             </S.TechCapabilityCard>
             <S.TooltipContainer
                 clickable
