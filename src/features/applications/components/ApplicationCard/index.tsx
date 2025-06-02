@@ -110,14 +110,14 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                         {statusAliasToTooltipTextMap[application.status.alias]}
                     </S.TooltipContainer>
                 </S.NumberContainer>
-                {application.status.alias === ApplicationStatus.DN && (
+                {/* {application.status.alias === ApplicationStatus.DN && (
                     <S.LinkContainer>
                         <Text link variant="body2">
                             Возможность в ФДМ
                         </Text>
                         <S.IconStyled iconName={Icons.Copy} />
                     </S.LinkContainer>
-                )}
+                )} */}
                 {review && application.status.alias === ApplicationStatus.WTXCTR && (
                     <S.ButtonContainer>
                         <Button size="small" onClick={handleAssignToSelfButtonClick}>
