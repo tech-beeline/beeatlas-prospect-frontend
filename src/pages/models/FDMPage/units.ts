@@ -162,6 +162,10 @@ export const ListSwitcherWrapper = styled.div`
 `;
 
 export const SubscribeButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+
     margin-top: 24px;
 `;
 

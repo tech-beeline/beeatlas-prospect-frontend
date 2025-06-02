@@ -31,7 +31,6 @@ export const Wrapper = styled.div`
 export const ButtonContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 16px;
 
     padding: 12px 24px;

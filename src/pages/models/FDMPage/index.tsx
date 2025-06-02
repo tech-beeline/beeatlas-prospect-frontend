@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Icon, Skeleton, Tab } from '@beeline/design-system-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Breadcrumbs, Button, Icon, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
@@ -14,6 +14,7 @@ import {
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal, useWindowResize } from 'hooks';
+import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -43,6 +44,8 @@ export const FDMPage = () => {
     const { modalOpened, openModal, closeModal } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const navigate = useNavigate();
 
     const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
         state.activeItem,
@@ -145,6 +148,12 @@ export const FDMPage = () => {
             showSnackbar({
                 message: `Вы отписаны от уведомлений`,
             });
+        }
+    };
+
+    const handleEditButtonClick = () => {
+        if (activeItem) {
+            navigate(`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}?id=${activeItem.id}`);
         }
     };
 
@@ -290,6 +299,17 @@ export const FDMPage = () => {
                                                             : 'Подписаться'}
                                                     </S.ProgressButtonContent>
                                                 </S.ProgressButtonStyled>
+                                                {activeItem.type === ItemTypes.BUSINESS &&
+                                                    activeItem.isDomain === false && (
+                                                        <Button
+                                                            startIcon={
+                                                                <Icon iconName={Icons.Edit} />
+                                                            }
+                                                            onClick={handleEditButtonClick}
+                                                        >
+                                                            Редактировать
+                                                        </Button>
+                                                    )}
                                             </S.SubscribeButtonContainer>
 
                                             {!isItemGroup &&

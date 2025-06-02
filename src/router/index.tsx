@@ -14,8 +14,13 @@ import {
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AppInfoPage,
+    ApplicationEditPage,
+    ApplicationsPage,
+    ApplicationsReviewPage,
+    ApplicationViewPage,
     AppsPage,
     ArchCommPage,
+    BCAddPage,
     BIAddPage,
     BILibraryPage,
     BIViewPage,
@@ -63,6 +68,11 @@ const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
+    `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -293,6 +303,12 @@ export const NavigationRouter = () => {
                             </S.RouteWithDrawer>
                         }
                     />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`}
+                        element={<BCAddPage />}
+                    />
+
                     <Route
                         path={`${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}`}
                         element={
@@ -544,17 +560,49 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    {/* <Route
+                    <Route
                         path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuProfile />
                                 <S.ContentWrapper>
-                                    <InDevelopmentPage title="Мои заявки" />
+                                    <ApplicationsPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
-                    /> */}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`}
+                        element={<ApplicationViewPage />}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`}
+                        element={<ApplicationEditPage />}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuProfile />
+                                <S.ContentWrapper>
+                                    <ApplicationsReviewPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`}
+                        element={<ApplicationViewPage review />}
+                    />
+
+                    <Route
+                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`}
+                        element={<ApplicationEditPage review />}
+                    />
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

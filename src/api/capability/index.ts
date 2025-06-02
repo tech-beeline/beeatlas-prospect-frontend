@@ -40,6 +40,10 @@ export const getBusinessCapabilityById = (
     return Api.get({ url: `${GATEWAY_URL}capability/v1/business/${id}` });
 };
 
+export const getBusinessCapabilityDomains = (): AxiosPromise<T.IBusinessCapability[]> => {
+    return Api.get({ url: `${GATEWAY_URL}capability/v1/business?findBy=DOMAIN` });
+};
+
 export const getTechCapabilityById = (id: number): AxiosPromise<T.ITechCapability> => {
     return Api.get({ url: `${GATEWAY_URL}capability/v1/tech/${id}` });
 };

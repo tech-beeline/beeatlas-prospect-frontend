@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     getBusinessCapabilityById,
     getBusinessCapabilityChildren,
+    getBusinessCapabilityDomains,
     getCapabilitiesBySearch,
     getCoreBusinessCapabilities,
     getMapData,
@@ -24,6 +25,19 @@ export const useGetCapabilitiesQuery = (params: IGetCapabilitiesParams) => {
         queryFn: () =>
             getCapabilitiesBySearch(params.search, params.searchVariant).then((res) => res.data),
         enabled: params.search !== '',
+    });
+};
+
+interface IGetBusinessCapabilityDomainsParams {
+    enabled: boolean;
+}
+export const useGetBusinessCapabilityDomainsQuery = (
+    params: IGetBusinessCapabilityDomainsParams,
+) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'DOMAINS', params],
+        queryFn: () => getBusinessCapabilityDomains().then((res) => res.data),
+        enabled: params.enabled,
     });
 };
 
