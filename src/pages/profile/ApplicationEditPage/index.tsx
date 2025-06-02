@@ -134,6 +134,7 @@ export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
                                     label="Название*"
                                     disabled={isLoadingApplicationData}
                                     helperPosition="block"
+                                    maxLength={200}
                                 />
                                 <S.IconContainer data-tooltip-id="name-icon">
                                     <Icon iconName={Icons.InfoCircled} size="medium" />
@@ -196,6 +197,7 @@ export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
                                     name="owner"
                                     label="Владелец возможности"
                                     disabled={false}
+                                    maxLength={200}
                                 />
                                 <Button
                                     type="button"
