@@ -23,6 +23,8 @@ export const BCAddPage = () => {
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
+    const paramFrom = params.get('from');
+    const [paramFromId, paramFromType] = paramFrom?.split(',') ?? [];
 
     const navigate = useNavigate();
 
@@ -38,7 +40,9 @@ export const BCAddPage = () => {
 
     const navigateBack = () => {
         navigate(
-            paramId
+            paramFrom
+                ? `${R.MODELS_PATH}${R.FDM_PATH}?id=${paramFromId}&type=${paramFromType}`
+                : paramId
                 ? `${R.MODELS_PATH}${R.FDM_PATH}?id=${paramId}&type=BUSINESS`
                 : `${R.MODELS_PATH}${R.FDM_PATH}`,
         );

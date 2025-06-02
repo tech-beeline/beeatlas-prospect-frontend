@@ -60,7 +60,13 @@ export const NestingMenu = () => {
             >
                 <S.ButtonContainer>
                     <ExportButton />
-                    <Button onClick={() => navigate(`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`)}>
+                    <Button
+                        onClick={() =>
+                            navigate(
+                                `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}?from=${id},${type}`,
+                            )
+                        }
+                    >
                         Создать BC
                     </Button>
                 </S.ButtonContainer>
