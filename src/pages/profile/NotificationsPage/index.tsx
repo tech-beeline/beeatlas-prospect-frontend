@@ -42,9 +42,7 @@ export const NotificationsPage = () => {
     );
     const [notificationVariant, setNotificationVariant] = useState(NotificationVariants.ALL);
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
-    const [businessFilterVariant, setBusinessFilterVariant] = useState(
-        BusinessFilterVariants.EXPORT,
-    );
+    const [businessFilterVariant, setBusinessFilterVariant] = useState(BusinessFilterVariants.ALL);
 
     const notificationVariantOptions = [
         { id: NotificationVariants.ALL, value: 'Все' },

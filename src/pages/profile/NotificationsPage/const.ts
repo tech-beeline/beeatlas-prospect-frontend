@@ -8,8 +8,9 @@ export enum FilterVariants {
 }
 
 export enum BusinessFilterVariants {
+    ALL = 'ALL',
     // APPLICATIONS = 'APPLICATIONS',
-    EXPORT = 'EXPORT',
+    // EXPORT = 'EXPORT',
 }
 
 export const CHIPS = [
@@ -32,14 +33,18 @@ export const CHIPS = [
 ];
 
 export const BUSINESS_CHIPS = [
+    {
+        label: 'Все',
+        value: BusinessFilterVariants.ALL,
+    },
     // {
     //     label: 'Мои заявки',
     //     value: BusinessFilterVariants.APPLICATIONS,
     // },
-    {
-        label: 'Экспорт файлов',
-        value: BusinessFilterVariants.EXPORT,
-    },
+    // {
+    //     label: 'Экспорт файлов',
+    //     value: BusinessFilterVariants.EXPORT,
+    // },
 ];
 
 export enum NotificationVariants {

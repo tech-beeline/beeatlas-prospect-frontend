@@ -10,6 +10,7 @@ import { useDownloadFileMutation } from 'api/queries/file-export';
 import { useUpdateBusinessNotificationsMutation } from 'api/queries/notifications';
 import * as R from 'router/const';
 
+import { exportNotificationTypeNames } from './const';
 import { IBusinessNotificationCard } from './types';
 import * as S from './units';
 
@@ -25,36 +26,60 @@ export const BusinessNotificationCard: FC<IBusinessNotificationCard> = ({
         }
     };
 
+    const isExportNotification = exportNotificationTypeNames.includes(
+        businessNotification.entityTypeId.name,
+    );
+
     return (
-        <S.NotificationCard unread={!businessNotification.webNotify} onClick={handleCardClick}>
+        <S.NotificationCard
+            unread={!businessNotification.webNotify}
+            isExport={isExportNotification}
+            onClick={handleCardClick}
+        >
             <S.CardContainer>
                 <S.AvatarContainer>
                     {!businessNotification.webNotify && <S.Indicator />}
-                    <Avatar iconName={Icons.PagesMultiple} color="green" />
+                    <Avatar
+                        iconName={Icons.PagesMultiple}
+                        color={isExportNotification ? 'green' : 'purple'}
+                    />
                 </S.AvatarContainer>
 
                 <S.TextContainer>
                     <Text inactive variant="overline">
-                        ЭКСПОРТ ФАЙЛОВ
+                        {isExportNotification ? 'ЭКСПОРТ ФАЙЛОВ' : 'МОИ ЗАЯВКИ'}
                     </Text>
-                    <Text variant="body2">Файл готов</Text>
+                    <Text variant="body2">
+                        {isExportNotification
+                            ? 'Файл готов'
+                            : businessNotification.entityTypeId.description}
+                    </Text>
                     <Text inactive variant="body3">
                         {dayjs(businessNotification.createdDate).format('DD.MM.YYYY')}
                     </Text>
                     <S.LinkContainer>
                         <Text variant="subtitle3">
-                            <Link title="Перейти" url={`${R.PROFILE_PATH}${R.EXPORT_PATH}`} />
+                            <Link
+                                title="Перейти"
+                                url={
+                                    isExportNotification
+                                        ? `${R.PROFILE_PATH}${R.EXPORT_PATH}`
+                                        : `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`
+                                }
+                            />
                         </Text>
-                        <Button
-                            variant="plain"
-                            startIcon={<Icon iconName={Icons.Download} />}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                downloadFile(businessNotification.entityId);
-                            }}
-                        >
-                            Скачать
-                        </Button>
+                        {isExportNotification && (
+                            <Button
+                                variant="plain"
+                                startIcon={<Icon iconName={Icons.Download} />}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    downloadFile(businessNotification.entityId);
+                                }}
+                            >
+                                Скачать
+                            </Button>
+                        )}
                     </S.LinkContainer>
                 </S.TextContainer>
             </S.CardContainer>

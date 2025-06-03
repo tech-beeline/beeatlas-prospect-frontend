@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-export const NotificationCard = styled.div<{ unread?: boolean }>`
-    padding: 24px 24px 12px 24px;
+export const NotificationCard = styled.div<{ isExport?: boolean; unread?: boolean }>`
+    padding: ${({ isExport }) => (isExport ? '24px 24px 12px 24px' : '24px')};
 
     background-color: ${({ unread }) =>
         unread ? 'var(--color-background-base-selected)' : 'var(--color-background-base)'};
