@@ -17,6 +17,6 @@ export const statusAliasToTooltipTextMap: Record<string, string> = {
     [ApplicationStatus.RW]: 'Cрок вынесения решения 2 рабочих дня',
 };
 
-export const editableStatusAliases = [ApplicationStatus.WTXCTR, ApplicationStatus.RFCTR];
+export const editableStatusAliases = [ApplicationStatus.RFCTR];
 
 export const reviewButtonsStatusAliases = [ApplicationStatus.WTXCTR, ApplicationStatus.RW];
