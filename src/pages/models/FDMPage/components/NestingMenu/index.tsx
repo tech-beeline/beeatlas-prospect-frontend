@@ -63,7 +63,9 @@ export const NestingMenu = () => {
                     <Button
                         onClick={() =>
                             navigate(
-                                `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}?from=${id},${type}`,
+                                id && type
+                                    ? `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}?from=${id},${type}`
+                                    : `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
                             )
                         }
                     >
