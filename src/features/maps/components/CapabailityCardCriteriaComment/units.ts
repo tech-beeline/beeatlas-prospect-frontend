@@ -15,7 +15,7 @@ export const TooltipContainer = styled(Tooltip)`
     gap: 16px;
 
     width: 480px;
-    width: max-content;
+    max-width: 480px;
     padding: 16px;
 
     background-color: var(--color-border-focus);

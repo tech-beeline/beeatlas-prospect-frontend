@@ -15,7 +15,7 @@ import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { IMapItemData } from 'api/capability/types';
-import { IMapCriteria } from 'api/maps/types';
+import { IMapCriteria, PersonalMapTypes } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
 import { useGetMapCriteriasQuery, useGetPersonalMapByIdQuery } from 'api/queries/maps';
 import * as ROUTER from 'router/const';
@@ -180,10 +180,17 @@ export const PersonalMapPage = () => {
                         <S.ChipsContainer>
                             {[
                                 DEFAULT_MAP_CHIP,
-                                ...(criteriasData ?? []).map((criteria) => ({
-                                    label: criteria.name,
-                                    value: criteria.id,
-                                })),
+                                ...(criteriasData ?? [])
+                                    // @TODO: Хардкод, убрать filter с доработкой бэка
+                                    .filter((criteria) =>
+                                        mapData?.type.name === PersonalMapTypes.TECH_CAPABILITY
+                                            ? true
+                                            : criteria.name !== 'Качество описания TC',
+                                    )
+                                    .map((criteria) => ({
+                                        label: criteria.name,
+                                        value: criteria.id,
+                                    })),
                             ].map((chip, i) => (
                                 <Chip
                                     key={chip.value}

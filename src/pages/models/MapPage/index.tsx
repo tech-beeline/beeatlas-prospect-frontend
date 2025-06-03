@@ -202,10 +202,16 @@ export const MapPage = () => {
                                 <S.ChipsContainer>
                                     {[
                                         DEFAULT_MAP_CHIP,
-                                        ...(criteriasData ?? []).map((criteria) => ({
-                                            label: criteria.name,
-                                            value: criteria.id,
-                                        })),
+                                        ...(criteriasData ?? [])
+                                            // @TODO: Хардкод, убрать filter с доработкой бэка
+                                            .filter(
+                                                (criteria) =>
+                                                    criteria.name !== 'Качество описания TC',
+                                            )
+                                            .map((criteria) => ({
+                                                label: criteria.name,
+                                                value: criteria.id,
+                                            })),
                                     ].map((chip, i) => (
                                         <Chip
                                             key={chip.value}
