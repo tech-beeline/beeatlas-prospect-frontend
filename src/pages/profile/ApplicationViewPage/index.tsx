@@ -158,7 +158,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                 <Text inactive variant="body3">
                                     Название
                                 </Text>
-                                <Text variant="body2">{applicationData.name}</Text>
+                                <Text variant="body2">{applicationData.entity.name}</Text>
                             </div>
                             <div>
                                 <Text inactive variant="body3">

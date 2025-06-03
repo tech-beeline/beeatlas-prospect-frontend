@@ -105,7 +105,7 @@ export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
 
     useEffect(() => {
         if (applicationData) {
-            setValue('name', applicationData.name);
+            setValue('name', applicationData.entity.name);
             setValue('description', applicationData.entity.description);
             setValue('owner', applicationData.entity.owner);
             setValue('domain', String(applicationData.entity.parent.id));
