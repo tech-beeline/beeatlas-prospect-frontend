@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button } from '@beeline/design-system-react';
 
 import { useMountEffect } from 'hooks';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';
+import * as R from 'router/const';
 
 import { useFDMStore } from '../../store';
 
@@ -18,6 +20,8 @@ export const NestingMenu = () => {
         getParentCapabilities,
         clearActiveItem,
     } = useFDMStore();
+
+    const navigate = useNavigate();
 
     const [params] = useSearchParams();
     const id = Number(params.get('id'));
@@ -56,6 +60,17 @@ export const NestingMenu = () => {
             >
                 <S.ButtonContainer>
                     <ExportButton />
+                    <Button
+                        onClick={() =>
+                            navigate(
+                                id && type
+                                    ? `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}?from=${id},${type}`
+                                    : `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+                            )
+                        }
+                    >
+                        Создать BC
+                    </Button>
                 </S.ButtonContainer>
                 <S.RightSide data-testid="Tree">
                     {loading

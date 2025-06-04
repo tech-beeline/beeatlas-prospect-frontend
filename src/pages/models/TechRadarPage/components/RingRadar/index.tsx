@@ -22,20 +22,29 @@ export const RingRadar: FC<T.IRingRadar> = (props) => {
     const svgRef = useRef<SVGSVGElement>(null);
 
     /* данные для отрисовки точек дополненые координатами и нкобходимыми функциями */
-    const formatedData = props.data.map((item) => {
-        const itemSegment = UTILS.segment(item.sector.id - 1, item.ring.id - 1, true);
-        const coords = itemSegment.random();
+    const formatedData = props.data
+        .filter(
+            (item) =>
+                item.sector.order >= 0 &&
+                item.sector.order <= 3 &&
+                item.ring.order >= 0 &&
+                item.ring.order <= 3,
+        )
+        .map((item) => {
+            const itemSegment = UTILS.segment(item.sector.order, item.ring.order, true);
+            const coords = itemSegment.random();
 
-        return {
-            ...item,
-            isNewTech: Math.abs(dayjs(item.createdDate).diff(new Date(), 'days')) <= 30,
-            isUpdatedTech: Math.abs(dayjs(item.lastModifiedDate).diff(new Date(), 'days')) <= 30,
-            segment: itemSegment,
-            x: coords.x,
-            y: coords.y,
-            visible: UTILS.itemFilterHandler(item, props.search, props.filterValue),
-        };
-    });
+            return {
+                ...item,
+                isNewTech: Math.abs(dayjs(item.createdDate).diff(new Date(), 'days')) <= 30,
+                isUpdatedTech:
+                    Math.abs(dayjs(item.lastModifiedDate).diff(new Date(), 'days')) <= 30,
+                segment: itemSegment,
+                x: coords.x,
+                y: coords.y,
+                visible: UTILS.itemFilterHandler(item, props.search, props.filterValue),
+            };
+        });
 
     /* тут запускается симуляция D3 для избежания пересечений между точками */
     useEffect(() => {

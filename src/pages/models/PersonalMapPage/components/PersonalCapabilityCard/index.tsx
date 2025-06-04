@@ -2,18 +2,14 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import {
-    MapVariant,
-    mapVariantToDarkThemeColorArrayMap,
-    mapVariantToDescriptionMap,
-    mapVariantToLightThemeColorArrayMap,
-} from 'features/maps';
+import { CapabilityCardCriteriaComment, MapVariant } from 'features/maps';
+import { generateMapColorGradient } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
-import { IMapCapability, PersonalMapTypes } from 'api/maps/types';
+import { IMapCapability, IMapCriteria, PersonalMapTypes } from 'api/maps/types';
 import * as R from 'router/const';
 
 import { IPersonalCapabilityCard } from './types';
@@ -21,23 +17,30 @@ import * as S from './units';
 
 const BusinessCard: FC<{
     capability: IMapCapability;
-    mapVariant: MapVariant;
+    mapVariant: MapVariant | IMapCriteria;
 }> = ({ capability, mapVariant }) => {
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
 
-    const colorArrayMap = themeIsDark
-        ? mapVariantToDarkThemeColorArrayMap
-        : mapVariantToLightThemeColorArrayMap;
-
     const [, setParams] = useSearchParams();
+
+    const criteria =
+        mapVariant !== MapVariant.DEFAULT
+            ? capability.criteria.find((criteria) => criteria.criteria_id === mapVariant.id)
+            : undefined;
+
     return (
         <S.Card
             key={capability.id}
             style={
                 mapVariant !== MapVariant.DEFAULT
                     ? {
-                          backgroundColor:
-                              colorArrayMap[mapVariant][capability.criteria?.grade ?? 0],
+                          backgroundColor: generateMapColorGradient(
+                              themeIsDark,
+                              mapVariant.revers,
+                              mapVariant.interval && mapVariant.interval > 2
+                                  ? mapVariant.interval
+                                  : 2,
+                          )[criteria?.grade ?? 0],
                       }
                     : {}
             }
@@ -55,23 +58,28 @@ const BusinessCard: FC<{
             <Text variant="body2">{capability.name}</Text>
             {mapVariant !== MapVariant.DEFAULT && (
                 <S.CriteriaContainer>
-                    <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
-                    <Text variant="subtitle3">{capability.criteria?.value ?? 0}</Text>
+                    <Text variant="body3">{mapVariant.description}</Text>
+                    <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                 </S.CriteriaContainer>
             )}
+            <CapabilityCardCriteriaComment
+                id={`capability-${capability.id}`}
+                comment={criteria?.comment}
+            />
         </S.Card>
     );
 };
 
 const TechCard: FC<{
     capability: IMapCapability;
-    mapVariant: MapVariant;
+    mapVariant: MapVariant | IMapCriteria;
 }> = ({ capability, mapVariant }) => {
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
 
-    const colorArrayMap = themeIsDark
-        ? mapVariantToDarkThemeColorArrayMap
-        : mapVariantToLightThemeColorArrayMap;
+    const criteria =
+        mapVariant !== MapVariant.DEFAULT
+            ? capability.criteria.find((criteria) => criteria.criteria_id === mapVariant.id)
+            : undefined;
 
     return (
         <S.TechCard
@@ -79,8 +87,13 @@ const TechCard: FC<{
             style={
                 mapVariant !== MapVariant.DEFAULT
                     ? {
-                          backgroundColor:
-                              colorArrayMap[mapVariant][capability.criteria?.grade ?? 0],
+                          backgroundColor: generateMapColorGradient(
+                              themeIsDark,
+                              mapVariant.revers,
+                              mapVariant.interval && mapVariant.interval > 2
+                                  ? mapVariant.interval
+                                  : 2,
+                          )[criteria?.grade ?? 0],
                       }
                     : {}
             }
@@ -92,10 +105,14 @@ const TechCard: FC<{
                 <Text variant="body2">{capability.name}</Text>
                 {mapVariant !== MapVariant.DEFAULT && (
                     <S.CriteriaContainer>
-                        <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
-                        <Text variant="subtitle3">{capability.criteria?.value ?? 0}</Text>
+                        <Text variant="body3">{mapVariant.description}</Text>
+                        <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                     </S.CriteriaContainer>
                 )}
+                <CapabilityCardCriteriaComment
+                    id={`capability-${capability.id}`}
+                    comment={criteria?.comment}
+                />
             </S.Content>
             <Icon
                 data-tooltip-id={`TECH-${capability.id}`}

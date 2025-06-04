@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Button } from '@beeline/design-system-react';
 
+import dialogBox from './images/box-with-dialog.png';
 import questionBox from './images/box-with-question.png';
 import emptyBox from './images/empty-box.png';
 import uneditable from './images/uneditable.png';
@@ -12,6 +13,7 @@ const variantToImageMap = {
     [ImageVariants.QUESTION_BOX]: questionBox,
     [ImageVariants.EMPTY_BOX]: emptyBox,
     [ImageVariants.UNEDITABLE]: uneditable,
+    [ImageVariants.DIALOG_BOX]: dialogBox,
 };
 
 const NotFoundBlock: FC<INotFoundBlock> = ({

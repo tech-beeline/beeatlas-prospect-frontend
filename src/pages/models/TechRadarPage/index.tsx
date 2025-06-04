@@ -24,6 +24,8 @@ import * as S from './units';
 import { itemFilterHandler } from './utils';
 
 export const TechRadarPage = () => {
+    const [isExportButtonDisabled, setIsExportButtonDisabled] = useState(false);
+
     const [selectedTech, setSelectedTech] = useState<ITech | null>(null);
     const [params, setSearchParams] = useSearchParams();
     const [isFirstId, setIsFirstId] = useState(true);
@@ -35,12 +37,17 @@ export const TechRadarPage = () => {
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
     const handleExportClick = async () => {
-        await createExport(ExportVariant.TECH);
+        createExport(ExportVariant.TECH);
 
         showSnackbar({
             message:
                 'Ваш файл находится в процессе обработки. Как только экспорт будет завершен, вы получите уведомление. Проверить статус обработки можно в личном кабинете в разделе Экспорт файлов',
         });
+
+        setIsExportButtonDisabled(true);
+        setTimeout(() => {
+            setIsExportButtonDisabled(false);
+        }, 5 * 1000);
     };
 
     const [search, setSearch] = useState('');
@@ -220,6 +227,7 @@ export const TechRadarPage = () => {
                             onClick={handleExportClick}
                             size="small"
                             startIcon={<Icon iconName={Icons.ShareIos} />}
+                            disabled={isExportButtonDisabled}
                         >
                             Экспорт
                         </Button>

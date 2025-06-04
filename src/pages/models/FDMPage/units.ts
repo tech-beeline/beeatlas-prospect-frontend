@@ -17,16 +17,6 @@ export const Wrapper = styled.div`
 
     border-left: 1px solid var(--color-divider);
 
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
-
     overflow: auto;
 `;
 
@@ -172,6 +162,10 @@ export const ListSwitcherWrapper = styled.div`
 `;
 
 export const SubscribeButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+
     margin-top: 24px;
 `;
 

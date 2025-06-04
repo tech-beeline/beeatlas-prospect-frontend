@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { setUserId } from 'features/analytics';
+
 import { getUserInfo } from 'api/user';
 import { useMountEffect } from 'hooks';
 
@@ -5,7 +8,7 @@ import { authInstance } from '../const';
 import { useAuthStore } from '../store';
 
 export const useAuth = () => {
-    const { setUserInfo, setIsAuthorizing, setIsError } = useAuthStore();
+    const { userInfo, setUserInfo, setIsAuthorizing, setIsError } = useAuthStore();
 
     useMountEffect(() => {
         (async () => {
@@ -24,13 +27,19 @@ export const useAuth = () => {
                 await new Promise(() => {});
             }
 
-            const userInfo = await getUserInfo();
+            const userData = await getUserInfo();
 
-            if (userInfo.status !== 200 || Object.entries(userInfo.data).length === 0) {
+            if (userData.status !== 200 || Object.entries(userData.data).length === 0) {
                 setIsError(true);
             }
 
             setIsAuthorizing(false);
         })();
     });
+
+    useEffect(() => {
+        if (userInfo?.email) {
+            setUserId(userInfo.email);
+        }
+    }, [userInfo]);
 };

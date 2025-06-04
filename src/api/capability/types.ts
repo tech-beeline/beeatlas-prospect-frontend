@@ -99,6 +99,7 @@ interface ICriteria {
     criterion_id: number;
     grade: number;
     value: number;
+    comment: null | string;
 }
 
 export interface IMapItemData {

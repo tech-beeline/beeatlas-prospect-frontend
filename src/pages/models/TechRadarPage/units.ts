@@ -76,17 +76,6 @@ export const RadarsContainer = styled.div`
     height: 100%;
 
     overflow-y: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const RadarWrapper = styled.div<{ isActive?: boolean }>`

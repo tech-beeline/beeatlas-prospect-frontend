@@ -10,17 +10,6 @@ export const Container = styled.div`
     border-right: 1px solid var(--color-divider);
 
     overflow-y: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const SearchResultContainer = styled.div`

@@ -7,16 +7,6 @@ export const ResizableStyled = styled(Resizable)`
     position: static !important;
 
     overflow: hidden auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
 `;
 
 export const Wrapper = styled.div`
@@ -41,7 +31,6 @@ export const Wrapper = styled.div`
 export const ButtonContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 16px;
 
     padding: 12px 24px;

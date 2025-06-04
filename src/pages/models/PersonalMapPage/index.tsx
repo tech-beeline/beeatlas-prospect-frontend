@@ -5,10 +5,9 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BreadCrumbsItem,
     CapabilityCard,
-    CHIPS,
+    DEFAULT_MAP_CHIP,
+    DynamicLegend,
     MapVariant,
-    ScenariosLegend,
-    TechCapabilitiesLegend,
     TechCapabilityCard,
 } from 'features/maps';
 
@@ -16,9 +15,9 @@ import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { IMapItemData } from 'api/capability/types';
-import { PersonalMapTypes } from 'api/maps/types';
+import { IMapCriteria, PersonalMapTypes } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
-import { useGetPersonalMapByIdQuery } from 'api/queries/maps';
+import { useGetMapCriteriasQuery, useGetPersonalMapByIdQuery } from 'api/queries/maps';
 import * as ROUTER from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -26,7 +25,7 @@ import { PersonalCapabilityCard } from './components';
 import * as S from './units';
 
 export const PersonalMapPage = () => {
-    const [mapVariant, setMapVariant] = useState(MapVariant.DEFAULT);
+    const [mapVariant, setMapVariant] = useState<MapVariant | IMapCriteria>(MapVariant.DEFAULT);
     const [chipsDisabled, setChipsDisabled] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -37,6 +36,8 @@ export const PersonalMapPage = () => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const navigate = useNavigate();
+
+    const { data: criteriasData, isLoading: isLoadingCriterias } = useGetMapCriteriasQuery();
 
     const { data: mapData, isLoading: isLoadingMapData, error } = useGetPersonalMapByIdQuery(id);
 
@@ -76,9 +77,6 @@ export const PersonalMapPage = () => {
     useEffect(() => {
         setIsExpanded(false);
     }, [capabilityId]);
-
-    const Legend =
-        mapVariant === MapVariant.E2E_SCENARIOS ? ScenariosLegend : TechCapabilitiesLegend;
 
     return (
         <S.PageWrapper>
@@ -180,19 +178,43 @@ export const PersonalMapPage = () => {
                         )}
 
                         <S.ChipsContainer>
-                            {CHIPS.map((chip, i) => (
+                            {[
+                                DEFAULT_MAP_CHIP,
+                                ...(criteriasData ?? [])
+                                    // @TODO: Хардкод, убрать filter с доработкой бэка
+                                    .filter((criteria) =>
+                                        mapData?.type.name === PersonalMapTypes.TECH_CAPABILITY
+                                            ? true
+                                            : criteria.name !== 'Качество описания TC',
+                                    )
+                                    .map((criteria) => ({
+                                        label: criteria.name,
+                                        value: criteria.id,
+                                    })),
+                            ].map((chip, i) => (
                                 <Chip
-                                    key={i}
-                                    disabled={
-                                        (chipsDisabled && i !== 0) ||
-                                        (mapData?.type.name === PersonalMapTypes.TECH_CAPABILITY &&
-                                            chip.value === MapVariant.TECH_CAPABILITIES)
+                                    key={chip.value}
+                                    disabled={chipsDisabled && i !== 0}
+                                    active={
+                                        chip.value === mapVariant ||
+                                        chip.value === (mapVariant as any)?.id
                                     }
-                                    active={chip.value === mapVariant}
                                     label={chip.label}
-                                    onClick={() => setMapVariant(chip.value)}
+                                    onClick={() =>
+                                        setMapVariant(
+                                            criteriasData?.find(
+                                                (criteria) => criteria.id === chip.value,
+                                            ) ?? MapVariant.DEFAULT,
+                                        )
+                                    }
                                 />
                             ))}
+                            {isLoadingCriterias && (
+                                <>
+                                    <Skeleton height={32} width={100} />
+                                    <Skeleton height={32} width={100} />
+                                </>
+                            )}
                         </S.ChipsContainer>
 
                         <S.SubtitleContainer>
@@ -203,7 +225,9 @@ export const PersonalMapPage = () => {
                                     ? 'Технические возможности'
                                     : 'Бизнес-возможности'}
                             </S.Subtitle>
-                            {mapVariant !== MapVariant.DEFAULT && <Legend />}
+                            {mapVariant !== MapVariant.DEFAULT && (
+                                <DynamicLegend criteria={mapVariant} />
+                            )}
                         </S.SubtitleContainer>
                     </S.InfoContainer>
                 )}

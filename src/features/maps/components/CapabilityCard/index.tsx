@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { generateMapColorGradient } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
@@ -9,12 +10,8 @@ import { Link } from 'components/other';
 
 import * as ROUTER from 'router/const';
 
-import {
-    MapVariant,
-    mapVariantToDarkThemeColorArrayMap,
-    mapVariantToDescriptionMap,
-    mapVariantToLightThemeColorArrayMap,
-} from '../../const';
+import { MapVariant } from '../../const';
+import { CapabilityCardCriteriaComment } from '../CapabailityCardCriteriaComment';
 
 import { ICapabilityCard, ITechCapabilityCard } from './types';
 import * as S from './units';
@@ -27,15 +24,14 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
 }) => {
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
 
-    const colorArrayMap = themeIsDark
-        ? mapVariantToDarkThemeColorArrayMap
-        : mapVariantToLightThemeColorArrayMap;
-
     const [, setParams] = useSearchParams();
 
     const isClickable = item.children.length === 0;
 
-    const criteria = item.criteria.find((criteria) => criteria.criterion_id === 1);
+    const criteria =
+        mapVariant !== MapVariant.DEFAULT
+            ? item.criteria.find((criteria) => criteria.criterion_id === mapVariant.id)
+            : undefined;
 
     if (isClickable) {
         return (
@@ -45,7 +41,11 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                 style={
                     mapVariant !== MapVariant.DEFAULT
                         ? {
-                              backgroundColor: colorArrayMap[mapVariant][criteria?.grade ?? 0],
+                              backgroundColor: generateMapColorGradient(
+                                  themeIsDark,
+                                  mapVariant.revers,
+                                  mapVariant.interval ?? 2,
+                              )[criteria?.grade ?? 0],
                           }
                         : {}
                 }
@@ -61,10 +61,14 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                 <S.CardText>{item.name}</S.CardText>
                 {mapVariant !== MapVariant.DEFAULT && (
                     <S.CriteriaContainer>
-                        <Text variant="body3">{mapVariantToDescriptionMap[mapVariant]}</Text>
+                        <Text variant="body3">{mapVariant.description}</Text>
                         <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                     </S.CriteriaContainer>
                 )}
+                <CapabilityCardCriteriaComment
+                    id={`capability-${item.id}`}
+                    comment={criteria?.comment}
+                />
             </S.Card>
         );
     }
@@ -102,12 +106,14 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
     return (
         <>
             <S.TechCapabilityCard>
-                <S.CardText>{techCapability.name}</S.CardText>
-                <Icon
-                    data-tooltip-id={`TECH-${techCapability.id}`}
-                    iconName={Icons.InfoCircled}
-                    size="large"
-                />
+                <S.TechCapabilityTitleContainer>
+                    <S.CardText>{techCapability.name}</S.CardText>
+                    <Icon
+                        data-tooltip-id={`TECH-${techCapability.id}`}
+                        iconName={Icons.InfoCircled}
+                        size="large"
+                    />
+                </S.TechCapabilityTitleContainer>
             </S.TechCapabilityCard>
             <S.TooltipContainer
                 clickable

@@ -21,17 +21,6 @@ export const TableWrapper = styled.div`
     color: var(--color-text-active);
 
     overflow: auto;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: #b6b7bf;
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        height: 8px;
-        width: 8px;
-    }
 `;
 
 export const Table = styled.table`

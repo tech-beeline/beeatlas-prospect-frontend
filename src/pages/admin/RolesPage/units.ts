@@ -7,17 +7,6 @@ export const PageWrapper = styled.div`
     color: var(--color-text-active);
 
     overflow-y: scroll;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const TitleFlex = styled.div`
@@ -35,17 +24,6 @@ export const RolesContainer = styled.div`
     padding: 8px 0;
 
     overflow-y: scroll;
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const Role = styled.div`

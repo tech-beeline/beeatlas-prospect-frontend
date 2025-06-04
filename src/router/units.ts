@@ -30,17 +30,6 @@ export const ContentWrapper = styled.div<{ hideXOverflow?: boolean }>`
 
     overflow-y: auto;
     overflow-x: ${({ hideXOverflow }) => (hideXOverflow ? 'hidden' : 'auto')};
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
-
-        border-radius: var(--size-border-radius-x8);
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
 `;
 
 export const IFrameStyled = styled.iframe`

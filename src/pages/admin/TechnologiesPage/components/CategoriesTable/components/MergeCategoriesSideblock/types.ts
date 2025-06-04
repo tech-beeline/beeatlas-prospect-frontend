@@ -4,4 +4,5 @@ export interface IMergeCategoriesSideblock {
     isOpen: boolean;
     onClose: () => void;
     selectedCategories: ICategory[];
+    setSelectedCategories: (categories: ICategory[]) => void;
 }
