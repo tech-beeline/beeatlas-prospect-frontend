@@ -128,7 +128,9 @@ const TechCard: FC<{
                 noArrow
             >
                 <Text variant="h5">Описание возможности</Text>
-                <Text variant="body3">{capability.description || 'Описания нет'}</Text>
+                <S.DescriptionText variant="body3">
+                    {capability.description || 'Описания нет'}
+                </S.DescriptionText>
                 <Text variant="body3">
                     Посмотреть детальную информацию можно{'\n'}
                     <Link

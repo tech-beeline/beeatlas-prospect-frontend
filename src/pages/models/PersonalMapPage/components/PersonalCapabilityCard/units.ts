@@ -1,6 +1,8 @@
 import { Tooltip } from 'react-tooltip';
 import styled from '@emotion/styled';
 
+import { Text } from 'components/core';
+
 export const Card = styled.div<{ topLevel?: boolean; withinGrid?: boolean }>`
     display: flex;
     flex-direction: column;
@@ -119,7 +121,7 @@ export const TooltipContainer = styled(Tooltip)`
     flex-direction: column;
     gap: 16px;
 
-    max-width: 360px;
+    max-width: 480px;
     width: max-content;
     padding: 16px;
 
@@ -136,7 +138,7 @@ export const TooltipContainer = styled(Tooltip)`
 
     user-select: none;
 
-    z-index: 30;
+    z-index: 300;
 
     opacity: 1;
 
@@ -149,4 +151,12 @@ export const CommentContainer = styled.div`
     gap: 4px;
 
     margin-top: 16px;
+`;
+
+export const DescriptionText = styled(Text)`
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
 `;
