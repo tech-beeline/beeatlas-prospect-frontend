@@ -184,7 +184,7 @@ export const PersonalMapPage = () => {
                                     // @TODO: Хардкод, убрать filter с доработкой бэка
                                     .filter((criteria) =>
                                         mapData?.type.name === PersonalMapTypes.TECH_CAPABILITY
-                                            ? true
+                                            ? criteria.name !== 'Количество TC'
                                             : criteria.name !== 'Качество описания TC',
                                     )
                                     .map((criteria) => ({
