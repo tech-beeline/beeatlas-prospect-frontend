@@ -36,18 +36,17 @@ ingress:
       paths:
       - path: /
         pathType: ImplementationSpecific
-    - host: "eafdmmart-prod.apps.yd-k03.vimpelcom.ru"
+    - host: "eafdmmart-prod.apps.yd-m3-k21.vimpelcom.ru"
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - hosts:
+        - frontend-arhitect-area-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru
+      secretName: fdm-tls
+    - hosts:
         - beeatlas.vimpelcom.ru
-      secretName: fdm-tls
-    - hosts:
         - tr.vimpelcom.ru
-      secretName: fdm-tls
-    - hosts:
         - techradar.vimpelcom.ru
       secretName: fdm-tls
 
