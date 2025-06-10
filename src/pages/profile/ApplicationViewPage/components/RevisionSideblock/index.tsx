@@ -58,7 +58,6 @@ export const RevisionSideblock: FC<ICreateCategorySideblock> = ({
                         }}
                         error={error}
                         label="Укажите причину*"
-                        maxLength={50}
                     />
                 </S.ContentContainer>
                 <S.ButtonsContainer>
