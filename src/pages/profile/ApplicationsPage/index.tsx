@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Pagination, Search, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
+import { Banner, Pagination, Search, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     ApplicationCard,
     SortingButton,
@@ -17,6 +18,8 @@ import { APPLICATIONS_PER_PAGE, availableStatusIdsForTab, TABS } from './const';
 import * as S from './units';
 
 export const ApplicationsPage: FC = () => {
+    const [showBanner, setShowBanner] = useState(true);
+
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * APPLICATIONS_PER_PAGE;
     const endIndex = page * APPLICATIONS_PER_PAGE;
@@ -52,6 +55,15 @@ export const ApplicationsPage: FC = () => {
         <S.PageWrapper>
             <S.Container>
                 <Text variant="h4">Мои заявки</Text>
+
+                {showBanner && (
+                    <Banner
+                        iconName={Icons.InfoCircled}
+                        title="Обработка заявки происходит в два этапа. Сначала назначается исполнитель — этот процесс занимает до 3 рабочих дней с момента подачи заявки. После того как заявка будет принята в работу, решение по ней будет принято в течение 2 рабочих дней"
+                        color="info"
+                        onClose={() => setShowBanner(false)}
+                    />
+                )}
 
                 <S.TabsContainer>
                     <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.value === tabVariant)}>

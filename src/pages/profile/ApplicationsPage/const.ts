@@ -4,7 +4,7 @@ export const APPLICATIONS_PER_PAGE = 15;
 
 export const TABS = [
     { label: 'Активные', value: TabVariant.ACTIVE },
-    { label: 'Согласованные', value: TabVariant.REVIEWED },
+    { label: 'Завершенные', value: TabVariant.REVIEWED },
     // { label: 'Черновики', value: TabVariant.DRAFT },
 ];
 

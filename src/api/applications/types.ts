@@ -41,7 +41,8 @@ export interface IApplication {
     updateDate: string;
 }
 
-export interface IExtendedApplication extends Omit<IApplication, 'createDate' | 'updateDate'> {
+export interface IExtendedApplication
+    extends Omit<IApplication, 'createDate' | 'updateDate' | 'businessKey'> {
     entity_id: number;
     executor: {
         email: string;
@@ -50,6 +51,7 @@ export interface IExtendedApplication extends Omit<IApplication, 'createDate' | 
     } | null;
     update_date: string | null;
     create_date: string | null;
+    business_key: string;
 }
 
 export interface IApplicationEntity {

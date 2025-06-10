@@ -9,10 +9,10 @@ import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationStatusMutation } from 'api/queries/applications';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { IRevisionSideblock } from './types';
+import { IDenySideblock } from './types';
 import * as S from './units';
 
-export const RevisionSideblock: FC<IRevisionSideblock> = ({ isOpen, onClose, application }) => {
+export const DenySideblock: FC<IDenySideblock> = ({ isOpen, onClose, application }) => {
     const [comment, setComment] = useState('');
     const [error, setError] = useState(false);
 
@@ -30,10 +30,10 @@ export const RevisionSideblock: FC<IRevisionSideblock> = ({ isOpen, onClose, app
             handleClose();
             mutateAsync({
                 id: application.business_key,
-                nextStatus: ApplicationStatus.RFCTR,
+                nextStatus: ApplicationStatus.CNCL,
                 data: { comment },
             });
-            showSnackbar({ message: 'Заявка отправлена на доработку' });
+            showSnackbar({ message: 'Заявка отклонена' });
         } else {
             setError(true);
         }
@@ -43,7 +43,7 @@ export const RevisionSideblock: FC<IRevisionSideblock> = ({ isOpen, onClose, app
             <S.SideblockContainer>
                 <S.ContentContainer>
                     <S.TitleContainer>
-                        <Text variant="h5">Вернуть на доработку</Text>
+                        <Text variant="h5">Отклонить заявку</Text>
                         <IconButton iconName={Icons.Close} size="large" onClick={handleClose} />
                     </S.TitleContainer>
                     <TextArea
@@ -61,7 +61,7 @@ export const RevisionSideblock: FC<IRevisionSideblock> = ({ isOpen, onClose, app
                         Отменить
                     </Button>
                     <Button size="medium" variant="contained" onClick={handleCreateClick}>
-                        Вернуть
+                        Отклонить
                     </Button>
                 </S.ButtonsContainer>
             </S.SideblockContainer>

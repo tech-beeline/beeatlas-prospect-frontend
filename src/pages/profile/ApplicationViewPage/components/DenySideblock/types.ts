@@ -1,6 +1,6 @@
 import { IExtendedApplication } from 'api/applications/types';
 
-export interface IRevisionSideblock {
+export interface IDenySideblock {
     isOpen: boolean;
     onClose: () => void;
     application: IExtendedApplication;

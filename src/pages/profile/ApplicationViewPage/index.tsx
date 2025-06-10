@@ -10,10 +10,9 @@ import { ApplicationStatus } from 'api/applications/types';
 import {
     useGetApplicationByBusinessKeyQuery,
     usePatchBCApplicationMutation,
-    // usePatchBCApplicationStatusMutation,
 } from 'api/queries/applications';
 import { useModal } from 'hooks';
-import { RevisionSideblock } from 'pages/profile/ApplicationViewPage/components';
+import { DenySideblock, RevisionSideblock } from 'pages/profile/ApplicationViewPage/components';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -34,7 +33,17 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const [params] = useSearchParams();
     const paramKey = params.get('key');
 
-    const { openModal, closeModal, modalOpened } = useModal();
+    const {
+        openModal: openRevisionSideblock,
+        closeModal: closeRevisionSideblock,
+        modalOpened: revisionSideblockOpened,
+    } = useModal();
+
+    const {
+        openModal: openDenySideblock,
+        closeModal: closeDenySideblock,
+        modalOpened: denySideblockOpened,
+    } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -50,21 +59,15 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const handleEditButtonClick = () => {
         if (applicationData) {
             navigate(
-                `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}?key=${applicationData.businessKey}`,
+                `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}?key=${applicationData.business_key}`,
             );
         }
     };
 
     const handleApproveButtonClick = async () => {
-        // if (applicationData) {
-        //     await patchApplicationStatus({
-        //         id: applicationData.businessKey,
-        //         nextStatus: ApplicationStatus.DN,
-        //     });
-        // }
         if (applicationData) {
             navigate(
-                `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}?key=${applicationData.businessKey}`,
+                `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}?key=${applicationData.business_key}`,
             );
         }
     };
@@ -72,7 +75,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const handleAssignToSelfButtonClick = async () => {
         if (applicationData) {
             await patchApplication({
-                id: applicationData.businessKey,
+                id: applicationData.business_key,
                 nextStatus: ApplicationStatus.RW,
             });
             showSnackbar({ message: 'Заявка принята в работу' });
@@ -230,8 +233,11 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                 )}
                                 {applicationData.status.alias === ApplicationStatus.RW && (
                                     <>
-                                        <Button size="medium" onClick={openModal}>
+                                        <Button size="medium" onClick={openRevisionSideblock}>
                                             Вернуть на доработку
+                                        </Button>
+                                        <Button size="medium" onClick={openDenySideblock}>
+                                            Отклонить
                                         </Button>
                                         <Button
                                             size="medium"
@@ -248,11 +254,18 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                 </>
             )}
             {applicationData && (
-                <RevisionSideblock
-                    isOpen={modalOpened}
-                    onClose={closeModal}
-                    application={applicationData}
-                />
+                <>
+                    <DenySideblock
+                        isOpen={denySideblockOpened}
+                        onClose={closeDenySideblock}
+                        application={applicationData}
+                    />
+                    <RevisionSideblock
+                        isOpen={revisionSideblockOpened}
+                        onClose={closeRevisionSideblock}
+                        application={applicationData}
+                    />
+                </>
             )}
         </S.PageWrapper>
     );
