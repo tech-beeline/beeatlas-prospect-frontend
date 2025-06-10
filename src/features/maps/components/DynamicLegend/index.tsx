@@ -26,10 +26,10 @@ export const DynamicLegend: FC<IDynamicLegend> = ({ criteria }) => {
             </S.TilesWrapper>
             <S.TextWrapper>
                 <Text inactive variant="body3">
-                    {criteria.revers ? criteria.maxDesc : criteria.minDesc}
+                    {criteria.minDesc}
                 </Text>
                 <Text inactive variant="body3">
-                    {criteria.revers ? criteria.minDesc : criteria.maxDesc}
+                    {criteria.maxDesc}
                 </Text>
             </S.TextWrapper>
         </S.Wrapper>
