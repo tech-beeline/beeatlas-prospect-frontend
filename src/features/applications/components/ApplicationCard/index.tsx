@@ -28,7 +28,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
     const { mutateAsync } = usePatchBCApplicationMutation();
 
     const handleAssignToSelfButtonClick = async () => {
-        await mutateAsync({ id: application.business_key, nextStatus: ApplicationStatus.RW });
+        await mutateAsync({ id: application.businessKey, nextStatus: ApplicationStatus.RW });
         showSnackbar({ message: 'Заявка принята в работу' });
     };
 
@@ -47,7 +47,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                             navigate(
                                 `${R.PROFILE_PATH}${review ? R.REVIEW_PATH : R.APPLICATIONS_PATH}${
                                     R.VIEW_PATH
-                                }?key=${application.business_key}`,
+                                }?key=${application.businessKey}`,
                             )
                         }
                     >

@@ -33,7 +33,7 @@ export const RevisionSideblock: FC<ICreateCategorySideblock> = ({
         if (comment.length !== 0) {
             handleClose();
             mutateAsync({
-                id: application.business_key,
+                id: application.businessKey,
                 nextStatus: ApplicationStatus.RFCTR,
                 data: { comment },
             });

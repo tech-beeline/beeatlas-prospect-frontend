@@ -50,7 +50,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const handleEditButtonClick = () => {
         if (applicationData) {
             navigate(
-                `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}?key=${applicationData.business_key}`,
+                `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}?key=${applicationData.businessKey}`,
             );
         }
     };
@@ -58,13 +58,13 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const handleApproveButtonClick = async () => {
         // if (applicationData) {
         //     await patchApplicationStatus({
-        //         id: applicationData.business_key,
+        //         id: applicationData.businessKey,
         //         nextStatus: ApplicationStatus.DN,
         //     });
         // }
         if (applicationData) {
             navigate(
-                `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}?key=${applicationData.business_key}`,
+                `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}?key=${applicationData.businessKey}`,
             );
         }
     };
@@ -72,7 +72,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const handleAssignToSelfButtonClick = async () => {
         if (applicationData) {
             await patchApplication({
-                id: applicationData.business_key,
+                id: applicationData.businessKey,
                 nextStatus: ApplicationStatus.RW,
             });
             showSnackbar({ message: 'Заявка принята в работу' });
@@ -129,7 +129,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                         Дата создания
                                     </Text>
                                     <Text variant="body2">
-                                        {dayjs(applicationData.createDate).format(
+                                        {dayjs(applicationData.create_date).format(
                                             'DD.MM.YYYY в HH:mm',
                                         )}
                                     </Text>

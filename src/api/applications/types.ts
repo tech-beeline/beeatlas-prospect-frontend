@@ -29,7 +29,7 @@ interface IApplicationType {
 
 export interface IApplication {
     id: number;
-    business_key: string;
+    businessKey: string;
     authorId: number;
     comments: IComment[];
     createDate: string;
@@ -41,7 +41,7 @@ export interface IApplication {
     updateDate: string;
 }
 
-export interface IExtendedApplication extends IApplication {
+export interface IExtendedApplication extends Omit<IApplication, 'createDate' | 'updateDate'> {
     entity_id: number;
     executor: {
         email: string;
@@ -49,6 +49,7 @@ export interface IExtendedApplication extends IApplication {
         id: number;
     } | null;
     update_date: string | null;
+    create_date: string | null;
 }
 
 export interface IApplicationEntity {
