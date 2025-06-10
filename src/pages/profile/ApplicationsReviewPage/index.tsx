@@ -13,7 +13,7 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useGetArchitectApplicationsQuery } from 'api/queries/applications';
 
-import { APPLICATIONS_PER_PAGE, availableStatusIdsForTab, TABS } from './const';
+import { APPLICATIONS_PER_PAGE, availableStatusAliasesForTab, TABS } from './const';
 import * as S from './units';
 
 export const ApplicationsReviewPage: FC = () => {
@@ -35,6 +35,24 @@ export const ApplicationsReviewPage: FC = () => {
             ? allApplicationsData?.nobody
             : allApplicationsData?.executor;
 
+    const awaitingExecutorApplicationsCount = allApplicationsData?.nobody?.length;
+
+    const awaitingDesicionApplicationsCount = allApplicationsData?.executor?.filter((application) =>
+        availableStatusAliasesForTab[TabVariant.AWAITING_DECISION].includes(
+            application.status.alias,
+        ),
+    ).length;
+
+    const historyApplicationsCount = allApplicationsData?.executor?.filter((application) =>
+        availableStatusAliasesForTab[TabVariant.HISTORY].includes(application.status.alias),
+    ).length;
+
+    const tabVariantToCount: Record<string, number | undefined> = {
+        [TabVariant.AWAITING_EXECUTOR]: awaitingExecutorApplicationsCount,
+        [TabVariant.AWAITING_DECISION]: awaitingDesicionApplicationsCount,
+        [TabVariant.HISTORY]: historyApplicationsCount,
+    };
+
     const applicationsSorted = (architectApplicationsData ?? []).sort((a, b) =>
         sortingVariant === SortingVariant.ASC
             ? // @ts-ignore
@@ -45,7 +63,7 @@ export const ApplicationsReviewPage: FC = () => {
 
     const applicationsFiltered = applicationsSorted
         .filter((application) =>
-            availableStatusIdsForTab[tabVariant].includes(application.status.id),
+            availableStatusAliasesForTab[tabVariant].includes(application.status.alias),
         )
         .filter(
             (application) =>
@@ -56,17 +74,27 @@ export const ApplicationsReviewPage: FC = () => {
 
     const isEmpty = !isLoadingArchitectApplications && applicationsFiltered.length === 0;
 
+    const pagesCount = Math.ceil((tabVariantToCount[tabVariant] ?? 0) / APPLICATIONS_PER_PAGE);
+
     return (
         <S.PageWrapper>
             <S.Container>
                 <Text variant="h4">Согласование заявок</Text>
 
                 <S.TabsContainer>
-                    <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.value === tabVariant)}>
+                    <Tabs
+                        key={JSON.stringify(tabVariantToCount)}
+                        selectedTabIndex={TABS.findIndex((tab) => tab.value === tabVariant)}
+                    >
                         {TABS.map((tab) => (
                             <Tab
                                 key={tab.value}
-                                label={tab.label}
+                                label={
+                                    tab.label +
+                                    (tabVariantToCount[tab.value]
+                                        ? ` (${tabVariantToCount[tab.value]})`
+                                        : '')
+                                }
                                 value={tab.value}
                                 onClick={(v) => setTabVariant(v)}
                             />
@@ -111,14 +139,9 @@ export const ApplicationsReviewPage: FC = () => {
                     </S.NotFoundContainer>
                 )}
 
-                {applicationsFiltered.length > APPLICATIONS_PER_PAGE && (
+                {pagesCount > 1 && (
                     <S.PaginationContainer>
-                        <Pagination
-                            collapsed
-                            count={Math.ceil(applicationsFiltered.length / APPLICATIONS_PER_PAGE)}
-                            page={page}
-                            onChange={setPage}
-                        />
+                        <Pagination collapsed count={pagesCount} page={page} onChange={setPage} />
                     </S.PaginationContainer>
                 )}
             </S.Container>

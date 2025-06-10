@@ -14,7 +14,7 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useGetApplicationsQuery } from 'api/queries/applications';
 
-import { APPLICATIONS_PER_PAGE, availableStatusIdsForTab, TABS } from './const';
+import { APPLICATIONS_PER_PAGE, availableStatusAliasesForTab, TABS } from './const';
 import * as S from './units';
 
 export const ApplicationsPage: FC = () => {
@@ -40,8 +40,23 @@ export const ApplicationsPage: FC = () => {
               new Date(b.createDate) - new Date(a.createDate),
     );
 
+    const activeApplicationsCount = applicationsData?.filter((application) =>
+        availableStatusAliasesForTab[TabVariant.ACTIVE].includes(application.status.alias),
+    ).length;
+
+    const reviewedApplicationsCount = applicationsData?.filter((application) =>
+        availableStatusAliasesForTab[TabVariant.REVIEWED].includes(application.status.alias),
+    ).length;
+
+    const tabVariantToCount: Record<string, number | undefined> = {
+        [TabVariant.ACTIVE]: activeApplicationsCount,
+        [TabVariant.REVIEWED]: reviewedApplicationsCount,
+    };
+
     const applicationsFiltered = applicationsSorted
-        .filter((applcation) => availableStatusIdsForTab[tabVariant].includes(applcation.status.id))
+        .filter((application) =>
+            availableStatusAliasesForTab[tabVariant].includes(application.status.alias),
+        )
         .filter(
             (application) =>
                 application.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -50,6 +65,8 @@ export const ApplicationsPage: FC = () => {
         .slice(startIndex, endIndex);
 
     const isEmpty = !isLoadingApplications && applicationsFiltered.length === 0;
+
+    const pagesCount = Math.ceil((tabVariantToCount[tabVariant] ?? 0) / APPLICATIONS_PER_PAGE);
 
     return (
         <S.PageWrapper>
@@ -66,11 +83,19 @@ export const ApplicationsPage: FC = () => {
                 )}
 
                 <S.TabsContainer>
-                    <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.value === tabVariant)}>
+                    <Tabs
+                        key={JSON.stringify(tabVariantToCount)}
+                        selectedTabIndex={TABS.findIndex((tab) => tab.value === tabVariant)}
+                    >
                         {TABS.map((tab) => (
                             <Tab
                                 key={tab.value}
-                                label={tab.label}
+                                label={
+                                    tab.label +
+                                    (tabVariantToCount[tab.value]
+                                        ? ` (${tabVariantToCount[tab.value]})`
+                                        : '')
+                                }
                                 value={tab.value}
                                 onClick={(v) => setTabVariant(v)}
                             />
@@ -105,10 +130,6 @@ export const ApplicationsPage: FC = () => {
                     <ApplicationCard key={application.id} application={application} />
                 ))}
 
-                {/* {Array.from({ length: 15 }).map((_, i) => ( */}
-                {/*     <ApplicationCard key={i} /> */}
-                {/* ))} */}
-
                 {isEmpty && (
                     <S.NotFoundContainer>
                         <NotFoundBlock
@@ -119,14 +140,9 @@ export const ApplicationsPage: FC = () => {
                     </S.NotFoundContainer>
                 )}
 
-                {applicationsFiltered.length > APPLICATIONS_PER_PAGE && (
+                {pagesCount > 1 && (
                     <S.PaginationContainer>
-                        <Pagination
-                            collapsed
-                            count={Math.ceil(applicationsFiltered.length / APPLICATIONS_PER_PAGE)}
-                            page={page}
-                            onChange={setPage}
-                        />
+                        <Pagination collapsed count={pagesCount} page={page} onChange={setPage} />
                     </S.PaginationContainer>
                 )}
             </S.Container>
