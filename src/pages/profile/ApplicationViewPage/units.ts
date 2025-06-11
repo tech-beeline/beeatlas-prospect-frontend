@@ -73,12 +73,17 @@ export const MetadataContainer = styled.div`
 export const CommentsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: 24px;
 
     padding: 24px;
 
     border: 1px solid var(--color-divider);
     border-radius: 12px;
+`;
+
+export const NoComments = styled.div`
+    display: flex;
+    justify-content: center;
 `;
 
 export const EmptyDiv = styled.div`

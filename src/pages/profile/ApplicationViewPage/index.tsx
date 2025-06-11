@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
+import { Button, Divider, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
@@ -186,22 +186,26 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                 {formatNullableString(applicationData.executor?.fullName)}
                             </Text>
                             <Text variant="subtitle1">Комментарии к заявке</Text>
-                            {applicationData.comments.length === 0 && (
-                                <Text variant="body2">Нет комментариев</Text>
-                            )}
-                            {applicationData.comments.length > 0 && (
-                                <S.CommentsContainer>
-                                    {applicationData.comments.map((comment) => (
+                            <S.CommentsContainer>
+                                {applicationData.comments.map((comment, i) => (
+                                    <>
                                         <div key={comment.id}>
                                             <Text inactive variant="body3">
-                                                {comment.full_name}, добавил комментарий{' '}
+                                                {comment.fullName}, добавил комментарий{' '}
                                                 {dayjs(comment.created_date).format('DD.MM.YYYY')}
                                             </Text>
                                             <Text variant="body2">{comment.comment}</Text>
                                         </div>
-                                    ))}
-                                </S.CommentsContainer>
-                            )}
+                                        {i !== applicationData.comments.length - 1 && <Divider />}
+                                    </>
+                                ))}
+                                {applicationData.comments.length === 0 && (
+                                    <S.NoComments>
+                                        <Text variant="body2">Нет комментариев</Text>
+                                    </S.NoComments>
+                                )}
+                            </S.CommentsContainer>
+
                             {/* @TODO: Scroll issue */}
                             <S.EmptyDiv />
                         </S.ContentContainer>

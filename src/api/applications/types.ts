@@ -2,7 +2,7 @@ interface IComment {
     id: number;
     comment: string;
     created_date: string;
-    full_name: string;
+    fullName: string;
 }
 
 export enum ApplicationStatus {
