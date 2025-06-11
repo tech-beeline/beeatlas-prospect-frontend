@@ -9,7 +9,7 @@ import { Text } from 'components/core';
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationMutation } from 'api/queries/applications';
 import * as R from 'router/const';
-import { formatNullableString } from 'utils/formatters';
+import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
@@ -72,7 +72,9 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                             Создана
                         </Text>
                         <Text variant="body2">
-                            {dayjs(application.createDate).format('DD.MM.YYYY')}
+                            {dayjs(formatDateToUTC(application.createDate))
+                                .local()
+                                .format('DD.MM.YYYY')}
                         </Text>
                     </div>
                     <div>
@@ -81,7 +83,9 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                         </Text>
                         <Text variant="body2">
                             {application.updateDate
-                                ? dayjs(application.updateDate).format('DD.MM.YYYY')
+                                ? dayjs(formatDateToUTC(application.updateDate))
+                                      .local()
+                                      .format('DD.MM.YYYY')
                                 : formatNullableString(null)}
                         </Text>
                     </div>

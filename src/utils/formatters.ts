@@ -17,3 +17,5 @@ export const formatNullableBooleanParam = (
     paramName: string,
     param: boolean | undefined | null,
 ): string => (typeof param === 'boolean' ? `&${paramName}=${String(param)}` : '');
+
+export const formatDateToUTC = (date: string | null): string | null => (date ? date + 'Z' : null);

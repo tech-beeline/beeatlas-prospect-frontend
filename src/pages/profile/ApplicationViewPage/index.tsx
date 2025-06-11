@@ -14,7 +14,7 @@ import {
 import { useModal } from 'hooks';
 import { DenySideblock, RevisionSideblock } from 'pages/profile/ApplicationViewPage/components';
 import * as R from 'router/const';
-import { formatNullableString } from 'utils/formatters';
+import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
@@ -132,9 +132,9 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                         Дата создания
                                     </Text>
                                     <Text variant="body2">
-                                        {dayjs(applicationData.create_date).format(
-                                            'DD.MM.YYYY в HH:mm',
-                                        )}
+                                        {dayjs(formatDateToUTC(applicationData.create_date))
+                                            .local()
+                                            .format('DD.MM.YYYY в HH:mm')}
                                     </Text>
                                 </div>
                                 <div>
@@ -143,9 +143,9 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                     </Text>
                                     <Text variant="body2">
                                         {applicationData.update_date
-                                            ? dayjs(applicationData.update_date).format(
-                                                  'DD.MM.YYYY',
-                                              )
+                                            ? dayjs(formatDateToUTC(applicationData.update_date))
+                                                  .local()
+                                                  .format('DD.MM.YYYY в HH:mm')
                                             : formatNullableString(null)}
                                     </Text>
                                 </div>
@@ -192,7 +192,9 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                         <div key={comment.id}>
                                             <Text inactive variant="body3">
                                                 {comment.fullName}, добавил комментарий{' '}
-                                                {dayjs(comment.created_date).format('DD.MM.YYYY')}
+                                                {dayjs(formatDateToUTC(comment.createdDate))
+                                                    .local()
+                                                    .format('DD.MM.YYYY')}
                                             </Text>
                                             <Text variant="body2">{comment.comment}</Text>
                                         </div>

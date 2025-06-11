@@ -1,7 +1,7 @@
 interface IComment {
     id: number;
     comment: string;
-    created_date: string;
+    createdDate: string;
     fullName: string;
 }
 
