@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Pagination, Search, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
 import {
     ApplicationCard,
@@ -29,6 +29,10 @@ export const ApplicationsReviewPage: FC = () => {
         useGetArchitectApplicationsQuery({
             enabled: true,
         });
+
+    useEffect(() => {
+        setPage(1);
+    }, [allApplicationsData]);
 
     const architectApplicationsData =
         tabVariant === TabVariant.AWAITING_EXECUTOR
