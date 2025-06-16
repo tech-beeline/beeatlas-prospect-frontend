@@ -1,3 +1,5 @@
+import { IMapCriteria } from 'api/maps/types';
+
 import {
     END_COLOR_DARK,
     END_COLOR_LIGHT,
@@ -54,4 +56,18 @@ export const generateMapColorGradient = (
         themeIsDark ? darkColors[reverse ? 0 : 1] : lightColors[reverse ? 0 : 1],
         interval,
     );
+};
+
+export const selectColorByCriteria = (
+    gradient: string[],
+    selectedCriteria: IMapCriteria,
+    grade: number,
+    value: number,
+): string => {
+    if (selectedCriteria.threshold === null) return gradient[grade];
+    if (value > selectedCriteria.threshold) return gradient[gradient.length - 1];
+    if (value === 0) return gradient[0];
+    return gradient[
+        Math.ceil(value / (selectedCriteria.threshold / (selectedCriteria.interval ?? 1))) - 1
+    ];
 };

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { generateMapColorGradient } from 'features/maps/utils';
+import { generateMapColorGradient, selectColorByCriteria } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
@@ -41,11 +41,16 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                 style={
                     mapVariant !== MapVariant.DEFAULT
                         ? {
-                              backgroundColor: generateMapColorGradient(
-                                  themeIsDark,
-                                  mapVariant.revers,
-                                  mapVariant.interval ?? 2,
-                              )[criteria?.grade ?? 0],
+                              backgroundColor: selectColorByCriteria(
+                                  generateMapColorGradient(
+                                      themeIsDark,
+                                      mapVariant.revers,
+                                      mapVariant.interval ?? 2,
+                                  ),
+                                  mapVariant,
+                                  criteria?.grade ?? 0,
+                                  criteria?.value ?? 0,
+                              ),
                           }
                         : {}
                 }

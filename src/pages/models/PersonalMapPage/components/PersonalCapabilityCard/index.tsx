@@ -2,8 +2,12 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { CapabilityCardCriteriaComment, MapVariant } from 'features/maps';
-import { generateMapColorGradient } from 'features/maps/utils';
+import {
+    CapabilityCardCriteriaComment,
+    generateMapColorGradient,
+    MapVariant,
+    selectColorByCriteria,
+} from 'features/maps';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
@@ -34,13 +38,16 @@ const BusinessCard: FC<{
             style={
                 mapVariant !== MapVariant.DEFAULT
                     ? {
-                          backgroundColor: generateMapColorGradient(
-                              themeIsDark,
-                              mapVariant.revers,
-                              mapVariant.interval && mapVariant.interval > 2
-                                  ? mapVariant.interval
-                                  : 2,
-                          )[criteria?.grade ?? 0],
+                          backgroundColor: selectColorByCriteria(
+                              generateMapColorGradient(
+                                  themeIsDark,
+                                  mapVariant.revers,
+                                  mapVariant.interval ?? 2,
+                              ),
+                              mapVariant,
+                              criteria?.grade ?? 0,
+                              criteria?.value ?? 0,
+                          ),
                       }
                     : {}
             }
@@ -87,13 +94,16 @@ const TechCard: FC<{
             style={
                 mapVariant !== MapVariant.DEFAULT
                     ? {
-                          backgroundColor: generateMapColorGradient(
-                              themeIsDark,
-                              mapVariant.revers,
-                              mapVariant.interval && mapVariant.interval > 2
-                                  ? mapVariant.interval
-                                  : 2,
-                          )[criteria?.grade ?? 0],
+                          backgroundColor: selectColorByCriteria(
+                              generateMapColorGradient(
+                                  themeIsDark,
+                                  mapVariant.revers,
+                                  mapVariant.interval ?? 2,
+                              ),
+                              mapVariant,
+                              criteria?.grade ?? 0,
+                              criteria?.value ?? 0,
+                          ),
                       }
                     : {}
             }

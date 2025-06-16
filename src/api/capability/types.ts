@@ -95,7 +95,7 @@ export interface IBusinessCapabilityForm {
     author: string;
 }
 
-interface ICriteria {
+export interface ICriteria {
     criterion_id: number;
     grade: number;
     value: number;
