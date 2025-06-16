@@ -194,7 +194,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                                 {comment.fullName}, добавил комментарий{' '}
                                                 {dayjs(formatDateToUTC(comment.createdDate))
                                                     .local()
-                                                    .format('DD.MM.YYYY')}
+                                                    .format('DD.MM.YYYY в HH:mm')}
                                             </Text>
                                             <Text variant="body2">{comment.comment}</Text>
                                         </div>
