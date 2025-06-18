@@ -16,6 +16,12 @@ export const getAllTechnologies = (actualTech?: boolean): AxiosPromise<T.ITech[]
     });
 };
 
+export const getTechnologyById = (id: string | number): AxiosPromise<T.ITech> => {
+    return Api.get({
+        url: `${GATEWAY_URL}techradar/v1/tech/${id}`,
+    });
+};
+
 export const getTechnologyCategories = (): AxiosPromise<T.ICategory[]> => {
     return Api.get({
         url: `${GATEWAY_URL}techradar/v1/category`,

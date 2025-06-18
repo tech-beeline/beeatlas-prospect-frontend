@@ -53,6 +53,7 @@ import {
     TechnologiesPage,
     TechnologyAddPage,
     TechnologyVersionAddPage,
+    TechnologyViewPage,
     TechPolicyPage,
     TechRadarPage,
     TemplatesPage,
@@ -334,6 +335,18 @@ export const NavigationRouter = () => {
                                 <MenuModels />
                                 <S.ContentWrapper hideXOverflow>
                                     <TechRadarPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}${R.VIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <TechnologyViewPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

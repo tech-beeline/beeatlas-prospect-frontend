@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { animated, easings, useSpring } from 'react-spring';
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
@@ -27,6 +28,8 @@ export const Radar: FC<T.IRadar> = ({
     hoveredTechId,
     setHoveredTechId,
 }) => {
+    const [, setSearchParams] = useSearchParams();
+
     const lastClickedTechId = useRef<number | null>(null);
 
     /* реф для запуска симуляции с помощью D3 */
@@ -119,6 +122,11 @@ export const Radar: FC<T.IRadar> = ({
     const handleTechClick = (tech: ITech) => {
         lastClickedTechId.current = tech.id;
         UTILS.openTechInLeftMenu(tech.id);
+        setSearchParams(
+            new URLSearchParams({
+                id: String(tech.id),
+            }),
+        );
         sendAnalytics(['techradar', 'click', tech.label]);
     };
 

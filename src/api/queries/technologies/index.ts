@@ -5,6 +5,7 @@ import {
     deleteTechnologyCategory,
     deleteTechnologyVersionById,
     getAllTechnologies,
+    getTechnologyById,
     getTechnologyCategories,
     mergeTechnologyCategories,
     patchTechnology,
@@ -29,6 +30,14 @@ export const useGetAllTechnologiesQuery = () => {
     return useQuery<ITech[]>({
         queryKey: [TECHNOLOGIES_PREFIX, 'tech'],
         queryFn: () => getAllTechnologies().then((res) => res.data),
+    });
+};
+
+export const useGetTechnologyByIdQuery = (id: string | number | null) => {
+    return useQuery({
+        queryKey: [TECHNOLOGIES_PREFIX, 'tech', id],
+        queryFn: () => getTechnologyById(id!).then((res) => res.data),
+        enabled: !!id,
     });
 };
 
