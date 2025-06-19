@@ -93,6 +93,12 @@ export const NavigationRouter = () => {
         });
     }, [location]);
 
+    const isProd =
+        window.location.hostname === 'eafdmmart-prod.apps.yd-k03.vimpelcom.ru' ||
+        window.location.hostname === 'beeatlas.vimpelcom.ru' ||
+        window.location.hostname === 'techradar.vimpelcom.ru' ||
+        window.location.hostname === 'tr.vimpelcom.ru';
+
     return (
         <>
             {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
@@ -368,7 +374,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <AppsPage />
+                                    <AppsPage isProd={isProd} />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -380,7 +386,13 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <S.IFrameStyled src="https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e" />
+                                    <S.IFrameStyled
+                                        src={
+                                            isProd
+                                                ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
+                                                : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
+                                        }
+                                    />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

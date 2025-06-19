@@ -1,17 +1,20 @@
 import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { IAppsPage } from './types';
 import * as S from './units';
 
-export const AppsPage: FC = () => {
+export const AppsPage: FC<IAppsPage> = ({ isProd }) => {
     const [params] = useSearchParams();
     const alias = params.get('alias');
 
     return (
         <S.IFrameStyled
-            src={`https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/systems${
-                alias ? '/' + alias : ''
-            }`}
+            src={`${
+                isProd
+                    ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/systems'
+                    : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/systems'
+            }${alias ? '/' + alias : ''}`}
         />
     );
 };
