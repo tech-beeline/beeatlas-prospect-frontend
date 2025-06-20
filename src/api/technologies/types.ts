@@ -56,6 +56,7 @@ export interface ITechForm {
     link: string;
     ring_id: number;
     sector_id: number;
+    review?: boolean;
 }
 
 export interface ITechVersionForm {

@@ -102,6 +102,7 @@ export const TechnologyAddPage = () => {
                     ring_id: tech.ring,
                     sector_id: tech.sector,
                     categories: tech.categories.map((id) => ({ id })),
+                    review: true,
                 })),
             });
             returnToTechnologies();
