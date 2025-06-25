@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -24,6 +24,8 @@ export const TechnologyAddPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
+    const [fileList, setFileList] = useState<File[]>([]);
+
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const { data, isLoading: isLoadingTech } = useGetTechFormDataQuery(paramId);
@@ -41,31 +43,20 @@ export const TechnologyAddPage = () => {
         resolver: yupResolver(getValidationSchema(invalidNames)),
     });
 
-    const { handleSubmit, reset, control } = form;
-
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: 'technologies',
-    });
+    const { handleSubmit, reset } = form;
 
     useEffect(() => {
         if (techData) {
             reset({
-                technologies: [
-                    {
-                        name: techData.label,
-                        categories: techData.category.map((category) => category.id),
-                        comment: techData.description,
-                        link: techData.link ?? '',
-                        ring: techData.ring.id,
-                        sector: techData.sector.id,
-                    },
-                ],
+                name: techData.label,
+                categories: techData.category.map((category) => category.id),
+                comment: techData.description,
+                link: techData.link ?? '',
+                ring: techData.ring.id,
+                sector: techData.sector.id,
             });
         } else {
-            reset({
-                technologies: [{}],
-            });
+            reset({});
         }
     }, [techData]);
 
@@ -77,40 +68,36 @@ export const TechnologyAddPage = () => {
 
     const onSubmit = handleSubmit(async (values) => {
         if (paramId) {
-            const tech = values.technologies[0];
-            if (tech) {
-                await updateTechnology({
-                    data: {
-                        id: Number(paramId),
-                        label: tech.name,
-                        descr: tech.comment,
-                        link: tech.link,
-                        ring_id: tech.ring,
-                        sector_id: tech.sector,
-                        categories: tech.categories.map((id) => ({ id })),
-                    },
-                });
-            }
+            await updateTechnology({
+                data: {
+                    id: Number(paramId),
+                    label: values.name,
+                    descr: values.comment,
+                    link: values.link,
+                    ring_id: values.ring,
+                    sector_id: values.sector,
+                    categories: values.categories.map((id) => ({ id })),
+                },
+            });
+
             returnToTechnologies();
             showSnackbar({ message: 'Изменения сохранены' });
         } else {
             await createTechnology({
-                data: values.technologies.map((tech) => ({
-                    label: tech.name,
-                    descr: tech.comment,
-                    link: tech.link,
-                    ring_id: tech.ring,
-                    sector_id: tech.sector,
-                    categories: tech.categories.map((id) => ({ id })),
-                    review: true,
-                })),
+                data: [
+                    {
+                        label: values.name,
+                        descr: values.comment,
+                        link: values.link,
+                        ring_id: values.ring,
+                        sector_id: values.sector,
+                        categories: values.categories.map((id) => ({ id })),
+                    },
+                ],
             });
             returnToTechnologies();
             showSnackbar({
-                message:
-                    values.technologies.length === 1
-                        ? 'Технология добавлена'
-                        : 'Технологии добавлены',
+                message: 'Технология добавлена',
             });
         }
     });
@@ -137,18 +124,13 @@ export const TechnologyAddPage = () => {
                     <FormProvider {...form}>
                         <form onSubmit={onSubmit}>
                             <S.FormContainer>
-                                {fields.map((field, index) => (
-                                    <TechnologyField
-                                        key={field.id}
-                                        index={index}
-                                        fieldsCount={fields.length}
-                                        categoriesData={categoriesData ?? []}
-                                        isLoading={isLoading}
-                                        showAddButton={!paramId}
-                                        append={append}
-                                        remove={remove}
-                                    />
-                                ))}
+                                <TechnologyField
+                                    categoriesData={categoriesData ?? []}
+                                    isLoading={isLoading}
+                                    fileList={fileList}
+                                    setFileList={setFileList}
+                                />
+
                                 <S.ButtonsContainer>
                                     <Button
                                         onClick={returnToTechnologies}

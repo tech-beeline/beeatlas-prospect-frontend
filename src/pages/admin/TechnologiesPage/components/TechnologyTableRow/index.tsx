@@ -67,24 +67,6 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                             />
                             <div>{technology.label}</div>
                         </S.IconContainer>
-                        {technology.link && (
-                            <>
-                                <S.IconStyled
-                                    size="medium"
-                                    iconName={Icons.OpenInBrowser}
-                                    onClick={() => window.open(technology.link ?? '', '_blank')}
-                                    data-tooltip-id={`link-${technology.id}`}
-                                />
-                                <TooltipContainer
-                                    id={`link-${technology.id}`}
-                                    offset={8}
-                                    place="top"
-                                    noArrow
-                                >
-                                    Перейти на страницу с описанием
-                                </TooltipContainer>
-                            </>
-                        )}
                     </S.NameContainer>
                 </S.TableDataFullWidth>
                 <TableData>{technology.sector.name}</TableData>
