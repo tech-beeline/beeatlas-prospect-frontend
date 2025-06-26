@@ -47,15 +47,12 @@ export const UploadedFileContainer = styled.div`
 `;
 
 export const FileContentContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 16px;
 
-    height: 300px;
-
-    background-color: var(--color-status-neutral-background);
-
+    border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
+
+    overflow: auto;
 `;
 
 export const FileNameContainer = styled.div`

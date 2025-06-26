@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import Markdown from 'react-markdown';
 import { Button, FileUploader, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
+import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 import { MultiSelect, Select, TextArea, TextField } from 'components/form';
@@ -20,6 +22,24 @@ export const TechnologyField: FC<ITechnologyField> = ({
     fileList,
     setFileList,
 }) => {
+    const [fileText, setFileText] = useState<string | null>(null);
+    const readerRef = useRef(new FileReader());
+
+    useEffect(() => {
+        readerRef.current.onload = () =>
+            setFileText(
+                typeof readerRef.current.result === 'string' ? readerRef.current.result : null,
+            );
+    }, [readerRef]);
+
+    useEffect(() => {
+        if (fileList[0]) {
+            readerRef.current.readAsText(fileList[0]);
+        } else {
+            setFileText(null);
+        }
+    }, [fileList]);
+
     const { watch } = useFormContext<FormValues>();
     const comment = watch('comment');
 
@@ -118,9 +138,7 @@ export const TechnologyField: FC<ITechnologyField> = ({
                     {fileList.length > 0 && (
                         <S.UploadedFileContainer>
                             <S.FileContentContainer>
-                                <Text inactive variant="h4">
-                                    Контент файла
-                                </Text>
+                                <Markdown remarkPlugins={[remarkGfm]}>{fileText}</Markdown>
                             </S.FileContentContainer>
                             <S.FileNameContainer>
                                 <S.FileMetadataContainer>

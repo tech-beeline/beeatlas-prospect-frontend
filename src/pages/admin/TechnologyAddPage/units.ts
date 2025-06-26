@@ -51,4 +51,6 @@ export const ButtonsContainer = styled.div`
     gap: 16px;
 
     margin-top: 8px;
+
+    padding-bottom: 32px;
 `;
