@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { RadioGroup, TextArea, TextField } from 'components/form';
+import { TooltipContainer } from 'components/interaction';
 
 import { useGetPersonalMapTypesQuery } from 'api/queries/maps';
 
@@ -87,7 +88,8 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                     />
                                 </S.RadioGroupContainer>
                                 {typeDisabled && (
-                                    <S.TooltipContainer
+                                    <TooltipContainer
+                                        largePadding
                                         id="type-selection"
                                         offset={8}
                                         place="bottom"
@@ -95,7 +97,7 @@ export const CreateMapSideblock: FC<ICreateMapSideblock> = ({
                                     >
                                         Редактирование недоступно. Чтобы изменить тип карты, удалите
                                         все элементы и сохраните карту
-                                    </S.TooltipContainer>
+                                    </TooltipContainer>
                                 )}
 
                                 <TextField label="Название карты*" name="name" />

@@ -16,6 +16,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useDownloadFileMutation, useGetExportFilesQuery } from 'api/queries/file-export';
@@ -116,14 +117,14 @@ export const ExportPage = () => {
                                             size="medium"
                                             iconName={Icons.Download}
                                         />
-                                        <S.TooltipContainer
+                                        <TooltipContainer
                                             noArrow
                                             place="top"
                                             offset={8}
                                             id={`download-${file.id}`}
                                         >
                                             Скачать
-                                        </S.TooltipContainer>
+                                        </TooltipContainer>
                                     </TableData>
                                 </TableRow>
                             ))}

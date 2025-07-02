@@ -4,6 +4,8 @@ import { IconButton, Label, TableData, TableRow } from '@beeline/design-system-r
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
+import { TooltipContainer } from 'components/interaction';
+
 import { useDeleteTechnologyVersionMutation } from 'api/queries/technologies';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -59,7 +61,7 @@ export const TechnologyVersionTableRow: FC<ITechnologyVersionTableRow> = ({
                         data-tooltip-id={`${technology.id}-${version.id}-delete`}
                     />
                 </S.ButtonsContainer>
-                <S.TooltipContainer
+                <TooltipContainer
                     noArrow
                     // @ts-ignore Ошибка в .d.ts
                     place="top-end"
@@ -69,8 +71,8 @@ export const TechnologyVersionTableRow: FC<ITechnologyVersionTableRow> = ({
                     {!!technology.deletedDate
                         ? 'Сначала восстановите технологию'
                         : 'Редактировать версию'}
-                </S.TooltipContainer>
-                <S.TooltipContainer
+                </TooltipContainer>
+                <TooltipContainer
                     noArrow
                     // @ts-ignore Ошибка в .d.ts
                     place="top-end"
@@ -80,7 +82,7 @@ export const TechnologyVersionTableRow: FC<ITechnologyVersionTableRow> = ({
                     {!!technology.deletedDate
                         ? 'Сначала восстановите технологию'
                         : 'Удалить версию'}
-                </S.TooltipContainer>
+                </TooltipContainer>
             </S.TableDataButtons>
         </TableRow>
     );
