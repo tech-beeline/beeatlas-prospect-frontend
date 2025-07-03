@@ -1,10 +1,10 @@
 import React, { FC, useId } from 'react';
 
+import { TooltipContainer } from 'components/interaction';
+
 import { typeToBackgroundColorMap, typeToIconMap, typeToNameMap } from './const';
 import { IIconFeeling } from './types';
 import * as S from './units';
-
-import 'react-tooltip/dist/react-tooltip.css';
 
 export const IconFeeling: FC<IIconFeeling> = ({ type, onClick, isActive = false }) => {
     const id = useId();
@@ -19,9 +19,9 @@ export const IconFeeling: FC<IIconFeeling> = ({ type, onClick, isActive = false 
                 <img src={typeToIconMap[type]} />
             </S.Container>
 
-            <S.TooltipContainer id={id} offset={5} place="bottom" noArrow>
+            <TooltipContainer id={id} offset={5} place="bottom" noArrow>
                 {typeToNameMap[type]}
-            </S.TooltipContainer>
+            </TooltipContainer>
         </>
     );
 };

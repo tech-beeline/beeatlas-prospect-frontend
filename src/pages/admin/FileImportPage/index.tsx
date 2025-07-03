@@ -17,6 +17,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { FileStatus } from 'api/file-import/types';
@@ -92,14 +93,14 @@ export const FileImportPage = () => {
                                         (window.location.href = `/templates/${template.name}`)
                                     }
                                 />
-                                <S.TooltipContainer
+                                <TooltipContainer
                                     id={`download-${i}`}
                                     // @ts-ignore
                                     place="bottom-end"
                                     noArrow
                                 >
                                     Скачать шаблон
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.TemplateCard>
                         ))}
                     {isLoading &&

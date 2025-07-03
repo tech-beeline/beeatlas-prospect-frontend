@@ -13,6 +13,8 @@ import {
 import { CreateMapSideblock, MapFormValues } from 'features/maps';
 import { uniqueId } from 'lodash';
 
+import { TooltipContainer } from 'components/interaction';
+
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
 import {
@@ -199,9 +201,15 @@ export const MapAddPage = () => {
                                     {mapData?.name}
                                 </S.Name>
                                 {showNameTooltip && (
-                                    <S.TooltipContainer id="name" offset={8} place="bottom" noArrow>
+                                    <TooltipContainer
+                                        largePadding
+                                        id="name"
+                                        offset={8}
+                                        place="bottom"
+                                        noArrow
+                                    >
                                         {mapData?.name}
-                                    </S.TooltipContainer>
+                                    </TooltipContainer>
                                 )}
                                 <S.Desription>{mapData?.type.title}</S.Desription>
                             </div>

@@ -1,4 +1,3 @@
-import { Tooltip } from 'react-tooltip';
 import styled from '@emotion/styled';
 
 export const FlexContainer = styled.div`
@@ -56,25 +55,4 @@ export const ButtonContainer = styled.div`
     width: 100%;
     height: 96px;
     padding: 24px 16px;
-`;
-
-export const TooltipContainer = styled(Tooltip)`
-    max-width: 300px;
-    width: max-content;
-    padding: 16px;
-
-    background-color: var(--color-background-inverse);
-    color: var(--color-text-active-inverse);
-
-    border-radius: var(--size-border-radius-x8);
-
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-caption);
-    line-height: var(--font-line-height-caption);
-    text-align: start;
-    white-space: pre-line;
-
-    user-select: none;
-
-    z-index: 30;
 `;

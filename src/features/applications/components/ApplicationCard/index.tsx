@@ -5,6 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationMutation } from 'api/queries/applications';
@@ -105,14 +106,9 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                         type={statusAliasToLabelTypeMap[application.status.alias] ?? 'default'}
                         data-tooltip-id={`label-${application.id}`}
                     />
-                    <S.TooltipContainer
-                        noArrow
-                        place="top"
-                        offset={8}
-                        id={`label-${application.id}`}
-                    >
+                    <TooltipContainer noArrow place="top" offset={8} id={`label-${application.id}`}>
                         {statusAliasToTooltipTextMap[application.status.alias]}
-                    </S.TooltipContainer>
+                    </TooltipContainer>
                 </S.NumberContainer>
                 {/* {application.status.alias === ApplicationStatus.DN && (
                     <S.LinkContainer>

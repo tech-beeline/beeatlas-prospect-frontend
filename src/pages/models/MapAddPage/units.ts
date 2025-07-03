@@ -1,4 +1,3 @@
-import { Tooltip } from 'react-tooltip';
 import { Button } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
@@ -74,27 +73,6 @@ export const IconWrapper = styled.div`
 
 export const ButtonStyled = styled(Button)`
     pointer-events: auto !important;
-`;
-
-export const TooltipContainer = styled(Tooltip)`
-    max-width: 300px;
-    width: max-content;
-    padding: 16px;
-
-    background-color: var(--color-background-inverse);
-    color: var(--color-text-active-inverse);
-
-    border-radius: var(--size-border-radius-x8);
-
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-caption);
-    line-height: var(--font-line-height-caption);
-    text-align: start;
-    white-space: pre-line;
-
-    user-select: none;
-
-    z-index: 30;
 `;
 
 export const Content = styled.div`

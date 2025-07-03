@@ -5,6 +5,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { uniqueId } from 'lodash';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import { CapabilitySearchResultTypeVariant, IMapItemData } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
@@ -87,7 +88,9 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                     onMouseLeave={() => setTooltipOpened(false)}
                 />
             </S.CapabilityCard>
-            <S.TooltipContainer
+            <TooltipContainer
+                displayFlex
+                largePadding
                 isOpen={tooltipOpened}
                 id={`${capability.type}-${capability.id}`}
                 offset={5}
@@ -156,7 +159,7 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                         )}
                     </div>
                 )}
-            </S.TooltipContainer>
+            </TooltipContainer>
         </>
     );
 };

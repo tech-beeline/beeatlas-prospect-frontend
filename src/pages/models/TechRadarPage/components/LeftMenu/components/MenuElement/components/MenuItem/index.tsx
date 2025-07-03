@@ -3,6 +3,8 @@ import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
 
+import { TooltipContainer } from 'components/interaction';
+
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -105,7 +107,7 @@ export const MenuItem: FC<T.IMenuItem> = ({
                     />
                 </S.IconsContainer>
             </S.Item>
-            <S.TooltipContainer
+            <TooltipContainer
                 id={`link-${item.id}`}
                 offset={8}
                 place="top"
@@ -113,8 +115,8 @@ export const MenuItem: FC<T.IMenuItem> = ({
                 isOpen={isLinkIconHovered}
             >
                 Перейти на страницу с описанием
-            </S.TooltipContainer>
-            <S.TooltipContainer
+            </TooltipContainer>
+            <TooltipContainer
                 id={`notification-${item.id}`}
                 offset={8}
                 place="top"
@@ -122,7 +124,7 @@ export const MenuItem: FC<T.IMenuItem> = ({
                 isOpen={isNotificationIconHovered}
             >
                 {isSubscribed ? 'Отписаться от технологии' : 'Подписаться на технологию'}
-            </S.TooltipContainer>
+            </TooltipContainer>
             <Dialog
                 opened={modalOpened}
                 onClose={closeModal}

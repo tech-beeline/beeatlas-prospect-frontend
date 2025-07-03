@@ -5,3 +5,4 @@ export { FloatingNavigation } from './FloatingNavigation';
 export { Slider } from './Slider';
 export { TextButton } from './TextButton';
 export { TitleBack } from './TitleBack';
+export { TooltipContainer } from './TooltipContainer';

@@ -8,17 +8,17 @@ import {
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
+import { TooltipContainer } from 'components/interaction';
+
 import { useDeleteCategoryMutation, useUpdateCategoryMutation } from 'api/queries/technologies';
+import { getTechnologiesByCategoryId } from 'api/technologies';
 import { ICategory } from 'api/technologies/types';
 import { useModal } from 'hooks';
 import { formatNullableString } from 'utils/formatters';
+import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { getTechnologiesByCategoryId } from '../../../../../../../api/technologies';
-import { Dialog } from '../../../../../../../widgets/Dialog';
-
 import { ICategoryRow } from './types';
-import * as S from './units';
 
 export const CategoryRow: FC<ICategoryRow> = ({
     category,
@@ -87,7 +87,7 @@ export const CategoryRow: FC<ICategoryRow> = ({
                         onClick={openModal}
                         data-tooltip-id={`${category.id}-edit`}
                     />
-                    <S.TooltipContainer
+                    <TooltipContainer
                         noArrow
                         // @ts-ignore Ошибка в .d.ts
                         place="top-end"
@@ -95,7 +95,7 @@ export const CategoryRow: FC<ICategoryRow> = ({
                         id={`${category.id}-edit`}
                     >
                         Редактировать
-                    </S.TooltipContainer>
+                    </TooltipContainer>
                 </TableData>
                 <TableData>
                     <IconButton
@@ -104,7 +104,7 @@ export const CategoryRow: FC<ICategoryRow> = ({
                         onClick={() => handleDeleteClick(category)}
                         data-tooltip-id={`${category.id}-delete`}
                     />
-                    <S.TooltipContainer
+                    <TooltipContainer
                         noArrow
                         // @ts-ignore Ошибка в .d.ts
                         place="top-end"
@@ -112,7 +112,7 @@ export const CategoryRow: FC<ICategoryRow> = ({
                         id={`${category.id}-delete`}
                     >
                         Удалить
-                    </S.TooltipContainer>
+                    </TooltipContainer>
                 </TableData>
             </TableRow>
             <Dialog

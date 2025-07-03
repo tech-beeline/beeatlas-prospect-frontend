@@ -11,6 +11,7 @@ import {
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import { IMapCapability, IMapCriteria, PersonalMapTypes } from 'api/maps/types';
@@ -129,7 +130,10 @@ const TechCard: FC<{
                 iconName={Icons.InfoCircled}
                 size="large"
             />
-            <S.TooltipContainer
+            <TooltipContainer
+                largePadding
+                largeWidth
+                displayFlex
                 clickable
                 id={`TECH-${capability.id}`}
                 offset={5}
@@ -149,7 +153,7 @@ const TechCard: FC<{
                         url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capability.id}&type=TECH`}
                     />
                 </Text>
-            </S.TooltipContainer>
+            </TooltipContainer>
         </S.TechCard>
     );
 };

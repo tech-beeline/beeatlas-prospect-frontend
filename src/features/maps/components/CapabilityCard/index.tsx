@@ -6,6 +6,7 @@ import { generateMapColorGradient, selectColorByCriteria } from 'features/maps/u
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import * as ROUTER from 'router/const';
@@ -120,7 +121,10 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                     />
                 </S.TechCapabilityTitleContainer>
             </S.TechCapabilityCard>
-            <S.TooltipContainer
+            <TooltipContainer
+                displayFlex
+                largePadding
+                largeWidth
                 clickable
                 id={`TECH-${techCapability.id}`}
                 offset={5}
@@ -139,7 +143,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                         url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${techCapability.id}&type=TECH`}
                     />
                 </Text>
-            </S.TooltipContainer>
+            </TooltipContainer>
         </>
     );
 };

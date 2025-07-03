@@ -8,6 +8,7 @@ import { useAuthStore } from 'features/auth';
 
 import { Text } from 'components/core';
 import { TextArea, TextField } from 'components/form';
+import { TooltipContainer } from 'components/interaction';
 
 import { useCreateBCApplicationMutation } from 'api/queries/applications';
 import { useGetCapabilityByIdQuery } from 'api/queries/capability';
@@ -128,7 +129,10 @@ export const BCAddPage = () => {
                                 <S.IconContainer data-tooltip-id="name-icon">
                                     <Icon iconName={Icons.InfoCircled} size="medium" />
                                 </S.IconContainer>
-                                <S.TooltipContainer
+                                <TooltipContainer
+                                    displayFlex
+                                    largePadding
+                                    hideGap
                                     offset={0}
                                     id="name-icon"
                                     place="bottom"
@@ -146,7 +150,7 @@ export const BCAddPage = () => {
                                         доступность, время отклика, корректность взаимодействия
                                         (объект, характеристики)
                                     </Text>
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.RelativeContainer>
                             <S.RelativeContainer>
                                 <S.TextAreaStyled
@@ -157,7 +161,10 @@ export const BCAddPage = () => {
                                 <S.IconContainer data-tooltip-id="description-icon">
                                     <Icon iconName={Icons.InfoCircled} size="medium" />
                                 </S.IconContainer>
-                                <S.TooltipContainer
+                                <TooltipContainer
+                                    displayFlex
+                                    largePadding
+                                    hideGap
                                     offset={0}
                                     id="description-icon"
                                     place="bottom"
@@ -175,7 +182,7 @@ export const BCAddPage = () => {
                                         сервисов на VAS-платформе (пояснение) для проверки
                                         правильности настройки оборудования (мотивация/ценность)
                                     </Text>
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.RelativeContainer>
                             <CapabilityAutocomplete
                                 isLoadingCapability={isLoadingCapabilityData}

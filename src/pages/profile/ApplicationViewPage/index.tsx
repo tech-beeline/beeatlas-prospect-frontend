@@ -5,6 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import { ApplicationStatus } from 'api/applications/types';
 import {
@@ -117,14 +118,14 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                     }
                                     data-tooltip-id={`label-${applicationData.id}`}
                                 />
-                                <S.TooltipContainer
+                                <TooltipContainer
                                     noArrow
                                     place="top"
                                     offset={8}
                                     id={`label-${applicationData.id}`}
                                 >
                                     {statusAliasToTooltipTextMap[applicationData.status.alias]}
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.TitleContainer>
                             <S.MetadataContainer>
                                 <div>

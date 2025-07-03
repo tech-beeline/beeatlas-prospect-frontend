@@ -4,6 +4,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { PivotArrow } from 'components/other';
 
 import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
@@ -169,7 +170,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                                 size="large"
                                 data-tooltip-id="apps-info"
                             />
-                            <S.TooltipContainer
+                            <TooltipContainer
                                 noArrow
                                 largePadding
                                 // @ts-ignore Ошибка в .d.ts
@@ -179,7 +180,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                             >
                                 Список приложений регулярно обновляется из разных источников
                                 автоматически
-                            </S.TooltipContainer>
+                            </TooltipContainer>
                             <PivotArrow
                                 style={{ cursor: 'pointer' }}
                                 position={showApps && 'top'}
