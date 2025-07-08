@@ -5,6 +5,8 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
 import {
@@ -149,7 +151,7 @@ export const TechnologyViewPage = () => {
                                         size="large"
                                         data-tooltip-id="apps-info"
                                     />
-                                    <S.TooltipContainer
+                                    <TooltipContainer
                                         noArrow
                                         largePadding
                                         place="top"
@@ -158,7 +160,7 @@ export const TechnologyViewPage = () => {
                                     >
                                         Список приложений регулярно обновляется из разных источников
                                         автоматически
-                                    </S.TooltipContainer>
+                                    </TooltipContainer>
                                 </S.AppsTitleContainer>
                                 <IconButton
                                     iconName={
@@ -244,11 +246,18 @@ export const TechnologyViewPage = () => {
                             <Text variant="h5">Подробная информация</Text>
                             <Button startIcon={<Icon iconName={Icons.ShareIos} />}>Экспорт</Button>
                         </S.SpaceBetweenContainer>
-                        <S.ConfluenceContainer>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                title="Нет данных"
+                                text="Технология еще не описана"
+                                imageVariant={ImageVariants.EMPTY_BOX}
+                            />
+                        </S.NotFoundContainer>
+                        {/* <S.ConfluenceContainer>
                             <Text inactive variant="h4">
                                 Контент страницы confluence
                             </Text>
-                        </S.ConfluenceContainer>
+                        </S.ConfluenceContainer> */}
                     </>
                 )}
             </S.Container>

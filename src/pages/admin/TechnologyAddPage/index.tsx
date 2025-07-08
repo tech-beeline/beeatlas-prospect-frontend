@@ -96,8 +96,11 @@ export const TechnologyAddPage = () => {
                 ],
             });
             returnToTechnologies();
+            const errorDocument = true;
             showSnackbar({
-                message: 'Технология добавлена',
+                message: errorDocument
+                    ? 'Технология добавлена, но документацию привязать не удалось'
+                    : 'Технология добавлена',
             });
         }
     });
