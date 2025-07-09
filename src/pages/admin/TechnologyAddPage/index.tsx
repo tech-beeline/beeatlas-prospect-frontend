@@ -11,7 +11,9 @@ import {
     useCreateTechnologyMutation,
     useGetTechFormDataQuery,
     useGetTechnologyCategoriesQuery,
+    useGetTechnologyFileByIdQuery,
     useUpdateTechnologyMutation,
+    useUploadTechFileMutation,
 } from 'api/queries/technologies';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -32,8 +34,10 @@ export const TechnologyAddPage = () => {
     const { allTech, techData } = data ?? {};
     const { data: categoriesData, isLoading: isLoadingCategories } =
         useGetTechnologyCategoriesQuery();
+    const { data: fileData, isLoading: isLoadingFileData } = useGetTechnologyFileByIdQuery(paramId);
     const { mutateAsync: createTechnology } = useCreateTechnologyMutation();
     const { mutateAsync: updateTechnology } = useUpdateTechnologyMutation();
+    const { mutateAsync: uploadTechFile } = useUploadTechFileMutation();
 
     const invalidNames = (allTech ?? [])
         .filter((tech) => tech.id !== techData?.id)
@@ -51,7 +55,6 @@ export const TechnologyAddPage = () => {
                 name: techData.label,
                 categories: techData.category.map((category) => category.id),
                 comment: techData.description,
-                link: techData.link ?? '',
                 ring: techData.ring.id,
                 sector: techData.sector.id,
             });
@@ -59,6 +62,12 @@ export const TechnologyAddPage = () => {
             reset({});
         }
     }, [techData]);
+
+    useEffect(() => {
+        if (fileData) {
+            setFileList([new File([fileData.file], fileData.fileName)]);
+        }
+    }, [fileData]);
 
     const navigate = useNavigate();
 
@@ -73,30 +82,51 @@ export const TechnologyAddPage = () => {
                     id: Number(paramId),
                     label: values.name,
                     descr: values.comment,
-                    link: values.link,
                     ring_id: values.ring,
                     sector_id: values.sector,
                     categories: values.categories.map((id) => ({ id })),
                 },
             });
 
+            let errorDocument = null;
+            if (fileList.length !== 0) {
+                try {
+                    await uploadTechFile({ file: fileList[0], techId: Number(paramId) });
+                } catch (e) {
+                    errorDocument = e;
+                }
+            }
+
             returnToTechnologies();
-            showSnackbar({ message: 'Изменения сохранены' });
+            showSnackbar({
+                message: errorDocument
+                    ? 'Изменения сохранены, но документацию привязать не удалось'
+                    : 'Изменения сохранены',
+            });
         } else {
-            await createTechnology({
+            const ids = await createTechnology({
                 data: [
                     {
                         label: values.name,
                         descr: values.comment,
-                        link: values.link,
                         ring_id: values.ring,
                         sector_id: values.sector,
                         categories: values.categories.map((id) => ({ id })),
                     },
                 ],
             });
+            const createdTechId = ids[0].id;
+
+            let errorDocument = null;
+            if (fileList.length !== 0) {
+                try {
+                    await uploadTechFile({ file: fileList[0], techId: createdTechId });
+                } catch (e) {
+                    errorDocument = e;
+                }
+            }
+
             returnToTechnologies();
-            const errorDocument = true;
             showSnackbar({
                 message: errorDocument
                     ? 'Технология добавлена, но документацию привязать не удалось'
@@ -130,6 +160,7 @@ export const TechnologyAddPage = () => {
                                 <TechnologyField
                                     categoriesData={categoriesData ?? []}
                                     isLoading={isLoading}
+                                    isLoadingFileData={isLoadingFileData}
                                     fileList={fileList}
                                     setFileList={setFileList}
                                 />

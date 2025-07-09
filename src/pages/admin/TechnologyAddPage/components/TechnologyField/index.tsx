@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Markdown from 'react-markdown';
-import { Button, FileUploader, Icon, IconButton } from '@beeline/design-system-react';
+import { Button, FileUploader, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import remarkGfm from 'remark-gfm';
@@ -19,6 +19,7 @@ import * as S from './units';
 export const TechnologyField: FC<ITechnologyField> = ({
     isLoading,
     categoriesData,
+    isLoadingFileData,
     fileList,
     setFileList,
 }) => {
@@ -95,11 +96,6 @@ export const TechnologyField: FC<ITechnologyField> = ({
                         />
                     </S.GrowContainer>
                 </S.FormRow>
-                <TextField
-                    name="link"
-                    label="Ссылка на страницу с описанием технологии"
-                    disabled={isLoading}
-                />
                 <TextArea
                     name="comment"
                     label="Короткое описание"
@@ -110,7 +106,7 @@ export const TechnologyField: FC<ITechnologyField> = ({
 
                 <S.FileContainer>
                     <Text variant="subtitle1">Вложенный файл</Text>
-                    {fileList.length === 0 && (
+                    {fileList.length === 0 && !isLoadingFileData && (
                         <>
                             <S.BannerContainer>
                                 <Icon iconName={Icons.InfoCircled} size="medium" color="blue" />
@@ -118,12 +114,18 @@ export const TechnologyField: FC<ITechnologyField> = ({
                                     Для загрузки данных используйте шаблоны. Файлы с другой
                                     структурой загружаться не будут
                                 </Text>
-                                <Button
-                                    startIcon={<Icon iconName={Icons.Download} />}
-                                    type="button"
+                                <a
+                                    href="/templates/tech/tech_doc_template.md"
+                                    download="tech_doc_template.md"
+                                    target="_blank"
                                 >
-                                    Скачать шаблон
-                                </Button>
+                                    <Button
+                                        startIcon={<Icon iconName={Icons.Download} />}
+                                        type="button"
+                                    >
+                                        Скачать шаблон
+                                    </Button>
+                                </a>
                             </S.BannerContainer>
                             <FileUploader
                                 hideFileList
@@ -158,6 +160,7 @@ export const TechnologyField: FC<ITechnologyField> = ({
                             </S.FileNameContainer>
                         </S.UploadedFileContainer>
                     )}
+                    {isLoadingFileData && <Skeleton height={200} radius={12} />}
                 </S.FileContainer>
             </S.FieldContainer>
         </S.Container>

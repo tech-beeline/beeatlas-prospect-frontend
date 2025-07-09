@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { SideBlock } from 'components/containers';
@@ -151,19 +152,27 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         />
                     </S.ButtonsContainer>
                     <S.AppsContainer open={showHistory}>
-                        {/* <div>
-                            <Text inactive variant="body3">
-                                29.09.2024
-                            </Text>
-                            <Text variant="body2">Технология переведена в статус «Adopt»</Text>
-                        </div>
-                        <div>
-                            <Text inactive variant="body3">
-                                29.09.2024
-                            </Text>
-                            <Text variant="body2">Технология переведена в статус «Adopt»</Text>
-                        </div> */}
-                        <Text variant="body2">Раздел ещё в разработке</Text>
+                        {selectedTech?.history &&
+                            selectedTech.history.map((history) => (
+                                <div key={history.version}>
+                                    <Text inactive variant="body3">
+                                        {dayjs(history.createdDate).format('DD.MM.YYYY')}
+                                    </Text>
+                                    <Text variant="body2">
+                                        Технология переведена в статус «{history.ring.name}»
+                                    </Text>
+                                </div>
+                            ))}
+                        {(!selectedTech?.history || selectedTech.history.length === 0) && (
+                            <div>
+                                <Text inactive variant="body3">
+                                    {dayjs(selectedTech?.createdDate).format('DD.MM.YYYY')}
+                                </Text>
+                                <Text variant="body2">
+                                    Технология создана в статусе «{selectedTech?.ring.name}»
+                                </Text>
+                            </div>
+                        )}
                     </S.AppsContainer>
                     <S.ButtonsContainer>
                         <S.InfoContainer>

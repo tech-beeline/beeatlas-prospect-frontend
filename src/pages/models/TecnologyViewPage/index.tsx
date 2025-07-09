@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 import { ringIdToLabelStatusMap } from 'features/technologies';
+import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
@@ -14,11 +17,12 @@ import {
     useDeleteSubscriptionMutation,
     useGetSubscribedTechnologiesIdsQuery,
 } from 'api/queries/subscriptions';
-import { useGetTechnologyByIdQuery } from 'api/queries/technologies';
+import { useGetTechnologyByIdQuery, useGetTechnologyFileByIdQuery } from 'api/queries/technologies';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
+import { downloadTextFile } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -42,6 +46,7 @@ export const TechnologyViewPage = () => {
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsByTechnologyIdQuery(
         Number(paramId),
     );
+    const { data: fileData, isLoading: isLoadingFileData } = useGetTechnologyFileByIdQuery(paramId);
 
     const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
@@ -77,6 +82,12 @@ export const TechnologyViewPage = () => {
             showSnackbar({
                 message: 'Вы отписаны от уведомлений',
             });
+        }
+    };
+
+    const handleExportButtonClick = () => {
+        if (fileData && technologyData) {
+            downloadTextFile(`${technologyData.label}.md`, fileData.file);
         }
     };
 
@@ -137,7 +148,36 @@ export const TechnologyViewPage = () => {
                                 />
                             </S.SpaceBetweenContainer>
                             {isHistoryExpanded && (
-                                <Text variant="body2">Раздел ещё в разработке</Text>
+                                <>
+                                    {technologyData.history &&
+                                        technologyData.history.map((history) => (
+                                            <div key={history.version}>
+                                                <Text inactive variant="body3">
+                                                    {dayjs(history.createdDate).format(
+                                                        'DD.MM.YYYY',
+                                                    )}
+                                                </Text>
+                                                <Text variant="body2">
+                                                    Технология переведена в статус «
+                                                    {history.ring.name}»
+                                                </Text>
+                                            </div>
+                                        ))}
+                                    {(!technologyData.history ||
+                                        technologyData.history.length === 0) && (
+                                        <div>
+                                            <Text inactive variant="body3">
+                                                {dayjs(technologyData.createdDate).format(
+                                                    'DD.MM.YYYY',
+                                                )}
+                                            </Text>
+                                            <Text variant="body2">
+                                                Технология создана в статусе «
+                                                {technologyData.ring.name}»
+                                            </Text>
+                                        </div>
+                                    )}
+                                </>
                             )}
                         </S.ExpandableContainer>
                         <S.ExpandableContainer>
@@ -176,6 +216,11 @@ export const TechnologyViewPage = () => {
                                         Array.from({ length: 3 }).map((_, i) => (
                                             <Skeleton key={i} height={40} radius={12} />
                                         ))}
+                                    {productsData?.length === 0 && (
+                                        <Text variant="body2">
+                                            Нет информации о приложениях, но мы работаем над этим
+                                        </Text>
+                                    )}
                                     {productsData &&
                                         productsData.map((product) => (
                                             <S.SpaceBetweenContainer key={product.id}>
@@ -186,10 +231,16 @@ export const TechnologyViewPage = () => {
                                                     </Text>
                                                 </div>
                                                 <Button
-                                                    disabled
                                                     startIcon={
                                                         <Icon iconName={Icons.OpenInBrowser} />
                                                     }
+                                                    onClick={() => {
+                                                        window.open(
+                                                            `${R.MODELS_PATH}${
+                                                                R.APPS_PATH
+                                                            }?alias=${product.alias.toUpperCase()}`,
+                                                        );
+                                                    }}
                                                 >
                                                     Карточка приложения
                                                 </Button>
@@ -211,53 +262,75 @@ export const TechnologyViewPage = () => {
                             </S.SpaceBetweenContainer>
                             {isVersionsExpanded && (
                                 <>
-                                    <S.SpaceBetweenContainer>
-                                        <div>
-                                            <Text inactive variant="body3">
-                                                Начало диапазона
-                                            </Text>
-                                            <Text variant="body2">V1.0</Text>
-                                        </div>
-                                        <div>
-                                            <Text inactive variant="body3">
-                                                Конец диапазона
-                                            </Text>
-                                            <Text variant="body2">
-                                                {formatNullableString(null)}
-                                            </Text>
-                                        </div>
-                                        <div>
-                                            <Text inactive variant="body3">
-                                                Статус версии
-                                            </Text>
-                                            <Text variant="body2">Assess</Text>
-                                        </div>
-                                        <div>
-                                            <Text inactive variant="body3">
-                                                Дата создания
-                                            </Text>
-                                            <Text variant="body2">12.09.2024</Text>
-                                        </div>
-                                    </S.SpaceBetweenContainer>
+                                    {technologyData.versions.map((version) => (
+                                        <S.SpaceBetweenContainer key={version.id}>
+                                            <div>
+                                                <Text inactive variant="body3">
+                                                    Начало диапазона
+                                                </Text>
+                                                <Text variant="body2">{version.versionStart}</Text>
+                                            </div>
+                                            <div>
+                                                <Text inactive variant="body3">
+                                                    Конец диапазона
+                                                </Text>
+                                                <Text variant="body2">
+                                                    {version.versionEnd
+                                                        ? version.versionEnd
+                                                        : formatNullableString(null)}
+                                                </Text>
+                                            </div>
+                                            <div>
+                                                <Text inactive variant="body3">
+                                                    Статус версии
+                                                </Text>
+                                                <Text variant="body2">{version.ring.name}</Text>
+                                            </div>
+                                            <div>
+                                                <Text inactive variant="body3">
+                                                    Дата создания
+                                                </Text>
+                                                <Text variant="body2">
+                                                    {dayjs(version.createdDate).format(
+                                                        'DD.MM.YYYY',
+                                                    )}
+                                                </Text>
+                                            </div>
+                                        </S.SpaceBetweenContainer>
+                                    ))}
+                                    {technologyData.versions.length === 0 && (
+                                        <Text variant="body2">Нет добавленных версий</Text>
+                                    )}
                                 </>
                             )}
                         </S.ExpandableContainer>
                         <S.SpaceBetweenContainer>
                             <Text variant="h5">Подробная информация</Text>
-                            <Button startIcon={<Icon iconName={Icons.ShareIos} />}>Экспорт</Button>
+                            {fileData && (
+                                <Button
+                                    disabled={isLoadingFileData || isLoadingTechnology}
+                                    startIcon={<Icon iconName={Icons.ShareIos} />}
+                                    onClick={handleExportButtonClick}
+                                >
+                                    Экспорт
+                                </Button>
+                            )}
                         </S.SpaceBetweenContainer>
-                        <S.NotFoundContainer>
-                            <NotFoundBlock
-                                title="Нет данных"
-                                text="Технология еще не описана"
-                                imageVariant={ImageVariants.EMPTY_BOX}
-                            />
-                        </S.NotFoundContainer>
-                        {/* <S.ConfluenceContainer>
-                            <Text inactive variant="h4">
-                                Контент страницы confluence
-                            </Text>
-                        </S.ConfluenceContainer> */}
+                        {isLoadingFileData && <Skeleton height={200} radius={12} />}
+                        {!isLoadingFileData && !fileData && (
+                            <S.NotFoundContainer>
+                                <NotFoundBlock
+                                    title="Нет данных"
+                                    text="Технология еще не описана"
+                                    imageVariant={ImageVariants.EMPTY_BOX}
+                                />
+                            </S.NotFoundContainer>
+                        )}
+                        {fileData && (
+                            <S.FileContentContainer>
+                                <Markdown remarkPlugins={[remarkGfm]}>{fileData.file}</Markdown>
+                            </S.FileContentContainer>
+                        )}
                     </>
                 )}
             </S.Container>

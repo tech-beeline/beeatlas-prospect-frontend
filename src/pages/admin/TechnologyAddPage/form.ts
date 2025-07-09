@@ -5,7 +5,6 @@ export type FormValues = {
     categories: number[];
     sector: number;
     ring: number;
-    link: string;
     comment: string;
 };
 
@@ -21,6 +20,5 @@ export const getValidationSchema = (names: string[]) =>
         categories: array().of(number().default(0)).default([]),
         sector: number().required('Заполните поле'),
         ring: number().required('Заполните поле'),
-        link: string().default('').url('Укажите корректную ссылку'),
         comment: string().default(''),
     });

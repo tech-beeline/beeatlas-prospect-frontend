@@ -77,6 +77,13 @@ export const NotFoundContainer = styled.div`
     margin-top: 112px;
 `;
 
+export const FileContentContainer = styled.div`
+    padding: 16px;
+
+    border: 1px solid var(--color-divider);
+    border-radius: var(--size-border-radius-x6);
+`;
+
 export const BoldSpan = styled.span`
     font-weight: 500;
 `;

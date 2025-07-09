@@ -38,7 +38,6 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
         await mutateAsync({
             data: {
                 id: technology.id,
-                link: technology.link ?? '',
                 label: technology.label,
                 descr: technology.description,
                 ring_id: technology.ring.id,
