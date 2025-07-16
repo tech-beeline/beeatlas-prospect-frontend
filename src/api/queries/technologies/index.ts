@@ -38,7 +38,7 @@ export const useGetAllTechnologiesQuery = () => {
 
 export const useGetTechnologyByIdQuery = (id: string | number | null) => {
     return useQuery({
-        queryKey: [TECHNOLOGIES_PREFIX, 'tech', id],
+        queryKey: [TECHNOLOGIES_PREFIX, 'tech', 'byId', id],
         queryFn: () => getTechnologyById(id!).then((res) => res.data),
         enabled: !!id,
     });
