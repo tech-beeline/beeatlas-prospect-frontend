@@ -34,6 +34,12 @@ export interface ITechVersion {
     versionStart: string;
 }
 
+interface ITechHistory {
+    version: number;
+    ring: IRing;
+    createdDate: string;
+}
+
 export interface ITech {
     category: ICategory[];
     createdDate: Date;
@@ -46,6 +52,7 @@ export interface ITech {
     ring: IRing;
     sector: ISector;
     versions: ITechVersion[];
+    history?: ITechHistory[] | null;
 }
 
 export interface ITechForm {
@@ -53,7 +60,6 @@ export interface ITechForm {
     categories: { id: number }[];
     descr: string;
     label: string;
-    link: string;
     ring_id: number;
     sector_id: number;
     review?: boolean;
@@ -69,4 +75,10 @@ export interface ISubscribedTechnologyData {
     desription: string;
     id: number;
     label: string;
+}
+
+export interface ITechDocumentTypesData {
+    docType: string;
+    id: number;
+    name: string;
 }

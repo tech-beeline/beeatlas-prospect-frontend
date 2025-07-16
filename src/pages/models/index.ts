@@ -7,3 +7,4 @@ export { ModelsPage } from './ModelsPage';
 export { PersonalMapPage } from './PersonalMapPage';
 export { SearchPage } from './SearchPage';
 export { TechRadarPage } from './TechRadarPage';
+export { TechnologyViewPage } from './TecnologyViewPage';

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -11,7 +11,9 @@ import {
     useCreateTechnologyMutation,
     useGetTechFormDataQuery,
     useGetTechnologyCategoriesQuery,
+    useGetTechnologyFileByIdQuery,
     useUpdateTechnologyMutation,
+    useUploadTechFileMutation,
 } from 'api/queries/technologies';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -24,14 +26,18 @@ export const TechnologyAddPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
+    const [fileList, setFileList] = useState<File[]>([]);
+
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const { data, isLoading: isLoadingTech } = useGetTechFormDataQuery(paramId);
     const { allTech, techData } = data ?? {};
     const { data: categoriesData, isLoading: isLoadingCategories } =
         useGetTechnologyCategoriesQuery();
+    const { data: fileData, isLoading: isLoadingFileData } = useGetTechnologyFileByIdQuery(paramId);
     const { mutateAsync: createTechnology } = useCreateTechnologyMutation();
     const { mutateAsync: updateTechnology } = useUpdateTechnologyMutation();
+    const { mutateAsync: uploadTechFile } = useUploadTechFileMutation();
 
     const invalidNames = (allTech ?? [])
         .filter((tech) => tech.id !== techData?.id)
@@ -41,33 +47,27 @@ export const TechnologyAddPage = () => {
         resolver: yupResolver(getValidationSchema(invalidNames)),
     });
 
-    const { handleSubmit, reset, control } = form;
-
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: 'technologies',
-    });
+    const { handleSubmit, reset } = form;
 
     useEffect(() => {
         if (techData) {
             reset({
-                technologies: [
-                    {
-                        name: techData.label,
-                        categories: techData.category.map((category) => category.id),
-                        comment: techData.description,
-                        link: techData.link ?? '',
-                        ring: techData.ring.id,
-                        sector: techData.sector.id,
-                    },
-                ],
+                name: techData.label,
+                categories: techData.category.map((category) => category.id),
+                comment: techData.description,
+                ring: techData.ring.id,
+                sector: techData.sector.id,
             });
         } else {
-            reset({
-                technologies: [{}],
-            });
+            reset({});
         }
     }, [techData]);
+
+    useEffect(() => {
+        if (fileData) {
+            setFileList([new File([fileData.file], fileData.fileName)]);
+        }
+    }, [fileData]);
 
     const navigate = useNavigate();
 
@@ -77,40 +77,60 @@ export const TechnologyAddPage = () => {
 
     const onSubmit = handleSubmit(async (values) => {
         if (paramId) {
-            const tech = values.technologies[0];
-            if (tech) {
-                await updateTechnology({
-                    data: {
-                        id: Number(paramId),
-                        label: tech.name,
-                        descr: tech.comment,
-                        link: tech.link,
-                        ring_id: tech.ring,
-                        sector_id: tech.sector,
-                        categories: tech.categories.map((id) => ({ id })),
-                    },
-                });
-            }
-            returnToTechnologies();
-            showSnackbar({ message: 'Изменения сохранены' });
-        } else {
-            await createTechnology({
-                data: values.technologies.map((tech) => ({
-                    label: tech.name,
-                    descr: tech.comment,
-                    link: tech.link,
-                    ring_id: tech.ring,
-                    sector_id: tech.sector,
-                    categories: tech.categories.map((id) => ({ id })),
-                    review: true,
-                })),
+            await updateTechnology({
+                data: {
+                    id: Number(paramId),
+                    label: values.name,
+                    descr: values.comment,
+                    ring_id: values.ring,
+                    sector_id: values.sector,
+                    categories: values.categories.map((id) => ({ id })),
+                },
             });
+
+            let errorDocument = null;
+            if (fileList.length !== 0) {
+                try {
+                    await uploadTechFile({ file: fileList[0], techId: Number(paramId) });
+                } catch (e) {
+                    errorDocument = e;
+                }
+            }
+
             returnToTechnologies();
             showSnackbar({
-                message:
-                    values.technologies.length === 1
-                        ? 'Технология добавлена'
-                        : 'Технологии добавлены',
+                message: errorDocument
+                    ? 'Изменения сохранены, но документацию привязать не удалось'
+                    : 'Изменения сохранены',
+            });
+        } else {
+            const ids = await createTechnology({
+                data: [
+                    {
+                        label: values.name,
+                        descr: values.comment,
+                        ring_id: values.ring,
+                        sector_id: values.sector,
+                        categories: values.categories.map((id) => ({ id })),
+                    },
+                ],
+            });
+            const createdTechId = ids[0].id;
+
+            let errorDocument = null;
+            if (fileList.length !== 0) {
+                try {
+                    await uploadTechFile({ file: fileList[0], techId: createdTechId });
+                } catch (e) {
+                    errorDocument = e;
+                }
+            }
+
+            returnToTechnologies();
+            showSnackbar({
+                message: errorDocument
+                    ? 'Технология добавлена, но документацию привязать не удалось'
+                    : 'Технология добавлена',
             });
         }
     });
@@ -137,18 +157,14 @@ export const TechnologyAddPage = () => {
                     <FormProvider {...form}>
                         <form onSubmit={onSubmit}>
                             <S.FormContainer>
-                                {fields.map((field, index) => (
-                                    <TechnologyField
-                                        key={field.id}
-                                        index={index}
-                                        fieldsCount={fields.length}
-                                        categoriesData={categoriesData ?? []}
-                                        isLoading={isLoading}
-                                        showAddButton={!paramId}
-                                        append={append}
-                                        remove={remove}
-                                    />
-                                ))}
+                                <TechnologyField
+                                    categoriesData={categoriesData ?? []}
+                                    isLoading={isLoading}
+                                    isLoadingFileData={isLoadingFileData}
+                                    fileList={fileList}
+                                    setFileList={setFileList}
+                                />
+
                                 <S.ButtonsContainer>
                                     <Button
                                         onClick={returnToTechnologies}

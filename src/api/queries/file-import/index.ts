@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getAllFiles, getTemplateFilesList, uploadFile } from 'api/file-import';
+import { getAllFiles, getTemplateFilesList, uploadImportFile } from 'api/file-import';
 
 import { FileUploadPath } from '../../file-import/types';
 
@@ -32,7 +32,7 @@ interface IUploadFileParams {
     file: File;
 }
 
-export const useUploadFileMutation = (params: IUploadFileParams) => {
+export const useUploadImportFileMutation = (params: IUploadFileParams) => {
     const queryClient = useQueryClient();
     const [progress, setProgress] = useState(0);
 
@@ -41,7 +41,7 @@ export const useUploadFileMutation = (params: IUploadFileParams) => {
     const mutation = useMutation({
         mutationKey: [FILE_IMPORT_PREFIX, 'upload', params],
         mutationFn: async (filePath: FileUploadPath) => {
-            await uploadFile(
+            await uploadImportFile(
                 params.file,
                 filePath,
                 (e) => setProgress(Math.round((e.loaded * 100) / e.total)),

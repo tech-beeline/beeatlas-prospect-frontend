@@ -11,12 +11,6 @@ export const Container = styled.div`
     overflow-y: auto;
 `;
 
-export const Title = styled.h5`
-    font-weight: var(--font-weight-h5);
-    font-size: var(--font-size-h5);
-    line-height: var(--font-line-height-h5);
-`;
-
 export const TitleContainer = styled.div`
     display: flex;
     align-items: center;
@@ -34,7 +28,7 @@ export const ButtonsContainer = styled.div`
 export const InfoContainer = styled.div`
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 `;
 
 export const NameContainer = styled.div`

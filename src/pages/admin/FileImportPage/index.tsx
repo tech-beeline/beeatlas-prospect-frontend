@@ -90,7 +90,7 @@ export const FileImportPage = () => {
                                     startIcon={<Icon iconName={Icons.Download} size="small" />}
                                     data-tooltip-id={`download-${i}`}
                                     onClick={() =>
-                                        (window.location.href = `/templates/${template.name}`)
+                                        (window.location.href = `/templates/import/${template.name}`)
                                     }
                                 />
                                 <TooltipContainer
