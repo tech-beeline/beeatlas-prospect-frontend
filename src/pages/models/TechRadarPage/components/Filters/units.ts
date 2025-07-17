@@ -49,3 +49,9 @@ export const MenuItem = styled.div`
 export const SelectContainer = styled.div`
     width: 268px;
 `;
+
+export const SwitchContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;

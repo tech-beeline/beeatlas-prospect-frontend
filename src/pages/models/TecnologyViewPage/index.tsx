@@ -106,11 +106,34 @@ export const TechnologyViewPage = () => {
                             {technologyData && (
                                 <>
                                     <Text variant="h4">{technologyData.label}</Text>
-                                    <Label
-                                        title={technologyData.ring.name}
-                                        variant="contained"
-                                        type={ringIdToLabelStatusMap[technologyData.ring.id]}
-                                    />
+                                    <S.LabelsContainer>
+                                        <Label
+                                            title={technologyData.ring.name}
+                                            variant="contained"
+                                            type={ringIdToLabelStatusMap[technologyData.ring.id]}
+                                        />
+                                        <Label
+                                            data-tooltip-id="isCritical"
+                                            title={
+                                                technologyData.isCritical
+                                                    ? 'Допустимо КИ'
+                                                    : 'Недопустимо КИ'
+                                            }
+                                            variant="outline"
+                                            type={technologyData.isCritical ? 'success' : 'error'}
+                                        />
+                                        <TooltipContainer
+                                            noArrow
+                                            largePadding
+                                            id="isCritical"
+                                            offset={10}
+                                            place="top"
+                                        >
+                                            {technologyData.isCritical
+                                                ? 'Технология допустима для использования в объекте критической инфраструктуры'
+                                                : 'Технология недопустима для использования в объекте критической инфраструктуры'}
+                                        </TooltipContainer>
+                                    </S.LabelsContainer>
                                 </>
                             )}
                         </S.TitleContainer>

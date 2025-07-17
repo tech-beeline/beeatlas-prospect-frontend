@@ -133,12 +133,32 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                     </S.ButtonsContainer>
                     <S.NameContainer>
                         <Text variant="h6">{selectedTech?.label}</Text>
+                    </S.NameContainer>
+                    <S.LablesContainer>
                         <Label
                             title={selectedTech?.ring.name}
                             variant="contained"
                             type={ringIdToLabelStatusMap[selectedTech?.ring.id ?? 1]}
                         />
-                    </S.NameContainer>
+                        <Label
+                            data-tooltip-id="isCritical"
+                            title={selectedTech?.isCritical ? 'Допустимо КИ' : 'Недопустимо КИ'}
+                            variant="outline"
+                            type={selectedTech?.isCritical ? 'success' : 'error'}
+                        />
+                        <TooltipContainer
+                            noArrow
+                            largePadding
+                            id="isCritical"
+                            offset={10}
+                            // @ts-ignore
+                            place="top-end"
+                        >
+                            {selectedTech?.isCritical
+                                ? 'Технология допустима для использования в объекте критической инфраструктуры'
+                                : 'Технология недопустима для использования в объекте критической инфраструктуры'}
+                        </TooltipContainer>
+                    </S.LablesContainer>
                     <S.DescriptionHeader inactive variant="body3">
                         Краткое описание
                     </S.DescriptionHeader>

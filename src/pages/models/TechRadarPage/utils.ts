@@ -133,12 +133,18 @@ export const getColor = (ring: number) => {
     }
 };
 
-export const itemFilterHandler = (item: ITech, search: string, filterValue: string | null) =>
+export const itemFilterHandler = (
+    item: ITech,
+    search: string,
+    filterValue: string | null,
+    criticalValue: boolean,
+) =>
     Boolean(
         item.label.toLowerCase().includes(search.toLowerCase()) &&
             (filterValue
                 ? item.category.map((category) => category.name).includes(filterValue)
-                : true),
+                : true) &&
+            (criticalValue ? item.isCritical : true),
     );
 
 export const openTechInLeftMenu = (id: number) => {

@@ -57,6 +57,7 @@ export const TechnologyAddPage = () => {
                 comment: techData.description,
                 ring: techData.ring.id,
                 sector: techData.sector.id,
+                isCritical: techData.isCritical,
             });
         } else {
             reset({});
@@ -85,6 +86,7 @@ export const TechnologyAddPage = () => {
                     ring_id: values.ring,
                     sector_id: values.sector,
                     categories: values.categories.map((id) => ({ id })),
+                    isCritical: values.isCritical,
                 },
             });
 
@@ -113,11 +115,11 @@ export const TechnologyAddPage = () => {
                         sector_id: values.sector,
                         categories: values.categories.map((id) => ({ id })),
                         review: true,
+                        isCritical: values.isCritical,
                     },
                 ],
             });
             const createdTechId = ids[0].id;
-
             let errorDocument = null;
             if (fileList.length !== 0) {
                 try {
@@ -126,7 +128,6 @@ export const TechnologyAddPage = () => {
                     errorDocument = e;
                 }
             }
-
             returnToTechnologies();
             showSnackbar({
                 message: errorDocument

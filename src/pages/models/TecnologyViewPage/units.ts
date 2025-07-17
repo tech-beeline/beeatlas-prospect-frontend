@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-    position: relative;
-
     width: 100%;
 
     padding: 32px;
@@ -38,6 +36,11 @@ export const TitleContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 16px;
+`;
+
+export const LabelsContainer = styled.div`
+    display: flex;
+    gap: 8px;
 `;
 
 export const ExpandableContainer = styled.div`

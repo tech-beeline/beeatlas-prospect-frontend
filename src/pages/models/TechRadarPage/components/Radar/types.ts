@@ -10,6 +10,7 @@ export interface IRadar {
     isActive: boolean;
     search: string;
     filterValue: string | null;
+    criticalValue: boolean;
 
     hoveredTechId: number | null;
     setHoveredTechId: (id: number | null) => void;

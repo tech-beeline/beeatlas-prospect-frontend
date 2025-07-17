@@ -10,6 +10,7 @@ export interface IRingRadar {
     color: string;
     ring: TRing;
     hoveredTechId: number | null;
+    criticalValue: boolean;
 
     setHoveredTechId: (id: number | null) => void;
     handleRing: (ring: TRing) => void;

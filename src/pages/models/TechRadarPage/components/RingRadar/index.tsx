@@ -17,6 +17,7 @@ export const RingRadar: FC<T.IRingRadar> = ({
     color,
     data,
     filterValue,
+    criticalValue,
     handleRing,
     hoveredTechId,
     isActive,
@@ -50,7 +51,7 @@ export const RingRadar: FC<T.IRingRadar> = ({
                 segment: itemSegment,
                 x: coords.x,
                 y: coords.y,
-                visible: UTILS.itemFilterHandler(item, search, filterValue),
+                visible: UTILS.itemFilterHandler(item, search, filterValue, criticalValue),
             };
         });
 

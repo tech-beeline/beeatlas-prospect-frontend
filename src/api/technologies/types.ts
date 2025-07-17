@@ -53,6 +53,7 @@ export interface ITech {
     sector: ISector;
     versions: ITechVersion[];
     history?: ITechHistory[] | null;
+    isCritical: boolean;
 }
 
 export interface ITechForm {
@@ -63,6 +64,7 @@ export interface ITechForm {
     ring_id: number;
     sector_id: number;
     review?: boolean;
+    isCritical: boolean;
 }
 
 export interface ITechVersionForm {

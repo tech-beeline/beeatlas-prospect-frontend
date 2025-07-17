@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react';
-import { Button, Search, Select } from '@beeline/design-system-react';
+import { Button, IconButton, Search, Select, Switch } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
+
+import { TooltipContainer } from 'components/interaction';
 
 import { useGetTechnologyCategoriesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
@@ -13,11 +16,13 @@ import * as S from './units';
 export const Filters: FC<IFilters> = ({
     search,
     filterValue,
+    criticalValue,
     filteredItems,
     activeMenuItem,
     setHoveredTechId,
     setSearch,
     setFilterValue,
+    setCriticalValue,
     setActiveMenuItem,
     setActiveRing,
 }) => {
@@ -95,6 +100,21 @@ export const Filters: FC<IFilters> = ({
                     }}
                 />
             </S.SelectContainer>
+            <S.SwitchContainer>
+                <Switch
+                    label="Допустимо КИ"
+                    checked={criticalValue}
+                    onClick={() => setCriticalValue(!criticalValue)}
+                />
+                <IconButton
+                    data-tooltip-id="critical-switch"
+                    iconName={Icons.InfoCircled}
+                    size="medium"
+                />
+                <TooltipContainer id="critical-switch" largePadding noArrow offset={6} place="top">
+                    Технологии допустимые для использования в объекте критической инфраструктуры
+                </TooltipContainer>
+            </S.SwitchContainer>
             <Button
                 disabled={!search && !filterValue}
                 size="small"

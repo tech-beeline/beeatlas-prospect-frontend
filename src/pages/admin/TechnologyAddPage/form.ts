@@ -1,4 +1,4 @@
-import { array, number, object, string } from 'yup';
+import { array, boolean, number, object, string } from 'yup';
 
 export type FormValues = {
     name: string;
@@ -6,6 +6,7 @@ export type FormValues = {
     sector: number;
     ring: number;
     comment: string;
+    isCritical: boolean;
 };
 
 export const getValidationSchema = (names: string[]) =>
@@ -21,4 +22,5 @@ export const getValidationSchema = (names: string[]) =>
         sector: number().required('Заполните поле'),
         ring: number().required('Заполните поле'),
         comment: string().default(''),
+        isCritical: boolean().default(true),
     });

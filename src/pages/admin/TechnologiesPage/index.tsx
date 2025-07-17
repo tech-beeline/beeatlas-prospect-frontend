@@ -106,6 +106,7 @@ export const TechnologiesPage = () => {
                                     <S.TableHeaderStatus>Статус</S.TableHeaderStatus>
                                     <S.TableHeaderDataNoWrap>Группа</S.TableHeaderDataNoWrap>
                                     <S.TableHeaderDataMaxWidth>Описание</S.TableHeaderDataMaxWidth>
+                                    <S.TableHeaderDataNoWrap>Допустимо КИ</S.TableHeaderDataNoWrap>
                                     <S.TableHeaderDataNoWrap>Состояние</S.TableHeaderDataNoWrap>
                                     <S.TableHeaderDataNoWrap> </S.TableHeaderDataNoWrap>
                                 </TableRow>

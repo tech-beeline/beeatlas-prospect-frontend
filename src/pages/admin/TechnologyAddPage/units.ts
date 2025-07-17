@@ -27,7 +27,7 @@ export const TitleContainer = styled.div`
     align-items: center;
     gap: 16px;
 
-    margin-top: 40px;
+    margin-top: 32px;
     margin-bottom: 24px;
 `;
 

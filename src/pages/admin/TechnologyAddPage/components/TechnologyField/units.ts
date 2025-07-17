@@ -21,12 +21,23 @@ export const GrowContainer = styled.div`
     flex: 1;
 `;
 
+export const CriticalContainer = styled.div`
+    margin-top: -20px;
+`;
+
+export const RadioGroupContainer = styled.div`
+    display: flex;
+    gap: 20px;
+
+    padding: 0px 16px;
+
+    margin-top: -12px;
+`;
+
 export const FileContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
-
-    margin-top: -20px;
 `;
 
 export const BannerContainer = styled.div`

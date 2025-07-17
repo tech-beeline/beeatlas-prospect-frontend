@@ -39,6 +39,13 @@ export const NameContainer = styled.div`
     margin-top: 24px;
 `;
 
+export const LablesContainer = styled.div`
+    display: flex;
+    gap: 8px;
+
+    margin-top: 8px;
+`;
+
 export const DescriptionHeader = styled(Text)`
     margin-top: 12px;
 `;

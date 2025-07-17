@@ -19,6 +19,7 @@ import { useUpdateTechnologyMutation } from 'api/queries/technologies';
 import { useShowTooltip } from 'hooks';
 import { ringIdToStatusMap } from 'pages/admin/TechnologiesPage/const';
 import * as R from 'router/const';
+import { formatYesNo } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TechnologyVersionTableRow } from './components';
@@ -43,6 +44,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                 ring_id: technology.ring.id,
                 sector_id: technology.sector.id,
                 categories: technology.category.map((category) => ({ id: category.id })),
+                isCritical: technology.isCritical,
             },
         });
         showSnackbar({ message: 'Технология восстановлена' });
@@ -120,6 +122,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                         </TooltipContainer>
                     )}
                 </TableData>
+                <TableData>{formatYesNo(technology.isCritical)}</TableData>
                 <TableData>
                     <Label
                         title={technology.deletedDate ? 'Удалена' : 'Активна'}

@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
-import { MultiSelect, Select, TextArea, TextField } from 'components/form';
+import { MultiSelect, RadioGroupBoolean, Select, TextArea, TextField } from 'components/form';
 
 import { formatSize } from 'utils/formatters';
 
@@ -103,6 +103,16 @@ export const TechnologyField: FC<ITechnologyField> = ({
                     maxLength={255}
                     disabled={isLoading}
                 />
+
+                <S.CriticalContainer>
+                    <Text variant="subtitle1">
+                        Технология допустима для использования в объекте критической инфраструктуры
+                    </Text>
+                </S.CriticalContainer>
+
+                <S.RadioGroupContainer>
+                    <RadioGroupBoolean name="isCritical" disabled={isLoading} />
+                </S.RadioGroupContainer>
 
                 <S.FileContainer>
                     <Text variant="subtitle1">Вложенный файл</Text>

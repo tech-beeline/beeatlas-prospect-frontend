@@ -4,6 +4,7 @@ export { DatePicker } from './DatePicker';
 export { FeelingPicker } from './FeelingPicker';
 export { MultiSelect } from './MultiSelect';
 export { RadioGroup } from './RadioGroup';
+export { RadioGroupBoolean } from './RadioGroupBoolean';
 export { Select } from './Select';
 export { TextArea } from './TextArea';
 export { TextField } from './TextField';

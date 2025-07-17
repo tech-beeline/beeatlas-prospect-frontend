@@ -53,9 +53,10 @@ export const TechRadarPage = () => {
 
     const [search, setSearch] = useState('');
     const [filterValue, setFilterValue] = useState<string | null>(null);
+    const [criticalValue, setCriticalValue] = useState(false);
 
     const filteredItems = (techRadarData ?? []).filter((item) =>
-        itemFilterHandler(item, search, filterValue),
+        itemFilterHandler(item, search, filterValue, criticalValue),
     );
 
     useEffect(() => {
@@ -229,6 +230,7 @@ export const TechRadarPage = () => {
                     <Filters
                         search={search}
                         filterValue={filterValue}
+                        criticalValue={criticalValue}
                         activeMenuItem={activeMenuItem}
                         filteredItems={filteredItems}
                         setHoveredTechId={setHoveredTechId}
@@ -236,6 +238,7 @@ export const TechRadarPage = () => {
                         setActiveRing={setActiveRing}
                         setSearch={setSearch}
                         setFilterValue={setFilterValue}
+                        setCriticalValue={setCriticalValue}
                     />
                 </S.Header>
 
@@ -264,6 +267,7 @@ export const TechRadarPage = () => {
                                 handleRing={handleRing}
                                 search={search}
                                 filterValue={filterValue}
+                                criticalValue={criticalValue}
                             />
 
                             <RingRadar
@@ -275,6 +279,7 @@ export const TechRadarPage = () => {
                                 isElementSelected={isElementSelected}
                                 search={search}
                                 filterValue={filterValue}
+                                criticalValue={criticalValue}
                                 hoveredTechId={hoveredTechId}
                                 setHoveredTechId={setHoveredTechId}
                             />
@@ -288,6 +293,7 @@ export const TechRadarPage = () => {
                                 isElementSelected={isElementSelected}
                                 search={search}
                                 filterValue={filterValue}
+                                criticalValue={criticalValue}
                                 hoveredTechId={hoveredTechId}
                                 setHoveredTechId={setHoveredTechId}
                             />
@@ -301,6 +307,7 @@ export const TechRadarPage = () => {
                                 isElementSelected={isElementSelected}
                                 search={search}
                                 filterValue={filterValue}
+                                criticalValue={criticalValue}
                                 hoveredTechId={hoveredTechId}
                                 setHoveredTechId={setHoveredTechId}
                             />
@@ -314,6 +321,7 @@ export const TechRadarPage = () => {
                                 isElementSelected={isElementSelected}
                                 search={search}
                                 filterValue={filterValue}
+                                criticalValue={criticalValue}
                                 hoveredTechId={hoveredTechId}
                                 setHoveredTechId={setHoveredTechId}
                             />

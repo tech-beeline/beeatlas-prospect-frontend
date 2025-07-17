@@ -19,6 +19,7 @@ export const Radar: FC<T.IRadar> = ({
     data,
     search,
     filterValue,
+    criticalValue,
     viewBox,
     isActive,
     topTitlesPosition,
@@ -56,7 +57,7 @@ export const Radar: FC<T.IRadar> = ({
                 segment: itemSegment,
                 x: coords.x,
                 y: coords.y,
-                visible: UTILS.itemFilterHandler(item, search, filterValue),
+                visible: UTILS.itemFilterHandler(item, search, filterValue, criticalValue),
             };
         });
 
