@@ -15,12 +15,12 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
 
     return (
         <S.ProductCardContainer>
-            <div>
+            <S.TextContainer>
                 <Text variant="body2">{product.name}</Text>
                 <Text inactive variant="body3">
                     {product.alias}
                 </Text>
-            </div>
+            </S.TextContainer>
             <IconButton
                 iconName={Icons.OpenInBrowser}
                 size="large"
@@ -41,7 +41,7 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
                 noArrow
                 isOpen={isTooltipShown}
             >
-                Открыть карточку системы
+                Открыть карточку приложения
             </TooltipContainer>
         </S.ProductCardContainer>
     );

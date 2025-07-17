@@ -6,7 +6,7 @@ export const MenuWrapper = styled.div`
     display: flex;
     align-items: center;
 
-    gap: 16px;
+    gap: 8px;
 
     width: 100%;
 `;

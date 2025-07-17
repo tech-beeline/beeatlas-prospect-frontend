@@ -22,7 +22,7 @@ export const ButtonsContainer = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    margin-top: 24px;
+    margin-top: 32px;
 `;
 
 export const InfoContainer = styled.div`
@@ -58,7 +58,7 @@ export const AppsContainer = styled.div<{ open: boolean }>`
 
     height: ${({ open }) => (open ? 'auto' : '0px')};
 
-    margin-top: ${({ open }) => (open ? '12px' : '0px')};
+    margin-top: ${({ open }) => (open ? '24px' : '0px')};
 
     overflow: hidden;
 
