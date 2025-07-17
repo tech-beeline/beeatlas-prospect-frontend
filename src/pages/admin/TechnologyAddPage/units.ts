@@ -7,6 +7,8 @@ export const PageWrapper = styled.div`
     width: 100%;
     height: 100%;
     padding: 0px 54px 54px;
+
+    color: var(--color-text-active);
 `;
 
 export const NotFoundContainer = styled.div`
