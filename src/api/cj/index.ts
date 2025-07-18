@@ -22,7 +22,7 @@ export const getAllCJs = (
 
 export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.get({
-        url: `${GATEWAY_URL}cx/v1/cj/${id}`,
+        url: `${GATEWAY_URL}cx/v2/cj/${id}`,
     });
 };
 

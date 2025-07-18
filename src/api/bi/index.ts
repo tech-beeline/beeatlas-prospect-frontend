@@ -9,7 +9,7 @@ import * as T from './types';
 
 export const getBIById = (id: string): AxiosPromise<T.IBIData> => {
     return Api.get({
-        url: `${GATEWAY_URL}cx/v1/bi/${id}`,
+        url: `${GATEWAY_URL}cx/v2/bi/${id}`,
     });
 };
 
