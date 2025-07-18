@@ -21,11 +21,12 @@ import {
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';
-import { itemFilterHandler } from './utils';
+import { itemFilterHandler, openTechInLeftMenu } from './utils';
 
 export const TechRadarPage = () => {
     const [isExportButtonDisabled, setIsExportButtonDisabled] = useState(false);
 
+    const [hoveredTechId, setHoveredTechId] = useState<number | null>(null);
     const [selectedTech, setSelectedTech] = useState<ITech | null>(null);
     const [params, setSearchParams] = useSearchParams();
     const [isFirstId, setIsFirstId] = useState(true);
@@ -52,10 +53,15 @@ export const TechRadarPage = () => {
 
     const [search, setSearch] = useState('');
     const [filterValue, setFilterValue] = useState<string | null>(null);
+    const [criticalValue, setCriticalValue] = useState(false);
 
     const filteredItems = (techRadarData ?? []).filter((item) =>
-        itemFilterHandler(item, search, filterValue),
+        itemFilterHandler(item, search, filterValue, criticalValue),
     );
+
+    useEffect(() => {
+        setHoveredTechId(null);
+    }, [filterValue]);
 
     const [isSubMenu, setSubMenu] = useState(false);
 
@@ -65,30 +71,26 @@ export const TechRadarPage = () => {
 
     const [viewBox, setViewBox] = useState(C.defautltViewBox);
 
-    const [hintText, setHintText] = useState('');
-
     /* говорит приближен ли квадрант */
     const [isZoomed, setZoomed] = useState(false);
-
-    /* это надо чтобы поиск элемента в меню происходил только после клика по кружку на радаре */
-    const [showInMenu, setShowInMenu] = useState(false);
 
     /* данные для расположения названий кругов */
     const [topTitlesPosition, setTopTitlesPosition] = useState(C.defautltTitlesTop);
     const [leftTitlesPosition, setLeftTitlesPosition] = useState(50);
 
-    const [isElementSelected, setElementSelected] = useState(false);
-    const [prevHintText, setPrevHintText] = useState('');
+    const [isElementSelected] = useState(false);
 
     useEffect(() => {
         if (id && techRadarData) {
             const tech = techRadarData.find((tech) => tech.id === Number(id));
             if (tech) {
                 setSelectedTech(tech);
-                setHintText(tech.label);
+                setHoveredTechId(tech.id);
+
                 // Для скролла при открытии страницы с заданным id
                 if (isFirstId) {
-                    setShowInMenu(true);
+                    openTechInLeftMenu(tech.id);
+                    // setShowInMenu(true);
                     setIsFirstId(false);
                 }
             }
@@ -99,20 +101,6 @@ export const TechRadarPage = () => {
             setSelectedTech(null);
         }
     }, [id, techRadarData]);
-
-    useEffect(() => {
-        if (showInMenu) {
-            setPrevHintText(hintText);
-
-            setElementSelected(true);
-        }
-    }, [showInMenu]);
-
-    useEffect(() => {
-        if (hintText !== prevHintText) {
-            setElementSelected(false);
-        }
-    }, [hintText]);
 
     const clearFilters = () => {
         setViewBox(C.defautltViewBox);
@@ -131,6 +119,8 @@ export const TechRadarPage = () => {
     };
 
     useEffect(() => {
+        setHoveredTechId(null);
+
         switch (activeRing) {
             case 'hold':
                 setActiveMenuItem(5);
@@ -155,6 +145,8 @@ export const TechRadarPage = () => {
 
     /* в зависимости от меню приближается нужный квадрант */
     useEffect(() => {
+        setHoveredTechId(null);
+
         if (activeMenuItem === 1) {
             setViewBox({ x: -45.65, y: -45, width: 45, height: 45 });
 
@@ -238,14 +230,15 @@ export const TechRadarPage = () => {
                     <Filters
                         search={search}
                         filterValue={filterValue}
+                        criticalValue={criticalValue}
                         activeMenuItem={activeMenuItem}
                         filteredItems={filteredItems}
+                        setHoveredTechId={setHoveredTechId}
                         setActiveMenuItem={setActiveMenuItem}
                         setActiveRing={setActiveRing}
-                        setHintText={setHintText}
                         setSearch={setSearch}
                         setFilterValue={setFilterValue}
-                        setShowInMenu={setShowInMenu}
+                        setCriticalValue={setCriticalValue}
                     />
                 </S.Header>
 
@@ -253,31 +246,42 @@ export const TechRadarPage = () => {
                     <S.ContentWrapper>
                         <LeftMenu
                             data={filteredItems}
+                            hoveredTechId={hoveredTechId}
+                            setHoveredTechId={setHoveredTechId}
                             selectedTech={selectedTech}
-                            hintText={hintText}
-                            setHintText={setHintText}
                             activeRing={activeRing}
                             activeMenuItem={activeMenuItem}
                             isZoomed={isZoomed}
-                            showInMenu={showInMenu}
-                            setShowInMenu={setShowInMenu}
                         />
 
                         <S.RadarsContainer>
+                            <Radar
+                                data={techRadarData ?? []}
+                                isActive={!activeRing}
+                                hoveredTechId={hoveredTechId}
+                                setHoveredTechId={setHoveredTechId}
+                                viewBox={viewBox}
+                                isZoomed={isZoomed}
+                                topTitlesPosition={topTitlesPosition}
+                                leftTitlesPosition={leftTitlesPosition}
+                                handleRing={handleRing}
+                                search={search}
+                                filterValue={filterValue}
+                                criticalValue={criticalValue}
+                            />
+
                             <RingRadar
                                 data={(techRadarData ?? []).filter((item) => item.ring.id === 4)}
                                 isActive={activeMenuItem === 5}
                                 color="#B6B7BF"
                                 ring="hold"
-                                {...{
-                                    handleRing,
-                                    hintText,
-                                    setHintText,
-                                    setShowInMenu,
-                                    isElementSelected,
-                                    search,
-                                    filterValue,
-                                }}
+                                handleRing={handleRing}
+                                isElementSelected={isElementSelected}
+                                search={search}
+                                filterValue={filterValue}
+                                criticalValue={criticalValue}
+                                hoveredTechId={hoveredTechId}
+                                setHoveredTechId={setHoveredTechId}
                             />
 
                             <RingRadar
@@ -285,15 +289,13 @@ export const TechRadarPage = () => {
                                 isActive={activeMenuItem === 6}
                                 color="var(--color-palette-blue-300)"
                                 ring="assess"
-                                {...{
-                                    handleRing,
-                                    hintText,
-                                    setHintText,
-                                    setShowInMenu,
-                                    isElementSelected,
-                                    search,
-                                    filterValue,
-                                }}
+                                handleRing={handleRing}
+                                isElementSelected={isElementSelected}
+                                search={search}
+                                filterValue={filterValue}
+                                criticalValue={criticalValue}
+                                hoveredTechId={hoveredTechId}
+                                setHoveredTechId={setHoveredTechId}
                             />
 
                             <RingRadar
@@ -301,15 +303,13 @@ export const TechRadarPage = () => {
                                 isActive={activeMenuItem === 7}
                                 color="var(--color-palette-amber-300)"
                                 ring="trial"
-                                {...{
-                                    handleRing,
-                                    hintText,
-                                    setHintText,
-                                    setShowInMenu,
-                                    isElementSelected,
-                                    search,
-                                    filterValue,
-                                }}
+                                handleRing={handleRing}
+                                isElementSelected={isElementSelected}
+                                search={search}
+                                filterValue={filterValue}
+                                criticalValue={criticalValue}
+                                hoveredTechId={hoveredTechId}
+                                setHoveredTechId={setHoveredTechId}
                             />
 
                             <RingRadar
@@ -317,33 +317,13 @@ export const TechRadarPage = () => {
                                 isActive={activeMenuItem === 8}
                                 color="var(--color-chart-green-active)"
                                 ring="adopt"
-                                {...{
-                                    handleRing,
-                                    hintText,
-                                    setHintText,
-                                    setShowInMenu,
-                                    isElementSelected,
-                                    search,
-                                    filterValue,
-                                }}
-                            />
-
-                            <Radar
-                                data={techRadarData ?? []}
-                                isActive={!activeRing}
-                                {...{
-                                    viewBox,
-                                    isZoomed,
-                                    topTitlesPosition,
-                                    leftTitlesPosition,
-                                    handleRing,
-                                    hintText,
-                                    setHintText,
-                                    setShowInMenu,
-                                    isElementSelected,
-                                    search,
-                                    filterValue,
-                                }}
+                                handleRing={handleRing}
+                                isElementSelected={isElementSelected}
+                                search={search}
+                                filterValue={filterValue}
+                                criticalValue={criticalValue}
+                                hoveredTechId={hoveredTechId}
+                                setHoveredTechId={setHoveredTechId}
                             />
 
                             <Legend />
@@ -356,8 +336,6 @@ export const TechRadarPage = () => {
                 isOpen={!!selectedTech}
                 onClose={() => {
                     setSearchParams({});
-                    setHintText('');
-                    setShowInMenu(false);
                 }}
             />
         </S.PageWrapper>

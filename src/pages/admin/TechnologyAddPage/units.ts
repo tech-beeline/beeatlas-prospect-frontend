@@ -7,6 +7,8 @@ export const PageWrapper = styled.div`
     width: 100%;
     height: 100%;
     padding: 0px 54px 54px;
+
+    color: var(--color-text-active);
 `;
 
 export const NotFoundContainer = styled.div`
@@ -27,7 +29,7 @@ export const TitleContainer = styled.div`
     align-items: center;
     gap: 16px;
 
-    margin-top: 40px;
+    margin-top: 32px;
     margin-bottom: 24px;
 `;
 
@@ -51,4 +53,6 @@ export const ButtonsContainer = styled.div`
     gap: 16px;
 
     margin-top: 8px;
+
+    padding-bottom: 32px;
 `;

@@ -3,15 +3,16 @@ import { FileUploaderListItem } from '@beeline/design-system-react';
 import { FileUploaderListItemAction } from '@beeline/design-system-react/types/components/FileUploader/FileUploaderList/FileUploaderListItem/FileUploaderListItem.types';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
-import { useUploadFileMutation } from 'api/queries/file-import';
+import { useUploadImportFileMutation } from 'api/queries/file-import';
 
 import { fileTypeToPathMap } from './const';
 import { IFileItem } from './types';
 
 export const FileItem: FC<IFileItem> = ({ file, fileType, index, onRemove }) => {
-    const { mutateAsync, isPending, error, progress, abortController } = useUploadFileMutation({
-        file,
-    });
+    const { mutateAsync, isPending, error, progress, abortController } =
+        useUploadImportFileMutation({
+            file,
+        });
 
     useEffect(() => {
         mutateAsync(fileTypeToPathMap[fileType]);

@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 import { Autocomplete, DatePicker, Select, TextField } from 'components/form';
+import { TooltipContainer } from 'components/interaction';
 
 // import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 import { useGetUserProductsQuery } from 'api/queries/product';
@@ -111,7 +112,9 @@ export const TCAddPage = () => {
                                 <S.IconContainer data-tooltip-id="name-icon">
                                     <Icon iconName={Icons.InfoCircled} size="medium" />
                                 </S.IconContainer>
-                                <S.TooltipContainer
+                                <TooltipContainer
+                                    largePadding
+                                    displayFlex
                                     offset={0}
                                     id="name-icon"
                                     place="bottom"
@@ -129,7 +132,7 @@ export const TCAddPage = () => {
                                         доступность, время отклика, корректность взаимодействия
                                         (объект, характеристики)
                                     </Text>
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.RelativeContainer>
                             <S.RelativeContainer>
                                 <S.TextAreaStyled
@@ -140,7 +143,9 @@ export const TCAddPage = () => {
                                 <S.IconContainer data-tooltip-id="description-icon">
                                     <Icon iconName={Icons.InfoCircled} size="medium" />
                                 </S.IconContainer>
-                                <S.TooltipContainer
+                                <TooltipContainer
+                                    largePadding
+                                    displayFlex
                                     offset={0}
                                     id="description-icon"
                                     place="bottom"
@@ -158,7 +163,7 @@ export const TCAddPage = () => {
                                         сервисов на VAS-платформе (пояснение) для проверки
                                         правильности настройки оборудования (мотивация/ценность)
                                     </Text>
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.RelativeContainer>
                             {fields.map((field, index) => (
                                 <BCField
@@ -199,7 +204,9 @@ export const TCAddPage = () => {
                                             <S.IconContainer data-tooltip-id="status-icon">
                                                 <Icon iconName={Icons.InfoCircled} size="medium" />
                                             </S.IconContainer>
-                                            <S.TooltipContainer
+                                            <TooltipContainer
+                                                largePadding
+                                                displayFlex
                                                 offset={0}
                                                 id="status-icon"
                                                 place="bottom"
@@ -219,7 +226,7 @@ export const TCAddPage = () => {
                                                     В эксплуатации - ТС на продуктиве готова к
                                                     потреблению (Implemented)
                                                 </Text>
-                                            </S.TooltipContainer>
+                                            </TooltipContainer>
                                         </S.RelativeContainer>
                                     </S.CharacteristicsContainer>
                                     <S.CharacteristicsContainer>

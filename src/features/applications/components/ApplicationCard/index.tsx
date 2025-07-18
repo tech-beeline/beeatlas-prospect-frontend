@@ -5,11 +5,12 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationMutation } from 'api/queries/applications';
 import * as R from 'router/const';
-import { formatNullableString } from 'utils/formatters';
+import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
@@ -28,7 +29,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
     const { mutateAsync } = usePatchBCApplicationMutation();
 
     const handleAssignToSelfButtonClick = async () => {
-        await mutateAsync({ id: application.business_key, nextStatus: ApplicationStatus.RW });
+        await mutateAsync({ id: application.businessKey, nextStatus: ApplicationStatus.RW });
         showSnackbar({ message: 'Заявка принята в работу' });
     };
 
@@ -47,7 +48,7 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                             navigate(
                                 `${R.PROFILE_PATH}${review ? R.REVIEW_PATH : R.APPLICATIONS_PATH}${
                                     R.VIEW_PATH
-                                }?key=${application.business_key}`,
+                                }?key=${application.businessKey}`,
                             )
                         }
                     >
@@ -72,7 +73,9 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                             Создана
                         </Text>
                         <Text variant="body2">
-                            {dayjs(application.createDate).format('DD.MM.YYYY')}
+                            {dayjs(formatDateToUTC(application.createDate))
+                                .local()
+                                .format('DD.MM.YYYY')}
                         </Text>
                     </div>
                     <div>
@@ -81,7 +84,9 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                         </Text>
                         <Text variant="body2">
                             {application.updateDate
-                                ? dayjs(application.updateDate).format('DD.MM.YYYY')
+                                ? dayjs(formatDateToUTC(application.updateDate))
+                                      .local()
+                                      .format('DD.MM.YYYY')
                                 : formatNullableString(null)}
                         </Text>
                     </div>
@@ -101,14 +106,9 @@ export const ApplicationCard: FC<IApplicationCard> = ({ application, review }) =
                         type={statusAliasToLabelTypeMap[application.status.alias] ?? 'default'}
                         data-tooltip-id={`label-${application.id}`}
                     />
-                    <S.TooltipContainer
-                        noArrow
-                        place="top"
-                        offset={8}
-                        id={`label-${application.id}`}
-                    >
+                    <TooltipContainer noArrow place="top" offset={8} id={`label-${application.id}`}>
                         {statusAliasToTooltipTextMap[application.status.alias]}
-                    </S.TooltipContainer>
+                    </TooltipContainer>
                 </S.NumberContainer>
                 {/* {application.status.alias === ApplicationStatus.DN && (
                     <S.LinkContainer>

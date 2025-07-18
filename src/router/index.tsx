@@ -53,6 +53,7 @@ import {
     TechnologiesPage,
     TechnologyAddPage,
     TechnologyVersionAddPage,
+    TechnologyViewPage,
     TechPolicyPage,
     TechRadarPage,
     TemplatesPage,
@@ -92,6 +93,12 @@ export const NavigationRouter = () => {
             behavior: 'smooth',
         });
     }, [location]);
+
+    const isProd =
+        window.location.hostname === 'eafdmmart-prod.apps.yd-k03.vimpelcom.ru' ||
+        window.location.hostname === 'beeatlas.vimpelcom.ru' ||
+        window.location.hostname === 'techradar.vimpelcom.ru' ||
+        window.location.hostname === 'tr.vimpelcom.ru';
 
     return (
         <>
@@ -334,6 +341,18 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
+                        path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}${R.VIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <TechnologyViewPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
                         path={`${R.MODELS_PATH}${R.MAP_PATH}`}
                         element={
                             <S.RouteWithDrawer>
@@ -368,7 +387,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <AppsPage />
+                                    <AppsPage isProd={isProd} />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -380,7 +399,13 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <S.IFrameStyled src="https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e" />
+                                    <S.IFrameStyled
+                                        src={
+                                            isProd
+                                                ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
+                                                : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
+                                        }
+                                    />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

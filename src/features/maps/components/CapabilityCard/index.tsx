@@ -2,10 +2,11 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { generateMapColorGradient } from 'features/maps/utils';
+import { generateMapColorGradient, selectColorByCriteria } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import * as ROUTER from 'router/const';
@@ -41,11 +42,16 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                 style={
                     mapVariant !== MapVariant.DEFAULT
                         ? {
-                              backgroundColor: generateMapColorGradient(
-                                  themeIsDark,
-                                  mapVariant.revers,
-                                  mapVariant.interval ?? 2,
-                              )[criteria?.grade ?? 0],
+                              backgroundColor: selectColorByCriteria(
+                                  generateMapColorGradient(
+                                      themeIsDark,
+                                      mapVariant.revers,
+                                      mapVariant.interval ?? 2,
+                                  ),
+                                  mapVariant,
+                                  criteria?.grade ?? 0,
+                                  criteria?.value ?? 0,
+                              ),
                           }
                         : {}
                 }
@@ -115,7 +121,10 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                     />
                 </S.TechCapabilityTitleContainer>
             </S.TechCapabilityCard>
-            <S.TooltipContainer
+            <TooltipContainer
+                displayFlex
+                largePadding
+                largeWidth
                 clickable
                 id={`TECH-${techCapability.id}`}
                 offset={5}
@@ -123,7 +132,9 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                 noArrow
             >
                 <Text variant="h5">Описание возможности</Text>
-                <Text variant="body3">{techCapability.description || 'Описания нет'}</Text>
+                <S.DescriptionText variant="body3">
+                    {techCapability.description || 'Описания нет'}
+                </S.DescriptionText>
                 <Text variant="body3">
                     Посмотреть детальную информацию можно{'\n'}
                     <Link
@@ -132,7 +143,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                         url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${techCapability.id}&type=TECH`}
                     />
                 </Text>
-            </S.TooltipContainer>
+            </TooltipContainer>
         </>
     );
 };

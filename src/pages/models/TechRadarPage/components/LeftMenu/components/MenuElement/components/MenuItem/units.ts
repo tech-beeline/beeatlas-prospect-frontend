@@ -1,4 +1,3 @@
-import { Tooltip } from 'react-tooltip';
 import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
@@ -44,27 +43,6 @@ export const IconsContainer = styled.div<{ hidden?: boolean }>`
     display: ${({ hidden }) => (hidden ? 'none' : 'flex')};
     align-items: center;
     gap: 8px;
-`;
-
-export const TooltipContainer = styled(Tooltip)`
-    max-width: 300px;
-    width: max-content;
-    padding: 4px 8px;
-
-    background-color: var(--color-background-inverse);
-    color: var(--color-text-active-inverse);
-
-    border-radius: var(--size-border-radius-x8);
-
-    font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-caption);
-    line-height: var(--font-line-height-caption);
-    text-align: start;
-    white-space: pre-line;
-
-    user-select: none;
-
-    z-index: 30;
 `;
 
 export const IconButtonStyled = styled(IconButton)<{ visible: boolean }>`

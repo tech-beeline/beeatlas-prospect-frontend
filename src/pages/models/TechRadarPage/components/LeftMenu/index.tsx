@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { unescape } from 'lodash';
 
 import emptyBox from './images/empty-box.png';
 
@@ -10,20 +9,16 @@ import * as S from './units';
 export const LeftMenu: FC<T.ILeftMenu> = ({
     activeMenuItem,
     data,
-    hintText,
     isZoomed,
     selectedTech,
-    setHintText,
-    setShowInMenu,
-    showInMenu,
     activeRing,
+    hoveredTechId,
+    setHoveredTechId,
 }) => {
     const [isFirstOpen, setFirstOpen] = useState(false);
     const [isSecondOpen, setSecondOpen] = useState(false);
     const [isThirdOpen, setThirdOpen] = useState(false);
     const [isFourOpen, setFourOpen] = useState(false);
-
-    const [isHoverInMenu, setHoverInMenu] = useState(false);
 
     const firstSector = data.filter((item) => item.sector.id === 1);
     const secondSector = data.filter((item) => item.sector.id === 2);
@@ -53,66 +48,6 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
         }
     }, [activeMenuItem]);
 
-    useEffect(() => {
-        if (menuRef.current && menuRef.current.children.length && !isHoverInMenu) {
-            const menuBlocks = Array.from(menuRef.current.getElementsByClassName('menuBlock'));
-            const menuItems = Array.from(menuRef.current.getElementsByClassName('menuItem'));
-
-            const selectedElement = menuItems.find((item) => unescape(item.innerHTML) === hintText);
-
-            if (!!selectedElement && showInMenu) {
-                const parentElement = selectedElement.closest('.menuBlock');
-
-                const activeBlockIndex = !!parentElement
-                    ? menuBlocks.findIndex((item) => item.isEqualNode(parentElement))
-                    : null;
-
-                switch (activeBlockIndex) {
-                    case 0:
-                        setFirstOpen(true);
-                        setSecondOpen(false);
-                        setThirdOpen(false);
-                        setFourOpen(false);
-                        break;
-
-                    case 1:
-                        setSecondOpen(true);
-                        setFirstOpen(false);
-                        setThirdOpen(false);
-                        setFourOpen(false);
-                        break;
-
-                    case 2:
-                        setThirdOpen(true);
-                        setFirstOpen(false);
-                        setSecondOpen(false);
-                        setFourOpen(false);
-                        break;
-
-                    case 3:
-                        setFourOpen(true);
-                        setFirstOpen(false);
-                        setSecondOpen(false);
-                        setThirdOpen(false);
-                        break;
-                }
-
-                setTimeout(
-                    () => {
-                        selectedElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center',
-                        });
-
-                        setShowInMenu(false);
-                    },
-
-                    450,
-                );
-            }
-        }
-    }, [menuRef, hintText, showInMenu]);
-
     return (
         <S.Wrapper ref={menuRef} withScroll>
             {data.length > 0 && (
@@ -124,11 +59,10 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setOpen={setFirstOpen}
                         data={firstSector}
                         activeRing={activeRing}
-                        hintText={hintText}
-                        setHintText={setHintText}
+                        hoveredTechId={hoveredTechId}
                         hidden={isZoomed && activeMenuItem !== 1}
                         selectedTech={selectedTech}
-                        setHoverInMenu={setHoverInMenu}
+                        setHoveredTechId={setHoveredTechId}
                     />
 
                     <MenuElement
@@ -138,11 +72,10 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setOpen={setSecondOpen}
                         data={secondSector}
                         activeRing={activeRing}
-                        hintText={hintText}
-                        setHintText={setHintText}
+                        hoveredTechId={hoveredTechId}
                         hidden={isZoomed && activeMenuItem !== 2}
                         selectedTech={selectedTech}
-                        setHoverInMenu={setHoverInMenu}
+                        setHoveredTechId={setHoveredTechId}
                     />
 
                     <MenuElement
@@ -152,11 +85,10 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setOpen={setThirdOpen}
                         data={thirdSector}
                         activeRing={activeRing}
-                        hintText={hintText}
-                        setHintText={setHintText}
+                        hoveredTechId={hoveredTechId}
                         hidden={isZoomed && activeMenuItem !== 3}
                         selectedTech={selectedTech}
-                        setHoverInMenu={setHoverInMenu}
+                        setHoveredTechId={setHoveredTechId}
                     />
 
                     <MenuElement
@@ -166,11 +98,10 @@ export const LeftMenu: FC<T.ILeftMenu> = ({
                         setOpen={setFourOpen}
                         data={fourthSector}
                         activeRing={activeRing}
-                        hintText={hintText}
-                        setHintText={setHintText}
+                        hoveredTechId={hoveredTechId}
                         hidden={isZoomed && activeMenuItem !== 4}
                         selectedTech={selectedTech}
-                        setHoverInMenu={setHoverInMenu}
+                        setHoveredTechId={setHoveredTechId}
                     />
                 </>
             )}

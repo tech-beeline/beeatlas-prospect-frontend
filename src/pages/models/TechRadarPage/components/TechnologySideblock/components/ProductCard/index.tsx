@@ -3,6 +3,7 @@ import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import * as R from 'router/const';
 
@@ -14,12 +15,12 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
 
     return (
         <S.ProductCardContainer>
-            <div>
+            <S.TextContainer>
                 <Text variant="body2">{product.name}</Text>
                 <Text inactive variant="body3">
                     {product.alias}
                 </Text>
-            </div>
+            </S.TextContainer>
             <IconButton
                 iconName={Icons.OpenInBrowser}
                 size="large"
@@ -32,7 +33,7 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
                 }}
                 data-tooltip-id={`app-link-${product.id}`}
             />
-            <S.TooltipContainer
+            <TooltipContainer
                 id={`app-link-${product.id}`}
                 offset={5}
                 // @ts-ignore
@@ -40,8 +41,8 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
                 noArrow
                 isOpen={isTooltipShown}
             >
-                Открыть карточку системы
-            </S.TooltipContainer>
+                Открыть карточку приложения
+            </TooltipContainer>
         </S.ProductCardContainer>
     );
 };

@@ -17,3 +17,24 @@ export const formatNullableBooleanParam = (
     paramName: string,
     param: boolean | undefined | null,
 ): string => (typeof param === 'boolean' ? `&${paramName}=${String(param)}` : '');
+
+export const formatDateToUTC = (date: string | null): string | null => (date ? date + 'Z' : null);
+
+export const formatSize = (bytes: number, dp = 1) => {
+    const thresh = 1024;
+
+    if (Math.abs(bytes) < thresh) {
+        return bytes + ' б';
+    }
+
+    const units = ['Кб', 'Мб', 'Гб', 'Тб'];
+    let u = -1;
+    const r = 10 ** dp;
+
+    do {
+        bytes /= thresh;
+        ++u;
+    } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
+
+    return bytes.toFixed(dp) + ' ' + units[u];
+};

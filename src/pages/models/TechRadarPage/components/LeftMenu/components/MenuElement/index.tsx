@@ -48,22 +48,6 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
         ];
     };
 
-    /* показывает тултип */
-    const onHintShow = (label: string) => {
-        if (!props.selectedTech) {
-            props.setHintText(label);
-        }
-        props.setHoverInMenu(true);
-    };
-
-    /* скрывает тултип */
-    const onHintHide = () => {
-        if (!props.selectedTech) {
-            props.setHintText('');
-        }
-        props.setHoverInMenu(false);
-    };
-
     const selectedRingDataLenght = formatData(props.data).find(
         (item) => props.activeRing === item.title.toLowerCase(),
     )?.data.length;
@@ -82,14 +66,14 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
             {!props.hidden && (
                 <>
                     {conditionForTitle && (
-                        <S.TitleWrapper onClick={handleTitleClick}>
+                        <S.TitleWrapper data-open={props.isOpen} onClick={handleTitleClick}>
                             <S.Title>{props.title}</S.Title>
 
-                            <S.ArrowIcon isreverse={props.isOpen ? 'true' : ''} />
+                            <S.ArrowIcon id="arrow-icon" isreverse={props.isOpen ? 'true' : ''} />
                         </S.TitleWrapper>
                     )}
 
-                    <Expand isOpen={props.isOpen} isAutoHeight>
+                    <Expand transition={0.25} isOpen={props.isOpen} isAutoHeight>
                         {formatData(props.data).map((item, index) =>
                             !!props.activeRing
                                 ? props.activeRing === item.title.toLowerCase() &&
@@ -109,7 +93,8 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                               <MenuItem
                                                   key={item.id}
                                                   item={item}
-                                                  hintText={props.hintText}
+                                                  hoveredTechId={props.hoveredTechId}
+                                                  setHoveredTechId={props.setHoveredTechId}
                                                   selectedTech={props.selectedTech}
                                                   onClick={() => {
                                                       setSearchParams(
@@ -117,11 +102,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                               id: String(item.id),
                                                           }),
                                                       );
-                                                      props.setHintText(item.label);
-                                                      props.setHoverInMenu(true);
                                                   }}
-                                                  onMouseEnter={(label) => onHintShow(label)}
-                                                  onMouseLeave={onHintHide}
                                               />
                                           ))}
                                       </S.Wrapper>
@@ -142,7 +123,8 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                               <MenuItem
                                                   key={item.id}
                                                   item={item}
-                                                  hintText={props.hintText}
+                                                  hoveredTechId={props.hoveredTechId}
+                                                  setHoveredTechId={props.setHoveredTechId}
                                                   selectedTech={props.selectedTech}
                                                   onClick={() => {
                                                       setSearchParams(
@@ -150,11 +132,7 @@ export const MenuElement: FC<T.IMenuElement> = (props) => {
                                                               id: String(item.id),
                                                           }),
                                                       );
-                                                      props.setHintText(item.label);
-                                                      props.setHoverInMenu(true);
                                                   }}
-                                                  onMouseEnter={(label) => onHintShow(label)}
-                                                  onMouseLeave={onHintHide}
                                               />
                                           ))}
                                       </S.Wrapper>

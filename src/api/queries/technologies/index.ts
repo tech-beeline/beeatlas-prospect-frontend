@@ -5,6 +5,9 @@ import {
     deleteTechnologyCategory,
     deleteTechnologyVersionById,
     getAllTechnologies,
+    getTechDocumentationTypes,
+    getTechFile,
+    getTechnologyById,
     getTechnologyCategories,
     mergeTechnologyCategories,
     patchTechnology,
@@ -13,6 +16,7 @@ import {
     postTechnology,
     postTechnologyCategory,
     postTechnologyVersions,
+    uploadTechFile,
 } from 'api/technologies';
 import {
     ICategory,
@@ -29,6 +33,14 @@ export const useGetAllTechnologiesQuery = () => {
     return useQuery<ITech[]>({
         queryKey: [TECHNOLOGIES_PREFIX, 'tech'],
         queryFn: () => getAllTechnologies().then((res) => res.data),
+    });
+};
+
+export const useGetTechnologyByIdQuery = (id: string | number | null) => {
+    return useQuery({
+        queryKey: [TECHNOLOGIES_PREFIX, 'tech', 'byId', id],
+        queryFn: () => getTechnologyById(id!).then((res) => res.data),
+        enabled: !!id,
     });
 };
 
@@ -127,7 +139,8 @@ export function useCreateTechnologyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [TECHNOLOGIES_PREFIX, 'create'],
-        mutationFn: (params: ICreateTechnologyParams) => postTechnology(params.data),
+        mutationFn: (params: ICreateTechnologyParams) =>
+            postTechnology(params.data).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
         },
@@ -213,3 +226,39 @@ export function useDeleteTechnologyVersionMutation() {
         },
     });
 }
+
+interface IUploadFileParams {
+    file: File;
+    techId: number;
+}
+export const useUploadTechFileMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationKey: [TECHNOLOGIES_PREFIX, 'upload'],
+        mutationFn: async (params: IUploadFileParams) => {
+            await uploadTechFile(params.file, params.techId);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [TECHNOLOGIES_PREFIX] });
+        },
+    });
+};
+
+export const useGetTechnologyFileByIdQuery = (id: string | number | null) => {
+    return useQuery({
+        queryKey: [TECHNOLOGIES_PREFIX, 'tech', 'file', id],
+        queryFn: async () => {
+            const docTypes = await getTechDocumentationTypes().then((res) => res.data);
+            const docTypeId = docTypes[0].id;
+
+            const techFile = await getTechFile(Number(id), docTypeId).then((res) => res);
+            const fileName = techFile.headers['content-disposition']
+                .split('filename=')[1]
+                .replaceAll('"', '');
+
+            return { file: techFile.data, fileName };
+        },
+        enabled: !!id,
+    });
+};

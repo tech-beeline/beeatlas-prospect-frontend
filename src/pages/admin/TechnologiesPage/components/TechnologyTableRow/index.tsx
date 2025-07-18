@@ -13,11 +13,13 @@ import {
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import { useUpdateTechnologyMutation } from 'api/queries/technologies';
 import { useShowTooltip } from 'hooks';
 import { ringIdToStatusMap } from 'pages/admin/TechnologiesPage/const';
 import * as R from 'router/const';
+import { formatYesNo } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TechnologyVersionTableRow } from './components';
@@ -37,12 +39,12 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
         await mutateAsync({
             data: {
                 id: technology.id,
-                link: technology.link ?? '',
                 label: technology.label,
                 descr: technology.description,
                 ring_id: technology.ring.id,
                 sector_id: technology.sector.id,
                 categories: technology.category.map((category) => ({ id: category.id })),
+                isCritical: technology.isCritical,
             },
         });
         showSnackbar({ message: 'Технология восстановлена' });
@@ -66,24 +68,6 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                             />
                             <div>{technology.label}</div>
                         </S.IconContainer>
-                        {technology.link && (
-                            <>
-                                <S.IconStyled
-                                    size="medium"
-                                    iconName={Icons.OpenInBrowser}
-                                    onClick={() => window.open(technology.link ?? '', '_blank')}
-                                    data-tooltip-id={`link-${technology.id}`}
-                                />
-                                <S.TooltipContainer
-                                    id={`link-${technology.id}`}
-                                    offset={8}
-                                    place="top"
-                                    noArrow
-                                >
-                                    Перейти на страницу с описанием
-                                </S.TooltipContainer>
-                            </>
-                        )}
                     </S.NameContainer>
                 </S.TableDataFullWidth>
                 <TableData>{technology.sector.name}</TableData>
@@ -107,7 +91,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                 })`}
                         </span>
                         {technology.category.length > 1 && (
-                            <S.TooltipContainer
+                            <TooltipContainer
                                 largePadding
                                 id={`category-${technology.id}`}
                                 offset={8}
@@ -115,7 +99,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                 noArrow
                             >
                                 {technology.category.map((category) => category.name).join(', ')}
-                            </S.TooltipContainer>
+                            </TooltipContainer>
                         )}
                     </>
                 </TableData>
@@ -127,7 +111,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                         {technology.description}
                     </S.DescriptionContainer>
                     {showDescriptionTooltip && (
-                        <S.TooltipContainer
+                        <TooltipContainer
                             largePadding
                             id={`description-${technology.id}`}
                             offset={8}
@@ -135,9 +119,10 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                             noArrow
                         >
                             {technology.description}
-                        </S.TooltipContainer>
+                        </TooltipContainer>
                     )}
                 </TableData>
+                <TableData>{formatYesNo(technology.isCritical)}</TableData>
                 <TableData>
                     <Label
                         title={technology.deletedDate ? 'Удалена' : 'Активна'}
@@ -154,7 +139,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                     onClick={handleRestoreTechnologyClick}
                                     data-tooltip-id={`${technology.id}-refresh`}
                                 />
-                                <S.TooltipContainer
+                                <TooltipContainer
                                     noArrow
                                     // @ts-ignore Ошибка в .d.ts
                                     place="top-end"
@@ -162,7 +147,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                     id={`${technology.id}-refresh`}
                                 >
                                     Восстановить технологию
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </>
                         ) : (
                             <>
@@ -182,7 +167,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                     onClick={() => setTechToDelete(technology)}
                                     data-tooltip-id={`${technology.id}-delete`}
                                 />
-                                <S.TooltipContainer
+                                <TooltipContainer
                                     noArrow
                                     // @ts-ignore Ошибка в .d.ts
                                     place="top-end"
@@ -190,8 +175,8 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                     id={`${technology.id}-edit`}
                                 >
                                     Редактировать
-                                </S.TooltipContainer>
-                                <S.TooltipContainer
+                                </TooltipContainer>
+                                <TooltipContainer
                                     noArrow
                                     // @ts-ignore Ошибка в .d.ts
                                     place="top-end"
@@ -199,7 +184,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                     id={`${technology.id}-delete`}
                                 >
                                     Удалить
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </>
                         )}
                     </S.ButtonsContainer>
@@ -225,7 +210,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                     Создать версию
                                 </Button>
                                 {!!technology.deletedDate && (
-                                    <S.TooltipContainer
+                                    <TooltipContainer
                                         noArrow
                                         // @ts-ignore Ошибка в .d.ts
                                         place="top-end"
@@ -233,7 +218,7 @@ export const TechnologyTableRow: FC<ITableRow> = ({ technology, setTechToDelete 
                                         id={`${technology.id}-create-version`}
                                     >
                                         Сначала восстановите технологию
-                                    </S.TooltipContainer>
+                                    </TooltipContainer>
                                 )}
                             </S.VersionsFlexContainer>
                             {technology.versions.length === 0 && (

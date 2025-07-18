@@ -6,15 +6,15 @@ export interface IRadar {
     isZoomed: boolean;
     topTitlesPosition: TTopTitlesPosition;
     leftTitlesPosition: number;
-    hintText: string;
+
     isActive: boolean;
-    isElementSelected: boolean;
     search: string;
     filterValue: string | null;
+    criticalValue: boolean;
 
-    setHintText: (value: string) => void;
+    hoveredTechId: number | null;
+    setHoveredTechId: (id: number | null) => void;
     handleRing: (ring: 'hold' | 'assess' | 'trial' | 'adopt') => void;
-    setShowInMenu: (bool: boolean) => void;
 }
 
 type TViewBox = {

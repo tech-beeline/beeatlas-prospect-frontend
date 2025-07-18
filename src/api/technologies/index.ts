@@ -16,6 +16,12 @@ export const getAllTechnologies = (actualTech?: boolean): AxiosPromise<T.ITech[]
     });
 };
 
+export const getTechnologyById = (id: string | number): AxiosPromise<T.ITech> => {
+    return Api.get({
+        url: `${GATEWAY_URL}techradar/v1/tech/${id}`,
+    });
+};
+
 export const getTechnologyCategories = (): AxiosPromise<T.ICategory[]> => {
     return Api.get({
         url: `${GATEWAY_URL}techradar/v1/category`,
@@ -61,7 +67,7 @@ export const deleteTechnologyById = (id: string | number) => {
     });
 };
 
-export const postTechnology = (data: Omit<T.ITechForm, 'id'>[]) => {
+export const postTechnology = (data: Omit<T.ITechForm, 'id'>[]): AxiosPromise<{ id: number }[]> => {
     return Api.post({
         url: `${GATEWAY_URL}techradar/v1/tech`,
         data,
@@ -108,5 +114,28 @@ export const deleteTechnologyVersionById = (
 export const getSubscribedTechnologies = (): AxiosPromise<T.ISubscribedTechnologyData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}techradar/v1/tech/subscribed`,
+    });
+};
+
+export const uploadTechFile = (file: File, techId: number) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return Api.post({
+        url: `${GATEWAY_URL}document/v1/documents/tech_description/md?targetId=${techId}`,
+        data: formData,
+        headers: { 'Content-Disposition': `${file.name}` },
+    });
+};
+
+export const getTechDocumentationTypes = (): AxiosPromise<T.ITechDocumentTypesData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documentations/tech`,
+    });
+};
+
+export const getTechFile = (techId: number, docTypeId: number): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/${docTypeId}/${techId}`,
     });
 };

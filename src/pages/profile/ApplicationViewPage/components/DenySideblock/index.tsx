@@ -1,0 +1,70 @@
+import React, { FC, useState } from 'react';
+import { Button, IconButton, TextArea } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import { SideBlock } from 'components/containers';
+import { Text } from 'components/core';
+
+import { ApplicationStatus } from 'api/applications/types';
+import { usePatchBCApplicationStatusMutation } from 'api/queries/applications';
+import { useSnackbarStore } from 'widgets/Snackbar';
+
+import { IDenySideblock } from './types';
+import * as S from './units';
+
+export const DenySideblock: FC<IDenySideblock> = ({ isOpen, onClose, application }) => {
+    const [comment, setComment] = useState('');
+    const [error, setError] = useState(false);
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const { mutateAsync } = usePatchBCApplicationStatusMutation();
+
+    const handleClose = () => {
+        onClose();
+        setComment('');
+    };
+
+    const handleCreateClick = async () => {
+        if (comment.length !== 0) {
+            handleClose();
+            mutateAsync({
+                id: application.business_key,
+                nextStatus: ApplicationStatus.CNCL,
+                data: { comment },
+            });
+            showSnackbar({ message: 'Заявка отклонена' });
+        } else {
+            setError(true);
+        }
+    };
+    return (
+        <SideBlock hasBackdrop isOpen={isOpen} onClose={handleClose}>
+            <S.SideblockContainer>
+                <S.ContentContainer>
+                    <S.TitleContainer>
+                        <Text variant="h5">Отклонить заявку</Text>
+                        <IconButton iconName={Icons.Close} size="large" onClick={handleClose} />
+                    </S.TitleContainer>
+                    <TextArea
+                        fullWidth
+                        onChange={(e) => {
+                            setComment(e.target.value);
+                            setError(false);
+                        }}
+                        error={error}
+                        label="Укажите причину*"
+                    />
+                </S.ContentContainer>
+                <S.ButtonsContainer>
+                    <Button size="medium" variant="outlined" onClick={handleClose}>
+                        Отменить
+                    </Button>
+                    <Button size="medium" variant="contained" onClick={handleCreateClick}>
+                        Отклонить
+                    </Button>
+                </S.ButtonsContainer>
+            </S.SideblockContainer>
+        </SideBlock>
+    );
+};

@@ -1,9 +1,14 @@
 import React, { FC, useState } from 'react';
-import { Button, Search, Select } from '@beeline/design-system-react';
+import { Button, IconButton, Search, Select, Switch } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
+
+import { TooltipContainer } from 'components/interaction';
 
 import { useGetTechnologyCategoriesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
+
+import { openTechInLeftMenu } from '../../utils';
 
 import { IFilters } from './types';
 import * as S from './units';
@@ -11,13 +16,14 @@ import * as S from './units';
 export const Filters: FC<IFilters> = ({
     search,
     filterValue,
-    activeMenuItem,
+    criticalValue,
     filteredItems,
+    activeMenuItem,
+    setHoveredTechId,
     setSearch,
     setFilterValue,
-    setHintText,
+    setCriticalValue,
     setActiveMenuItem,
-    setShowInMenu,
     setActiveRing,
 }) => {
     const { data: categoriesData, isLoading } = useGetTechnologyCategoriesQuery();
@@ -26,22 +32,17 @@ export const Filters: FC<IFilters> = ({
 
     const handleSearchClear = () => {
         setSearch('');
-        setHintText('');
         setActiveMenuItem(0);
     };
 
     const handleItemClick = (item: ITech) => {
         setActiveRing(null);
         setActiveMenuItem(item.sector.id);
+        openTechInLeftMenu(item.id);
         if (activeMenuItem === item.sector.id) {
-            setShowInMenu(true);
-            setHintText(item.label);
+            setHoveredTechId(item.id);
         } else {
-            // После зума, есди item находится в другом секторе
-            setTimeout(() => {
-                setShowInMenu(true);
-                setHintText(item.label);
-            }, 450);
+            setTimeout(() => setHoveredTechId(item.id), 450);
         }
     };
 
@@ -67,7 +68,6 @@ export const Filters: FC<IFilters> = ({
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
-                        setHintText('');
                     }}
                     onFocus={() => {
                         setMenuOpened(true);
@@ -100,6 +100,21 @@ export const Filters: FC<IFilters> = ({
                     }}
                 />
             </S.SelectContainer>
+            <S.SwitchContainer>
+                <Switch
+                    label="Допустимо КИ"
+                    checked={criticalValue}
+                    onClick={() => setCriticalValue(!criticalValue)}
+                />
+                <IconButton
+                    data-tooltip-id="critical-switch"
+                    iconName={Icons.InfoCircled}
+                    size="medium"
+                />
+                <TooltipContainer id="critical-switch" largePadding noArrow offset={6} place="top">
+                    Технологии допустимые для использования в объекте критической инфраструктуры
+                </TooltipContainer>
+            </S.SwitchContainer>
             <Button
                 disabled={!search && !filterValue}
                 size="small"

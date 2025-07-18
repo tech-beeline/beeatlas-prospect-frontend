@@ -9,7 +9,7 @@ import { FileUploadPath } from './types';
 
 export const getTemplateFilesList = (): AxiosPromise<T.ITemplateFile[]> => {
     return Api.get({
-        url: `/templates/index.json`,
+        url: `/templates/import/index.json`,
     });
 };
 
@@ -19,7 +19,7 @@ export const getAllFiles = (): AxiosPromise<T.IFileData[]> => {
     });
 };
 
-export const uploadFile = (
+export const uploadImportFile = (
     file: File,
     filePath: FileUploadPath,
     onUploadProgress: (e: ProgressEvent) => void,

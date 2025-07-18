@@ -1,7 +1,7 @@
-import { IApplication } from 'api/applications/types';
+import { IExtendedApplication } from 'api/applications/types';
 
-export interface ICreateCategorySideblock {
+export interface IRevisionSideblock {
     isOpen: boolean;
     onClose: () => void;
-    application: IApplication;
+    application: IExtendedApplication;
 }

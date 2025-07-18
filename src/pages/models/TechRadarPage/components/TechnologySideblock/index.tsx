@@ -1,9 +1,13 @@
 import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
+import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { PivotArrow } from 'components/other';
 
 import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
@@ -14,11 +18,12 @@ import {
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
+import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ProductCard, VersionCard } from './components';
-import { ringIdToStatusMap } from './const';
 import { ITechnologySideblock } from './types';
 import * as S from './units';
 
@@ -29,9 +34,10 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { modalOpened, openModal, closeModal } = useModal();
+    const navigate = useNavigate();
 
     const [showApps, setShowApps] = useState(false);
-    // const [showHistory, setShowHistory] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
     const [showVersions, setShowVersions] = useState(false);
 
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsByTechnologyIdQuery(
@@ -47,9 +53,9 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
         selectedTech && subscribedTechnologiesIds?.includes(selectedTech.id),
     );
 
-    // const handleHistoryArrowClick = () => {
-    //     setShowHistory(!showHistory);
-    // };
+    const handleHistoryArrowClick = () => {
+        setShowHistory(!showHistory);
+    };
 
     const handleAppsArrowClick = () => {
         setShowApps(!showApps);
@@ -67,6 +73,12 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                 message:
                     'Вы подписались на изменения технологии. Уведомления будут отображаться на витрине ФДМ',
             });
+        }
+    };
+
+    const handleSeeMoreButtonClick = () => {
+        if (selectedTech) {
+            navigate(`${R.MODELS_PATH}${R.TECH_RADAR_PATH}${R.VIEW_PATH}?id=${selectedTech.id}`);
         }
     };
 
@@ -94,18 +106,10 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
             >
                 <S.Container>
                     <S.TitleContainer>
-                        <S.Title>Информация о технологии</S.Title>
+                        <Text variant="h5">Информация о технологии</Text>
                         <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                     </S.TitleContainer>
                     <S.ButtonsContainer>
-                        <Button
-                            startIcon={<Icon iconName={Icons.OpenInBrowser} />}
-                            variant="plain"
-                            disabled={!selectedTech?.link}
-                            onClick={() => window.open(selectedTech?.link ?? '', '_blank')}
-                        >
-                            Подробнее
-                        </Button>
                         <Button
                             startIcon={
                                 <Icon
@@ -119,57 +123,89 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         >
                             {isSubscribed ? 'Отписаться' : 'Подписаться'}
                         </Button>
+                        <Button
+                            endIcon={<Icon iconName={Icons.ArrowRight} />}
+                            variant="plain"
+                            onClick={handleSeeMoreButtonClick}
+                        >
+                            Подробнее
+                        </Button>
                     </S.ButtonsContainer>
                     <S.NameContainer>
-                        <Text variant="subtitle2">{selectedTech?.label}</Text>
+                        <Text variant="h6">{selectedTech?.label}</Text>
+                    </S.NameContainer>
+                    <S.LablesContainer>
                         <Label
                             title={selectedTech?.ring.name}
                             variant="contained"
-                            type={ringIdToStatusMap[selectedTech?.ring.id ?? 1]}
+                            type={ringIdToLabelStatusMap[selectedTech?.ring.id ?? 1]}
                         />
-                    </S.NameContainer>
+                        <Label
+                            data-tooltip-id="isCritical"
+                            title={selectedTech?.isCritical ? 'Допустимо КИ' : 'Недопустимо КИ'}
+                            variant="outline"
+                            type={selectedTech?.isCritical ? 'success' : 'error'}
+                        />
+                        <TooltipContainer
+                            noArrow
+                            largePadding
+                            id="isCritical"
+                            offset={10}
+                            // @ts-ignore
+                            place="top-end"
+                        >
+                            {selectedTech?.isCritical
+                                ? 'Технология допустима для использования в объекте критической инфраструктуры'
+                                : 'Технология недопустима для использования в объекте критической инфраструктуры'}
+                        </TooltipContainer>
+                    </S.LablesContainer>
                     <S.DescriptionHeader inactive variant="body3">
-                        Описание
+                        Краткое описание
                     </S.DescriptionHeader>
-                    <Text variant="body2">{selectedTech?.description}</Text>
-                    <S.SubtitleMargin>
-                        <Text variant="subtitle2">Последние изменения</Text>
-                    </S.SubtitleMargin>
-                    <S.LastChanges variant="body2">Раздел ещё в разработке</S.LastChanges>
-                    {/* <S.ButtonsContainer> */}
-                    {/*     <Text variant="subtitle2">История изменения</Text> */}
-                    {/*     <PivotArrow */}
-                    {/*         style={{ cursor: 'pointer' }} */}
-                    {/*         position={showHistory && 'top'} */}
-                    {/*         onClick={handleHistoryArrowClick} */}
-                    {/*     /> */}
-                    {/* </S.ButtonsContainer> */}
-                    {/* <S.AppsContainer open={showHistory}> */}
-                    {/*     <div> */}
-                    {/*         <Text inactive variant="body3"> */}
-                    {/*             29.09.2024 */}
-                    {/*         </Text> */}
-                    {/*         <Text variant="body2">Технология переведена в статус «Adopt»</Text> */}
-                    {/*     </div> */}
-                    {/*     <div> */}
-                    {/*         <Text inactive variant="body3"> */}
-                    {/*             29.09.2024 */}
-                    {/*         </Text> */}
-                    {/*         <Text variant="body2">Технология переведена в статус «Adopt»</Text> */}
-                    {/*     </div> */}
-                    {/* </S.AppsContainer> */}
+                    <Text variant="body2">{formatNullableString(selectedTech?.description)}</Text>
                     <S.ButtonsContainer>
-                        <Text variant="subtitle2">
-                            Приложения{productsData && ` (${productsData.length})`}
-                        </Text>
+                        <Text variant="h6">История изменений</Text>
+                        <PivotArrow
+                            style={{ cursor: 'pointer' }}
+                            position={showHistory && 'top'}
+                            onClick={handleHistoryArrowClick}
+                        />
+                    </S.ButtonsContainer>
+                    <S.AppsContainer open={showHistory}>
+                        {selectedTech?.history &&
+                            selectedTech.history.map((history) => (
+                                <div key={history.version}>
+                                    <Text inactive variant="body3">
+                                        {dayjs(history.createdDate).format('DD.MM.YYYY')}
+                                    </Text>
+                                    <Text variant="body2">
+                                        Технология переведена в статус «{history.ring.name}»
+                                    </Text>
+                                </div>
+                            ))}
+                        {(!selectedTech?.history || selectedTech.history.length === 0) && (
+                            <div>
+                                <Text inactive variant="body3">
+                                    {dayjs(selectedTech?.createdDate).format('DD.MM.YYYY')}
+                                </Text>
+                                <Text variant="body2">
+                                    Технология создана в статусе «{selectedTech?.ring.name}»
+                                </Text>
+                            </div>
+                        )}
+                    </S.AppsContainer>
+                    <S.ButtonsContainer>
                         <S.InfoContainer>
+                            <Text variant="h6">
+                                Приложения{productsData && ` (${productsData.length})`}
+                            </Text>
                             <Icon
                                 iconName={Icons.InfoCircled}
                                 style={{ cursor: 'pointer' }}
                                 size="large"
                                 data-tooltip-id="apps-info"
                             />
-                            <S.TooltipContainer
+                            <TooltipContainer
                                 noArrow
                                 largePadding
                                 // @ts-ignore Ошибка в .d.ts
@@ -179,7 +215,9 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                             >
                                 Список приложений регулярно обновляется из разных источников
                                 автоматически
-                            </S.TooltipContainer>
+                            </TooltipContainer>
+                        </S.InfoContainer>
+                        <S.InfoContainer>
                             <PivotArrow
                                 style={{ cursor: 'pointer' }}
                                 position={showApps && 'top'}
@@ -200,7 +238,7 @@ export const TechnologySideblock: FC<ITechnologySideblock> = ({
                         {isLoadingProducts && <Skeleton height={44} radius={8} />}
                     </S.AppsContainer>
                     <S.ButtonsContainer>
-                        <Text variant="subtitle2">Версии</Text>
+                        <Text variant="h6">Версии</Text>
                         <PivotArrow
                             style={{ cursor: 'pointer' }}
                             position={showVersions && 'top'}

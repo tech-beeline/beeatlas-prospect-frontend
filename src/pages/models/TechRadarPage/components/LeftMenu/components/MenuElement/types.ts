@@ -6,11 +6,12 @@ export interface IMenuElement {
     isOpen: boolean;
     data: ITech[];
     activeRing?: string | null;
-    hintText: string;
+
     hidden: boolean;
     selectedTech: ITech | null;
+    hoveredTechId: number | null;
+
+    setHoveredTechId: (id: number | null) => void;
 
     setOpen: (bool: boolean) => void;
-    setHintText: (value: string) => void;
-    setHoverInMenu: (bool: boolean) => void;
 }

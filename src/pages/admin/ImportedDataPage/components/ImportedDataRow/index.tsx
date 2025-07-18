@@ -7,6 +7,7 @@ import {
     packageStatusToStatusNameMap,
 } from 'features/imported-data';
 
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import { useShowTooltip } from 'hooks';
@@ -38,7 +39,7 @@ export const ImportedDataRow: FC<IImportedDataRow> = ({ packageData }) => {
                         packageData.operation}
                 </S.OperationContainer>
                 {showOperationTooltip && (
-                    <S.TooltipContainer
+                    <TooltipContainer
                         largePadding
                         id={`operation-${packageData.packageId}`}
                         offset={8}
@@ -47,7 +48,7 @@ export const ImportedDataRow: FC<IImportedDataRow> = ({ packageData }) => {
                     >
                         {packageOperationToOperationNameMap[packageData.operation] ??
                             packageData.operation}
-                    </S.TooltipContainer>
+                    </TooltipContainer>
                 )}
             </TableData>
             <TableData>{dayjs(packageData.createdDate).format('DD-MM-YYYY')}</TableData>

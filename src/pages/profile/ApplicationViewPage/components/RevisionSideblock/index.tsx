@@ -9,14 +9,10 @@ import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationStatusMutation } from 'api/queries/applications';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { ICreateCategorySideblock } from './types';
+import { IRevisionSideblock } from './types';
 import * as S from './units';
 
-export const RevisionSideblock: FC<ICreateCategorySideblock> = ({
-    isOpen,
-    onClose,
-    application,
-}) => {
+export const RevisionSideblock: FC<IRevisionSideblock> = ({ isOpen, onClose, application }) => {
     const [comment, setComment] = useState('');
     const [error, setError] = useState(false);
 
@@ -58,7 +54,6 @@ export const RevisionSideblock: FC<ICreateCategorySideblock> = ({
                         }}
                         error={error}
                         label="Укажите причину*"
-                        maxLength={50}
                     />
                 </S.ContentContainer>
                 <S.ButtonsContainer>

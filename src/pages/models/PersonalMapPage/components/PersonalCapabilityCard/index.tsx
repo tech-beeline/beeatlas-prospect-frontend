@@ -2,11 +2,16 @@ import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { CapabilityCardCriteriaComment, MapVariant } from 'features/maps';
-import { generateMapColorGradient } from 'features/maps/utils';
+import {
+    CapabilityCardCriteriaComment,
+    generateMapColorGradient,
+    MapVariant,
+    selectColorByCriteria,
+} from 'features/maps';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import { IMapCapability, IMapCriteria, PersonalMapTypes } from 'api/maps/types';
@@ -34,13 +39,16 @@ const BusinessCard: FC<{
             style={
                 mapVariant !== MapVariant.DEFAULT
                     ? {
-                          backgroundColor: generateMapColorGradient(
-                              themeIsDark,
-                              mapVariant.revers,
-                              mapVariant.interval && mapVariant.interval > 2
-                                  ? mapVariant.interval
-                                  : 2,
-                          )[criteria?.grade ?? 0],
+                          backgroundColor: selectColorByCriteria(
+                              generateMapColorGradient(
+                                  themeIsDark,
+                                  mapVariant.revers,
+                                  mapVariant.interval ?? 2,
+                              ),
+                              mapVariant,
+                              criteria?.grade ?? 0,
+                              criteria?.value ?? 0,
+                          ),
                       }
                     : {}
             }
@@ -87,13 +95,16 @@ const TechCard: FC<{
             style={
                 mapVariant !== MapVariant.DEFAULT
                     ? {
-                          backgroundColor: generateMapColorGradient(
-                              themeIsDark,
-                              mapVariant.revers,
-                              mapVariant.interval && mapVariant.interval > 2
-                                  ? mapVariant.interval
-                                  : 2,
-                          )[criteria?.grade ?? 0],
+                          backgroundColor: selectColorByCriteria(
+                              generateMapColorGradient(
+                                  themeIsDark,
+                                  mapVariant.revers,
+                                  mapVariant.interval ?? 2,
+                              ),
+                              mapVariant,
+                              criteria?.grade ?? 0,
+                              criteria?.value ?? 0,
+                          ),
                       }
                     : {}
             }
@@ -119,7 +130,10 @@ const TechCard: FC<{
                 iconName={Icons.InfoCircled}
                 size="large"
             />
-            <S.TooltipContainer
+            <TooltipContainer
+                largePadding
+                largeWidth
+                displayFlex
                 clickable
                 id={`TECH-${capability.id}`}
                 offset={5}
@@ -128,7 +142,9 @@ const TechCard: FC<{
                 noArrow
             >
                 <Text variant="h5">Описание возможности</Text>
-                <Text variant="body3">{capability.description || 'Описания нет'}</Text>
+                <S.DescriptionText variant="body3">
+                    {capability.description || 'Описания нет'}
+                </S.DescriptionText>
                 <Text variant="body3">
                     Посмотреть детальную информацию можно{'\n'}
                     <Link
@@ -137,7 +153,7 @@ const TechCard: FC<{
                         url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capability.id}&type=TECH`}
                     />
                 </Text>
-            </S.TooltipContainer>
+            </TooltipContainer>
         </S.TechCard>
     );
 };

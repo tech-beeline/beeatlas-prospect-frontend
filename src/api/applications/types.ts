@@ -1,8 +1,8 @@
 interface IComment {
     id: number;
     comment: string;
-    created_date: string;
-    full_name: string;
+    createdDate: string;
+    fullName: string;
 }
 
 export enum ApplicationStatus {
@@ -29,7 +29,7 @@ interface IApplicationType {
 
 export interface IApplication {
     id: number;
-    business_key: string;
+    businessKey: string;
     authorId: number;
     comments: IComment[];
     createDate: string;
@@ -41,7 +41,8 @@ export interface IApplication {
     updateDate: string;
 }
 
-export interface IExtendedApplication extends IApplication {
+export interface IExtendedApplication
+    extends Omit<IApplication, 'createDate' | 'updateDate' | 'businessKey'> {
     entity_id: number;
     executor: {
         email: string;
@@ -49,6 +50,8 @@ export interface IExtendedApplication extends IApplication {
         id: number;
     } | null;
     update_date: string | null;
+    create_date: string | null;
+    business_key: string;
 }
 
 export interface IApplicationEntity {

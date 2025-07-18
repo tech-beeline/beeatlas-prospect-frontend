@@ -133,10 +133,44 @@ export const getColor = (ring: number) => {
     }
 };
 
-export const itemFilterHandler = (item: ITech, search: string, filterValue: string | null) =>
+export const itemFilterHandler = (
+    item: ITech,
+    search: string,
+    filterValue: string | null,
+    criticalValue: boolean,
+) =>
     Boolean(
         item.label.toLowerCase().includes(search.toLowerCase()) &&
             (filterValue
                 ? item.category.map((category) => category.name).includes(filterValue)
-                : true),
+                : true) &&
+            (criticalValue ? item.isCritical : true),
     );
+
+export const openTechInLeftMenu = (id: number) => {
+    const element = document.getElementById(`menu-item-${id}`);
+    const menuBlock = element?.closest('.menuBlock');
+    const expandButton = menuBlock?.querySelector('div');
+
+    const scrollFunction = () => {
+        element?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+    };
+
+    if (!(expandButton?.dataset.open === 'true')) {
+        expandButton?.click();
+        menuBlock?.addEventListener('transitionend', scrollFunction as EventListener, {
+            once: true,
+        });
+        menuBlock?.addEventListener('transitioncancel', scrollFunction as EventListener, {
+            once: true,
+        });
+    } else {
+        element?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+    }
+};

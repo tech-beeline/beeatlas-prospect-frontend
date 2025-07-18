@@ -1,7 +1,6 @@
+// import { Tooltip } from 'react-tooltip';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { ReactComponent as SelectSVG } from './images/select-icon.svg';
 
 export const PageWrapper = styled.div`
     width: 100%;
@@ -51,10 +50,6 @@ export const TitleWrapper = styled.div`
 
 export const SubTitle = styled(Title)`
     color: var(--color-text-inactive);
-`;
-
-export const SelectIcon = styled(SelectSVG)`
-    cursor: pointer;
 `;
 
 export const ContentWrapper = styled.div`
@@ -137,6 +132,35 @@ export const TooltipContainer = styled.div<{ isVisibleHint: boolean }>`
                   visibility: hidden;
                   opacity: 0;
               `};
+`;
+
+export const TooltipContainerNew = styled.div<{ largePadding?: boolean }>`
+    position: fixed;
+    display: none;
+
+    max-width: 300px;
+    width: max-content;
+    padding: ${({ largePadding }) => (largePadding ? '16px' : '4px 8px')};
+
+    background-color: var(--color-background-inverse);
+    color: var(--color-text-active-inverse);
+
+    border-radius: ${({ largePadding }) =>
+        largePadding ? 'var(--size-border-radius-x8)' : 'var(--size-border-radius-x4)'};
+
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-caption);
+    line-height: var(--font-line-height-caption);
+    text-align: start;
+    white-space: pre-line;
+
+    user-select: none;
+
+    z-index: 30;
+
+    opacity: 0;
+
+    transition: opacity 0.25s ease-out;
 `;
 
 export const HintText = styled.p`

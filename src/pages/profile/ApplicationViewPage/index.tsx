@@ -1,21 +1,21 @@
 import React, { FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
+import { Button, Divider, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 
 import { ApplicationStatus } from 'api/applications/types';
 import {
     useGetApplicationByBusinessKeyQuery,
     usePatchBCApplicationMutation,
-    // usePatchBCApplicationStatusMutation,
 } from 'api/queries/applications';
 import { useModal } from 'hooks';
-import { RevisionSideblock } from 'pages/profile/ApplicationViewPage/components';
+import { DenySideblock, RevisionSideblock } from 'pages/profile/ApplicationViewPage/components';
 import * as R from 'router/const';
-import { formatNullableString } from 'utils/formatters';
+import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
@@ -34,7 +34,17 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const [params] = useSearchParams();
     const paramKey = params.get('key');
 
-    const { openModal, closeModal, modalOpened } = useModal();
+    const {
+        openModal: openRevisionSideblock,
+        closeModal: closeRevisionSideblock,
+        modalOpened: revisionSideblockOpened,
+    } = useModal();
+
+    const {
+        openModal: openDenySideblock,
+        closeModal: closeDenySideblock,
+        modalOpened: denySideblockOpened,
+    } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -56,12 +66,6 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     };
 
     const handleApproveButtonClick = async () => {
-        // if (applicationData) {
-        //     await patchApplicationStatus({
-        //         id: applicationData.business_key,
-        //         nextStatus: ApplicationStatus.DN,
-        //     });
-        // }
         if (applicationData) {
             navigate(
                 `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}?key=${applicationData.business_key}`,
@@ -114,14 +118,14 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                     }
                                     data-tooltip-id={`label-${applicationData.id}`}
                                 />
-                                <S.TooltipContainer
+                                <TooltipContainer
                                     noArrow
                                     place="top"
                                     offset={8}
                                     id={`label-${applicationData.id}`}
                                 >
                                     {statusAliasToTooltipTextMap[applicationData.status.alias]}
-                                </S.TooltipContainer>
+                                </TooltipContainer>
                             </S.TitleContainer>
                             <S.MetadataContainer>
                                 <div>
@@ -129,9 +133,9 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                         Дата создания
                                     </Text>
                                     <Text variant="body2">
-                                        {dayjs(applicationData.createDate).format(
-                                            'DD.MM.YYYY в HH:mm',
-                                        )}
+                                        {dayjs(formatDateToUTC(applicationData.create_date))
+                                            .local()
+                                            .format('DD.MM.YYYY в HH:mm')}
                                     </Text>
                                 </div>
                                 <div>
@@ -140,9 +144,9 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                     </Text>
                                     <Text variant="body2">
                                         {applicationData.update_date
-                                            ? dayjs(applicationData.update_date).format(
-                                                  'DD.MM.YYYY',
-                                              )
+                                            ? dayjs(formatDateToUTC(applicationData.update_date))
+                                                  .local()
+                                                  .format('DD.MM.YYYY в HH:mm')
                                             : formatNullableString(null)}
                                     </Text>
                                 </div>
@@ -183,22 +187,28 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                 {formatNullableString(applicationData.executor?.fullName)}
                             </Text>
                             <Text variant="subtitle1">Комментарии к заявке</Text>
-                            {applicationData.comments.length === 0 && (
-                                <Text variant="body2">Нет комментариев</Text>
-                            )}
-                            {applicationData.comments.length > 0 && (
-                                <S.CommentsContainer>
-                                    {applicationData.comments.map((comment) => (
+                            <S.CommentsContainer>
+                                {applicationData.comments.map((comment, i) => (
+                                    <>
                                         <div key={comment.id}>
                                             <Text inactive variant="body3">
-                                                {comment.full_name}, добавил комментарий{' '}
-                                                {dayjs(comment.created_date).format('DD.MM.YYYY')}
+                                                {comment.fullName}, добавил комментарий{' '}
+                                                {dayjs(formatDateToUTC(comment.createdDate))
+                                                    .local()
+                                                    .format('DD.MM.YYYY в HH:mm')}
                                             </Text>
                                             <Text variant="body2">{comment.comment}</Text>
                                         </div>
-                                    ))}
-                                </S.CommentsContainer>
-                            )}
+                                        {i !== applicationData.comments.length - 1 && <Divider />}
+                                    </>
+                                ))}
+                                {applicationData.comments.length === 0 && (
+                                    <S.NoComments>
+                                        <Text variant="body2">Нет комментариев</Text>
+                                    </S.NoComments>
+                                )}
+                            </S.CommentsContainer>
+
                             {/* @TODO: Scroll issue */}
                             <S.EmptyDiv />
                         </S.ContentContainer>
@@ -230,8 +240,11 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                 )}
                                 {applicationData.status.alias === ApplicationStatus.RW && (
                                     <>
-                                        <Button size="medium" onClick={openModal}>
+                                        <Button size="medium" onClick={openRevisionSideblock}>
                                             Вернуть на доработку
+                                        </Button>
+                                        <Button size="medium" onClick={openDenySideblock}>
+                                            Отклонить
                                         </Button>
                                         <Button
                                             size="medium"
@@ -248,11 +261,18 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                 </>
             )}
             {applicationData && (
-                <RevisionSideblock
-                    isOpen={modalOpened}
-                    onClose={closeModal}
-                    application={applicationData}
-                />
+                <>
+                    <DenySideblock
+                        isOpen={denySideblockOpened}
+                        onClose={closeDenySideblock}
+                        application={applicationData}
+                    />
+                    <RevisionSideblock
+                        isOpen={revisionSideblockOpened}
+                        onClose={closeRevisionSideblock}
+                        application={applicationData}
+                    />
+                </>
             )}
         </S.PageWrapper>
     );
