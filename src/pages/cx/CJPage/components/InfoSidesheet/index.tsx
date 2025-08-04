@@ -28,7 +28,7 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
                     <Text inactive variant="body3">
                         Автор CJ
                     </Text>
-                    <Text variant="body2">Константинопольский Константин Константинович</Text>
+                    <Text variant="body2">{cj.author.fullName}</Text>
                 </div>
 
                 <div>

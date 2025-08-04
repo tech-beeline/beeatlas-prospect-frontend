@@ -176,7 +176,7 @@ export const BIViewPage = () => {
                                         )}
                                     </S.Body2>
                                     <S.Body3 marginTop>Автор</S.Body3>
-                                    <S.Body2>Константинопольский Константин Константинович</S.Body2>
+                                    <S.Body2>{data.author.fullName}</S.Body2>
                                     <S.Body3 marginTop>Дата изменения</S.Body3>
                                     <S.Body2>
                                         {dayjs(data.lastModifiedDate).format('DD.MM.YYYY')}

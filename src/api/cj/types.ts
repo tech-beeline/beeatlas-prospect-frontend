@@ -20,6 +20,12 @@ export interface ICJForm {
     user_portrait: string;
 }
 
+interface IAuthor {
+    id: number;
+    fullName: string;
+    email: string;
+}
+
 export interface ICJData {
     id: number;
     name: string;
@@ -36,6 +42,7 @@ export interface ICompleteStepData extends ICJStepData {
 
 export interface ICompleteCJData extends ICJData {
     steps: ICompleteStepData[];
+    author: IAuthor;
 }
 
 export enum CJLibraryStatus {
