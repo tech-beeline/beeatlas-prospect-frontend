@@ -57,15 +57,6 @@ export const UploadedFileContainer = styled.div`
     gap: 16px;
 `;
 
-export const FileContentContainer = styled.div`
-    padding: 16px;
-
-    border: 1px solid var(--color-divider);
-    border-radius: var(--size-border-radius-x6);
-
-    overflow: auto;
-`;
-
 export const FileNameContainer = styled.div`
     display: flex;
     justify-content: space-between;

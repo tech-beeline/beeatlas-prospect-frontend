@@ -38,9 +38,31 @@ export const TitleContainer = styled.div`
     gap: 16px;
 `;
 
+export const ButtonsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 16px;
+`;
+
 export const LabelsContainer = styled.div`
     display: flex;
     gap: 8px;
+`;
+
+export const GridContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+
+    @media only screen and (max-width: 1200px) {
+        grid-template-columns: 1fr;
+    }
+`;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export const ExpandableContainer = styled.div`
@@ -77,11 +99,7 @@ export const NotFoundContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-    margin-top: 112px;
-`;
-
-export const FileContentContainer = styled.div`
-    padding: 16px;
+    padding: 88px 0px;
 
     border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
