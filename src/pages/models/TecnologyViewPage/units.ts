@@ -1,18 +1,26 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
     width: 100%;
+    height: calc(100vh - 64px);
 
     padding: 32px;
 
     background-color: var(--color-background-base);
     color: var(--color-text-active);
+
+    overflow: auto;
 `;
 
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
+
+    flex: 1;
 `;
 
 export const HeaderContainer = styled.div`
@@ -53,6 +61,8 @@ export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+
+    flex: 1;
 
     @media only screen and (max-width: 1200px) {
         grid-template-columns: 1fr;
@@ -100,6 +110,10 @@ export const NotFoundContainer = styled.div`
     justify-content: center;
 
     padding: 88px 0px;
+
+    height: 100%;
+
+    flex: 1;
 
     border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);

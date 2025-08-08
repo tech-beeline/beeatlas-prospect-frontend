@@ -4,7 +4,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { ringIdToLabelStatusMap, TechnologyFileContainer } from 'features/technologies';
+import {
+    MarkdownLinkRenderer,
+    ringIdToLabelStatusMap,
+    TechnologyFileContainer,
+} from 'features/technologies';
 import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
@@ -177,7 +181,7 @@ export const TechnologyViewPage = () => {
                     </S.GridContainer>
                 )}
 
-                {technologyData && (
+                {technologyData && !(isLoadingTechnology || isLoadingFileData) && (
                     <S.GridContainer>
                         <div>
                             {!isLoadingFileData && !fileData && (
@@ -191,7 +195,11 @@ export const TechnologyViewPage = () => {
                             )}
                             {fileData && (
                                 <TechnologyFileContainer>
-                                    <Markdown urlTransform={(v) => v} remarkPlugins={[remarkGfm]}>
+                                    <Markdown
+                                        components={{ a: MarkdownLinkRenderer }}
+                                        urlTransform={(v) => v}
+                                        remarkPlugins={[remarkGfm]}
+                                    >
                                         {filterFileText(fileData.file, technologyData)}
                                     </Markdown>
                                 </TechnologyFileContainer>

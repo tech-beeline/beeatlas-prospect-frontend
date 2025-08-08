@@ -49,6 +49,7 @@ export const Filters: FC<IFilters> = ({
     const handleClearClick = () => {
         handleSearchClear();
         setFilterValue(null);
+        setCriticalValue(false);
     };
 
     const filterOptions = (categoriesData ?? []).map((category) => ({
@@ -116,7 +117,7 @@ export const Filters: FC<IFilters> = ({
                 </TooltipContainer>
             </S.SwitchContainer>
             <Button
-                disabled={!search && !filterValue}
+                disabled={!search && !filterValue && !criticalValue}
                 size="small"
                 variant="plain"
                 onClick={handleClearClick}
