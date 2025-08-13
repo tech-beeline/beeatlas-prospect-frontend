@@ -23,7 +23,9 @@ export const useGetNotificationsQuery = (params: INotificationParams) => {
         queryFn: async () => {
             const res = await Promise.all([
                 getNotifications(params).then((res) => res.data),
-                getBusinessNotifications({ ...params, type: undefined }).then((res) => res.data),
+                getBusinessNotifications({ ...params, businessType: params.businessType }).then(
+                    (res) => res.data,
+                ),
             ]);
             return { notifications: res[0], businessNotifications: res[1] };
         },

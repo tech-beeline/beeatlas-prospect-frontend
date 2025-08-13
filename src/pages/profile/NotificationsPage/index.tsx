@@ -29,6 +29,7 @@ import {
     BusinessFilterVariants,
     CHIPS,
     FilterVariants,
+    filterVariantToBusinessNotificationEntityMap,
     filterVariantToNotificationEntityMap,
     NotificationVariants,
 } from './const';
@@ -80,6 +81,10 @@ export const NotificationsPage = () => {
         type:
             filterVariant !== FilterVariants.ALL
                 ? filterVariantToNotificationEntityMap[filterVariant]
+                : undefined,
+        businessType:
+            businessFilterVariant !== BusinessFilterVariants.ALL
+                ? filterVariantToBusinessNotificationEntityMap[businessFilterVariant]
                 : undefined,
         wasNotify:
             notificationVariant === NotificationVariants.UNREAD

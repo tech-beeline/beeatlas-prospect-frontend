@@ -32,7 +32,7 @@ export const getNotifications = (
 export const getBusinessNotifications = (
     params?: T.INotificationParams,
 ): AxiosPromise<T.IBusinessNotificationData> => {
-    const { beforeDate, afterDate, page, type, wasNotify } = params ?? {};
+    const { beforeDate, afterDate, page, businessType, wasNotify } = params ?? {};
     return Api.get({
         url: `${GATEWAY_URL}notify/v1/business/notify?${formatNullableStringParam(
             'beforeDate',
@@ -40,7 +40,7 @@ export const getBusinessNotifications = (
         )}${formatNullableStringParam('afterDate', afterDate)}${formatNullableNumberParam(
             'page',
             page,
-        )}${formatNullableStringParam('type', type)}${formatNullableBooleanParam(
+        )}${formatNullableStringParam('type', businessType)}${formatNullableBooleanParam(
             'wasNotify',
             wasNotify,
         )}`,

@@ -1,4 +1,4 @@
-import { NotificationEntityType } from 'api/notifications/types';
+import { BusinessNotificationEntityType, NotificationEntityType } from 'api/notifications/types';
 
 export enum FilterVariants {
     ALL = 'ALL',
@@ -9,8 +9,11 @@ export enum FilterVariants {
 
 export enum BusinessFilterVariants {
     ALL = 'ALL',
-    // APPLICATIONS = 'APPLICATIONS',
-    // EXPORT = 'EXPORT',
+    CREATE_BC = 'CREATE_BC',
+    EDIT_BC = 'EDIT_BC',
+    EXPORT_BC = 'EXPORT_BC',
+    EXPORT_TC = 'EXPORT_TC',
+    EXPORT_TECH = 'EXPORT_TECH',
 }
 
 export const CHIPS = [
@@ -37,14 +40,26 @@ export const BUSINESS_CHIPS = [
         label: 'Все',
         value: BusinessFilterVariants.ALL,
     },
-    // {
-    //     label: 'Мои заявки',
-    //     value: BusinessFilterVariants.APPLICATIONS,
-    // },
-    // {
-    //     label: 'Экспорт файлов',
-    //     value: BusinessFilterVariants.EXPORT,
-    // },
+    {
+        label: 'Заявки на создание БС',
+        value: BusinessFilterVariants.CREATE_BC,
+    },
+    {
+        label: 'Заявки на изменение БС',
+        value: BusinessFilterVariants.EDIT_BC,
+    },
+    {
+        label: 'Экспорт БС',
+        value: BusinessFilterVariants.EXPORT_BC,
+    },
+    {
+        label: 'Экспорт ТС',
+        value: BusinessFilterVariants.EXPORT_TC,
+    },
+    {
+        label: 'Экспорт технологий',
+        value: BusinessFilterVariants.EXPORT_TECH,
+    },
 ];
 
 export enum NotificationVariants {
@@ -62,4 +77,12 @@ export const filterVariantToNotificationEntityMap = {
     [FilterVariants.BUSINESS_CAPABILITIES]: NotificationEntityType.BUSINESS_CAPABILITY,
     [FilterVariants.TECH_CAPABILITIES]: NotificationEntityType.TECH_CAPABILITY,
     [FilterVariants.TECHNOLOGIES]: NotificationEntityType.TECH,
+};
+
+export const filterVariantToBusinessNotificationEntityMap = {
+    [BusinessFilterVariants.CREATE_BC]: BusinessNotificationEntityType.CREATE_BC,
+    [BusinessFilterVariants.EDIT_BC]: BusinessNotificationEntityType.EDIT_BC,
+    [BusinessFilterVariants.EXPORT_BC]: BusinessNotificationEntityType.EXPORT_BC,
+    [BusinessFilterVariants.EXPORT_TC]: BusinessNotificationEntityType.EXPORT_TC,
+    [BusinessFilterVariants.EXPORT_TECH]: BusinessNotificationEntityType.EXPORT_TECH,
 };

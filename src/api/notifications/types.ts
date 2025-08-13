@@ -6,6 +6,14 @@ export enum NotificationEntityType {
     EXPORT = 'EXPORT',
 }
 
+export enum BusinessNotificationEntityType {
+    CREATE_BC = 'create_business_capability',
+    EDIT_BC = 'update_business_capability',
+    EXPORT_BC = 'business-capability',
+    EXPORT_TC = 'tech-capability',
+    EXPORT_TECH = 'tech',
+}
+
 export enum NotificationChangeType {
     CREATE = 'CREATE',
     UPDATE = 'UPDATE',
@@ -34,6 +42,7 @@ export interface INotificationParams {
     beforeDate?: string;
     page?: number;
     type?: NotificationEntityType;
+    businessType?: BusinessNotificationEntityType;
     wasNotify?: boolean;
 }
 
@@ -47,6 +56,7 @@ export interface IBusinessNotification {
     };
     id: number;
     webNotify: boolean;
+    name: string;
 }
 
 export interface IBusinessNotificationData {
