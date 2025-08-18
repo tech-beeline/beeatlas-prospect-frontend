@@ -18,6 +18,18 @@ export const GeneralInfo = () => {
     return (
         <S.Container>
             <Text inactive variant="body2">
+                Владелец приложения
+            </Text>
+            <Text variant="body2">Константинопольский Константин Константинович</Text>
+            <Text inactive variant="body2">
+                Архитектор приложения
+            </Text>
+            <Text variant="body2">Крестовоздвиженский Филипп Пантелеймонович</Text>
+            <Text inactive variant="body2">
+                Критичность
+            </Text>
+            <Text variant="body2">4-Office Productivity</Text>
+            <Text inactive variant="body2">
                 Влияние приложения
             </Text>
             <Text variant="body2">
@@ -28,14 +40,6 @@ export const GeneralInfo = () => {
                     url="https://bw.beeline.ru/catalog/apps/53"
                 />
             </Text>
-            <Text inactive variant="body2">
-                Владелец приложения
-            </Text>
-            <Text variant="body2">Константинопольский Константин Константинович</Text>
-            <Text inactive variant="body2">
-                Архитектор приложения
-            </Text>
-            <Text variant="body2">Крестовоздвиженский Филипп Пантелеймонович</Text>
             <Text inactive variant="body2">
                 Информация о приложении
             </Text>
@@ -85,7 +89,7 @@ export const GeneralInfo = () => {
                 </S.LinkContainer>
             </Text>
             <Text inactive variant="body2">
-                Используемые технологий
+                Git репозиторий
             </Text>
             <Table>
                 <TableHead>

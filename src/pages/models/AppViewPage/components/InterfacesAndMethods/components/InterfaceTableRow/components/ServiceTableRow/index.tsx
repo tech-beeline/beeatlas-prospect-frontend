@@ -76,9 +76,10 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
                                 <TableRow>
                                     <TableHeaderData>Метод</TableHeaderData>
                                     <TableHeaderData>Описание</TableHeaderData>
+                                    <TableHeaderData>Техническая возможность</TableHeaderData>
                                     <TableHeaderData>RPS</TableHeaderData>
-                                    <TableHeaderData>Latency</TableHeaderData>
-                                    <TableHeaderData>Error Rate</TableHeaderData>
+                                    <TableHeaderData>Latency, ms</TableHeaderData>
+                                    <TableHeaderData>Error Rate, %</TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -106,6 +107,12 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
                                             </S.MethodNameContainer>
                                         </S.TableDataFullWidth>
                                         <TableData>{method.description}</TableData>
+                                        <TableData>
+                                            <Link
+                                                url={`${R.MODELS_PATH}${R.FDM_PATH}`}
+                                                title="Тех. возможность"
+                                            />
+                                        </TableData>
                                         <TableData>{method.rps}</TableData>
                                         <TableData>{method.latency}</TableData>
                                         <TableData>{method.errorRate}</TableData>

@@ -58,7 +58,6 @@ export const AppViewPage = () => {
                         <Text variant="h4">B2C DIGITAL RETAIL DELIVERY CATALOG</Text>
                         <Label title="В эксплуатации" type="success" variant="contained" />
                         <Label title="Фитнес-функции с ошибкой" type="error" variant="contained" />
-                        <Label title="Mission Critical" variant="contained" />
                     </S.LabelContainer>
                 </S.TitleContainer>
                 <Text inactive variant="body2">

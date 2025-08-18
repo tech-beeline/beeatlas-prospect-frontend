@@ -10,6 +10,9 @@ import {
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { Link } from 'components/other';
+
+import * as R from 'router/const';
 
 import * as S from './units';
 
@@ -39,30 +42,60 @@ export const E2EProcessRow = () => {
                         <S.TableStyled>
                             <TableHead>
                                 <TableRow>
-                                    <TableHeaderData>Система потребителей</TableHeaderData>
+                                    <TableHeaderData>Приложение потребитель</TableHeaderData>
                                     <TableHeaderData>Интерфейс</TableHeaderData>
                                     <TableHeaderData>Метод</TableHeaderData>
-                                    <TableHeaderData>Зависимость от систем</TableHeaderData>
+                                    <TableHeaderData>Зависимость от приложения</TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableData>UAPI</TableData>
+                                    <TableData>
+                                        <Link
+                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                                            title="UAPI"
+                                        />
+                                    </TableData>
                                     <TableData>API/2.0.0/napi</TableData>
                                     <TableData>GET /2.0.0/napi/sim-info</TableData>
-                                    <TableData>MOBILEAPP</TableData>
+                                    <TableData>
+                                        <Link
+                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                                            title="MOBILEAPP"
+                                        />
+                                    </TableData>
                                 </TableRow>
                                 <TableRow>
-                                    <TableData>UAPI</TableData>
+                                    <TableData>
+                                        <Link
+                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                                            title="UAPI"
+                                        />
+                                    </TableData>
                                     <TableData>API/2.0.0/napi</TableData>
                                     <TableData>GET /2.0.0/napi/sim-info</TableData>
-                                    <TableData>MOBILEAPP</TableData>
+                                    <TableData>
+                                        <Link
+                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                                            title="MOBILEAPP"
+                                        />
+                                    </TableData>
                                 </TableRow>
                                 <TableRow>
-                                    <TableData>UAPI</TableData>
+                                    <TableData>
+                                        <Link
+                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                                            title="UAPI"
+                                        />
+                                    </TableData>
                                     <TableData>API/2.0.0/napi</TableData>
                                     <TableData>GET /2.0.0/napi/sim-info</TableData>
-                                    <TableData>MOBILEAPP</TableData>
+                                    <TableData>
+                                        <Link
+                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                                            title="MOBILEAPP"
+                                        />
+                                    </TableData>
                                 </TableRow>
                             </TableBody>
                         </S.TableStyled>
