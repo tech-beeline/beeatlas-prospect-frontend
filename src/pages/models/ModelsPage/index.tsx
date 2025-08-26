@@ -66,6 +66,15 @@ export const ModelsPage = () => {
                         Содержит список сценариев и подробную информацию о них, включая проверку их
                         описания
                     </S.CardStyled>
+
+                    <S.CardStyled
+                        variant={CardVariant.ERROR}
+                        title="Влияние"
+                        to={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
+                    >
+                        Инструмент для оценки влияния сбойных элементов (приложений, экземпляров,
+                        сервисов, серверов, эндпоинтов) на работу системы
+                    </S.CardStyled>
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>

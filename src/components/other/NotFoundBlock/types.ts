@@ -17,4 +17,5 @@ export interface INotFoundBlock {
     buttonText?: string;
     buttonProps?: ButtonProps;
     setMinSize?: boolean;
+    smallImage?: boolean;
 }

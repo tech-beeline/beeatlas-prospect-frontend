@@ -4,6 +4,7 @@ export { AppViewArchitecrurePage } from './AppViewArchitecrurePage';
 export { AppViewPage } from './AppViewPage';
 export { FDMHistoryPage } from './FDMHistoryPage';
 export { FDMPage } from './FDMPage';
+export { ImpactPage } from './ImpactPage';
 export { MapAddPage } from './MapAddPage';
 export { MapPage } from './MapPage';
 export { ModelsPage } from './ModelsPage';

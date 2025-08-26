@@ -3,11 +3,12 @@ import { ReactNode } from 'react';
 export interface IDialog {
     opened: boolean;
     onClose: () => void;
-    onConfirm: () => void;
+    onConfirm?: () => void;
     onDecline?: () => void;
     children?: ReactNode;
 
-    title?: string;
+    title?: string | ReactNode;
+    showFooter?: boolean;
     showDeclineButton?: boolean;
     declineText?: string;
     confirmText?: string;

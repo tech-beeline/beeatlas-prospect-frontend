@@ -15,8 +15,9 @@ export const Dialog: FC<IDialog> = ({
     isPending = false,
     declineText = 'Отменить',
     confirmText = 'Подтвердить',
+    showFooter = true,
 }) => {
-    const footer = (
+    const footer = showFooter ? (
         <S.ButtonsContainer>
             {showDeclineButton && (
                 <Button size="medium" variant="outlined" onClick={onDecline ?? onClose}>
@@ -33,6 +34,8 @@ export const Dialog: FC<IDialog> = ({
                 </Button>
             )}
         </S.ButtonsContainer>
+    ) : (
+        <></>
     );
 
     return (
