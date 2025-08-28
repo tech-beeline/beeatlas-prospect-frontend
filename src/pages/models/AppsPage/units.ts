@@ -21,8 +21,16 @@ export const Header = styled.div`
     justify-content: space-between;
 `;
 
+export const SearchFlexContainer = styled.div`
+    display: flex;
+    gap: 24px;
+`;
+
 export const SearchContainer = styled.div`
-    max-width: 648px;
+    display: flex;
+    gap: 24px;
+
+    max-width: 772px;
 `;
 
 export const TableStyled = styled(Table)`

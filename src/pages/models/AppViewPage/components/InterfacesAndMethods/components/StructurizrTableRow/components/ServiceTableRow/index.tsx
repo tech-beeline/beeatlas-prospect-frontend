@@ -9,15 +9,16 @@ import {
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { TooltipContainer } from 'components/interaction';
+// import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 
 import { IServiceTableRow } from './types';
 import * as S from './units';
 
-export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
+export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
         <>
@@ -30,14 +31,14 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
                                 iconName={isExpanded ? Icons.NavArrowUp : Icons.NavArrowDown}
                                 onClick={() => setIsExpanded(!isExpanded)}
                             />
-                            {service.name}
+                            {structurizrInterface.name}
                         </S.NameContainer>
-                        <Link
+                        {/* <Link
                             showOuterIcon
                             showIconPermanently
                             url="https://beeline.ru"
                             title="Влияние сервиса"
-                        />
+                        /> */}
                     </S.DataContainer>
                 </S.TableDataFullWidth>
             </TableRow>
@@ -56,17 +57,19 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableData>{service.code}</TableData>
-                                    <TableData>{service.protocol}</TableData>
-                                    <TableData>{service.version}</TableData>
+                                    <TableData>{structurizrInterface.name}</TableData>
+                                    <TableData>{formatNullableString(null)}</TableData>
+                                    <TableData>{structurizrInterface.version}</TableData>
+                                    <TableData>{formatNullableString(null)}</TableData>
                                     <TableData>
-                                        <Link url={service.specification} />
-                                    </TableData>
-                                    <TableData>
-                                        <Link
-                                            url={`${R.MODELS_PATH}${R.FDM_PATH}`}
-                                            title={service.techCapability.name}
-                                        />
+                                        {structurizrInterface.techCapability ? (
+                                            <Link
+                                                url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=BUSINESS`}
+                                                title={structurizrInterface.techCapability.name}
+                                            />
+                                        ) : (
+                                            formatNullableString(null)
+                                        )}
                                     </TableData>
                                 </TableRow>
                             </TableBody>
@@ -83,12 +86,12 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {service.methods.map((method, i) => (
+                                {structurizrInterface.operations.map((operation, i) => (
                                     <TableRow key={i}>
                                         <S.TableDataFullWidth>
                                             <S.MethodNameContainer>
-                                                {method.name}
-                                                <IconButton
+                                                {operation.name}
+                                                {/* <IconButton
                                                     data-tooltip-id={`method-${i}`}
                                                     size="medium"
                                                     iconName={Icons.OpenInBrowser}
@@ -103,19 +106,37 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ service }) => {
                                                     offset={8}
                                                 >
                                                     Влияние эндпоинта
-                                                </TooltipContainer>
+                                                </TooltipContainer> */}
                                             </S.MethodNameContainer>
                                         </S.TableDataFullWidth>
-                                        <TableData>{method.description}</TableData>
                                         <TableData>
-                                            <Link
-                                                url={`${R.MODELS_PATH}${R.FDM_PATH}`}
-                                                title="Тех. возможность"
-                                            />
+                                            {formatNullableString(operation.description)}
                                         </TableData>
-                                        <TableData>{method.rps}</TableData>
-                                        <TableData>{method.latency}</TableData>
-                                        <TableData>{method.errorRate}</TableData>
+                                        <TableData>
+                                            {operation.techCapability ? (
+                                                <Link
+                                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=BUSINESS`}
+                                                    title={operation.techCapability.name}
+                                                />
+                                            ) : (
+                                                formatNullableString(null)
+                                            )}
+                                        </TableData>
+                                        <TableData>
+                                            {typeof operation.sla?.rps === 'number'
+                                                ? operation.sla?.rps
+                                                : formatNullableString(null)}
+                                        </TableData>
+                                        <TableData>
+                                            {typeof operation.sla?.latency === 'number'
+                                                ? operation.sla?.latency
+                                                : formatNullableString(null)}
+                                        </TableData>
+                                        <TableData>
+                                            {typeof operation.sla?.errorRate === 'number'
+                                                ? operation.sla?.errorRate
+                                                : formatNullableString(null)}
+                                        </TableData>
                                     </TableRow>
                                 ))}
                             </TableBody>

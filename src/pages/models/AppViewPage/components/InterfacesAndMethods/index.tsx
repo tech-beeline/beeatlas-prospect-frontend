@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
     ButtonGroup,
     Search,
+    Skeleton,
     Table,
     TableBody,
     TableHead,
@@ -9,13 +10,27 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 
-import { InterfaceAdminTableRow, InterfaceTableRow } from './components';
-import { ADMIN_INTERFACES, InterfaceOptions, INTERFACES } from './const';
+import {
+    useGetProductMapicInterfacesByCmdbQuery,
+    useGetProductStructurizrContainerByCmdbQuery,
+    useGetProductStructurizrInterfacesByCmdbQuery,
+} from 'api/queries/product';
+
+import { MapicTableRow, StructurizrTableRow } from './components';
+import { InterfaceOptions } from './const';
+import { IInterfacesAndMethods } from './types';
 import * as S from './units';
 
-export const InterfacesAndMethods = () => {
+export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
     const [searchText, setSearchText] = useState('');
     const [interfaceOption, setInterfaceOption] = useState(InterfaceOptions.STRUCTURIZR);
+
+    const { data: containerData, isLoading: isLoadingContainerData } =
+        useGetProductStructurizrContainerByCmdbQuery(cmdb);
+    const { data: structurizrData, isLoading: isLoadingStructurizrData } =
+        useGetProductStructurizrInterfacesByCmdbQuery(cmdb);
+    const { data: mapicData, isLoading: isLoadingMapicData } =
+        useGetProductMapicInterfacesByCmdbQuery(cmdb);
 
     return (
         <S.Container>
@@ -46,27 +61,45 @@ export const InterfacesAndMethods = () => {
                 onChange={(option) => setInterfaceOption(option.id as InterfaceOptions)}
             />
 
-            <Table>
-                {INTERFACES.map((interfaceData, i) => (
-                    <InterfaceTableRow key={i} interfaceData={interfaceData} />
-                ))}
-            </Table>
+            {interfaceOption === InterfaceOptions.STRUCTURIZR && (
+                <>
+                    {isLoadingContainerData && <Skeleton height={300} />}
+                    {containerData && (
+                        <Table>
+                            {containerData.map((container, i) => (
+                                <StructurizrTableRow key={i} container={container} />
+                            ))}
+                        </Table>
+                    )}
+                </>
+            )}
 
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableHeaderData>Интерфейс mapic</TableHeaderData>
-                        <TableHeaderData>Контекст api</TableHeaderData>
-                        <TableHeaderData>Контекст провайдера</TableHeaderData>
-                        <TableHeaderData>Интерфейс AaAC</TableHeaderData>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {ADMIN_INTERFACES.map((adminInterface, i) => (
-                        <InterfaceAdminTableRow key={i} adminInterface={adminInterface} />
-                    ))}
-                </TableBody>
-            </Table>
+            {interfaceOption === InterfaceOptions.MAPIC && (
+                <>
+                    {(isLoadingMapicData || isLoadingStructurizrData) && <Skeleton height={300} />}
+                    {mapicData && structurizrData && (
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableHeaderData>Интерфейс mapic</TableHeaderData>
+                                    <TableHeaderData>Контекст api</TableHeaderData>
+                                    <TableHeaderData>Контекст провайдера</TableHeaderData>
+                                    <TableHeaderData>Интерфейс AaAC</TableHeaderData>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {mapicData.map((mapicInterface, i) => (
+                                    <MapicTableRow
+                                        key={i}
+                                        mapicInterface={mapicInterface}
+                                        sctructurizrInterfaces={structurizrData}
+                                    />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
+                </>
+            )}
         </S.Container>
     );
 };

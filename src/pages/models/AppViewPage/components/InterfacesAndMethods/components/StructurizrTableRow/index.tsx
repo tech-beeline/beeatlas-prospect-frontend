@@ -3,10 +3,10 @@ import { IconButton, TableData } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ServiceTableRow } from './components';
-import { IInterfaceTableRow } from './types';
+import { IStructurizrTableRow } from './types';
 import * as S from './units';
 
-export const InterfaceTableRow: FC<IInterfaceTableRow> = ({ interfaceData }) => {
+export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
         <>
@@ -18,13 +18,13 @@ export const InterfaceTableRow: FC<IInterfaceTableRow> = ({ interfaceData }) => 
                             iconName={isExpanded ? Icons.NavArrowUp : Icons.NavArrowDown}
                             onClick={() => setIsExpanded(!isExpanded)}
                         />
-                        {interfaceData.name}
+                        {container.name}
                     </S.NameContainer>
                 </TableData>
             </S.TableRowStyled>
             {isExpanded &&
-                interfaceData.services.map((service, i) => (
-                    <ServiceTableRow key={i} service={service} />
+                container.interfaces.map((structurizrInterface, i) => (
+                    <ServiceTableRow key={i} structurizrInterface={structurizrInterface} />
                 ))}
         </>
     );

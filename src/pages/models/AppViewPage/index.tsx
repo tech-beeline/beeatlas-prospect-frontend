@@ -24,13 +24,14 @@ import * as S from './units';
 export const AppViewPage = () => {
     const [params, setSearchParams] = useSearchParams();
     const paramTab = params.get('tab');
-    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.GENERAL_INFO);
+    const paramCmdb = params.get('cmdb');
+    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.INTERFACES_AND_METHODS);
 
     useEffect(() => {
         setTabVariant(
             Object.values(TabVariants).includes(paramTab as TabVariants)
                 ? (paramTab as TabVariants)
-                : TabVariants.GENERAL_INFO,
+                : TabVariants.INTERFACES_AND_METHODS,
         );
     }, [paramTab]);
 
@@ -69,9 +70,10 @@ export const AppViewPage = () => {
                     {TABS.map((tab) => (
                         <Tab
                             key={tab.id}
+                            disabled={tab.id !== TabVariants.INTERFACES_AND_METHODS}
                             label={tab.label}
                             value={tab.id}
-                            onClick={() => setSearchParams({ tab: tab.id })}
+                            onClick={() => setSearchParams({ tab: tab.id, cmdb: paramCmdb ?? '' })}
                         />
                     ))}
                 </Tabs>
@@ -81,7 +83,9 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions />}
             {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
-            {tabVariant === TabVariants.INTERFACES_AND_METHODS && <InterfacesAndMethods />}
+            {tabVariant === TabVariants.INTERFACES_AND_METHODS && (
+                <InterfacesAndMethods cmdb={paramCmdb} />
+            )}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}
             {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
             {tabVariant === TabVariants.DATA && <InDevelopment />}

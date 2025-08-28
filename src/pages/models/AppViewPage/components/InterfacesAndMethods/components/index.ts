@@ -1,2 +1,2 @@
-export { InterfaceAdminTableRow } from './InterfaceAdminTableRow';
-export { InterfaceTableRow } from './InterfaceTableRow';
+export { MapicTableRow } from './MapicTableRow';
+export { StructurizrTableRow } from './StructurizrTableRow';
