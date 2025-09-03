@@ -36,7 +36,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (products) {
-            reset({ product: Number.isInteger(products[0]?.id) ? Number(products[0].id) : 1 });
+            reset({ product: null });
         }
     }, [products]);
 
@@ -46,9 +46,9 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                 data: {
                     draft: true,
                     name: values.name,
-                    user_portrait: values.userPortrait,
+                    userPortrait: values.userPortrait,
+                    ...(values.product ? { productId: values.product } : {}),
                 },
-                productId: values.product,
             });
             navigate({
                 pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
@@ -81,12 +81,13 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                 disabled={isLoadingProducts}
                                 name="product"
                                 label="Приложение*"
-                                options={
-                                    products?.map((product) => ({
+                                options={[
+                                    { id: null, value: 'Не указано' },
+                                    ...(products ?? []).map((product) => ({
                                         id: Number(product.id),
                                         value: product.name,
-                                    })) ?? []
-                                }
+                                    })),
+                                ]}
                             />
 
                             <TextField label="Название CJ*" name="name" />

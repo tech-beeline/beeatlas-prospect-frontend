@@ -3,6 +3,7 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ, putCJ } from 'api/cj';
 import {
     CJLibraryStatus,
+    ICJCreateForm,
     ICJData,
     ICJForm,
     ICJStepData,
@@ -31,7 +32,7 @@ export const useGetCJCollectionQuery = (params: IGetCJCollectionParams) => {
 };
 
 export const useGetCJByIdQuery = (id: string | undefined | null) => {
-    return useQuery<ICJData>({
+    return useQuery({
         queryKey: [CJ_PREFIX, id],
         queryFn: () => getCJById(id!).then((res) => res.data),
         enabled: Boolean(id),
@@ -39,14 +40,14 @@ export const useGetCJByIdQuery = (id: string | undefined | null) => {
 };
 
 interface ICreateCJParams {
-    data: ICJForm;
+    data: ICJCreateForm;
     productId: number;
 }
 export function useCreateCJMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [CJ_PREFIX, 'create'],
-        mutationFn: (params: ICreateCJParams) => postCJ(params.data, params.productId),
+        mutationFn: (params: ICreateCJParams) => postCJ(params.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
@@ -54,21 +55,17 @@ export function useCreateCJMutation() {
 }
 
 interface ICreateCJWithEmptyStepParams {
-    data: ICJForm;
-    productId: number;
+    data: ICJCreateForm;
 }
 export function useCreateCJWithEmptyStepMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [CJ_PREFIX, 'createWithStep'],
         mutationFn: async (params: ICreateCJWithEmptyStepParams) => {
-            const cjData = await postCJ(
-                {
-                    ...params.data,
-                    draft: true,
-                },
-                params.productId,
-            );
+            const cjData = await postCJ({
+                ...params.data,
+                draft: true,
+            });
             await postCJStep(cjData.data.id, { name: 'Название этапа', order: 0 });
             return { cjId: cjData.data.id as string };
         },

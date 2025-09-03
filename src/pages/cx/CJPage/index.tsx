@@ -31,7 +31,7 @@ export const CJPage = () => {
 
     const canEditCJ = (dataProducts ?? [])
         .map((product) => String(product.id))
-        .includes(String(data?.id_product));
+        .includes(String(data?.productId));
 
     const hasDraftBIs =
         data?.steps
@@ -103,7 +103,7 @@ export const CJPage = () => {
                             </TooltipContainer>
                         )}
                         <S.Desription data-tooltip-id="description" ref={descriptionRef}>
-                            {data?.user_portrait}
+                            {data?.userPortrait}
                         </S.Desription>
                         {showDescriptionTooltip && (
                             <TooltipContainer
@@ -113,7 +113,7 @@ export const CJPage = () => {
                                 place="bottom"
                                 noArrow
                             >
-                                {data?.user_portrait}
+                                {data?.userPortrait}
                             </TooltipContainer>
                         )}
                     </div>
@@ -168,7 +168,7 @@ export const CJPage = () => {
 
             {data && (
                 <Table
-                    productId={data.id_product}
+                    productId={String(data.productId)}
                     cjId={data.id}
                     draft={data.draft}
                     tableData={data.steps}
@@ -187,7 +187,7 @@ export const CJPage = () => {
                         isOpen={isOpenSettingsCJ}
                         cjId={data.id}
                         onClose={() => setOpenSettingsCJ(false)}
-                        values={{ name: data.name, userPortrait: data.user_portrait }}
+                        values={{ name: data.name, userPortrait: data.userPortrait }}
                     />
                     <InfoSidesheet
                         isOpen={isInfoSidesheetOpened}
