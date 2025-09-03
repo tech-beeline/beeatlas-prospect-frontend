@@ -127,36 +127,56 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
                                     {statusAliasToTooltipTextMap[applicationData.status.alias]}
                                 </TooltipContainer>
                             </S.TitleContainer>
-                            <S.MetadataContainer>
-                                <div>
-                                    <Text inactive variant="body3">
-                                        Дата создания
-                                    </Text>
-                                    <Text variant="body2">
-                                        {dayjs(formatDateToUTC(applicationData.create_date))
-                                            .local()
-                                            .format('DD.MM.YYYY в HH:mm')}
-                                    </Text>
-                                </div>
-                                <div>
-                                    <Text inactive variant="body3">
-                                        Дата изменения
-                                    </Text>
-                                    <Text variant="body2">
-                                        {applicationData.update_date
-                                            ? dayjs(formatDateToUTC(applicationData.update_date))
-                                                  .local()
-                                                  .format('DD.MM.YYYY в HH:mm')
-                                            : formatNullableString(null)}
-                                    </Text>
-                                </div>
-                                <div>
-                                    <Text inactive variant="body3">
-                                        Номер заявки
-                                    </Text>
-                                    <Text variant="body2">{applicationData.id}</Text>
-                                </div>
-                            </S.MetadataContainer>
+                            <S.InfoContainer>
+                                <S.MetadataContainer>
+                                    <div>
+                                        <Text inactive variant="body3">
+                                            Дата создания
+                                        </Text>
+                                        <Text variant="body2">
+                                            {dayjs(formatDateToUTC(applicationData.create_date))
+                                                .local()
+                                                .format('DD.MM.YYYY в HH:mm')}
+                                        </Text>
+                                    </div>
+                                    <div>
+                                        <Text inactive variant="body3">
+                                            Дата изменения
+                                        </Text>
+                                        <Text variant="body2">
+                                            {applicationData.update_date
+                                                ? dayjs(
+                                                      formatDateToUTC(applicationData.update_date),
+                                                  )
+                                                      .local()
+                                                      .format('DD.MM.YYYY в HH:mm')
+                                                : formatNullableString(null)}
+                                        </Text>
+                                    </div>
+                                    <div>
+                                        <Text inactive variant="body3">
+                                            Номер заявки
+                                        </Text>
+                                        <Text variant="body2">{applicationData.id}</Text>
+                                    </div>
+                                </S.MetadataContainer>
+                                {applicationData.entity.mutable && (
+                                    <S.LinkContainer
+                                        onClick={() =>
+                                            window.open(
+                                                `${R.MODELS_PATH}${R.FDM_PATH}?id=${
+                                                    applicationData.entity.mutable!.id
+                                                }&type=BUSINESS`,
+                                            )
+                                        }
+                                    >
+                                        <Text pointer link variant="body2">
+                                            Текущее представление в ФДМ
+                                        </Text>
+                                        <S.IconStyled iconName={Icons.OpenInBrowser} />
+                                    </S.LinkContainer>
+                                )}
+                            </S.InfoContainer>
                             <Text variant="subtitle1">Атрибуты</Text>
                             <div>
                                 <Text inactive variant="body3">
