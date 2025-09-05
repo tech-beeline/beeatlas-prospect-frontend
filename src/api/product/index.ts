@@ -54,3 +54,9 @@ export const getAllProducts = (): AxiosPromise<T.IFullProductData[]> => {
         url: `${GATEWAY_URL}product/v1/product/info`,
     });
 };
+
+export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductData> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/info`,
+    });
+};

@@ -13,7 +13,18 @@ export const Column = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 32px;
 
     margin-top: 100px;
+`;
+
+export const TitleContainer = styled.div`
+    margin-top: 32px;
+`;
+
+export const SubtitleContainer = styled.div`
+    margin-top: 8px;
+`;
+
+export const ButtonContainer = styled.div`
+    margin-top: 24px;
 `;

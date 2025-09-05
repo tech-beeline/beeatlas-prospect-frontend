@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     getAllProducts,
+    getProductInfoByCmdb,
     getProductMapicInterfacesByCmdb,
     getProductsByTechnologyId,
     getProductStructurizrContainerByCmdb,
@@ -68,5 +69,13 @@ export const useGetAllProductsQuery = () => {
     return useQuery({
         queryKey: [PRODUCT_PREFIX, 'ALL'],
         queryFn: () => getAllProducts().then((res) => res.data),
+    });
+};
+
+export const useGetProductInfoByCmdbQuery = (cmdb: string | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'INFO', cmdb],
+        queryFn: () => getProductInfoByCmdb(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
     });
 };

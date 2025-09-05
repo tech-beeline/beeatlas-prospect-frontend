@@ -16,6 +16,10 @@ export const TABS = [
         label: 'Общая информация',
     },
     {
+        id: TabVariants.INTERFACES_AND_METHODS,
+        label: 'Интерфейсы, методы и SLA',
+    },
+    {
         id: TabVariants.FITNESS_FUNCTIONS,
         label: 'Фитнес-функции',
     },
@@ -25,26 +29,22 @@ export const TABS = [
     },
     {
         id: TabVariants.TECH_CAPABILITIES,
-        label: 'Технические возможности',
+        label: 'Возможности',
     },
-    {
-        id: TabVariants.INTERFACES_AND_METHODS,
-        label: 'Интерфейсы, методы и SLA',
-    },
-    {
-        id: TabVariants.ARCHITECTURE_CHANGES,
-        label: 'Изменения в архитектуре',
-    },
-    {
-        id: TabVariants.TECHNOLOGIES,
-        label: 'Технологии',
-    },
-    {
-        id: TabVariants.DATA,
-        label: 'Данные',
-    },
-    {
-        id: TabVariants.STANDS,
-        label: 'Стенды',
-    },
+    // {
+    //     id: TabVariants.ARCHITECTURE_CHANGES,
+    //     label: 'Изменения в архитектуре',
+    // },
+    // {
+    //     id: TabVariants.TECHNOLOGIES,
+    //     label: 'Технологии',
+    // },
+    // {
+    //     id: TabVariants.DATA,
+    //     label: 'Данные',
+    // },
+    // {
+    //     id: TabVariants.STANDS,
+    //     label: 'Стенды',
+    // },
 ];

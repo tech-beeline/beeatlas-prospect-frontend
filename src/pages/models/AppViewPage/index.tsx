@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Label, Tab, Tabs } from '@beeline/design-system-react';
+import { Breadcrumbs, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
 import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
 import { BreadCrumbsItem } from 'components/interaction';
 
+import { useGetProductInfoByCmdbQuery } from 'api/queries/product';
 import * as R from 'router/const';
 
 import {
-    ArchitectureChanges,
-    E2EProcesses,
-    FitnessFunctions,
+    // ArchitectureChanges,
+    // E2EProcesses,
+    // FitnessFunctions,
     GeneralInfo,
     InDevelopment,
     InterfacesAndMethods,
-    TechCapabilities,
-    Technologies,
+    // TechCapabilities,
+    // Technologies,
 } from './components';
 import { TABS, TabVariants } from './const';
 import * as S from './units';
@@ -25,23 +26,26 @@ export const AppViewPage = () => {
     const [params, setSearchParams] = useSearchParams();
     const paramTab = params.get('tab');
     const paramCmdb = params.get('cmdb');
-    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.INTERFACES_AND_METHODS);
+    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.GENERAL_INFO);
 
     useEffect(() => {
         setTabVariant(
             Object.values(TabVariants).includes(paramTab as TabVariants)
                 ? (paramTab as TabVariants)
-                : TabVariants.INTERFACES_AND_METHODS,
+                : TabVariants.GENERAL_INFO,
         );
     }, [paramTab]);
 
     const navigate = useNavigate();
 
+    const { data: productData, isLoading: isLoadingProductData } =
+        useGetProductInfoByCmdbQuery(paramCmdb);
+
     return (
         <S.PageWrapper>
             <S.HeaderContainer>
                 <S.BannerContainer>
-                    <OldVersionBanner />
+                    <OldVersionBanner cmdb={paramCmdb} />
                 </S.BannerContainer>
                 <Breadcrumbs>
                     <BreadCrumbsItem
@@ -56,21 +60,24 @@ export const AppViewPage = () => {
                 </Breadcrumbs>
                 <S.TitleContainer>
                     <S.LabelContainer>
-                        <Text variant="h4">B2C DIGITAL RETAIL DELIVERY CATALOG</Text>
-                        <Label title="В эксплуатации" type="success" variant="contained" />
-                        <Label title="Фитнес-функции с ошибкой" type="error" variant="contained" />
+                        {isLoadingProductData && <Skeleton height={32} width={200} radius={4} />}
+                        {productData && <Text variant="h4">{productData.name}</Text>}
+                        {/* <Label title="В эксплуатации" type="success" variant="contained" /> */}
+                        {/* <Label title="Фитнес-функции с ошибкой" type="error" variant="contained" /> */}
                     </S.LabelContainer>
                 </S.TitleContainer>
-                <Text inactive variant="body2">
-                    B2C DIGITAL RETAIL DELIVERY CATALOG
-                </Text>
+                {isLoadingProductData && <Skeleton height={22} width={120} radius={4} />}
+                {productData && (
+                    <Text inactive variant="body2">
+                        {productData.alias}
+                    </Text>
+                )}
             </S.HeaderContainer>
             <S.TabsContainer>
                 <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
                     {TABS.map((tab) => (
                         <Tab
                             key={tab.id}
-                            disabled={tab.id !== TabVariants.INTERFACES_AND_METHODS}
                             label={tab.label}
                             value={tab.id}
                             onClick={() => setSearchParams({ tab: tab.id, cmdb: paramCmdb ?? '' })}
@@ -79,17 +86,22 @@ export const AppViewPage = () => {
                 </Tabs>
             </S.TabsContainer>
 
-            {tabVariant === TabVariants.GENERAL_INFO && <GeneralInfo />}
-            {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions />}
-            {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
-            {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
+            {tabVariant === TabVariants.GENERAL_INFO && (
+                <GeneralInfo productData={productData} isLoading={isLoadingProductData} />
+            )}
             {tabVariant === TabVariants.INTERFACES_AND_METHODS && (
                 <InterfacesAndMethods cmdb={paramCmdb} />
             )}
+            {tabVariant === TabVariants.FITNESS_FUNCTIONS && <InDevelopment cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.TECH_CAPABILITIES && <InDevelopment cmdb={paramCmdb} />}
+            {/* {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions />}
+            {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
+            {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}
             {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
             {tabVariant === TabVariants.DATA && <InDevelopment />}
-            {tabVariant === TabVariants.STANDS && <InDevelopment />}
+            {tabVariant === TabVariants.STANDS && <InDevelopment />} */}
         </S.PageWrapper>
     );
 };

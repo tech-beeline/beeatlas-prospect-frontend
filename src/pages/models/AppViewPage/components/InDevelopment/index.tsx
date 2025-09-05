@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Button } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
 
+import * as R from 'router/const';
+
 import image from './images/empty_list.png';
 
+import { IInDevelopment } from './types';
 import * as S from './units';
 
-export const InDevelopment = () => {
+export const InDevelopment: FC<IInDevelopment> = ({ cmdb }) => {
     return (
         <S.Container>
             <S.Column>
                 <img src={image} />
-                <Text variant="h5">Раздел в разработке</Text>
+                <S.TitleContainer>
+                    <Text variant="h5">Раздел в разработке</Text>
+                </S.TitleContainer>
+                <S.SubtitleContainer>
+                    <Text inactive variant="body2">
+                        Доступ к информации можно получить в старой версии
+                    </Text>
+                </S.SubtitleContainer>
+                <S.ButtonContainer>
+                    <Button
+                        size="medium"
+                        variant="contained"
+                        onClick={() =>
+                            window.open(`${R.MODELS_PATH}${R.APPS_OLD_PATH}?alias=${cmdb}`)
+                        }
+                    >
+                        К старой версии страницы
+                    </Button>
+                </S.ButtonContainer>
             </S.Column>
         </S.Container>
     );

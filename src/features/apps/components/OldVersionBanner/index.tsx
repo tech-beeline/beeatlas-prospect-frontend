@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
@@ -7,11 +6,10 @@ import { Text } from 'components/core';
 
 import * as R from 'router/const';
 
+import { IOldVersionBanner } from './types';
 import * as S from './units';
 
-export const OldVersionBanner = () => {
-    const navigate = useNavigate();
-
+export const OldVersionBanner: FC<IOldVersionBanner> = ({ cmdb }) => {
     return (
         <S.Container>
             <S.TextContainer>
@@ -21,7 +19,11 @@ export const OldVersionBanner = () => {
                     возможность вернуться к старой версии интерфейса
                 </Text>
             </S.TextContainer>
-            <Button onClick={() => navigate(`${R.MODELS_PATH}${R.APPS_OLD_PATH}`)}>
+            <Button
+                onClick={() =>
+                    window.open(`${R.MODELS_PATH}${R.APPS_OLD_PATH}${cmdb ? '?alias=' + cmdb : ''}`)
+                }
+            >
                 К старой версии
             </Button>
         </S.Container>

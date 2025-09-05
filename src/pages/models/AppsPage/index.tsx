@@ -19,8 +19,6 @@ import { useDebounce } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
-// import { ApplicationsTableRow } from './components';
-// import { APPLICATIONS } from './const';
 import * as S from './units';
 
 export const AppsPage = () => {
@@ -89,9 +87,6 @@ export const AppsPage = () => {
                                 </TableRow>
                             ))}
                         </TableBody>
-                        {/* {APPLICATIONS.map((application, i) => (
-                        <ApplicationsTableRow key={i} level={0} application={application} />
-                    ))} */}
                     </S.TableStyled>
                 )}
             </S.Container>

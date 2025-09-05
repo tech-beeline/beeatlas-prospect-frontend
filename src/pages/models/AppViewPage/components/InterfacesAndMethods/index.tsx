@@ -10,6 +10,8 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 
+import { Text } from 'components/core';
+
 import {
     useGetProductMapicInterfacesByCmdbQuery,
     useGetProductStructurizrContainerByCmdbQuery,
@@ -31,6 +33,14 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
         useGetProductStructurizrInterfacesByCmdbQuery(cmdb);
     const { data: mapicData, isLoading: isLoadingMapicData } =
         useGetProductMapicInterfacesByCmdbQuery(cmdb);
+
+    const containerDataFiltered = containerData?.filter((containerInterface) =>
+        containerInterface.name.toLowerCase().includes(searchText.toLowerCase()),
+    );
+
+    const mapicDataFiltered = mapicData?.filter((mapicInterface) =>
+        mapicInterface.name.toLowerCase().includes(searchText.toLowerCase()),
+    );
 
     return (
         <S.Container>
@@ -58,18 +68,28 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                         label: 'Mapic',
                     },
                 ]}
-                onChange={(option) => setInterfaceOption(option.id as InterfaceOptions)}
+                onChange={(option) => {
+                    setSearchText('');
+                    setInterfaceOption(option.id as InterfaceOptions);
+                }}
             />
 
             {interfaceOption === InterfaceOptions.STRUCTURIZR && (
                 <>
                     {isLoadingContainerData && <Skeleton height={300} />}
-                    {containerData && (
+                    {containerDataFiltered && containerDataFiltered.length !== 0 && (
                         <Table>
-                            {containerData.map((container, i) => (
+                            {containerDataFiltered.map((container, i) => (
                                 <StructurizrTableRow key={i} container={container} />
                             ))}
                         </Table>
+                    )}
+                    {containerDataFiltered?.length === 0 && (
+                        <S.EmptyContainer>
+                            <Text inactive variant="body2">
+                                Не найдено
+                            </Text>
+                        </S.EmptyContainer>
                     )}
                 </>
             )}
@@ -77,7 +97,7 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
             {interfaceOption === InterfaceOptions.MAPIC && (
                 <>
                     {(isLoadingMapicData || isLoadingStructurizrData) && <Skeleton height={300} />}
-                    {mapicData && structurizrData && (
+                    {mapicDataFiltered && mapicDataFiltered.length !== 0 && structurizrData && (
                         <Table>
                             <TableHead>
                                 <TableRow>
@@ -88,7 +108,7 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {mapicData.map((mapicInterface, i) => (
+                                {mapicDataFiltered.map((mapicInterface, i) => (
                                     <MapicTableRow
                                         key={i}
                                         mapicInterface={mapicInterface}
@@ -97,6 +117,13 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                 ))}
                             </TableBody>
                         </Table>
+                    )}
+                    {mapicDataFiltered?.length === 0 && (
+                        <S.EmptyContainer>
+                            <Text inactive variant="body2">
+                                Не найдено
+                            </Text>
+                        </S.EmptyContainer>
                     )}
                 </>
             )}

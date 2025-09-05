@@ -1,23 +1,27 @@
-import React from 'react';
-import {
-    Table,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
+import React, { FC } from 'react';
+import { Skeleton } from '@beeline/design-system-react';
 
+// import {
+//     Table,
+//     TableBody,
+//     TableData,
+//     TableHead,
+//     TableHeaderData,
+//     TableRow,
+// } from '@beeline/design-system-react';
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
+import { formatNullableString } from 'utils/formatters';
+
 import { CopyButton } from './components';
+import { IGeneralInfo } from './types';
 import * as S from './units';
 
-export const GeneralInfo = () => {
+export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
     return (
         <S.Container>
-            <Text inactive variant="body2">
+            {/* <Text inactive variant="body2">
                 Владелец приложения
             </Text>
             <Text variant="body2">Константинопольский Константин Константинович</Text>
@@ -63,32 +67,43 @@ export const GeneralInfo = () => {
                     />
                     <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
                 </S.LinkContainer>
-            </Text>
+            </Text> */}
             <Text inactive variant="body2">
                 Workspace Structurizr
             </Text>
-            <Text variant="body2">
-                <S.LinkContainer>
-                    <Link
-                        title="https://bw.beeline.ru/catalog/apps/53"
-                        url="https://bw.beeline.ru/catalog/apps/53"
-                    />
-                    <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
-                </S.LinkContainer>
-            </Text>
+            {isLoading && <Skeleton height={22} width={200} radius={4} />}
+            {productData && (
+                <Text variant="body2">
+                    {productData.structurizrApiUrl ? (
+                        <S.LinkContainer>
+                            <Link
+                                title={productData.structurizrApiUrl}
+                                url={productData.structurizrApiUrl}
+                            />
+                            <CopyButton text={productData.structurizrApiUrl} />
+                        </S.LinkContainer>
+                    ) : (
+                        formatNullableString(null)
+                    )}
+                </Text>
+            )}
             <Text inactive variant="body2">
                 Git проект
             </Text>
-            <Text variant="body2">
-                <S.LinkContainer>
-                    <Link
-                        title="https://bw.beeline.ru/catalog/apps/53"
-                        url="https://bw.beeline.ru/catalog/apps/53"
-                    />
-                    <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
-                </S.LinkContainer>
-            </Text>
-            <Text inactive variant="body2">
+            {isLoading && <Skeleton height={22} width={200} radius={4} />}
+            {productData && (
+                <Text variant="body2">
+                    {productData.gitUrl ? (
+                        <S.LinkContainer>
+                            <Link title={productData.gitUrl} url={productData.gitUrl} />
+                            <CopyButton text={productData.gitUrl} />
+                        </S.LinkContainer>
+                    ) : (
+                        formatNullableString(null)
+                    )}
+                </Text>
+            )}
+            {/* <Text inactive variant="body2">
                 Git репозиторий
             </Text>
             <Table>
@@ -110,7 +125,7 @@ export const GeneralInfo = () => {
                         </TableData>
                     </TableRow>
                 </TableBody>
-            </Table>
+            </Table> */}
         </S.Container>
     );
 };
