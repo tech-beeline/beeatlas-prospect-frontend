@@ -50,6 +50,8 @@ export interface IStructurizrContainerInterfaceData {
     name: string;
     version: string;
     techCapability: IStructurizrInterfaceTechCapabilityData | null;
+    protocol: string | null;
+    specLink: string | null;
     mapicInterface: {
         id: number;
         name: string;

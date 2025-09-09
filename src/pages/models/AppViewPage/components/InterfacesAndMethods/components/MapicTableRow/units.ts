@@ -103,7 +103,6 @@ export const DropdownItem = styled.p`
     justify-content: space-between;
     align-items: center;
 
-    height: 46px;
     padding: 12px 16px;
 
     color: var(--color-background-inverse);

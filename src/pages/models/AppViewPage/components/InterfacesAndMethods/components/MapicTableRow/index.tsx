@@ -103,6 +103,14 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                         </S.ConnectInterfaceContainer>
                     </S.TableDataFullWidth>
                 )}
+                <TableData alignRight>
+                    {mapicInterface.operations.length}/
+                    {
+                        mapicInterface.operations.filter(
+                            (operation) => !!operation.connectOperation,
+                        ).length
+                    }
+                </TableData>
             </S.TableRowStyled>
             {expanded && (
                 <TableRow>

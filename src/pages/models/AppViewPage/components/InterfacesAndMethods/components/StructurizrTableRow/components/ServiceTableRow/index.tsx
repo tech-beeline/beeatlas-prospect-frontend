@@ -23,7 +23,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
     return (
         <>
             <TableRow>
-                <S.TableDataFullWidth>
+                <S.TableDataFullWidth colSpan={2}>
                     <S.DataContainer>
                         <S.NameContainer>
                             <IconButton
@@ -41,57 +41,69 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
                         /> */}
                     </S.DataContainer>
                 </S.TableDataFullWidth>
+                <TableData alignRight>{structurizrInterface.operations.length}</TableData>
             </TableRow>
             {isExpanded && (
                 <TableRow>
-                    <S.ServiceContainer>
-                        <S.TableStyled>
-                            <TableHead>
-                                <TableRow>
-                                    <TableHeaderData>Код</TableHeaderData>
-                                    <TableHeaderData>Протокол</TableHeaderData>
-                                    <TableHeaderData>Версия</TableHeaderData>
-                                    <TableHeaderData>Спецификация API</TableHeaderData>
-                                    <TableHeaderData>Техническая возможность</TableHeaderData>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableData>{structurizrInterface.name}</TableData>
-                                    <TableData>{formatNullableString(null)}</TableData>
-                                    <TableData>{structurizrInterface.version}</TableData>
-                                    <TableData>{formatNullableString(null)}</TableData>
-                                    <TableData>
-                                        {structurizrInterface.techCapability ? (
-                                            <Link
-                                                url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=BUSINESS`}
-                                                title={structurizrInterface.techCapability.name}
-                                            />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </TableData>
-                                </TableRow>
-                            </TableBody>
-                        </S.TableStyled>
-                        <S.TableStyled>
-                            <TableHead>
-                                <TableRow>
-                                    <TableHeaderData>Метод</TableHeaderData>
-                                    <TableHeaderData>Описание</TableHeaderData>
-                                    <TableHeaderData>Техническая возможность</TableHeaderData>
-                                    <TableHeaderData>RPS</TableHeaderData>
-                                    <TableHeaderData>Latency, ms</TableHeaderData>
-                                    <TableHeaderData>Error Rate, %</TableHeaderData>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {structurizrInterface.operations.map((operation, i) => (
-                                    <TableRow key={i}>
-                                        <S.TableDataFullWidth>
-                                            <S.MethodNameContainer>
-                                                {operation.name}
-                                                {/* <IconButton
+                    <S.TableDataStyled colSpan={3}>
+                        <S.ServiceContainer>
+                            <S.TableStyled>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeaderData>Код</TableHeaderData>
+                                        <TableHeaderData>Протокол</TableHeaderData>
+                                        <TableHeaderData>Версия</TableHeaderData>
+                                        <TableHeaderData>Спецификация API</TableHeaderData>
+                                        <TableHeaderData>Техническая возможность</TableHeaderData>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableData>{structurizrInterface.name}</TableData>
+                                        <TableData>
+                                            {formatNullableString(structurizrInterface.protocol)}
+                                        </TableData>
+                                        <TableData>
+                                            {formatNullableString(structurizrInterface.version)}
+                                        </TableData>
+                                        <TableData>
+                                            {structurizrInterface.specLink ? (
+                                                <Link url={structurizrInterface.specLink} />
+                                            ) : (
+                                                formatNullableString(null)
+                                            )}
+                                        </TableData>
+                                        <TableData>
+                                            {structurizrInterface.techCapability ? (
+                                                <Link
+                                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=TECH`}
+                                                    title={structurizrInterface.techCapability.name}
+                                                />
+                                            ) : (
+                                                formatNullableString(null)
+                                            )}
+                                        </TableData>
+                                    </TableRow>
+                                </TableBody>
+                            </S.TableStyled>
+                            <S.TableStyled>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeaderData>Метод</TableHeaderData>
+                                        <TableHeaderData>Описание</TableHeaderData>
+                                        <TableHeaderData>Техническая возможность</TableHeaderData>
+                                        <TableHeaderData>RPS</TableHeaderData>
+                                        <TableHeaderData>Latency, ms</TableHeaderData>
+                                        <TableHeaderData>Error Rate, %</TableHeaderData>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {structurizrInterface.operations.map((operation, i) => (
+                                        <TableRow key={i}>
+                                            <S.TableDataFullWidth>
+                                                <S.MethodNameContainer>
+                                                    {operation.name}
+                                                    {/* <IconButton
                                                     data-tooltip-id={`method-${i}`}
                                                     size="medium"
                                                     iconName={Icons.OpenInBrowser}
@@ -107,41 +119,42 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
                                                 >
                                                     Влияние эндпоинта
                                                 </TooltipContainer> */}
-                                            </S.MethodNameContainer>
-                                        </S.TableDataFullWidth>
-                                        <TableData>
-                                            {formatNullableString(operation.description)}
-                                        </TableData>
-                                        <TableData>
-                                            {operation.techCapability ? (
-                                                <Link
-                                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=BUSINESS`}
-                                                    title={operation.techCapability.name}
-                                                />
-                                            ) : (
-                                                formatNullableString(null)
-                                            )}
-                                        </TableData>
-                                        <TableData>
-                                            {typeof operation.sla?.rps === 'number'
-                                                ? operation.sla?.rps
-                                                : formatNullableString(null)}
-                                        </TableData>
-                                        <TableData>
-                                            {typeof operation.sla?.latency === 'number'
-                                                ? operation.sla?.latency
-                                                : formatNullableString(null)}
-                                        </TableData>
-                                        <TableData>
-                                            {typeof operation.sla?.errorRate === 'number'
-                                                ? operation.sla?.errorRate
-                                                : formatNullableString(null)}
-                                        </TableData>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </S.TableStyled>
-                    </S.ServiceContainer>
+                                                </S.MethodNameContainer>
+                                            </S.TableDataFullWidth>
+                                            <TableData>
+                                                {formatNullableString(operation.description)}
+                                            </TableData>
+                                            <TableData>
+                                                {operation.techCapability ? (
+                                                    <Link
+                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=TECH`}
+                                                        title={operation.techCapability.name}
+                                                    />
+                                                ) : (
+                                                    formatNullableString(null)
+                                                )}
+                                            </TableData>
+                                            <TableData>
+                                                {typeof operation.sla?.rps === 'number'
+                                                    ? operation.sla?.rps
+                                                    : formatNullableString(null)}
+                                            </TableData>
+                                            <TableData>
+                                                {typeof operation.sla?.latency === 'number'
+                                                    ? operation.sla?.latency
+                                                    : formatNullableString(null)}
+                                            </TableData>
+                                            <TableData>
+                                                {typeof operation.sla?.errorRate === 'number'
+                                                    ? operation.sla?.errorRate
+                                                    : formatNullableString(null)}
+                                            </TableData>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </S.TableStyled>
+                        </S.ServiceContainer>
+                    </S.TableDataStyled>
                 </TableRow>
             )}
         </>

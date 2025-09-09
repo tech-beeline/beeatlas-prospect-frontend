@@ -79,12 +79,21 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                     {isLoadingContainerData && <Skeleton height={300} />}
                     {containerDataFiltered && containerDataFiltered.length !== 0 && (
                         <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <S.TableHeaderDataMaxWidth>Контейнер</S.TableHeaderDataMaxWidth>
+                                    <TableHeaderData>Кол&#8209;во&nbsp;интерфейсов</TableHeaderData>
+                                    <TableHeaderData>
+                                        Кол&#8209;во&nbsp;методов&nbsp;в&nbsp;интерфейсах
+                                    </TableHeaderData>
+                                </TableRow>
+                            </TableHead>
                             {containerDataFiltered.map((container, i) => (
                                 <StructurizrTableRow key={i} container={container} />
                             ))}
                         </Table>
                     )}
-                    {containerDataFiltered?.length === 0 && (
+                    {!isLoadingContainerData && containerDataFiltered?.length === 0 && (
                         <S.EmptyContainer>
                             <Text inactive variant="body2">
                                 Не найдено
@@ -105,6 +114,9 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                     <TableHeaderData>Контекст api</TableHeaderData>
                                     <TableHeaderData>Контекст провайдера</TableHeaderData>
                                     <TableHeaderData>Интерфейс AaAC</TableHeaderData>
+                                    <TableHeaderData alignRight>
+                                        Методы (всего/сопоставленные)
+                                    </TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -118,13 +130,14 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                             </TableBody>
                         </Table>
                     )}
-                    {mapicDataFiltered?.length === 0 && (
-                        <S.EmptyContainer>
-                            <Text inactive variant="body2">
-                                Не найдено
-                            </Text>
-                        </S.EmptyContainer>
-                    )}
+                    {!(isLoadingMapicData || isLoadingStructurizrData) &&
+                        mapicDataFiltered?.length === 0 && (
+                            <S.EmptyContainer>
+                                <Text inactive variant="body2">
+                                    Не найдено
+                                </Text>
+                            </S.EmptyContainer>
+                        )}
                 </>
             )}
         </S.Container>

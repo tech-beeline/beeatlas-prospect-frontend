@@ -23,6 +23,8 @@ export const ServiceContainer = styled.div`
     flex-direction: column;
     gap: 24px;
 
+    width: 100%;
+
     padding: 24px 24px 24px 44px;
 
     border-left: 4px solid var(--color-background-brand);
@@ -45,4 +47,12 @@ export const MethodNameContainer = styled.div`
     gap: 4px;
 
     width: 100%;
+`;
+
+export const TableDataStyled = styled(TableData)`
+    padding: 0;
+
+    & > div > div {
+        width: 100%;
+    }
 `;

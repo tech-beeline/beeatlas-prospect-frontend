@@ -8,6 +8,12 @@ import * as S from './units';
 
 export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const methodsCount = container.interfaces.reduce(
+        (acc, value) => acc + value.operations.length,
+        0,
+    );
+
     return (
         <>
             <S.TableRowStyled expanded={isExpanded}>
@@ -21,6 +27,8 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container }) => 
                         {container.name}
                     </S.NameContainer>
                 </TableData>
+                <TableData alignRight>{container.interfaces.length}</TableData>
+                <TableData alignRight>{methodsCount}</TableData>
             </S.TableRowStyled>
             {isExpanded &&
                 container.interfaces.map((structurizrInterface, i) => (
