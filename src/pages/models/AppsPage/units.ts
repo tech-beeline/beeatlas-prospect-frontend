@@ -1,4 +1,4 @@
-import { Table } from '@beeline/design-system-react';
+import { Table, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -34,5 +34,15 @@ export const SearchContainer = styled.div`
 `;
 
 export const TableStyled = styled(Table)`
+    table-layout: fixed;
+
     overflow: hidden;
+`;
+
+export const TableHeaderDataStyled = styled(TableHeaderData)`
+    width: 33.33%;
+`;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 150px;
 `;

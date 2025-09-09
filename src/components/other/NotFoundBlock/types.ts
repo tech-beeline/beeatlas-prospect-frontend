@@ -6,6 +6,7 @@ export enum ImageVariants {
     QUESTION_BOX = 'QUESTION_BOX',
     UNEDITABLE = 'UNEDITABLE',
     DIALOG_BOX = 'DIALOG_BOX',
+    SEARCH = 'SEARCH',
 }
 
 export interface INotFoundBlock {

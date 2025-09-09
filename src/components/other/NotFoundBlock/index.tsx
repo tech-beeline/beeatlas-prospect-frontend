@@ -4,6 +4,7 @@ import { Button } from '@beeline/design-system-react';
 import dialogBox from './images/box-with-dialog.png';
 import questionBox from './images/box-with-question.png';
 import emptyBox from './images/empty-box.png';
+import search from './images/search.png';
 import uneditable from './images/uneditable.png';
 
 import { ImageVariants, INotFoundBlock } from './types';
@@ -14,6 +15,7 @@ const variantToImageMap = {
     [ImageVariants.EMPTY_BOX]: emptyBox,
     [ImageVariants.UNEDITABLE]: uneditable,
     [ImageVariants.DIALOG_BOX]: dialogBox,
+    [ImageVariants.SEARCH]: search,
 };
 
 const NotFoundBlock: FC<INotFoundBlock> = ({

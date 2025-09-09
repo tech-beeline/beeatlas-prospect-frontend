@@ -13,7 +13,7 @@ import {
     // ArchitectureChanges,
     // E2EProcesses,
     // FitnessFunctions,
-    GeneralInfo,
+    // GeneralInfo,
     InDevelopment,
     InterfacesAndMethods,
     // TechCapabilities,
@@ -26,13 +26,13 @@ export const AppViewPage = () => {
     const [params, setSearchParams] = useSearchParams();
     const paramTab = params.get('tab');
     const paramCmdb = params.get('cmdb');
-    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.GENERAL_INFO);
+    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.INTERFACES_AND_METHODS);
 
     useEffect(() => {
         setTabVariant(
             Object.values(TabVariants).includes(paramTab as TabVariants)
                 ? (paramTab as TabVariants)
-                : TabVariants.GENERAL_INFO,
+                : TabVariants.INTERFACES_AND_METHODS,
         );
     }, [paramTab]);
 
@@ -86,9 +86,9 @@ export const AppViewPage = () => {
                 </Tabs>
             </S.TabsContainer>
 
-            {tabVariant === TabVariants.GENERAL_INFO && (
+            {/* {tabVariant === TabVariants.GENERAL_INFO && (
                 <GeneralInfo productData={productData} isLoading={isLoadingProductData} />
-            )}
+            )} */}
             {tabVariant === TabVariants.INTERFACES_AND_METHODS && (
                 <InterfacesAndMethods cmdb={paramCmdb} />
             )}

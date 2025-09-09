@@ -6,13 +6,12 @@ import {
     TableBody,
     TableData,
     TableHead,
-    TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
 import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
-import { Link } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useDebounce } from 'hooks';
@@ -61,9 +60,13 @@ export const AppsPage = () => {
                     <S.TableStyled>
                         <TableHead>
                             <TableRow>
-                                <TableHeaderData>Приложение</TableHeaderData>
-                                <TableHeaderData>CMDB&nbsp;Мнемоника</TableHeaderData>
-                                <TableHeaderData>Structurizr&nbsp;OnPremises</TableHeaderData>
+                                <S.TableHeaderDataStyled>Приложение</S.TableHeaderDataStyled>
+                                <S.TableHeaderDataStyled>
+                                    CMDB&nbsp;Мнемоника
+                                </S.TableHeaderDataStyled>
+                                <S.TableHeaderDataStyled>
+                                    Structurizr&nbsp;OnPremises
+                                </S.TableHeaderDataStyled>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -88,6 +91,15 @@ export const AppsPage = () => {
                             ))}
                         </TableBody>
                     </S.TableStyled>
+                )}
+                {!isLoading && filteredProducts.length === 0 && (
+                    <S.NotFoundContainer>
+                        <NotFoundBlock
+                            imageVariant={ImageVariants.SEARCH}
+                            title="Нет результатов, подходящих под параметры поиска"
+                            text="Попробуйте изменить запрос"
+                        />
+                    </S.NotFoundContainer>
                 )}
             </S.Container>
         </S.PageWrapper>
