@@ -37,8 +37,9 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
                     </Text>
                     <Text variant="body2">
                         {formatNullableString(
-                            (productsData ?? []).find((product) => product.id === cj.id_product)
+                            (productsData ?? []).find((product) => product.id === cj.productId)
                                 ?.name,
+                            'Не указано',
                         )}
                     </Text>
                 </div>
