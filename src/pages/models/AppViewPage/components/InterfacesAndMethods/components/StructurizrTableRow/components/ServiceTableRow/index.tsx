@@ -92,9 +92,9 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
                                         <TableHeaderData>Метод</TableHeaderData>
                                         <TableHeaderData>Описание</TableHeaderData>
                                         <TableHeaderData>Техническая возможность</TableHeaderData>
-                                        <TableHeaderData>RPS</TableHeaderData>
-                                        <TableHeaderData>Latency, ms</TableHeaderData>
-                                        <TableHeaderData>Error Rate, %</TableHeaderData>
+                                        <TableHeaderData alignRight>RPS</TableHeaderData>
+                                        <TableHeaderData alignRight>Latency, ms</TableHeaderData>
+                                        <TableHeaderData alignRight>Error Rate, %</TableHeaderData>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -134,17 +134,17 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
                                                     formatNullableString(null)
                                                 )}
                                             </TableData>
-                                            <TableData>
+                                            <TableData alignRight>
                                                 {typeof operation.sla?.rps === 'number'
                                                     ? operation.sla?.rps
                                                     : formatNullableString(null)}
                                             </TableData>
-                                            <TableData>
+                                            <TableData alignRight>
                                                 {typeof operation.sla?.latency === 'number'
                                                     ? operation.sla?.latency
                                                     : formatNullableString(null)}
                                             </TableData>
-                                            <TableData>
+                                            <TableData alignRight>
                                                 {typeof operation.sla?.errorRate === 'number'
                                                     ? operation.sla?.errorRate
                                                     : formatNullableString(null)}
