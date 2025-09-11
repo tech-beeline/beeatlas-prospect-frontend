@@ -7,6 +7,11 @@ export const NameContainer = styled.div`
     gap: 4px;
 `;
 
+export const IconButtonContainer = styled.div`
+    width: 20px;
+    height: 20px;
+`;
+
 export const TableRowStyled = styled(TableRow)<{ expanded?: boolean }>`
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};

@@ -104,7 +104,7 @@ export interface IMapicInterfaceData {
             name: string;
             description: string | null;
             type: string;
-        };
+        } | null;
     }[];
 }
 

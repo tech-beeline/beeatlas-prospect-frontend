@@ -3,6 +3,7 @@ import {
     ButtonGroup,
     Search,
     Skeleton,
+    Switch,
     Table,
     TableBody,
     TableHead,
@@ -25,6 +26,7 @@ import * as S from './units';
 
 export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
     const [searchText, setSearchText] = useState('');
+    const [hideEmptyInterfaces, setHideEmptyInterfaces] = useState(false);
     const [interfaceOption, setInterfaceOption] = useState(InterfaceOptions.STRUCTURIZR);
 
     const { data: containerData, isLoading: isLoadingContainerData } =
@@ -34,25 +36,40 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
     const { data: mapicData, isLoading: isLoadingMapicData } =
         useGetProductMapicInterfacesByCmdbQuery(cmdb);
 
-    const containerDataFiltered = containerData?.filter((containerInterface) =>
-        containerInterface.name.toLowerCase().includes(searchText.toLowerCase()),
-    );
+    const containerDataFiltered = containerData
+        ?.filter((containerInterface) =>
+            hideEmptyInterfaces ? containerInterface.interfaces.length !== 0 : true,
+        )
+        .filter((containerInterface) =>
+            containerInterface.name.toLowerCase().includes(searchText.toLowerCase()),
+        );
 
-    const mapicDataFiltered = mapicData?.filter((mapicInterface) =>
-        mapicInterface.name.toLowerCase().includes(searchText.toLowerCase()),
-    );
+    const mapicDataFiltered = mapicData
+        ?.filter((mapicInterface) =>
+            hideEmptyInterfaces ? mapicInterface.operations.length !== 0 : true,
+        )
+        .filter((mapicInterface) =>
+            mapicInterface.name.toLowerCase().includes(searchText.toLowerCase()),
+        );
 
     return (
         <S.Container>
-            <S.SearchContainer>
-                <Search
-                    fullWidth
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onClear={() => setSearchText('')}
-                    placeholder="Название интерфейса или метода"
+            <S.ActionsContainer>
+                <S.SearchContainer>
+                    <Search
+                        fullWidth
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onClear={() => setSearchText('')}
+                        placeholder="Название интерфейса или метода"
+                    />
+                </S.SearchContainer>
+                <Switch
+                    label="Скрыть пустые интерфейсы"
+                    checked={hideEmptyInterfaces}
+                    onChange={(e) => setHideEmptyInterfaces(e.target.checked)}
                 />
-            </S.SearchContainer>
+            </S.ActionsContainer>
 
             <ButtonGroup
                 alwaysSelected
@@ -88,8 +105,8 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                     </TableHeaderData>
                                 </TableRow>
                             </TableHead>
-                            {containerDataFiltered.map((container, i) => (
-                                <StructurizrTableRow key={i} container={container} />
+                            {containerDataFiltered.map((container) => (
+                                <StructurizrTableRow key={container.id} container={container} />
                             ))}
                         </Table>
                     )}
@@ -113,16 +130,16 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                     <TableHeaderData>Интерфейс mapic</TableHeaderData>
                                     <TableHeaderData>Контекст api</TableHeaderData>
                                     <TableHeaderData>Контекст провайдера</TableHeaderData>
-                                    <TableHeaderData>Интерфейс AaAC</TableHeaderData>
+                                    <TableHeaderData>Интерфейс structurizr</TableHeaderData>
                                     <TableHeaderData alignRight>
                                         Методы (всего/сопоставленные)
                                     </TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {mapicDataFiltered.map((mapicInterface, i) => (
+                                {mapicDataFiltered.map((mapicInterface) => (
                                     <MapicTableRow
-                                        key={i}
+                                        key={mapicInterface.id}
                                         mapicInterface={mapicInterface}
                                         sctructurizrInterfaces={structurizrData}
                                     />

@@ -39,21 +39,37 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
         int.name.toLowerCase().includes(search.toLowerCase()),
     );
 
+    const disabled = mapicInterface.operations.length === 0;
+
     return (
         <>
-            <S.TableRowStyled expanded={expanded}>
+            <S.TableRowStyled disabled={disabled} expanded={expanded}>
                 <TableData>
                     <S.NameContainer>
-                        <IconButton
-                            iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                            onClick={() => setExpanded(!expanded)}
-                            size="medium"
-                        />
-                        <Text variant="body3">{mapicInterface.name}</Text>
+                        <S.IconButtonContainer>
+                            {!disabled && (
+                                <IconButton
+                                    iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
+                                    onClick={() => setExpanded(!expanded)}
+                                    size="medium"
+                                />
+                            )}
+                        </S.IconButtonContainer>
+                        <Text inactive={disabled} variant="body3">
+                            {mapicInterface.name}
+                        </Text>
                     </S.NameContainer>
                 </TableData>
-                <TableData>{mapicInterface.context}</TableData>
-                <TableData>{formatNullableString(mapicInterface.contextProvider)}</TableData>
+                <TableData>
+                    <Text inactive={disabled} variant="body3">
+                        {mapicInterface.context}
+                    </Text>
+                </TableData>
+                <TableData>
+                    <Text inactive={disabled} variant="body3">
+                        {formatNullableString(mapicInterface.contextProvider)}
+                    </Text>
+                </TableData>
                 {isEditing && (
                     <S.TableDataInput>
                         <S.RelativeContainer>
@@ -94,7 +110,9 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                 {!isEditing && (
                     <S.TableDataFullWidth>
                         <S.ConnectInterfaceContainer>
-                            {formatNullableString(mapicInterface.connectInterface.name)}
+                            <Text inactive={disabled} variant="body3">
+                                {formatNullableString(mapicInterface.connectInterface.name)}
+                            </Text>
                             <IconButton
                                 size="medium"
                                 iconName={Icons.Edit}
@@ -104,30 +122,36 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                     </S.TableDataFullWidth>
                 )}
                 <TableData alignRight>
-                    {mapicInterface.operations.length}/
-                    {
-                        mapicInterface.operations.filter(
-                            (operation) => !!operation.connectOperation,
-                        ).length
-                    }
+                    <Text inactive={disabled} variant="body3">
+                        {mapicInterface.operations.length}/
+                        {
+                            mapicInterface.operations.filter(
+                                (operation) => !!operation.connectOperation,
+                            ).length
+                        }
+                    </Text>
                 </TableData>
             </S.TableRowStyled>
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={4} style={{ padding: 0 }}>
+                    <S.TableDataStyled colSpan={5} style={{ padding: 0 }}>
                         <S.TableContainer>
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
                                         <TableHeaderData>Метод mapic</TableHeaderData>
-                                        <TableHeaderData>Метод AaAC</TableHeaderData>
+                                        <TableHeaderData>Метод structurizr</TableHeaderData>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {mapicInterface.operations.map((operation, i) => (
                                         <TableRow key={i}>
                                             <TableData>{operation.name}</TableData>
-                                            <TableData>{operation.connectOperation.name}</TableData>
+                                            <TableData>
+                                                {formatNullableString(
+                                                    operation.connectOperation?.name,
+                                                )}
+                                            </TableData>
                                         </TableRow>
                                     ))}
                                 </TableBody>

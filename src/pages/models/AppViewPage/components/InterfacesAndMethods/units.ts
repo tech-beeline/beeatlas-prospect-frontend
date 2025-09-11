@@ -7,7 +7,14 @@ export const Container = styled.div`
     gap: 24px;
 `;
 
+export const ActionsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 24px;
+`;
+
 export const SearchContainer = styled.div`
+    flex: 1;
     max-width: 648px;
 `;
 
