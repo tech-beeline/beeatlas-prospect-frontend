@@ -50,7 +50,7 @@ export const AppsPage = () => {
                         value={search}
                         onClear={() => setSearch('')}
                     />
-                    <Button variant="plain" onClick={() => setSearch('')}>
+                    <Button variant="plain" disabled={!search} onClick={() => setSearch('')}>
                         Сбросить
                     </Button>
                 </S.SearchContainer>
