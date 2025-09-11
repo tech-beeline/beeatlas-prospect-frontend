@@ -36,6 +36,14 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
     const { data: mapicData, isLoading: isLoadingMapicData } =
         useGetProductMapicInterfacesByCmdbQuery(cmdb);
 
+    const hasEmptyInterfaces = (containerData ?? []).some(
+        (container) => container.interfaces.length === 0,
+    );
+
+    const hasEmptyOperations = (mapicData ?? []).some(
+        (mapicInterface) => mapicInterface.operations.length === 0,
+    );
+
     const containerDataFiltered = containerData
         ?.filter((containerInterface) =>
             hideEmptyInterfaces ? containerInterface.interfaces.length !== 0 : true,
@@ -65,6 +73,10 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                     />
                 </S.SearchContainer>
                 <Switch
+                    disabled={
+                        (interfaceOption === InterfaceOptions.STRUCTURIZR && !hasEmptyInterfaces) ||
+                        (interfaceOption === InterfaceOptions.MAPIC && !hasEmptyOperations)
+                    }
                     label="Скрыть пустые интерфейсы"
                     checked={hideEmptyInterfaces}
                     onChange={(e) => setHideEmptyInterfaces(e.target.checked)}
