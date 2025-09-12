@@ -146,7 +146,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                                 <TableBody>
                                     {mapicInterface.operations.map((operation, i) => (
                                         <TableRow key={i}>
-                                            <TableData>{operation.name}</TableData>
+                                            <TableData>{`${operation.type} ${operation.name}`}</TableData>
                                             <TableData>
                                                 {formatNullableString(
                                                     operation.connectOperation?.name,

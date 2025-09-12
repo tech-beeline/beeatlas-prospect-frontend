@@ -102,7 +102,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
                                         <TableRow key={i}>
                                             <S.TableDataFullWidth>
                                                 <S.MethodNameContainer>
-                                                    {operation.name}
+                                                    {`${operation.type} ${operation.name}`}
                                                     {/* <IconButton
                                                     data-tooltip-id={`method-${i}`}
                                                     size="medium"
