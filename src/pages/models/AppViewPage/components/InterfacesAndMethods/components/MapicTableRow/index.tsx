@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import {
     IconButton,
+    Progress,
     TableBody,
     TableData,
     TableHead,
@@ -23,7 +24,8 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
     const [search, setSearch] = useState('');
     const [isEditing, setIsEditing] = useState(false);
 
-    const { mutateAsync: createConncetionInterface } = useCreateConnectionInterfaceMutation();
+    const { mutateAsync: createConncetionInterface, isPending } =
+        useCreateConnectionInterfaceMutation();
 
     const handleDropdownItemClick = async (
         mapicInterfaceId: number,
@@ -132,9 +134,16 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                     </Text>
                 </TableData>
             </S.TableRowStyled>
+            {isPending && (
+                <TableRow>
+                    <S.ProgressContainer colSpan={5}>
+                        <Progress cycled shape="linear" />
+                    </S.ProgressContainer>
+                </TableRow>
+            )}
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={5} style={{ padding: 0 }}>
+                    <S.TableDataStyled colSpan={5}>
                         <S.TableContainer>
                             <S.TableStyled>
                                 <TableHead>

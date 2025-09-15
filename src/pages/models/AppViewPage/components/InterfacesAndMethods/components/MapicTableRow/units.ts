@@ -53,6 +53,10 @@ export const TableDataFullWidth = styled(TableData)`
     }
 `;
 
+export const ProgressContainer = styled.td`
+    padding: 0;
+`;
+
 export const InputStyled = styled.input`
     min-width: 10px;
     width: 100%;
