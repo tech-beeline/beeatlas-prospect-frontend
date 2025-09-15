@@ -148,9 +148,9 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                                         <TableRow key={i}>
                                             <TableData>{`${operation.type} ${operation.name}`}</TableData>
                                             <TableData>
-                                                {formatNullableString(
-                                                    operation.connectOperation?.name,
-                                                )}
+                                                {operation.connectOperation
+                                                    ? `${operation.connectOperation.type} ${operation.connectOperation.name}`
+                                                    : formatNullableString(null)}
                                             </TableData>
                                         </TableRow>
                                     ))}

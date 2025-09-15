@@ -23,6 +23,7 @@ import { MapicTableRow, StructurizrTableRow } from './components';
 import { InterfaceOptions } from './const';
 import { IInterfacesAndMethods } from './types';
 import * as S from './units';
+import { containerFilterFunction, mapicFilterFunction } from './utils';
 
 export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
     const [searchText, setSearchText] = useState('');
@@ -44,21 +45,13 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
         (mapicInterface) => mapicInterface.operations.length === 0,
     );
 
-    const containerDataFiltered = containerData
-        ?.filter((containerInterface) =>
-            hideEmptyInterfaces ? containerInterface.interfaces.length !== 0 : true,
-        )
-        .filter((containerInterface) =>
-            containerInterface.name.toLowerCase().includes(searchText.toLowerCase()),
-        );
+    const containerDataFiltered = containerFilterFunction(
+        containerData,
+        searchText,
+        hideEmptyInterfaces,
+    );
 
-    const mapicDataFiltered = mapicData
-        ?.filter((mapicInterface) =>
-            hideEmptyInterfaces ? mapicInterface.operations.length !== 0 : true,
-        )
-        .filter((mapicInterface) =>
-            mapicInterface.name.toLowerCase().includes(searchText.toLowerCase()),
-        );
+    const mapicDataFiltered = mapicFilterFunction(mapicData, searchText, hideEmptyInterfaces);
 
     return (
         <S.Container>

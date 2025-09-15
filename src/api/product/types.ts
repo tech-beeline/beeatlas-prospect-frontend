@@ -44,6 +44,21 @@ interface IStructurizrInterfaceTechCapabilityData {
     code: string;
 }
 
+export interface IStructurizrOperation {
+    id: string;
+    name: string;
+    description: string | null;
+    type: string;
+    mapicOperation: {
+        id: number;
+        name: string;
+        description: string | null;
+        type: string;
+    };
+    techCapability: IStructurizrInterfaceTechCapabilityData | null;
+    sla: { latency: number; rps: number; errorRate: number } | null;
+}
+
 export interface IStructurizrContainerInterfaceData {
     id: number;
     description: string | null;
@@ -57,20 +72,7 @@ export interface IStructurizrContainerInterfaceData {
         name: string;
         description: string | null;
     };
-    operations: {
-        id: string;
-        name: string;
-        description: string | null;
-        type: string;
-        mapicOperation: {
-            id: number;
-            name: string;
-            description: string | null;
-            type: string;
-        };
-        techCapability: IStructurizrInterfaceTechCapabilityData | null;
-        sla: { latency: number; rps: number; errorRate: number } | null;
-    }[];
+    operations: IStructurizrOperation[];
 }
 
 export interface IStructurizrContainerData {
