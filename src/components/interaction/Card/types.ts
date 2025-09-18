@@ -8,6 +8,7 @@ export enum CardVariant {
     PURPLE = 'PURPLE',
     INFO = 'INFO',
     ERROR = 'ERROR',
+    WARNING = 'WARNING',
 }
 
 export interface ICard {

@@ -8,4 +8,5 @@ export const cardVariantToBackgroundColorMap = {
     [CardVariant.PURPLE]: 'var(--color-accent-purple-background)',
     [CardVariant.INFO]: 'var(--color-status-info-background)',
     [CardVariant.ERROR]: 'var(--color-status-error-background)',
+    [CardVariant.WARNING]: 'var(--color-status-warning-background)',
 };

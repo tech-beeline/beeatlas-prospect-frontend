@@ -49,6 +49,9 @@ import {
     NotFoundPage,
     NotificationsPage,
     PackagePage,
+    PatternAddPage,
+    PatternsPage,
+    PatternViewPage,
     PersonalMapPage,
     RoleAddPage,
     RolesPage,
@@ -79,6 +82,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
     `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`,
 ];
 
 const PATHS_WITHOUT_FEEDBACK = [
@@ -472,6 +476,35 @@ export const NavigationRouter = () => {
                                 <MenuModels />
                                 <S.ContentWrapper>
                                     <ImpactPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <PatternsPage isAdmin={isAdmin} />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`}
+                        element={<PatternAddPage />}
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <PatternViewPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
