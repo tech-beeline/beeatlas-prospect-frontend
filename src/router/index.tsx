@@ -18,7 +18,10 @@ import {
     ApplicationsPage,
     ApplicationsReviewPage,
     ApplicationViewPage,
+    AppsDashboardPage,
     AppsPage,
+    AppViewArchitecrurePage,
+    AppViewPage,
     ArchCommPage,
     BCAddPage,
     BIAddPage,
@@ -382,12 +385,48 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
+                        path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppsDashboardPage isProd={isProd} />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
                         path={`${R.MODELS_PATH}${R.APPS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <AppsPage isProd={isProd} />
+                                    <AppsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppViewPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}${R.ARCHITECTURE_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppViewArchitecrurePage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

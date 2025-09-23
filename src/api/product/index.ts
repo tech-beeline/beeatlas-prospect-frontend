@@ -17,3 +17,46 @@ export const getProductsByTechnologyId = (id: number): AxiosPromise<T.IProductDa
         url: `${GATEWAY_URL}product/v1/tech/${id}/product`,
     });
 };
+
+export const getProductStructurizrContainerByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.IStructurizrContainerData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/container`,
+    });
+};
+
+export const getProductStructurizrInterfacesByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.IStructurizrInterfaceData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/interface/arch`,
+    });
+};
+
+export const getProductMapicInterfacesByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.IMapicInterfaceData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/interface/mapic`,
+    });
+};
+
+export const postConnectionInterface = (data: T.IConnectionInterfaceForm) => {
+    return Api.post({
+        url: `${GATEWAY_URL}product/v1/connection/interface`,
+        data,
+    });
+};
+
+export const getAllProducts = (): AxiosPromise<T.IFullProductData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/info`,
+    });
+};
+
+export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductData> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/info`,
+    });
+};

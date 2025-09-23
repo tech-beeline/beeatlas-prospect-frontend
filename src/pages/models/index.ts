@@ -1,4 +1,7 @@
+export { AppsDashboardPage } from './AppsDashboardPage';
 export { AppsPage } from './AppsPage';
+export { AppViewArchitecrurePage } from './AppViewArchitecrurePage';
+export { AppViewPage } from './AppViewPage';
 export { FDMHistoryPage } from './FDMHistoryPage';
 export { FDMPage } from './FDMPage';
 export { MapAddPage } from './MapAddPage';

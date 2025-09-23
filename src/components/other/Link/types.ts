@@ -3,5 +3,6 @@ export interface ILink {
     title?: string;
     outer?: boolean;
     showOuterIcon?: boolean;
+    showIconPermanently?: boolean;
     light?: boolean;
 }
