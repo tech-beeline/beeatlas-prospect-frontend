@@ -310,9 +310,9 @@ export const TechnologyViewPage = () => {
                                                         }
                                                         onClick={() => {
                                                             window.open(
-                                                                `${R.MODELS_PATH}${
-                                                                    R.APPS_PATH
-                                                                }?alias=${product.alias.toUpperCase()}`,
+                                                                `${R.MODELS_PATH}${R.APPS_PATH}${
+                                                                    R.VIEW_PATH
+                                                                }?cmdb=${product.alias.toUpperCase()}`,
                                                             );
                                                         }}
                                                     >
