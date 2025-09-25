@@ -111,7 +111,13 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                 </TableRow>
                             </TableHead>
                             {containerDataFiltered.map((container) => (
-                                <StructurizrTableRow key={container.id} container={container} />
+                                <StructurizrTableRow
+                                    key={container.id}
+                                    container={container}
+                                    originalContainer={containerData?.find(
+                                        (c) => c.id === container.id,
+                                    )}
+                                />
                             ))}
                         </Table>
                     )}
@@ -146,6 +152,9 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                                     <MapicTableRow
                                         key={mapicInterface.id}
                                         mapicInterface={mapicInterface}
+                                        originalMapicInterface={mapicData?.find(
+                                            (m) => m.id === mapicInterface.id,
+                                        )}
                                         sctructurizrInterfaces={structurizrData}
                                     />
                                 ))}

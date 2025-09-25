@@ -18,7 +18,10 @@ import { formatNullableString } from 'utils/formatters';
 import { IServiceTableRow } from './types';
 import * as S from './units';
 
-export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) => {
+export const ServiceTableRow: FC<IServiceTableRow> = ({
+    structurizrInterface,
+    originalStructurizrInterface,
+}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
         <>
@@ -41,7 +44,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface }) 
                         /> */}
                     </S.DataContainer>
                 </S.TableDataFullWidth>
-                <TableData alignRight>{structurizrInterface.operations.length}</TableData>
+                <TableData alignRight>{originalStructurizrInterface?.operations.length}</TableData>
             </TableRow>
             {isExpanded && (
                 <TableRow>

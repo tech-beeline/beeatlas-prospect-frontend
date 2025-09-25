@@ -8,10 +8,10 @@ import { ServiceTableRow } from './components';
 import { IStructurizrTableRow } from './types';
 import * as S from './units';
 
-export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container }) => {
+export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, originalContainer }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const methodsCount = container.interfaces.reduce(
+    const methodsCount = originalContainer?.interfaces.reduce(
         (acc, value) => acc + value.operations.length,
         0,
     );
@@ -39,7 +39,7 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container }) => 
                 </TableData>
                 <TableData alignRight>
                     <Text inactive={disabled} variant="body3">
-                        {container.interfaces.length}
+                        {originalContainer?.interfaces.length}
                     </Text>
                 </TableData>
                 <TableData alignRight>
@@ -50,7 +50,13 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container }) => 
             </S.TableRowStyled>
             {isExpanded &&
                 container.interfaces.map((structurizrInterface, i) => (
-                    <ServiceTableRow key={i} structurizrInterface={structurizrInterface} />
+                    <ServiceTableRow
+                        key={i}
+                        structurizrInterface={structurizrInterface}
+                        originalStructurizrInterface={originalContainer?.interfaces.find(
+                            (i) => i.id === structurizrInterface.id,
+                        )}
+                    />
                 ))}
         </>
     );

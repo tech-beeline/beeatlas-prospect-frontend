@@ -1,49 +1,71 @@
 import {
     IMapicInterfaceData,
     IStructurizrContainerData,
-    IStructurizrOperation,
+    IStructurizrContainerInterfaceData,
+    // IStructurizrOperation,
 } from 'api/product/types';
 
 export const containerFilterFunction = (
     containerData: IStructurizrContainerData[] | undefined,
     searchText: string,
     hideEmptyInterfaces: boolean,
-) =>
-    containerData
-        ?.filter((container) => (hideEmptyInterfaces ? container.interfaces.length !== 0 : true))
-        .filter((containerInterface) => {
-            if (containerInterface.name.toLowerCase().includes(searchText.toLowerCase())) {
-                return true;
-            }
+): IStructurizrContainerData[] => {
+    const filteredContainers = (containerData ?? []).filter((container) =>
+        hideEmptyInterfaces ? container.interfaces.length !== 0 : true,
+    );
+
+    const resultContainers: IStructurizrContainerData[] = [];
+
+    for (const container of filteredContainers) {
+        const resultInterfaces: IStructurizrContainerInterfaceData[] = [];
+
+        for (const containerInterface of container.interfaces) {
+            const filteredOperations = containerInterface.operations.filter((operation) =>
+                operation.name.toLowerCase().includes(searchText.toLowerCase()),
+            );
+
             if (
-                containerInterface.interfaces.some((containerInterface) =>
-                    containerInterface.name.toLowerCase().includes(searchText.toLowerCase()),
-                )
+                filteredOperations.length > 0 ||
+                containerInterface.name.toLowerCase().includes(searchText.toLowerCase())
             ) {
-                return true;
+                resultInterfaces.push({ ...containerInterface, operations: filteredOperations });
             }
-            const containerMethods = containerInterface.interfaces.reduce(
-                (acc, containerInterface) => [...acc, ...containerInterface.operations],
-                [] as IStructurizrOperation[],
-            );
-            return containerMethods.some((method) =>
-                method.name.toLowerCase().includes(searchText.toLowerCase()),
-            );
-        });
+        }
+
+        if (
+            resultInterfaces.length > 0 ||
+            container.name.toLowerCase().includes(searchText.toLowerCase())
+        ) {
+            resultContainers.push({ ...container, interfaces: resultInterfaces });
+        }
+    }
+
+    return resultContainers;
+};
 
 export const mapicFilterFunction = (
     mapicData: IMapicInterfaceData[] | undefined,
     searchText: string,
     hideEmptyInterfaces: boolean,
-) =>
-    mapicData
-        ?.filter((mapicInterface) =>
-            hideEmptyInterfaces ? mapicInterface.operations.length !== 0 : true,
-        )
-        .filter(
-            (mapicInterface) =>
-                mapicInterface.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                mapicInterface.operations.some((operation) =>
-                    operation.name.toLowerCase().includes(searchText.toLowerCase()),
-                ),
+): IMapicInterfaceData[] => {
+    const filteredData = (mapicData ?? []).filter((mapicInterface) =>
+        hideEmptyInterfaces ? mapicInterface.operations.length !== 0 : true,
+    );
+
+    const resultData: IMapicInterfaceData[] = [];
+
+    for (const mapicInterface of filteredData ?? []) {
+        const filteredOperations = mapicInterface.operations.filter((operation) =>
+            operation.name.toLowerCase().includes(searchText.toLowerCase()),
         );
+
+        if (
+            filteredOperations.length > 0 ||
+            mapicInterface.name.toLowerCase().includes(searchText.toLowerCase())
+        ) {
+            resultData.push({ ...mapicInterface, operations: filteredOperations });
+        }
+    }
+
+    return resultData;
+};

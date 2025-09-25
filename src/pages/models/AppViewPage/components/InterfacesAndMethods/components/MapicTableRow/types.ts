@@ -2,5 +2,6 @@ import { IMapicInterfaceData, IStructurizrInterfaceData } from 'api/product/type
 
 export interface IMapicTableRow {
     mapicInterface: IMapicInterfaceData;
+    originalMapicInterface: IMapicInterfaceData | undefined;
     sctructurizrInterfaces: IStructurizrInterfaceData[];
 }

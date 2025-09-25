@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
     IconButton,
     Progress,
@@ -18,8 +18,18 @@ import { formatNullableString } from 'utils/formatters';
 import { IMapicTableRow } from './types';
 import * as S from './units';
 
-export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizrInterfaces }) => {
+export const MapicTableRow: FC<IMapicTableRow> = ({
+    mapicInterface,
+    originalMapicInterface,
+    sctructurizrInterfaces,
+}) => {
     const [expanded, setExpanded] = useState(false);
+
+    useEffect(() => {
+        if (mapicInterface.operations.length === 0) {
+            setExpanded(false);
+        }
+    }, [mapicInterface]);
 
     const [search, setSearch] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -125,9 +135,9 @@ export const MapicTableRow: FC<IMapicTableRow> = ({ mapicInterface, sctructurizr
                 )}
                 <TableData alignRight>
                     <Text inactive={disabled} variant="body3">
-                        {mapicInterface.operations.length}/
+                        {originalMapicInterface?.operations.length}/
                         {
-                            mapicInterface.operations.filter(
+                            originalMapicInterface?.operations.filter(
                                 (operation) => !!operation.connectOperation,
                             ).length
                         }
