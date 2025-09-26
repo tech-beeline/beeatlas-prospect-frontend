@@ -1,4 +1,4 @@
-import { TableData, TableRow } from '@beeline/design-system-react';
+import { Table, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const TableRowStyled = styled(TableRow)<{ disabled?: boolean; expanded?: boolean }>`
@@ -20,15 +20,13 @@ export const NameContainer = styled.div`
 export const TableContainer = styled.div`
     width: 100%;
 
-    padding-left: 24px;
+    padding: 24px;
 
     border-left: 4px solid var(--color-background-brand);
 `;
 
-export const TableStyled = styled.table`
+export const TableStyled = styled(Table)`
     width: 100%;
-
-    border-collapse: collapse;
 `;
 
 export const TableDataStyled = styled(TableData)`

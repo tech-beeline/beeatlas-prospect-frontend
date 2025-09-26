@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
     IconButton,
     Progress,
@@ -20,16 +20,11 @@ import * as S from './units';
 
 export const MapicTableRow: FC<IMapicTableRow> = ({
     mapicInterface,
-    originalMapicInterface,
     sctructurizrInterfaces,
+    selectedMapicOperation,
 }) => {
+    const rowRef = useRef<HTMLDivElement | null>(null);
     const [expanded, setExpanded] = useState(false);
-
-    useEffect(() => {
-        if (mapicInterface.operations.length === 0) {
-            setExpanded(false);
-        }
-    }, [mapicInterface]);
 
     const [search, setSearch] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -53,8 +48,24 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
 
     const disabled = mapicInterface.operations.length === 0;
 
+    useEffect(() => {
+        if (
+            selectedMapicOperation &&
+            mapicInterface.operations.map((o) => o.id).includes(Number(selectedMapicOperation.id))
+        ) {
+            setExpanded(true);
+            rowRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [selectedMapicOperation]);
+
+    const mapicOperationsFiltered =
+        selectedMapicOperation && selectedMapicOperation.interfaceId === mapicInterface.id
+            ? mapicInterface.operations.filter((o) => o.id === selectedMapicOperation.id)
+            : mapicInterface.operations;
+
     return (
         <>
+            <div ref={rowRef} />
             <S.TableRowStyled disabled={disabled} expanded={expanded}>
                 <TableData>
                     <S.NameContainer>
@@ -135,9 +146,9 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                 )}
                 <TableData alignRight>
                     <Text inactive={disabled} variant="body3">
-                        {originalMapicInterface?.operations.length}/
+                        {mapicInterface?.operations.length}/
                         {
-                            originalMapicInterface?.operations.filter(
+                            mapicInterface?.operations.filter(
                                 (operation) => !!operation.connectOperation,
                             ).length
                         }
@@ -163,7 +174,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {mapicInterface.operations.map((operation, i) => (
+                                    {mapicOperationsFiltered.map((operation, i) => (
                                         <TableRow key={i}>
                                             <TableData>{`${operation.type} ${operation.name}`}</TableData>
                                             <TableData>

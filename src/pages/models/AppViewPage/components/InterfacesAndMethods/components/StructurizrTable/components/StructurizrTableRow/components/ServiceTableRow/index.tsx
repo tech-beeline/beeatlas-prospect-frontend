@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
     IconButton,
     TableBody,
@@ -8,8 +8,8 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 
-// import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import * as R from 'router/const';
@@ -18,15 +18,30 @@ import { formatNullableString } from 'utils/formatters';
 import { IServiceTableRow } from './types';
 import * as S from './units';
 
-export const ServiceTableRow: FC<IServiceTableRow> = ({
-    structurizrInterface,
-    originalStructurizrInterface,
-}) => {
+export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, selectedEntity }) => {
+    const rowRef = useRef<HTMLDivElement | null>(null);
+
     const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        if (
+            selectedEntity &&
+            structurizrInterface.operations.map((i) => i.id).includes(Number(selectedEntity.id))
+        ) {
+            setIsExpanded(true);
+        }
+    }, [selectedEntity]);
+
+    const structurizrOperationsFiltered =
+        selectedEntity && selectedEntity.interfaceId === structurizrInterface.id
+            ? structurizrInterface.operations.filter((o) => o.id === selectedEntity.id)
+            : structurizrInterface.operations;
+
     return (
         <>
+            <div ref={rowRef} />
             <TableRow>
-                <S.TableDataFullWidth colSpan={2}>
+                <S.TableDataFullWidth colSpan={4}>
                     <S.DataContainer>
                         <S.NameContainer>
                             <IconButton
@@ -44,11 +59,11 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({
                         /> */}
                     </S.DataContainer>
                 </S.TableDataFullWidth>
-                <TableData alignRight>{originalStructurizrInterface?.operations.length}</TableData>
+                <TableData alignRight>{structurizrInterface.operations.length}</TableData>
             </TableRow>
             {isExpanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={3}>
+                    <S.TableDataStyled colSpan={5}>
                         <S.ServiceContainer>
                             <S.TableStyled>
                                 <TableHead>
@@ -57,12 +72,17 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({
                                         <TableHeaderData>Протокол</TableHeaderData>
                                         <TableHeaderData>Версия</TableHeaderData>
                                         <TableHeaderData>Спецификация API</TableHeaderData>
-                                        <TableHeaderData>Техническая возможность</TableHeaderData>
+                                        <TableHeaderData>
+                                            Техническая&nbsp;возможность
+                                        </TableHeaderData>
+                                        <TableHeaderData>Дата&nbsp;изменения</TableHeaderData>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableData>{structurizrInterface.name}</TableData>
+                                        <TableData>
+                                            {formatNullableString(structurizrInterface.code)}
+                                        </TableData>
                                         <TableData>
                                             {formatNullableString(structurizrInterface.protocol)}
                                         </TableData>
@@ -86,6 +106,14 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({
                                                 formatNullableString(null)
                                             )}
                                         </TableData>
+                                        <TableData>
+                                            {dayjs(
+                                                structurizrInterface.updateDate ??
+                                                    structurizrInterface.createDate,
+                                            )
+                                                .local()
+                                                .format('DD.MM.YYYY\u00A0HH:mm')}
+                                        </TableData>
                                     </TableRow>
                                 </TableBody>
                             </S.TableStyled>
@@ -101,7 +129,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {structurizrInterface.operations.map((operation, i) => (
+                                    {structurizrOperationsFiltered.map((operation, i) => (
                                         <TableRow key={i}>
                                             <S.TableDataFullWidth>
                                                 <S.MethodNameContainer>
