@@ -1,6 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { IconButton, TableData } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 
@@ -8,18 +9,32 @@ import { ServiceTableRow } from './components';
 import { IStructurizrTableRow } from './types';
 import * as S from './units';
 
-export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, originalContainer }) => {
+export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, selectedEntity }) => {
+    const rowRef = useRef<HTMLDivElement | null>(null);
+
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const methodsCount = originalContainer?.interfaces.reduce(
+    const methodsCount = container?.interfaces.reduce(
         (acc, value) => acc + value.operations.length,
         0,
     );
 
     const disabled = container.interfaces.length === 0;
 
+    useEffect(() => {
+        if (
+            selectedEntity &&
+            (container.interfaces.map((i) => i.id).includes(Number(selectedEntity.id)) ||
+                container.interfaces.map((i) => i.id).includes(Number(selectedEntity.interfaceId)))
+        ) {
+            setIsExpanded(true);
+            rowRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [selectedEntity]);
+
     return (
         <>
+            <div ref={rowRef} />
             <S.TableRowStyled expanded={isExpanded}>
                 <TableData>
                     <S.NameContainer>
@@ -37,9 +52,21 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, origi
                         </Text>
                     </S.NameContainer>
                 </TableData>
+                <TableData>
+                    <Text inactive={disabled} variant="body3">
+                        {container.code}
+                    </Text>
+                </TableData>
+                <TableData>
+                    <Text inactive={disabled} variant="body3">
+                        {dayjs(container.updateDate ?? container.createDate)
+                            .local()
+                            .format('DD.MM.YYYY\u00A0HH:mm')}
+                    </Text>
+                </TableData>
                 <TableData alignRight>
                     <Text inactive={disabled} variant="body3">
-                        {originalContainer?.interfaces.length}
+                        {container?.interfaces.length}
                     </Text>
                 </TableData>
                 <TableData alignRight>
@@ -53,9 +80,7 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, origi
                     <ServiceTableRow
                         key={i}
                         structurizrInterface={structurizrInterface}
-                        originalStructurizrInterface={originalContainer?.interfaces.find(
-                            (i) => i.id === structurizrInterface.id,
-                        )}
+                        selectedEntity={selectedEntity}
                     />
                 ))}
         </>

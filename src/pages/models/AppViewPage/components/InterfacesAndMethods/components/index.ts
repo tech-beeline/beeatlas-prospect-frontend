@@ -1,2 +1,2 @@
-export { MapicTableRow } from './MapicTableRow';
-export { StructurizrTableRow } from './StructurizrTableRow';
+export { MapicTable } from './MapicTable';
+export { StructurizrTable } from './StructurizrTable';

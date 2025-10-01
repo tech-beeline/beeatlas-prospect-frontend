@@ -45,7 +45,7 @@ interface IStructurizrInterfaceTechCapabilityData {
 }
 
 export interface IStructurizrOperation {
-    id: string;
+    id: number;
     name: string;
     description: string | null;
     type: string;
@@ -61,6 +61,7 @@ export interface IStructurizrOperation {
 
 export interface IStructurizrContainerInterfaceData {
     id: number;
+    code: string | null;
     description: string | null;
     name: string;
     version: string;
@@ -73,6 +74,8 @@ export interface IStructurizrContainerInterfaceData {
         description: string | null;
     };
     operations: IStructurizrOperation[];
+    createDate: string;
+    updateDate: string | null;
 }
 
 export interface IStructurizrContainerData {
@@ -80,6 +83,21 @@ export interface IStructurizrContainerData {
     name: string;
     code: string;
     interfaces: IStructurizrContainerInterfaceData[];
+    createDate: string;
+    updateDate: string | null;
+}
+
+export interface IMapicInterfaceOperationData {
+    id: number;
+    name: string;
+    description: string | null;
+    type: string;
+    connectOperation: {
+        id: number;
+        name: string;
+        description: string | null;
+        type: string;
+    } | null;
 }
 
 export interface IMapicInterfaceData {
@@ -96,18 +114,7 @@ export interface IMapicInterfaceData {
         name: string;
         description: string | null;
     };
-    operations: {
-        id: number;
-        name: string;
-        description: string | null;
-        type: string;
-        connectOperation: {
-            id: number;
-            name: string;
-            description: string | null;
-            type: string;
-        } | null;
-    }[];
+    operations: IMapicInterfaceOperationData[];
 }
 
 export interface IConnectionInterfaceForm {
