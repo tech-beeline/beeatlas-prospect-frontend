@@ -9,7 +9,7 @@ import { TooltipContainer } from 'components/interaction';
 
 import { ApplicationStatus } from 'api/applications/types';
 import {
-    useGetApplicationByBusinessKeyQuery,
+    useGetApplicationByBusinessKeyOrIdQuery,
     usePatchBCApplicationMutation,
 } from 'api/queries/applications';
 import { useModal } from 'hooks';
@@ -33,6 +33,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
 
     const [params] = useSearchParams();
     const paramKey = params.get('key');
+    const paramId = params.get('id');
 
     const {
         openModal: openRevisionSideblock,
@@ -51,7 +52,7 @@ export const ApplicationViewPage: FC<IApplicationViewPage> = ({ review }) => {
     const { mutateAsync: patchApplication } = usePatchBCApplicationMutation();
 
     const { data: applicationData, isLoading: isLoadingApplicationData } =
-        useGetApplicationByBusinessKeyQuery(paramKey);
+        useGetApplicationByBusinessKeyOrIdQuery(paramKey, paramId);
 
     const handleBackIconClick = () => {
         navigate(`${R.PROFILE_PATH}${review ? R.REVIEW_PATH : R.APPLICATIONS_PATH}`);

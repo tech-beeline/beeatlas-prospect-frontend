@@ -67,7 +67,7 @@ export const BusinessNotificationCard: FC<IBusinessNotificationCard> = ({
                                 url={
                                     isExportNotification
                                         ? `${R.PROFILE_PATH}${R.EXPORT_PATH}`
-                                        : `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`
+                                        : `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}?id=${businessNotification.entityId}`
                                 }
                             />
                         </Text>
