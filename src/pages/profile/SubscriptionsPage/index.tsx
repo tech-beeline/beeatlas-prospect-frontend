@@ -56,7 +56,8 @@ export const SubscriptionsPage = () => {
     const navigate = useNavigate();
 
     const { data, isLoading } = useGetAllSubscriptionsQuery();
-    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition, isPending: isDeletingSubscription } =
+        useDeleteSubscriptionMutation();
 
     // const [selectedSubscriptions, setSelectedSubscriptions] = useState<ISubscription[]>([]);
     const [selectedSingleSubscription, setSelectedSingleSubscription] =
@@ -192,6 +193,7 @@ export const SubscriptionsPage = () => {
                 }?`}
                 onClose={closeSingleUnsubscriptionModal}
                 onConfirm={handleModalConfirmClick}
+                isPending={isDeletingSubscription}
                 confirmText="Отписаться"
             >
                 Вы отписываетесь от <S.BoldSpan>{selectedSingleSubscription?.title}</S.BoldSpan>

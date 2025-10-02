@@ -11,4 +11,5 @@ export interface IDialog {
     showDeclineButton?: boolean;
     declineText?: string;
     confirmText?: string;
+    isPending?: boolean;
 }

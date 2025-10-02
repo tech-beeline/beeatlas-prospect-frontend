@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from '@beeline/design-system-react';
+import { Button, ProgressButton } from '@beeline/design-system-react';
 
 import { IDialog } from './types';
 import * as S from './units';
@@ -12,6 +12,7 @@ export const Dialog: FC<IDialog> = ({
     onDecline,
     children,
     showDeclineButton = true,
+    isPending = false,
     declineText = 'Отменить',
     confirmText = 'Подтвердить',
 }) => {
@@ -22,9 +23,15 @@ export const Dialog: FC<IDialog> = ({
                     {declineText}
                 </Button>
             )}
-            <Button size="medium" variant="contained" onClick={onConfirm}>
-                {confirmText}
-            </Button>
+            {isPending ? (
+                <ProgressButton size="medium" variant="contained" state="loading">
+                    {confirmText}
+                </ProgressButton>
+            ) : (
+                <Button size="medium" variant="contained" onClick={onConfirm}>
+                    {confirmText}
+                </Button>
+            )}
         </S.ButtonsContainer>
     );
 
