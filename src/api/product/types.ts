@@ -115,6 +115,8 @@ export interface IMapicInterfaceData {
         description: string | null;
     };
     operations: IMapicInterfaceOperationData[];
+    createDate: string;
+    updateDate: string | null;
 }
 
 export interface IConnectionInterfaceForm {

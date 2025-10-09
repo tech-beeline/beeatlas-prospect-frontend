@@ -39,6 +39,11 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
         (interfaceOption === InterfaceOptions.STRUCTURIZR && !hasEmptyInterfaces) ||
         (interfaceOption === InterfaceOptions.MAPIC && !hasEmptyOperations);
 
+    const lastMapicUpdateDate = (mapicData ?? [])
+        .reduce((acc, v) => [...acc, v.createDate, v.updateDate], [] as (string | null)[])
+        .filter((v) => v !== null)
+        .sort((a, b) => (b as string).localeCompare(a as string))[0];
+
     return (
         <S.Container>
             {interfaceOption === InterfaceOptions.STRUCTURIZR && (
@@ -64,6 +69,7 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({ cmdb }) => {
                     isLoadingStructurizrData={isLoadingStructurizrData}
                     mapicData={mapicDataFiltered}
                     structurizrData={structurizrData ?? []}
+                    lastMapicUpdateDate={lastMapicUpdateDate}
                 />
             )}
         </S.Container>

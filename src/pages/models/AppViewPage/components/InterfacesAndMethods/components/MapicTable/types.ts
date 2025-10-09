@@ -16,6 +16,8 @@ export interface IMapicTable {
 
     isLoadingMapicData: boolean;
     isLoadingStructurizrData: boolean;
+
+    lastMapicUpdateDate: string | null | undefined;
 }
 
 export interface ISelectedMapicOperation {

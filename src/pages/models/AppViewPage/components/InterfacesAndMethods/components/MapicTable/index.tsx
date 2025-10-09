@@ -6,10 +6,12 @@ import {
     Switch,
     Table,
     TableBody,
+    TableData,
     TableHead,
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
+import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 
@@ -31,6 +33,7 @@ export const MapicTable: FC<IMapicTable> = ({
     switchDisabled,
     isLoadingMapicData,
     isLoadingStructurizrData,
+    lastMapicUpdateDate,
 }) => {
     const [searchText, setSearchText] = useState('');
 
@@ -102,6 +105,17 @@ export const MapicTable: FC<IMapicTable> = ({
             {mapicData && mapicData.length !== 0 && structurizrData && (
                 <Table>
                     <TableHead>
+                        {lastMapicUpdateDate && (
+                            <TableRow>
+                                <TableData colSpan={5}>
+                                    Обновление по итогам публикации от{' '}
+                                    {dayjs
+                                        .utc(lastMapicUpdateDate)
+                                        .local()
+                                        .format('DD.MM.YYYY, HH:mm')}
+                                </TableData>
+                            </TableRow>
+                        )}
                         <TableRow>
                             <TableHeaderData>Интерфейс mapic</TableHeaderData>
                             <TableHeaderData>Контекст api</TableHeaderData>
