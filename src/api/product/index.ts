@@ -2,7 +2,7 @@ import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
 
-import { GATEWAY_URL } from '../const';
+import { GATEWAY_URL, STRUCTURIZR_URL } from '../const';
 
 import * as T from './types';
 
@@ -58,5 +58,12 @@ export const getAllProducts = (): AxiosPromise<T.IFullProductData[]> => {
 export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductData> => {
     return Api.get({
         url: `${GATEWAY_URL}product/v1/product/${cmdb}/info`,
+    });
+};
+
+export const postStructurizrWorkspace = (data: T.IStructurizrWorkspaceForm) => {
+    return Api.post({
+        url: `${STRUCTURIZR_URL}workspace`,
+        data,
     });
 };

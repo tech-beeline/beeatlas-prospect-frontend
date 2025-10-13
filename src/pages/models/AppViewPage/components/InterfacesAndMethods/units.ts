@@ -32,3 +32,10 @@ export const EmptyContainer = styled.div`
 export const TableHeaderDataMaxWidth = styled(TableHeaderData)`
     width: 100%;
 `;
+
+export const NotFoundContainer = styled.div`
+    display: flex;
+    justify-content: center;
+
+    margin-top: 100px;
+`;

@@ -90,7 +90,11 @@ export const AppViewPage = () => {
                 <GeneralInfo productData={productData} isLoading={isLoadingProductData} />
             )} */}
             {tabVariant === TabVariants.INTERFACES_AND_METHODS && (
-                <InterfacesAndMethods cmdb={paramCmdb} />
+                <InterfacesAndMethods
+                    cmdb={paramCmdb}
+                    structurizrApiUrl={productData?.structurizrApiUrl}
+                    productId={Number(productData?.id)}
+                />
             )}
             {tabVariant === TabVariants.FITNESS_FUNCTIONS && <InDevelopment cmdb={paramCmdb} />}
             {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
