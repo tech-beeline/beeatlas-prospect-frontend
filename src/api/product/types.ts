@@ -123,3 +123,8 @@ export interface IConnectionInterfaceForm {
     mapicInterfaceId: number;
     archInterfaceId: number;
 }
+
+export interface IStructurizrWorkspaceForm {
+    code: string;
+    architect_name: string;
+}

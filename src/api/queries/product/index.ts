@@ -9,8 +9,9 @@ import {
     getProductStructurizrInterfacesByCmdb,
     getUserProducts,
     postConnectionInterface,
+    postStructurizrWorkspace,
 } from 'api/product';
-import { IConnectionInterfaceForm } from 'api/product/types';
+import { IConnectionInterfaceForm, IStructurizrWorkspaceForm } from 'api/product/types';
 
 const PRODUCT_PREFIX = 'PRODUCT_PREFIX';
 
@@ -77,5 +78,16 @@ export const useGetProductInfoByCmdbQuery = (cmdb: string | undefined | null) =>
         queryKey: [PRODUCT_PREFIX, 'INFO', cmdb],
         queryFn: () => getProductInfoByCmdb(cmdb!).then((res) => res.data),
         enabled: !!cmdb,
+    });
+};
+
+export const useCreateStructurizrWorkspaceMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'create_structurizr_workspace'],
+        mutationFn: (params: IStructurizrWorkspaceForm) => postStructurizrWorkspace(params),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
     });
 };
