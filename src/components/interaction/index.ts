@@ -2,6 +2,7 @@ export { Accordion } from './Accordion';
 export { BreadCrumbsItem } from './BreadCrumbsItem';
 export { Card, CardVariant } from './Card';
 export { DropdownMenu } from './DropdownMenu';
+export { FeedbackButton } from './FeedbackButton';
 export { FloatingNavigation } from './FloatingNavigation';
 export { Slider } from './Slider';
 export { TextButton } from './TextButton';

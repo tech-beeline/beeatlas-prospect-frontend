@@ -3,6 +3,7 @@ import { Button } from '@beeline/design-system-react';
 
 import dialogBox from './images/box-with-dialog.png';
 import questionBox from './images/box-with-question.png';
+import check from './images/check.png';
 import emptyBox from './images/empty-box.png';
 import search from './images/search.png';
 import uneditable from './images/uneditable.png';
@@ -16,6 +17,7 @@ const variantToImageMap = {
     [ImageVariants.UNEDITABLE]: uneditable,
     [ImageVariants.DIALOG_BOX]: dialogBox,
     [ImageVariants.SEARCH]: search,
+    [ImageVariants.CHECK]: check,
 };
 
 const NotFoundBlock: FC<INotFoundBlock> = ({
@@ -24,10 +26,11 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
     imageVariant = ImageVariants.QUESTION_BOX,
     buttonText,
     buttonProps,
+    setMinSize = true,
 }) => {
     return (
         <S.NotFoundBlock>
-            <S.Image src={variantToImageMap[imageVariant]} />
+            <S.Image setMinSize={setMinSize} src={variantToImageMap[imageVariant]} />
             <S.Content>
                 {title && <S.Title>{title}</S.Title>}
                 <S.Text marginTop={Boolean(title)}>{text}</S.Text>

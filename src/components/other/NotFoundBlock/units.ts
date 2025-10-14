@@ -7,9 +7,9 @@ export const NotFoundBlock = styled.div`
     gap: 32px;
 `;
 
-export const Image = styled.img`
-    min-width: 200px;
-    min-height: 200px;
+export const Image = styled.img<{ setMinSize: boolean }>`
+    ${({ setMinSize }) => (setMinSize ? 'min-width: 200px;' : '')}
+    ${({ setMinSize }) => (setMinSize ? 'min-height: 200px;' : '')}
 `;
 
 export const Content = styled.div`

@@ -7,6 +7,7 @@ export enum ImageVariants {
     UNEDITABLE = 'UNEDITABLE',
     DIALOG_BOX = 'DIALOG_BOX',
     SEARCH = 'SEARCH',
+    CHECK = 'CHECK',
 }
 
 export interface INotFoundBlock {
@@ -15,4 +16,5 @@ export interface INotFoundBlock {
     imageVariant?: ImageVariants;
     buttonText?: string;
     buttonProps?: ButtonProps;
+    setMinSize?: boolean;
 }
