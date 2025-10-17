@@ -1,22 +1,28 @@
-import React from 'react';
-import { IconButton, Table, TableBody, TableHead, TableRow } from '@beeline/design-system-react';
+import React, { FC } from 'react';
+import { IconButton, TableBody, TableHead, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
 
+import { useGetSystemDiagramQuery } from 'api/queries/graph';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
-import diagram from './images/diagram.png';
-
+import { IContextDiagram } from './types';
 import * as S from './units';
+import { useStructurizrRenderer } from './utils';
 
-export const ContextDiagram = () => {
+export const ContextDiagram: FC<IContextDiagram> = ({ cmdb }) => {
     const { modalOpened, openModal, closeModal } = useModal();
 
+    const { data } = useGetSystemDiagramQuery(cmdb);
+
+    useStructurizrRenderer(data, 'diagram');
+    useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
+
     return (
-        <>
-            <Table>
+        <S.TableContainer>
+            <S.TableStyled>
                 <TableHead>
                     <TableRow>
                         <S.TableHeaderDataFullWidth>
@@ -49,12 +55,15 @@ export const ContextDiagram = () => {
                 <TableBody>
                     <TableRow>
                         <S.TableDataFullWidth>
-                            <S.DiagramImage src={diagram} />
+                            <S.DiagramContainer>
+                                <S.Diagram id="diagram" />
+                            </S.DiagramContainer>
                         </S.TableDataFullWidth>
                     </TableRow>
                 </TableBody>
-            </Table>
+            </S.TableStyled>
             <Dialog
+                large
                 onClose={closeModal}
                 opened={modalOpened}
                 showFooter={false}
@@ -86,8 +95,10 @@ export const ContextDiagram = () => {
                     </>
                 }
             >
-                <S.DiagramImage src={diagram} />
+                <S.DiagramDialogContainer>
+                    <S.DiagramDialog id="diagram-dialog" />
+                </S.DiagramDialogContainer>
             </Dialog>
-        </>
+        </S.TableContainer>
     );
 };

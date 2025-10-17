@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
     Chip,
     Table,
@@ -11,13 +11,19 @@ import {
 
 import { Link } from 'components/other';
 
+import { useGetSystemE2EQuery, useGetSystemTCQuery } from 'api/queries/product';
+
 import { E2EProcessRow } from './components';
 import { CHIPS, TableVariant } from './const';
+import { IE2ETCTable } from './types';
 import * as S from './units';
 
-export const E2ETCTable = () => {
+export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
     const [tableVariant, setTableVariant] = useState(TableVariant.E2E);
+    const { data: e2eData } = useGetSystemE2EQuery(cmdb);
+    const { data: tcData } = useGetSystemTCQuery(cmdb);
 
+    const tcDataJoined = tcData ? [...tcData.responsibility, ...tcData.implemented] : [];
     return (
         <Table>
             <TableHead>
@@ -43,39 +49,26 @@ export const E2ETCTable = () => {
                 )}
             </TableHead>
             <TableBody>
-                {tableVariant === TableVariant.E2E && (
+                {tableVariant === TableVariant.E2E && e2eData && (
                     <>
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <E2EProcessRow key={i} />
+                        {e2eData.map((e2e, i) => (
+                            <E2EProcessRow e2e={e2e} cmdb={cmdb} key={i} />
                         ))}
                     </>
                 )}
                 {tableVariant === TableVariant.TC && (
                     <>
-                        <TableRow>
-                            <TableData>
-                                <Link title="UB.001" url="https://beeline.ru" />
-                            </TableData>
-                            <TableData>Возможность списания мобильной коммерции с ЕБ</TableData>
-                        </TableRow>
-                        <TableRow>
-                            <TableData>
-                                <Link title="UB.002" url="https://beeline.ru" />
-                            </TableData>
-                            <TableData>Возможность получения баланса номера</TableData>
-                        </TableRow>
-                        <TableRow>
-                            <TableData>
-                                <Link title="UB.003" url="https://beeline.ru" />
-                            </TableData>
-                            <TableData>Возможность списания мобильной коммерции с ЕБ</TableData>
-                        </TableRow>
-                        <TableRow>
-                            <TableData>
-                                <Link title="UB.004" url="https://beeline.ru" />
-                            </TableData>
-                            <TableData>Возможность списания мобильной коммерции с ЕБ</TableData>
-                        </TableRow>
+                        {tcDataJoined.map((tc) => (
+                            <TableRow key={tc.id}>
+                                <TableData>
+                                    <Link
+                                        title={tc.code}
+                                        url={`/models/fdm?id=${tc.id}&type=TECH`}
+                                    />
+                                </TableData>
+                                <TableData>{tc.name}</TableData>
+                            </TableRow>
+                        ))}
                     </>
                 )}
             </TableBody>

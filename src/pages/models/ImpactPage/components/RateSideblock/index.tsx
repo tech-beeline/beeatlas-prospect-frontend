@@ -57,7 +57,7 @@ export const RateSideblock: FC<IRateSideblock> = ({ isOpen, onClose }) => {
                     {reviewDone && (
                         <S.NotFoundContainer>
                             <NotFoundBlock
-                                smallImage
+                                setMinSize={false}
                                 imageVariant={ImageVariants.CHECK}
                                 title="Спасибо за ответ"
                                 text="Он поможет нам измениться в лучшую сторону"

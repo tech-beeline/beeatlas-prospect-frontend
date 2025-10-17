@@ -16,6 +16,7 @@ export const Dialog: FC<IDialog> = ({
     declineText = 'Отменить',
     confirmText = 'Подтвердить',
     showFooter = true,
+    large = false,
 }) => {
     const footer = showFooter ? (
         <S.ButtonsContainer>
@@ -40,7 +41,13 @@ export const Dialog: FC<IDialog> = ({
 
     return (
         <S.DialogStyled open={opened} onClose={onClose}>
-            <S.DialogContentStyled title={title} footer={footer} variant="desktop">
+            <S.DialogContentStyled
+                large={large}
+                showFooter={showFooter}
+                title={title}
+                footer={footer}
+                variant="desktop"
+            >
                 {children}
             </S.DialogContentStyled>
         </S.DialogStyled>

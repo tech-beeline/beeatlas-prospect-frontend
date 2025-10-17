@@ -77,3 +77,21 @@ export const postStructurizrWorkspace = (data: T.IStructurizrWorkspaceForm) => {
         data,
     });
 };
+
+export const getSystemInfluence = (cmdb: string): AxiosPromise<T.ISystemInfluence> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/influence`,
+    });
+};
+
+export const getSystemE2E = (cmdb: string): AxiosPromise<T.ISystemE2E[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/e2e`,
+    });
+};
+
+export const getSystemTC = (id: string | number): AxiosPromise<T.ISystemTC> => {
+    return Api.get({
+        url: `https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/capability/api/v1/tech-capabilities/product/${id}`,
+    });
+};

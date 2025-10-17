@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
@@ -10,9 +11,9 @@ import { AppTable, ContextDiagram, E2ETCTable, ImpactSearch, RateSideblock } fro
 import * as S from './units';
 
 export const ImpactPage = () => {
-    const [isLoading, setIsLoading] = useState(true);
-
-    const [isSelected, setIsSelected] = useState(true);
+    const [params] = useSearchParams();
+    const cmdbParam = params.get('cmdb');
+    const nameParam = params.get('name');
 
     const {
         modalOpened: sideblockOpened,
@@ -20,17 +21,11 @@ export const ImpactPage = () => {
         closeModal: closeSideblock,
     } = useModal();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1500);
-    }, []);
-
     return (
         <S.PageWrapper>
             <S.TitleContainer>
                 <Text variant="h4">Влияние</Text>
-                {isSelected && (
+                {cmdbParam && nameParam && (
                     <Button
                         size="small"
                         variant="overlay"
@@ -41,8 +36,8 @@ export const ImpactPage = () => {
                     </Button>
                 )}
             </S.TitleContainer>
-            <ImpactSearch isLoading={isLoading} setIsSelected={setIsSelected} />
-            {isLoading && (
+            <ImpactSearch />
+            {false && (
                 <>
                     <Skeleton height={32} radius={12} />
                     <S.GridContainer>
@@ -50,11 +45,11 @@ export const ImpactPage = () => {
                     </S.GridContainer>
                 </>
             )}
-            {!isLoading && (
+            {cmdbParam && nameParam && (
                 <>
                     <S.AppTitleContainer>
                         <S.AppTitleIconWrapper>
-                            <Text variant="h4">Ensemble</Text>
+                            <Text variant="h4">{nameParam}</Text>
                             <IconButton size="medium" iconName={Icons.Link} />
                         </S.AppTitleIconWrapper>
                         <Text link pointer variant="subtitle3">
@@ -63,11 +58,11 @@ export const ImpactPage = () => {
                     </S.AppTitleContainer>
                     <S.GridContainer>
                         <S.FlexContainer>
-                            <ContextDiagram />
+                            <ContextDiagram cmdb={cmdbParam} />
                         </S.FlexContainer>
                         <S.FlexContainer>
-                            <AppTable />
-                            <E2ETCTable />
+                            <AppTable cmdb={cmdbParam} />
+                            <E2ETCTable cmdb={cmdbParam} />
                         </S.FlexContainer>
                     </S.GridContainer>
                 </>

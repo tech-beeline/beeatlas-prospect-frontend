@@ -28,6 +28,8 @@ export const GridContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: 24px;
 
+    max-width: 100%;
+
     flex: 1;
 `;
 
@@ -47,4 +49,6 @@ export const FlexContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
+
+    min-width: 0;
 `;

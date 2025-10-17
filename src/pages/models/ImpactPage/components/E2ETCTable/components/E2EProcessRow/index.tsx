@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
     IconButton,
     TableBody,
@@ -11,9 +11,10 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
+import { IE2EProcessRow } from './types';
 import * as S from './units';
 
-export const E2EProcessRow = () => {
+export const E2EProcessRow: FC<IE2EProcessRow> = ({ cmdb, e2e }) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -27,8 +28,7 @@ export const E2EProcessRow = () => {
                             size="medium"
                         />
                         <Text link variant="body3">
-                            Я, как клиент, хочу подключить домашний интернет, ТВ билайн и купить
-                            новую SIM
+                            {e2e.e2e}
                         </Text>
                     </S.NameContainer>
                 </TableData>
@@ -40,17 +40,15 @@ export const E2EProcessRow = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableHeaderData>Приложение потребитель</TableHeaderData>
-                                    <TableHeaderData>Интерфейс</TableHeaderData>
                                     <TableHeaderData>Метод</TableHeaderData>
                                     <TableHeaderData>Зависимость от приложения</TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableData>UAPI</TableData>
-                                    <TableData>API/2.0.0/napi</TableData>
-                                    <TableData>GET /2.0.0/napi/sim-info</TableData>
-                                    <TableData>MOBILEAPP</TableData>
+                                    <TableData>{e2e.client.join(', ')}</TableData>
+                                    <TableData>{e2e.operation}</TableData>
+                                    <TableData>{cmdb}</TableData>
                                 </TableRow>
                             </TableBody>
                         </S.TableStyled>

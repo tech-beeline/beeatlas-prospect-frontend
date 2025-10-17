@@ -1,15 +1,11 @@
 export enum SearchVariants {
-    APP = 'APP',
-    INSTANCE = 'INSTANCE',
+    SYSTEM = 'SYSTEM',
+    CONTAINER = 'CONTAINER',
     SERVICE = 'SERVICE',
-    ENDPOINT = 'ENDPOINT',
-    SERVER = 'SERVER',
 }
 
 export const CHIPS = [
-    { value: SearchVariants.APP, label: 'Имя/Мнемоника приложения CMDB' },
-    { value: SearchVariants.INSTANCE, label: 'Мнемоника экземпляра CMDB' },
-    { value: SearchVariants.SERVICE, label: 'Имя сервиса' },
-    { value: SearchVariants.ENDPOINT, label: 'Имя endpoint' },
-    { value: SearchVariants.SERVER, label: 'Имя сервера' },
+    { value: SearchVariants.SYSTEM, label: 'Система' },
+    { value: SearchVariants.CONTAINER, label: 'Контейнер' },
+    { value: SearchVariants.SERVICE, label: 'Сервис' },
 ];

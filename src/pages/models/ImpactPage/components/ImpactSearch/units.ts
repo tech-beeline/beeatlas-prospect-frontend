@@ -11,7 +11,10 @@ export const Dropdown = styled.div`
 
     width: 100%;
 
+    max-height: 600px;
     padding: 24px;
+
+    overflow-y: auto;
 
     box-shadow: 0px 6px 38px 0px rgba(0, 0, 0, 0.16), 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
 

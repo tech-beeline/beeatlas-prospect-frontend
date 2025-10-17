@@ -1,5 +1,3 @@
 export interface IImpactSearch {
-    isLoading: boolean;
-
-    setIsSelected: (isSelecte: boolean) => void;
+    setIsSelected?: (isSelecte: boolean) => void;
 }

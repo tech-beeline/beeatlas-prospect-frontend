@@ -13,4 +13,5 @@ export interface IDialog {
     declineText?: string;
     confirmText?: string;
     isPending?: boolean;
+    large?: boolean;
 }

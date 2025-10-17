@@ -7,6 +7,9 @@ import {
     getProductsByTechnologyId,
     getProductStructurizrContainerByCmdb,
     getProductStructurizrInterfacesByCmdb,
+    getSystemE2E,
+    getSystemInfluence,
+    getSystemTC,
     getUserProducts,
     postConnectionInterface,
     postStructurizrWorkspace,
@@ -89,5 +92,32 @@ export const useCreateStructurizrWorkspaceMutation = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
         },
+    });
+};
+
+export const useGetSystemInfluenceQuery = (cmdb: string | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'influence', cmdb],
+        queryFn: () => getSystemInfluence(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
+    });
+};
+
+export const useGetSystemE2EQuery = (cmdb: string | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'e2e', cmdb],
+        queryFn: () => getSystemE2E(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
+    });
+};
+
+export const useGetSystemTCQuery = (cmdb: string | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'tc', cmdb],
+        queryFn: async () => {
+            const { id } = await getProductInfoByCmdb(cmdb!).then((res) => res.data);
+            return getSystemTC(id).then((res) => res.data);
+        },
+        enabled: !!cmdb,
     });
 };
