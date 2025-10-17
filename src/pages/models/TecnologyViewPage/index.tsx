@@ -13,7 +13,7 @@ import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetProductsByTechnologyIdQuery } from 'api/queries/product';
 import {
@@ -299,25 +299,17 @@ export const TechnologyViewPage = () => {
                                             productsData.map((product) => (
                                                 <S.SpaceBetweenContainer key={product.id}>
                                                     <div>
-                                                        <Text variant="body2">{product.name}</Text>
+                                                    <Link
+                                                        url={`${R.MODELS_PATH}${R.APPS_PATH}${
+                                                            R.VIEW_PATH
+                                                        }?cmdb=${product.alias.toUpperCase()}`}
+                                                        title={`${product.name}`}
+                                                    />
                                                         <Text inactive variant="body3">
                                                             {product.alias}
                                                         </Text>
                                                     </div>
-                                                    <Button
-                                                        startIcon={
-                                                            <Icon iconName={Icons.OpenInBrowser} />
-                                                        }
-                                                        onClick={() => {
-                                                            window.open(
-                                                                `${R.MODELS_PATH}${R.APPS_PATH}${
-                                                                    R.VIEW_PATH
-                                                                }?cmdb=${product.alias.toUpperCase()}`,
-                                                            );
-                                                        }}
-                                                    >
-                                                        Карточка приложения
-                                                    </Button>
+                                                    
                                                 </S.SpaceBetweenContainer>
                                             ))}
                                     </>
