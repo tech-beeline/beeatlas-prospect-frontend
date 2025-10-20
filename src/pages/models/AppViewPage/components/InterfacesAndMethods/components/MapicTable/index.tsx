@@ -13,7 +13,7 @@ import {
 } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 
-import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IMapicInterfaceOperationData } from 'api/product/types';
 
@@ -140,9 +140,7 @@ export const MapicTable: FC<IMapicTable> = ({
             )}
             {!(isLoadingMapicData || isLoadingStructurizrData) && mapicData.length === 0 && (
                 <S.EmptyContainer>
-                    <Text inactive variant="body2">
-                        Не найдено
-                    </Text>
+                    <NotFoundBlock title="Не найдено" imageVariant={ImageVariants.EMPTY_BOX} />
                 </S.EmptyContainer>
             )}
         </>

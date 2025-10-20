@@ -11,7 +11,7 @@ import {
 } from '@beeline/design-system-react';
 import { has } from 'lodash';
 
-import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IStructurizrContainerInterfaceData, IStructurizrOperation } from 'api/product/types';
 
@@ -135,9 +135,7 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
             )}
             {!isLoadingContainerData && containerData.length === 0 && (
                 <S.EmptyContainer>
-                    <Text inactive variant="body2">
-                        Не найдено
-                    </Text>
+                    <NotFoundBlock title="Не найдено" imageVariant={ImageVariants.EMPTY_BOX} />
                 </S.EmptyContainer>
             )}
         </>
