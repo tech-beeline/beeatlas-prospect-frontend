@@ -299,17 +299,16 @@ export const TechnologyViewPage = () => {
                                             productsData.map((product) => (
                                                 <S.SpaceBetweenContainer key={product.id}>
                                                     <div>
-                                                    <Link
-                                                        url={`${R.MODELS_PATH}${R.APPS_PATH}${
-                                                            R.VIEW_PATH
-                                                        }?cmdb=${product.alias.toUpperCase()}`}
-                                                        title={`${product.name}`}
-                                                    />
+                                                        <Link
+                                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${
+                                                                R.VIEW_PATH
+                                                            }?cmdb=${product.alias.toUpperCase()}`}
+                                                            title={`${product.name}`}
+                                                        />
                                                         <Text inactive variant="body3">
                                                             {product.alias}
                                                         </Text>
                                                     </div>
-                                                    
                                                 </S.SpaceBetweenContainer>
                                             ))}
                                     </>

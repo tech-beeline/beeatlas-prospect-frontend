@@ -14,8 +14,8 @@ export const ProductCard: FC<IProductCard> = ({ product }) => {
             <S.TextContainer>
                 <Link
                     url={`${R.MODELS_PATH}${R.APPS_PATH}${
-                                                                                R.VIEW_PATH
-                                                                            }?cmdb=${product.alias.toUpperCase()}`}
+                        R.VIEW_PATH
+                    }?cmdb=${product.alias.toUpperCase()}`}
                     title={`${product.name}`}
                 />
                 <Text inactive variant="body3">
