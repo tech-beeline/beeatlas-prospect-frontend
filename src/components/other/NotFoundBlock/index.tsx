@@ -20,7 +20,7 @@ const variantToImageMap = {
 
 const NotFoundBlock: FC<INotFoundBlock> = ({
     title,
-    text,
+    text = 'Такой страницы не существует или указана неверная ссылка',
     imageVariant = ImageVariants.QUESTION_BOX,
     buttonText,
     buttonProps,
@@ -30,7 +30,7 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
             <S.Image src={variantToImageMap[imageVariant]} />
             <S.Content>
                 {title && <S.Title>{title}</S.Title>}
-                {text && <S.Text marginTop={Boolean(title)}>{text}</S.Text>}
+                <S.Text marginTop={Boolean(title)}>{text}</S.Text>
                 {buttonText && (
                     <S.ButtonContainer>
                         <Button variant="contained" {...buttonProps}>

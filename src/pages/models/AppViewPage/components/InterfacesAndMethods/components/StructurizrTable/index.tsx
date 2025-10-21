@@ -135,7 +135,11 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
             )}
             {!isLoadingContainerData && containerData.length === 0 && (
                 <S.EmptyContainer>
-                    <NotFoundBlock title="Не найдено" imageVariant={ImageVariants.EMPTY_BOX} />
+                    <NotFoundBlock
+                        title="Не найдено"
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        text=""
+                    />
                 </S.EmptyContainer>
             )}
         </>

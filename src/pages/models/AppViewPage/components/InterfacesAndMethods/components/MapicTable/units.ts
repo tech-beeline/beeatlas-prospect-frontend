@@ -17,7 +17,4 @@ export const EmptyContainer = styled.div`
     justify-content: center;
 
     padding: 32px;
-
-    border-radius: var(--size-border-radius-x8);
-    border: 1px solid var(--color-divider);
 `;
