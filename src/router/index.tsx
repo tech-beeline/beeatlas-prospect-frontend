@@ -10,6 +10,7 @@ import {
     MenuPersonalArea,
     MenuProfile,
 } from 'components/core';
+import { FeedbackButton } from 'components/interaction';
 
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
@@ -79,6 +80,16 @@ const PATHS_WITHOUT_HEADER = [
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
 ];
 
+const PATHS_WITHOUT_FEEDBACK = [
+    `${R.ADMIN_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
+    `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+];
+
 export const NavigationRouter = () => {
     const { data: rolesData, isLoading } = useGetMyRolesQuery();
 
@@ -107,6 +118,9 @@ export const NavigationRouter = () => {
         <>
             {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
                 <Header isAdminPanel={isAdminPanel} isAdmin={isAdmin} />
+            )}
+            {!PATHS_WITHOUT_FEEDBACK.some((path) => location.pathname?.includes(path)) && (
+                <FeedbackButton />
             )}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
