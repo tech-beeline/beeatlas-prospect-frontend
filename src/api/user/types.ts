@@ -1,6 +1,6 @@
 export interface IUserInfo {
     id: number;
     permissions: string[];
-    productIds: number[];
+    productsIds: number[];
     roles: string[];
 }

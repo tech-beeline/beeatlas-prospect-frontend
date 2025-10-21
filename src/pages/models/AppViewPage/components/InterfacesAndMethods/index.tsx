@@ -59,7 +59,7 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
         <S.Container>
             {cmdb &&
             structurizrApiUrl === null &&
-            (userInfoData?.productIds ?? []).includes(productId) ? (
+            (userInfoData?.productsIds ?? []).includes(productId) ? (
                 <>
                     <S.NotFoundContainer>
                         <NotFoundBlock
