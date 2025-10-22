@@ -141,7 +141,7 @@ export const MapicTable: FC<IMapicTable> = ({
             {!(isLoadingMapicData || isLoadingStructurizrData) && mapicData.length === 0 && (
                 <S.EmptyContainer>
                     <NotFoundBlock
-                        title="Не найдено"
+                        title="Интерфейсы, методы и SLA нет"
                         imageVariant={ImageVariants.EMPTY_BOX}
                         text=""
                     />
