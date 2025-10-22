@@ -15,6 +15,8 @@ export const ComplainButton = styled.div<{ visible: boolean }>`
     right: 32px;
 
     transition: 0.25s all;
+
+    pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
     opacity: ${({ visible }) => (visible ? '1' : '0')};
     transform: translateY(${({ visible }) => (visible ? '0' : '10px')});
 `;
