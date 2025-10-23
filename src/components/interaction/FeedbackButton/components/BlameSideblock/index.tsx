@@ -70,6 +70,7 @@ export const BlameSideblock: FC<IBlameSideblock> = ({ isOpen, onClose }) => {
                             </Button>
                             <Button
                                 fullWidth
+                                disabled={!text}
                                 size="medium"
                                 variant="contained"
                                 onClick={handleSubmitClick}
