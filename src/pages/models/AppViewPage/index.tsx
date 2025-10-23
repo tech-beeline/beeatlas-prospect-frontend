@@ -12,12 +12,13 @@ import * as R from 'router/const';
 import {
     // ArchitectureChanges,
     // E2EProcesses,
-    // FitnessFunctions,
+    FitnessFunctions,
     // GeneralInfo,
     InDevelopment,
     InterfacesAndMethods,
     // TechCapabilities,
-    // Technologies,
+    Patterns,
+    Technologies,
 } from './components';
 import { TABS, TabVariants } from './const';
 import * as S from './units';
@@ -96,14 +97,14 @@ export const AppViewPage = () => {
                     productId={Number(productData?.id)}
                 />
             )}
-            {tabVariant === TabVariants.FITNESS_FUNCTIONS && <InDevelopment cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions />}
             {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <InDevelopment cmdb={paramCmdb} />}
-            {/* {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions />}
-            {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
+            {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
+            {tabVariant === TabVariants.PATTERNS && <Patterns />}
+            {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}
-            {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
             {tabVariant === TabVariants.DATA && <InDevelopment />}
             {tabVariant === TabVariants.STANDS && <InDevelopment />} */}
         </S.PageWrapper>

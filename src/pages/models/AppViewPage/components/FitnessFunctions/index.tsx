@@ -15,16 +15,22 @@ import * as S from './units';
 export const FitnessFunctions = () => {
     return (
         <S.Container>
-            <Text variant="subtitle3">
-                Обновление фитнес-функций по итогам публикации архитектуры от 12.12.2024
-            </Text>
             <Table>
                 <TableHead>
+                    <TableRow>
+                        <TableHeaderData colSpan={4}>
+                            <Text variant="subtitle3">
+                                Обновление фитнес-функций по итогам публикации архитектуры от
+                                12.12.2024
+                            </Text>
+                        </TableHeaderData>
+                    </TableRow>
                     <TableRow>
                         <TableHeaderData>Код проверки</TableHeaderData>
                         <TableHeaderData>Описание проверки</TableHeaderData>
                         <TableHeaderData>Методика</TableHeaderData>
                         <TableHeaderData>Результат проверки</TableHeaderData>
+                        <TableHeaderData alignRight>Метрика(цель/факт)</TableHeaderData>
                     </TableRow>
                 </TableHead>
                 <TableBody>

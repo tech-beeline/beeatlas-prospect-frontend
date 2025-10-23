@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { IconButton, Label, TableData, TableRow } from '@beeline/design-system-react';
+import {
+    IconButton,
+    Label,
+    TableBody,
+    TableData,
+    TableHead,
+    TableHeaderData,
+    TableRow,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
@@ -35,15 +43,47 @@ export const FitnessFunctionRow = () => {
                 <TableData>
                     <Label title="Успешно" variant="contained" type="success" />
                 </TableData>
+                <TableData alignRight>
+                    <Text variant="body3">145/145</Text>
+                </TableData>
             </S.TableRowStyled>
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={4}>
-                        <S.Divider />
-                        <S.Details>
-                            <Text variant="subtitle3">Детальная информация</Text>
-                            <Text variant="body3">Ок</Text>
-                        </S.Details>
+                    <S.TableDataStyled colSpan={5}>
+                        <S.ServiceContainer>
+                            <Text variant="body3">
+                                У продукта найдены capability в Structurizr :
+                            </Text>
+                            <S.TableStyled>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeaderData>Название</TableHeaderData>
+                                        <TableHeaderData>Код</TableHeaderData>
+                                        <TableHeaderData alignRight>
+                                            Статус публикации
+                                        </TableHeaderData>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableData>
+                                            <Link
+                                                title="Возможность online-отображения информации в процессе коммуникации сотрудников офисов и call-цен..."
+                                                url="#"
+                                            />
+                                        </TableData>
+                                        <TableData>B2CDIGITALRETAILDELIVERYCATALOG.002</TableData>
+                                        <TableData>
+                                            <Label
+                                                type="success"
+                                                variant="icon"
+                                                iconName={Icons.Check}
+                                            />
+                                        </TableData>
+                                    </TableRow>
+                                </TableBody>
+                            </S.TableStyled>
+                        </S.ServiceContainer>
                     </S.TableDataStyled>
                 </TableRow>
             )}

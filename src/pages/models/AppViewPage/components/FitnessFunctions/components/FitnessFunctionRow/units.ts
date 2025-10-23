@@ -1,4 +1,4 @@
-import { TableData, TableRow } from '@beeline/design-system-react';
+import { Table, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const TableRowStyled = styled(TableRow)<{ expanded?: boolean }>`
@@ -12,27 +12,26 @@ export const CodeContainer = styled.div`
     gap: 4px;
 `;
 
-export const TableDataStyled = styled(TableData)`
-    position: relative;
-
-    padding-left: 40px;
-
-    white-space: pre-wrap;
-`;
-
-export const Divider = styled.div`
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    width: 4px;
-    height: 100%;
-
-    background-color: var(--color-background-brand);
-`;
-
-export const Details = styled.div`
+export const ServiceContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    width: 100%;
+
+    padding: 24px 24px 24px 36px;
+
+    border-left: 4px solid var(--color-background-brand);
+`;
+
+export const TableDataStyled = styled(TableData)`
+    padding: 0;
+
+    & > div > div {
+        width: 100%;
+    }
+`;
+
+export const TableStyled = styled(Table)`
+    width: 100%;
 `;
