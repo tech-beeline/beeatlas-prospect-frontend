@@ -8,17 +8,11 @@ import { Link } from 'components/other';
 import { NotificationChangeType } from 'api/notifications/types';
 import { useUpdateNotificationsMutation } from 'api/queries/notifications';
 
-import {
-    notificationChangeTypeToNameMap,
-    notificationEntityTypeToColorMap,
-    notificationEntityTypeToIconMap,
-    notificationEntityTypeToNameMap,
-    notificationEntityTypeToTitleMap,
-} from './const';
+import { notificationEntityTypeToColorMap, notificationEntityTypeToIconMap } from './const';
 import { INotificationCard } from './types';
 import * as S from './units';
 
-export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
+export const NotificationCard: FC<INotificationCard> = ({ notification, entityAlias }) => {
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
 
     const handleCardClick = () => {
@@ -39,24 +33,30 @@ export const NotificationCard: FC<INotificationCard> = ({ notification }) => {
                 </S.AvatarContainer>
 
                 <S.TextContainer>
-                    <Text inactive variant="overline">
-                        {notificationEntityTypeToTitleMap[notification.entityType]}
-                    </Text>
                     <S.LineBreak>
                         <Text variant="body2">
-                            {notificationEntityTypeToNameMap[notification.entityType]}{' '}
-                            <S.BoldText>{notification.entityName}</S.BoldText>{' '}
-                            {notificationChangeTypeToNameMap[notification.changeType]}
+                            {notification.changeDescription
+                                .replace('<name>', notification.entityName)
+                                .replace('<type>', entityAlias)}
                         </Text>
                     </S.LineBreak>
                     <Text inactive variant="body3">
                         {dayjs(notification.changeDate).format('DD.MM.YYYY')}
                     </Text>
-                    {notification.changeType !== NotificationChangeType.DELETE && (
-                        <S.LinkContainer>
-                            <Link title="Перейти" url={notification.entityLink} />
-                        </S.LinkContainer>
-                    )}
+                    {notification.changeType !== NotificationChangeType.DELETE &&
+                        notification.linkTemplate && (
+                            <S.LinkContainer>
+                                <Link
+                                    title="Перейти"
+                                    url={notification.linkTemplate
+                                        .replace('<id>', String(notification.entityId))
+                                        .replace(
+                                            '<childrenId>',
+                                            String(notification.childrenEntityId ?? ''),
+                                        )}
+                                />
+                            </S.LinkContainer>
+                        )}
                 </S.TextContainer>
             </S.CardContainer>
         </S.NotificationCard>

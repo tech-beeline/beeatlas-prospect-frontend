@@ -1,10 +1,11 @@
-import { ISubscription } from 'api/subscriptions/types';
+import { ISubscriptionEntity, ISubscriptionV2 } from 'api/subscriptions/types';
 
 export interface ISubscriptionCard {
     // selectedSubscriptions: ISubscription[];
     // setSelectedSubscriptions: (subscriptions: ISubscription[]) => void;
     // selectedSubscriptionsIds: number[];
-    subscription: ISubscription;
+    entitiesData: ISubscriptionEntity[];
+    subscription: ISubscriptionV2;
     openModal: () => void;
-    setSelectedSingleSubscription: (subscription: ISubscription) => void;
+    setSelectedSingleSubscription: (subscription: ISubscriptionV2) => void;
 }

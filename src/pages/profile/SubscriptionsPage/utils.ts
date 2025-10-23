@@ -1,30 +1,19 @@
-import { ISubscription, SubscriptionType } from 'api/subscriptions/types';
+import { ISubscriptionV2 } from 'api/subscriptions/types';
 
 import { FilterVariants } from './const';
 
 export const subscriptionFilterFunction = (
-    subscriptions: ISubscription[],
-    filterVariant: FilterVariants,
+    subscriptions: ISubscriptionV2[],
+    filterVariant: FilterVariants | string,
     search: string,
     ascendingOrder: boolean,
-): ISubscription[] =>
+): ISubscriptionV2[] =>
     subscriptions
         .filter((subscription) => {
             if (filterVariant === FilterVariants.ALL) return true;
-            if (filterVariant === FilterVariants.BUSINESS_CAPABILITIES)
-                return (
-                    subscription.type === SubscriptionType.BUSINESS_CAPABILITY ||
-                    subscription.type === SubscriptionType.GROUP ||
-                    subscription.type === SubscriptionType.DOMAIN
-                );
-            if (filterVariant === FilterVariants.TECH_CAPABILITIES)
-                return subscription.type === SubscriptionType.TECH_CAPABILITY;
-            // if (filterVariant === FilterVariants.CJS)
-            //     return subscription.type === SubscriptionType.CJ;
-            if (filterVariant === FilterVariants.TECHNOLOGIES)
-                return subscription.type === SubscriptionType.TECHNOLOGY;
+            return subscription.entityType === filterVariant;
         })
-        .filter((subscription) => subscription.title.toLowerCase().includes(search.toLowerCase()))
+        .filter((subscription) => subscription.name?.toLowerCase().includes(search.toLowerCase()))
         .sort((a, b) =>
-            ascendingOrder ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title),
+            ascendingOrder ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name),
         );

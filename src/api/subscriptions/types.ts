@@ -24,3 +24,15 @@ export interface ISubscriptionForm {
     id: number;
     subChildren?: boolean;
 }
+
+export interface ISubscriptionEntity {
+    id: number;
+    alias: string;
+    type: SubscriptionEntityVariants;
+}
+
+export interface ISubscriptionV2 {
+    id: number;
+    name: string;
+    entityType: SubscriptionEntityVariants;
+}
