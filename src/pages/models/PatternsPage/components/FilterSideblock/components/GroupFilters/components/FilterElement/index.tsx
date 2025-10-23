@@ -10,11 +10,13 @@ import { IFilterElement } from './types';
 import * as S from './units';
 
 export const FilterElement: FC<IFilterElement> = ({
+    parentId,
     filterElement,
     level = 0,
     isAdmin,
     setSideblockView,
     setGroupToDelete,
+    setGroupToEdit,
 }) => {
     const [expanded, setExpanded] = useState(false);
 
@@ -32,14 +34,17 @@ export const FilterElement: FC<IFilterElement> = ({
                         )}
                     </S.IconButtonContainer>
                     <Checkbox />
-                    <Text variant="body3">{filterElement.label}</Text>
+                    <Text variant="body3">{filterElement.name}</Text>
                 </S.TitleContainer>
                 {isAdmin && (
                     <S.ActionsContainer>
                         <IconButton
                             size="small"
                             iconName={Icons.Edit}
-                            onClick={() => setSideblockView(SideblockView.FORM)}
+                            onClick={() => {
+                                setGroupToEdit({ ...filterElement, parentId });
+                                setSideblockView(SideblockView.FORM);
+                            }}
                         />
                         <IconButton
                             size="small"
@@ -53,12 +58,14 @@ export const FilterElement: FC<IFilterElement> = ({
                 <>
                     {filterElement.children.map((element) => (
                         <FilterElement
-                            key={element.label}
+                            key={element.id}
+                            parentId={filterElement.id}
                             isAdmin={isAdmin}
                             filterElement={element}
                             level={level + 1}
                             setSideblockView={setSideblockView}
                             setGroupToDelete={setGroupToDelete}
+                            setGroupToEdit={setGroupToEdit}
                         />
                     ))}
                 </>

@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 
+import { useCreatePatternMutation } from 'api/queries/patterns';
 import { formatSize } from 'utils/formatters';
 
 import { StepVariants } from '../../const';
@@ -24,6 +25,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const [fileText, setFileText] = useState<string | null>(null);
     const readerRef = useRef(new FileReader());
 
+    const { mutateAsync, isPending } = useCreatePatternMutation();
+
     useEffect(() => {
         readerRef.current.onload = () =>
             setFileText(
@@ -39,9 +42,16 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         }
     }, [savedData.descriptionFile]);
 
-    const onSubmit = (e: FormEvent) => {
+    const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        setStepVariant(StepVariants.DESCRIPTION);
+
+        await mutateAsync({
+            groups: [],
+            relationsTech: [],
+            name: savedData.name ?? '',
+            rule: savedData.rule ?? '',
+            isAntiPattern: savedData.type === 1,
+        });
     };
 
     return (
@@ -114,7 +124,9 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             </S.Container>
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.RULES)}
-                submitButtonDisabled={!savedData.description && !savedData.descriptionFile}
+                submitButtonDisabled={
+                    (!savedData.description && !savedData.descriptionFile) || isPending
+                }
                 submitButtonText="Создать"
             />
         </S.FormStyled>

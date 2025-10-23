@@ -1,10 +1,12 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Chip, Icon, Search, Select } from '@beeline/design-system-react';
+import { Button, Chip, Icon, Search, Select, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
+import { IPattern } from 'api/patterns/types';
+import { useGetPatternsQuery } from 'api/queries/patterns';
 import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
@@ -18,7 +20,7 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
     const [search, setSearch] = useState('');
     const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
 
-    const [patternToDelete, setPatternToDelete] = useState<string | null>(null);
+    const [patternToDelete, setPatternToDelete] = useState<IPattern | null>(null);
 
     const { openModal, closeModal, modalOpened } = useModal();
 
@@ -27,6 +29,8 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
     const handleCreateClick = () => {
         navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`);
     };
+
+    const { data, isLoading } = useGetPatternsQuery();
 
     return (
         <S.PageWrapper>
@@ -77,12 +81,19 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                 </S.ChipsContainer>
 
                 <S.CardsContainer>
-                    <PatternCard isAdmin={isAdmin} setPatternToDelete={setPatternToDelete} />
-                    <PatternCard isAdmin={isAdmin} setPatternToDelete={setPatternToDelete} />
-                    <PatternCard isAdmin={isAdmin} setPatternToDelete={setPatternToDelete} />
-                    <PatternCard isAdmin={isAdmin} setPatternToDelete={setPatternToDelete} />
-                    <PatternCard isAdmin={isAdmin} setPatternToDelete={setPatternToDelete} />
-                    <PatternCard isAdmin={isAdmin} setPatternToDelete={setPatternToDelete} />
+                    {isLoading &&
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <Skeleton key={i} height={200} radius={12} />
+                        ))}
+                    {data &&
+                        data.map((pattern) => (
+                            <PatternCard
+                                key={pattern.id}
+                                isAdmin={isAdmin}
+                                pattern={pattern}
+                                setPatternToDelete={setPatternToDelete}
+                            />
+                        ))}
                 </S.CardsContainer>
             </S.Container>
             {modalOpened && <FilterSideblock isAdmin={isAdmin} onClose={closeModal} />}
@@ -94,7 +105,7 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                 onClose={() => setPatternToDelete(null)}
                 onConfirm={() => setPatternToDelete(null)}
             >
-                Паттерн <S.BoldSpan>{patternToDelete}</S.BoldSpan> будет удален
+                Паттерн <S.BoldSpan>{patternToDelete?.name}</S.BoldSpan> будет удален
             </Dialog>
         </S.PageWrapper>
     );

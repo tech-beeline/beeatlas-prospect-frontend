@@ -8,13 +8,12 @@ import { DropdownMenu } from 'components/interaction';
 import { Link } from 'components/other';
 
 import * as R from 'router/const';
-
-import pattern from './images/pattern.png';
+import { formatNullableString } from 'utils/formatters';
 
 import { IPatternCard } from './types';
 import * as S from './units';
 
-export const PatternCard: FC<IPatternCard> = ({ isAdmin, setPatternToDelete }) => {
+export const PatternCard: FC<IPatternCard> = ({ isAdmin, pattern, setPatternToDelete }) => {
     const navigate = useNavigate();
 
     const handleEditClick = () => {
@@ -23,15 +22,18 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, setPatternToDelete }) =
 
     return (
         <S.Card>
-            <img src={pattern} />
             <S.Content>
-                <Label title="Паттерн" variant="contained" type="success" />
+                <Label
+                    title={pattern.isAntiPattern ? 'Антипаттерн' : 'Паттерн'}
+                    variant="contained"
+                    type={pattern.isAntiPattern ? 'error' : 'success'}
+                />
                 <S.TitleContainer>
                     <Text variant="subtitle2">
                         <Link
                             outer={false}
-                            title="Витрина данных (Data Mart)"
-                            url={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}`}
+                            title={pattern.name}
+                            url={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${pattern.id}`}
                         />
                     </Text>
                     {isAdmin && (
@@ -54,8 +56,7 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, setPatternToDelete }) =
                                     {
                                         title: 'Удалить',
                                         icon: Icons.Delete,
-                                        onClick: () =>
-                                            setPatternToDelete('Витрина данных (Data Mart)'),
+                                        onClick: () => setPatternToDelete(pattern),
                                     },
                                 ],
                             ]}
@@ -67,16 +68,17 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, setPatternToDelete }) =
                     <Text inactive variant="body3">
                         Описание
                     </Text>
-                    <Text variant="body2">Заголовок</Text>
+                    <Text variant="body2">{formatNullableString(pattern.description)}</Text>
                 </S.MarginContainer>
-                <S.MarginContainer>
-                    <S.ChipsContainer>
-                        <Chip label="Архитектурный каталог Beeline" />
-                        <Chip label="Data products" />
-                        <Chip label="Structurizr OnPremise" />
-                        <Chip label="Structurizr Lite" />
-                    </S.ChipsContainer>
-                </S.MarginContainer>
+                {pattern.groups.length > 0 && (
+                    <S.MarginContainer>
+                        <S.ChipsContainer>
+                            {pattern.groups.map((group) => (
+                                <Chip key={group.id} label={group.name} />
+                            ))}
+                        </S.ChipsContainer>
+                    </S.MarginContainer>
+                )}
             </S.Content>
         </S.Card>
     );

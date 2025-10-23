@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Chip, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
+import { useGetPatternByIdQuery } from 'api/queries/patterns';
 import * as R from 'router/const';
 
 import * as S from './units';
 
-const isLoading = false;
-
 export const PatternViewPage = () => {
-    // const [params] = useSearchParams();
-    // const paramId = params.get('id');
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
 
     const [isTechnologiesExpanded, setIsTechnologiesExpanded] = useState(false);
     const [isLinksExpanded, setIsLinksExpanded] = useState(false);
@@ -28,6 +28,8 @@ export const PatternViewPage = () => {
         navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}`);
     };
 
+    const { data, isLoading } = useGetPatternByIdQuery(paramId);
+
     return (
         <S.PageWrapper>
             <S.Container>
@@ -39,20 +41,35 @@ export const PatternViewPage = () => {
                         <Icon iconName={Icons.NavArrowRight} size="small" />
                     </S.BreadcrumbContainer>
                     <S.SpaceBetweenContainer>
-                        <S.TitleContainer>
-                            <Text variant="h4">Витрина данных (Data Mart)</Text>
-                            <Label title="Паттерн" variant="contained" type="success" />
-                        </S.TitleContainer>
+                        {isLoading && <Skeleton height={32} width={100} radius={4} />}
+                        {data && (
+                            <S.TitleContainer>
+                                <Text variant="h4">{data.name}</Text>
+                                <Label
+                                    title={data.isAntiPattern ? 'Антипаттерн' : 'Паттерн'}
+                                    variant="contained"
+                                    type={data.isAntiPattern ? 'error' : 'success'}
+                                />
+                            </S.TitleContainer>
+                        )}
                         <S.ButtonsContainer>
-                            <Button startIcon={<Icon iconName={Icons.Download} />} />
+                            <Button
+                                disabled={isLoading}
+                                startIcon={<Icon iconName={Icons.Download} />}
+                            />
                         </S.ButtonsContainer>
                     </S.SpaceBetweenContainer>
-                    <S.LabelsContainer>
-                        <Chip label="Архитектурный каталог Beeline" />
-                        <Chip label="Data products" />
-                        <Chip label="Structurizr OnPremise" />
-                        <Chip label="Structurizr Lite" />
-                    </S.LabelsContainer>
+                    {(isLoading || (data && data.groups.length !== 0)) && (
+                        <S.LabelsContainer>
+                            {isLoading &&
+                                Array.from({ length: 3 }).map((_, i) => (
+                                    <Skeleton key={i} height={32} width={100} radius={16} />
+                                ))}
+                            {data?.groups.map((group) => (
+                                <Chip key={group.id} label={group.name} />
+                            ))}
+                        </S.LabelsContainer>
+                    )}
                 </S.HeaderContainer>
 
                 {isLoading && (
@@ -66,7 +83,7 @@ export const PatternViewPage = () => {
                     </S.GridContainer>
                 )}
 
-                {!isLoading && (
+                {data && (
                     <S.GridContainer>
                         <div>
                             <S.NotFoundContainer>
@@ -80,7 +97,9 @@ export const PatternViewPage = () => {
                         <S.FlexContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
-                                    <Text variant="h6">Технологии</Text>
+                                    <Text variant="h6">
+                                        Технологии ({data.technologies.length})
+                                    </Text>
                                     <IconButton
                                         iconName={
                                             isTechnologiesExpanded
@@ -95,36 +114,27 @@ export const PatternViewPage = () => {
                                 </S.SpaceBetweenContainer>
                                 {isTechnologiesExpanded && (
                                     <>
-                                        <S.SpaceBetweenContainer>
-                                            <Text variant="body2">Structurizr OnPremise</Text>
-                                            <S.TechnologyLabelsContainer>
-                                                <Label
-                                                    title="Adopt"
-                                                    variant="contained"
-                                                    type="success"
-                                                />
-                                                <Label
-                                                    title="Допустимо КИ"
-                                                    variant="outline"
-                                                    type="success"
-                                                />
-                                            </S.TechnologyLabelsContainer>
-                                        </S.SpaceBetweenContainer>
-                                        <S.SpaceBetweenContainer>
-                                            <Text variant="body2">Structurizr Lite</Text>
-                                            <S.TechnologyLabelsContainer>
-                                                <Label
-                                                    title="Trial"
-                                                    variant="contained"
-                                                    type="warning"
-                                                />
-                                                <Label
-                                                    title="Недопустимо КИ"
-                                                    variant="outline"
-                                                    type="error"
-                                                />
-                                            </S.TechnologyLabelsContainer>
-                                        </S.SpaceBetweenContainer>
+                                        {data.technologies.map((tech) => (
+                                            <S.SpaceBetweenContainer key={tech.id}>
+                                                <Text variant="body2">{tech.label}</Text>
+                                                <S.TechnologyLabelsContainer>
+                                                    <Label
+                                                        title={tech.ring.name}
+                                                        variant="contained"
+                                                        type={ringIdToLabelStatusMap[tech.ring.id]}
+                                                    />
+                                                    <Label
+                                                        title={
+                                                            tech.isCritical
+                                                                ? 'Допустимо КИ'
+                                                                : 'Недопустимо КИ'
+                                                        }
+                                                        variant="outline"
+                                                        type={tech.isCritical ? 'success' : 'error'}
+                                                    />
+                                                </S.TechnologyLabelsContainer>
+                                            </S.SpaceBetweenContainer>
+                                        ))}
                                     </>
                                 )}
                             </S.ExpandableContainer>
@@ -230,77 +240,7 @@ export const PatternViewPage = () => {
                                 </S.SpaceBetweenContainer>
                                 {isDescriptionExpanded && (
                                     <S.DescriptionContainer>
-                                        <Text variant="body2">{`workspace {
-    name "имя продукта"
-    description "описание продукта"
-
-    # включаем режим с иерархической системой идентификаторов
-    !identifiers hierarchical
-
-    model {
-        properties { 
-            structurizr.groupSeparator "/"
-            workspace_cmdb "cmdb_mnemonic"
-            architect "имя архитектора"
-        }
-
-        my_system = softwareSystem "system name"{
-            scheme1 = container "Database scheme name"{
-                technology "PostgreSQL 14"
-                tags "postgre"
-            }
-            srv1 = container "Service" {
-                technology "Spring"
-                tags "java"
-                -> scheme1 "Запрос/изменение данных" "SQL TCP:5432"
-            }
-        }
-
-        deploymentEnvironment "PROD" {
-                deploymentNode "PROTECTED STD OPS" {
-                        deploymentNode "pod_name_4" {
-                            containerInstance my_system.srv1
-                        }
-
-                        # СУБД PostgreSQL в облаке Vega
-                        deploymentNode "pod_name_7" {
-                            containerInstance my_system.scheme1
-                            properties {
-                                "vega_project"              "Код проекта в Vega"
-                                "region"                    "Ярославль M6 Openstack 3 Inside"
-                                "flavour"                   "cpu2ram16"
-                                "volume_size"               "500"
-                                "version"                   "14"
-                                "backup_strategies"         "backup-off"
-                                "type"                      "postgresql"
-                                "deployment_configuration"  "standby"
-                            }
-                        }
-                    }
-                }
-    }
-
-    views {
-        # Конфигурируем настройки отображения plant uml
-        properties {
-            plantuml.url        "https://structurizr.vimpelcom.ru/plantuml"
-            kroki.url           "https://kroki.vimpelcom.ru"
-            plantuml.format     "svg"
-            kroki.format        "svg"
-            structurizr.sort created
-            structurizr.tooltips true
-        }
-
-        # Задаем стили для отображения
-        theme https://structurizr.vimpelcom.ru/themes/beeline.json
-
-        deployment * "PROD" {
-            include *
-            autoLayout lr
-        }
-
-    }
-}`}</Text>
+                                        <Text variant="body2">{data.rule}</Text>
                                     </S.DescriptionContainer>
                                 )}
                             </S.ExpandableContainer>

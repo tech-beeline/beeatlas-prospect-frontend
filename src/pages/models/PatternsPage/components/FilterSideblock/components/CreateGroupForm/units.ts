@@ -10,6 +10,8 @@ export const Container = styled.div`
     height: 100%;
 
     border-left: 1px solid var(--color-divider);
+
+    z-index: 101;
 `;
 
 export const MainContent = styled.div`

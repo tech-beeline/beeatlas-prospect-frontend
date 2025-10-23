@@ -1,21 +1,39 @@
 import React, { FC, useState } from 'react';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
+import { Button, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
+import { IPatternGroupTree } from 'api/patterns/types';
+import { useDeletePatternGroupMutation, useGetPatternGroupTreeQuery } from 'api/queries/patterns';
 import { Dialog } from 'widgets/Dialog';
 
-import { FILTER_ELEMENTS, IFilterElementWithChildren, SideblockView } from '../../const';
+import { SideblockView } from '../../const';
 
 import { FilterElement } from './components';
 import { IGroupFilters } from './types';
 import * as S from './units';
 
-export const GroupFilters: FC<IGroupFilters> = ({ isAdmin, setSideblockView, onClose }) => {
+export const GroupFilters: FC<IGroupFilters> = ({
+    isAdmin,
+    setSideblockView,
+    setGroupToEdit,
+    onClose,
+}) => {
     const [search, setSearch] = useState('');
 
-    const [groupToDelete, setGroupToDelete] = useState<IFilterElementWithChildren | null>(null);
+    const [groupToDelete, setGroupToDelete] = useState<IPatternGroupTree | null>(null);
+
+    const { data, isLoading } = useGetPatternGroupTreeQuery();
+
+    const { mutateAsync } = useDeletePatternGroupMutation();
+
+    const handleDeleteConfirmClick = async () => {
+        if (groupToDelete) {
+            await mutateAsync(groupToDelete.id);
+            setGroupToDelete(null);
+        }
+    };
 
     return (
         <>
@@ -42,17 +60,25 @@ export const GroupFilters: FC<IGroupFilters> = ({ isAdmin, setSideblockView, onC
                         onClear={() => setSearch('')}
                         placeholder="Введите название группы"
                     />
-                    <div>
-                        {FILTER_ELEMENTS.map((el) => (
-                            <FilterElement
-                                key={el.label}
-                                isAdmin={isAdmin}
-                                filterElement={el}
-                                setSideblockView={setSideblockView}
-                                setGroupToDelete={setGroupToDelete}
-                            />
+                    {isLoading &&
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <Skeleton key={i} height={48} radius={12} />
                         ))}
-                    </div>
+                    {data && (
+                        <div>
+                            {data.map((group) => (
+                                <FilterElement
+                                    parentId={null}
+                                    key={group.id}
+                                    isAdmin={isAdmin}
+                                    filterElement={group}
+                                    setGroupToEdit={setGroupToEdit}
+                                    setSideblockView={setSideblockView}
+                                    setGroupToDelete={setGroupToDelete}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </S.MainContent>
                 <S.ButtonContainer>
                     <Button fullWidth size="medium" variant="plain">
@@ -65,9 +91,9 @@ export const GroupFilters: FC<IGroupFilters> = ({ isAdmin, setSideblockView, onC
                 title="Удалить группировку?"
                 confirmText="Удалить"
                 onClose={() => setGroupToDelete(null)}
-                onConfirm={() => setGroupToDelete(null)}
+                onConfirm={handleDeleteConfirmClick}
             >
-                Группировка <S.BoldSpan>{groupToDelete?.label}</S.BoldSpan> будет удалена
+                Группировка <S.BoldSpan>{groupToDelete?.name}</S.BoldSpan> будет удалена
             </Dialog>
         </>
     );

@@ -5,8 +5,6 @@ export const Card = styled.div`
 
     border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
-
-    overflow: hidden;
 `;
 
 export const Content = styled.div`
@@ -15,8 +13,6 @@ export const Content = styled.div`
     gap: 12px;
 
     padding: 24px;
-
-    border-top: 1px solid var(--color-divider);
 `;
 
 export const TitleContainer = styled.div`
