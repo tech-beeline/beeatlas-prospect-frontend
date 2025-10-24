@@ -56,3 +56,7 @@ export const TableDataStyled = styled(TableData)`
         width: 100%;
     }
 `;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
+`;

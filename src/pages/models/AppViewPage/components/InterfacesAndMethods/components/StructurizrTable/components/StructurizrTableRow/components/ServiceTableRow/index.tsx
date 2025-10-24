@@ -11,18 +11,63 @@ import {
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetSubscribedTechnologiesIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
+import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IServiceTableRow } from './types';
 import * as S from './units';
 
 export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, selectedEntity }) => {
-    const rowRef = useRef<HTMLDivElement | null>(null);
+    const [isNotificationIconHovered, setIsNotificationIconHovered] = useState(false);
 
+    const rowRef = useRef<HTMLDivElement | null>(null);
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const { modalOpened, openModal, closeModal } = useModal();
+    const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
+    const { data: subscribedTechnologiesIds } = useGetSubscribedTechnologiesIdsQuery();
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const isSubscribed = Boolean(subscribedTechnologiesIds?.includes(structurizrInterface.id));
+
+    const handleUnsubscribe = async () => {
+        await deleteSubscrition({
+            entityType: SubscriptionEntityVariants.TECH,
+            id: structurizrInterface.id,
+        });
+        closeModal();
+        showSnackbar({
+            message: 'Вы отписаны от уведомлений',
+        });
+    };
+
+    const handleNotificationButtonClick = async (e: MouseEvent) => {
+        e.stopPropagation();
+        if (isSubscribed) {
+            openModal();
+        } else {
+            await createSubscription({
+                entityType: SubscriptionEntityVariants.TECH,
+                id: structurizrInterface.id,
+            });
+            showSnackbar({
+                message:
+                    'Вы подписались на изменения интерфейса. Уведомления будут отображаться на витрине ФДМ',
+            });
+        }
+    };
 
     useEffect(() => {
         if (
@@ -52,6 +97,18 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                             />
                             {structurizrInterface.name}
                         </S.NameContainer>
+                        <IconButton
+                            iconName={
+                                isSubscribed && structurizrInterface.id
+                                    ? Icons.NotificationOff
+                                    : Icons.Notification
+                            }
+                            size="large"
+                            onClick={(e) => handleNotificationButtonClick(e as any)}
+                            onMouseEnter={() => setIsNotificationIconHovered(true)}
+                            onMouseLeave={() => setIsNotificationIconHovered(false)}
+                            data-tooltip-id={`notification-${structurizrInterface.id}`}
+                        />
                         {/* <Link
                             showOuterIcon
                             showIconPermanently
@@ -69,6 +126,9 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                     }
                 </TableData>
                 <TableData alignRight>{structurizrInterface.operations.length}</TableData>
+                <TableData colSpan={4} alignRight>
+                    {structurizrInterface.operations.length}
+                </TableData>
             </TableRow>
             {isExpanded && (
                 <TableRow>
@@ -208,6 +268,23 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                     </S.TableDataStyled>
                 </TableRow>
             )}
+            <TooltipContainer
+                id={`notification-${structurizrInterface.id}`}
+                offset={8}
+                place="top"
+                noArrow
+                isOpen={isNotificationIconHovered}
+            >
+                {isSubscribed ? 'Отписаться от интерфейса' : 'Подписаться на интерфейс'}
+            </TooltipContainer>
+            <Dialog
+                opened={modalOpened}
+                onClose={closeModal}
+                onConfirm={handleUnsubscribe}
+                title="Отписаться от интерфейса?"
+            >
+                Вы отписываетесь от <S.BoldSpan>{structurizrInterface.name}</S.BoldSpan>
+            </Dialog>
         </>
     );
 };

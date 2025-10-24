@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
     Button,
     ButtonGroup,
+    Icon,
     Select,
     Skeleton,
     Table,
@@ -10,6 +11,7 @@ import {
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { has } from 'lodash';
 
 import { AutocompleteControlled } from 'components/interaction';
@@ -17,6 +19,9 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IStructurizrContainerInterfaceData, IStructurizrOperation } from 'api/product/types';
 import { useGetProductStructurizrContainerByCmdbQuery } from 'api/queries/product';
+import { useModal } from 'hooks';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FILTER_OPTIONS, FilterOptions, InterfaceOptions } from '../../const';
 import { containerFilterFunction } from '../../utils';
@@ -54,6 +59,8 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
     );
 
     const [searchText, setSearchText] = useState('');
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const { modalOpened, openModal, closeModal } = useModal();
 
     const structurizrInterfaces = useMemo(
         () =>
@@ -113,6 +120,27 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
             setSelectedEntity(null);
         }
     }, [paramId, paramType, structurizrSearchVariants]);
+    const [isSubscribed, setIsSubscribed] = useState(false);
+
+    const handleSubscribeButtonClick = async () => {
+        if (isSubscribed) {
+            openModal();
+        } else {
+            setIsSubscribed(true);
+            showSnackbar({
+                message:
+                    'Вы подписаны на изменения интерфейсов и его дочерних элементов. Уведомления будут отображаться на витрине ФДМ',
+            });
+        }
+    };
+
+    const handleUnsubscribe = async () => {
+        setIsSubscribed(false);
+        closeModal();
+        showSnackbar({
+            message: 'Вы отписаны от уведомлений',
+        });
+    };
 
     return (
         <>
@@ -226,6 +254,27 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <S.TableDataContainer colSpan={6} alignRight>
+                                <Button
+                                    startIcon={
+                                        <Icon
+                                            iconName={
+                                                isSubscribed
+                                                    ? Icons.NotificationOff
+                                                    : Icons.Notification
+                                            }
+                                        />
+                                    }
+                                    onClick={handleSubscribeButtonClick}
+                                    variant="plain"
+                                >
+                                    {isSubscribed
+                                        ? 'Отписаться от всех интерфейсов'
+                                        : 'Подписаться на все интерфейсы'}
+                                </Button>
+                            </S.TableDataContainer>
+                        </TableRow>
+                        <TableRow>
                             <S.TableHeaderDataMaxWidth>Контейнер</S.TableHeaderDataMaxWidth>
                             <TableHeaderData>Код</TableHeaderData>
                             <TableHeaderData>Дата&#8209;изменения</TableHeaderData>
@@ -254,6 +303,15 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                     />
                 </S.EmptyContainer>
             )}
+            <Dialog
+                opened={modalOpened}
+                onClose={closeModal}
+                onConfirm={handleUnsubscribe}
+                title="Отписаться от всех интерфейсов?"
+                confirmText="Отписаться"
+            >
+                Вы&nbsp;отписываетесь от&nbsp;всех интерфейсов
+            </Dialog>
         </>
     );
 };
