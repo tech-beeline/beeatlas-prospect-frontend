@@ -9,7 +9,10 @@ import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetPatternByIdQuery } from 'api/queries/patterns';
+import { useModal } from 'hooks';
 import * as R from 'router/const';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import * as S from './units';
 
@@ -22,6 +25,9 @@ export const PatternViewPage = () => {
     const [isAppsExpanded, setIsAppsExpanded] = useState(false);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const { modalOpened, openModal, closeModal } = useModal();
+
     const navigate = useNavigate();
 
     const handleBreadcrumbClick = () => {
@@ -29,6 +35,36 @@ export const PatternViewPage = () => {
     };
 
     const { data, isLoading } = useGetPatternByIdQuery(paramId);
+
+    const [isSubscribed, setIsSubcribe] = useState(false);
+
+    const handleSubscribeButtonClick = async () => {
+        if (isSubscribed) {
+            openModal();
+        } else {
+            setIsSubcribe(true);
+            showSnackbar({
+                message:
+                    'Вы подписались на изменения технологии. Уведомления будут отображаться на витрине ФДМ',
+            });
+        }
+    };
+
+    const handleUnsubscribeButtonClick = async () => {
+        setIsSubcribe(true);
+        closeModal();
+        showSnackbar({
+            message: 'Вы отписаны от уведомлений',
+        });
+    };
+
+    {
+        /* const handleExportButtonClick = () => {
+        if (fileData && technologyData) {
+            downloadTextFile(`${technologyData.label}.md`, fileData.file);
+        }
+    };*/
+    }
 
     return (
         <S.PageWrapper>
@@ -53,10 +89,29 @@ export const PatternViewPage = () => {
                             </S.TitleContainer>
                         )}
                         <S.ButtonsContainer>
+                            {/* {fileData && (
+                                <Button
+                                    disabled={isLoadingFileData || isLoadingTechnology}
+                                    startIcon={<Icon iconName={Icons.ShareIos} />}
+                                    onClick={handleExportButtonClick}
+                                >
+                                    Экспорт
+                                </Button>
+                            )}*/}
                             <Button
-                                disabled={isLoading}
-                                startIcon={<Icon iconName={Icons.Download} />}
-                            />
+                                startIcon={
+                                    <Icon
+                                        iconName={
+                                            isSubscribed
+                                                ? Icons.NotificationOff
+                                                : Icons.Notification
+                                        }
+                                    />
+                                }
+                                onClick={handleSubscribeButtonClick}
+                            >
+                                {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                            </Button>
                         </S.ButtonsContainer>
                     </S.SpaceBetweenContainer>
                     {(isLoading || (data && data.groups.length !== 0)) && (
@@ -248,6 +303,14 @@ export const PatternViewPage = () => {
                     </S.GridContainer>
                 )}
             </S.Container>
+            <Dialog
+                opened={modalOpened}
+                onClose={closeModal}
+                onConfirm={handleUnsubscribeButtonClick}
+                title="Отписаться от технологии?"
+            >
+                Вы отписываетесь от <S.BoldSpan>{data?.name}</S.BoldSpan>
+            </Dialog>
         </S.PageWrapper>
     );
 };

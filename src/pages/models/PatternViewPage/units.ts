@@ -115,3 +115,7 @@ export const NotFoundContainer = styled.div`
 export const DescriptionContainer = styled.div`
     white-space: pre-line;
 `;
+
+export const BoldSpan = styled.span`
+    font-weight: 500;
+`;
