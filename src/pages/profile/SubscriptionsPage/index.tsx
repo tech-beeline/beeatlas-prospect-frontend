@@ -7,9 +7,10 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import {
     useDeleteSubscriptionMutation,
-    useGetAllSubscriptionsQuery,
+    useGetSubscriptionEntityTypesQuery,
+    useGetSubscriptionsQuery,
 } from 'api/queries/subscriptions';
-import { ISubscription } from 'api/subscriptions/types';
+import { ISubscriptionV2, SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 // import { pluralize } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
@@ -26,8 +27,12 @@ import {
     filterVariantToButtonTextMap,
     filterVariantToNotFoundTextMap,
     filterVariantToRouteMap,
-    subscriptionTypeToEntityVariantMap,
     subscriptionTypeToTitleMap,
+    // filterVariantToButtonTextMap,
+    // filterVariantToNotFoundTextMap,
+    // filterVariantToRouteMap,
+    // subscriptionTypeToEntityVariantMap,
+    // subscriptionTypeToTitleMap,
 } from './const';
 import * as S from './units';
 import { subscriptionFilterFunction } from './utils';
@@ -38,7 +43,9 @@ export const SubscriptionsPage = () => {
     const [page, setPage] = useState(1);
     // const [ascendingOrder, setAscendingOrder] = useState(true);
     const [search, setSearch] = useState('');
-    const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
+    const [filterVariant, setFilterVariant] = useState<
+        FilterVariants.ALL | SubscriptionEntityVariants
+    >(FilterVariants.ALL);
 
     const {
         modalOpened: singleUnsubscriptionsModalOpened,
@@ -55,13 +62,17 @@ export const SubscriptionsPage = () => {
 
     const navigate = useNavigate();
 
-    const { data, isLoading } = useGetAllSubscriptionsQuery();
+    const { data, isLoading: isLoadingSubscriptions } = useGetSubscriptionsQuery();
+    const { data: entitiesData, isLoading: isLoadingEntities } =
+        useGetSubscriptionEntityTypesQuery();
+    const isLoading = isLoadingSubscriptions || isLoadingEntities;
+
     const { mutateAsync: deleteSubscrition, isPending: isDeletingSubscription } =
         useDeleteSubscriptionMutation();
 
     // const [selectedSubscriptions, setSelectedSubscriptions] = useState<ISubscription[]>([]);
     const [selectedSingleSubscription, setSelectedSingleSubscription] =
-        useState<ISubscription | null>(null);
+        useState<ISubscriptionV2 | null>(null);
     // const seletedSubscriptionsIds = selectedSubscriptions.map((subscription) => subscription.id);
 
     const startIndex = (page - 1) * SUBS_PER_PAGE;
@@ -80,7 +91,7 @@ export const SubscriptionsPage = () => {
     const handleModalConfirmClick = async () => {
         if (selectedSingleSubscription) {
             await deleteSubscrition({
-                entityType: subscriptionTypeToEntityVariantMap[selectedSingleSubscription.type],
+                entityType: selectedSingleSubscription.entityType,
                 id: selectedSingleSubscription.id,
             });
             setSelectedSingleSubscription(null);
@@ -132,6 +143,7 @@ export const SubscriptionsPage = () => {
                                 // selectedSubscriptionsIds={seletedSubscriptionsIds}
                                 // setSelectedSubscriptions={setSelectedSubscriptions}
                                 subscription={subscription}
+                                entitiesData={entitiesData ?? []}
                                 openModal={openSingleUnsubscriptionModal}
                                 setSelectedSingleSubscription={setSelectedSingleSubscription}
                             />
@@ -188,15 +200,15 @@ export const SubscriptionsPage = () => {
                 opened={singleUnsubscriptionsModalOpened}
                 title={`Отписаться от ${
                     selectedSingleSubscription
-                        ? subscriptionTypeToTitleMap[selectedSingleSubscription.type]
-                        : ''
+                        ? subscriptionTypeToTitleMap[selectedSingleSubscription.entityType]
+                        : 'сущности'
                 }?`}
                 onClose={closeSingleUnsubscriptionModal}
                 onConfirm={handleModalConfirmClick}
                 isPending={isDeletingSubscription}
                 confirmText="Отписаться"
             >
-                Вы отписываетесь от <S.BoldSpan>{selectedSingleSubscription?.title}</S.BoldSpan>
+                Вы отписываетесь от <S.BoldSpan>{selectedSingleSubscription?.name}</S.BoldSpan>
             </Dialog>
         </S.PageWrapper>
     );

@@ -14,6 +14,7 @@ import {
     useUpdateBusinessNotificationsMutation,
     useUpdateNotificationsMutation,
 } from 'api/queries/notifications';
+import { useGetSubscriptionEntityTypesQuery } from 'api/queries/subscriptions';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as ROUTER from 'router/const';
 
@@ -31,7 +32,16 @@ export const NotificationsPopup: FC = () => {
 
     const iconRef = useRef<HTMLButtonElement>(null);
 
-    const { data, isError, isLoading, refetch } = useGetNotificationsQuery({ wasNotify: false });
+    const {
+        data,
+        isError,
+        isLoading: isLoadingNotifications,
+        refetch,
+    } = useGetNotificationsQuery({ wasNotify: false });
+    const { data: entitiesData, isLoading: isLoadingEntities } =
+        useGetSubscriptionEntityTypesQuery();
+
+    const isLoading = isLoadingNotifications || isLoadingEntities;
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
     const { mutateAsync: updateBusinessNotifications } = useUpdateBusinessNotificationsMutation();
@@ -126,6 +136,11 @@ export const NotificationsPopup: FC = () => {
                                         <NotificationCard
                                             key={notification.id}
                                             notification={notification}
+                                            entityAlias={
+                                                entitiesData?.find(
+                                                    (e) => e.type === notification.entityType,
+                                                )?.alias ?? ''
+                                            }
                                         />
                                     ))}
                                 {notificationGroup === NotificationGroups.BUSINESS_EVENTS &&

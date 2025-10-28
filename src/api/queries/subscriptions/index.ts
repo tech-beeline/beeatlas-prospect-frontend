@@ -2,7 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getSubscribedCapabilities } from 'api/capability';
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
-import { deleteSubscription, postSubscription } from 'api/subscriptions';
+import {
+    deleteSubscription,
+    getSubscriptionEntityTypes,
+    getSubscriptions,
+    postSubscription,
+} from 'api/subscriptions';
 import { ISubscription, ISubscriptionForm, SubscriptionType } from 'api/subscriptions/types';
 import { getSubscribedTechnologies } from 'api/technologies';
 
@@ -123,3 +128,17 @@ export function useDeleteSubscriptionMutation() {
         },
     });
 }
+
+export const useGetSubscriptionEntityTypesQuery = () => {
+    return useQuery({
+        queryKey: [SUBSCRIPTIONS_PREFIX, 'ENTITY_TYPES'],
+        queryFn: () => getSubscriptionEntityTypes().then((res) => res.data),
+    });
+};
+
+export const useGetSubscriptionsQuery = () => {
+    return useQuery({
+        queryKey: [SUBSCRIPTIONS_PREFIX, 'ALL', 'V2'],
+        queryFn: () => getSubscriptions().then((res) => res.data),
+    });
+};

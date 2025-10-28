@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
-import { Chip } from '@beeline/design-system-react';
+import { Chip, Skeleton } from '@beeline/design-system-react';
 
-import { CHIPS } from '../../const';
+import { useGetSubscriptionEntityTypesQuery } from 'api/queries/subscriptions';
+
+import { FilterVariants } from '../../const';
 
 import { ISubscriptionFilters } from './types';
 import * as S from './units';
@@ -13,6 +15,8 @@ export const SubscriptionFilters: FC<ISubscriptionFilters> = ({
     filterVariant,
     setFilterVariant,
 }) => {
+    const { data, isLoading } = useGetSubscriptionEntityTypesQuery();
+
     return (
         <>
             <S.FiltersContainer>
@@ -30,17 +34,30 @@ export const SubscriptionFilters: FC<ISubscriptionFilters> = ({
                 />
             </S.FiltersContainer>
             <S.ChipsContainer>
-                {CHIPS.map((chip) => (
-                    <Chip
-                        key={chip.value}
-                        label={chip.label}
-                        active={filterVariant === chip.value}
-                        onClick={() => {
-                            setFilterVariant(chip.value);
-                            setPage(1);
-                        }}
-                    />
-                ))}
+                <Chip
+                    label="Все"
+                    active={filterVariant === FilterVariants.ALL}
+                    onClick={() => {
+                        setFilterVariant(FilterVariants.ALL);
+                        setPage(1);
+                    }}
+                />
+                {isLoading &&
+                    Array.from({ length: 3 }).map((_, i) => (
+                        <Skeleton key={i} height={32} width={100} radius={16} />
+                    ))}
+                {data &&
+                    data.map((entity) => (
+                        <Chip
+                            key={entity.id}
+                            label={entity.alias}
+                            active={filterVariant === entity.type}
+                            onClick={() => {
+                                setFilterVariant(entity.type);
+                                setPage(1);
+                            }}
+                        />
+                    ))}
             </S.ChipsContainer>
         </>
     );

@@ -1,4 +1,4 @@
-import { BusinessNotificationEntityType, NotificationEntityType } from 'api/notifications/types';
+import { BusinessNotificationEntityType } from 'api/notifications/types';
 
 export enum FilterVariants {
     ALL = 'ALL',
@@ -72,12 +72,6 @@ export enum SortingVariants {
     LATEST = 'LATEST',
     OLDEST = 'OLDEST',
 }
-
-export const filterVariantToNotificationEntityMap = {
-    [FilterVariants.BUSINESS_CAPABILITIES]: NotificationEntityType.BUSINESS_CAPABILITY,
-    [FilterVariants.TECH_CAPABILITIES]: NotificationEntityType.TECH_CAPABILITY,
-    [FilterVariants.TECHNOLOGIES]: NotificationEntityType.TECH,
-};
 
 export const filterVariantToBusinessNotificationEntityMap = {
     [BusinessFilterVariants.CREATE_BC]: BusinessNotificationEntityType.CREATE_BC,
