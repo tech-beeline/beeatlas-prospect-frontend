@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import {
     IconButton,
+    Label,
     Progress,
     TableBody,
     TableData,
@@ -154,6 +155,12 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                         }
                     </Text>
                 </TableData>
+                <TableData>
+                    <Label
+                        title={mapicInterface.deletedDate ? 'Удален' : 'Активен'}
+                        type={mapicInterface.deletedDate ? 'error' : 'success'}
+                    />
+                </TableData>
             </S.TableRowStyled>
             {isPending && (
                 <TableRow>
@@ -164,13 +171,14 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
             )}
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={5}>
+                    <S.TableDataStyled colSpan={6}>
                         <S.TableContainer>
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
                                         <TableHeaderData>Метод mapic</TableHeaderData>
                                         <TableHeaderData>Метод structurizr</TableHeaderData>
+                                        <TableHeaderData>Статус</TableHeaderData>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -181,6 +189,16 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                                                 {operation.connectOperation
                                                     ? `${operation.connectOperation.type} ${operation.connectOperation.name}`
                                                     : formatNullableString(null)}
+                                            </TableData>
+                                            <TableData>
+                                                <Label
+                                                    title={
+                                                        operation.deletedDate ? 'Удален' : 'Активен'
+                                                    }
+                                                    type={
+                                                        operation.deletedDate ? 'error' : 'success'
+                                                    }
+                                                />
                                             </TableData>
                                         </TableRow>
                                     ))}

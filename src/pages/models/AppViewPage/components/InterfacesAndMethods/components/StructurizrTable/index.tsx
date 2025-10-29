@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
 import {
     Autocomplete,
+    Button,
     ButtonGroup,
+    Select,
     Skeleton,
-    Switch,
     Table,
     TableHead,
     TableHeaderData,
@@ -14,25 +15,34 @@ import { has } from 'lodash';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IStructurizrContainerInterfaceData, IStructurizrOperation } from 'api/product/types';
+import { useGetProductStructurizrContainerByCmdbQuery } from 'api/queries/product';
 
-import { InterfaceOptions } from '../../const';
+import { FILTER_OPTIONS, FilterOptions, InterfaceOptions } from '../../const';
+import { containerFilterFunction } from '../../utils';
 
 import { StructurizrTableRow } from './components';
 import { EntityTypes, ISelectedEntity, IStructurizrTable } from './types';
 import * as S from './units';
 
 export const StructurizrTable: FC<IStructurizrTable> = ({
-    hideEmptyInterfaces,
-    setHideEmptyInterfaces,
     interfaceOption,
     setInterfaceOption,
-    switchDisabled,
-    containerData,
-    isLoadingContainerData,
+    cmdb,
 }) => {
+    const [filterOptions, setFilterOptions] = useState(FILTER_OPTIONS);
+
+    const { data: containerData, isLoading: isLoadingContainerData } =
+        useGetProductStructurizrContainerByCmdbQuery(cmdb);
+
+    const containerDataFiltered = containerFilterFunction(
+        containerData,
+        filterOptions.some((o) => o.id === FilterOptions.EMPTY),
+        filterOptions.some((o) => o.id === FilterOptions.DELETED),
+    );
+
     const [searchText, setSearchText] = useState('');
 
-    const structurizrInterfaces = containerData.reduce(
+    const structurizrInterfaces = containerDataFiltered.reduce(
         (acc, v) => [...acc, ...v.interfaces.map((v) => ({ ...v, containerId: v.id }))],
         [] as IStructurizrContainerInterfaceData[],
     );
@@ -82,12 +92,27 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                         }}
                     />
                 </S.SearchContainer>
-                <Switch
-                    disabled={switchDisabled}
-                    label="Скрыть пустые интерфейсы"
-                    checked={hideEmptyInterfaces}
-                    onChange={(e) => setHideEmptyInterfaces(e.target.checked)}
-                />
+                <S.SelectContainer>
+                    <Select
+                        multiple
+                        fullWidth
+                        label="Скрыть"
+                        options={FILTER_OPTIONS}
+                        makeOption={(o) => <S.SelectOption>{o.value}</S.SelectOption>}
+                        values={filterOptions}
+                        onChange={(v) => setFilterOptions(v)}
+                    />
+                </S.SelectContainer>
+                <Button
+                    variant="plain"
+                    disabled={filterOptions.length === 0}
+                    size="medium"
+                    onClick={() => {
+                        setFilterOptions([]);
+                    }}
+                >
+                    Сбросить
+                </Button>
             </S.ActionsContainer>
 
             <ButtonGroup
@@ -111,7 +136,7 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
             />
 
             {isLoadingContainerData && <Skeleton height={300} />}
-            {containerData && containerData.length !== 0 && (
+            {containerDataFiltered && containerDataFiltered.length !== 0 && (
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -122,9 +147,10 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                             <TableHeaderData>
                                 Кол&#8209;во&nbsp;методов&nbsp;в&nbsp;интерфейсах
                             </TableHeaderData>
+                            <TableHeaderData>Статус</TableHeaderData>
                         </TableRow>
                     </TableHead>
-                    {containerData.map((container) => (
+                    {containerDataFiltered.map((container) => (
                         <StructurizrTableRow
                             key={container.id}
                             container={container}
@@ -133,7 +159,7 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                     ))}
                 </Table>
             )}
-            {!isLoadingContainerData && containerData.length === 0 && (
+            {!isLoadingContainerData && containerDataFiltered.length === 0 && (
                 <S.EmptyContainer>
                     <NotFoundBlock
                         title="Интерфейсы, методы и SLA нет"

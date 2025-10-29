@@ -8,8 +8,18 @@ export const ActionsContainer = styled.div`
 `;
 
 export const SearchContainer = styled.div`
+    flex: 3;
+`;
+
+export const SelectContainer = styled.div`
     flex: 1;
-    max-width: 648px;
+`;
+
+export const SelectOption = styled.div`
+    display: flex;
+    align-items: center;
+
+    white-space: break-spaces;
 `;
 
 export const EmptyContainer = styled.div`

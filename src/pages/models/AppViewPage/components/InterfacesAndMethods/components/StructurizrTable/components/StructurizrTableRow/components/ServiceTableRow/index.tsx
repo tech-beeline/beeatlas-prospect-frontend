@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import {
     IconButton,
+    Label,
     TableBody,
     TableData,
     TableHead,
@@ -41,7 +42,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
         <>
             <div ref={rowRef} />
             <TableRow>
-                <S.TableDataFullWidth colSpan={4}>
+                <S.TableDataFullWidth colSpan={2}>
                     <S.DataContainer>
                         <S.NameContainer>
                             <IconButton
@@ -59,11 +60,19 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                         /> */}
                     </S.DataContainer>
                 </S.TableDataFullWidth>
+                <TableData>
+                    {
+                        <Label
+                            title={structurizrInterface.deletedDate ? 'Удален' : 'Активен'}
+                            type={structurizrInterface.deletedDate ? 'error' : 'success'}
+                        />
+                    }
+                </TableData>
                 <TableData alignRight>{structurizrInterface.operations.length}</TableData>
             </TableRow>
             {isExpanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={5}>
+                    <S.TableDataStyled colSpan={6}>
                         <S.ServiceContainer>
                             <S.TableStyled>
                                 <TableHead>
@@ -126,6 +135,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                         <TableHeaderData alignRight>RPS</TableHeaderData>
                                         <TableHeaderData alignRight>Latency, ms</TableHeaderData>
                                         <TableHeaderData alignRight>Error Rate, %</TableHeaderData>
+                                        <TableHeaderData>Статус</TableHeaderData>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -179,6 +189,16 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                                 {typeof operation.sla?.errorRate === 'number'
                                                     ? operation.sla?.errorRate
                                                     : formatNullableString(null)}
+                                            </TableData>
+                                            <TableData>
+                                                <Label
+                                                    title={
+                                                        operation.deletedDate ? 'Удален' : 'Активен'
+                                                    }
+                                                    type={
+                                                        operation.deletedDate ? 'error' : 'success'
+                                                    }
+                                                />
                                             </TableData>
                                         </TableRow>
                                     ))}
