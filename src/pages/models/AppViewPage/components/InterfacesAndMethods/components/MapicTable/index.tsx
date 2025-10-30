@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
     Autocomplete,
+    Button,
     ButtonGroup,
+    Select,
     Skeleton,
-    Switch,
     Table,
     TableBody,
     TableData,
@@ -16,28 +18,42 @@ import dayjs from 'dayjs';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IMapicInterfaceOperationData } from 'api/product/types';
+import {
+    useGetProductMapicInterfacesByCmdbQuery,
+    useGetProductStructurizrInterfacesByCmdbQuery,
+} from 'api/queries/product';
 
-import { InterfaceOptions } from '../../const';
+import { FILTER_OPTIONS, FilterOptions, InterfaceOptions } from '../../const';
+import { mapicFilterFunction } from '../../utils';
 
 import { MapicTableRow } from './components';
 import { IMapicTable, ISelectedMapicOperation } from './types';
 import * as S from './units';
 
-export const MapicTable: FC<IMapicTable> = ({
-    hideEmptyInterfaces,
-    setHideEmptyInterfaces,
-    interfaceOption,
-    setInterfaceOption,
-    mapicData,
-    structurizrData,
-    switchDisabled,
-    isLoadingMapicData,
-    isLoadingStructurizrData,
-    lastMapicUpdateDate,
-}) => {
+export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
+    const [params, setSearchParams] = useSearchParams();
+
+    const [filterOptions, setFilterOptions] = useState(FILTER_OPTIONS);
+
+    const { data: structurizrData, isLoading: isLoadingStructurizrData } =
+        useGetProductStructurizrInterfacesByCmdbQuery(cmdb);
+    const { data: mapicData, isLoading: isLoadingMapicData } =
+        useGetProductMapicInterfacesByCmdbQuery(cmdb);
+
+    const mapicDataFiltered = mapicFilterFunction(
+        mapicData,
+        filterOptions.some((o) => o.id === FilterOptions.EMPTY),
+        filterOptions.some((o) => o.id === FilterOptions.DELETED),
+    );
+
+    const lastMapicUpdateDate = (mapicData ?? [])
+        .reduce((acc, v) => [...acc, v.createDate, v.updateDate], [] as (string | null)[])
+        .filter((v) => v !== null)
+        .sort((a, b) => (b as string).localeCompare(a as string))[0];
+
     const [searchText, setSearchText] = useState('');
 
-    const mapicSearchVariants = mapicData
+    const mapicSearchVariants = mapicDataFiltered
         .reduce(
             (acc, v) => [...acc, ...v.operations.map((o) => ({ ...o, interfaceId: v.id }))],
             [] as (IMapicInterfaceOperationData & { interfaceId: number })[],
@@ -73,12 +89,27 @@ export const MapicTable: FC<IMapicTable> = ({
                         }}
                     />
                 </S.SearchContainer>
-                <Switch
-                    disabled={switchDisabled}
-                    label="Скрыть пустые интерфейсы"
-                    checked={hideEmptyInterfaces}
-                    onChange={(e) => setHideEmptyInterfaces(e.target.checked)}
-                />
+                <S.SelectContainer>
+                    <Select
+                        multiple
+                        fullWidth
+                        label="Скрыть"
+                        options={FILTER_OPTIONS}
+                        makeOption={(o) => <S.SelectOption>{o.value}</S.SelectOption>}
+                        values={filterOptions}
+                        onChange={(v) => setFilterOptions(v)}
+                    />
+                </S.SelectContainer>
+                <Button
+                    variant="plain"
+                    disabled={filterOptions.length === 0}
+                    size="medium"
+                    onClick={() => {
+                        setFilterOptions([]);
+                    }}
+                >
+                    Сбросить
+                </Button>
             </S.ActionsContainer>
 
             <ButtonGroup
@@ -97,12 +128,18 @@ export const MapicTable: FC<IMapicTable> = ({
                 ]}
                 onChange={(option) => {
                     setSearchText('');
-                    setInterfaceOption(option.id as InterfaceOptions);
+                    setSearchText('');
+                    setSearchParams(
+                        new URLSearchParams({
+                            ...Object.fromEntries(params),
+                            subtab: option.id ?? '',
+                        }),
+                    );
                 }}
             />
 
             {(isLoadingMapicData || isLoadingStructurizrData) && <Skeleton height={300} />}
-            {mapicData && mapicData.length !== 0 && structurizrData && (
+            {mapicDataFiltered && mapicDataFiltered.length !== 0 && structurizrData && (
                 <Table>
                     <TableHead>
                         {lastMapicUpdateDate && (
@@ -124,10 +161,11 @@ export const MapicTable: FC<IMapicTable> = ({
                             <TableHeaderData alignRight>
                                 Методы (всего/сопоставленные)
                             </TableHeaderData>
+                            <TableHeaderData>Статус</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {mapicData.map((mapicInterface) => (
+                        {mapicDataFiltered.map((mapicInterface) => (
                             <MapicTableRow
                                 key={mapicInterface.id}
                                 mapicInterface={mapicInterface}
@@ -138,7 +176,7 @@ export const MapicTable: FC<IMapicTable> = ({
                     </TableBody>
                 </Table>
             )}
-            {!(isLoadingMapicData || isLoadingStructurizrData) && mapicData.length === 0 && (
+            {!(isLoadingMapicData || isLoadingStructurizrData) && mapicDataFiltered.length === 0 && (
                 <S.EmptyContainer>
                     <NotFoundBlock
                         title="Интерфейсы, методы и SLA нет"

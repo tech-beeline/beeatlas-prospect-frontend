@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { IconButton, TableData } from '@beeline/design-system-react';
+import { IconButton, Label, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
@@ -74,15 +74,35 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, selec
                         {methodsCount}
                     </Text>
                 </TableData>
-            </S.TableRowStyled>
-            {isExpanded &&
-                container.interfaces.map((structurizrInterface, i) => (
-                    <ServiceTableRow
-                        key={i}
-                        structurizrInterface={structurizrInterface}
-                        selectedEntity={selectedEntity}
+                <TableData>
+                    <Label
+                        title={container.deletedDate ? 'Удален' : 'Активен'}
+                        type={container.deletedDate ? 'error' : 'success'}
                     />
-                ))}
+                </TableData>
+            </S.TableRowStyled>
+            {isExpanded && (
+                <>
+                    <TableRow>
+                        <TableData colSpan={2}>
+                            <S.TableHeadContainer first>Интерфейс</S.TableHeadContainer>
+                        </TableData>
+                        <TableData>
+                            <S.TableHeadContainer>Статус</S.TableHeadContainer>
+                        </TableData>
+                        <TableData alignRight>
+                            <S.TableHeadContainer>Кол-во методов</S.TableHeadContainer>
+                        </TableData>
+                    </TableRow>
+                    {container.interfaces.map((structurizrInterface, i) => (
+                        <ServiceTableRow
+                            key={i}
+                            structurizrInterface={structurizrInterface}
+                            selectedEntity={selectedEntity}
+                        />
+                    ))}
+                </>
+            )}
         </>
     );
 };

@@ -57,6 +57,7 @@ export interface IStructurizrOperation {
     };
     techCapability: IStructurizrInterfaceTechCapabilityData | null;
     sla: { latency: number; rps: number; errorRate: number } | null;
+    deletedDate: string | null;
 }
 
 export interface IStructurizrContainerInterfaceData {
@@ -76,6 +77,7 @@ export interface IStructurizrContainerInterfaceData {
     operations: IStructurizrOperation[];
     createDate: string;
     updateDate: string | null;
+    deletedDate: string | null;
 }
 
 export interface IStructurizrContainerData {
@@ -85,6 +87,7 @@ export interface IStructurizrContainerData {
     interfaces: IStructurizrContainerInterfaceData[];
     createDate: string;
     updateDate: string | null;
+    deletedDate: string | null;
 }
 
 export interface IMapicInterfaceOperationData {
@@ -98,6 +101,7 @@ export interface IMapicInterfaceOperationData {
         description: string | null;
         type: string;
     } | null;
+    deletedDate: string | null;
 }
 
 export interface IMapicInterfaceData {
@@ -117,6 +121,7 @@ export interface IMapicInterfaceData {
     operations: IMapicInterfaceOperationData[];
     createDate: string;
     updateDate: string | null;
+    deletedDate: string | null;
 }
 
 export interface IConnectionInterfaceForm {
@@ -127,4 +132,8 @@ export interface IConnectionInterfaceForm {
 export interface IStructurizrWorkspaceForm {
     code: string;
     architect_name: string;
+}
+
+export interface IParent {
+    alias: string;
 }

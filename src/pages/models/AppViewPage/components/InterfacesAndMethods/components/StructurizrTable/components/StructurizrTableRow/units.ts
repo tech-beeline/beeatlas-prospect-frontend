@@ -16,3 +16,9 @@ export const TableRowStyled = styled(TableRow)<{ expanded?: boolean }>`
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};
 `;
+
+export const TableHeadContainer = styled.div<{ first?: boolean }>`
+    font-weight: 500;
+
+    ${({ first }) => (first ? 'padding-left: 24px;' : '')}
+`;

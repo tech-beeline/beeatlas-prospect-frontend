@@ -1,18 +1,9 @@
-import { IStructurizrContainerData } from 'api/product/types';
-
 import { InterfaceOptions } from '../../const';
 
 export interface IStructurizrTable {
     interfaceOption: InterfaceOptions;
-    setInterfaceOption: (interfaceOption: InterfaceOptions) => void;
 
-    hideEmptyInterfaces: boolean;
-    setHideEmptyInterfaces: (hideEmptyInterfaces: boolean) => void;
-
-    switchDisabled: boolean;
-
-    containerData: IStructurizrContainerData[];
-    isLoadingContainerData: boolean;
+    cmdb: string;
 }
 
 export enum EntityTypes {
