@@ -1,7 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { NotFoundBlock } from 'components/other';
 
+import { getEntityParent } from 'api/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
 
@@ -15,11 +17,31 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
     structurizrApiUrl,
     productId,
 }) => {
+    const [params, setParams] = useSearchParams();
+    const paramSubtab = params.get('subtab');
+    const paramId = params.get('id');
+    const paramType = params.get('type');
+
     const [interfaceOption, setInterfaceOption] = useState(InterfaceOptions.STRUCTURIZR);
+
+    useEffect(() => {
+        if (Object.values(InterfaceOptions).includes(paramSubtab as InterfaceOptions)) {
+            setInterfaceOption(paramSubtab as InterfaceOptions);
+        }
+    }, [paramSubtab]);
 
     const { openModal, closeModal, modalOpened } = useModal();
 
     const { data: userInfoData } = useGetUserInfoQuery();
+
+    useEffect(() => {
+        (async () => {
+            if (paramId && paramType && !cmdb) {
+                const data = await getEntityParent(paramId, paramType).then((res) => res.data);
+                setParams({ ...Object.fromEntries(params), cmdb: data.alias });
+            }
+        })();
+    }, [paramId, paramType, cmdb]);
 
     return (
         <S.Container>
@@ -44,19 +66,11 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
             ) : (
                 <>
                     {cmdb && interfaceOption === InterfaceOptions.STRUCTURIZR && (
-                        <StructurizrTable
-                            interfaceOption={interfaceOption}
-                            setInterfaceOption={setInterfaceOption}
-                            cmdb={cmdb}
-                        />
+                        <StructurizrTable interfaceOption={interfaceOption} cmdb={cmdb} />
                     )}
 
                     {cmdb && interfaceOption === InterfaceOptions.MAPIC && (
-                        <MapicTable
-                            interfaceOption={interfaceOption}
-                            setInterfaceOption={setInterfaceOption}
-                            cmdb={cmdb}
-                        />
+                        <MapicTable interfaceOption={interfaceOption} cmdb={cmdb} />
                     )}
                 </>
             )}

@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
-    Autocomplete,
     Button,
     ButtonGroup,
     Select,
@@ -12,6 +12,7 @@ import {
 } from '@beeline/design-system-react';
 import { has } from 'lodash';
 
+import { AutocompleteControlled } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IStructurizrContainerInterfaceData, IStructurizrOperation } from 'api/product/types';
@@ -24,70 +25,127 @@ import { StructurizrTableRow } from './components';
 import { EntityTypes, ISelectedEntity, IStructurizrTable } from './types';
 import * as S from './units';
 
-export const StructurizrTable: FC<IStructurizrTable> = ({
-    interfaceOption,
-    setInterfaceOption,
-    cmdb,
-}) => {
-    const [filterOptions, setFilterOptions] = useState(FILTER_OPTIONS);
+export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb }) => {
+    const [params, setSearchParams] = useSearchParams();
+    const [hideEmpty, setHideEmpty] = useState(false);
+    const [hideDeleted, setHideDeleted] = useState(false);
+    const hideEmptyParam = params.get('hideEmpty');
+    const hideDeletedParam = params.get('hideDeleted');
+
+    useEffect(() => {
+        if (hideEmptyParam === 'true') {
+            setHideEmpty(true);
+        } else {
+            setHideEmpty(false);
+        }
+        if (hideDeletedParam === 'true') {
+            setHideDeleted(true);
+        } else {
+            setHideDeleted(false);
+        }
+    }, [hideEmptyParam, hideDeletedParam]);
 
     const { data: containerData, isLoading: isLoadingContainerData } =
         useGetProductStructurizrContainerByCmdbQuery(cmdb);
 
-    const containerDataFiltered = containerFilterFunction(
-        containerData,
-        filterOptions.some((o) => o.id === FilterOptions.EMPTY),
-        filterOptions.some((o) => o.id === FilterOptions.DELETED),
+    const containerDataFiltered = useMemo(
+        () => containerFilterFunction(containerData, hideEmpty, hideDeleted),
+        [containerData, hideEmpty, hideDeleted],
     );
 
     const [searchText, setSearchText] = useState('');
 
-    const structurizrInterfaces = containerDataFiltered.reduce(
-        (acc, v) => [...acc, ...v.interfaces.map((v) => ({ ...v, containerId: v.id }))],
-        [] as IStructurizrContainerInterfaceData[],
+    const structurizrInterfaces = useMemo(
+        () =>
+            containerDataFiltered.reduce(
+                (acc, v) => [...acc, ...v.interfaces.map((v) => ({ ...v, containerId: v.id }))],
+                [] as IStructurizrContainerInterfaceData[],
+            ),
+        [containerDataFiltered],
     );
 
-    const structurizrSearchVariants = structurizrInterfaces
-        .reduce((acc, v) => [...acc, ...v.operations.map((o) => ({ ...o, interfaceId: v.id }))], [
-            ...structurizrInterfaces,
-        ] as (IStructurizrContainerInterfaceData | IStructurizrOperation)[])
-        .filter((v) =>
-            (has(v, 'type') ? `${(v as { type: string }).type} ${v.name}` : v.name)
-                .toLowerCase()
-                .includes(searchText.toLowerCase()),
-        )
-        .map((o) => ({
-            id: o.id,
-            value: has(o, 'type') ? `${(o as { type: string }).type} ${o.name}` : o.name,
-            type: has(o, 'protocol') ? EntityTypes.INTERFACE : EntityTypes.OPERATION,
-            interfaceId: has(o, 'protocol')
-                ? null
-                : (o as unknown as { interfaceId: number }).interfaceId,
-        }));
+    const structurizrSearchVariants = useMemo(
+        () =>
+            structurizrInterfaces
+                .reduce(
+                    (acc, v) => [...acc, ...v.operations.map((o) => ({ ...o, interfaceId: v.id }))],
+                    [...structurizrInterfaces] as (
+                        | IStructurizrContainerInterfaceData
+                        | IStructurizrOperation
+                    )[],
+                )
+                .filter((v) =>
+                    (has(v, 'type') ? `${(v as { type: string }).type} ${v.name}` : v.name)
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase()),
+                )
+                .map((o) => ({
+                    id: o.id,
+                    value: has(o, 'type') ? `${(o as { type: string }).type} ${o.name}` : o.name,
+                    type: has(o, 'protocol') ? EntityTypes.INTERFACE : EntityTypes.OPERATION,
+                    interfaceId: has(o, 'protocol')
+                        ? null
+                        : (o as unknown as { interfaceId: number }).interfaceId,
+                })),
+        [structurizrInterfaces, searchText],
+    );
 
     const [selectedEntity, setSelectedEntity] = useState<ISelectedEntity | null>(null);
+
+    const paramId = params.get('id');
+    const paramType = params.get('type');
+
+    useEffect(() => {
+        if (structurizrSearchVariants && paramId && paramType) {
+            const entity =
+                (structurizrSearchVariants.find(
+                    (v) => v.id === Number(paramId),
+                ) as unknown as ISelectedEntity) ?? null;
+            if (
+                entity?.id !== selectedEntity?.id &&
+                ((entity.type === EntityTypes.INTERFACE && paramType === 'arch_interface') ||
+                    (entity.type === EntityTypes.OPERATION && paramType === 'arch_operation'))
+            ) {
+                setSelectedEntity(entity);
+                setSearchText(entity.value);
+            }
+        } else {
+            setSelectedEntity(null);
+        }
+    }, [paramId, paramType, structurizrSearchVariants]);
 
     return (
         <>
             <S.ActionsContainer>
                 <S.SearchContainer>
-                    <Autocomplete
-                        fullWidth
-                        placeholder="Название интерфейса или метода"
+                    <AutocompleteControlled
                         options={structurizrSearchVariants}
-                        renderValue={(v) => v.value}
-                        type="search"
-                        value={selectedEntity}
-                        onChange={(value) => {
-                            setSelectedEntity(value as unknown as ISelectedEntity);
-                            setSearchText(value.value);
-                        }}
-                        onInputChange={(v) => {
-                            setSelectedEntity(null);
+                        searchText={searchText}
+                        setSearchText={(v) => {
+                            const newParams = new URLSearchParams(params);
+                            newParams.delete('id');
+                            newParams.delete('type');
+                            setSearchParams(newParams);
                             setSearchText(v);
                         }}
-                        onInputClear={() => {
-                            setSelectedEntity(null);
+                        placeholder="Название интерфейса или метода"
+                        onChange={(value) => {
+                            setSearchParams({
+                                ...Object.fromEntries(params),
+                                id: String(value.id),
+                                type:
+                                    (value as unknown as ISelectedEntity).type ===
+                                    EntityTypes.INTERFACE
+                                        ? 'arch_interface'
+                                        : 'arch_operation',
+                            });
+                            setSearchText(value.value);
+                        }}
+                        onClear={() => {
+                            const newParams = new URLSearchParams(params);
+                            newParams.delete('id');
+                            newParams.delete('type');
+                            setSearchParams(newParams);
                             setSearchText('');
                         }}
                     />
@@ -99,16 +157,39 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                         label="Скрыть"
                         options={FILTER_OPTIONS}
                         makeOption={(o) => <S.SelectOption>{o.value}</S.SelectOption>}
-                        values={filterOptions}
-                        onChange={(v) => setFilterOptions(v)}
+                        values={FILTER_OPTIONS.filter(
+                            (o) =>
+                                (o.id === FilterOptions.DELETED && hideDeleted) ||
+                                (o.id === FilterOptions.EMPTY && hideEmpty),
+                        )}
+                        onChange={(v) => {
+                            const newParams = new URLSearchParams(Object.fromEntries(params));
+                            newParams.delete('hideEmpty');
+                            newParams.delete('hideDeleted');
+                            for (const k of v) {
+                                if (k.id === FilterOptions.EMPTY) {
+                                    newParams.append('hideEmpty', 'true');
+                                }
+                                if (k.id === FilterOptions.DELETED) {
+                                    newParams.append('hideDeleted', 'true');
+                                }
+                            }
+                            setSearchParams(newParams);
+                        }}
                     />
                 </S.SelectContainer>
                 <Button
                     variant="plain"
-                    disabled={filterOptions.length === 0}
+                    disabled={!selectedEntity && !hideEmpty && !hideDeleted}
                     size="medium"
                     onClick={() => {
-                        setFilterOptions([]);
+                        const newParams = new URLSearchParams(Object.fromEntries(params));
+                        newParams.delete('hideEmpty');
+                        newParams.delete('hideDeleted');
+                        newParams.delete('id');
+                        newParams.delete('type');
+                        setSearchParams(newParams);
+                        setSearchText('');
                     }}
                 >
                     Сбросить
@@ -131,7 +212,12 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                 ]}
                 onChange={(option) => {
                     setSearchText('');
-                    setInterfaceOption(option.id as InterfaceOptions);
+                    setSearchParams(
+                        new URLSearchParams({
+                            ...Object.fromEntries(params),
+                            subtab: option.id ?? '',
+                        }),
+                    );
                 }}
             />
 

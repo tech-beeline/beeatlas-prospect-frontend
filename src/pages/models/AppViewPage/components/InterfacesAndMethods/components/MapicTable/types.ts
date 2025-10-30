@@ -2,7 +2,6 @@ import { InterfaceOptions } from '../../const';
 
 export interface IMapicTable {
     interfaceOption: InterfaceOptions;
-    setInterfaceOption: (interfaceOption: InterfaceOptions) => void;
 
     cmdb: string;
 }

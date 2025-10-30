@@ -1,4 +1,5 @@
 export { Accordion } from './Accordion';
+export { AutocompleteControlled } from './AutocompleteControlled';
 export { BreadCrumbsItem } from './BreadCrumbsItem';
 export { Card, CardVariant } from './Card';
 export { DropdownMenu } from './DropdownMenu';

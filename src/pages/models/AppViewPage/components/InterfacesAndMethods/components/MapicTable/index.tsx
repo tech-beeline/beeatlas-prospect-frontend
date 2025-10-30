@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
     Autocomplete,
     Button,
@@ -29,7 +30,9 @@ import { MapicTableRow } from './components';
 import { IMapicTable, ISelectedMapicOperation } from './types';
 import * as S from './units';
 
-export const MapicTable: FC<IMapicTable> = ({ interfaceOption, setInterfaceOption, cmdb }) => {
+export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
+    const [params, setSearchParams] = useSearchParams();
+
     const [filterOptions, setFilterOptions] = useState(FILTER_OPTIONS);
 
     const { data: structurizrData, isLoading: isLoadingStructurizrData } =
@@ -125,7 +128,13 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, setInterfaceOptio
                 ]}
                 onChange={(option) => {
                     setSearchText('');
-                    setInterfaceOption(option.id as InterfaceOptions);
+                    setSearchText('');
+                    setSearchParams(
+                        new URLSearchParams({
+                            ...Object.fromEntries(params),
+                            subtab: option.id ?? '',
+                        }),
+                    );
                 }}
             />
 

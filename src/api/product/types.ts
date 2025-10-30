@@ -133,3 +133,7 @@ export interface IStructurizrWorkspaceForm {
     code: string;
     architect_name: string;
 }
+
+export interface IParent {
+    alias: string;
+}

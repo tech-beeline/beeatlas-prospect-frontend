@@ -2,7 +2,6 @@ import { InterfaceOptions } from '../../const';
 
 export interface IStructurizrTable {
     interfaceOption: InterfaceOptions;
-    setInterfaceOption: (interfaceOption: InterfaceOptions) => void;
 
     cmdb: string;
 }

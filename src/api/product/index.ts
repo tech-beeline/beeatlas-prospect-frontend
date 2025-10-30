@@ -1,6 +1,7 @@
 import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
+import { formatNullableStringParam } from 'utils/formatters';
 
 import { GATEWAY_URL, STRUCTURIZR_URL } from '../const';
 
@@ -58,6 +59,15 @@ export const getAllProducts = (): AxiosPromise<T.IFullProductData[]> => {
 export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductData> => {
     return Api.get({
         url: `${GATEWAY_URL}product/v1/product/${cmdb}/info`,
+    });
+};
+
+export const getEntityParent = (id: string, type: string): AxiosPromise<T.IParent> => {
+    return Api.get({
+        url: `https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/product/api/v1/product/parent?${formatNullableStringParam(
+            'id',
+            id,
+        )}${formatNullableStringParam('type', type)}`,
     });
 };
 
