@@ -4,11 +4,17 @@ import { getSubscribedCapabilities } from 'api/capability';
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import {
     deleteSubscription,
+    getSubscribedInterfaces,
     getSubscriptionEntityTypes,
     getSubscriptions,
     postSubscription,
 } from 'api/subscriptions';
-import { ISubscription, ISubscriptionForm, SubscriptionType } from 'api/subscriptions/types';
+import {
+    IMultipleSubscriptionForm,
+    ISubscription,
+    ISubscriptionForm,
+    SubscriptionType,
+} from 'api/subscriptions/types';
 import { getSubscribedTechnologies } from 'api/technologies';
 
 const SUBSCRIPTIONS_PREFIX = 'SUBSCRIPTIONS_PREFIX';
@@ -107,6 +113,20 @@ export const useGetSubscribedTechnologiesIdsQuery = () => {
     });
 };
 
+export const useGetSubscribedInerfacesIdsQuery = () => {
+    return useQuery<number[]>({
+        queryKey: [SUBSCRIPTIONS_PREFIX, 'INTERFACE_IDS'],
+        queryFn: async () => {
+            const interfaceSubscriptions = await getSubscribedInterfaces();
+
+            return interfaceSubscriptions.data.map((sub) => sub.id);
+        },
+
+        staleTime: Infinity,
+        gcTime: Infinity,
+    });
+};
+
 export function useCreateSubscriptionMutation() {
     const queryClient = useQueryClient();
     return useMutation({
@@ -118,11 +138,41 @@ export function useCreateSubscriptionMutation() {
     });
 }
 
+export function useMultipleCreateSubscriptionMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [SUBSCRIPTIONS_PREFIX, 'create'],
+        mutationFn: async (data: ISubscriptionForm[]) => {
+            const promises = data.map((sub) => postSubscription(sub));
+            await Promise.all(promises);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [SUBSCRIPTIONS_PREFIX] });
+        },
+    });
+}
+
 export function useDeleteSubscriptionMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [SUBSCRIPTIONS_PREFIX, 'delete'],
         mutationFn: (data: ISubscriptionForm) => deleteSubscription(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [SUBSCRIPTIONS_PREFIX] });
+        },
+    });
+}
+
+export function useMultipleDeleteSubscriptionMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [SUBSCRIPTIONS_PREFIX, 'delete'],
+        mutationFn: async (data: IMultipleSubscriptionForm) => {
+            const promises = data.ids.map((id) =>
+                deleteSubscription({ entityType: data.entityType, id }),
+            );
+            await Promise.all(promises);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [SUBSCRIPTIONS_PREFIX] });
         },

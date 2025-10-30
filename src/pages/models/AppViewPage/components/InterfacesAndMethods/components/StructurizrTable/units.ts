@@ -1,4 +1,4 @@
-import { TableHeaderData } from '@beeline/design-system-react';
+import { TableData, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const ActionsContainer = styled.div`
@@ -32,4 +32,8 @@ export const EmptyContainer = styled.div`
 
 export const TableHeaderDataMaxWidth = styled(TableHeaderData)`
     width: 100%;
+`;
+
+export const TableDataContainer = styled(TableData)`
+    padding: 8px;
 `;
