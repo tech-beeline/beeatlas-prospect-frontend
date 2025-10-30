@@ -19,6 +19,12 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IStructurizrContainerInterfaceData, IStructurizrOperation } from 'api/product/types';
 import { useGetProductStructurizrContainerByCmdbQuery } from 'api/queries/product';
+import {
+    useGetSubscribedInerfacesIdsQuery,
+    useMultipleCreateSubscriptionMutation,
+    useMultipleDeleteSubscriptionMutation,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -120,22 +126,56 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
             setSelectedEntity(null);
         }
     }, [paramId, paramType, structurizrSearchVariants]);
-    const [isSubscribed, setIsSubscribed] = useState(false);
+
+    const { data: subscribedInterfaceIds, isLoading: isLoadingSubscribedInterfaces } =
+        useGetSubscribedInerfacesIdsQuery();
+
+    const allInterfaces = containerData?.reduce(
+        (acc, v) => [...acc, ...v.interfaces.map((i) => i)],
+        [] as IStructurizrContainerInterfaceData[],
+    );
+
+    const interfaceIds = allInterfaces?.map((i) => i.id);
+
+    const isAllSubscribed =
+        interfaceIds?.length !== 0 &&
+        interfaceIds?.every((id) => subscribedInterfaceIds?.includes(id));
+
+    const { mutateAsync: deleteSubscriptions, isPending: isDeletingSubscriptions } =
+        useMultipleDeleteSubscriptionMutation();
+
+    const { mutateAsync: createSubscriptions, isPending: isCreatingSubscriptions } =
+        useMultipleCreateSubscriptionMutation();
 
     const handleSubscribeButtonClick = async () => {
-        if (isSubscribed) {
+        if (isAllSubscribed) {
             openModal();
         } else {
-            setIsSubscribed(true);
+            if (allInterfaces && subscribedInterfaceIds) {
+                await createSubscriptions(
+                    allInterfaces
+                        .filter((i) => !subscribedInterfaceIds.includes(i.id))
+                        .map((i) => ({
+                            entityType: SubscriptionEntityVariants.ARCH_INTERFACE,
+                            id: i.id,
+                            name: i.code ?? '',
+                        })),
+                );
+            }
             showSnackbar({
                 message:
-                    'Вы подписаны на изменения интерфейсов и его дочерних элементов. Уведомления будут отображаться на витрине ФДМ',
+                    'Вы подписаны на изменения интерфейсов и их дочерних элементов. Уведомления будут отображаться на витрине ФДМ',
             });
         }
     };
 
     const handleUnsubscribe = async () => {
-        setIsSubscribed(false);
+        if (interfaceIds) {
+            await deleteSubscriptions({
+                entityType: SubscriptionEntityVariants.ARCH_INTERFACE,
+                ids: interfaceIds,
+            });
+        }
         closeModal();
         showSnackbar({
             message: 'Вы отписаны от уведомлений',
@@ -259,16 +299,21 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                                     startIcon={
                                         <Icon
                                             iconName={
-                                                isSubscribed
+                                                isAllSubscribed
                                                     ? Icons.NotificationOff
                                                     : Icons.Notification
                                             }
                                         />
                                     }
+                                    disabled={
+                                        isLoadingSubscribedInterfaces ||
+                                        isLoadingContainerData ||
+                                        isCreatingSubscriptions
+                                    }
                                     onClick={handleSubscribeButtonClick}
                                     variant="plain"
                                 >
-                                    {isSubscribed
+                                    {isAllSubscribed
                                         ? 'Отписаться от всех интерфейсов'
                                         : 'Подписаться на все интерфейсы'}
                                 </Button>
@@ -309,6 +354,7 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                 onConfirm={handleUnsubscribe}
                 title="Отписаться от всех интерфейсов?"
                 confirmText="Отписаться"
+                isPending={isDeletingSubscriptions}
             >
                 Вы&nbsp;отписываетесь от&nbsp;всех интерфейсов
             </Dialog>

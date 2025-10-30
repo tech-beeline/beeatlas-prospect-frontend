@@ -17,7 +17,7 @@ import { Link } from 'components/other';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
-    useGetSubscribedTechnologiesIdsQuery,
+    useGetSubscribedInerfacesIdsQuery,
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
@@ -37,14 +37,14 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
     const { modalOpened, openModal, closeModal } = useModal();
     const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
-    const { data: subscribedTechnologiesIds } = useGetSubscribedTechnologiesIdsQuery();
+    const { data: subscribedInterfacesIds } = useGetSubscribedInerfacesIdsQuery();
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const isSubscribed = Boolean(subscribedTechnologiesIds?.includes(structurizrInterface.id));
+    const isSubscribed = Boolean(subscribedInterfacesIds?.includes(structurizrInterface.id));
 
     const handleUnsubscribe = async () => {
         await deleteSubscrition({
-            entityType: SubscriptionEntityVariants.TECH,
+            entityType: SubscriptionEntityVariants.ARCH_INTERFACE,
             id: structurizrInterface.id,
         });
         closeModal();
@@ -59,8 +59,9 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
             openModal();
         } else {
             await createSubscription({
-                entityType: SubscriptionEntityVariants.TECH,
+                entityType: SubscriptionEntityVariants.ARCH_INTERFACE,
                 id: structurizrInterface.id,
+                name: structurizrInterface.code ?? '',
             });
             showSnackbar({
                 message:
