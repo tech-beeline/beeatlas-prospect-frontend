@@ -7,6 +7,7 @@ import { Link } from 'components/other';
 
 import { NotificationChangeType } from 'api/notifications/types';
 import { useUpdateNotificationsMutation } from 'api/queries/notifications';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 
 import { notificationEntityTypeToColorMap, notificationEntityTypeToIconMap } from './const';
 import { INotificationCard } from './types';
@@ -43,7 +44,8 @@ export const NotificationCard: FC<INotificationCard> = ({ notification, entityAl
                     <Text inactive variant="body3">
                         {dayjs(notification.changeDate).format('DD.MM.YYYY')}
                     </Text>
-                    {notification.changeType !== NotificationChangeType.DELETE &&
+                    {(notification.changeType !== NotificationChangeType.DELETE ||
+                        notification.entityType === SubscriptionEntityVariants.ARCH_INTERFACE) &&
                         notification.linkTemplate && (
                             <S.LinkContainer>
                                 <Link
