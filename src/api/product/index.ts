@@ -23,7 +23,7 @@ export const getProductStructurizrContainerByCmdb = (
     cmdb: string,
 ): AxiosPromise<T.IStructurizrContainerData[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}product/v1/product/${cmdb}/container`,
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/container?show-hidden=true`,
     });
 };
 
