@@ -38,21 +38,21 @@ import * as S from './units';
 
 export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb }) => {
     const [params, setSearchParams] = useSearchParams();
-    const [hideEmpty, setHideEmpty] = useState(false);
-    const [hideDeleted, setHideDeleted] = useState(false);
+    const [hideEmpty, setHideEmpty] = useState(true);
+    const [hideDeleted, setHideDeleted] = useState(true);
     const hideEmptyParam = params.get('hideEmpty');
     const hideDeletedParam = params.get('hideDeleted');
 
     useEffect(() => {
-        if (hideEmptyParam === 'true') {
-            setHideEmpty(true);
-        } else {
+        if (hideEmptyParam === 'false') {
             setHideEmpty(false);
-        }
-        if (hideDeletedParam === 'true') {
-            setHideDeleted(true);
         } else {
+            setHideEmpty(true);
+        }
+        if (hideDeletedParam === 'false') {
             setHideDeleted(false);
+        } else {
+            setHideDeleted(true);
         }
     }, [hideEmptyParam, hideDeletedParam]);
 
@@ -116,8 +116,8 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                 ) as unknown as ISelectedEntity) ?? null;
             if (
                 entity?.id !== selectedEntity?.id &&
-                ((entity.type === EntityTypes.INTERFACE && paramType === 'arch_interface') ||
-                    (entity.type === EntityTypes.OPERATION && paramType === 'arch_operation'))
+                ((entity?.type === EntityTypes.INTERFACE && paramType === 'arch_interface') ||
+                    (entity?.type === EntityTypes.OPERATION && paramType === 'arch_operation'))
             ) {
                 setSelectedEntity(entity);
                 setSearchText(entity.value);
@@ -230,17 +230,20 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                                 (o.id === FilterOptions.DELETED && hideDeleted) ||
                                 (o.id === FilterOptions.EMPTY && hideEmpty),
                         )}
-                        onChange={(v) => {
+                        onChange={(values) => {
                             const newParams = new URLSearchParams(Object.fromEntries(params));
                             newParams.delete('hideEmpty');
                             newParams.delete('hideDeleted');
-                            for (const k of v) {
-                                if (k.id === FilterOptions.EMPTY) {
-                                    newParams.append('hideEmpty', 'true');
-                                }
-                                if (k.id === FilterOptions.DELETED) {
-                                    newParams.append('hideDeleted', 'true');
-                                }
+                            const valueIds = values.map((v) => v.id);
+                            if (valueIds.includes(FilterOptions.EMPTY)) {
+                                newParams.append('hideEmpty', 'true');
+                            } else {
+                                newParams.append('hideEmpty', 'false');
+                            }
+                            if (valueIds.includes(FilterOptions.DELETED)) {
+                                newParams.append('hideDeleted', 'true');
+                            } else {
+                                newParams.append('hideDeleted', 'false');
                             }
                             setSearchParams(newParams);
                         }}
@@ -248,12 +251,12 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                 </S.SelectContainer>
                 <Button
                     variant="plain"
-                    disabled={!selectedEntity && !hideEmpty && !hideDeleted}
+                    disabled={!selectedEntity && hideEmpty && hideDeleted}
                     size="medium"
                     onClick={() => {
                         const newParams = new URLSearchParams(Object.fromEntries(params));
-                        newParams.delete('hideEmpty');
-                        newParams.delete('hideDeleted');
+                        newParams.set('hideEmpty', 'true');
+                        newParams.set('hideDeleted', 'true');
                         newParams.delete('id');
                         newParams.delete('type');
                         setSearchParams(newParams);

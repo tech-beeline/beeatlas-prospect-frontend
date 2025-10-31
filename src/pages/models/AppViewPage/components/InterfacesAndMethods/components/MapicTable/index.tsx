@@ -1,7 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
-    Autocomplete,
     Button,
     ButtonGroup,
     Select,
@@ -15,6 +14,7 @@ import {
 } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 
+import { AutocompleteControlled } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IMapicInterfaceOperationData } from 'api/product/types';
@@ -33,18 +33,30 @@ import * as S from './units';
 export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
     const [params, setSearchParams] = useSearchParams();
 
-    const [filterOptions, setFilterOptions] = useState(FILTER_OPTIONS);
+    const [hideEmpty, setHideEmpty] = useState(true);
+    const [hideDeleted, setHideDeleted] = useState(true);
+    const hideEmptyParam = params.get('hideEmpty');
+    const hideDeletedParam = params.get('hideDeleted');
+
+    useEffect(() => {
+        if (hideEmptyParam === 'false') {
+            setHideEmpty(false);
+        } else {
+            setHideEmpty(true);
+        }
+        if (hideDeletedParam === 'false') {
+            setHideDeleted(false);
+        } else {
+            setHideDeleted(true);
+        }
+    }, [hideEmptyParam, hideDeletedParam]);
 
     const { data: structurizrData, isLoading: isLoadingStructurizrData } =
         useGetProductStructurizrInterfacesByCmdbQuery(cmdb);
     const { data: mapicData, isLoading: isLoadingMapicData } =
         useGetProductMapicInterfacesByCmdbQuery(cmdb);
 
-    const mapicDataFiltered = mapicFilterFunction(
-        mapicData,
-        filterOptions.some((o) => o.id === FilterOptions.EMPTY),
-        filterOptions.some((o) => o.id === FilterOptions.DELETED),
-    );
+    const mapicDataFiltered = mapicFilterFunction(mapicData, hideEmpty, hideDeleted);
 
     const lastMapicUpdateDate = (mapicData ?? [])
         .reduce((acc, v) => [...acc, v.createDate, v.updateDate], [] as (string | null)[])
@@ -68,7 +80,7 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
         <>
             <S.ActionsContainer>
                 <S.SearchContainer>
-                    <Autocomplete
+                    {/* <Autocomplete
                         fullWidth
                         placeholder="Название интерфейса или метода"
                         options={mapicSearchVariants}
@@ -87,6 +99,23 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
                             setSelectedMapicOperation(null);
                             setSearchText('');
                         }}
+                    /> */}
+                    <AutocompleteControlled
+                        options={mapicSearchVariants}
+                        searchText={searchText}
+                        setSearchText={(v) => {
+                            setSelectedMapicOperation(null);
+                            setSearchText(v);
+                        }}
+                        placeholder="Название интерфейса или метода"
+                        onChange={(value) => {
+                            setSelectedMapicOperation(value);
+                            setSearchText(value.value);
+                        }}
+                        onClear={() => {
+                            setSelectedMapicOperation(null);
+                            setSearchText('');
+                        }}
                     />
                 </S.SearchContainer>
                 <S.SelectContainer>
@@ -96,16 +125,43 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
                         label="Скрыть"
                         options={FILTER_OPTIONS}
                         makeOption={(o) => <S.SelectOption>{o.value}</S.SelectOption>}
-                        values={filterOptions}
-                        onChange={(v) => setFilterOptions(v)}
+                        values={FILTER_OPTIONS.filter(
+                            (o) =>
+                                (o.id === FilterOptions.DELETED && hideDeleted) ||
+                                (o.id === FilterOptions.EMPTY && hideEmpty),
+                        )}
+                        onChange={(values) => {
+                            const newParams = new URLSearchParams(Object.fromEntries(params));
+                            newParams.delete('hideEmpty');
+                            newParams.delete('hideDeleted');
+                            const valueIds = values.map((v) => v.id);
+                            if (valueIds.includes(FilterOptions.EMPTY)) {
+                                newParams.append('hideEmpty', 'true');
+                            } else {
+                                newParams.append('hideEmpty', 'false');
+                            }
+                            if (valueIds.includes(FilterOptions.DELETED)) {
+                                newParams.append('hideDeleted', 'true');
+                            } else {
+                                newParams.append('hideDeleted', 'false');
+                            }
+                            setSearchParams(newParams);
+                        }}
                     />
                 </S.SelectContainer>
                 <Button
                     variant="plain"
-                    disabled={filterOptions.length === 0}
+                    disabled={!selectedMapicOperation && hideEmpty && hideDeleted}
                     size="medium"
                     onClick={() => {
-                        setFilterOptions([]);
+                        const newParams = new URLSearchParams(Object.fromEntries(params));
+                        newParams.set('hideEmpty', 'true');
+                        newParams.set('hideDeleted', 'true');
+                        newParams.delete('id');
+                        newParams.delete('type');
+                        setSearchParams(newParams);
+                        setSearchText('');
+                        setSelectedMapicOperation(null);
                     }}
                 >
                     Сбросить
