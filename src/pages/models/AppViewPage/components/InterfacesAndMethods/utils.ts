@@ -5,11 +5,7 @@ export const containerFilterFunction = (
     hideEmptyInterfaces: boolean,
     hideDeletedEntities: boolean,
 ) => {
-    let res: IStructurizrContainerData[] = [];
-
-    res = (containerData ?? []).filter((container) =>
-        hideEmptyInterfaces ? container.interfaces.length !== 0 : true,
-    );
+    let res: IStructurizrContainerData[] = containerData ?? [];
 
     if (hideDeletedEntities) {
         res = res
@@ -22,6 +18,10 @@ export const containerFilterFunction = (
             }));
     }
 
+    res = res.filter((container) =>
+        hideEmptyInterfaces ? container.interfaces.length !== 0 : true,
+    );
+
     return res;
 };
 
@@ -30,17 +30,17 @@ export const mapicFilterFunction = (
     hideEmptyInterfaces: boolean,
     hideDeletedEntities: boolean,
 ) => {
-    let res: IMapicInterfaceData[] = [];
-
-    res = (mapicData ?? []).filter((mapicInterface) =>
-        hideEmptyInterfaces ? mapicInterface.operations.length !== 0 : true,
-    );
+    let res: IMapicInterfaceData[] = mapicData ?? [];
 
     if (hideDeletedEntities) {
         res = res
             .filter((i) => !i.deletedDate)
             .map((i) => ({ ...i, operations: i.operations.filter((o) => !o.deletedDate) }));
     }
+
+    res = res.filter((mapicInterface) =>
+        hideEmptyInterfaces ? mapicInterface.operations.length !== 0 : true,
+    );
 
     return res;
 };
