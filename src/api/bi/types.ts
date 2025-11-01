@@ -69,12 +69,6 @@ export interface IParticipant {
     value: string;
 }
 
-interface IAuthor {
-    id: number;
-    fullName: string;
-    email: string;
-}
-
 export interface IBIData {
     channel: IChannel[];
     clientScenario: string;
@@ -100,7 +94,6 @@ export interface IBIData {
     uniqueIdent: string;
     metrics: string | null;
     lastModifiedDate: string;
-    author: IAuthor;
 }
 
 export interface IBIEditabilityData {
