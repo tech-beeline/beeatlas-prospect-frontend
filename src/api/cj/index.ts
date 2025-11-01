@@ -20,15 +20,15 @@ export const getAllCJs = (
     });
 };
 
-export const getCJById = (id: string | number): AxiosPromise<T.ICompleteCJData> => {
+export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.get({
         url: `${GATEWAY_URL}cx/v2/cj/${id}`,
     });
 };
 
-export const postCJ = (data: T.ICJCreateForm) => {
+export const postCJ = (data: T.ICJForm, productId: number) => {
     return Api.post({
-        url: `${GATEWAY_URL}cx/v1/cj/cj`,
+        url: `${GATEWAY_URL}cx/v1/product/${productId}/cj`,
         data,
     });
 };

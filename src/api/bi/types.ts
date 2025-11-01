@@ -92,7 +92,7 @@ export interface IBIData {
     name: string;
     ownerRole: string;
     participants: IParticipant[];
-    productId: number;
+    productId: string;
     status: IStatus;
     target: boolean;
     touchPoints: string;

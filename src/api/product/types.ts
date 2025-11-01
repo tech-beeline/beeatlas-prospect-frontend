@@ -1,5 +1,5 @@
 export interface IProductData {
-    id: number;
+    id: string;
     name: string;
     alias: string;
 }

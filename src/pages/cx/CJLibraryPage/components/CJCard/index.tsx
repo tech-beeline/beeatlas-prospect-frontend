@@ -98,7 +98,6 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                     ) : (
                         formatNullableString(
                             productsData.find((product) => product.id === cj.id_product)?.name,
-                            'Не указано',
                         )
                     )}
                 </Text>

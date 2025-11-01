@@ -20,13 +20,6 @@ export interface ICJForm {
     user_portrait: string;
 }
 
-export interface ICJCreateForm {
-    draft: boolean;
-    name: string;
-    userPortrait?: string;
-    productId?: number;
-}
-
 interface IAuthor {
     id: number;
     fullName: string;
@@ -40,24 +33,14 @@ export interface ICJData {
     lastModifiedDate: string;
     draft: boolean;
     id_user_profile: number;
-    id_product: number;
-}
-
-export interface ICJDataV2 {
-    id: number;
-    name: string;
-    userPortrait: string;
-    draft: boolean;
-    lastModifiedDate: string;
-    createdDate: string;
-    productId: number;
+    id_product: string;
 }
 
 export interface ICompleteStepData extends ICJStepData {
     bi: IBIData[];
 }
 
-export interface ICompleteCJData extends ICJDataV2 {
+export interface ICompleteCJData extends ICJData {
     steps: ICompleteStepData[];
     author: IAuthor;
 }
