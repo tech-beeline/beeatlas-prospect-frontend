@@ -12,4 +12,6 @@ export interface IFilterElement {
     setSideblockView: (sideblockView: SideblockView) => void;
     setGroupToDelete: (el: IPatternGroupTree) => void;
     setGroupToEdit: (group: IPatternGroupToEdit) => void;
+    onSelect: (id: number, checked: boolean) => void;
+    selectedGroups: number[];
 }

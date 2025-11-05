@@ -19,14 +19,23 @@ export const GroupFilters: FC<IGroupFilters> = ({
     setSideblockView,
     setGroupToEdit,
     onClose,
+    onGroupsChange,
 }) => {
     const [search, setSearch] = useState('');
 
     const [groupToDelete, setGroupToDelete] = useState<IPatternGroupTree | null>(null);
+    const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
 
     const { data, isLoading } = useGetPatternGroupTreeQuery();
-
     const { mutateAsync } = useDeletePatternGroupMutation();
+
+    const handleSelect = (id: number, checked: boolean) => {
+        const updated = checked
+            ? [...selectedGroups, id]
+            : selectedGroups.filter((gid) => gid !== id);
+        setSelectedGroups(updated);
+        onGroupsChange(updated);
+    };
 
     const handleDeleteConfirmClick = async () => {
         if (groupToDelete) {
@@ -75,13 +84,24 @@ export const GroupFilters: FC<IGroupFilters> = ({
                                     setGroupToEdit={setGroupToEdit}
                                     setSideblockView={setSideblockView}
                                     setGroupToDelete={setGroupToDelete}
+                                    selectedGroups={selectedGroups}
+                                    onSelect={handleSelect}
                                 />
                             ))}
                         </div>
                     )}
                 </S.MainContent>
                 <S.ButtonContainer>
-                    <Button fullWidth size="medium" variant="plain">
+                    <Button
+                        fullWidth
+                        size="medium"
+                        variant="plain"
+                        onClick={() => {
+                            setSelectedGroups([]);
+                            onGroupsChange([]);
+                        }}
+                        disabled={selectedGroups.length === 0}
+                    >
                         Сбросить
                     </Button>
                 </S.ButtonContainer>

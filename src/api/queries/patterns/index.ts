@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deletePattern,
     deletePatternGroup,
     getPatternById,
     getPatternGroups,
@@ -35,6 +36,19 @@ export function useCreatePatternMutation() {
         mutationKey: [PATTERNS_PREFIX, 'create'],
         mutationFn: async (params: IPatternForm) => {
             await postPattern(params);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PATTERNS_PREFIX] });
+        },
+    });
+}
+
+export function useDeletePatternMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PATTERNS_PREFIX, 'delete'],
+        mutationFn: async (id: string | number) => {
+            await deletePattern(id);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PATTERNS_PREFIX] });

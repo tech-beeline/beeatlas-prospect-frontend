@@ -17,8 +17,11 @@ export const FilterElement: FC<IFilterElement> = ({
     setSideblockView,
     setGroupToDelete,
     setGroupToEdit,
+    onSelect,
+    selectedGroups,
 }) => {
     const [expanded, setExpanded] = useState(false);
+    const isChecked = selectedGroups.includes(filterElement.id);
 
     return (
         <>
@@ -33,7 +36,10 @@ export const FilterElement: FC<IFilterElement> = ({
                             />
                         )}
                     </S.IconButtonContainer>
-                    <Checkbox />
+                    <Checkbox
+                        checked={isChecked}
+                        onChange={(e) => onSelect(filterElement.id, e.target.checked)}
+                    />
                     <Text variant="body3">{filterElement.name}</Text>
                 </S.TitleContainer>
                 {isAdmin && (
@@ -66,6 +72,8 @@ export const FilterElement: FC<IFilterElement> = ({
                             setSideblockView={setSideblockView}
                             setGroupToDelete={setGroupToDelete}
                             setGroupToEdit={setGroupToEdit}
+                            onSelect={onSelect}
+                            selectedGroups={selectedGroups}
                         />
                     ))}
                 </>

@@ -1,11 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { FileUploader, FileUploaderListItem, InlineAlert } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 import { MultiSelect, RadioGroup, TextField } from 'components/form';
+
+import { useGetPatternGroupsQuery } from 'api/queries/patterns';
+import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -29,6 +30,19 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
         setSavedData({ ...savedData, ...values });
         setStepVariant(StepVariants.DOCUMENTATION);
     });
+
+    const { data: technologies } = useGetAllTechnologiesQuery();
+    const { data: groups } = useGetPatternGroupsQuery();
+
+    const technologiesOptions = (technologies ?? []).map((tech) => ({
+        id: tech.id,
+        value: tech.label,
+    }));
+
+    const groupsOptions = (groups ?? []).map((group) => ({
+        id: group.id,
+        value: group.name,
+    }));
 
     useEffect(() => {
         reset({
@@ -62,7 +76,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                                 fullWidth
                                 name="group"
                                 label="Название группировки"
-                                options={[{ id: 1, value: 'Data products' }]}
+                                options={groupsOptions}
                             />
                         </S.SelectContainer>
                         <S.SelectContainer>
@@ -70,50 +84,10 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                                 fullWidth
                                 name="tech"
                                 label="Название технологии"
-                                options={[{ id: 1, value: '.NET Core' }]}
+                                options={technologiesOptions}
                             />
                         </S.SelectContainer>
                     </S.SelectGroup>
-                    <S.FileContainer>
-                        <Text variant="subtitle1">Вложенное изображение</Text>
-                        <InlineAlert type="info" iconName={Icons.InfoCircled}>
-                            Загрузите изображение для комфортного просмотра информации, содержащейся
-                            на карточке
-                        </InlineAlert>
-                        {!savedData.imageFile && (
-                            <FileUploader
-                                accept="image/*"
-                                subTitle="jpg до 100 мб"
-                                onChange={(event) =>
-                                    setSavedData({
-                                        ...savedData,
-                                        imageFile: Array.from(event.target.files ?? [])[0],
-                                    })
-                                }
-                            />
-                        )}
-                        {savedData.imageFile && (
-                            <>
-                                <S.ImageContainer src={URL.createObjectURL(savedData.imageFile)} />
-                                <S.FileListContainer>
-                                    <FileUploaderListItem
-                                        name={savedData.imageFile.name}
-                                        type={savedData.imageFile.type}
-                                        actions={[
-                                            {
-                                                icon: Icons.Delete,
-                                                onClick: () =>
-                                                    setSavedData({
-                                                        ...savedData,
-                                                        imageFile: undefined,
-                                                    }),
-                                            },
-                                        ]}
-                                    />
-                                </S.FileListContainer>
-                            </>
-                        )}
-                    </S.FileContainer>
                 </S.Container>
                 <FormFooter cancelButtonDisabled submitButtonText="Далее" />
             </S.FormStyled>

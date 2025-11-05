@@ -6,4 +6,5 @@ export interface IGroupFilters {
     setSideblockView: (sideblockView: SideblockView) => void;
     setGroupToEdit: (group: IPatternGroupToEdit) => void;
     onClose: () => void;
+    onGroupsChange: (groupIds: number[]) => void;
 }

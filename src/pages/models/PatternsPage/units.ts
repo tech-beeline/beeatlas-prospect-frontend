@@ -60,3 +60,12 @@ export const CardsContainer = styled.div`
 export const BoldSpan = styled.span`
     font-weight: 500;
 `;
+
+export const NotFoundContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    max-width: 100%;
+`;

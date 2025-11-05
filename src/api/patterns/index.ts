@@ -24,6 +24,12 @@ export const postPattern = (data: T.IPatternForm) => {
     });
 };
 
+export const deletePattern = (id: string | number) => {
+    return Api.delete({
+        url: `${GATEWAY_URL}techradar/v1/pattern/${id}`,
+    });
+};
+
 export const getPatternGroups = (): AxiosPromise<T.IPatternGroup[]> => {
     return Api.get({
         url: `${GATEWAY_URL}techradar/v1/pattern/group`,

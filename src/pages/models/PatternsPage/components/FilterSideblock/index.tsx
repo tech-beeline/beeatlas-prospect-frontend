@@ -4,7 +4,7 @@ import { CreateGroupForm, GroupFilters } from './components';
 import { SideblockView } from './const';
 import { IFilterSideblock, IPatternGroupToEdit } from './types';
 
-export const FilterSideblock: FC<IFilterSideblock> = ({ onClose, isAdmin }) => {
+export const FilterSideblock: FC<IFilterSideblock> = ({ onClose, isAdmin, onGroupsChange }) => {
     const [sideblockView, setSideblockView] = useState(SideblockView.FILTER);
     const [groupToEdit, setGroupToEdit] = useState<IPatternGroupToEdit | null>(null);
 
@@ -16,6 +16,7 @@ export const FilterSideblock: FC<IFilterSideblock> = ({ onClose, isAdmin }) => {
                     setGroupToEdit={setGroupToEdit}
                     setSideblockView={setSideblockView}
                     onClose={onClose}
+                    onGroupsChange={onGroupsChange}
                 />
             )}
             {sideblockView === SideblockView.FORM && (
