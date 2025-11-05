@@ -15,6 +15,7 @@ import {
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetSystemInfluenceQuery } from 'api/queries/product';
+import * as R from 'router/const';
 
 import { keyToCriticalMap } from './const';
 import { IAppTable } from './types';
@@ -23,7 +24,23 @@ import * as S from './units';
 export const AppTable: FC<IAppTable> = ({ cmdb }) => {
     // const [sortingVariant, setSortingVariant] = useState(false);
 
-    const { data, isLoading } = useGetSystemInfluenceQuery(cmdb);
+    const { data: systemData, isLoading: isLoadingSystems } = useGetSystemInfluenceQuery({
+        cmdb,
+        // enabled: !deploymentName,
+        enabled: true,
+    });
+
+    // const { data: deploymentData, isLoading: isLoadingDeployments } =
+    //     useGetDeploymentInfluenceQuery({
+    //         cmdb,
+    //         enabled: !!deploymentName,
+    //     });
+
+    // const isLoading = !deploymentName ? isLoadingSystems : isLoadingDeployments;
+    const isLoading = isLoadingSystems;
+    // const data = !deploymentName ? systemData : deploymentData;
+    const data = systemData;
+
     return (
         <>
             {isLoading && <Skeleton height={50} radius={12} />}
@@ -61,7 +78,10 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
                         {data.dependentSystems.map((system) => (
                             <TableRow key={system.alias}>
                                 <TableData>
-                                    <Link title={system.alias} url="https://beeline.ru" />
+                                    <Link
+                                        title={system.alias}
+                                        url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${system.alias}`}
+                                    />
                                 </TableData>
                                 <TableData>
                                     {system.critical &&

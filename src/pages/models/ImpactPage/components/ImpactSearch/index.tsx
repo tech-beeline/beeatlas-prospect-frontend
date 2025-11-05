@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -6,19 +6,18 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { ISearchSystem } from 'api/graph/types';
-import { useGetSearchSystemsQuery } from 'api/queries/graph';
+import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
+import { useGetSearchDeploymentsQuery, useGetSearchSystemsQuery } from 'api/queries/graph';
 import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 
 import { CHIPS, SearchVariants } from './const';
-import { IImpactSearch } from './types';
 import * as S from './units';
 
-export const ImpactSearch: FC<IImpactSearch> = () => {
+export const ImpactSearch = () => {
+    const [searchVariant, setSearchVariant] = useState(SearchVariants.SYSTEM);
     const [, setSearchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
-    const [searchVariant, setSearchVariant] = useState(SearchVariants.SYSTEM);
     const [search, setSearch] = useState('');
     const searchDebounced = useDebounce(search);
 
@@ -27,15 +26,30 @@ export const ImpactSearch: FC<IImpactSearch> = () => {
 
     useOutsideClick(dropdownRef, isOpen, setIsOpen, searchRef);
 
-    const handleCardClick = (system: ISearchSystem) => {
+    const handleSystemClick = (system: ISearchSystem) => {
         setSearchParams({ name: system.name, cmdb: system.cmdb });
         setSearch(system.name);
         setIsOpen(false);
     };
 
-    const { data, isLoading } = useGetSearchSystemsQuery({
+    const handleServerClick = (server: ISearchDeployment) => {
+        setSearchParams({
+            environmentName: server.environmentName,
+            deploymentName: server.deploymentName,
+            cmdb: server.cmdb,
+        });
+        setSearch(server.deploymentName);
+        setIsOpen(false);
+    };
+
+    const { data: systemsData, isLoading: isLoadingSystemsData } = useGetSearchSystemsQuery({
         search: searchDebounced,
         enabled: searchVariant === SearchVariants.SYSTEM,
+    });
+
+    const { data: serverData, isLoading: isLoadingServerData } = useGetSearchDeploymentsQuery({
+        search: searchDebounced,
+        enabled: searchVariant === SearchVariants.SERVER,
     });
 
     return (
@@ -62,33 +76,69 @@ export const ImpactSearch: FC<IImpactSearch> = () => {
                             />
                         ))}
                     </S.ChipsContainer>
-                    {isLoading && (
-                        <S.SkeletonContainer>
-                            <Skeleton radius={12} height={40} />
-                            <Skeleton radius={12} height={40} />
-                        </S.SkeletonContainer>
+                    {searchVariant === SearchVariants.SYSTEM && (
+                        <>
+                            {isLoadingSystemsData && (
+                                <S.SkeletonContainer>
+                                    <Skeleton radius={12} height={40} />
+                                    <Skeleton radius={12} height={40} />
+                                </S.SkeletonContainer>
+                            )}
+                            {systemsData && (
+                                <S.CardsContainer>
+                                    {systemsData.map((system) => (
+                                        <S.SearchCard
+                                            key={system.cmdb}
+                                            onClick={() => handleSystemClick(system)}
+                                        >
+                                            <Icon iconName={Icons.Search} size="large" />
+                                            <Text variant="body2">{system.name}</Text>
+                                        </S.SearchCard>
+                                    ))}
+                                </S.CardsContainer>
+                            )}
+                            {systemsData && systemsData.length === 0 && (
+                                <NotFoundBlock
+                                    setMinSize={false}
+                                    smallImage
+                                    imageVariant={ImageVariants.SEARCH}
+                                    title="Нет результатов, подходящих под параметры поиска"
+                                    text="Попробуйте изменить запрос"
+                                />
+                            )}
+                        </>
                     )}
-                    {data && searchVariant === SearchVariants.SYSTEM && (
-                        <S.CardsContainer>
-                            {data.map((system) => (
-                                <S.SearchCard
-                                    key={system.cmdb}
-                                    onClick={() => handleCardClick(system)}
-                                >
-                                    <Icon iconName={Icons.Search} size="large" />
-                                    <Text variant="body2">{system.name}</Text>
-                                </S.SearchCard>
-                            ))}
-                        </S.CardsContainer>
-                    )}
-                    {data && data.length === 0 && (
-                        <NotFoundBlock
-                            setMinSize={false}
-                            smallImage
-                            imageVariant={ImageVariants.SEARCH}
-                            title="Нет результатов, подходящих под параметры поиска"
-                            text="Попробуйте изменить запрос"
-                        />
+                    {searchVariant === SearchVariants.SERVER && (
+                        <>
+                            {isLoadingServerData && (
+                                <S.SkeletonContainer>
+                                    <Skeleton radius={12} height={40} />
+                                    <Skeleton radius={12} height={40} />
+                                </S.SkeletonContainer>
+                            )}
+                            {serverData && (
+                                <S.CardsContainer>
+                                    {serverData.map((server) => (
+                                        <S.SearchCard
+                                            key={server.cmdb}
+                                            onClick={() => handleServerClick(server)}
+                                        >
+                                            <Icon iconName={Icons.Search} size="large" />
+                                            <Text variant="body2">{server.deploymentName}</Text>
+                                        </S.SearchCard>
+                                    ))}
+                                </S.CardsContainer>
+                            )}
+                            {serverData && serverData.length === 0 && (
+                                <NotFoundBlock
+                                    setMinSize={false}
+                                    smallImage
+                                    imageVariant={ImageVariants.SEARCH}
+                                    title="Нет результатов, подходящих под параметры поиска"
+                                    text="Попробуйте изменить запрос"
+                                />
+                            )}
+                        </>
                     )}
                 </S.Dropdown>
             )}

@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Button, IconButton, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { sendAnalytics } from 'features/analytics';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
@@ -13,6 +14,11 @@ export const RateSideblock: FC<IRateSideblock> = ({ isOpen, onClose }) => {
     const [ratingValue, setRatingValue] = useState<null | number>(null);
     const [comment, setComment] = useState('');
     const [reviewDone, setReviewDone] = useState(false);
+
+    const handleSendReviewClick = () => {
+        sendAnalytics(['impact_rating', String(ratingValue), comment]);
+        setReviewDone(true);
+    };
 
     return (
         <SideBlock hasBackdrop isOpen={isOpen} onClose={onClose}>
@@ -71,7 +77,8 @@ export const RateSideblock: FC<IRateSideblock> = ({ isOpen, onClose }) => {
                             fullWidth
                             variant="contained"
                             size="medium"
-                            onClick={() => setReviewDone(true)}
+                            onClick={handleSendReviewClick}
+                            disabled={!ratingValue}
                         >
                             Отправить оценку
                         </Button>

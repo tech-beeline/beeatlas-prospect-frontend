@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     getAllProducts,
+    getDeploymentInfluence,
     getProductInfoByCmdb,
     getProductMapicInterfacesByCmdb,
     getProductsByTechnologyId,
@@ -95,11 +96,27 @@ export const useCreateStructurizrWorkspaceMutation = () => {
     });
 };
 
-export const useGetSystemInfluenceQuery = (cmdb: string | undefined | null) => {
+interface IGetSystemInfluenceParams {
+    cmdb: string;
+    enabled: boolean;
+}
+export const useGetSystemInfluenceQuery = (params: IGetSystemInfluenceParams) => {
     return useQuery({
-        queryKey: [PRODUCT_PREFIX, 'system', 'influence', cmdb],
-        queryFn: () => getSystemInfluence(cmdb!).then((res) => res.data),
-        enabled: !!cmdb,
+        queryKey: [PRODUCT_PREFIX, 'system', 'influence', params.cmdb],
+        queryFn: () => getSystemInfluence(params.cmdb).then((res) => res.data),
+        enabled: params.enabled,
+    });
+};
+
+interface IGetDeploymentInfluenceParams {
+    cmdb: string;
+    enabled: boolean;
+}
+export const useGetDeploymentInfluenceQuery = (params: IGetDeploymentInfluenceParams) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'deployment', 'influence', params.cmdb],
+        queryFn: () => getDeploymentInfluence(params.cmdb).then((res) => res.data),
+        enabled: params.enabled,
     });
 };
 
