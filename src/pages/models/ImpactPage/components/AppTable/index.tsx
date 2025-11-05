@@ -1,6 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import {
-    IconButton,
+    Skeleton,
+    // IconButton,
     Table,
     TableBody,
     TableData,
@@ -8,10 +9,10 @@ import {
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { TooltipContainer } from 'components/interaction';
-import { Link } from 'components/other';
+// import { Icons } from '@beeline/design-tokens/js/iconfont';
+// import { TooltipContainer } from 'components/interaction';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetSystemInfluenceQuery } from 'api/queries/product';
 
@@ -20,11 +21,12 @@ import { IAppTable } from './types';
 import * as S from './units';
 
 export const AppTable: FC<IAppTable> = ({ cmdb }) => {
-    const [sortingVariant, setSortingVariant] = useState(false);
+    // const [sortingVariant, setSortingVariant] = useState(false);
 
-    const { data } = useGetSystemInfluenceQuery(cmdb);
+    const { data, isLoading } = useGetSystemInfluenceQuery(cmdb);
     return (
         <>
+            {isLoading && <Skeleton height={50} radius={12} />}
             {data && (
                 <Table>
                     <TableHead>
@@ -32,24 +34,24 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
                             <TableHeaderData>
                                 <S.FlexContainer>
                                     Зависимые системы{' '}
-                                    <IconButton
+                                    {/* <IconButton
                                         size="medium"
                                         iconName={Icons.Copy}
                                         data-tooltip-id="copy"
                                     />
                                     <TooltipContainer noArrow place="top" offset={8} id="copy">
                                         Копировать список
-                                    </TooltipContainer>
+                                    </TooltipContainer> */}
                                 </S.FlexContainer>
                             </TableHeaderData>
                             <TableHeaderData>
                                 <S.FlexContainer>
                                     Критичность{' '}
-                                    <IconButton
+                                    {/* <IconButton
                                         size="medium"
                                         iconName={sortingVariant ? Icons.ArrowUp : Icons.ArrowDown}
                                         onClick={() => setSortingVariant(!sortingVariant)}
-                                    />
+                                    /> */}
                                 </S.FlexContainer>
                             </TableHeaderData>
                             <TableHeaderData>Владелец</TableHeaderData>
@@ -71,6 +73,18 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
                                 <TableData>{system.ownerName}</TableData>
                             </TableRow>
                         ))}
+                        {data.dependentSystems.length === 0 && (
+                            <TableRow>
+                                <S.TableDataMaxWidth colSpan={3}>
+                                    <NotFoundBlock
+                                        smallImage
+                                        setMinSize={false}
+                                        imageVariant={ImageVariants.EMPTY_BOX}
+                                        text="Нет зависимых систем"
+                                    />
+                                </S.TableDataMaxWidth>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             )}

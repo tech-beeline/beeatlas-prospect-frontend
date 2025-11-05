@@ -4,6 +4,7 @@ import { Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { ISearchSystem } from 'api/graph/types';
 import { useGetSearchSystemsQuery } from 'api/queries/graph';
@@ -79,6 +80,15 @@ export const ImpactSearch: FC<IImpactSearch> = () => {
                                 </S.SearchCard>
                             ))}
                         </S.CardsContainer>
+                    )}
+                    {data && data.length === 0 && (
+                        <NotFoundBlock
+                            setMinSize={false}
+                            smallImage
+                            imageVariant={ImageVariants.SEARCH}
+                            title="Нет результатов, подходящих под параметры поиска"
+                            text="Попробуйте изменить запрос"
+                        />
                     )}
                 </S.Dropdown>
             )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
+import { Button, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
@@ -37,14 +37,6 @@ export const ImpactPage = () => {
                 )}
             </S.TitleContainer>
             <ImpactSearch />
-            {false && (
-                <>
-                    <Skeleton height={32} radius={12} />
-                    <S.GridContainer>
-                        <Skeleton radius={12} /> <Skeleton radius={12} />
-                    </S.GridContainer>
-                </>
-            )}
             {cmdbParam && nameParam && (
                 <>
                     <S.AppTitleContainer>

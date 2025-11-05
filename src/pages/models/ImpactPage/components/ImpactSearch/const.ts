@@ -6,6 +6,6 @@ export enum SearchVariants {
 
 export const CHIPS = [
     { value: SearchVariants.SYSTEM, label: 'Система' },
-    { value: SearchVariants.CONTAINER, label: 'Контейнер' },
-    { value: SearchVariants.SERVICE, label: 'Сервис' },
+    // { value: SearchVariants.CONTAINER, label: 'Контейнер' },
+    // { value: SearchVariants.SERVICE, label: 'Сервис' },
 ];
