@@ -8,14 +8,14 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ICopyButton } from './types';
 
-export const CopyButton: FC<ICopyButton> = ({ text }) => {
+export const CopyButton: FC<ICopyButton> = ({ text, message }) => {
     const id = useId();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const handleButtonClick = async () => {
         await navigator.clipboard.writeText(text);
-        showSnackbar({ message: 'Ссылка скопирована' });
+        showSnackbar({ message: message });
     };
 
     return (

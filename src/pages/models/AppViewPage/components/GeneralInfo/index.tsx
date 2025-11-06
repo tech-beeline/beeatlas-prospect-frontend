@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Skeleton } from '@beeline/design-system-react';
 
 // import {
@@ -14,14 +14,25 @@ import { Link } from 'components/other';
 
 import { formatNullableString } from 'utils/formatters';
 
-import { CopyButton } from './components';
+import { BlurButton, CopyButton } from './components';
 import { IGeneralInfo } from './types';
 import * as S from './units';
 
 export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
+    const [blurState, setBlurState] = useState({
+        apiKey: true,
+        apiSecret: true,
+    });
+
+    const toggleBlur = (key: keyof typeof blurState) => {
+        setBlurState((prev) => ({
+            ...prev,
+            [key]: !prev[key],
+        }));
+    };
     return (
         <S.Container>
-            {/* <Text inactive variant="body2">
+            <Text inactive variant="body2">
                 Владелец приложения
             </Text>
             <Text variant="body2">Константинопольский Константин Константинович</Text>
@@ -33,6 +44,32 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                 Критичность
             </Text>
             <Text variant="body2">4-Office Productivity</Text>
+            <Text inactive variant="body2">
+                Structurizr_api_key
+            </Text>
+            <Text variant="body2">
+                <S.LinkContainer>
+                    <S.BlurText $isBlurred={blurState.apiKey}>4-Office Productivity</S.BlurText>
+                    <BlurButton
+                        isBlurred={blurState.apiKey}
+                        onToggle={() => toggleBlur('apiKey')}
+                    />
+                    <CopyButton text="4-Office Productivity" message="API_KEY скопирован" />
+                </S.LinkContainer>
+            </Text>
+            <Text inactive variant="body2">
+                Structurizr_api_secret
+            </Text>
+            <Text variant="body2">
+                <S.LinkContainer>
+                    <S.BlurText $isBlurred={blurState.apiSecret}>4-Office Productivity</S.BlurText>
+                    <BlurButton
+                        isBlurred={blurState.apiSecret}
+                        onToggle={() => toggleBlur('apiSecret')}
+                    />
+                    <CopyButton text="4-Office Productivity" message="API_SECRET скопирован" />
+                </S.LinkContainer>
+            </Text>
             <Text inactive variant="body2">
                 Влияние приложения
             </Text>
@@ -53,7 +90,10 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                         title="https://bw.beeline.ru/catalog/apps/53"
                         url="https://bw.beeline.ru/catalog/apps/53"
                     />
-                    <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
+                    <CopyButton
+                        text="https://bw.beeline.ru/catalog/apps/53"
+                        message="Ссылка скопирована"
+                    />
                 </S.LinkContainer>
             </Text>
             <Text inactive variant="body2">
@@ -65,9 +105,12 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                         title="https://bw.beeline.ru/catalog/apps/53"
                         url="https://bw.beeline.ru/catalog/apps/53"
                     />
-                    <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
+                    <CopyButton
+                        text="https://bw.beeline.ru/catalog/apps/53"
+                        message="Ссылка скопирована"
+                    />
                 </S.LinkContainer>
-            </Text> */}
+            </Text>
             <Text inactive variant="body2">
                 Workspace Structurizr
             </Text>
@@ -80,7 +123,10 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                                 title={productData.structurizrApiUrl}
                                 url={productData.structurizrApiUrl}
                             />
-                            <CopyButton text={productData.structurizrApiUrl} />
+                            <CopyButton
+                                text={productData.structurizrApiUrl}
+                                message="Ссылка скопирована"
+                            />
                         </S.LinkContainer>
                     ) : (
                         formatNullableString(null)
@@ -96,7 +142,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                     {productData.gitUrl ? (
                         <S.LinkContainer>
                             <Link title={productData.gitUrl} url={productData.gitUrl} />
-                            <CopyButton text={productData.gitUrl} />
+                            <CopyButton text={productData.gitUrl} message="Ссылка скопирована" />
                         </S.LinkContainer>
                     ) : (
                         formatNullableString(null)
