@@ -19,7 +19,7 @@ export const getSearchDeployments = (search: string): AxiosPromise<T.ISearchDepl
 
 export const getSystemDiagramGraph = (cmdb: string): AxiosPromise<unknown> => {
     return Api.get({
-        url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/context?cmdb=${cmdb}&communicationDirection=out`,
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/context?cmdb=${cmdb}&communicationDirection=in`,
     });
 };
 
