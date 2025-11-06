@@ -73,6 +73,8 @@ export const ImpactPage = () => {
                         </S.AppTitleIconWrapper>
                         <Text variant="subtitle3">
                             <Link
+                                showIconPermanently
+                                showOuterIcon
                                 title="Общая информация"
                                 url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${cmdbParam}`}
                             />
