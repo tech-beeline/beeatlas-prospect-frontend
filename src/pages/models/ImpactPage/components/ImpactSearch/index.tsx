@@ -52,6 +52,15 @@ export const ImpactSearch = () => {
         enabled: searchVariant === SearchVariants.SERVER,
     });
 
+    const handleEnterButtonClick = () => {
+        if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
+            handleSystemClick(systemsData[0]);
+        }
+        if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
+            handleServerClick(serverData[0]);
+        }
+    };
+
     return (
         <S.Container>
             <Search
@@ -61,7 +70,9 @@ export const ImpactSearch = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={() => setIsOpen(true)}
+                onClick={() => setIsOpen(true)}
                 onClear={() => setSearch('')}
+                onSearch={handleEnterButtonClick}
             />
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
