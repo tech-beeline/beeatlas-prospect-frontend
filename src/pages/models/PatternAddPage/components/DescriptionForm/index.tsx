@@ -1,16 +1,23 @@
 import React, { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Banner, FileUploader, IconButton, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer } from 'features/technologies';
+import { MarkdownCodeRenderer } from 'features/technologies/components/MarkdownLinkRenderer';
 import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 
-import { useCreatePatternMutation, useUpdatePatternMutation } from 'api/queries/patterns';
+import {
+    useCreatePatternMutation,
+    useUpdatePatternMutation,
+    useUploadPatternFileMutation,
+} from 'api/queries/patterns';
+import * as R from 'router/const';
 import { formatSize } from 'utils/formatters';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -23,14 +30,18 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     savedData,
     setSavedData,
 }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const navigate = useNavigate();
+
     const [fileText, setFileText] = useState<string | null>(null);
     const readerRef = useRef(new FileReader());
 
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { mutateAsync, isPending } = useCreatePatternMutation();
+    const { mutateAsync: createPattern, isPending } = useCreatePatternMutation();
     const { mutateAsync: updatePattern } = useUpdatePatternMutation();
+    const { mutateAsync: uploadPatternFile } = useUploadPatternFileMutation();
 
     useEffect(() => {
         readerRef.current.onload = () =>
@@ -40,12 +51,12 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     }, [readerRef]);
 
     useEffect(() => {
-        if (savedData.descriptionFile) {
-            readerRef.current.readAsText(savedData.descriptionFile);
+        if (savedData.dslFile) {
+            readerRef.current.readAsText(savedData.dslFile);
         } else {
             setFileText(null);
         }
-    }, [savedData.descriptionFile]);
+    }, [savedData.dslFile]);
 
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -59,20 +70,33 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
                     description: savedData.description ?? '',
                     groups: savedData.group ?? [],
                     relationsTech: savedData.tech ?? [],
-                    dsl: savedData.dsl ?? '',
                     rule: savedData.rule ?? '',
+                    dsl: savedData.dsl ? savedData.dsl : fileText ? fileText : '',
                 },
             });
+            if (savedData.documentationFile) {
+                await uploadPatternFile({
+                    file: savedData.documentationFile,
+                    patternId: Number(paramId),
+                });
+            }
+            showSnackbar({ message: 'Изменения сохранены' });
+            navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${paramId}`);
         } else {
-            await mutateAsync({
-                groups: savedData.group ?? [],
-                relationsTech: savedData.tech ?? [],
+            const { id } = await createPattern({
                 name: savedData.name ?? '',
-                rule: savedData.rule ?? '',
                 isAntiPattern: savedData.type === 1,
                 description: savedData.description ?? '',
-                dsl: savedData.dsl ?? '',
+                groups: savedData.group ?? [],
+                relationsTech: savedData.tech ?? [],
+                rule: savedData.rule ?? '',
+                dsl: savedData.dsl ? savedData.dsl : fileText ? fileText : '',
             });
+            if (savedData.documentationFile) {
+                await uploadPatternFile({ file: savedData.documentationFile, patternId: id });
+            }
+            showSnackbar({ message: 'Паттерн создан' });
+            navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${id}`);
         }
     };
 
@@ -88,7 +112,7 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
                     fullWidth
                     value={savedData.dsl}
                     onChange={(e) => setSavedData({ ...savedData, dsl: e.target.value })}
-                    disabled={!!savedData.descriptionFile}
+                    disabled={!!savedData.dslFile}
                     label="Описание архитектуры в structurize dsl"
                 />
 
@@ -96,26 +120,29 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
                     <Text variant="subtitle1">Вложенный файл</Text>
                 </S.TextContainer>
 
-                {!savedData.descriptionFile && (
+                {!savedData.dslFile && (
                     <FileUploader
                         hideFileList
-                        disabled={!!savedData.description}
-                        accept=".md"
+                        disabled={!!savedData.dsl}
+                        accept=".dsl"
                         subTitle="markdown до 100 мб"
                         onChange={(event) =>
                             setSavedData({
                                 ...savedData,
-                                descriptionFile: Array.from(event.target.files ?? [])[0],
+                                dslFile: Array.from(event.target.files ?? [])[0],
                             })
                         }
                     />
                 )}
 
-                {savedData.descriptionFile && fileText && (
+                {savedData.dslFile && fileText && (
                     <>
                         <S.MarkdownFileContainer>
                             <Markdown
-                                components={{ a: MarkdownLinkRenderer }}
+                                components={{
+                                    a: MarkdownLinkRenderer,
+                                    code: MarkdownCodeRenderer,
+                                }}
                                 urlTransform={(v) => v}
                                 remarkPlugins={[remarkGfm]}
                             >
@@ -125,10 +152,10 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
 
                         <S.FileNameContainer>
                             <S.FileMetadataContainer>
-                                <Text variant="body3">{savedData.descriptionFile.name}</Text>
+                                <Text variant="body3">{savedData.dslFile.name}</Text>
                                 <Text inactive variant="caption">
-                                    {formatSize(savedData.descriptionFile.size)}{' '}
-                                    {dayjs(savedData.descriptionFile.lastModified)
+                                    {formatSize(savedData.dslFile.size)}{' '}
+                                    {dayjs(savedData.dslFile.lastModified)
                                         .local()
                                         .format('DD.MM.YYYY, HH:mm')}
                                 </Text>
@@ -136,9 +163,7 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
                             <IconButton
                                 iconName={Icons.Delete}
                                 size="medium"
-                                onClick={() =>
-                                    setSavedData({ ...savedData, descriptionFile: undefined })
-                                }
+                                onClick={() => setSavedData({ ...savedData, dslFile: undefined })}
                             />
                         </S.FileNameContainer>
                     </>
@@ -146,10 +171,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             </S.Container>
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.RULES)}
-                submitButtonDisabled={
-                    (!savedData.description && !savedData.descriptionFile) || isPending
-                }
-                submitButtonText="Создать"
+                submitButtonDisabled={(!savedData.description && !savedData.dslFile) || isPending}
+                submitButtonText={paramId ? 'Сохранить изменения' : 'Создать'}
             />
         </S.FormStyled>
     );

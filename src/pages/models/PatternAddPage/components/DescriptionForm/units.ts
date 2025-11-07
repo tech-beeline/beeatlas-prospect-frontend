@@ -31,53 +31,12 @@ export const MarkdownFileContainer = styled.div`
 
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 
-    font-size: var(--font-size-body2);
-    font-weight: var(--font-weight-body2);
-    line-height: var(--font-line-height-body2);
-
     * {
-        white-space: normal;
-    }
+        font-size: var(--font-size-body2);
+        font-weight: var(--font-weight-body2);
+        line-height: var(--font-line-height-body2);
 
-    h1 {
-        font-size: var(--font-size-h4);
-        font-weight: var(--font-weight-h4);
-        line-height: var(--font-line-height-h4);
-    }
-
-    h2 {
-        font-size: var(--font-size-h6);
-        font-weight: var(--font-weight-h6);
-        line-height: var(--font-line-height-h6);
-
-        :not(:first-child) {
-            margin-top: 24px;
-        }
-    }
-
-    h3 {
-        font-size: var(--font-size-subtitle2);
-        font-weight: var(--font-weight-subtitle2);
-        line-height: var(--font-line-height-subtitle2);
-    }
-
-    *:not(h2) + h3 {
-        margin-top: 24px;
-    }
-
-    ul,
-    ol {
-        margin: 0;
-    }
-
-    a {
-        color: var(--color-text-link);
-
-        cursor: pointer;
-    }
-
-    strong {
-        font-weight: var(--font-weight-subtitle2);
+        white-space: pre-wrap;
     }
 `;
 

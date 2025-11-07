@@ -15,6 +15,12 @@ export interface IPattern {
     groups: { id: number; name: string }[];
 }
 
+export interface IPatternDocumentTypesData {
+    docType: string;
+    id: number;
+    name: string;
+}
+
 export interface IPatternForm {
     name: string;
     rule: string;

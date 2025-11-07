@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
+import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Chip, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
+import { Chip, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { ringIdToLabelStatusMap } from 'features/technologies';
+import { MarkdownLinkRenderer, ringIdToLabelStatusMap } from 'features/technologies';
+import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
-import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetPatternByIdQuery } from 'api/queries/patterns';
-import { useModal } from 'hooks';
+import { useGetPatternByIdQuery, useGetPatternFileByIdQuery } from 'api/queries/patterns';
+// import { useModal } from 'hooks';
 import * as R from 'router/const';
-import { Dialog } from 'widgets/Dialog';
-import { useSnackbarStore } from 'widgets/Snackbar';
 
+// import { Dialog } from 'widgets/Dialog';
+// import { useSnackbarStore } from 'widgets/Snackbar';
 import * as S from './units';
 
 export const PatternViewPage = () => {
@@ -21,12 +22,13 @@ export const PatternViewPage = () => {
     const paramId = params.get('id');
 
     const [isTechnologiesExpanded, setIsTechnologiesExpanded] = useState(false);
-    const [isLinksExpanded, setIsLinksExpanded] = useState(false);
-    const [isAppsExpanded, setIsAppsExpanded] = useState(false);
-    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+    // const [isLinksExpanded, setIsLinksExpanded] = useState(false);
+    // const [isAppsExpanded, setIsAppsExpanded] = useState(false);
+    const [isRuleExpanded, setIsRuleExpanded] = useState(false);
+    const [isDslExpanded, setIsDslExpanded] = useState(false);
 
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const { modalOpened, openModal, closeModal } = useModal();
+    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    // const { modalOpened, openModal, closeModal } = useModal();
 
     const navigate = useNavigate();
 
@@ -34,37 +36,38 @@ export const PatternViewPage = () => {
         navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}`);
     };
 
-    const { data, isLoading } = useGetPatternByIdQuery(paramId);
+    const { data: patternData, isLoading: isLoadingPattern } = useGetPatternByIdQuery(paramId);
+    const { data: fileData, isLoading: isLoadingFileData } = useGetPatternFileByIdQuery(paramId);
 
-    const [isSubscribed, setIsSubcribe] = useState(false);
+    const isLoading = isLoadingFileData || isLoadingPattern;
 
-    const handleSubscribeButtonClick = async () => {
-        if (isSubscribed) {
-            openModal();
-        } else {
-            setIsSubcribe(true);
-            showSnackbar({
-                message:
-                    'Вы подписались на изменения технологии. Уведомления будут отображаться на витрине ФДМ',
-            });
-        }
-    };
+    // const [isSubscribed, setIsSubcribe] = useState(false);
 
-    const handleUnsubscribeButtonClick = async () => {
-        setIsSubcribe(true);
-        closeModal();
-        showSnackbar({
-            message: 'Вы отписаны от уведомлений',
-        });
-    };
+    // const handleSubscribeButtonClick = async () => {
+    //     if (isSubscribed) {
+    //         openModal();
+    //     } else {
+    //         setIsSubcribe(true);
+    //         showSnackbar({
+    //             message:
+    //                 'Вы подписались на изменения технологии. Уведомления будут отображаться на витрине ФДМ',
+    //         });
+    //     }
+    // };
 
-    {
-        /* const handleExportButtonClick = () => {
+    // const handleUnsubscribeButtonClick = async () => {
+    //     setIsSubcribe(true);
+    //     closeModal();
+    //     showSnackbar({
+    //         message: 'Вы отписаны от уведомлений',
+    //     });
+    // };
+
+    /* const handleExportButtonClick = () => {
         if (fileData && technologyData) {
             downloadTextFile(`${technologyData.label}.md`, fileData.file);
         }
     };*/
-    }
 
     return (
         <S.PageWrapper>
@@ -77,14 +80,14 @@ export const PatternViewPage = () => {
                         <Icon iconName={Icons.NavArrowRight} size="small" />
                     </S.BreadcrumbContainer>
                     <S.SpaceBetweenContainer>
-                        {isLoading && <Skeleton height={32} width={100} radius={4} />}
-                        {data && (
+                        {isLoadingPattern && <Skeleton height={32} width={100} radius={4} />}
+                        {patternData && (
                             <S.TitleContainer>
-                                <Text variant="h4">{data.name}</Text>
+                                <Text variant="h4">{patternData.name}</Text>
                                 <Label
-                                    title={data.isAntiPattern ? 'Антипаттерн' : 'Паттерн'}
+                                    title={patternData.isAntiPattern ? 'Антипаттерн' : 'Паттерн'}
                                     variant="contained"
-                                    type={data.isAntiPattern ? 'error' : 'success'}
+                                    type={patternData.isAntiPattern ? 'error' : 'success'}
                                 />
                             </S.TitleContainer>
                         )}
@@ -98,7 +101,7 @@ export const PatternViewPage = () => {
                                     Экспорт
                                 </Button>
                             )}*/}
-                            <Button
+                            {/* <Button
                                 startIcon={
                                     <Icon
                                         iconName={
@@ -111,16 +114,16 @@ export const PatternViewPage = () => {
                                 onClick={handleSubscribeButtonClick}
                             >
                                 {isSubscribed ? 'Отписаться' : 'Подписаться'}
-                            </Button>
+                            </Button> */}
                         </S.ButtonsContainer>
                     </S.SpaceBetweenContainer>
-                    {(isLoading || (data && data.groups.length !== 0)) && (
+                    {(isLoading || (patternData && patternData.groups.length !== 0)) && (
                         <S.LabelsContainer>
                             {isLoading &&
                                 Array.from({ length: 3 }).map((_, i) => (
                                     <Skeleton key={i} height={32} width={100} radius={16} />
                                 ))}
-                            {data?.groups.map((group) => (
+                            {patternData?.groups.map((group) => (
                                 <Chip key={group.id} label={group.name} />
                             ))}
                         </S.LabelsContainer>
@@ -138,11 +141,17 @@ export const PatternViewPage = () => {
                     </S.GridContainer>
                 )}
 
-                {data && (
+                {patternData && fileData && (
                     <S.GridContainer>
-                        <S.DescriptionContainer>
-                            {data?.description ? (
-                                <Text variant="h6">{data.description}</Text>
+                        <S.PatternFileContainer>
+                            {fileData ? (
+                                <Markdown
+                                    components={{ a: MarkdownLinkRenderer }}
+                                    urlTransform={(v) => v}
+                                    remarkPlugins={[remarkGfm]}
+                                >
+                                    {fileData.file}
+                                </Markdown>
                             ) : (
                                 <S.NotFoundContainer>
                                     <NotFoundBlock
@@ -152,12 +161,12 @@ export const PatternViewPage = () => {
                                     />
                                 </S.NotFoundContainer>
                             )}
-                        </S.DescriptionContainer>
+                        </S.PatternFileContainer>
                         <S.FlexContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
                                     <Text variant="h6">
-                                        Технологии ({data.technologies.length})
+                                        Технологии ({patternData.technologies.length})
                                     </Text>
                                     <IconButton
                                         iconName={
@@ -173,7 +182,7 @@ export const PatternViewPage = () => {
                                 </S.SpaceBetweenContainer>
                                 {isTechnologiesExpanded && (
                                     <>
-                                        {data.technologies.map((tech) => (
+                                        {patternData.technologies.map((tech) => (
                                             <S.SpaceBetweenContainer key={tech.id}>
                                                 <Text variant="body2">{tech.label}</Text>
                                                 <S.TechnologyLabelsContainer>
@@ -197,7 +206,7 @@ export const PatternViewPage = () => {
                                     </>
                                 )}
                             </S.ExpandableContainer>
-                            <S.ExpandableContainer>
+                            {/* <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
                                     <Text variant="h6">Ссылки ADR</Text>
                                     <IconButton
@@ -216,8 +225,8 @@ export const PatternViewPage = () => {
                                         <Link url="/" />
                                     </>
                                 )}
-                            </S.ExpandableContainer>
-                            <S.ExpandableContainer>
+                            </S.ExpandableContainer> */}
+                            {/* <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
                                     <S.AppsTitleContainer>
                                         <Text variant="h6">Приложения (4) </Text>
@@ -247,16 +256,6 @@ export const PatternViewPage = () => {
                                 </S.SpaceBetweenContainer>
                                 {isAppsExpanded && (
                                     <>
-                                        {/* {isLoadingProducts &&
-                                            Array.from({ length: 3 }).map((_, i) => (
-                                                <Skeleton key={i} height={40} radius={12} />
-                                            ))}
-                                        {productsData?.length === 0 && (
-                                            <Text variant="body2">
-                                                Нет информации о приложениях, но мы работаем над
-                                                этим
-                                            </Text>
-                                        )} */}
                                         {Array.from({ length: 3 }).map((_, i) => (
                                             <S.SpaceBetweenContainer key={i}>
                                                 <div>
@@ -281,40 +280,53 @@ export const PatternViewPage = () => {
                                         ))}
                                     </>
                                 )}
+                            </S.ExpandableContainer> */}
+                            <S.ExpandableContainer>
+                                <S.SpaceBetweenContainer>
+                                    <Text variant="h6">Правила идентификации</Text>
+                                    <IconButton
+                                        iconName={
+                                            isRuleExpanded ? Icons.NavArrowUp : Icons.NavArrowDown
+                                        }
+                                        onClick={() => setIsRuleExpanded(!isRuleExpanded)}
+                                        size="large"
+                                    />
+                                </S.SpaceBetweenContainer>
+                                {isRuleExpanded && (
+                                    <S.TextWrap>
+                                        <Text variant="body2">{patternData.rule}</Text>
+                                    </S.TextWrap>
+                                )}
                             </S.ExpandableContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
                                     <Text variant="h6">Описание архитектуры в structurize dsl</Text>
                                     <IconButton
                                         iconName={
-                                            isDescriptionExpanded
-                                                ? Icons.NavArrowUp
-                                                : Icons.NavArrowDown
+                                            isDslExpanded ? Icons.NavArrowUp : Icons.NavArrowDown
                                         }
-                                        onClick={() =>
-                                            setIsDescriptionExpanded(!isDescriptionExpanded)
-                                        }
+                                        onClick={() => setIsDslExpanded(!isDslExpanded)}
                                         size="large"
                                     />
                                 </S.SpaceBetweenContainer>
-                                {isDescriptionExpanded && (
-                                    <S.DescriptionContainer>
-                                        <Text variant="body2">{data.rule}</Text>
-                                    </S.DescriptionContainer>
+                                {isDslExpanded && (
+                                    <S.TextWrap>
+                                        <Text variant="body2">{patternData.dsl}</Text>
+                                    </S.TextWrap>
                                 )}
                             </S.ExpandableContainer>
                         </S.FlexContainer>
                     </S.GridContainer>
                 )}
             </S.Container>
-            <Dialog
+            {/* <Dialog
                 opened={modalOpened}
                 onClose={closeModal}
                 onConfirm={handleUnsubscribeButtonClick}
                 title="Отписаться от технологии?"
             >
-                Вы отписываетесь от <S.BoldSpan>{data?.name}</S.BoldSpan>
-            </Dialog>
+                Вы отписываетесь от <S.BoldSpan>{patternData?.name}</S.BoldSpan>
+            </Dialog> */}
         </S.PageWrapper>
     );
 };

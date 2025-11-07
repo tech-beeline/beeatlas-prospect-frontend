@@ -5,7 +5,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
-import { useGetPatternByIdQuery } from 'api/queries/patterns';
+import { useGetPatternByIdQuery, useGetPatternFileByIdQuery } from 'api/queries/patterns';
 import * as R from 'router/const';
 
 import { DescriptionForm, DocumentationForm, GeneralInfoForm, RulesForm } from './components';
@@ -19,6 +19,7 @@ export const PatternAddPage = () => {
     const [savedData, setSavedData] = useState<ISavedData>({});
 
     const { data } = useGetPatternByIdQuery(paramId);
+    const { data: fileData } = useGetPatternFileByIdQuery(paramId);
 
     const navigate = useNavigate();
 
@@ -27,19 +28,21 @@ export const PatternAddPage = () => {
     };
 
     useEffect(() => {
-        if (data) {
+        if (data && fileData) {
             setSavedData({
+                documentationFile: new File([fileData.file], fileData.fileName),
                 name: data.name,
                 type: data.isAntiPattern === true ? 1 : 0,
                 description: data.description,
                 group: data.groups.map((group) => group.id),
                 tech: data.technologies.map((tech) => tech.id),
                 dsl: data.dsl,
+                rule: data.rule,
             });
         } else {
             setSavedData({});
         }
-    }, [data]);
+    }, [data, fileData]);
 
     return (
         <S.PageWrapper>

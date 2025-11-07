@@ -17,10 +17,33 @@ export const getPatternById = (id: string | number): AxiosPromise<T.IPattern> =>
     });
 };
 
-export const postPattern = (data: T.IPatternForm) => {
+export const getPatternDocumentationTypes = (): AxiosPromise<T.IPatternDocumentTypesData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documentations/pattern`,
+    });
+};
+
+export const getPatternFile = (patternId: number, docTypeId: number): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/${docTypeId}/${patternId}`,
+    });
+};
+
+export const postPattern = (data: T.IPatternForm): AxiosPromise<{ id: number }> => {
     return Api.post({
         url: `${GATEWAY_URL}techradar/v1/pattern`,
         data,
+    });
+};
+
+export const uploadPatternFile = (file: File, patternId: number) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return Api.post({
+        url: `${GATEWAY_URL}document/v1/documents/patterns/md?targetId=${patternId}`,
+        data: formData,
+        headers: { 'Content-Disposition': `${file.name}` },
     });
 };
 

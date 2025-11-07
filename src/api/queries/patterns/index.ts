@@ -4,6 +4,8 @@ import {
     deletePattern,
     deletePatternGroup,
     getPatternById,
+    getPatternDocumentationTypes,
+    getPatternFile,
     getPatternGroups,
     getPatternGroupsTree,
     getPatterns,
@@ -11,6 +13,7 @@ import {
     patchPatternGroup,
     postPattern,
     postPatternGroup,
+    uploadPatternFile,
 } from 'api/patterns';
 import { IPatternForm, IPatternGroupForm } from 'api/patterns/types';
 
@@ -31,24 +34,59 @@ export const useGetPatternByIdQuery = (id: string | null | undefined) => {
     });
 };
 
+export const useGetPatternFileByIdQuery = (patternId: string | number | null) => {
+    return useQuery({
+        queryKey: [PATTERNS_PREFIX, 'file', patternId],
+        queryFn: async () => {
+            const docTypes = await getPatternDocumentationTypes().then((res) => res.data);
+            const docTypeId = docTypes[0].id;
+
+            const patternFile = await getPatternFile(Number(patternId), docTypeId).then(
+                (res) => res,
+            );
+            const fileName = patternFile.headers['content-disposition']
+                .split('filename=')[1]
+                .replaceAll('"', '');
+
+            return { file: patternFile.data, fileName };
+        },
+        enabled: !!patternId,
+    });
+};
+
 export function useCreatePatternMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [PATTERNS_PREFIX, 'create'],
-        mutationFn: async (params: IPatternForm) => {
-            await postPattern(params);
-        },
+        mutationFn: (params: IPatternForm) => postPattern(params).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PATTERNS_PREFIX] });
         },
     });
 }
 
+interface IUploadFileParams {
+    file: File;
+    patternId: number;
+}
+export const useUploadPatternFileMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationKey: [PATTERNS_PREFIX, 'upload'],
+        mutationFn: async (params: IUploadFileParams) => {
+            await uploadPatternFile(params.file, params.patternId);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PATTERNS_PREFIX] });
+        },
+    });
+};
+
 interface IUpdatePatternParams {
     data: IPatternForm;
     id: number;
 }
-
 export function useUpdatePatternMutation() {
     const queryClient = useQueryClient();
     return useMutation({

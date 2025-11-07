@@ -20,6 +20,6 @@ export interface ISavedData {
     documentationFile?: File;
     rule?: string;
     description?: string;
-    descriptionFile?: File;
+    dslFile?: File;
     dsl?: string;
 }

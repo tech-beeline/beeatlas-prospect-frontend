@@ -9,3 +9,7 @@ export const MarkdownLinkRenderer: FC<IMarkdownLinkRenderer> = ({ children, href
         </a>
     );
 };
+
+export const MarkdownCodeRenderer: FC<IMarkdownLinkRenderer> = ({ children }) => {
+    return <div>{children}</div>;
+};
