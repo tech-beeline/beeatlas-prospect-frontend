@@ -85,10 +85,10 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
                                 </TableData>
                                 <TableData>
                                     {system.critical &&
-                                        `${
+                                        `${system.critical.split('_')[1]}-${
                                             keyToCriticalMap[system.critical.split('_')[0]] ??
                                             system.critical.split('_')[0]
-                                        } ${system.critical.split('_')[1]}`}
+                                        }`}
                                 </TableData>
                                 <TableData>{system.ownerName}</TableData>
                             </TableRow>
