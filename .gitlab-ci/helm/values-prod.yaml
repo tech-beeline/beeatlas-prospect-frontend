@@ -51,9 +51,9 @@ ingress:
       secretName: fdm-tls
 
 env:
-  NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-prod-service:8080/api-gateway
+  NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-prod-service:8080
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: 'proxy_set_header Host fdm-gateway-prod-service;'
-  NGINX_LOCATION_API: http://eafdmmart-backend-prod-service:8080/api
+  NGINX_LOCATION_API: http://eafdmmart-backend-prod-service:8080
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: 'proxy_set_header Host eafdmmart-backend-prod-service;'
 
 replicaCount: 1

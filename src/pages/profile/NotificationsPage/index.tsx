@@ -7,6 +7,7 @@ import {
     DatePickerRange,
     Pagination,
     Select,
+    Skeleton,
 } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 import {
@@ -23,13 +24,14 @@ import {
     useUpdateBusinessNotificationsMutation,
     useUpdateNotificationsMutation,
 } from 'api/queries/notifications';
+import { useGetSubscriptionEntityTypesQuery } from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 
 import {
     BUSINESS_CHIPS,
     BusinessFilterVariants,
-    CHIPS,
     FilterVariants,
-    filterVariantToNotificationEntityMap,
+    filterVariantToBusinessNotificationEntityMap,
     NotificationVariants,
 } from './const';
 import * as S from './units';
@@ -41,7 +43,9 @@ export const NotificationsPage = () => {
         NotificationGroups.LANDSCAPE_CHANGES,
     );
     const [notificationVariant, setNotificationVariant] = useState(NotificationVariants.ALL);
-    const [filterVariant, setFilterVariant] = useState(FilterVariants.ALL);
+    const [filterVariant, setFilterVariant] = useState<
+        FilterVariants.ALL | SubscriptionEntityVariants
+    >(FilterVariants.ALL);
     const [businessFilterVariant, setBusinessFilterVariant] = useState(BusinessFilterVariants.ALL);
 
     const notificationVariantOptions = [
@@ -77,9 +81,10 @@ export const NotificationsPage = () => {
         page: page - 1,
         afterDate: date[0] ? dayjs(date[0]).format('YYYY-MM-DD HH:mm:ss') : undefined,
         beforeDate: date[1] ? dayjs(date[1]).format('YYYY-MM-DD HH:mm:ss') : undefined,
-        type:
-            filterVariant !== FilterVariants.ALL
-                ? filterVariantToNotificationEntityMap[filterVariant]
+        type: filterVariant !== FilterVariants.ALL ? filterVariant : undefined,
+        businessType:
+            businessFilterVariant !== BusinessFilterVariants.ALL
+                ? filterVariantToBusinessNotificationEntityMap[businessFilterVariant]
                 : undefined,
         wasNotify:
             notificationVariant === NotificationVariants.UNREAD
@@ -88,6 +93,8 @@ export const NotificationsPage = () => {
                 ? true
                 : undefined,
     });
+    const { data: entitiesData, isLoading: isLoadingEntities } =
+        useGetSubscriptionEntityTypesQuery();
 
     const { mutateAsync: updateNotifications } = useUpdateNotificationsMutation();
     const { mutateAsync: updateBusinessNotifications } = useUpdateBusinessNotificationsMutation();
@@ -189,14 +196,30 @@ export const NotificationsPage = () => {
                 <S.ControlsContainer>
                     {notificationGroup === NotificationGroups.LANDSCAPE_CHANGES && (
                         <S.ChipsContainer>
-                            {CHIPS.map((chip) => (
-                                <Chip
-                                    key={chip.value}
-                                    label={chip.label}
-                                    active={filterVariant === chip.value}
-                                    onClick={() => setFilterVariant(chip.value)}
-                                />
-                            ))}
+                            <Chip
+                                label="Все"
+                                active={filterVariant === FilterVariants.ALL}
+                                onClick={() => {
+                                    setFilterVariant(FilterVariants.ALL);
+                                    setPage(1);
+                                }}
+                            />
+                            {isLoadingEntities &&
+                                Array.from({ length: 3 }).map((_, i) => (
+                                    <Skeleton key={i} height={32} width={100} radius={16} />
+                                ))}
+                            {entitiesData &&
+                                entitiesData.map((entity) => (
+                                    <Chip
+                                        key={entity.id}
+                                        label={entity.alias}
+                                        active={filterVariant === entity.type}
+                                        onClick={() => {
+                                            setFilterVariant(entity.type);
+                                            setPage(1);
+                                        }}
+                                    />
+                                ))}
                         </S.ChipsContainer>
                     )}
                     {notificationGroup === NotificationGroups.BUSINESS_EVENTS && (
@@ -238,6 +261,11 @@ export const NotificationsPage = () => {
                                     <NotificationCard
                                         key={notification.id}
                                         notification={notification}
+                                        entityAlias={
+                                            entitiesData?.find(
+                                                (e) => e.type === notification.entityType,
+                                            )?.alias ?? ''
+                                        }
                                     />
                                 ))}
                             </S.CardsContainer>

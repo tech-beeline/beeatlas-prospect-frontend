@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
-import { ExportVariant } from 'api/file-export/types';
-import { useCreateExportMutation } from 'api/queries/file-export';
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
-import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
+    ExportButton,
     Filters,
     LeftMenu,
     Legend,
@@ -24,8 +20,6 @@ import * as S from './units';
 import { itemFilterHandler, openTechInLeftMenu } from './utils';
 
 export const TechRadarPage = () => {
-    const [isExportButtonDisabled, setIsExportButtonDisabled] = useState(false);
-
     const [hoveredTechId, setHoveredTechId] = useState<number | null>(null);
     const [selectedTech, setSelectedTech] = useState<ITech | null>(null);
     const [params, setSearchParams] = useSearchParams();
@@ -33,23 +27,6 @@ export const TechRadarPage = () => {
     const id = params.get('id');
 
     const { data: techRadarData } = useGetAllTechnologiesQuery();
-    const { mutateAsync: createExport } = useCreateExportMutation();
-
-    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
-
-    const handleExportClick = async () => {
-        createExport(ExportVariant.TECH);
-
-        showSnackbar({
-            message:
-                'Ваш файл находится в процессе обработки. Как только экспорт будет завершен, вы получите уведомление. Проверить статус обработки можно в личном кабинете в разделе Экспорт файлов',
-        });
-
-        setIsExportButtonDisabled(true);
-        setTimeout(() => {
-            setIsExportButtonDisabled(false);
-        }, 5 * 1000);
-    };
 
     const [search, setSearch] = useState('');
     const [filterValue, setFilterValue] = useState<string | null>(null);
@@ -215,14 +192,7 @@ export const TechRadarPage = () => {
                 <S.Header>
                     <S.TitleWrapper>
                         <S.Title>Технорадар</S.Title>
-                        <Button
-                            onClick={handleExportClick}
-                            size="small"
-                            startIcon={<Icon iconName={Icons.ShareIos} />}
-                            disabled={isExportButtonDisabled}
-                        >
-                            Экспорт
-                        </Button>
+                        <ExportButton />
                     </S.TitleWrapper>
 
                     <TopMenu {...{ activeMenuItem, setActiveMenuItem, isSubMenu }} />

@@ -19,6 +19,18 @@ export const getApplicationByBusinessKey = (key: string): AxiosPromise<T.IExtend
     });
 };
 
+export const getApplicationByBusinessKeyOrId = (
+    key: string | null,
+    id: string | null,
+): AxiosPromise<T.IExtendedApplication> => {
+    return Api.get({
+        url: `${GATEWAY_URL}camunda-process/v1/application?${formatNullableStringParam(
+            'business-key',
+            key,
+        )}${formatNullableStringParam('id', id)}`,
+    });
+};
+
 export const getApplicationEntityById = (id: number): AxiosPromise<T.IApplicationEntity> => {
     return Api.get({
         url: `${GATEWAY_URL}capability/v1/business/order/${id}`,

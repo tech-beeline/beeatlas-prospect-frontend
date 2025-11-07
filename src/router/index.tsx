@@ -10,6 +10,7 @@ import {
     MenuPersonalArea,
     MenuProfile,
 } from 'components/core';
+import { FeedbackButton } from 'components/interaction';
 
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
@@ -18,7 +19,10 @@ import {
     ApplicationsPage,
     ApplicationsReviewPage,
     ApplicationViewPage,
+    AppsDashboardPage,
     AppsPage,
+    AppViewArchitecrurePage,
+    AppViewPage,
     ArchCommPage,
     BCAddPage,
     BIAddPage,
@@ -76,6 +80,16 @@ const PATHS_WITHOUT_HEADER = [
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
 ];
 
+const PATHS_WITHOUT_FEEDBACK = [
+    `${R.ADMIN_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`,
+    `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
+    `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+];
+
 export const NavigationRouter = () => {
     const { data: rolesData, isLoading } = useGetMyRolesQuery();
 
@@ -104,6 +118,9 @@ export const NavigationRouter = () => {
         <>
             {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
                 <Header isAdminPanel={isAdminPanel} isAdmin={isAdmin} />
+            )}
+            {!PATHS_WITHOUT_FEEDBACK.some((path) => location.pathname?.includes(path)) && (
+                <FeedbackButton />
             )}
 
             <QueryParamProvider ReactRouterRoute={RouteAdapter}>
@@ -382,12 +399,48 @@ export const NavigationRouter = () => {
                     />
 
                     <Route
+                        path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppsDashboardPage isProd={isProd} />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
                         path={`${R.MODELS_PATH}${R.APPS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <AppsPage isProd={isProd} />
+                                    <AppsPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppViewPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}${R.ARCHITECTURE_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppViewArchitecrurePage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

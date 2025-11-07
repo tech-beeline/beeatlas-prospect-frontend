@@ -4,13 +4,10 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/other';
 
-import { SubscriptionType } from 'api/subscriptions/types';
-
 import {
     subscriptionTypeToColorMap,
     subscriptionTypeToIconMap,
     subscriptionTypeToLinkFormatterMap,
-    subscriptionTypeToTitleMap,
 } from './const';
 import { ISubscriptionCard } from './types';
 import * as S from './units';
@@ -19,6 +16,7 @@ export const SubscriptionCard: FC<ISubscriptionCard> = ({
     // selectedSubscriptions,
     // selectedSubscriptionsIds,
     // setSelectedSubscriptions,
+    entitiesData,
     subscription,
     openModal,
     setSelectedSingleSubscription,
@@ -47,22 +45,18 @@ export const SubscriptionCard: FC<ISubscriptionCard> = ({
             <S.ContentContainer>
                 {/* <Checkbox checked={isSelected} onChange={handleCheckboxClick} /> */}
                 <Avatar
-                    iconName={
-                        subscription.type === SubscriptionType.CJ
-                            ? undefined
-                            : subscriptionTypeToIconMap[subscription.type]
-                    }
-                    letter={subscription.type === SubscriptionType.CJ ? 'CJ' : undefined}
-                    color={subscriptionTypeToColorMap[subscription.type]}
+                    iconName={subscriptionTypeToIconMap[subscription.entityType]}
+                    color={subscriptionTypeToColorMap[subscription.entityType]}
                 />
                 <div>
-                    {subscription.type !== SubscriptionType.CJ && (
-                        <S.Body3>{subscriptionTypeToTitleMap[subscription.type]}</S.Body3>
-                    )}
+                    <S.Body3>
+                        {entitiesData.find((e) => e.type === subscription.entityType)?.alias ??
+                            'Сущность'}
+                    </S.Body3>
                     <div>
                         <Link
-                            title={subscription.title}
-                            url={subscriptionTypeToLinkFormatterMap[subscription.type](
+                            title={subscription.name}
+                            url={subscriptionTypeToLinkFormatterMap[subscription.entityType](
                                 subscription.id,
                             )}
                         />

@@ -17,6 +17,7 @@ export const useOutsideClick = (
             const conditionOutside =
                 !!ref.current &&
                 !ref.current.contains(event.target as Node) &&
+                !exceptionRef?.current?.contains(event.target as Node) &&
                 !(exceptionIds ?? []).some((id) => id === (event.target as Element).id) &&
                 isOpen &&
                 (!!exceptionRef?.current

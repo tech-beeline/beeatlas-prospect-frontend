@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     getApplicationByBusinessKey,
+    getApplicationByBusinessKeyOrId,
     getApplicationEntityById,
     getApplications,
     getArchitectApplications,
@@ -72,6 +73,22 @@ export const useGetApplicationByBusinessKeyQuery = (key: string | null) => {
             return { ...application, entity };
         },
         enabled: !!key,
+    });
+};
+
+export const useGetApplicationByBusinessKeyOrIdQuery = (key: string | null, id: string | null) => {
+    return useQuery({
+        queryKey: [APPLICATIONS_PREFIX, 'key_id', key, id],
+        queryFn: async () => {
+            const application = await getApplicationByBusinessKeyOrId(key, id).then(
+                (res) => res.data,
+            );
+            const entity = await getApplicationEntityById(application.entity_id).then(
+                (res) => res.data,
+            );
+            return { ...application, entity };
+        },
+        enabled: !!key || !!id,
     });
 };
 

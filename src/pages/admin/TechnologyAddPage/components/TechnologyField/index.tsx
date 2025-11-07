@@ -4,6 +4,7 @@ import Markdown from 'react-markdown';
 import { Button, FileUploader, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
+import { MarkdownLinkRenderer, TechnologyFileContainer } from 'features/technologies';
 import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
@@ -149,9 +150,15 @@ export const TechnologyField: FC<ITechnologyField> = ({
                     )}
                     {fileList.length > 0 && (
                         <S.UploadedFileContainer>
-                            <S.FileContentContainer>
-                                <Markdown remarkPlugins={[remarkGfm]}>{fileText}</Markdown>
-                            </S.FileContentContainer>
+                            <TechnologyFileContainer>
+                                <Markdown
+                                    components={{ a: MarkdownLinkRenderer }}
+                                    urlTransform={(v) => v}
+                                    remarkPlugins={[remarkGfm]}
+                                >
+                                    {fileText}
+                                </Markdown>
+                            </TechnologyFileContainer>
                             <S.FileNameContainer>
                                 <S.FileMetadataContainer>
                                     <Text variant="body3">{fileList[0].name}</Text>

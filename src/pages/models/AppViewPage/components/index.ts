@@ -1,0 +1,8 @@
+export { ArchitectureChanges } from './ArchitectureChanges';
+export { E2EProcesses } from './E2EProcesses';
+export { FitnessFunctions } from './FitnessFunctions';
+export { GeneralInfo } from './GeneralInfo';
+export { InDevelopment } from './InDevelopment';
+export { InterfacesAndMethods } from './InterfacesAndMethods';
+export { TechCapabilities } from './TechCapabilities';
+export { Technologies } from './Technologies';

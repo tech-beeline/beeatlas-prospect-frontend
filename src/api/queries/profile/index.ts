@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from 'features/auth';
 
 import { getProfileRoles, getProfiles, putProfileRoles } from 'api/personal-area';
+import { getUserInfo } from 'api/user';
 
 const PROFILE_PREFIX = 'PROFILE_PREFIX';
 
@@ -40,3 +41,10 @@ export function useUpdateProfileRolesMutation() {
         },
     });
 }
+
+export const useGetUserInfoQuery = () => {
+    return useQuery({
+        queryKey: [PROFILE_PREFIX, 'userInfo'],
+        queryFn: () => getUserInfo().then((res) => res.data),
+    });
+};

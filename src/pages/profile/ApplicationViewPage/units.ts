@@ -1,3 +1,4 @@
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -63,10 +64,30 @@ export const TitleContainer = styled.div`
     gap: 16px;
 `;
 
+export const InfoContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+`;
+
 export const MetadataContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 32px;
+`;
+
+export const LinkContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+
+    align-self: flex-start;
+
+    cursor: pointer;
+`;
+
+export const IconStyled = styled(Icon)`
+    color: var(--color-text-link);
 `;
 
 export const CommentsContainer = styled.div`

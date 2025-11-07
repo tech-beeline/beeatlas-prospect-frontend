@@ -1,9 +1,11 @@
-export enum NotificationEntityType {
-    TECH_CAPABILITY = 'TECH_CAPABILITY',
-    BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
-    TECH = 'TECH',
-    APPLICATION = 'APPLICATION',
-    EXPORT = 'EXPORT',
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
+
+export enum BusinessNotificationEntityType {
+    CREATE_BC = 'create_business_capability',
+    EDIT_BC = 'update_business_capability',
+    EXPORT_BC = 'business-capability',
+    EXPORT_TC = 'tech-capability',
+    EXPORT_TECH = 'tech',
 }
 
 export enum NotificationChangeType {
@@ -16,11 +18,14 @@ export interface INotification {
     id: number;
     webNotify: boolean;
     changeDate: Date;
-    entityId: number;
     changeType: NotificationChangeType;
+    changeDescription: string;
+    entityId: number;
     entityName: string;
     entityLink: string;
-    entityType: NotificationEntityType;
+    entityType: SubscriptionEntityVariants;
+    linkTemplate: string | null;
+    childrenEntityId: number | null;
 }
 
 export interface INotificationData {
@@ -33,7 +38,8 @@ export interface INotificationParams {
     afterDate?: string;
     beforeDate?: string;
     page?: number;
-    type?: NotificationEntityType;
+    type?: SubscriptionEntityVariants;
+    businessType?: BusinessNotificationEntityType;
     wasNotify?: boolean;
 }
 
@@ -47,6 +53,7 @@ export interface IBusinessNotification {
     };
     id: number;
     webNotify: boolean;
+    name: string;
 }
 
 export interface IBusinessNotificationData {

@@ -52,7 +52,10 @@ export const BusinessNotificationCard: FC<IBusinessNotificationCard> = ({
                     <Text variant="body2">
                         {isExportNotification
                             ? 'Файл готов'
-                            : businessNotification.entityTypeId.description}
+                            : `${businessNotification.entityTypeId.description} `}
+                        {!isExportNotification && (
+                            <S.BoldText>{businessNotification.name}</S.BoldText>
+                        )}
                     </Text>
                     <Text inactive variant="body3">
                         {dayjs(businessNotification.createdDate).format('DD.MM.YYYY')}
@@ -64,7 +67,7 @@ export const BusinessNotificationCard: FC<IBusinessNotificationCard> = ({
                                 url={
                                     isExportNotification
                                         ? `${R.PROFILE_PATH}${R.EXPORT_PATH}`
-                                        : `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`
+                                        : `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}?id=${businessNotification.entityId}`
                                 }
                             />
                         </Text>

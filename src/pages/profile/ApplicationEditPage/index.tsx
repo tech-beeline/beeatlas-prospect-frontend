@@ -89,7 +89,9 @@ export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
                                 owner: values.owner,
                                 comment: values.comment ? values.comment : undefined,
                             },
-                            nextStatus: ApplicationStatus.RW,
+                            nextStatus: applicationData.executor
+                                ? ApplicationStatus.RW
+                                : ApplicationStatus.WTXCTR,
                         });
                     }
                     showSnackbar({

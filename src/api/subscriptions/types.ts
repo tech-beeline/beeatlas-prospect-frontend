@@ -17,10 +17,29 @@ export enum SubscriptionEntityVariants {
     BUSINESS_CAPABILITY = 'BUSINESS_CAPABILITY',
     TECH_CAPABILITY = 'TECH_CAPABILITY',
     TECH = 'TECH',
+    ARCH_INTERFACE = 'arch_interface',
 }
 
 export interface ISubscriptionForm {
     entityType: SubscriptionEntityVariants;
     id: number;
     subChildren?: boolean;
+    name?: string;
+}
+
+export interface IMultipleSubscriptionForm {
+    entityType: SubscriptionEntityVariants;
+    ids: number[];
+}
+
+export interface ISubscriptionEntity {
+    id: number;
+    alias: string;
+    type: SubscriptionEntityVariants;
+}
+
+export interface ISubscriptionV2 {
+    id: number;
+    name: string;
+    entityType: SubscriptionEntityVariants;
 }

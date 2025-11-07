@@ -12,6 +12,6 @@ export const validationSchema = object().shape({
     name: string().required('Заполните название'),
     description: string().required('Заполните определение'),
     domain: string().nullable().default('').required('Укажите родительскую возможность'),
-    owner: string().default('').required('Укажите владельца возможности'),
+    owner: string().default(''),
     comment: string().default(''),
 });

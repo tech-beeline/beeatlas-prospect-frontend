@@ -1,8 +1,9 @@
 import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
+import { formatNullableStringParam } from 'utils/formatters';
 
-import { GATEWAY_URL } from '../const';
+import { GATEWAY_PRODUCT_URL, GATEWAY_URL, STRUCTURIZR_URL } from '../const';
 
 import * as T from './types';
 
@@ -15,5 +16,64 @@ export const getUserProducts = (): AxiosPromise<T.IProductData[]> => {
 export const getProductsByTechnologyId = (id: number): AxiosPromise<T.IProductData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}product/v1/tech/${id}/product`,
+    });
+};
+
+export const getProductStructurizrContainerByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.IStructurizrContainerData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/container?show-hidden=true`,
+    });
+};
+
+export const getProductStructurizrInterfacesByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.IStructurizrInterfaceData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/interface/arch`,
+    });
+};
+
+export const getProductMapicInterfacesByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.IMapicInterfaceData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/interface/mapic`,
+    });
+};
+
+export const postConnectionInterface = (data: T.IConnectionInterfaceForm) => {
+    return Api.post({
+        url: `${GATEWAY_URL}product/v1/connection/interface`,
+        data,
+    });
+};
+
+export const getAllProducts = (): AxiosPromise<T.IFullProductData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/info`,
+    });
+};
+
+export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductData> => {
+    return Api.get({
+        url: `${GATEWAY_URL}product/v1/product/${cmdb}/info`,
+    });
+};
+
+export const getEntityParent = (id: string, type: string): AxiosPromise<T.IParent> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/parent?${formatNullableStringParam(
+            'id',
+            id,
+        )}${formatNullableStringParam('type', type)}`,
+    });
+};
+
+export const postStructurizrWorkspace = (data: T.IStructurizrWorkspaceForm) => {
+    return Api.post({
+        url: `${STRUCTURIZR_URL}workspace`,
+        data,
     });
 };

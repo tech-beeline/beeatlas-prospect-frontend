@@ -54,3 +54,7 @@ export const LinkContainer = styled.div`
 
     margin-top: 12px;
 `;
+
+export const BoldText = styled.span`
+    font-weight: 500;
+`;

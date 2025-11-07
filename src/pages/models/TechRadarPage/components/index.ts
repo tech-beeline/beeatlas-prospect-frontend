@@ -1,3 +1,4 @@
+export { ExportButton } from './ExportButton';
 export { Filters } from './Filters';
 export { LeftMenu } from './LeftMenu';
 export { Legend } from './Legend';
