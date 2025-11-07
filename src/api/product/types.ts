@@ -141,7 +141,7 @@ export interface IParent {
 export interface ISystemInfluence {
     dependentSystems: {
         alias: string;
-        critical: string;
+        critical: string | null;
         name: string;
         ownerEmail: string;
         ownerName: string;

@@ -4,3 +4,8 @@ export const keyToCriticalMap: Record<string, string> = {
     BO: 'Business Operation',
     MC: 'Mission Critical',
 };
+
+export enum SortingVariant {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}

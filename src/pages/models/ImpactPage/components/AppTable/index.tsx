@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
+    IconButton,
     Skeleton,
-    // IconButton,
     Table,
     TableBody,
     TableData,
@@ -9,20 +9,23 @@ import {
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import { Icons } from '@beeline/design-tokens/js/iconfont';
-// import { TooltipContainer } from 'components/interaction';
+import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetSystemInfluenceQuery } from 'api/queries/product';
 import * as R from 'router/const';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { keyToCriticalMap } from './const';
+import { keyToCriticalMap, SortingVariant } from './const';
 import { IAppTable } from './types';
 import * as S from './units';
 
 export const AppTable: FC<IAppTable> = ({ cmdb }) => {
-    // const [sortingVariant, setSortingVariant] = useState(false);
+    const [sortingVariant, setSortingVariant] = useState(SortingVariant.ASC);
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const { data: systemData, isLoading: isLoadingSystems } = useGetSystemInfluenceQuery({
         cmdb,
@@ -39,43 +42,76 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
     // const isLoading = !deploymentName ? isLoadingSystems : isLoadingDeployments;
     const isLoading = isLoadingSystems;
     // const data = !deploymentName ? systemData : deploymentData;
-    const data = systemData;
+    const data = systemData?.dependentSystems;
+
+    const dataSorted = data
+        ? [...data].sort((a, b) =>
+              sortingVariant === SortingVariant.ASC
+                  ? (a.critical ? a.critical.split('_')[1] : '0').localeCompare(
+                        b.critical ? b.critical.split('_')[1] : '0',
+                    )
+                  : (b.critical ? b.critical.split('_')[1] : '0').localeCompare(
+                        a.critical ? a.critical.split('_')[1] : '0',
+                    ),
+          )
+        : undefined;
+
+    const handleCopyClick = async () => {
+        if (dataSorted) {
+            await navigator.clipboard.writeText(
+                dataSorted.map((system) => system.alias).join(', '),
+            );
+            showSnackbar({ message: 'Список систем скопирован' });
+        }
+    };
 
     return (
         <>
             {isLoading && <Skeleton height={50} radius={12} />}
-            {data && (
+            {dataSorted && (
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableHeaderData>
                                 <S.FlexContainer>
                                     Зависимые системы{' '}
-                                    {/* <IconButton
+                                    <IconButton
                                         size="medium"
                                         iconName={Icons.Copy}
                                         data-tooltip-id="copy"
+                                        onClick={handleCopyClick}
                                     />
                                     <TooltipContainer noArrow place="top" offset={8} id="copy">
                                         Копировать список
-                                    </TooltipContainer> */}
+                                    </TooltipContainer>
                                 </S.FlexContainer>
                             </TableHeaderData>
                             <TableHeaderData>
-                                <S.FlexContainer>
+                                <S.SortingContainer
+                                    onClick={() =>
+                                        setSortingVariant(
+                                            sortingVariant === SortingVariant.ASC
+                                                ? SortingVariant.DESC
+                                                : SortingVariant.ASC,
+                                        )
+                                    }
+                                >
                                     Критичность{' '}
-                                    {/* <IconButton
+                                    <IconButton
                                         size="medium"
-                                        iconName={sortingVariant ? Icons.ArrowUp : Icons.ArrowDown}
-                                        onClick={() => setSortingVariant(!sortingVariant)}
-                                    /> */}
-                                </S.FlexContainer>
+                                        iconName={
+                                            sortingVariant === SortingVariant.ASC
+                                                ? Icons.ArrowUp
+                                                : Icons.ArrowDown
+                                        }
+                                    />
+                                </S.SortingContainer>
                             </TableHeaderData>
                             <TableHeaderData>Владелец</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.dependentSystems.map((system) => (
+                        {dataSorted.map((system) => (
                             <TableRow key={system.alias}>
                                 <TableData>
                                     <Link
@@ -93,7 +129,7 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
                                 <TableData>{system.ownerName}</TableData>
                             </TableRow>
                         ))}
-                        {data.dependentSystems.length === 0 && (
+                        {dataSorted.length === 0 && (
                             <TableRow>
                                 <S.TableDataMaxWidth colSpan={3}>
                                     <NotFoundBlock
