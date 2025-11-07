@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Chip, IconButton, Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
@@ -16,8 +16,11 @@ import * as S from './units';
 export const PatternCard: FC<IPatternCard> = ({ isAdmin, pattern, setPatternToDelete }) => {
     const navigate = useNavigate();
 
-    const handleEditClick = () => {
-        navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`);
+    const handleEditClick = (id?: number) => {
+        navigate({
+            pathname: `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`,
+            search: id ? createSearchParams({ id: String(id) }).toString() : '',
+        });
     };
 
     return (
@@ -44,13 +47,13 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, pattern, setPatternToDe
                                     {
                                         title: 'Редактировать',
                                         icon: Icons.Edit,
-                                        onClick: handleEditClick,
+                                        onClick: () => handleEditClick(pattern.id),
                                     },
-                                    {
-                                        title: 'Скачать',
-                                        icon: Icons.Download,
-                                        onClick: handleEditClick,
-                                    },
+                                    // {
+                                    //    title: 'Скачать',
+                                    //    icon: Icons.Download,
+                                    //    onClick: handleEditClick,
+                                    // },
                                 ],
                                 [
                                     {

@@ -17,9 +17,9 @@ export interface ISavedData {
     name?: string;
     group?: number[];
     tech?: number[];
-    imageFile?: File;
     documentationFile?: File;
     rule?: string;
     description?: string;
     descriptionFile?: File;
+    dsl?: string;
 }

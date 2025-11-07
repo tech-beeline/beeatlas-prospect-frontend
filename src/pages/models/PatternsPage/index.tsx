@@ -73,6 +73,12 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
         selectedTechnology.length > 0 ||
         selectedGroups.length > 0;
 
+    const handleDeleteConfirm = async () => {
+        if (!patternToDelete) return;
+
+        await deletePattern(patternToDelete.id);
+        setPatternToDelete(null);
+    };
     return (
         <S.PageWrapper>
             <S.Container>
@@ -183,15 +189,7 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                 title="Удалить паттерн?"
                 confirmText="Удалить"
                 onClose={() => setPatternToDelete(null)}
-                onConfirm={() => {
-                    if (patternToDelete) {
-                        deletePattern(patternToDelete.id, {
-                            onSuccess: () => {
-                                setPatternToDelete(null);
-                            },
-                        });
-                    }
-                }}
+                onConfirm={handleDeleteConfirm}
             >
                 Паттерн <S.BoldSpan>{patternToDelete?.name}</S.BoldSpan> будет удален
             </Dialog>

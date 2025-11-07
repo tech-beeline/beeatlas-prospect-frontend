@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
-import { MultiSelect, RadioGroup, TextField } from 'components/form';
+import { MultiSelect, RadioGroup, TextArea, TextField } from 'components/form';
 
 import { useGetPatternGroupsQuery } from 'api/queries/patterns';
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
@@ -24,14 +24,16 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
         resolver: yupResolver(getValidationSchema()),
     });
 
-    const { handleSubmit, reset } = form;
+    const { handleSubmit, reset, watch } = form;
 
     const onSubmit = handleSubmit((values) => {
         setSavedData({ ...savedData, ...values });
         setStepVariant(StepVariants.DOCUMENTATION);
     });
 
-    const { data: technologies } = useGetAllTechnologiesQuery();
+    const description = watch('description');
+
+    const { data: technologies, isLoading } = useGetAllTechnologiesQuery();
     const { data: groups } = useGetPatternGroupsQuery();
 
     const technologiesOptions = (technologies ?? []).map((tech) => ({
@@ -50,6 +52,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
             type: savedData.type,
             group: savedData.group,
             tech: savedData.tech,
+            description: savedData.description,
         });
     }, [savedData]);
 
@@ -70,12 +73,20 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                         </S.RadioContainer>
                     </div>
                     <TextField name="name" label="Название паттерна*" />
+                    <TextArea
+                        fullWidth
+                        label="Краткое описание*"
+                        name="description"
+                        helperText={`${description?.length ?? 0}/255`}
+                        maxLength={255}
+                        disabled={isLoading}
+                    />
                     <S.SelectGroup>
                         <S.SelectContainer>
                             <MultiSelect
                                 fullWidth
                                 name="group"
-                                label="Название группировки"
+                                label="Категория*"
                                 options={groupsOptions}
                             />
                         </S.SelectContainer>
@@ -83,7 +94,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                             <MultiSelect
                                 fullWidth
                                 name="tech"
-                                label="Название технологии"
+                                label="Технология*"
                                 options={technologiesOptions}
                             />
                         </S.SelectContainer>

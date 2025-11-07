@@ -140,15 +140,19 @@ export const PatternViewPage = () => {
 
                 {data && (
                     <S.GridContainer>
-                        <div>
-                            <S.NotFoundContainer>
-                                <NotFoundBlock
-                                    title="Нет данных"
-                                    text="Паттерн/антипаттерн еще не описан"
-                                    imageVariant={ImageVariants.EMPTY_BOX}
-                                />
-                            </S.NotFoundContainer>
-                        </div>
+                        <S.DescriptionContainer>
+                            {data?.description ? (
+                                <Text variant="h6">{data.description}</Text>
+                            ) : (
+                                <S.NotFoundContainer>
+                                    <NotFoundBlock
+                                        title="Нет данных"
+                                        text="Паттерн/антипаттерн еще не описан"
+                                        imageVariant={ImageVariants.EMPTY_BOX}
+                                    />
+                                </S.NotFoundContainer>
+                            )}
+                        </S.DescriptionContainer>
                         <S.FlexContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>

@@ -1,5 +1,6 @@
 import React, { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
+import { useSearchParams } from 'react-router-dom';
 import { Banner, FileUploader, IconButton, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
@@ -8,7 +9,7 @@ import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 
-import { useCreatePatternMutation } from 'api/queries/patterns';
+import { useCreatePatternMutation, useUpdatePatternMutation } from 'api/queries/patterns';
 import { formatSize } from 'utils/formatters';
 
 import { StepVariants } from '../../const';
@@ -25,7 +26,11 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const [fileText, setFileText] = useState<string | null>(null);
     const readerRef = useRef(new FileReader());
 
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
+
     const { mutateAsync, isPending } = useCreatePatternMutation();
+    const { mutateAsync: updatePattern } = useUpdatePatternMutation();
 
     useEffect(() => {
         readerRef.current.onload = () =>
@@ -45,13 +50,30 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        await mutateAsync({
-            groups: [],
-            relationsTech: [],
-            name: savedData.name ?? '',
-            rule: savedData.rule ?? '',
-            isAntiPattern: savedData.type === 1,
-        });
+        if (paramId) {
+            await updatePattern({
+                id: Number(paramId),
+                data: {
+                    name: savedData.name ?? '',
+                    isAntiPattern: savedData.type === 0 ? false : true,
+                    description: savedData.description ?? '',
+                    groups: savedData.group ?? [],
+                    relationsTech: savedData.tech ?? [],
+                    dsl: savedData.dsl ?? '',
+                    rule: savedData.rule ?? '',
+                },
+            });
+        } else {
+            await mutateAsync({
+                groups: savedData.group ?? [],
+                relationsTech: savedData.tech ?? [],
+                name: savedData.name ?? '',
+                rule: savedData.rule ?? '',
+                isAntiPattern: savedData.type === 1,
+                description: savedData.description ?? '',
+                dsl: savedData.dsl ?? '',
+            });
+        }
     };
 
     return (
@@ -64,8 +86,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
 
                 <TextArea
                     fullWidth
-                    value={savedData.description}
-                    onChange={(e) => setSavedData({ ...savedData, description: e.target.value })}
+                    value={savedData.dsl}
+                    onChange={(e) => setSavedData({ ...savedData, dsl: e.target.value })}
                     disabled={!!savedData.descriptionFile}
                     label="Описание архитектуры в structurize dsl"
                 />

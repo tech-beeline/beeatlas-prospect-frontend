@@ -24,6 +24,13 @@ export const postPattern = (data: T.IPatternForm) => {
     });
 };
 
+export const patchPattern = (id: string | number, data: T.IPatternForm) => {
+    return Api.patch({
+        url: `${GATEWAY_URL}techradar/v1/pattern/${id}`,
+        data,
+    });
+};
+
 export const deletePattern = (id: string | number) => {
     return Api.delete({
         url: `${GATEWAY_URL}techradar/v1/pattern/${id}`,

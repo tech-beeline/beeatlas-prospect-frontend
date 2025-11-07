@@ -107,13 +107,17 @@ export const NotFoundContainer = styled.div`
     height: 100%;
 
     flex: 1;
-
-    border: 1px solid var(--color-divider);
-    border-radius: var(--size-border-radius-x6);
 `;
 
 export const DescriptionContainer = styled.div`
-    white-space: pre-line;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 24px;
+
+    border: 1px solid var(--color-divider);
+    border-radius: var(--size-border-radius-x6);
 `;
 
 export const BoldSpan = styled.span`

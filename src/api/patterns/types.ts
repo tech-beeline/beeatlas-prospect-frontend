@@ -5,6 +5,7 @@ export interface IPattern {
     code: string;
     name: string;
     rule: string;
+    dsl: string;
     description: string;
     isAntiPattern: boolean;
     createDate: string;
@@ -18,6 +19,8 @@ export interface IPatternForm {
     name: string;
     rule: string;
     isAntiPattern: boolean;
+    description: string;
+    dsl: string;
     groups: number[];
     relationsTech: number[];
 }

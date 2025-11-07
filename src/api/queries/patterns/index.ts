@@ -7,6 +7,7 @@ import {
     getPatternGroups,
     getPatternGroupsTree,
     getPatterns,
+    patchPattern,
     patchPatternGroup,
     postPattern,
     postPatternGroup,
@@ -37,6 +38,22 @@ export function useCreatePatternMutation() {
         mutationFn: async (params: IPatternForm) => {
             await postPattern(params);
         },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PATTERNS_PREFIX] });
+        },
+    });
+}
+
+interface IUpdatePatternParams {
+    data: IPatternForm;
+    id: number;
+}
+
+export function useUpdatePatternMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PATTERNS_PREFIX, 'update'],
+        mutationFn: ({ id, data }: IUpdatePatternParams) => patchPattern(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PATTERNS_PREFIX] });
         },

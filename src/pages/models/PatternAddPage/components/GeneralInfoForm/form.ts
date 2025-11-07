@@ -5,6 +5,7 @@ export type FormValues = {
     type: number;
     group: number[];
     tech: number[];
+    description: string;
 };
 
 export const getValidationSchema = () =>
@@ -13,4 +14,5 @@ export const getValidationSchema = () =>
         type: number().required('Заполните поле'),
         group: array().of(number().default(0)).default([]).required('Заполните поле'),
         tech: array().of(number().default(0)).default([]).required('Заполните поле'),
+        description: string().required('Заполните поле'),
     });
