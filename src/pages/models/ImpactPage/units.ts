@@ -52,3 +52,7 @@ export const FlexContainer = styled.div`
 
     min-width: 0;
 `;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 200px;
+`;

@@ -4,7 +4,7 @@ import { Button, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
-import { Link } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useModal } from 'hooks';
 import * as R from 'router/const';
@@ -22,6 +22,7 @@ import * as S from './units';
 
 export const ImpactPage = () => {
     const [params] = useSearchParams();
+    const notFoundParam = params.get('notFound');
     // common
     const cmdbParam = params.get('cmdb');
     // system
@@ -59,6 +60,15 @@ export const ImpactPage = () => {
                 )}
             </S.TitleContainer>
             <ImpactSearch />
+            {notFoundParam && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.SEARCH}
+                        title="Нет результатов, подходящих под параметры поиска"
+                        text="Попробуйте изменить запрос"
+                    />
+                </S.NotFoundContainer>
+            )}
             {cmdbParam && (
                 <>
                     <S.AppTitleContainer>

@@ -55,9 +55,11 @@ export const ImpactSearch = () => {
     const handleEnterButtonClick = () => {
         if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
             handleSystemClick(systemsData[0]);
-        }
-        if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
+        } else if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
             handleServerClick(serverData[0]);
+        } else {
+            setSearchParams({ notFound: 'true' });
+            setIsOpen(false);
         }
     };
 
@@ -76,7 +78,7 @@ export const ImpactSearch = () => {
             />
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
-                    <Text variant="overline">Выбери категорию в которой будем искать</Text>
+                    <Text variant="overline">Выбери категорию, в которой будем искать</Text>
                     <S.ChipsContainer>
                         {CHIPS.map((chip) => (
                             <Chip
