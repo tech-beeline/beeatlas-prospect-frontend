@@ -11,7 +11,7 @@ import { useGetSearchDeploymentsQuery, useGetSearchSystemsQuery } from 'api/quer
 import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 
-import { CHIPS, SearchVariants } from './const';
+import { CHIPS, SearchVariants, searchVariantToPlaceholderMap } from './const';
 import * as S from './units';
 
 export const ImpactSearch = () => {
@@ -66,7 +66,7 @@ export const ImpactSearch = () => {
             <Search
                 fullWidth
                 ref={searchRef}
-                placeholder="Имя/мнемоника приложения CMDB, мнемоника экземплара CMDB, имя сервиса, endpoint или сервера"
+                placeholder={searchVariantToPlaceholderMap[searchVariant]}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={() => setIsOpen(true)}
