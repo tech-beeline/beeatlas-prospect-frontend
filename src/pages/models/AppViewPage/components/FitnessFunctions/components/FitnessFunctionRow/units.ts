@@ -6,6 +6,11 @@ export const TableRowStyled = styled(TableRow)<{ expanded?: boolean }>`
         expanded ? 'var(--color-background-base-selected)' : ''};
 `;
 
+export const IconButtonContainer = styled.div`
+    width: 20px;
+    height: 20px;
+`;
+
 export const CodeContainer = styled.div`
     display: flex;
     align-items: center;

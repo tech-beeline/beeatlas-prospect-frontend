@@ -170,3 +170,33 @@ export interface ISystemTC {
         description: string;
     }[];
 }
+export interface IFitnessFunction {
+    code: string;
+    description: string;
+    id: number;
+    isCheck: boolean;
+    resultDetails: string;
+    assessmentDescription: string | null;
+    status: string;
+    docLink: string;
+    details:
+        | {
+              isCheck: boolean;
+              values: {
+                  key: string;
+                  value: string;
+              }[];
+          }[]
+        | null;
+    tableStruct: string[] | null;
+}
+export interface ICompleteFitnessFunctionsData {
+    assessmentId: number;
+    createdDate: string;
+    fitnessFunctions: IFitnessFunction[];
+    productId: number;
+    source: {
+        source_id: number;
+        source_type: string;
+    };
+}

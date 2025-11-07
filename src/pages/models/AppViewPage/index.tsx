@@ -17,8 +17,8 @@ import {
     InDevelopment,
     InterfacesAndMethods,
     // TechCapabilities,
-    Patterns,
-    Technologies,
+    // Patterns,
+    // Technologies,
 } from './components';
 import { TABS, TabVariants } from './const';
 import * as S from './units';
@@ -97,11 +97,11 @@ export const AppViewPage = () => {
                     productId={Number(productData?.id)}
                 />
             )}
-            {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions />}
+            {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions cmdb={paramCmdb} />}
             {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <InDevelopment cmdb={paramCmdb} />}
-            {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
-            {tabVariant === TabVariants.PATTERNS && <Patterns />}
+            {/* {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
+            {tabVariant === TabVariants.PATTERNS && <Patterns />} */}
             {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}

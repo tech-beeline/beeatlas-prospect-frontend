@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
     IconButton,
     Label,
@@ -13,9 +13,12 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
+import { formatNullableString } from 'utils/formatters';
+
+import { IFitnessFunctionRow } from './types';
 import * as S from './units';
 
-export const FitnessFunctionRow = () => {
+export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction }) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -23,28 +26,40 @@ export const FitnessFunctionRow = () => {
             <S.TableRowStyled expanded={expanded}>
                 <TableData>
                     <S.CodeContainer>
-                        <IconButton
-                            iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                            onClick={() => setExpanded(!expanded)}
-                            size="medium"
-                        />
-                        <Text variant="body3">CTX.03</Text>
+                        <S.IconButtonContainer>
+                            {fitnessFunction.details &&
+                                fitnessFunction.details.length !== 0 &&
+                                fitnessFunction.tableStruct &&
+                                fitnessFunction.tableStruct.length !== 0 && (
+                                    <IconButton
+                                        iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
+                                        onClick={() => setExpanded(!expanded)}
+                                        size="medium"
+                                    />
+                                )}
+                        </S.IconButtonContainer>
+                        <Text variant="body3">{fitnessFunction.code}</Text>
                     </S.CodeContainer>
                 </TableData>
+                <TableData>{fitnessFunction.description}</TableData>
                 <TableData>
-                    Все связи на диаграмме контекста должны иметь технологию взаимодействия
+                    <Link title={fitnessFunction.docLink} url={fitnessFunction.docLink} />
                 </TableData>
                 <TableData>
-                    <Link
-                        title="https://docs.bw.vimpelcom.ru/techpolicy/"
-                        url="https://docs.bw.vimpelcom.ru/techpolicy/"
+                    <Label
+                        title={fitnessFunction.isCheck ? 'Успешно' : 'Ошибка'}
+                        variant="contained"
+                        type={fitnessFunction.isCheck ? 'success' : 'error'}
                     />
                 </TableData>
-                <TableData>
-                    <Label title="Успешно" variant="contained" type="success" />
-                </TableData>
                 <TableData alignRight>
-                    <Text variant="body3">145/145</Text>
+                    <Text variant="body3">
+                        {fitnessFunction.details && fitnessFunction.details.length !== 0
+                            ? `${fitnessFunction.details.length}/${
+                                  fitnessFunction.details.filter((ff) => ff.isCheck).length
+                              }`
+                            : formatNullableString(null)}
+                    </Text>
                 </TableData>
             </S.TableRowStyled>
             {expanded && (
@@ -52,35 +67,32 @@ export const FitnessFunctionRow = () => {
                     <S.TableDataStyled colSpan={5}>
                         <S.ServiceContainer>
                             <Text variant="body3">
-                                У продукта найдены capability в Structurizr :
+                                {formatNullableString(fitnessFunction.assessmentDescription)}
                             </Text>
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
-                                        <TableHeaderData>Название</TableHeaderData>
-                                        <TableHeaderData>Код</TableHeaderData>
-                                        <TableHeaderData alignRight>
-                                            Статус публикации
-                                        </TableHeaderData>
+                                        {(fitnessFunction.tableStruct ?? []).map((value, i) => (
+                                            <TableHeaderData key={i}>{value}</TableHeaderData>
+                                        ))}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow>
-                                        <TableData>
-                                            <Link
-                                                title="Возможность online-отображения информации в процессе коммуникации сотрудников офисов и call-цен..."
-                                                url="#"
-                                            />
-                                        </TableData>
-                                        <TableData>B2CDIGITALRETAILDELIVERYCATALOG.002</TableData>
-                                        <TableData>
-                                            <Label
-                                                type="success"
-                                                variant="icon"
-                                                iconName={Icons.Check}
-                                            />
-                                        </TableData>
-                                    </TableRow>
+                                    {(fitnessFunction.details ?? []).map((detail, i) => (
+                                        <TableRow key={i}>
+                                            {(fitnessFunction.tableStruct ?? []).map(
+                                                (struct, i) => (
+                                                    <TableData key={i}>
+                                                        {formatNullableString(
+                                                            detail.values.find(
+                                                                (v) => v.key === struct,
+                                                            )?.value,
+                                                        )}
+                                                    </TableData>
+                                                ),
+                                            )}
+                                        </TableRow>
+                                    ))}
                                 </TableBody>
                             </S.TableStyled>
                         </S.ServiceContainer>
