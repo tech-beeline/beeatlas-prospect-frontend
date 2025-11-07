@@ -3,7 +3,12 @@ import { AxiosPromise } from 'axios';
 import Api from 'utils/api/axiosWrapper';
 import { formatNullableStringParam } from 'utils/formatters';
 
-import { GATEWAY_PRODUCT_URL, GATEWAY_URL, STRUCTURIZR_URL } from '../const';
+import {
+    GATEWAY_CAPABILITY_URL,
+    GATEWAY_PRODUCT_URL,
+    GATEWAY_URL,
+    STRUCTURIZR_URL,
+} from '../const';
 
 import * as T from './types';
 
@@ -75,5 +80,29 @@ export const postStructurizrWorkspace = (data: T.IStructurizrWorkspaceForm) => {
     return Api.post({
         url: `${STRUCTURIZR_URL}workspace`,
         data,
+    });
+};
+
+export const getSystemInfluence = (cmdb: string): AxiosPromise<T.ISystemInfluence> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/influence`,
+    });
+};
+
+export const getDeploymentInfluence = (cmdb: string): AxiosPromise<T.ISystemInfluence> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/deployment/${cmdb}/influence`,
+    });
+};
+
+export const getSystemE2E = (cmdb: string): AxiosPromise<T.ISystemE2E[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/e2e`,
+    });
+};
+
+export const getSystemTC = (id: string | number): AxiosPromise<T.ISystemTC> => {
+    return Api.get({
+        url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/product/${id}`,
     });
 };

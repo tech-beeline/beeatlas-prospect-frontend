@@ -137,3 +137,36 @@ export interface IStructurizrWorkspaceForm {
 export interface IParent {
     alias: string;
 }
+
+export interface ISystemInfluence {
+    dependentSystems: {
+        alias: string;
+        critical: string | null;
+        name: string;
+        ownerEmail: string;
+        ownerName: string;
+        uploadDate: string;
+        uploadSource: null;
+    }[];
+}
+
+export interface ISystemE2E {
+    client: string[];
+    e2e: string;
+    operation: string;
+}
+
+export interface ISystemTC {
+    responsibility: {
+        id: number;
+        code: string;
+        name: string;
+        description: string;
+    }[];
+    implemented: {
+        id: number;
+        code: string;
+        name: string;
+        description: string;
+    }[];
+}

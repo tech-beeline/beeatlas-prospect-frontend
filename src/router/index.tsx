@@ -40,6 +40,7 @@ import {
     FDMPage,
     FileImportPage,
     HowToPage,
+    ImpactPage,
     ImportedDataPage,
     MainPage,
     MapAddPage,
@@ -459,6 +460,18 @@ export const NavigationRouter = () => {
                                                 : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
                                         }
                                     />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <ImpactPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

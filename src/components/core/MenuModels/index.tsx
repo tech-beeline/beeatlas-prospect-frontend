@@ -56,6 +56,11 @@ export const MenuModels = () => {
                             name: 'E2E\xa0сценарии',
                             path: `${R.MODELS_PATH}${R.E2E_PATH}`,
                         },
+                        {
+                            icon: Icons.DashboardDots,
+                            name: 'Влияние',
+                            path: `${R.MODELS_PATH}${R.IMPACT_PATH}`,
+                        },
                     ],
                 },
             ]}
