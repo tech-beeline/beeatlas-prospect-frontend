@@ -4,7 +4,17 @@ export interface ISearchSystem {
 }
 
 export interface ISearchDeployment {
+    id: number;
     deploymentName: string;
     cmdb: string;
     environmentName: string;
+}
+
+export interface IDependentSystem {
+    id: number;
+    name: string;
+    dependentCount: number;
+    cmdb: string;
+    critical: string;
+    ownerName: string;
 }

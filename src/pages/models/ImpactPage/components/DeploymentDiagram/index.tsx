@@ -3,25 +3,31 @@ import { IconButton, Skeleton, TableBody, TableHead, TableRow } from '@beeline/d
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 // import { TooltipContainer } from 'components/interaction';
-import { useGetDeploymentDiagramQuery } from 'api/queries/graph';
+import { useGetDeploymentDotGraphQuery } from 'api/queries/graph';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
 import { IDeploymentDiagram } from './types';
 import * as S from './units';
-import { useStructurizrRenderer } from './utils';
+import { useVizRenderer } from './utils';
+// import { useStructurizrRenderer } from './utils';
 
 export const DeploymentDiagram: FC<IDeploymentDiagram> = ({
-    cmdb,
-    deploymentName,
-    environmentName,
+    id,
+    // cmdb,
+    // deploymentName,
+    // environmentName,
 }) => {
     const { modalOpened, openModal, closeModal } = useModal();
 
-    const { data, isLoading } = useGetDeploymentDiagramQuery(cmdb, environmentName, deploymentName);
+    // const { data, isLoading } = useGetDeploymentDiagramQuery(cmdb, environmentName, deploymentName);
 
-    useStructurizrRenderer(data, 'diagram');
-    useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
+    const { data, isLoading } = useGetDeploymentDotGraphQuery(id);
+
+    useVizRenderer(data, 'diagram');
+    useVizRenderer(data, 'diagram-dialog', modalOpened);
+    // useStructurizrRenderer(data, 'diagram');
+    // useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
 
     return (
         <>

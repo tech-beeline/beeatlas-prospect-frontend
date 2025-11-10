@@ -15,7 +15,7 @@ import { CHIPS, SearchVariants, searchVariantToPlaceholderMap } from './const';
 import * as S from './units';
 
 export const ImpactSearch = () => {
-    const [searchVariant, setSearchVariant] = useState(SearchVariants.SYSTEM);
+    const [searchVariant, setSearchVariant] = useState(SearchVariants.SERVER);
     const [, setSearchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
@@ -34,8 +34,8 @@ export const ImpactSearch = () => {
 
     const handleServerClick = (server: ISearchDeployment) => {
         setSearchParams({
-            environmentName: server.environmentName,
-            deploymentName: server.deploymentName,
+            id: String(server.id),
+            name: server.deploymentName,
             cmdb: server.cmdb,
         });
         setSearch(server.deploymentName);

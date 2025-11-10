@@ -1,5 +1,4 @@
 export interface IDeploymentDiagram {
+    id: string;
     cmdb: string;
-    environmentName: string;
-    deploymentName: string;
 }

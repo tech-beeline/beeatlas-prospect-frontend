@@ -5,7 +5,7 @@ export enum SearchVariants {
 }
 
 export const CHIPS = [
-    { value: SearchVariants.SYSTEM, label: 'Имя/Мнемоника приложения CMDB' },
+    // { value: SearchVariants.SYSTEM, label: 'Имя/Мнемоника приложения CMDB' },
     // { value: SearchVariants.CONTAINER, label: 'Контейнер' },
     { value: SearchVariants.SERVER, label: 'IP/Host сервера' },
 ];

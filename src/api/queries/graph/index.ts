@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     getDeploymentDiagramGraph,
+    getDeploymentDotGraph,
+    getDeploymentInfluenceById,
     getSearchDeployments,
     getSearchSystems,
     getSystemDiagramGraph,
@@ -46,5 +48,19 @@ export const useGetDeploymentDiagramQuery = (cmdb: string, env: string, deployme
     return useQuery({
         queryKey: [GRAPH_PREFIX, 'deployment', cmdb],
         queryFn: () => getDeploymentDiagramGraph(cmdb, env, deploymentName).then((res) => res.data),
+    });
+};
+
+export const useGetDeploymentDotGraphQuery = (id: string) => {
+    return useQuery({
+        queryKey: [GRAPH_PREFIX, 'deployment', 'dot', id],
+        queryFn: () => getDeploymentDotGraph(id).then((res) => res.data),
+    });
+};
+
+export const useGetDeploymentInfluenceQuery = (id: string) => {
+    return useQuery({
+        queryKey: [GRAPH_PREFIX, 'deployment', 'influence', id],
+        queryFn: () => getDeploymentInfluenceById(id).then((res) => res.data),
     });
 };

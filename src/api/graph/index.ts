@@ -32,3 +32,17 @@ export const getDeploymentDiagramGraph = (
         url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/deployment?cmdb=${cmdb}&env=${env}&deployment-name=${deploymentName}`,
     });
 };
+
+export const getDeploymentDotGraph = (id: string | number): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/dot?id=${id}`,
+    });
+};
+
+export const getDeploymentInfluenceById = (
+    id: string | number,
+): AxiosPromise<T.IDependentSystem[]> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/elements?id=${id}`,
+    });
+};

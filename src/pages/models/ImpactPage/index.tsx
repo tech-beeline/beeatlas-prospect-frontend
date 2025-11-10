@@ -11,8 +11,9 @@ import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
-    AppTable,
-    ContextDiagram,
+    // AppTable,
+    // ContextDiagram,
+    DeploymentAppTable,
     DeploymentDiagram,
     E2ETCTable,
     ImpactSearch,
@@ -25,11 +26,12 @@ export const ImpactPage = () => {
     const notFoundParam = params.get('notFound');
     // common
     const cmdbParam = params.get('cmdb');
-    // system
     const nameParam = params.get('name');
+    // system
     // server
-    const environmentNameParam = params.get('environmentName');
-    const deploymentNameParam = params.get('deploymentName');
+    const idParam = params.get('id');
+    // const environmentNameParam = params.get('environmentName');
+    // const deploymentNameParam = params.get('deploymentName');
 
     const {
         modalOpened: sideblockOpened,
@@ -69,12 +71,11 @@ export const ImpactPage = () => {
                     />
                 </S.NotFoundContainer>
             )}
-            {cmdbParam && (
+            {cmdbParam && idParam && (
                 <>
                     <S.AppTitleContainer>
                         <S.AppTitleIconWrapper>
                             {nameParam && <Text variant="h4">{nameParam}</Text>}
-                            {deploymentNameParam && <Text variant="h4">{deploymentNameParam}</Text>}
                             <IconButton
                                 size="medium"
                                 iconName={Icons.Link}
@@ -92,18 +93,20 @@ export const ImpactPage = () => {
                     </S.AppTitleContainer>
                     <S.GridContainer>
                         <S.FlexContainer>
-                            {cmdbParam && nameParam && <ContextDiagram cmdb={cmdbParam} />}
-                            {cmdbParam && deploymentNameParam && environmentNameParam && (
+                            {/* {cmdbParam && nameParam && <ContextDiagram cmdb={cmdbParam} />} */}
+                            {idParam && (
                                 <DeploymentDiagram
+                                    id={idParam}
                                     cmdb={cmdbParam}
-                                    deploymentName={deploymentNameParam}
-                                    environmentName={environmentNameParam}
+                                    // deploymentName={deploymentNameParam}
+                                    // environmentName={environmentNameParam}
                                 />
                             )}
                         </S.FlexContainer>
 
                         <S.FlexContainer>
-                            <AppTable cmdb={cmdbParam} deploymentName={deploymentNameParam} />
+                            <DeploymentAppTable id={idParam} />
+                            {/* <AppTable cmdb={cmdbParam} deploymentName={deploymentNameParam} /> */}
                             <E2ETCTable cmdb={cmdbParam} />
                         </S.FlexContainer>
                     </S.GridContainer>

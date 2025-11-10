@@ -42,14 +42,18 @@ export const DiagramImage = styled.img`
 `;
 
 export const DiagramContainer = styled.div`
+    height: 100%;
+    width: 100%;
     overflow: hidden;
-
-    max-height: calc(100vh - 414px);
 `;
 
 export const Diagram = styled.div`
-    max-height: 100%;
-    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
 `;
 
 export const DiagramDialogContainer = styled.div`
@@ -60,6 +64,10 @@ export const DiagramDialogContainer = styled.div`
 `;
 
 export const DiagramDialog = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     height: 100%;
     width: 100%;
 `;
