@@ -181,7 +181,7 @@ export interface IFitnessFunction {
     docLink: string;
     details:
         | {
-              check: boolean | null;
+              isCheck: boolean | null;
               details: {
                   key: string;
                   value: string;

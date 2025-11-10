@@ -39,7 +39,7 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
                             <TableHeaderData>Описание проверки</TableHeaderData>
                             <TableHeaderData>Методика</TableHeaderData>
                             <TableHeaderData>Результат проверки</TableHeaderData>
-                            <TableHeaderData alignRight>Метрика(цель/факт)</TableHeaderData>
+                            {/* <TableHeaderData alignRight>Метрика(цель/факт)</TableHeaderData> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>

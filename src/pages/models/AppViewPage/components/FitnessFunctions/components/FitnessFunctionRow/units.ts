@@ -40,3 +40,14 @@ export const TableDataStyled = styled(TableData)`
 export const TableStyled = styled(Table)`
     width: 100%;
 `;
+
+export const ValueContainer = styled.div`
+    a {
+        color: var(--color-text-link);
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+`;

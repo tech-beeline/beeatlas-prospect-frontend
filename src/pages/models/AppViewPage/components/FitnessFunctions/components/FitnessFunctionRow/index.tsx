@@ -52,19 +52,19 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                         type={fitnessFunction.isCheck ? 'success' : 'error'}
                     />
                 </TableData>
-                <TableData alignRight>
+                {/* <TableData alignRight>
                     <Text variant="body3">
                         {fitnessFunction.details && fitnessFunction.details.length !== 0
                             ? `${fitnessFunction.details.length}/${
-                                  fitnessFunction.details.filter((ff) => ff.check).length
+                                  fitnessFunction.details.filter((ff) => ff.isCheck).length
                               }`
                             : formatNullableString(null)}
                     </Text>
-                </TableData>
+                </TableData> */}
             </S.TableRowStyled>
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={5}>
+                    <S.TableDataStyled colSpan={4}>
                         <S.ServiceContainer>
                             <Text variant="body3">
                                 {formatNullableString(fitnessFunction.assessmentDescription)}
@@ -83,7 +83,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                             {(fitnessFunction.tableStruct ?? []).map(
                                                 (struct, i) => (
                                                     <TableData key={i}>
-                                                        <div
+                                                        <S.ValueContainer
                                                             dangerouslySetInnerHTML={{
                                                                 __html: formatNullableString(
                                                                     detail.details.find(
