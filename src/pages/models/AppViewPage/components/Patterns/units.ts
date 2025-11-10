@@ -1,4 +1,4 @@
-import { Table } from '@beeline/design-system-react';
+import { TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -23,13 +23,6 @@ export const SelectContainer = styled.div`
     max-width: 360px;
 `;
 
-export const SwitchContainer = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-`;
-
-export const TableLayout = styled(Table)`
-    table-layout: fixed;
+export const TableHeaderDataMaxWidth = styled(TableHeaderData)`
     width: 100%;
 `;

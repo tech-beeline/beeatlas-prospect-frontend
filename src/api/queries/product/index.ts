@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     getAllProducts,
     getDeploymentInfluence,
+    getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
     getProductMapicInterfacesByCmdb,
     getProductsByTechnologyId,
@@ -55,6 +56,14 @@ export const useGetProductMapicInterfacesByCmdbQuery = (cmdb?: string | null) =>
     return useQuery({
         queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'mapic'],
         queryFn: () => getProductMapicInterfacesByCmdb(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
+    });
+};
+
+export const useGetProductFitnessFunctionsByCmdbQuery = (cmdb?: string | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'fitness-functions'],
+        queryFn: () => getProductFitnessFunctionsByCmdb(cmdb!).then((res) => res.data),
         enabled: !!cmdb,
     });
 };

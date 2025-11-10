@@ -55,6 +55,14 @@ export const postConnectionInterface = (data: T.IConnectionInterfaceForm) => {
     });
 };
 
+export const getProductFitnessFunctionsByCmdb = (
+    cmdb: string,
+): AxiosPromise<T.ICompleteFitnessFunctionsData> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/fitness-function`,
+    });
+};
+
 export const getAllProducts = (): AxiosPromise<T.IFullProductData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}product/v1/product/info`,
