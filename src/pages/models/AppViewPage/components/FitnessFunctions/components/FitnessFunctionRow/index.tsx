@@ -72,6 +72,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
+                                        <TableHeaderData>Успешность</TableHeaderData>
                                         {(fitnessFunction.tableStruct ?? []).map((value, i) => (
                                             <TableHeaderData key={i}>{value}</TableHeaderData>
                                         ))}
@@ -80,6 +81,15 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                 <TableBody>
                                     {(fitnessFunction.details ?? []).map((detail, i) => (
                                         <TableRow key={i}>
+                                            <TableData>
+                                                <Label
+                                                    type={detail.isCheck ? 'success' : 'error'}
+                                                    variant="icon"
+                                                    iconName={
+                                                        detail.isCheck ? Icons.Check : Icons.Close
+                                                    }
+                                                />
+                                            </TableData>
                                             {(fitnessFunction.tableStruct ?? []).map(
                                                 (struct, i) => (
                                                     <TableData key={i}>
