@@ -46,7 +46,14 @@ export const E2EProcessRow: FC<IE2EProcessRow> = ({ cmdb, e2e }) => {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableData>{e2e.client.join(', ')}</TableData>
+                                    <S.TableDataColomn>
+                                        {e2e.client.map((client, index, array) => (
+                                            <div key={index}>
+                                                {client}
+                                                {index < array.length - 1 ? ',' : ''}
+                                            </div>
+                                        ))}
+                                    </S.TableDataColomn>
                                     <TableData>{e2e.operation}</TableData>
                                     <TableData>{cmdb}</TableData>
                                 </TableRow>

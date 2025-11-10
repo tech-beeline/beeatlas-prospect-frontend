@@ -41,7 +41,7 @@ export const uploadPatternFile = (file: File, patternId: number) => {
     formData.append('file', file);
 
     return Api.post({
-        url: `${GATEWAY_URL}document/v1/documents/patterns/md?targetId=${patternId}`,
+        url: `${GATEWAY_URL}document/v1/documents/patterns/md?targetId=${patternId}&isPublic=true`,
         data: formData,
         headers: { 'Content-Disposition': `${file.name}` },
     });

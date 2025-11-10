@@ -491,10 +491,12 @@ export const NavigationRouter = () => {
                     }
                 />
 
-                <Route
-                    path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`}
-                    element={<PatternAddPage />}
-                />
+                {withAdminRole({
+                    path: `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`,
+                    element: <PatternAddPage />,
+                    isAdmin,
+                    isLoading,
+                })}
 
                 <Route
                     path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}`}

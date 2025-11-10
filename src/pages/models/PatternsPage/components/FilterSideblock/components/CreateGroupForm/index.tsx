@@ -12,6 +12,7 @@ import {
     useGetPatternGroupsQuery,
     useUpdatePatternGroupMutation,
 } from 'api/queries/patterns';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { SideblockView } from '../../const';
 
@@ -31,6 +32,7 @@ export const CreateGroupForm: FC<ICreateGroupForm> = ({
     const { mutateAsync: createGroup, isPending: isCreating } = useCreatePatternGroupMutation();
     const { mutateAsync: updateGroup, isPending: isUpdating } = useUpdatePatternGroupMutation();
     const isPending = isCreating || isUpdating;
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
@@ -44,8 +46,14 @@ export const CreateGroupForm: FC<ICreateGroupForm> = ({
                 id: groupToEdit.id,
                 data: { name: values.name, parentId: values.group ?? null },
             });
+            showSnackbar({
+                message: 'Изменения сохранены',
+            });
         } else {
             await createGroup({ name: values.name, parentId: values.group ?? null });
+            showSnackbar({
+                message: 'Категория создана',
+            });
         }
         setSideblockView(SideblockView.FILTER);
         setGroupToEdit(null);

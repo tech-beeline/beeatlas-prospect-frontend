@@ -7,6 +7,7 @@ import { Text } from 'components/core';
 import { IPatternGroupTree } from 'api/patterns/types';
 import { useDeletePatternGroupMutation, useGetPatternGroupTreeQuery } from 'api/queries/patterns';
 import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { SideblockView } from '../../const';
 
@@ -37,10 +38,15 @@ export const GroupFilters: FC<IGroupFilters> = ({
         onGroupsChange(updated);
     };
 
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const handleDeleteConfirmClick = async () => {
         if (groupToDelete) {
             await mutateAsync(groupToDelete.id);
             setGroupToDelete(null);
+            showSnackbar({
+                message: 'Категория удалена',
+            });
         }
     };
 
