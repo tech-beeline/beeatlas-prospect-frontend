@@ -61,6 +61,11 @@ export const MenuModels = () => {
                             name: 'Влияние',
                             path: `${R.MODELS_PATH}${R.IMPACT_PATH}`,
                         },
+                        {
+                            icon: Icons.Archive,
+                            name: 'Каталог\xa0паттернов',
+                            path: `${R.MODELS_PATH}${R.PATTERNS_PATH}`,
+                        },
                     ],
                 },
             ]}

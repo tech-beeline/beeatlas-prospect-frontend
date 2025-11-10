@@ -28,6 +28,7 @@ export const ARCHITECTURE_PATH = '/architecture';
 export const APPS_OLD_PATH = '/apps-old';
 export const E2E_PATH = '/e2e';
 export const IMPACT_PATH = '/impact';
+export const PATTERNS_PATH = '/patterns';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';

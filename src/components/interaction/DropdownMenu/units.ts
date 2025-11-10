@@ -33,8 +33,6 @@ export const MenuItem = styled.div<{ disabled?: boolean; danegerous?: boolean }>
 
     padding: 12px 16px;
 
-    transition: background-color 0.25s ease-in-out;
-
     color: ${({ danegerous }) => (danegerous ? 'var(--color-border-error)' : '')};
 
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
