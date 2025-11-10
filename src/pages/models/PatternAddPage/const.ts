@@ -8,8 +8,8 @@ export enum StepVariants {
 export const STEPS = [
     { id: StepVariants.GENERAL_INFO, label: 'Общая информация', index: 1 },
     { id: StepVariants.DOCUMENTATION, label: 'Документация', index: 2 },
-    { id: StepVariants.RULES, label: 'Правило проверки', index: 3 },
-    { id: StepVariants.DESCRIPTION, label: 'Описание архитектуры в structurize dsl', index: 4 },
+    { id: StepVariants.RULES, label: 'Правило идентификации', index: 3 },
+    { id: StepVariants.DESCRIPTION, label: 'Описание архитектуры в structurizr dsl', index: 4 },
 ];
 
 export interface ISavedData {

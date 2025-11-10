@@ -1,4 +1,4 @@
-import { TableRow } from '@beeline/design-system-react';
+import { TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const TableRowStyled = styled(TableRow)<{ expanded?: boolean }>`
@@ -24,4 +24,11 @@ export const TableStyled = styled.table`
     width: 100%;
 
     border-collapse: collapse;
+`;
+
+export const TableDataColomn = styled(TableData)`
+    > div > div {
+        display: flex;
+        flex-direction: column;
+    }
 `;

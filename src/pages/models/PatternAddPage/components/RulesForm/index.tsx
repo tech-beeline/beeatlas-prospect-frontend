@@ -33,7 +33,7 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         <FormProvider {...form}>
             <S.FormStyled onSubmit={onSubmit}>
                 <S.Container>
-                    <TextArea fullWidth name="rule" label="Правило праверки*" />
+                    <TextArea fullWidth name="rule" label="Правило идентификации*" />
                 </S.Container>
                 <FormFooter
                     onCancelButtonClick={() => setStepVariant(StepVariants.DOCUMENTATION)}

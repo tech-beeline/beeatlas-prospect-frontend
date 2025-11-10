@@ -20,6 +20,7 @@ import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { useDebounce, useModal } from 'hooks';
 import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FilterSideblock, PatternCard } from './components';
 import { CHIPS, FilterVariants } from './const';
@@ -45,6 +46,8 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
     const { mutate: deletePattern } = useDeletePatternMutation();
     const { data: technologies } = useGetAllTechnologiesQuery();
     const { data, isLoading } = useGetPatternsQuery();
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const technologiesOptions = (technologies ?? []).map((tech) => ({
         id: String(tech.id),
@@ -78,15 +81,20 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
 
         await deletePattern(patternToDelete.id);
         setPatternToDelete(null);
+        showSnackbar({
+            message: 'Паттерн удален',
+        });
     };
     return (
         <S.PageWrapper>
             <S.Container>
                 <S.TitleContainer>
                     <Text variant="h4">Каталог паттернов/антипаттернов</Text>
-                    <Button onClick={handleCreateClick} variant="contained" size="small">
-                        Создать паттерн
-                    </Button>
+                    {isAdmin && (
+                        <Button onClick={handleCreateClick} variant="contained" size="small">
+                            Создать паттерн
+                        </Button>
+                    )}
                 </S.TitleContainer>
 
                 <S.ControlsContainer>

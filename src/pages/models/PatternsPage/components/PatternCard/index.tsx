@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Chip, IconButton, Label } from '@beeline/design-system-react';
+import { Chip, Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
@@ -65,7 +65,6 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, pattern, setPatternToDe
                             ]}
                         />
                     )}
-                    {!isAdmin && <IconButton iconName={Icons.Download} size="large" />}
                 </S.TitleContainer>
                 <S.MarginContainer>
                     <Text inactive variant="body3">
