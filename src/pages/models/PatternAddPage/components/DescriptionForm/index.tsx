@@ -113,7 +113,7 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
                     value={savedData.dsl}
                     onChange={(e) => setSavedData({ ...savedData, dsl: e.target.value })}
                     disabled={!!savedData.dslFile}
-                    label="Описание архитектуры в structurize dsl"
+                    label="Описание архитектуры в structurizr dsl"
                 />
 
                 <S.TextContainer>

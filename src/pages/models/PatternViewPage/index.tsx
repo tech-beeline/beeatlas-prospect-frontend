@@ -300,7 +300,7 @@ export const PatternViewPage = () => {
                             </S.ExpandableContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
-                                    <Text variant="h6">Описание архитектуры в structurize dsl</Text>
+                                    <Text variant="h6">Описание архитектуры в structurizr dsl</Text>
                                     <IconButton
                                         iconName={
                                             isDslExpanded ? Icons.NavArrowUp : Icons.NavArrowDown
