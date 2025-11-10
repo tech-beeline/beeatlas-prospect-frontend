@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
+import { Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
@@ -11,11 +11,11 @@ import { useGetSearchDeploymentsQuery, useGetSearchSystemsQuery } from 'api/quer
 import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 
-import { CHIPS, SearchVariants, searchVariantToPlaceholderMap } from './const';
+import { SearchVariants, searchVariantToPlaceholderMap } from './const';
 import * as S from './units';
 
 export const ImpactSearch = () => {
-    const [searchVariant, setSearchVariant] = useState(SearchVariants.SERVER);
+    const [searchVariant] = useState(SearchVariants.SERVER);
     const [, setSearchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
@@ -78,7 +78,7 @@ export const ImpactSearch = () => {
             />
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
-                    <Text variant="overline">Выбери категорию, в которой будем искать</Text>
+                    {/* <Text variant="overline">Выбери категорию, в которой будем искать</Text>
                     <S.ChipsContainer>
                         {CHIPS.map((chip) => (
                             <Chip
@@ -88,7 +88,7 @@ export const ImpactSearch = () => {
                                 onClick={() => setSearchVariant(chip.value)}
                             />
                         ))}
-                    </S.ChipsContainer>
+                    </S.ChipsContainer> */}
                     {searchVariant === SearchVariants.SYSTEM && (
                         <>
                             {isLoadingSystemsData && (

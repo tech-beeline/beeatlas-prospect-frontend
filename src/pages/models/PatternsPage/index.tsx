@@ -89,7 +89,7 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
         <S.PageWrapper>
             <S.Container>
                 <S.TitleContainer>
-                    <Text variant="h4">Каталог паттернов/антипаттернов</Text>
+                    <Text variant="h4">Каталог паттернов</Text>
                     {isAdmin && (
                         <Button onClick={handleCreateClick} variant="contained" size="small">
                             Создать паттерн

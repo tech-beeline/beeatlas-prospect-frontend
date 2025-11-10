@@ -292,11 +292,7 @@ export const PatternViewPage = () => {
                                         size="large"
                                     />
                                 </S.SpaceBetweenContainer>
-                                {isRuleExpanded && (
-                                    <S.TextWrap>
-                                        <Text variant="body2">{patternData.rule}</Text>
-                                    </S.TextWrap>
-                                )}
+                                {isRuleExpanded && <S.TextWrap>{patternData.rule}</S.TextWrap>}
                             </S.ExpandableContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
@@ -309,11 +305,7 @@ export const PatternViewPage = () => {
                                         size="large"
                                     />
                                 </S.SpaceBetweenContainer>
-                                {isDslExpanded && (
-                                    <S.TextWrap>
-                                        <Text variant="body2">{patternData.dsl}</Text>
-                                    </S.TextWrap>
-                                )}
+                                {isDslExpanded && <S.TextWrap>{patternData.dsl}</S.TextWrap>}
                             </S.ExpandableContainer>
                         </S.FlexContainer>
                     </S.GridContainer>

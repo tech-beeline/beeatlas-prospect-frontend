@@ -39,7 +39,7 @@ export const DeploymentDiagram: FC<IDeploymentDiagram> = ({
                             <TableRow>
                                 <S.TableHeaderDataFullWidth>
                                     <S.FlexContainer>
-                                        <div>Контекстная диаграмма</div>
+                                        <div>Диаграмма зависимостей</div>
                                         <S.IconsContainer>
                                             {/* <IconButton
                                         size="medium"
@@ -82,7 +82,7 @@ export const DeploymentDiagram: FC<IDeploymentDiagram> = ({
                         title={
                             <>
                                 <S.FlexContainer>
-                                    <div>Контекстная диаграмма</div>
+                                    <div>Диаграмма зависимостей</div>
                                     <S.IconsContainer>
                                         {/* <IconButton
                                     size="medium"

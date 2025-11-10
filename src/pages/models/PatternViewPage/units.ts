@@ -124,8 +124,9 @@ export const BoldSpan = styled.span`
     font-weight: 500;
 `;
 
-export const TextWrap = styled.div`
+export const TextWrap = styled.code`
     white-space: pre-wrap;
+    font-size: 14px;
 `;
 
 export const PatternFileContainer = styled.div`

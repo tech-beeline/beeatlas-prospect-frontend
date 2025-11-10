@@ -77,7 +77,7 @@ export const ModelsPage = () => {
                     </S.CardStyled>
                     <S.CardStyled
                         variant={CardVariant.WARNING}
-                        title="Каталог паттернов/антиппаттернов"
+                        title="Каталог паттернов"
                         to={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}
                     >
                         Паттерны содержат эффективные решения типовых задач разработки, а раздел
