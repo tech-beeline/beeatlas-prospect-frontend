@@ -56,7 +56,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                     <Text variant="body3">
                         {fitnessFunction.details && fitnessFunction.details.length !== 0
                             ? `${fitnessFunction.details.length}/${
-                                  fitnessFunction.details.filter((ff) => ff.isCheck).length
+                                  fitnessFunction.details.filter((ff) => ff.check).length
                               }`
                             : formatNullableString(null)}
                     </Text>
@@ -83,11 +83,15 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                             {(fitnessFunction.tableStruct ?? []).map(
                                                 (struct, i) => (
                                                     <TableData key={i}>
-                                                        {formatNullableString(
-                                                            detail.values.find(
-                                                                (v) => v.key === struct,
-                                                            )?.value,
-                                                        )}
+                                                        <div
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: formatNullableString(
+                                                                    detail.details.find(
+                                                                        (v) => v.key === struct,
+                                                                    )?.value,
+                                                                ),
+                                                            }}
+                                                        />
                                                     </TableData>
                                                 ),
                                             )}
