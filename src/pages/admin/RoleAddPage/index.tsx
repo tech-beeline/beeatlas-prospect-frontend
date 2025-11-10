@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
-import { NumberParam, useQueryParam } from 'use-query-params';
 
 import { TextField } from 'components/form';
 import { TitleBack } from 'components/interaction';
@@ -30,14 +29,15 @@ import { FormValues, validationSchema } from './form';
 import * as S from './units';
 
 export const RoleAddPage = () => {
-    const [roleId] = useQueryParam('id', NumberParam);
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
 
     const { modalOpened, openModal, closeModal } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const { data: roleData, isLoading: isLoadingRoleData } = useGetRoleByIdQuery(roleId);
-    const { data: rolePermissions } = useGetRolePermissionsByIdQuery(roleId);
+    const { data: roleData, isLoading: isLoadingRoleData } = useGetRoleByIdQuery(Number(paramId));
+    const { data: rolePermissions } = useGetRolePermissionsByIdQuery(Number(paramId));
     const { mutateAsync: createRole } = useCreateRoleMutation();
     const { mutateAsync: updateRole } = useUpdateRoleMutation();
     const { mutateAsync: updateRolePermissions } = useUpdateRolePermissionsMutation();
@@ -91,8 +91,8 @@ export const RoleAddPage = () => {
     const navigateToAllRoles = () => navigate(`${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}`);
 
     const handleDeleteRole = async () => {
-        if (roleId) {
-            const res = await deleteRole(roleId);
+        if (paramId) {
+            const res = await deleteRole(Number(paramId));
             if (res?.status === 200) {
                 showSnackbar({ message: 'Роль удалена' });
                 navigateToAllRoles();
@@ -108,12 +108,12 @@ export const RoleAddPage = () => {
                 editPermission && permissions.push({ id: 2 });
                 deletePermission && permissions.push({ id: 3 });
 
-                if (roleId) {
+                if (paramId) {
                     if (roleData?.default !== true) {
-                        await updateRole({ id: String(roleId), name });
+                        await updateRole({ id: String(paramId), name });
                     }
                     const permissionsUpdate = await updateRolePermissions({
-                        roleId,
+                        roleId: Number(paramId),
                         permissions,
                     });
 
@@ -148,12 +148,12 @@ export const RoleAddPage = () => {
         <S.PageWrapper className="PageWrapper">
             <S.TitleFlexGap>
                 <TitleBack
-                    onClick={roleId && !notFound ? openModal : navigateToAllRoles}
-                    title={roleId ? 'Редактирование роли' : 'Создание новой роли'}
+                    onClick={paramId && !notFound ? openModal : navigateToAllRoles}
+                    title={paramId ? 'Редактирование роли' : 'Создание новой роли'}
                     fontSize="26px"
                 />
 
-                {roleId && !notFound && !isRoleDefault && (
+                {paramId && !notFound && !isRoleDefault && (
                     <Icon
                         ref={toggleRef}
                         iconName={Icons.MoreVert}
@@ -173,7 +173,7 @@ export const RoleAddPage = () => {
                 )}
             </S.TitleFlexGap>
 
-            {(!roleId || !notFound) && (
+            {(!paramId || !notFound) && (
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <TextField name="name" label="Название" disabled={isRoleDefault} />
@@ -222,7 +222,7 @@ export const RoleAddPage = () => {
                 </FormProvider>
             )}
 
-            {roleId && notFound && (
+            {paramId && notFound && (
                 <S.NotFoundContainer>
                     <NotFoundBlock text="Роль удалена или не существует" />
                 </S.NotFoundContainer>
