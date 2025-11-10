@@ -86,7 +86,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                             <MultiSelect
                                 fullWidth
                                 name="group"
-                                label="Категория*"
+                                label="Категория"
                                 options={groupsOptions}
                             />
                         </S.SelectContainer>
@@ -94,7 +94,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                             <MultiSelect
                                 fullWidth
                                 name="tech"
-                                label="Технология*"
+                                label="Технология"
                                 options={technologiesOptions}
                             />
                         </S.SelectContainer>
