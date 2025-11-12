@@ -11,7 +11,7 @@ export const Container = styled.div`
 
     border-left: 1px solid var(--color-divider);
 
-    z-index: 101;
+    z-index: 99;
 `;
 
 export const MainContent = styled.div`

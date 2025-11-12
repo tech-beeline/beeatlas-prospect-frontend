@@ -4,8 +4,12 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
-import { IPatternGroupTree } from 'api/patterns/types';
-import { useDeletePatternGroupMutation, useGetPatternGroupTreeQuery } from 'api/queries/patterns';
+import { IPattern, IPatternGroupTree } from 'api/patterns/types';
+import {
+    useDeletePatternGroupMutation,
+    useGetPatternGroupTreeQuery,
+    useGetPatternsQuery,
+} from 'api/queries/patterns';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -26,9 +30,11 @@ export const GroupFilters: FC<IGroupFilters> = ({
 
     const [groupToDelete, setGroupToDelete] = useState<IPatternGroupTree | null>(null);
     const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
+    const [cannotDelete, setCannotDelete] = useState(false);
 
     const { data, isLoading } = useGetPatternGroupTreeQuery();
     const { mutateAsync } = useDeletePatternGroupMutation();
+    const { data: patterns } = useGetPatternsQuery();
 
     const handleSelect = (id: number, checked: boolean) => {
         const updated = checked
@@ -38,6 +44,28 @@ export const GroupFilters: FC<IGroupFilters> = ({
         onGroupsChange(updated);
     };
 
+    const collectGroupIds = (group: IPatternGroupTree): number[] => {
+        const ids = [group.id];
+        if (group.children?.length) {
+            group.children.forEach((child) => {
+                ids.push(...collectGroupIds(child));
+            });
+        }
+        return ids;
+    };
+
+    const hasPatternsInGroup = (group: IPatternGroupTree) => {
+        const allGroupIds = collectGroupIds(group);
+        return patterns?.some((pattern: IPattern) =>
+            pattern.groups?.some((g) => allGroupIds.includes(g.id)),
+        );
+    };
+
+    const handleAskDelete = (group: IPatternGroupTree) => {
+        const hasPatterns = !!hasPatternsInGroup(group);
+        setGroupToDelete(group);
+        setCannotDelete(hasPatterns);
+    };
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const handleDeleteConfirmClick = async () => {
@@ -48,6 +76,11 @@ export const GroupFilters: FC<IGroupFilters> = ({
                 message: 'Категория удалена',
             });
         }
+    };
+
+    const handleCloseDialog = () => {
+        setGroupToDelete(null);
+        setCannotDelete(false);
     };
 
     return (
@@ -89,7 +122,7 @@ export const GroupFilters: FC<IGroupFilters> = ({
                                     filterElement={group}
                                     setGroupToEdit={setGroupToEdit}
                                     setSideblockView={setSideblockView}
-                                    setGroupToDelete={setGroupToDelete}
+                                    setGroupToDelete={handleAskDelete}
                                     selectedGroups={selectedGroups}
                                     onSelect={handleSelect}
                                 />
@@ -115,11 +148,22 @@ export const GroupFilters: FC<IGroupFilters> = ({
             <Dialog
                 opened={!!groupToDelete}
                 title="Удалить группировку?"
-                confirmText="Удалить"
-                onClose={() => setGroupToDelete(null)}
-                onConfirm={handleDeleteConfirmClick}
+                confirmText={cannotDelete ? 'Закрыть' : 'Удалить'}
+                onClose={handleCloseDialog}
+                onConfirm={cannotDelete ? handleCloseDialog : handleDeleteConfirmClick}
+                showDeclineButton={cannotDelete ? false : true}
             >
-                Группировка <S.BoldSpan>{groupToDelete?.name}</S.BoldSpan> будет удалена
+                {cannotDelete ? (
+                    <>
+                        Категория <S.BoldSpan>{groupToDelete?.name}</S.BoldSpan> не подлежит
+                        удалению, поскольку содержит паттерны. Для удаления категории необходимо
+                        предварительно переместить все паттерны в другую категорию
+                    </>
+                ) : (
+                    <>
+                        Группировка <S.BoldSpan>{groupToDelete?.name}</S.BoldSpan> будет удалена.
+                    </>
+                )}
             </Dialog>
         </>
     );
