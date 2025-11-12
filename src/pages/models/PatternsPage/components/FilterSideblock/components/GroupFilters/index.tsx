@@ -4,7 +4,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
-import { IPattern, IPatternGroupTree } from 'api/patterns/types';
+import { IPatternGroupTree } from 'api/patterns/types';
 import {
     useDeletePatternGroupMutation,
     useGetPatternGroupTreeQuery,
@@ -44,25 +44,22 @@ export const GroupFilters: FC<IGroupFilters> = ({
         onGroupsChange(updated);
     };
 
-    const collectGroupIds = (group: IPatternGroupTree): number[] => {
-        const ids = [group.id];
-        if (group.children?.length) {
-            group.children.forEach((child) => {
-                ids.push(...collectGroupIds(child));
-            });
-        }
-        return ids;
-    };
+    const hasPatternsRecursive = (group: IPatternGroupTree): boolean => {
+        if (!patterns) return false;
 
-    const hasPatternsInGroup = (group: IPatternGroupTree) => {
-        const allGroupIds = collectGroupIds(group);
-        return patterns?.some((pattern: IPattern) =>
-            pattern.groups?.some((g) => allGroupIds.includes(g.id)),
-        );
+        const hasHere = patterns.some((pattern) => pattern.groups?.some((g) => g.id === group.id));
+
+        if (hasHere) return true;
+
+        if (group.children?.length) {
+            return group.children.some((child) => hasPatternsRecursive(child));
+        }
+
+        return false;
     };
 
     const handleAskDelete = (group: IPatternGroupTree) => {
-        const hasPatterns = !!hasPatternsInGroup(group);
+        const hasPatterns = hasPatternsRecursive(group);
         setGroupToDelete(group);
         setCannotDelete(hasPatterns);
     };
@@ -70,8 +67,18 @@ export const GroupFilters: FC<IGroupFilters> = ({
 
     const handleDeleteConfirmClick = async () => {
         if (groupToDelete) {
-            await mutateAsync(groupToDelete.id);
+            const deleteRecursively = async (group: IPatternGroupTree) => {
+                if (group.children?.length) {
+                    for (const child of group.children) {
+                        await deleteRecursively(child);
+                    }
+                }
+                await mutateAsync(group.id);
+            };
+
+            await deleteRecursively(groupToDelete);
             setGroupToDelete(null);
+            setCannotDelete(false);
             showSnackbar({
                 message: 'Категория удалена',
             });
