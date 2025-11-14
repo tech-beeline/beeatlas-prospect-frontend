@@ -66,6 +66,24 @@ export const ModelsPage = () => {
                         Содержит список сценариев и подробную информацию о них, включая проверку их
                         описания
                     </S.CardStyled>
+
+                    <S.CardStyled
+                        variant={CardVariant.ERROR}
+                        title="Влияние"
+                        to={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
+                    >
+                        Инструмент для оценки влияния сбойных элементов (приложений, экземпляров,
+                        сервисов, серверов, эндпоинтов) на работу системы
+                    </S.CardStyled>
+                    <S.CardStyled
+                        variant={CardVariant.WARNING}
+                        title="Каталог паттернов"
+                        to={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}
+                    >
+                        Паттерны содержат эффективные решения типовых задач разработки, а раздел
+                        антипаттернов помогает избежать типичных ошибок при создании качественных
+                        продуктов
+                    </S.CardStyled>
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>

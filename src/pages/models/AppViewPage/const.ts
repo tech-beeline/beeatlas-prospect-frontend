@@ -6,6 +6,7 @@ export enum TabVariants {
     INTERFACES_AND_METHODS = 'INTERFACES_AND_METHODS',
     ARCHITECTURE_CHANGES = 'ARCHITECTURE_CHANGES',
     TECHNOLOGIES = 'TECHNOLOGIES',
+    PATTERNS = 'PATTERNS',
     DATA = 'DATA',
     STANDS = 'STANDS',
 }
@@ -38,6 +39,10 @@ export const TABS = [
     // {
     //     id: TabVariants.TECHNOLOGIES,
     //     label: 'Технологии',
+    // },
+    // {
+    //     id: TabVariants.PATTERNS,
+    //     label: 'Паттерны',
     // },
     // {
     //     id: TabVariants.DATA,

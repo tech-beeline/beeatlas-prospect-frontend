@@ -27,10 +27,15 @@ const NotFoundBlock: FC<INotFoundBlock> = ({
     buttonText,
     buttonProps,
     setMinSize = true,
+    smallImage = false,
 }) => {
     return (
         <S.NotFoundBlock>
-            <S.Image setMinSize={setMinSize} src={variantToImageMap[imageVariant]} />
+            <S.Image
+                setMinSize={setMinSize}
+                smallImage={smallImage}
+                src={variantToImageMap[imageVariant]}
+            />
             <S.Content>
                 {title && <S.Title>{title}</S.Title>}
                 <S.Text marginTop={Boolean(title)}>{text}</S.Text>
