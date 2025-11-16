@@ -29,11 +29,16 @@ export interface ICJAuthor {
 export interface ICJData {
     id: number;
     name: string;
-    user_portrait: string;
+    userPortrait: string;
     lastModifiedDate: string;
     draft: boolean;
     id_user_profile: number;
-    id_product: string;
+    productId: string;
+}
+
+export interface ICJNewData extends ICJData {
+    id_product?: string;
+    user_portrait?: string;
 }
 
 export interface ICompleteStepData extends ICJStepData {

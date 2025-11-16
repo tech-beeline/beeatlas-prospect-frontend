@@ -1,5 +1,5 @@
-import { ICJData } from 'api/cj/types';
+import { ICJNewData } from 'api/cj/types';
 
 export interface ICJCard {
-    cj: ICJData;
+    cj: ICJNewData;
 }

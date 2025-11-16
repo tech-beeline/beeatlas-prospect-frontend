@@ -11,7 +11,7 @@ export const getAllCJs = (
     search: string,
     sample: T.CJLibraryStatus,
     productId?: number,
-): AxiosPromise<T.ICJData[]> => {
+): AxiosPromise<T.ICJNewData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}cx/v1/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
             'idProduct',
