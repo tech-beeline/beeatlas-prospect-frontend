@@ -14,7 +14,7 @@ import * as S from './units';
 
 export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
     const { data: productsData, isFetching: isLoadingProducts } = useGetUserProductsQuery();
-    const productIdStr = String(cj.productId ?? cj.id_product);
+    const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
 
     return (
         <SideBlock isOpen={isOpen} onClose={onClose}>

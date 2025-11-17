@@ -39,6 +39,7 @@ export interface ICJData {
 export interface ICJNewData extends ICJData {
     id_product?: string;
     user_portrait?: string;
+    idProductExt?: string;
 }
 
 export interface ICompleteStepData extends ICJStepData {
@@ -49,6 +50,7 @@ export interface ICompleteCJData extends ICJData {
     steps: ICompleteStepData[];
     author: ICJAuthor;
     id_product?: string;
+    idProductExt?: string;
 }
 
 export enum CJLibraryStatus {
