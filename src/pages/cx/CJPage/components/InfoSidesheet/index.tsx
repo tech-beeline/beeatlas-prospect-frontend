@@ -13,7 +13,7 @@ import { IInfoSidesheet } from './types';
 import * as S from './units';
 
 export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
-    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: productsData, isFetching: isLoadingProducts } = useGetUserProductsQuery();
     const productIdStr = String(cj.productId ?? cj.id_product);
 
     return (
