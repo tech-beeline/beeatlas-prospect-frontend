@@ -48,6 +48,7 @@ export interface ICompleteStepData extends ICJStepData {
 export interface ICompleteCJData extends ICJData {
     steps: ICompleteStepData[];
     author: ICJAuthor;
+    id_product?: string;
 }
 
 export enum CJLibraryStatus {

@@ -35,6 +35,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
     const userProductIds = (productsData ?? []).map((product) => product.id);
 
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
+    const productIdStr = String(cj.productId ?? cj.id_product);
 
     const handleCJClick = (id?: number) => {
         navigate({
@@ -99,9 +100,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                         <Skeleton height={22} radius={4} />
                     ) : (
                         formatNullableString(
-                            productsData.find(
-                                (product) => product.id === (cj.productId ?? cj.id_product),
-                            )?.name,
+                            productsData.find((product) => product.id === productIdStr)?.name,
                         )
                     )}
                 </Text>

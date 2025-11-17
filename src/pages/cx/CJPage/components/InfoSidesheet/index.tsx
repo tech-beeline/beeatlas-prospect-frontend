@@ -14,6 +14,7 @@ import * as S from './units';
 
 export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
     const { data: productsData } = useGetUserProductsQuery();
+    const productIdStr = String(cj.productId ?? cj.id_product);
 
     return (
         <SideBlock isOpen={isOpen} onClose={onClose}>
@@ -37,7 +38,7 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
                     </Text>
                     <Text variant="body2">
                         {formatNullableString(
-                            (productsData ?? []).find((product) => product.id === cj.productId)
+                            (productsData ?? []).find((product) => product.id === productIdStr)
                                 ?.name,
                         )}
                     </Text>
