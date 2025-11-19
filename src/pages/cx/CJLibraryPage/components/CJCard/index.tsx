@@ -61,7 +61,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 icon: Icons.Edit,
                                 onClick: () => handleCJClick(cj.id),
                                 disabled: !userProductIds.includes(
-                                    cj.productId ?? cj.id_product ?? cj.idProductExt,
+                                    String(cj.productId ?? cj.id_product ?? cj.idProductExt),
                                 ),
                             },
                         ],
@@ -73,7 +73,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 dangerous: true,
                                 disabled:
                                     !userProductIds.includes(
-                                        cj.productId ?? cj.id_product ?? cj.idProductExt,
+                                        String(cj.productId ?? cj.id_product ?? cj.idProductExt),
                                     ) || !cj.draft,
                             },
                         ],
