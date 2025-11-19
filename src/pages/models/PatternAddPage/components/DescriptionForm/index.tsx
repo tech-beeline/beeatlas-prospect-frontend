@@ -102,6 +102,13 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         }
     }, [savedData.dslFile]);
 
+    useEffect(() => {
+        if (!savedData.dslFile && validationState.status !== 'idle') {
+            setValidationState({ status: 'idle', message: null });
+            lastValidatedContentRef.current = '';
+        }
+    }, [savedData.dslFile, validationState.status]);
+
     const handleValidateClick = async (): Promise<boolean> => {
         return await runValidation(currentContent);
     };

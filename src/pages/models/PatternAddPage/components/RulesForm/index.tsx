@@ -28,6 +28,13 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
     const lastValidatedRuleRef = useRef<string>('');
     const ruleValue = watch('rule');
     const isContentChanged = lastValidatedRuleRef.current !== (ruleValue || '');
+
+    useEffect(() => {
+        if (isContentChanged && isValid) {
+            setIsValid(false);
+        }
+    }, [isContentChanged, isValid]);
+
     const validate = async (cypher: string): Promise<boolean> => {
         if (!cypher.trim()) {
             setErrorMessage('Поле не может быть пустым');
@@ -62,7 +69,7 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!isValid) {
+        if (!isValid || isContentChanged) {
             await validate(ruleValue || '');
             return;
         }
@@ -70,10 +77,14 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         handleSubmitData();
     };
 
-    const getSubmitButtonText = () => (isValid ? 'Далее' : 'Проверить');
+    const getSubmitButtonText = () => {
+        if (isValid && !isContentChanged) {
+            return 'Далее';
+        }
+        return 'Проверить';
+    };
 
-    const isSubmitButtonDisabled = () =>
-        !ruleValue || isChecking || (!isContentChanged && !isValid);
+    const isSubmitButtonDisabled = () => !ruleValue || isChecking;
 
     useEffect(() => {
         reset({
