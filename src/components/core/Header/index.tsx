@@ -35,7 +35,7 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
                         className="HeaderFlexContainer"
                         onClick={() => navigate(MAIN_PAGE_PATH)}
                     >
-                        <S.Title className="HeaderTitle">витрина ФДМ</S.Title>
+                        <S.Title className="HeaderTitle">beeatlas</S.Title>
 
                         <Logo />
                     </S.FlexContainer>

@@ -1,32 +1,35 @@
+import { Table } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 24px;
 `;
 
-export const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    height: fit-content;
-
-    padding: 24px;
-
-    border-radius: var(--size-border-radius-x6);
-    border: 1px solid var(--color-divider);
-`;
-
-export const TitleContainer = styled.div`
+export const ActionsContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 24px;
 `;
 
-export const LinksContianer = styled.div`
+export const SearchContainer = styled.div`
+    flex: 1;
+    max-width: 797px;
+`;
+
+export const SelectContainer = styled.div`
+    flex: 1;
+    max-width: 360px;
+`;
+
+export const SwitchContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    gap: 24px;
+    align-items: center;
+    gap: 8px;
+`;
+
+export const TableLayout = styled(Table)`
+    table-layout: fixed;
+    width: 100%;
 `;

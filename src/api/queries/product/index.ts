@@ -2,11 +2,16 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     getAllProducts,
+    getDeploymentInfluence,
+    getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
     getProductMapicInterfacesByCmdb,
     getProductsByTechnologyId,
     getProductStructurizrContainerByCmdb,
     getProductStructurizrInterfacesByCmdb,
+    getSystemE2E,
+    getSystemInfluence,
+    getSystemTC,
     getUserProducts,
     postConnectionInterface,
     postStructurizrWorkspace,
@@ -55,6 +60,14 @@ export const useGetProductMapicInterfacesByCmdbQuery = (cmdb?: string | null) =>
     });
 };
 
+export const useGetProductFitnessFunctionsByCmdbQuery = (cmdb?: string | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'fitness-functions'],
+        queryFn: () => getProductFitnessFunctionsByCmdb(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
+    });
+};
+
 export function useCreateConnectionInterfaceMutation() {
     const queryClient = useQueryClient();
     return useMutation({
@@ -89,5 +102,48 @@ export const useCreateStructurizrWorkspaceMutation = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
         },
+    });
+};
+
+interface IGetSystemInfluenceParams {
+    cmdb: string;
+    enabled: boolean;
+}
+export const useGetSystemInfluenceQuery = (params: IGetSystemInfluenceParams) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'influence', params.cmdb],
+        queryFn: () => getSystemInfluence(params.cmdb).then((res) => res.data),
+        enabled: params.enabled,
+    });
+};
+
+interface IGetDeploymentInfluenceParams {
+    cmdb: string;
+    enabled: boolean;
+}
+export const useGetDeploymentInfluenceQuery = (params: IGetDeploymentInfluenceParams) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'deployment', 'influence', params.cmdb],
+        queryFn: () => getDeploymentInfluence(params.cmdb).then((res) => res.data),
+        enabled: params.enabled,
+    });
+};
+
+export const useGetSystemE2EQuery = (cmdb: string | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'e2e', cmdb],
+        queryFn: () => getSystemE2E(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
+    });
+};
+
+export const useGetSystemTCQuery = (cmdb: string | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'tc', cmdb],
+        queryFn: async () => {
+            const { id } = await getProductInfoByCmdb(cmdb!).then((res) => res.data);
+            return getSystemTC(id).then((res) => res.data);
+        },
+        enabled: !!cmdb,
     });
 };

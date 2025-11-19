@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { QueryParamProvider } from 'use-query-params';
 
 import {
     Header,
@@ -40,6 +39,7 @@ import {
     FDMPage,
     FileImportPage,
     HowToPage,
+    ImpactPage,
     ImportedDataPage,
     MainPage,
     MapAddPage,
@@ -48,6 +48,9 @@ import {
     NotFoundPage,
     NotificationsPage,
     PackagePage,
+    PatternAddPage,
+    PatternsPage,
+    PatternViewPage,
     PersonalMapPage,
     RoleAddPage,
     RolesPage,
@@ -66,7 +69,7 @@ import {
 
 import * as R from './const';
 import * as S from './units';
-import { RouteAdapter, withAdminRole } from './utils';
+import { withAdminRole } from './utils';
 
 const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`,
@@ -78,6 +81,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
     `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`,
 ];
 
 const PATHS_WITHOUT_FEEDBACK = [
@@ -123,486 +127,525 @@ export const NavigationRouter = () => {
                 <FeedbackButton />
             )}
 
-            <QueryParamProvider ReactRouterRoute={RouteAdapter}>
-                <Routes>
-                    <Route
-                        path={R.MAIN_PAGE_PATH}
-                        element={
-                            <S.RouteWithDrawer>
-                                <S.ContentWrapper>
-                                    <MainPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+            <Routes>
+                <Route
+                    path={R.MAIN_PAGE_PATH}
+                    element={
+                        <S.RouteWithDrawer>
+                            <S.ContentWrapper>
+                                <MainPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route path={R.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
+                <Route path={R.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.USERS_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <UsersPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.USERS_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <UsersPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <RolesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <RolesPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}${R.ADD_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <RoleAddPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.USERS_PATH}${R.ROLES_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <RoleAddPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <FileImportPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <FileImportPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <ImportedDataPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <ImportedDataPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}${R.PACKAGE_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <PackagePage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}${R.PACKAGE_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <PackagePage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <TechnologiesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <TechnologiesPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <TechnologyAddPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <TechnologyAddPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.VERSIONS_PATH}${R.ADD_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <TechnologyVersionAddPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}${R.VERSIONS_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <TechnologyVersionAddPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <CapabilitiesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <CapabilitiesPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    {withAdminRole({
-                        path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}${R.ADD_PATH}`,
-                        element: (
-                            <S.RouteWithDrawer>
-                                <MenuPersonalArea />
-                                <S.ContentWrapper>
-                                    <CapabilityAddPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        ),
-                        isAdmin,
-                        isLoading,
-                    })}
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <CapabilityAddPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    <Route
-                        path={R.MODELS_PATH}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <ModelsPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={R.MODELS_PATH}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <ModelsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.SEARCH_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <SearchPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.SEARCH_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <SearchPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.FDM_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <FDMPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.FDM_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <FDMPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`}
-                        element={<BCAddPage />}
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`}
+                    element={<BCAddPage />}
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <FDMHistoryPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <FDMHistoryPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper hideXOverflow>
-                                    <TechRadarPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper hideXOverflow>
+                                <TechRadarPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}${R.VIEW_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <TechnologyViewPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}${R.VIEW_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <TechnologyViewPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.MAP_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <MapPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.MAP_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <MapPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/:id`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <PersonalMapPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/:id`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <PersonalMapPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`}
-                        element={<MapAddPage />}
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`}
+                    element={<MapAddPage />}
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <AppsDashboardPage isProd={isProd} />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <AppsDashboardPage isProd={isProd} />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.APPS_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <AppsPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.APPS_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <AppsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <AppViewPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <AppViewPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}${R.ARCHITECTURE_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <AppViewArchitecrurePage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}${R.ARCHITECTURE_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <AppViewArchitecrurePage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.MODELS_PATH}${R.E2E_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuModels />
-                                <S.ContentWrapper>
-                                    <S.IFrameStyled
-                                        src={
-                                            isProd
-                                                ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
-                                                : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
-                                        }
-                                    />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.E2E_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <S.IFrameStyled
+                                    src={
+                                        isProd
+                                            ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
+                                            : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
+                                    }
+                                />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={R.DATA_BASE_PATH}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <DataBasePage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <ImpactPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <ArchCommPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <PatternsPage isAdmin={isAdmin} />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <HowToPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                {withAdminRole({
+                    path: `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`,
+                    element: <PatternAddPage />,
+                    isAdmin,
+                    isLoading,
+                })}
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <TemplatesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <PatternViewPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <TechPolicyPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={R.DATA_BASE_PATH}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuDatabase />
+                            <S.ContentWrapper>
+                                <DataBasePage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <ServicesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <S.ContentWrapper>
-                                    <ConsultationPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuDatabase />
+                            <S.ContentWrapper>
+                                <ArchCommPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={R.CX_PATH}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuCX />
-                                <S.ContentWrapper>
-                                    <CXPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuDatabase />
+                            <S.ContentWrapper>
+                                <HowToPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.CX_PATH}${R.CJ_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuCX />
-                                <S.ContentWrapper>
-                                    <CJLibraryPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuDatabase />
+                            <S.ContentWrapper>
+                                <TemplatesPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`} element={<CJPage />} />
+                <Route
+                    path={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuDatabase />
+                            <S.ContentWrapper>
+                                <TechPolicyPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.CX_PATH}${R.BI_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuCX />
-                                <S.ContentWrapper>
-                                    <BILibraryPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuDatabase />
+                            <S.ContentWrapper>
+                                <ServicesPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+                <Route
+                    path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <S.ContentWrapper>
+                                <ConsultationPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`}
-                        element={<BIViewPage />}
-                    />
+                <Route
+                    path={R.CX_PATH}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuCX />
+                            <S.ContentWrapper>
+                                <CXPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route path={`${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`} element={<BIAddPage />} />
+                <Route
+                    path={`${R.CX_PATH}${R.CJ_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuCX />
+                            <S.ContentWrapper>
+                                <CJLibraryPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.NOTIFICATIONS_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <S.ContentWrapper>
-                                    <NotificationsPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`} element={<CJPage />} />
 
-                    {/* <Route
+                <Route
+                    path={`${R.CX_PATH}${R.BI_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuCX />
+                            <S.ContentWrapper>
+                                <BILibraryPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                <Route path={`${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`} element={<BIViewPage />} />
+
+                <Route path={`${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`} element={<BIAddPage />} />
+
+                <Route
+                    path={`${R.NOTIFICATIONS_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <S.ContentWrapper>
+                                <NotificationsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                {/* <Route
                         path={`${R.PROFILE_PATH}${R.INFO_PATH}`}
                         element={
                             <S.RouteWithDrawer>
@@ -614,77 +657,76 @@ export const NavigationRouter = () => {
                         }
                     /> */}
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.SUBSCRIPTIONS_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuProfile />
-                                <S.ContentWrapper>
-                                    <SubscriptionsPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.SUBSCRIPTIONS_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuProfile />
+                            <S.ContentWrapper>
+                                <SubscriptionsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.EXPORT_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuProfile />
-                                <S.ContentWrapper>
-                                    <ExportPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.EXPORT_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuProfile />
+                            <S.ContentWrapper>
+                                <ExportPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuProfile />
-                                <S.ContentWrapper>
-                                    <ApplicationsPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuProfile />
+                            <S.ContentWrapper>
+                                <ApplicationsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`}
-                        element={<ApplicationViewPage />}
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`}
+                    element={<ApplicationViewPage />}
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`}
-                        element={<ApplicationEditPage />}
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`}
+                    element={<ApplicationEditPage />}
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuProfile />
-                                <S.ContentWrapper>
-                                    <ApplicationsReviewPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.REVIEW_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuProfile />
+                            <S.ContentWrapper>
+                                <ApplicationsReviewPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`}
-                        element={<ApplicationViewPage review />}
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`}
+                    element={<ApplicationViewPage review />}
+                />
 
-                    <Route
-                        path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`}
-                        element={<ApplicationEditPage review />}
-                    />
+                <Route
+                    path={`${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`}
+                    element={<ApplicationEditPage review />}
+                />
 
-                    <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-            </QueryParamProvider>
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
         </>
     );
 };
