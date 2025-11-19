@@ -10,6 +10,7 @@ import {
     Skeleton,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -52,6 +53,8 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
     const technologiesOptions = (technologies ?? []).map((tech) => ({
         id: String(tech.id),
         value: tech.label,
+        description: tech.ring?.name,
+        ringId: tech.ring.id,
     }));
 
     const selectedTechnologiesOptions = technologiesOptions.filter((option) =>
@@ -111,6 +114,7 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                     <Select
                         placeholder="Технология"
                         multiple
+                        filter
                         values={selectedTechnologiesOptions}
                         options={technologiesOptions}
                         disabled={isLoading}
@@ -122,6 +126,18 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                             setSelectedTechnology(options.map((opt) => opt.id));
                         }}
                         size="medium"
+                        makeOption={(option) => (
+                            <div>
+                                <p>{option.value}</p>
+                                {option.description && (
+                                    <S.LabelWithoutBorder
+                                        title={option?.description}
+                                        variant="outline"
+                                        type={ringIdToLabelStatusMap[option?.ringId ?? 1]}
+                                    />
+                                )}
+                            </div>
+                        )}
                     />
                     <Counter
                         count={selectedGroups.length > 0 ? selectedGroups.length : null}

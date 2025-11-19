@@ -5,4 +5,6 @@ export interface ITextArea {
     fullWidth?: boolean;
     maxLength?: number;
     helperText?: string;
+    error?: boolean;
+    externalErrorMessage?: string;
 }

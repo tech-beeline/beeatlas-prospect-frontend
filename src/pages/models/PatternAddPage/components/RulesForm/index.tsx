@@ -1,8 +1,10 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { TextArea } from 'components/form';
+
+import { useValidateRulesMutation } from 'api/queries/patterns';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -16,12 +18,62 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         resolver: yupResolver(getValidationSchema()),
     });
 
-    const { handleSubmit, reset } = form;
+    const { handleSubmit, reset, watch } = form;
+    const { mutateAsync: validateRules } = useValidateRulesMutation();
 
-    const onSubmit = handleSubmit((values) => {
-        setSavedData({ ...savedData, rule: values.rule });
+    const [isValid, setIsValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isChecking, setIsChecking] = useState(false);
+
+    const lastValidatedRuleRef = useRef<string>('');
+    const ruleValue = watch('rule');
+    const isContentChanged = lastValidatedRuleRef.current !== (ruleValue || '');
+    const validate = async (cypher: string): Promise<boolean> => {
+        if (!cypher.trim()) {
+            setErrorMessage('Поле не может быть пустым');
+            setIsValid(false);
+            return false;
+        }
+
+        setIsChecking(true);
+        setErrorMessage(null);
+        try {
+            const response = await validateRules(cypher);
+            if (response.valid === true || response.valid === 'true') {
+                lastValidatedRuleRef.current = cypher;
+                setIsValid(true);
+                return true;
+            }
+        } catch (err) {
+            setErrorMessage('Поле содержит некорректные данные. Пожалуйста, заполните правильно');
+            setIsValid(false);
+            return false;
+        } finally {
+            setIsChecking(false);
+        }
+        return false;
+    };
+
+    const handleSubmitData = handleSubmit((values) => {
+        setSavedData({ ...savedData, rule: values.rule || '' });
         setStepVariant(StepVariants.DESCRIPTION);
     });
+
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!isValid) {
+            await validate(ruleValue || '');
+            return;
+        }
+
+        handleSubmitData();
+    };
+
+    const getSubmitButtonText = () => (isValid ? 'Далее' : 'Проверить');
+
+    const isSubmitButtonDisabled = () =>
+        !ruleValue || isChecking || (!isContentChanged && !isValid);
 
     useEffect(() => {
         reset({
@@ -33,11 +85,18 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         <FormProvider {...form}>
             <S.FormStyled onSubmit={onSubmit}>
                 <S.Container>
-                    <TextArea fullWidth name="rule" label="Правило идентификации*" />
+                    <TextArea
+                        fullWidth
+                        name="rule"
+                        label="Правило идентификации*"
+                        error={!isValid && !!errorMessage}
+                        externalErrorMessage={errorMessage || ''}
+                    />
                 </S.Container>
                 <FormFooter
                     onCancelButtonClick={() => setStepVariant(StepVariants.DOCUMENTATION)}
-                    submitButtonText="Далее"
+                    submitButtonDisabled={isSubmitButtonDisabled()}
+                    submitButtonText={getSubmitButtonText()}
                 />
             </S.FormStyled>
         </FormProvider>

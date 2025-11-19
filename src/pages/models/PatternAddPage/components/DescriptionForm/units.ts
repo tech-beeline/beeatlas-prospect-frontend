@@ -51,3 +51,11 @@ export const FileMetadataContainer = styled.div`
     flex-direction: column;
     gap: 4px;
 `;
+
+export const ProgressContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 105.5px 0;
+`;
