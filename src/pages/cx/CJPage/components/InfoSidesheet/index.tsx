@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IconButton } from '@beeline/design-system-react';
+import { IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
@@ -13,7 +13,8 @@ import { IInfoSidesheet } from './types';
 import * as S from './units';
 
 export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
-    const { data: productsData } = useGetUserProductsQuery();
+    const { data: productsData, isFetching: isLoadingProducts } = useGetUserProductsQuery();
+    const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
 
     return (
         <SideBlock isOpen={isOpen} onClose={onClose}>
@@ -28,7 +29,7 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
                     <Text inactive variant="body3">
                         Автор CJ
                     </Text>
-                    <Text variant="body2">Константинопольский Константин Константинович</Text>
+                    <Text variant="body2">{cj.author.fullName}</Text>
                 </div>
 
                 <div>
@@ -36,9 +37,12 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
                         Приложение
                     </Text>
                     <Text variant="body2">
-                        {formatNullableString(
-                            (productsData ?? []).find((product) => product.id === cj.id_product)
-                                ?.name,
+                        {isLoadingProducts || !productsData ? (
+                            <Skeleton height={22} radius={4} />
+                        ) : (
+                            formatNullableString(
+                                productsData.find((product) => product.id === productIdStr)?.name,
+                            )
                         )}
                     </Text>
                 </div>

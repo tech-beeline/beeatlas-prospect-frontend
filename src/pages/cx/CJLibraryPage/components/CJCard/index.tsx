@@ -35,6 +35,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
     const userProductIds = (productsData ?? []).map((product) => product.id);
 
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
+    const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
 
     const handleCJClick = (id?: number) => {
         navigate({
@@ -59,7 +60,9 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 title: 'Редактировать',
                                 icon: Icons.Edit,
                                 onClick: () => handleCJClick(cj.id),
-                                disabled: !userProductIds.includes(cj.id_product),
+                                disabled: !userProductIds.includes(
+                                    cj.productId ?? cj.id_product ?? cj.idProductExt,
+                                ),
                             },
                         ],
                         [
@@ -68,7 +71,10 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 icon: Icons.Delete,
                                 onClick: async () => deleteCj(String(cj.id)),
                                 dangerous: true,
-                                disabled: !userProductIds.includes(cj.id_product) || !cj.draft,
+                                disabled:
+                                    !userProductIds.includes(
+                                        cj.productId ?? cj.id_product ?? cj.idProductExt,
+                                    ) || !cj.draft,
                             },
                         ],
                     ]}
@@ -76,7 +82,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
             </S.FlexContainer>
             <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
             <S.Description ref={descriptionRef} clampLines={!expandDescription}>
-                {cj.user_portrait}
+                {cj.userPortrait ?? cj.user_portrait}
             </S.Description>
             {showExpandButton && (
                 <Text
@@ -97,7 +103,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                         <Skeleton height={22} radius={4} />
                     ) : (
                         formatNullableString(
-                            productsData.find((product) => product.id === cj.id_product)?.name,
+                            productsData.find((product) => product.id === productIdStr)?.name,
                         )
                     )}
                 </Text>

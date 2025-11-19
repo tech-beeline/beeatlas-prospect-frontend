@@ -5,6 +5,7 @@ import {
     CJLibraryStatus,
     ICJData,
     ICJForm,
+    ICJNewData,
     ICJStepData,
     ICJStepForm,
     ICompleteCJData,
@@ -22,7 +23,7 @@ interface IGetCJCollectionParams {
     productId?: number;
 }
 export const useGetCJCollectionQuery = (params: IGetCJCollectionParams) => {
-    return useQuery<ICJData[]>({
+    return useQuery<ICJNewData[]>({
         queryKey: [CJ_PREFIX, 'all', params],
         queryFn: () =>
             getAllCJs(params.search, params.sample, params.productId).then((res) => res.data),
@@ -31,7 +32,7 @@ export const useGetCJCollectionQuery = (params: IGetCJCollectionParams) => {
 };
 
 export const useGetCJByIdQuery = (id: string | undefined | null) => {
-    return useQuery<ICJData>({
+    return useQuery<ICJNewData>({
         queryKey: [CJ_PREFIX, id],
         queryFn: () => getCJById(id!).then((res) => res.data),
         enabled: Boolean(id),
