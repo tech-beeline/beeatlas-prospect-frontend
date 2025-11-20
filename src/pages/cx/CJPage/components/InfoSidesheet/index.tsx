@@ -6,14 +6,14 @@ import dayjs from 'dayjs';
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetProductsQuery } from 'hooks';
 import { formatNullableString } from 'utils/formatters';
 
 import { IInfoSidesheet } from './types';
 import * as S from './units';
 
 export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
-    const { data: productsData, isFetching: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
     const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
 
     return (

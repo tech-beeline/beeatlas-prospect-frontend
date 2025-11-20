@@ -8,8 +8,7 @@ import { NotFoundBlock } from 'components/other';
 
 import { IBIData } from 'api/bi/types';
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
-import { useModal, useShowTooltip } from 'hooks';
+import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
@@ -25,7 +24,7 @@ export const CJPage = () => {
     const { modalOpened, openModal, closeModal } = useModal();
 
     const { data, isLoading: isLoadingCJ } = useGetCompleteCJDataByIdQuery(paramId);
-    const { data: dataProducts, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
 
     const isLoading = isLoadingCJ || isLoadingProducts;
 

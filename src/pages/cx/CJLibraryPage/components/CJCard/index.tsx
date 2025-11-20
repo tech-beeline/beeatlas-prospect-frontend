@@ -8,7 +8,8 @@ import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
 
 import { useDeleteCJMutation } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetAllProductsQuery } from 'api/queries/product';
+import { useGetProductsQuery } from 'hooks';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -30,20 +31,19 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
             setShowExpandButton(true);
         }
     }, [descriptionRef]);
-
-    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
-    const userProductIds = (productsData ?? []).map((product) => product.id);
-
+    const { data: products } = useGetProductsQuery();
+    const { data: allProducts, isLoading: isLoadingAllProducts } = useGetAllProductsQuery();
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
     const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
-
+    const userProductIds = products?.map((product) => String(product.id)) || [];
     const handleCJClick = (id?: number) => {
         navigate({
             pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
             search: id ? createSearchParams({ id: String(id) }).toString() : '',
         });
     };
-
+    const hasAccessToProduct = userProductIds.includes(productIdStr);
+    const currentProduct = allProducts?.find((product) => String(product.id) === productIdStr);
     return (
         <S.CJCard key={cj.id}>
             <S.FlexContainer>
@@ -60,9 +60,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 title: 'Редактировать',
                                 icon: Icons.Edit,
                                 onClick: () => handleCJClick(cj.id),
-                                disabled: !userProductIds.includes(
-                                    String(cj.productId ?? cj.id_product ?? cj.idProductExt),
-                                ),
+                                disabled: !hasAccessToProduct,
                             },
                         ],
                         [
@@ -71,10 +69,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 icon: Icons.Delete,
                                 onClick: async () => deleteCj(String(cj.id)),
                                 dangerous: true,
-                                disabled:
-                                    !userProductIds.includes(
-                                        String(cj.productId ?? cj.id_product ?? cj.idProductExt),
-                                    ) || !cj.draft,
+                                disabled: !hasAccessToProduct || !cj.draft,
                             },
                         ],
                     ]}
@@ -99,12 +94,10 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                     Приложение
                 </Text>
                 <Text variant="body2">
-                    {isLoadingProducts || !productsData ? (
+                    {isLoadingAllProducts || !products ? (
                         <Skeleton height={22} radius={4} />
                     ) : (
-                        formatNullableString(
-                            productsData.find((product) => product.id === productIdStr)?.name,
-                        )
+                        formatNullableString(currentProduct?.name)
                     )}
                 </Text>
             </S.DateContainer>

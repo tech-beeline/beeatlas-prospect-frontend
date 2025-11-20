@@ -8,6 +8,9 @@ import {
     useState,
 } from 'react';
 
+import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
+import { useGetUserInfoQuery } from 'api/queries/profile';
+
 export const useMountEffect = (effectCallback: () => (() => void) | void) => {
     useEffect(effectCallback, []);
 };
@@ -122,4 +125,34 @@ export const useShowTooltip = <T extends HTMLElement>(elementRef: MutableRefObje
     }, [elementRef, observer]);
 
     return showTooltip;
+};
+
+export const useGetProductsQuery = () => {
+    const { data: userInfo } = useGetUserInfoQuery();
+
+    const isAdministrator = userInfo?.roles?.includes('ADMINISTRATOR');
+    const userProductIds = userInfo?.productsIds || [];
+
+    const allProductsQuery = useGetAllProductsQuery();
+    const productsByIdsQuery = useGetUserProductsQuery(userProductIds);
+
+    if (!userInfo) {
+        return {
+            data: undefined,
+            isLoading: true,
+            isError: false,
+            isAdministrator: false,
+        };
+    }
+
+    const data = isAdministrator ? allProductsQuery.data : productsByIdsQuery.data;
+    const isLoading = isAdministrator ? allProductsQuery.isLoading : productsByIdsQuery.isLoading;
+    const isError = isAdministrator ? allProductsQuery.isError : productsByIdsQuery.isError;
+
+    return {
+        data,
+        isLoading,
+        isError,
+        isAdministrator,
+    };
 };

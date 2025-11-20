@@ -13,8 +13,7 @@ import { getBIEditabilityById } from 'api/bi';
 import { IBIData } from 'api/bi/types';
 import { useDeleteBIMutation } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
-import { useModal } from 'hooks';
+import { useGetProductsQuery, useModal } from 'hooks';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
@@ -46,7 +45,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
         isLoading: isLoadingCjs,
     } = useGetCJCollectionByBIIdQuery(String(bi.id), false);
 
-    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
 
     const {
         modalOpened: editabilityModalOpened,

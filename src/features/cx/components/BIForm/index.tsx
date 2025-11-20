@@ -7,8 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, RadioGroup, Select, TextArea, TextField } from 'components/form';
 
 import { useGetBIStatusesQuery } from 'api/queries/bi-library';
-import { useGetUserProductsQuery } from 'api/queries/product';
-import { useModal } from 'hooks';
+import { useGetProductsQuery, useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
 import { ChannelsFieldArray } from './components';
@@ -23,7 +22,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
         const { data: statuses } = useGetBIStatusesQuery();
 
-        const { data: products, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+        const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
 
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),

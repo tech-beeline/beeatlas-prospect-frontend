@@ -10,7 +10,7 @@ import { Link, NotFoundBlock } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetProductsQuery } from 'hooks';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -24,7 +24,7 @@ export const BIViewPage = () => {
     const { data: cjs, isLoading: isLoadingCjs } = useGetCJCollectionByBIIdQuery(paramId);
     const { data: editabilityData, isLoading: isLoadingEditability } =
         useGetBIEditabilityByIdQuery(paramId);
-    const { data: productsData } = useGetUserProductsQuery();
+    const { data: productsData } = useGetProductsQuery();
 
     const isLoading = isLoadingBI || isLoadingCjs || isLoadingEditability;
 

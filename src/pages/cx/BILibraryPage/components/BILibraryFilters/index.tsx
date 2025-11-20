@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Autocomplete, Search, Select } from '@beeline/design-system-react';
 
 import { useGetBIStatusesQuery } from 'api/queries/bi-library';
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import { useDebounce } from 'hooks';
 
 import { DraftVariants, ProductVariant, StatusVariant } from './const';
@@ -14,7 +14,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({ filterOptions, setFilt
     const [productFilterText, setProductFilterText] = useState('');
     const debouncedSearch = useDebounce(search);
 
-    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetAllProductsQuery();
 
     const { data: stagesData, isLoading: isLoadingStages } = useGetBIStatusesQuery();
 
