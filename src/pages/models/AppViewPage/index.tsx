@@ -13,6 +13,7 @@ import {
     // ArchitectureChanges,
     // E2EProcesses,
     FitnessFunctions,
+    GeneralInfo,
     // GeneralInfo,
     InDevelopment,
     InterfacesAndMethods,
@@ -87,9 +88,9 @@ export const AppViewPage = () => {
                 </Tabs>
             </S.TabsContainer>
 
-            {/* {tabVariant === TabVariants.GENERAL_INFO && (
+            {tabVariant === TabVariants.GENERAL_INFO && (
                 <GeneralInfo productData={productData} isLoading={isLoadingProductData} />
-            )} */}
+            )}
             {tabVariant === TabVariants.INTERFACES_AND_METHODS && (
                 <InterfacesAndMethods
                     cmdb={paramCmdb}

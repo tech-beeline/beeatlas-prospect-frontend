@@ -72,7 +72,9 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
-                                        <TableHeaderData>Успешность</TableHeaderData>
+                                        <S.TableHeaderDataFixedWidth>
+                                            Статус публикации
+                                        </S.TableHeaderDataFixedWidth>
                                         {(fitnessFunction.tableStruct ?? []).map((value, i) => (
                                             <TableHeaderData key={i}>{value}</TableHeaderData>
                                         ))}
@@ -81,7 +83,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                 <TableBody>
                                     {(fitnessFunction.details ?? []).map((detail, i) => (
                                         <TableRow key={i}>
-                                            <TableData>
+                                            <S.TableDataFixedWidth>
                                                 <Label
                                                     type={detail.isCheck ? 'success' : 'error'}
                                                     variant="icon"
@@ -89,7 +91,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                                         detail.isCheck ? Icons.Check : Icons.Close
                                                     }
                                                 />
-                                            </TableData>
+                                            </S.TableDataFixedWidth>
                                             {(fitnessFunction.tableStruct ?? []).map(
                                                 (struct, i) => (
                                                     <TableData key={i}>

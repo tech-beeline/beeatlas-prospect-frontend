@@ -1,4 +1,4 @@
-import { Table, TableData, TableRow } from '@beeline/design-system-react';
+import { Table, TableData, TableHeaderData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const TableRowStyled = styled(TableRow)<{ expanded?: boolean }>`
@@ -50,4 +50,12 @@ export const ValueContainer = styled.div`
             text-decoration: underline;
         }
     }
+`;
+
+export const TableHeaderDataFixedWidth = styled(TableHeaderData)`
+    max-width: 111px;
+`;
+
+export const TableDataFixedWidth = styled(TableData)`
+    max-width: 111px;
 `;
