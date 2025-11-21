@@ -30,7 +30,7 @@ export const CJPage = () => {
 
     const canEditCJ = (dataProducts ?? [])
         .map((product) => String(product.id))
-        .includes(String(data?.productId));
+        .includes(String(data?.productId ?? data?.idProductExt ?? data?.id_product));
 
     const hasDraftBIs =
         data?.steps
