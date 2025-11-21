@@ -6,14 +6,14 @@ import dayjs from 'dayjs';
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 
-import { useGetProductsQuery } from 'hooks';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import { formatNullableString } from 'utils/formatters';
 
 import { IInfoSidesheet } from './types';
 import * as S from './units';
 
 export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
-    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetAllProductsQuery();
     const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
 
     return (
@@ -41,7 +41,8 @@ export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
                             <Skeleton height={22} radius={4} />
                         ) : (
                             formatNullableString(
-                                productsData.find((product) => product.id === productIdStr)?.name,
+                                productsData.find((product) => String(product.id) === productIdStr)
+                                    ?.name,
                             )
                         )}
                     </Text>
