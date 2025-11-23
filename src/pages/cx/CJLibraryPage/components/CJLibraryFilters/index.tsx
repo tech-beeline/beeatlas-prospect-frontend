@@ -2,8 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Autocomplete, Search, Select } from '@beeline/design-system-react';
 
 import { CJLibraryStatus } from 'api/cj/types';
-import { useGetUserProductsQuery } from 'api/queries/product';
-import { useDebounce } from 'hooks';
+import { useDebounce, useGetProductsQuery } from 'hooks';
 
 import { ProductVariant } from './const';
 import { ICJLibraryFilters } from './types';
@@ -14,12 +13,12 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({ filterOptions, setFilt
     const [productFilterText, setProductFilterText] = useState('');
     const debouncedSearch = useDebounce(search);
 
-    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
 
     const productOptions = [
         { id: ProductVariant.ALL, value: 'Все' },
-        ...(productsData
-            ? productsData
+        ...(products
+            ? products
                   .filter((product) =>
                       product.name.toLowerCase().includes(productFilterText.toLowerCase()),
                   )

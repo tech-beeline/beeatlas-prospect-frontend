@@ -9,8 +9,8 @@ import { Text } from 'components/core';
 import { Autocomplete, DatePicker, Select, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
 
+import { useGetProductsQuery } from 'hooks';
 // import { ImageVariants, Link, NotFoundBlock } from 'components/other';
-import { useGetUserProductsQuery } from 'api/queries/product';
 import * as R from 'router/const';
 
 import { BCField } from './components';
@@ -26,7 +26,7 @@ export const TCAddPage = () => {
     };
 
     const [productSearchText, setProductSearchText] = useState('');
-    const { data: productsData, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
     const productOptions = (productsData ?? [])
         .filter((product) => product.name.toLowerCase().includes(productSearchText.toLowerCase()))
         .map((product) => ({

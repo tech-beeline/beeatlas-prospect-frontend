@@ -10,7 +10,7 @@ import { Link, NotFoundBlock } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -24,8 +24,10 @@ export const BIViewPage = () => {
     const { data: cjs, isLoading: isLoadingCjs } = useGetCJCollectionByBIIdQuery(paramId);
     const { data: editabilityData, isLoading: isLoadingEditability } =
         useGetBIEditabilityByIdQuery(paramId);
-    const { data: productsData } = useGetUserProductsQuery();
-
+    const { data: productsData } = useGetAllProductsQuery();
+    const currentProduct = productsData?.find(
+        (product) => String(product.id) === String(data?.productId),
+    );
     const isLoading = isLoadingBI || isLoadingCjs || isLoadingEditability;
 
     const navigate = useNavigate();
@@ -168,13 +170,7 @@ export const BIViewPage = () => {
                                     <S.Body3 marginTop>Идентификатор</S.Body3>
                                     <S.Body2>{formatNullableString(data.uniqueIdent)}</S.Body2>
                                     <S.Body3 marginTop>Приложение</S.Body3>
-                                    <S.Body2>
-                                        {formatNullableString(
-                                            productsData?.find(
-                                                (product) => product.id === data.productId,
-                                            )?.name,
-                                        )}
-                                    </S.Body2>
+                                    <S.Body2>{formatNullableString(currentProduct?.name)}</S.Body2>
                                     <S.Body3 marginTop>Автор</S.Body3>
                                     <S.Body2>Константинопольский Константин Константинович</S.Body2>
                                     <S.Body3 marginTop>Дата изменения</S.Body3>

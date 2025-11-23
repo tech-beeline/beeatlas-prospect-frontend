@@ -20,11 +20,13 @@ import { IConnectionInterfaceForm, IStructurizrWorkspaceForm } from 'api/product
 
 const PRODUCT_PREFIX = 'PRODUCT_PREFIX';
 
-export const useGetUserProductsQuery = () => {
+export const useGetUserProductsQuery = (ids: number[]) => {
     return useQuery({
-        queryKey: [PRODUCT_PREFIX, 'USER', 'ALL'],
+        queryKey: [PRODUCT_PREFIX, 'USER', 'BY_IDS', ids],
         queryFn: () =>
-            getUserProducts().then((res) => res.data.sort((a, b) => a.name.localeCompare(b.name))),
+            getUserProducts(ids).then((res) =>
+                res.data.sort((a, b) => a.name.localeCompare(b.name)),
+            ),
     });
 };
 
