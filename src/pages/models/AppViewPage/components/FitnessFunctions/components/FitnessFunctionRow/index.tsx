@@ -83,7 +83,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                 <TableBody>
                                     {(fitnessFunction.details ?? []).map((detail, i) => (
                                         <TableRow key={i}>
-                                            <S.TableDataFixedWidth>
+                                            <TableData>
                                                 <Label
                                                     type={detail.isCheck ? 'success' : 'error'}
                                                     variant="icon"
@@ -91,7 +91,7 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                                         detail.isCheck ? Icons.Check : Icons.Close
                                                     }
                                                 />
-                                            </S.TableDataFixedWidth>
+                                            </TableData>
                                             {(fitnessFunction.tableStruct ?? []).map(
                                                 (struct, i) => (
                                                     <TableData key={i}>

@@ -12,6 +12,13 @@ export interface IFullProductData {
     name: string;
     structurizrApiUrl: string | null;
     structurizrWorkspaceName: string | null;
+    ownerName: string;
+    critical: string | null;
+}
+
+export interface IStructurizrKey {
+    structurizrApiKey: string;
+    structurizrApiSecret: string;
 }
 
 export interface IStructurizrInterfaceData {

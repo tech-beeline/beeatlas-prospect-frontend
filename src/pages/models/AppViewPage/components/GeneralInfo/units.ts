@@ -16,3 +16,9 @@ export const BlurText = styled.div<{ $isBlurred: boolean }>`
     filter: ${(props) => (props.$isBlurred ? 'blur(5px)' : 'none')};
     transition: filter 0.3s ease;
 `;
+
+export const NotFoundContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    grid-column: 1/-1;
+`;

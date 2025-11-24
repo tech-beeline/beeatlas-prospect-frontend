@@ -12,9 +12,18 @@ import {
 
 import * as T from './types';
 
-export const getUserProducts = (): AxiosPromise<T.IProductData[]> => {
+export const getUserProducts = (ids: number[]): AxiosPromise<T.IProductData[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}product/v1/product/info`,
+        url: `${GATEWAY_PRODUCT_URL}v1/product/by-ids`,
+        params: {
+            ids: ids.join(','),
+        },
+    });
+};
+
+export const getUserProductsKeyById = (id: number): AxiosPromise<T.IStructurizrKey> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${id}/structurizr-key`,
     });
 };
 

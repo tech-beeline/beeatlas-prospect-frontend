@@ -10,7 +10,8 @@ import { SideBlock } from 'components/containers';
 import { Select, TextField } from 'components/form';
 
 import { useCreateCJWithEmptyStepMutation } from 'api/queries/cj';
-import { useGetUserProductsQuery } from 'api/queries/product';
+import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
+import { useGetUserInfoQuery } from 'api/queries/profile';
 import * as ROUTER from 'router/const';
 
 import { FormValues, validationSchema } from './form';
@@ -18,9 +19,14 @@ import { ICJCreateForm } from './types';
 import * as S from './units';
 
 export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
-    const { mutateAsync: createCJ, isPending: creatingCJ } = useCreateCJWithEmptyStepMutation();
-    const { data: products, isLoading: isLoadingProducts } = useGetUserProductsQuery();
+    const { data: userInfo } = useGetUserInfoQuery();
 
+    const isAdministrator = userInfo?.roles?.includes('ADMINISTRATOR');
+    const userProductIds = userInfo?.productsIds || [];
+    const { mutateAsync: createCJ, isPending: creatingCJ } = useCreateCJWithEmptyStepMutation();
+    const { data: allProducts, isLoading: isLoadingProducts } = useGetAllProductsQuery();
+    const { data: userProducts } = useGetUserProductsQuery(userProductIds);
+    const products = isAdministrator ? allProducts : userProducts;
     const navigate = useNavigate();
 
     const form = useForm<FormValues>({

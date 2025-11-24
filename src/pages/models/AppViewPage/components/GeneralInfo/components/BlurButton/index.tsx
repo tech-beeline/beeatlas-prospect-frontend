@@ -18,7 +18,7 @@ export const BlurButton: FC<IBlurButton> = ({ isBlurred, onToggle }) => {
                 size="medium"
             />
             <TooltipContainer id={`blur-${id}`} offset={8} place="top" noArrow>
-                {isBlurred ? 'Скрыть содержимое' : 'Показать содержимое'}
+                {isBlurred ? 'Показать содержимое' : 'Скрыть содержимое'}
             </TooltipContainer>
         </>
     );

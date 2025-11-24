@@ -53,9 +53,5 @@ export const ValueContainer = styled.div`
 `;
 
 export const TableHeaderDataFixedWidth = styled(TableHeaderData)`
-    max-width: 111px;
-`;
-
-export const TableDataFixedWidth = styled(TableData)`
-    max-width: 111px;
+    width: 111px;
 `;
