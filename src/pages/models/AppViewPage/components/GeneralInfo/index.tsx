@@ -71,23 +71,26 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         }`,
                 )}
             </Text>
-            {cmdb && structurizrApiUrl === null && !hasKeyData && (isAdministrator || canGetKeys) && (
-                <>
-                    <S.NotFoundContainer>
-                        <NotFoundBlock
-                            title="Чтобы получить доступ ко всем данным приложения, создайте рабочее пространство"
-                            text="Данные будут перенесены из Structurizr"
-                            buttonText="Создать"
-                            buttonProps={{ onClick: openModal }}
+            {cmdb &&
+                (structurizrApiUrl === null || structurizrApiUrl === '') &&
+                !hasKeyData &&
+                (isAdministrator || canGetKeys) && (
+                    <>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                title="Чтобы получить доступ ко всем данным приложения, создайте рабочее пространство"
+                                text="Данные будут перенесены из Structurizr"
+                                buttonText="Создать"
+                                buttonProps={{ onClick: openModal }}
+                            />
+                        </S.NotFoundContainer>
+                        <CreateStructurizrWorkspaceSideblock
+                            isOpen={modalOpened}
+                            onClose={closeModal}
+                            cmdb={cmdb}
                         />
-                    </S.NotFoundContainer>
-                    <CreateStructurizrWorkspaceSideblock
-                        isOpen={modalOpened}
-                        onClose={closeModal}
-                        cmdb={cmdb}
-                    />
-                </>
-            )}
+                    </>
+                )}
             {canGetKeys && hasKeyData && (
                 <>
                     <Text inactive variant="body2">
