@@ -46,6 +46,9 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
             [key]: !prev[key],
         }));
     };
+
+    const hasKeyData = keysData?.structurizrApiKey && keysData?.structurizrApiSecret;
+
     return (
         <S.Container>
             <Text inactive variant="body2">
@@ -68,7 +71,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         }`,
                 )}
             </Text>
-            {cmdb && structurizrApiUrl === null && (isAdministrator || canGetKeys) && (
+            {cmdb && structurizrApiUrl === null && !hasKeyData && (isAdministrator || canGetKeys) && (
                 <>
                     <S.NotFoundContainer>
                         <NotFoundBlock
@@ -85,7 +88,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                     />
                 </>
             )}
-            {canGetKeys && keysData && (
+            {canGetKeys && hasKeyData && (
                 <>
                     <Text inactive variant="body2">
                         Structurizr_api_key

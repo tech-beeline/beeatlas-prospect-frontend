@@ -27,13 +27,13 @@ export const AppViewPage = () => {
     const [params, setSearchParams] = useSearchParams();
     const paramTab = params.get('tab');
     const paramCmdb = params.get('cmdb');
-    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.INTERFACES_AND_METHODS);
+    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.GENERAL_INFO);
 
     useEffect(() => {
         setTabVariant(
             Object.values(TabVariants).includes(paramTab as TabVariants)
                 ? (paramTab as TabVariants)
-                : TabVariants.INTERFACES_AND_METHODS,
+                : TabVariants.GENERAL_INFO,
         );
     }, [paramTab]);
 
