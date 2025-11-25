@@ -12,10 +12,10 @@ export enum TabVariants {
 }
 
 export const TABS = [
-    // {
-    //     id: TabVariants.GENERAL_INFO,
-    //     label: 'Общая информация',
-    // },
+    {
+        id: TabVariants.GENERAL_INFO,
+        label: 'Общая информация',
+    },
     {
         id: TabVariants.INTERFACES_AND_METHODS,
         label: 'Интерфейсы, методы и SLA',

@@ -9,5 +9,16 @@ export const Container = styled.div`
 export const LinkContainer = styled.div`
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+`;
+
+export const BlurText = styled.div<{ $isBlurred: boolean }>`
+    filter: ${(props) => (props.$isBlurred ? 'blur(5px)' : 'none')};
+    transition: filter 0.3s ease;
+`;
+
+export const NotFoundContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    grid-column: 1/-1;
 `;

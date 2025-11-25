@@ -13,6 +13,7 @@ import {
     getSystemInfluence,
     getSystemTC,
     getUserProducts,
+    getUserProductsKeyById,
     postConnectionInterface,
     postStructurizrWorkspace,
 } from 'api/product';
@@ -22,11 +23,19 @@ const PRODUCT_PREFIX = 'PRODUCT_PREFIX';
 
 export const useGetUserProductsQuery = (ids: number[]) => {
     return useQuery({
-        queryKey: [PRODUCT_PREFIX, 'USER', 'BY_IDS', ids],
+        queryKey: [PRODUCT_PREFIX, 'user', 'BY_IDS', ids],
         queryFn: () =>
             getUserProducts(ids).then((res) =>
                 res.data.sort((a, b) => a.name.localeCompare(b.name)),
             ),
+    });
+};
+
+export const useGetUserProductsKeyById = (id?: number, options?: { enabled?: boolean }) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'user', 'key', id],
+        queryFn: () => getUserProductsKeyById(id!).then((res) => res.data),
+        enabled: !!id && options?.enabled !== false,
     });
 };
 

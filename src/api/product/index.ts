@@ -21,6 +21,12 @@ export const getUserProducts = (ids: number[]): AxiosPromise<T.IProductData[]> =
     });
 };
 
+export const getUserProductsKeyById = (id: number): AxiosPromise<T.IStructurizrKey> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${id}/structurizr-key`,
+    });
+};
+
 export const getProductsByTechnologyId = (id: number): AxiosPromise<T.IProductData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}product/v1/tech/${id}/product`,
