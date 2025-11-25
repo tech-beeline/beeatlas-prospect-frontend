@@ -1,8 +1,12 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { Banner, InlineAlert } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AxiosError } from 'axios';
 
 import { TextArea } from 'components/form';
+import { Link } from 'components/other';
 
 import { useValidateRulesMutation } from 'api/queries/patterns';
 
@@ -14,77 +18,54 @@ import { IRulesForm } from './types';
 import * as S from './units';
 
 export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedData }) => {
+    const [showBanner, setShowBanner] = useState(true);
+
     const form = useForm<FormValues>({
         resolver: yupResolver(getValidationSchema()),
     });
 
     const { handleSubmit, reset, watch } = form;
-    const { mutateAsync: validateRules } = useValidateRulesMutation();
+    const { mutateAsync: validateRules, isPending: isValidating } = useValidateRulesMutation();
 
-    const [isValid, setIsValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [isChecking, setIsChecking] = useState(false);
 
-    const lastValidatedRuleRef = useRef<string>('');
     const ruleValue = watch('rule');
-    const isContentChanged = lastValidatedRuleRef.current !== (ruleValue || '');
 
     useEffect(() => {
-        if (isContentChanged && isValid) {
-            setIsValid(false);
-        }
-    }, [isContentChanged, isValid]);
+        setErrorMessage(null);
+    }, [ruleValue]);
 
     const validate = async (cypher: string): Promise<boolean> => {
         if (!cypher.trim()) {
             setErrorMessage('Поле не может быть пустым');
-            setIsValid(false);
             return false;
         }
 
-        setIsChecking(true);
-        setErrorMessage(null);
         try {
             const response = await validateRules(cypher);
+
             if (response.valid === true || response.valid === 'true') {
-                lastValidatedRuleRef.current = cypher;
-                setIsValid(true);
                 return true;
             }
         } catch (err) {
-            setErrorMessage('Поле содержит некорректные данные. Пожалуйста, заполните правильно');
-            setIsValid(false);
+            setErrorMessage((err as AxiosError<{ error: string }>).response?.data?.error ?? '');
             return false;
-        } finally {
-            setIsChecking(false);
         }
         return false;
     };
 
-    const handleSubmitData = handleSubmit((values) => {
-        setSavedData({ ...savedData, rule: values.rule || '' });
-        setStepVariant(StepVariants.DESCRIPTION);
+    const onSubmit = handleSubmit(async (values) => {
+        if (values.rule === '') {
+            setSavedData({ ...savedData, rule: values.rule });
+            setStepVariant(StepVariants.DESCRIPTION);
+        } else {
+            const ok = await validate(values.rule);
+            if (ok) {
+                setSavedData({ ...savedData, rule: values.rule });
+                setStepVariant(StepVariants.DESCRIPTION);
+            }
+        }
     });
-
-    const onSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!isValid || isContentChanged) {
-            await validate(ruleValue || '');
-            return;
-        }
-
-        handleSubmitData();
-    };
-
-    const getSubmitButtonText = () => {
-        if (isValid && !isContentChanged) {
-            return 'Далее';
-        }
-        return 'Проверить';
-    };
-
-    const isSubmitButtonDisabled = () => !ruleValue || isChecking;
 
     useEffect(() => {
         reset({
@@ -96,18 +77,41 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         <FormProvider {...form}>
             <S.FormStyled onSubmit={onSubmit}>
                 <S.Container>
+                    {showBanner && (
+                        <S.BannerContainer>
+                            <Banner
+                                iconName={Icons.InfoCircled}
+                                color="info"
+                                title={
+                                    <S.BannerTitleContainer>
+                                        Прежде чем создавать правила идентификации архитектуры,
+                                        ознакомьтесь с{' '}
+                                        <Link
+                                            title="SDK BeeAtlas"
+                                            url="https://git.vimpelcom.ru/common/beeatlas/beeatlas_sdk"
+                                        />
+                                    </S.BannerTitleContainer>
+                                }
+                                onClose={() => setShowBanner(false)}
+                            />
+                        </S.BannerContainer>
+                    )}
                     <TextArea
                         fullWidth
                         name="rule"
-                        label="Правило идентификации*"
-                        error={!isValid && !!errorMessage}
-                        externalErrorMessage={errorMessage || ''}
+                        label="Правило идентификации"
+                        error={!!errorMessage}
                     />
+                    {errorMessage && (
+                        <InlineAlert type="error" iconName={Icons.InfoCircled}>
+                            <S.AlertContainer>{errorMessage}</S.AlertContainer>
+                        </InlineAlert>
+                    )}
                 </S.Container>
                 <FormFooter
                     onCancelButtonClick={() => setStepVariant(StepVariants.DOCUMENTATION)}
-                    submitButtonDisabled={isSubmitButtonDisabled()}
-                    submitButtonText={getSubmitButtonText()}
+                    submitButtonDisabled={isValidating}
+                    submitButtonText="Далее"
                 />
             </S.FormStyled>
         </FormProvider>

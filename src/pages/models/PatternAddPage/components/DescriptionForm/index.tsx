@@ -3,6 +3,7 @@ import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Banner, FileUploader, IconButton, Progress, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer } from 'features/technologies';
 import { MarkdownCodeRenderer } from 'features/technologies/components/MarkdownLinkRenderer';
@@ -32,6 +33,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     savedData,
     setSavedData,
 }) => {
+    const [showBanner, setShowBanner] = useState(true);
+
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const navigate = useNavigate();
 
@@ -77,10 +80,14 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             });
 
             return true;
-        } catch (err: any) {
+        } catch (err) {
+            lastValidatedContentRef.current = content;
             setValidationState({
                 status: 'invalid',
-                message: parseDslError(err),
+                message: parseDslError(
+                    (err as AxiosError<{ detail: { error: string } }>).response?.data?.detail
+                        ?.error ?? '',
+                ),
             });
 
             return false;
@@ -103,15 +110,11 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     }, [savedData.dslFile]);
 
     useEffect(() => {
-        if (!savedData.dslFile && validationState.status !== 'idle') {
+        if (!savedData.dslFile && !savedData.dsl && validationState.status !== 'idle') {
             setValidationState({ status: 'idle', message: null });
             lastValidatedContentRef.current = '';
         }
     }, [savedData.dslFile, validationState.status]);
-
-    const handleValidateClick = async (): Promise<boolean> => {
-        return await runValidation(currentContent);
-    };
 
     const handleSubmitData = async () => {
         if (paramId) {
@@ -156,7 +159,7 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!isValid || isContentChanged) {
-            const ok = await handleValidateClick();
+            const ok = await runValidation(currentContent);
             if (!ok) return;
             return;
         }
@@ -164,19 +167,22 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         await handleSubmitData();
     };
 
-    const getSubmitButtonText = () =>
+    const submitButtonText =
         isValid && !isContentChanged ? (paramId ? 'Сохранить изменения' : 'Создать') : 'Проверить';
 
-    const isSubmitButtonDisabled = () =>
+    const isSubmitButtonDisabled =
         !currentContent || pendingValidateDsl || isSubmitting || (!isContentChanged && !isValid);
 
     return (
         <S.FormStyled onSubmit={onSubmit}>
             <S.Container>
-                <Banner
-                    title="Для добавления данных доступны два варианта: вставка текста или загрузка файла с устройства"
-                    iconName={Icons.InfoCircled}
-                />
+                {showBanner && (
+                    <Banner
+                        title="Для добавления данных доступны два варианта: вставка текста или загрузка файла с устройства"
+                        iconName={Icons.InfoCircled}
+                        onClose={() => setShowBanner(false)}
+                    />
+                )}
                 {validationState.status !== 'idle' && !fileText && (
                     <Banner
                         title={validationState.message || ''}
@@ -184,13 +190,13 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
                         color={validationState.status === 'valid' ? 'success' : 'error'}
                     />
                 )}
-                {pendingValidateDsl && (
+                {pendingValidateDsl && savedData.dsl && (
                     <S.ProgressContainer>
                         <Progress shape="circle" cycled />
                         <Text variant="body3">Проверка корректности описания</Text>
                     </S.ProgressContainer>
                 )}
-                {!pendingValidateDsl && (
+                {(!savedData.dsl || !pendingValidateDsl) && (
                     <TextArea
                         fullWidth
                         value={savedData.dsl}
@@ -275,8 +281,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             </S.Container>
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.RULES)}
-                submitButtonDisabled={isSubmitButtonDisabled()}
-                submitButtonText={getSubmitButtonText()}
+                submitButtonDisabled={isSubmitButtonDisabled}
+                submitButtonText={submitButtonText}
             />
         </S.FormStyled>
     );

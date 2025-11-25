@@ -8,14 +8,26 @@ export const FormStyled = styled.form`
     flex: 1;
 `;
 
+export const BannerContainer = styled.div`
+    margin-bottom: 32px;
+`;
+
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 32px;
 
     flex: 1;
 
     width: 100%;
     max-width: 910px;
     padding: 32px 0px;
+`;
+
+export const BannerTitleContainer = styled.div`
+    display: flex;
+    gap: 4px;
+`;
+
+export const AlertContainer = styled.div`
+    white-space: pre-line;
 `;

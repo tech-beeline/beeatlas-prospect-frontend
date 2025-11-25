@@ -34,8 +34,8 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
 
     const description = watch('description');
 
-    const { data: technologies, isLoading } = useGetAllTechnologiesQuery();
-    const { data: groups } = useGetPatternGroupsQuery();
+    const { data: technologies, isLoading: isLoadingTech } = useGetAllTechnologiesQuery();
+    const { data: groups, isLoading: isLoadingGroups } = useGetPatternGroupsQuery();
 
     const technologiesOptions = (technologies ?? []).map((tech) => ({
         id: tech.id,
@@ -82,7 +82,6 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                         name="description"
                         helperText={`${description?.length ?? 0}/255`}
                         maxLength={255}
-                        disabled={isLoading}
                     />
                     <S.SelectGroup>
                         <S.SelectContainer>
@@ -91,6 +90,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                                 name="group"
                                 label="Категория"
                                 options={groupsOptions}
+                                disabled={isLoadingGroups}
                             />
                         </S.SelectContainer>
                         <S.SelectContainer>
@@ -100,6 +100,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                                 name="tech"
                                 label="Технология"
                                 options={technologiesOptions}
+                                disabled={isLoadingTech}
                                 makeOption={(option): JSX.Element => (
                                     <div>
                                         <p>{option.value}</p>
