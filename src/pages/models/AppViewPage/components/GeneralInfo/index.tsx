@@ -9,7 +9,7 @@ import React, { FC, useState } from 'react';
 //     TableRow,
 // } from '@beeline/design-system-react';
 import { Text } from 'components/core';
-import { NotFoundBlock } from 'components/other';
+import { Link, NotFoundBlock } from 'components/other';
 
 import { useGetUserProductsKeyById } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
@@ -70,6 +70,23 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                             productData.critical.split('_')[0]
                         }`,
                 )}
+            </Text>
+            <Text inactive variant="body2">
+                Structurizr URL
+            </Text>
+            <Text variant="body2">
+                <S.LinkContainer>
+                    <Link
+                        title={formatNullableString(productData?.structurizrApiUrl)}
+                        url={productData?.structurizrApiUrl}
+                    />
+                    {structurizrApiUrl && structurizrApiUrl !== '' && (
+                        <CopyButton
+                            text={formatNullableString(productData?.structurizrApiUrl)}
+                            message="Ссылка скопирована"
+                        />
+                    )}
+                </S.LinkContainer>
             </Text>
             {cmdb &&
                 (structurizrApiUrl === null || structurizrApiUrl === '') &&
