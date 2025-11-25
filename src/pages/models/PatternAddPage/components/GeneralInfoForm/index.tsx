@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Text } from 'components/core';
 import { MultiSelect, RadioGroup, TextArea, TextField } from 'components/form';
@@ -33,12 +34,14 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
 
     const description = watch('description');
 
-    const { data: technologies, isLoading } = useGetAllTechnologiesQuery();
-    const { data: groups } = useGetPatternGroupsQuery();
+    const { data: technologies, isLoading: isLoadingTech } = useGetAllTechnologiesQuery();
+    const { data: groups, isLoading: isLoadingGroups } = useGetPatternGroupsQuery();
 
     const technologiesOptions = (technologies ?? []).map((tech) => ({
         id: tech.id,
         value: tech.label,
+        description: tech.ring?.name,
+        ringId: tech.ring?.id,
     }));
 
     const groupsOptions = (groups ?? []).map((group) => ({
@@ -79,7 +82,6 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                         name="description"
                         helperText={`${description?.length ?? 0}/255`}
                         maxLength={255}
-                        disabled={isLoading}
                     />
                     <S.SelectGroup>
                         <S.SelectContainer>
@@ -88,14 +90,29 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                                 name="group"
                                 label="Категория"
                                 options={groupsOptions}
+                                disabled={isLoadingGroups}
                             />
                         </S.SelectContainer>
                         <S.SelectContainer>
                             <MultiSelect
                                 fullWidth
+                                filter
                                 name="tech"
                                 label="Технология"
                                 options={technologiesOptions}
+                                disabled={isLoadingTech}
+                                makeOption={(option): JSX.Element => (
+                                    <div>
+                                        <p>{option.value}</p>
+                                        {option.description && (
+                                            <S.LabelWithoutBorder
+                                                title={option.description}
+                                                variant="outline"
+                                                type={ringIdToLabelStatusMap[option.ringId ?? 1]}
+                                            />
+                                        )}
+                                    </div>
+                                )}
                             />
                         </S.SelectContainer>
                     </S.SelectGroup>

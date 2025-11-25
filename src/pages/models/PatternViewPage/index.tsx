@@ -12,6 +12,7 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 import { useGetPatternByIdQuery, useGetPatternFileByIdQuery } from 'api/queries/patterns';
 // import { useModal } from 'hooks';
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 
 // import { Dialog } from 'widgets/Dialog';
 // import { useSnackbarStore } from 'widgets/Snackbar';
@@ -292,7 +293,11 @@ export const PatternViewPage = () => {
                                         size="large"
                                     />
                                 </S.SpaceBetweenContainer>
-                                {isRuleExpanded && <S.TextWrap>{patternData.rule}</S.TextWrap>}
+                                {isRuleExpanded && (
+                                    <S.TextWrap>
+                                        {formatNullableString(patternData.rule)}
+                                    </S.TextWrap>
+                                )}
                             </S.ExpandableContainer>
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>

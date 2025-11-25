@@ -12,16 +12,18 @@ export const TextArea: FC<ITextArea> = ({
     helperText,
     disabled = false,
     fullWidth = true,
+    error: externalError,
+    externalErrorMessage,
 }) => {
     const {
         control,
         formState: { errors },
     } = useFormContext();
 
-    const error = get(errors, name);
-    const errorMessage = error?.message ? String(error.message) : undefined;
-    const isError = Boolean(error);
-
+    const fieldError = get(errors, name);
+    const fieldErrorMessage = fieldError?.message ? String(fieldError.message) : undefined;
+    const isError = externalError ?? Boolean(fieldError);
+    const finalHelperText = externalErrorMessage ?? fieldErrorMessage ?? helperText;
     return (
         <Controller
             name={name}
@@ -34,7 +36,7 @@ export const TextArea: FC<ITextArea> = ({
                     disabled={disabled}
                     label={label}
                     error={isError}
-                    helperText={errorMessage ?? helperText}
+                    helperText={finalHelperText}
                     maxLength={maxLength}
                     {...field}
                 />

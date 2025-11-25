@@ -14,8 +14,10 @@ import {
     postPattern,
     postPatternGroup,
     uploadPatternFile,
+    validateRules,
+    validateWorkspace,
 } from 'api/patterns';
-import { IPatternForm, IPatternGroupForm } from 'api/patterns/types';
+import { IPatternForm, IPatternGroupForm, IValidateWorkspaceRequest } from 'api/patterns/types';
 
 const PATTERNS_PREFIX = 'PATTERNS_PREFIX';
 
@@ -167,3 +169,18 @@ export function useDeletePatternGroupMutation() {
         },
     });
 }
+
+export const useValidateWorkspaceMutation = () => {
+    return useMutation({
+        mutationKey: [PATTERNS_PREFIX, 'workspace', 'validate'],
+        mutationFn: (data: IValidateWorkspaceRequest) =>
+            validateWorkspace(data).then((res) => res.data),
+    });
+};
+
+export const useValidateRulesMutation = () => {
+    return useMutation({
+        mutationKey: [PATTERNS_PREFIX, 'rules', 'validate'],
+        mutationFn: (rule: string) => validateRules(rule).then((res) => res.data),
+    });
+};

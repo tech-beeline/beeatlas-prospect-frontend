@@ -12,6 +12,8 @@ export const MultiSelect: FC<IMultiSelect> = ({
     disabled = false,
     fullWidth = true,
     defaultValue = [],
+    filter = false,
+    makeOption,
 }) => {
     const {
         control,
@@ -30,12 +32,14 @@ export const MultiSelect: FC<IMultiSelect> = ({
             render={({ field }) => (
                 <DesignSystemSelect
                     multiple
+                    filter={filter}
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}
                     error={isError}
                     helperText={errorMessage}
                     options={options}
+                    makeOption={makeOption}
                     values={options.filter((option) => field.value.includes(option.id))}
                     onChange={(value) => field.onChange(value.map((v) => v.id))}
                 />

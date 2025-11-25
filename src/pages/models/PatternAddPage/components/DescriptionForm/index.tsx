@@ -1,8 +1,9 @@
 import React, { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, FileUploader, IconButton, TextArea } from '@beeline/design-system-react';
+import { Banner, FileUploader, IconButton, Progress, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer } from 'features/technologies';
 import { MarkdownCodeRenderer } from 'features/technologies/components/MarkdownLinkRenderer';
@@ -14,6 +15,7 @@ import {
     useCreatePatternMutation,
     useUpdatePatternMutation,
     useUploadPatternFileMutation,
+    useValidateWorkspaceMutation,
 } from 'api/queries/patterns';
 import * as R from 'router/const';
 import { formatSize } from 'utils/formatters';
@@ -24,12 +26,15 @@ import { FormFooter } from '../FormFooter';
 
 import { IDescriptionForm } from './types';
 import * as S from './units';
+import { parseDslError, stringToBase64 } from './utils';
 
 export const DescriptionForm: FC<IDescriptionForm> = ({
     setStepVariant,
     savedData,
     setSavedData,
 }) => {
+    const [showBanner, setShowBanner] = useState(true);
+
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const navigate = useNavigate();
 
@@ -39,9 +44,55 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
-    const { mutateAsync: createPattern, isPending } = useCreatePatternMutation();
-    const { mutateAsync: updatePattern } = useUpdatePatternMutation();
+    const { mutateAsync: createPattern, isPending: pendingCreate } = useCreatePatternMutation();
+    const { mutateAsync: updatePattern, isPending: pendingUpdate } = useUpdatePatternMutation();
     const { mutateAsync: uploadPatternFile } = useUploadPatternFileMutation();
+    const { mutateAsync: validateDsl, isPending: pendingValidateDsl } =
+        useValidateWorkspaceMutation();
+
+    const [validationState, setValidationState] = useState<{
+        status: 'idle' | 'valid' | 'invalid';
+        message: string | null;
+    }>({ status: 'idle', message: null });
+    const lastValidatedContentRef = useRef<string>('');
+
+    const currentContent = savedData.dsl || fileText || '';
+    const isContentChanged = lastValidatedContentRef.current !== currentContent;
+    const isValid = validationState.status === 'valid';
+    const isSubmitting = pendingCreate || pendingUpdate;
+
+    const runValidation = async (content: string): Promise<boolean> => {
+        if (!content.trim()) {
+            setValidationState({ status: 'idle', message: null });
+            lastValidatedContentRef.current = '';
+            return false;
+        }
+
+        setValidationState({ status: 'idle', message: null });
+
+        try {
+            await validateDsl({ workspace: stringToBase64(content) });
+
+            lastValidatedContentRef.current = content;
+            setValidationState({
+                status: 'valid',
+                message: 'Проверка завершена. Описание корректно',
+            });
+
+            return true;
+        } catch (err) {
+            lastValidatedContentRef.current = content;
+            setValidationState({
+                status: 'invalid',
+                message: parseDslError(
+                    (err as AxiosError<{ detail: { error: string } }>).response?.data?.detail
+                        ?.error ?? '',
+                ),
+            });
+
+            return false;
+        }
+    };
 
     useEffect(() => {
         readerRef.current.onload = () =>
@@ -58,9 +109,14 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         }
     }, [savedData.dslFile]);
 
-    const onSubmit = async (e: FormEvent) => {
-        e.preventDefault();
+    useEffect(() => {
+        if (!savedData.dslFile && !savedData.dsl && validationState.status !== 'idle') {
+            setValidationState({ status: 'idle', message: null });
+            lastValidatedContentRef.current = '';
+        }
+    }, [savedData.dslFile, validationState.status]);
 
+    const handleSubmitData = async () => {
         if (paramId) {
             await updatePattern({
                 id: Number(paramId),
@@ -100,21 +156,60 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         }
     };
 
+    const onSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        if (!isValid || isContentChanged) {
+            const ok = await runValidation(currentContent);
+            if (!ok) return;
+            return;
+        }
+
+        await handleSubmitData();
+    };
+
+    const submitButtonText =
+        isValid && !isContentChanged ? (paramId ? 'Сохранить изменения' : 'Создать') : 'Проверить';
+
+    const isSubmitButtonDisabled =
+        !currentContent || pendingValidateDsl || isSubmitting || (!isContentChanged && !isValid);
+
     return (
         <S.FormStyled onSubmit={onSubmit}>
             <S.Container>
-                <Banner
-                    title="Для добавления данных доступны два варианта: вставка текста или загрузка файла с устройства"
-                    iconName={Icons.InfoCircled}
-                />
-
-                <TextArea
-                    fullWidth
-                    value={savedData.dsl}
-                    onChange={(e) => setSavedData({ ...savedData, dsl: e.target.value })}
-                    disabled={!!savedData.dslFile}
-                    label="Описание архитектуры в structurizr dsl"
-                />
+                {showBanner && (
+                    <Banner
+                        title="Для добавления данных доступны два варианта: вставка текста или загрузка файла с устройства"
+                        iconName={Icons.InfoCircled}
+                        onClose={() => setShowBanner(false)}
+                    />
+                )}
+                {validationState.status !== 'idle' && !fileText && (
+                    <Banner
+                        title={validationState.message || ''}
+                        iconName={Icons.InfoCircled}
+                        color={validationState.status === 'valid' ? 'success' : 'error'}
+                    />
+                )}
+                {pendingValidateDsl && savedData.dsl && (
+                    <S.ProgressContainer>
+                        <Progress shape="circle" cycled />
+                        <Text variant="body3">Проверка корректности описания</Text>
+                    </S.ProgressContainer>
+                )}
+                {(!savedData.dsl || !pendingValidateDsl) && (
+                    <TextArea
+                        fullWidth
+                        value={savedData.dsl}
+                        onChange={(e) => {
+                            setSavedData({ ...savedData, dsl: e.target.value });
+                            if (validationState.status !== 'idle') {
+                                setValidationState({ status: 'idle', message: null });
+                            }
+                        }}
+                        disabled={!!savedData.dslFile}
+                        label="Описание архитектуры в structurizr dsl"
+                    />
+                )}
 
                 <S.TextContainer>
                     <Text variant="subtitle1">Вложенный файл</Text>
@@ -137,17 +232,32 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
 
                 {savedData.dslFile && fileText && (
                     <>
+                        {validationState.status !== 'idle' && (
+                            <Banner
+                                title={validationState.message || ''}
+                                iconName={Icons.InfoCircled}
+                                color={validationState.status === 'valid' ? 'success' : 'error'}
+                            />
+                        )}
                         <S.MarkdownFileContainer>
-                            <Markdown
-                                components={{
-                                    a: MarkdownLinkRenderer,
-                                    code: MarkdownCodeRenderer,
-                                }}
-                                urlTransform={(v) => v}
-                                remarkPlugins={[remarkGfm]}
-                            >
-                                {fileText}
-                            </Markdown>
+                            {pendingValidateDsl && (
+                                <S.ProgressContainer>
+                                    <Progress shape="circle" cycled />
+                                    <Text variant="body3">Проверка корректности описания</Text>
+                                </S.ProgressContainer>
+                            )}
+                            {!pendingValidateDsl && (
+                                <Markdown
+                                    components={{
+                                        a: MarkdownLinkRenderer,
+                                        code: MarkdownCodeRenderer,
+                                    }}
+                                    urlTransform={(v) => v}
+                                    remarkPlugins={[remarkGfm]}
+                                >
+                                    {fileText}
+                                </Markdown>
+                            )}
                         </S.MarkdownFileContainer>
 
                         <S.FileNameContainer>
@@ -171,8 +281,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             </S.Container>
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.RULES)}
-                submitButtonDisabled={(!savedData.description && !savedData.dslFile) || isPending}
-                submitButtonText={paramId ? 'Сохранить изменения' : 'Создать'}
+                submitButtonDisabled={isSubmitButtonDisabled}
+                submitButtonText={submitButtonText}
             />
         </S.FormStyled>
     );

@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
 
-import { GATEWAY_URL } from 'api/const';
+import { GATEWAY_GRAPH_VALIDATOR_URL, GATEWAY_URL, STRUCTURIZR_URL } from 'api/const';
 import Api from 'utils/api/axiosWrapper';
 
 import * as T from './types';
@@ -89,5 +89,20 @@ export const patchPatternGroup = (id: string | number, data: T.IPatternGroupForm
 export const deletePatternGroup = (id: string | number) => {
     return Api.delete({
         url: `${GATEWAY_URL}techradar/v1/pattern/group/${id}`,
+    });
+};
+
+export const validateWorkspace = (data: T.IValidateWorkspaceRequest) => {
+    return Api.post({
+        url: `${STRUCTURIZR_URL}api/v1/workspace/validate`,
+        data,
+    });
+};
+
+export const validateRules = (rule: string) => {
+    return Api.post({
+        url: `${GATEWAY_GRAPH_VALIDATOR_URL}v1/cypher/validate`,
+        data: rule,
+        headers: { 'Content-Type': 'text/plain' },
     });
 };
