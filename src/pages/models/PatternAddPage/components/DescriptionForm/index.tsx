@@ -50,6 +50,8 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const { mutateAsync: validateDsl, isPending: pendingValidateDsl } =
         useValidateWorkspaceMutation();
 
+    console.log(savedData.dslFile);
+
     const [validationState, setValidationState] = useState<{
         status: 'idle' | 'valid' | 'invalid';
         message: string | null;
@@ -110,6 +112,12 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     }, [savedData.dslFile]);
 
     useEffect(() => {
+        if (fileText) {
+            runValidation(currentContent);
+        }
+    }, [fileText]);
+
+    useEffect(() => {
         if (!savedData.dslFile && !savedData.dsl && validationState.status !== 'idle') {
             setValidationState({ status: 'idle', message: null });
             lastValidatedContentRef.current = '';
@@ -161,124 +169,125 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         if (!isValid || isContentChanged) {
             const ok = await runValidation(currentContent);
             if (!ok) return;
-            return;
         }
 
         await handleSubmitData();
     };
 
-    const submitButtonText =
-        isValid && !isContentChanged ? (paramId ? 'Сохранить изменения' : 'Создать') : 'Проверить';
+    const submitButtonText = paramId ? 'Сохранить изменения' : 'Создать';
 
     const isSubmitButtonDisabled =
         !currentContent || pendingValidateDsl || isSubmitting || (!isContentChanged && !isValid);
 
     return (
         <S.FormStyled onSubmit={onSubmit}>
-            <S.Container>
-                {showBanner && (
-                    <Banner
-                        title="Для добавления данных доступны два варианта: вставка текста или загрузка файла с устройства"
-                        iconName={Icons.InfoCircled}
-                        onClose={() => setShowBanner(false)}
-                    />
-                )}
-                {validationState.status !== 'idle' && !fileText && (
-                    <Banner
-                        title={validationState.message || ''}
-                        iconName={Icons.InfoCircled}
-                        color={validationState.status === 'valid' ? 'success' : 'error'}
-                    />
-                )}
-                {pendingValidateDsl && savedData.dsl && (
-                    <S.ProgressContainer>
-                        <Progress shape="circle" cycled />
-                        <Text variant="body3">Проверка корректности описания</Text>
-                    </S.ProgressContainer>
-                )}
-                {(!savedData.dsl || !pendingValidateDsl) && (
-                    <TextArea
-                        fullWidth
-                        value={savedData.dsl}
-                        onChange={(e) => {
-                            setSavedData({ ...savedData, dsl: e.target.value });
-                            if (validationState.status !== 'idle') {
-                                setValidationState({ status: 'idle', message: null });
-                            }
-                        }}
-                        disabled={!!savedData.dslFile}
-                        label="Описание архитектуры в structurizr dsl"
-                    />
-                )}
+            <S.OverflowContainer>
+                <S.Container>
+                    {showBanner && (
+                        <Banner
+                            title="Для добавления данных доступны два варианта: вставка текста или загрузка файла с устройства"
+                            iconName={Icons.InfoCircled}
+                            onClose={() => setShowBanner(false)}
+                        />
+                    )}
+                    {validationState.status === 'invalid' && !fileText && (
+                        <Banner
+                            title={validationState.message || ''}
+                            iconName={Icons.InfoCircled}
+                            color="error"
+                        />
+                    )}
+                    {pendingValidateDsl && savedData.dsl && (
+                        <S.ProgressContainer>
+                            <Progress shape="circle" cycled />
+                            <Text variant="body3">Проверка корректности описания</Text>
+                        </S.ProgressContainer>
+                    )}
+                    {(!savedData.dsl || !pendingValidateDsl) && (
+                        <TextArea
+                            fullWidth
+                            value={savedData.dsl}
+                            onChange={(e) => {
+                                setSavedData({ ...savedData, dsl: e.target.value });
+                                if (validationState.status !== 'idle') {
+                                    setValidationState({ status: 'idle', message: null });
+                                }
+                            }}
+                            disabled={!!savedData.dslFile}
+                            label="Описание архитектуры в structurizr dsl"
+                        />
+                    )}
 
-                <S.TextContainer>
-                    <Text variant="subtitle1">Вложенный файл</Text>
-                </S.TextContainer>
+                    <S.TextContainer>
+                        <Text variant="subtitle1">Добавить файл</Text>
+                    </S.TextContainer>
 
-                {!savedData.dslFile && (
                     <FileUploader
                         hideFileList
                         disabled={!!savedData.dsl}
                         accept=".dsl"
-                        subTitle="markdown до 100 мб"
-                        onChange={(event) =>
+                        subTitle="dsl до 100 мб"
+                        onChange={(event) => {
                             setSavedData({
                                 ...savedData,
                                 dslFile: Array.from(event.target.files ?? [])[0],
-                            })
-                        }
+                            });
+                            event.target.value = '';
+                        }}
                     />
-                )}
 
-                {savedData.dslFile && fileText && (
-                    <>
-                        {validationState.status !== 'idle' && (
-                            <Banner
-                                title={validationState.message || ''}
-                                iconName={Icons.InfoCircled}
-                                color={validationState.status === 'valid' ? 'success' : 'error'}
-                            />
-                        )}
-                        <S.MarkdownFileContainer>
-                            {pendingValidateDsl && (
-                                <S.ProgressContainer>
-                                    <Progress shape="circle" cycled />
-                                    <Text variant="body3">Проверка корректности описания</Text>
-                                </S.ProgressContainer>
+                    {savedData.dslFile && fileText && (
+                        <>
+                            {validationState.status !== 'idle' && (
+                                <Banner
+                                    title={validationState.message || ''}
+                                    iconName={Icons.InfoCircled}
+                                    color={validationState.status === 'valid' ? 'success' : 'error'}
+                                />
                             )}
-                            {!pendingValidateDsl && (
-                                <Markdown
-                                    components={{
-                                        a: MarkdownLinkRenderer,
-                                        code: MarkdownCodeRenderer,
-                                    }}
-                                    urlTransform={(v) => v}
-                                    remarkPlugins={[remarkGfm]}
-                                >
-                                    {fileText}
-                                </Markdown>
-                            )}
-                        </S.MarkdownFileContainer>
+                            <S.MarkdownFileContainer>
+                                {pendingValidateDsl && (
+                                    <S.ProgressContainer>
+                                        <Progress shape="circle" cycled />
+                                        <Text variant="body3">Проверка корректности описания</Text>
+                                    </S.ProgressContainer>
+                                )}
+                                {!pendingValidateDsl && (
+                                    <Markdown
+                                        components={{
+                                            a: MarkdownLinkRenderer,
+                                            code: MarkdownCodeRenderer,
+                                        }}
+                                        urlTransform={(v) => v}
+                                        remarkPlugins={[remarkGfm]}
+                                    >
+                                        {fileText}
+                                    </Markdown>
+                                )}
+                            </S.MarkdownFileContainer>
 
-                        <S.FileNameContainer>
-                            <S.FileMetadataContainer>
-                                <Text variant="body3">{savedData.dslFile.name}</Text>
-                                <Text inactive variant="caption">
-                                    {formatSize(savedData.dslFile.size)}{' '}
-                                    {dayjs(savedData.dslFile.lastModified)
-                                        .local()
-                                        .format('DD.MM.YYYY, HH:mm')}
-                                </Text>
-                            </S.FileMetadataContainer>
-                            <IconButton
-                                iconName={Icons.Delete}
-                                size="medium"
-                                onClick={() => setSavedData({ ...savedData, dslFile: undefined })}
-                            />
-                        </S.FileNameContainer>
-                    </>
-                )}
-            </S.Container>
+                            <S.FileNameContainer>
+                                <S.FileMetadataContainer>
+                                    <Text variant="body3">{savedData.dslFile.name}</Text>
+                                    <Text inactive variant="caption">
+                                        {formatSize(savedData.dslFile.size)}{' '}
+                                        {dayjs(savedData.dslFile.lastModified)
+                                            .local()
+                                            .format('DD.MM.YYYY, HH:mm')}
+                                    </Text>
+                                </S.FileMetadataContainer>
+                                <IconButton
+                                    iconName={Icons.Delete}
+                                    size="medium"
+                                    onClick={() =>
+                                        setSavedData({ ...savedData, dslFile: undefined })
+                                    }
+                                />
+                            </S.FileNameContainer>
+                        </>
+                    )}
+                </S.Container>
+            </S.OverflowContainer>
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.RULES)}
                 submitButtonDisabled={isSubmitButtonDisabled}

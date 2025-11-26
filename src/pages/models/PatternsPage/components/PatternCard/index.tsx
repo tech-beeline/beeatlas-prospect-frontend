@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Chip, Label } from '@beeline/design-system-react';
+import { Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
@@ -72,11 +72,21 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, pattern, setPatternToDe
                     </Text>
                     <Text variant="body2">{formatNullableString(pattern.description)}</Text>
                 </S.MarginContainer>
+                <div style={{ flex: 1 }} />
                 {pattern.groups.length > 0 && (
                     <S.MarginContainer>
                         <S.ChipsContainer>
                             {pattern.groups.map((group) => (
-                                <Chip key={group.id} label={group.name} />
+                                <S.ChipStyled key={group.id} label={group.name} />
+                            ))}
+                        </S.ChipsContainer>
+                    </S.MarginContainer>
+                )}
+                {pattern.technologies.length > 0 && (
+                    <S.MarginContainer>
+                        <S.ChipsContainer>
+                            {pattern.technologies.map((tech) => (
+                                <S.ChipStyled key={tech.id} label={tech.label} />
                             ))}
                         </S.ChipsContainer>
                     </S.MarginContainer>

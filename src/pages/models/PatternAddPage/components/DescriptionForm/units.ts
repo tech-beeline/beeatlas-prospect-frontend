@@ -8,16 +8,25 @@ export const FormStyled = styled.form`
     flex: 1;
 `;
 
+export const OverflowContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex: 1;
+
+    width: 100%;
+    max-height: calc(100vh - 64px - 56px - 89px);
+    padding-top: 32px;
+
+    overflow: auto;
+`;
+
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
 
-    flex: 1;
-
     width: 100%;
     max-width: 910px;
-    padding: 32px 0px;
 `;
 
 export const TextContainer = styled.div`
@@ -44,12 +53,18 @@ export const FileNameContainer = styled.div`
     display: flex;
     justify-content: space-between;
     gap: 16px;
+
+    padding-bottom: 32px;
 `;
 
 export const FileMetadataContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    max-width: 100%;
+
+    overflow: hidden;
 `;
 
 export const ProgressContainer = styled.div`
@@ -58,4 +73,8 @@ export const ProgressContainer = styled.div`
     align-items: center;
     gap: 24px;
     padding: 105.5px 0;
+`;
+
+export const FileUploaderContainer = styled.div`
+    padding-bottom: 32px;
 `;

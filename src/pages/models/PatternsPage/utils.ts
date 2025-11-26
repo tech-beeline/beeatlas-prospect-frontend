@@ -34,11 +34,11 @@ export const filterPatterns = (
         if (selectedTechnologies.length > 0) {
             if (!pattern.technologies || pattern.technologies.length === 0) return false;
 
-            const hasAllTechs = selectedTechnologies.every((techId) =>
+            const hasSomeTechs = selectedTechnologies.some((techId) =>
                 pattern.technologies?.some((pTech) => String(pTech.id) === techId),
             );
 
-            if (!hasAllTechs) return false;
+            if (!hasSomeTechs) return false;
         }
 
         if (selectedGroups.length > 0) {

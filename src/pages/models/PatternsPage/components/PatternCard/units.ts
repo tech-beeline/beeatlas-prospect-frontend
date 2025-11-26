@@ -1,3 +1,4 @@
+import { Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Card = styled.div`
@@ -11,6 +12,8 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    height: 100%;
 
     padding: 24px;
 `;
@@ -33,4 +36,8 @@ export const ChipsContainer = styled.div`
     gap: 8px;
 
     max-width: 100%;
+`;
+
+export const ChipStyled = styled(Chip)`
+    cursor: default !important;
 `;

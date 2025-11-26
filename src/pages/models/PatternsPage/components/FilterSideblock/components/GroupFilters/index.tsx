@@ -18,6 +18,7 @@ import { SideblockView } from '../../const';
 import { FilterElement } from './components';
 import { IGroupFilters } from './types';
 import * as S from './units';
+import { filterGroupData, hasPatternsRecursive } from './utils';
 
 export const GroupFilters: FC<IGroupFilters> = ({
     isAdmin,
@@ -25,69 +26,53 @@ export const GroupFilters: FC<IGroupFilters> = ({
     setGroupToEdit,
     onClose,
     onGroupsChange,
+    selectedGroups,
 }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const [search, setSearch] = useState('');
 
     const [groupToDelete, setGroupToDelete] = useState<IPatternGroupTree | null>(null);
-    const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
-    const [cannotDelete, setCannotDelete] = useState(false);
 
-    const { data, isLoading } = useGetPatternGroupTreeQuery();
-    const { mutateAsync } = useDeletePatternGroupMutation();
-    const { data: patterns } = useGetPatternsQuery();
+    const { data: groupsData, isLoading } = useGetPatternGroupTreeQuery();
+    const { mutateAsync: deleteGroup } = useDeletePatternGroupMutation();
+    const { data: patternsData } = useGetPatternsQuery();
 
-    const handleSelect = (id: number, checked: boolean) => {
+    const groupsDataFiltered = filterGroupData(groupsData ?? [], search);
+
+    const handleSelect = (ids: number[], checked: boolean) => {
         const updated = checked
-            ? [...selectedGroups, id]
-            : selectedGroups.filter((gid) => gid !== id);
-        setSelectedGroups(updated);
+            ? [...selectedGroups, ...ids]
+            : selectedGroups.filter((gid) => !ids.includes(gid));
+
         onGroupsChange(updated);
     };
 
-    const hasPatternsRecursive = (group: IPatternGroupTree): boolean => {
-        if (!patterns) return false;
-
-        const hasHere = patterns.some((pattern) => pattern.groups?.some((g) => g.id === group.id));
-
-        if (hasHere) return true;
-
-        if (group.children?.length) {
-            return group.children.some((child) => hasPatternsRecursive(child));
-        }
-
-        return false;
-    };
-
-    const handleAskDelete = (group: IPatternGroupTree) => {
-        const hasPatterns = hasPatternsRecursive(group);
-        setGroupToDelete(group);
-        setCannotDelete(hasPatterns);
-    };
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const cannotDelete = groupToDelete ? hasPatternsRecursive(groupToDelete, patternsData) : false;
 
     const handleDeleteConfirmClick = async () => {
         if (groupToDelete) {
+            const ids: number[] = [];
+
             const deleteRecursively = async (group: IPatternGroupTree) => {
                 if (group.children?.length) {
                     for (const child of group.children) {
                         await deleteRecursively(child);
                     }
                 }
-                await mutateAsync(group.id);
+                await deleteGroup(group.id);
+                ids.push(group.id);
             };
 
             await deleteRecursively(groupToDelete);
+
+            handleSelect(ids, false);
             setGroupToDelete(null);
-            setCannotDelete(false);
+
             showSnackbar({
                 message: 'Категория удалена',
             });
         }
-    };
-
-    const handleCloseDialog = () => {
-        setGroupToDelete(null);
-        setCannotDelete(false);
     };
 
     return (
@@ -119,9 +104,9 @@ export const GroupFilters: FC<IGroupFilters> = ({
                         Array.from({ length: 3 }).map((_, i) => (
                             <Skeleton key={i} height={48} radius={12} />
                         ))}
-                    {data && (
+                    {groupsDataFiltered.length > 0 && (
                         <div>
-                            {data.map((group) => (
+                            {groupsDataFiltered.map((group) => (
                                 <FilterElement
                                     parentId={null}
                                     key={group.id}
@@ -129,7 +114,9 @@ export const GroupFilters: FC<IGroupFilters> = ({
                                     filterElement={group}
                                     setGroupToEdit={setGroupToEdit}
                                     setSideblockView={setSideblockView}
-                                    setGroupToDelete={handleAskDelete}
+                                    setGroupToDelete={(group: IPatternGroupTree) =>
+                                        setGroupToDelete(group)
+                                    }
                                     selectedGroups={selectedGroups}
                                     onSelect={handleSelect}
                                 />
@@ -143,7 +130,6 @@ export const GroupFilters: FC<IGroupFilters> = ({
                         size="medium"
                         variant="plain"
                         onClick={() => {
-                            setSelectedGroups([]);
                             onGroupsChange([]);
                         }}
                         disabled={selectedGroups.length === 0}
@@ -156,8 +142,8 @@ export const GroupFilters: FC<IGroupFilters> = ({
                 opened={!!groupToDelete}
                 title="Удалить группировку?"
                 confirmText={cannotDelete ? 'Закрыть' : 'Удалить'}
-                onClose={handleCloseDialog}
-                onConfirm={cannotDelete ? handleCloseDialog : handleDeleteConfirmClick}
+                onClose={() => setGroupToDelete(null)}
+                onConfirm={cannotDelete ? () => setGroupToDelete(null) : handleDeleteConfirmClick}
                 showDeclineButton={cannotDelete ? false : true}
             >
                 {cannotDelete ? (

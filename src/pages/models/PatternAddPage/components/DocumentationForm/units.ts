@@ -8,22 +8,33 @@ export const FormStyled = styled.form`
     flex: 1;
 `;
 
+export const OverflowContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex: 1;
+
+    width: 100%;
+    max-height: calc(100vh - 64px - 56px - 89px);
+    padding-top: 32px;
+
+    overflow: auto;
+`;
+
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 32px;
 
-    flex: 1;
-
     width: 100%;
     max-width: 910px;
-    padding: 32px 0px;
 `;
 
 export const FileContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
+
+    padding-bottom: 32px;
 
     width: 100%;
 `;
@@ -95,4 +106,8 @@ export const FileMetadataContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    max-width: 100%;
+
+    overflow: hidden;
 `;
