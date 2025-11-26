@@ -1,3 +1,4 @@
+import { Label } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const FormStyled = styled.form`
@@ -54,4 +55,9 @@ export const ImageContainer = styled.img`
 
 export const FileListContainer = styled.div`
     width: fit-content;
+`;
+
+export const LabelWithoutBorder = styled(Label)`
+    border: none;
+    padding: 0;
 `;

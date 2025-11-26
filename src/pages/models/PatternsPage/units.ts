@@ -1,3 +1,4 @@
+import { Label } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -68,4 +69,9 @@ export const NotFoundContainer = styled.div`
 
     height: 100%;
     max-width: 100%;
+`;
+
+export const LabelWithoutBorder = styled(Label)`
+    border: none;
+    padding: 0;
 `;

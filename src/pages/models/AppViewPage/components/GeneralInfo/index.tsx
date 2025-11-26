@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
+import React, { FC, useState } from 'react';
 
 // import {
 //     Table,
@@ -10,30 +9,146 @@ import { Skeleton } from '@beeline/design-system-react';
 //     TableRow,
 // } from '@beeline/design-system-react';
 import { Text } from 'components/core';
-import { Link } from 'components/other';
+import { Link, NotFoundBlock } from 'components/other';
 
+import { useGetUserProductsKeyById } from 'api/queries/product';
+import { useGetUserInfoQuery } from 'api/queries/profile';
+import { useModal } from 'hooks';
 import { formatNullableString } from 'utils/formatters';
 
-import { CopyButton } from './components';
+import { BlurButton, CopyButton, CreateStructurizrWorkspaceSideblock } from './components';
+import { keyToCriticalMap } from './const';
 import { IGeneralInfo } from './types';
 import * as S from './units';
 
-export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
+export const GeneralInfo: FC<IGeneralInfo> = ({
+    productData,
+    productId,
+    structurizrApiUrl,
+    cmdb,
+}) => {
+    const { data: userInfoData } = useGetUserInfoQuery();
+    const [blurState, setBlurState] = useState({
+        apiKey: true,
+        apiSecret: true,
+    });
+    const { openModal, closeModal, modalOpened } = useModal();
+    const canGetKeys = (userInfoData?.productsIds ?? []).includes(productId);
+    const isAdministrator = userInfoData?.roles?.includes('ADMINISTRATOR');
+
+    const { data: keysData } = useGetUserProductsKeyById(productId, {
+        enabled: canGetKeys,
+    });
+
+    const toggleBlur = (key: keyof typeof blurState) => {
+        setBlurState((prev) => ({
+            ...prev,
+            [key]: !prev[key],
+        }));
+    };
+
+    const hasKeyData = keysData?.structurizrApiKey && keysData?.structurizrApiSecret;
+
     return (
         <S.Container>
-            {/* <Text inactive variant="body2">
+            <Text inactive variant="body2">
                 Владелец приложения
             </Text>
-            <Text variant="body2">Константинопольский Константин Константинович</Text>
-            <Text inactive variant="body2">
+            <Text variant="body2">{formatNullableString(productData?.ownerName)}</Text>
+            {/* <Text inactive variant="body2">
                 Архитектор приложения
             </Text>
-            <Text variant="body2">Крестовоздвиженский Филипп Пантелеймонович</Text>
+            <Text variant="body2">Крестовоздвиженский Филипп Пантелеймонович</Text> */}
             <Text inactive variant="body2">
                 Критичность
             </Text>
-            <Text variant="body2">4-Office Productivity</Text>
+            <Text variant="body2">
+                {formatNullableString(
+                    productData?.critical &&
+                        `${productData.critical.split('_')[1]}-${
+                            keyToCriticalMap[productData.critical.split('_')[0]] ??
+                            productData.critical.split('_')[0]
+                        }`,
+                )}
+            </Text>
             <Text inactive variant="body2">
+                Structurizr URL
+            </Text>
+            <Text variant="body2">
+                <S.LinkContainer>
+                    <Link
+                        title={formatNullableString(productData?.structurizrApiUrl)}
+                        url={productData?.structurizrApiUrl}
+                    />
+                    {structurizrApiUrl && structurizrApiUrl !== '' && (
+                        <CopyButton
+                            text={formatNullableString(productData?.structurizrApiUrl)}
+                            message="Ссылка скопирована"
+                        />
+                    )}
+                </S.LinkContainer>
+            </Text>
+            {cmdb &&
+                (structurizrApiUrl === null || structurizrApiUrl === '') &&
+                !hasKeyData &&
+                (isAdministrator || canGetKeys) && (
+                    <>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                title="Чтобы получить доступ ко всем данным приложения, создайте рабочее пространство"
+                                text="Данные будут перенесены из Structurizr"
+                                buttonText="Создать"
+                                buttonProps={{ onClick: openModal }}
+                            />
+                        </S.NotFoundContainer>
+                        <CreateStructurizrWorkspaceSideblock
+                            isOpen={modalOpened}
+                            onClose={closeModal}
+                            cmdb={cmdb}
+                        />
+                    </>
+                )}
+            {canGetKeys && hasKeyData && (
+                <>
+                    <Text inactive variant="body2">
+                        Structurizr_api_key
+                    </Text>
+                    <Text variant="body2">
+                        <S.LinkContainer>
+                            <S.BlurText $isBlurred={blurState.apiKey}>
+                                {formatNullableString(keysData?.structurizrApiKey)}
+                            </S.BlurText>
+                            <BlurButton
+                                isBlurred={blurState.apiKey}
+                                onToggle={() => toggleBlur('apiKey')}
+                            />
+                            <CopyButton
+                                text={keysData?.structurizrApiKey}
+                                message="API_KEY скопирован"
+                            />
+                        </S.LinkContainer>
+                    </Text>
+                    <Text inactive variant="body2">
+                        Structurizr_api_secret
+                    </Text>
+                    <Text variant="body2">
+                        <S.LinkContainer>
+                            <S.BlurText $isBlurred={blurState.apiSecret}>
+                                {formatNullableString(keysData?.structurizrApiSecret)}
+                            </S.BlurText>
+                            <BlurButton
+                                isBlurred={blurState.apiSecret}
+                                onToggle={() => toggleBlur('apiSecret')}
+                            />
+                            <CopyButton
+                                text={keysData?.structurizrApiSecret}
+                                message="API_SECRET скопирован"
+                            />
+                        </S.LinkContainer>
+                    </Text>
+                </>
+            )}
+            {/* <Text inactive variant="body2">
                 Влияние приложения
             </Text>
             <Text variant="body2">
@@ -53,7 +168,10 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                         title="https://bw.beeline.ru/catalog/apps/53"
                         url="https://bw.beeline.ru/catalog/apps/53"
                     />
-                    <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
+                    <CopyButton
+                        text="https://bw.beeline.ru/catalog/apps/53"
+                        message="Ссылка скопирована"
+                    />
                 </S.LinkContainer>
             </Text>
             <Text inactive variant="body2">
@@ -65,9 +183,12 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                         title="https://bw.beeline.ru/catalog/apps/53"
                         url="https://bw.beeline.ru/catalog/apps/53"
                     />
-                    <CopyButton text="https://bw.beeline.ru/catalog/apps/53" />
+                    <CopyButton
+                        text="https://bw.beeline.ru/catalog/apps/53"
+                        message="Ссылка скопирована"
+                    />
                 </S.LinkContainer>
-            </Text> */}
+            </Text>
             <Text inactive variant="body2">
                 Workspace Structurizr
             </Text>
@@ -80,7 +201,10 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                                 title={productData.structurizrApiUrl}
                                 url={productData.structurizrApiUrl}
                             />
-                            <CopyButton text={productData.structurizrApiUrl} />
+                            <CopyButton
+                                text={productData.structurizrApiUrl}
+                                message="Ссылка скопирована"
+                            />
                         </S.LinkContainer>
                     ) : (
                         formatNullableString(null)
@@ -96,13 +220,13 @@ export const GeneralInfo: FC<IGeneralInfo> = ({ productData, isLoading }) => {
                     {productData.gitUrl ? (
                         <S.LinkContainer>
                             <Link title={productData.gitUrl} url={productData.gitUrl} />
-                            <CopyButton text={productData.gitUrl} />
+                            <CopyButton text={productData.gitUrl} message="Ссылка скопирована" />
                         </S.LinkContainer>
                     ) : (
                         formatNullableString(null)
                     )}
                 </Text>
-            )}
+            )}*/}
             {/* <Text inactive variant="body2">
                 Git репозиторий
             </Text>

@@ -6,5 +6,5 @@ export type FormValues = {
 
 export const getValidationSchema = () =>
     object().shape({
-        rule: string().required('Заполните поле'),
+        rule: string().default(''),
     });

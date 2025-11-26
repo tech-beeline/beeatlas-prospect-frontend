@@ -72,7 +72,9 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
-                                        <TableHeaderData>Успешность</TableHeaderData>
+                                        <S.TableHeaderDataFixedWidth>
+                                            Статус публикации
+                                        </S.TableHeaderDataFixedWidth>
                                         {(fitnessFunction.tableStruct ?? []).map((value, i) => (
                                             <TableHeaderData key={i}>{value}</TableHeaderData>
                                         ))}

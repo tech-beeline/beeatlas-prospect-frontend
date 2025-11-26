@@ -46,3 +46,7 @@ export interface IPatternGroupForm {
     name: string;
     parentId: number | null;
 }
+
+export interface IValidateWorkspaceRequest {
+    workspace: string;
+}
