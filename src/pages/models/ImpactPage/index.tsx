@@ -12,7 +12,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
     // AppTable,
-    // ContextDiagram,
+    ContextDiagram,
     DeploymentAppTable,
     DeploymentDiagram,
     E2ETCTable,
@@ -30,8 +30,6 @@ export const ImpactPage = () => {
     // system
     // server
     const idParam = params.get('id');
-    // const environmentNameParam = params.get('environmentName');
-    // const deploymentNameParam = params.get('deploymentName');
 
     const {
         modalOpened: sideblockOpened,
@@ -49,7 +47,7 @@ export const ImpactPage = () => {
     return (
         <S.PageWrapper>
             <S.TitleContainer>
-                <Text variant="h4">Влияние</Text>
+                <Text variant="h4">Архитектура компании</Text>
                 {cmdbParam && (
                     <Button
                         size="small"
@@ -71,7 +69,7 @@ export const ImpactPage = () => {
                     />
                 </S.NotFoundContainer>
             )}
-            {cmdbParam && idParam && (
+            {cmdbParam && (
                 <>
                     <S.AppTitleContainer>
                         <S.AppTitleIconWrapper>
@@ -93,19 +91,14 @@ export const ImpactPage = () => {
                     </S.AppTitleContainer>
                     <S.GridContainer>
                         <S.FlexContainer>
-                            {/* {cmdbParam && nameParam && <ContextDiagram cmdb={cmdbParam} />} */}
-                            {idParam && (
-                                <DeploymentDiagram
-                                    id={idParam}
-                                    cmdb={cmdbParam}
-                                    // deploymentName={deploymentNameParam}
-                                    // environmentName={environmentNameParam}
-                                />
+                            {cmdbParam && nameParam && !idParam && (
+                                <ContextDiagram cmdb={cmdbParam} />
                             )}
+                            {idParam && <DeploymentDiagram id={idParam} cmdb={cmdbParam} />}
                         </S.FlexContainer>
 
                         <S.FlexContainer>
-                            <DeploymentAppTable id={idParam} />
+                            {idParam && <DeploymentAppTable id={idParam} />}
                             {/* <AppTable cmdb={cmdbParam} deploymentName={deploymentNameParam} /> */}
                             <E2ETCTable cmdb={cmdbParam} />
                         </S.FlexContainer>

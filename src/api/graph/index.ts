@@ -23,6 +23,12 @@ export const getSystemDiagramGraph = (cmdb: string): AxiosPromise<unknown> => {
     });
 };
 
+export const getContextDotGraph = (cmdb: string): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/context/dot?cmdb=${cmdb}`,
+    });
+};
+
 export const getDeploymentDiagramGraph = (
     cmdb: string,
     env: string,

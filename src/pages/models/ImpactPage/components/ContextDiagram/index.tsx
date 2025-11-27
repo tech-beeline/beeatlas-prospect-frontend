@@ -9,15 +9,18 @@ import { Dialog } from 'widgets/Dialog';
 
 import { IContextDiagram } from './types';
 import * as S from './units';
-import { useStructurizrRenderer } from './utils';
+import { useVizRenderer } from './utils';
+// import { useStructurizrRenderer } from './utils';
 
 export const ContextDiagram: FC<IContextDiagram> = ({ cmdb }) => {
     const { modalOpened, openModal, closeModal } = useModal();
 
     const { data, isLoading } = useGetSystemDiagramQuery(cmdb);
 
-    useStructurizrRenderer(data, 'diagram');
-    useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
+    useVizRenderer(data, 'diagram');
+    useVizRenderer(data, 'diagram-dialog', modalOpened);
+    // useStructurizrRenderer(data, 'diagram');
+    // useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
 
     return (
         <>

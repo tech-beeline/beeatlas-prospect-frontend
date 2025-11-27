@@ -123,3 +123,15 @@ export const getSystemTC = (id: string | number): AxiosPromise<T.ISystemTC> => {
         url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/product/${id}`,
     });
 };
+
+export const getSystemInfrastrucutre = (search: string): AxiosPromise<T.IInfraData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/api/v1/product/infra/contains?name=${search}`,
+    });
+};
+
+export const getSystemInfrastrucutreByIp = (search: string): AxiosPromise<T.IInfraData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/infra/search?parameter="vimIp"&value=${search}`,
+    });
+};

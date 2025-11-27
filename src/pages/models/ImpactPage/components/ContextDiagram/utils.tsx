@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import * as Viz from '@viz-js/viz';
 import Panzoom from 'panzoom';
 
 export const useStructurizrRenderer = (data: any, elementId: string, show = true) => {
@@ -24,4 +25,25 @@ export const useStructurizrRenderer = (data: any, elementId: string, show = true
             });
         }
     }, [data, show]);
+};
+
+export const useVizRenderer = (data: string | undefined, elementId: string, show = true) => {
+    useEffect(() => {
+        const elem = document.getElementById(elementId);
+
+        if (data && elementId && show) {
+            Viz.instance()
+                .then((viz) => elem?.replaceChildren(viz.renderSVGElement(data)))
+                .then(() => {
+                    const panzoom = Panzoom(elem!, {
+                        bounds: true,
+                        boundsPadding: 1,
+                        maxZoom: 5,
+                        minZoom: 1,
+                        initialZoom: 1,
+                    });
+                    elem!.addEventListener('wheel', (panzoom as any).zoomWithWheel);
+                });
+        }
+    }, [data, elementId, show]);
 };
