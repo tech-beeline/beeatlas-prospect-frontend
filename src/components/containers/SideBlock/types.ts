@@ -8,4 +8,5 @@ export interface ISideBlock {
     closeOnOutsideClick?: boolean;
     outsideClickExceptionIds?: string[];
     aboveContent?: boolean;
+    large?: boolean;
 }

@@ -1,7 +1,19 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-    padding: 20px 16px;
+    padding: 24px;
+
+    > form {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+`;
+
+export const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export const FlexWrapper = styled.div`
@@ -24,7 +36,12 @@ export const TextFieldContainer = styled.div`
     gap: 32px;
 
     width: 100%;
-    padding-top: 24px;
+`;
+
+export const FileAddingContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -33,10 +50,13 @@ export const ButtonContainer = styled.div`
     right: 0;
 
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    gap: 16px;
 
     width: 100%;
     height: 96px;
-    padding: 24px 16px;
+    padding: 24px;
+
+    > Button {
+        width: 100%;
+    }
 `;

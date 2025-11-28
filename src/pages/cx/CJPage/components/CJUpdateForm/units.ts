@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-    padding: 20px 16px;
+    padding: 24px;
 `;
 
 export const FlexWrapper = styled.div`
@@ -33,10 +33,13 @@ export const ButtonContainer = styled.div`
     right: 0;
 
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    gap: 16px;
 
     width: 100%;
     height: 96px;
-    padding: 24px 16px;
+    padding: 24px;
+
+    > Button {
+        width: 100%;
+    }
 `;

@@ -47,7 +47,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
     });
 
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose}>
+        <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
             <S.Container>
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>

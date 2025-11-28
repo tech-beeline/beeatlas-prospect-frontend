@@ -30,7 +30,7 @@ export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose
     };
 
     return (
-        <SideBlock isOpen={isOpen} onClose={handleCloseClick}>
+        <SideBlock isOpen={isOpen} onClose={handleCloseClick} large={true}>
             {stage === Stage.SETTINGS && (
                 <StepSettings
                     key={String(isOpen)}
