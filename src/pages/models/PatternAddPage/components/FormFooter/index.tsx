@@ -8,20 +8,23 @@ export const FormFooter: FC<IFormFooter> = ({
     submitButtonText,
     submitButtonDisabled = false,
     cancelButtonDisabled = false,
+    showCancelButton = true,
     onCancelButtonClick,
 }) => {
     return (
         <S.Footer>
             <S.Container>
                 <S.ButtonsContainer>
-                    <Button
-                        disabled={cancelButtonDisabled}
-                        size="medium"
-                        onClick={onCancelButtonClick}
-                        type="button"
-                    >
-                        Назад
-                    </Button>
+                    {showCancelButton && (
+                        <Button
+                            disabled={cancelButtonDisabled}
+                            size="medium"
+                            onClick={onCancelButtonClick}
+                            type="button"
+                        >
+                            Назад
+                        </Button>
+                    )}
                     <Button
                         disabled={submitButtonDisabled}
                         variant="contained"
