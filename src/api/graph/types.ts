@@ -18,3 +18,10 @@ export interface IDependentSystem {
     critical: string;
     ownerName: string;
 }
+
+export interface IContextElement {
+    cmdb: string;
+    critical: string;
+    id: number;
+    ownerName: string;
+}

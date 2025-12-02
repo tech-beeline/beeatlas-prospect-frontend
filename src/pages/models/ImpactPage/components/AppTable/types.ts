@@ -1,4 +1,6 @@
+import { TabVariant } from '../../const';
+
 export interface IAppTable {
     cmdb: string;
-    deploymentName: string | null;
+    tabVariant: TabVariant;
 }

@@ -1,4 +1,6 @@
+import { TabVariant } from '../../const';
+
 export interface IDeploymentDiagram {
     id: string;
-    cmdb: string;
+    tabVariant: TabVariant;
 }

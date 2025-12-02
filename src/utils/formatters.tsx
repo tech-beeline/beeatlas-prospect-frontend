@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const formatYesNo = (flag: boolean | undefined | null) => (Boolean(flag) ? 'Да' : 'Нет');
 
 export const formatNullableString = (str: string | undefined | null) =>
@@ -37,4 +39,15 @@ export const formatSize = (bytes: number, dp = 1) => {
     } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
 
     return bytes.toFixed(dp) + ' ' + units[u];
+};
+
+export const getHighlightedText = (text: string, highlight: string) => {
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    return (
+        <span>
+            {parts.map((part) =>
+                part.toLowerCase() === highlight.toLowerCase() ? <b>{part}</b> : part,
+            )}
+        </span>
+    );
 };

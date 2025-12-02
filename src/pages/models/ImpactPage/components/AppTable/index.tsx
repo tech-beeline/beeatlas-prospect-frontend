@@ -14,35 +14,25 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
-import { useGetSystemInfluenceQuery } from 'api/queries/product';
+import { useGetSystemInfluenceQuery } from 'api/queries/graph';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
+
+import { TabVariant } from '../../const';
 
 import { keyToCriticalMap, SortingVariant } from './const';
 import { IAppTable } from './types';
 import * as S from './units';
 
-export const AppTable: FC<IAppTable> = ({ cmdb }) => {
+export const AppTable: FC<IAppTable> = ({ cmdb, tabVariant }) => {
     const [sortingVariant, setSortingVariant] = useState(SortingVariant.ASC);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const { data: systemData, isLoading: isLoadingSystems } = useGetSystemInfluenceQuery({
+    const { data, isLoading } = useGetSystemInfluenceQuery({
         cmdb,
-        // enabled: !deploymentName,
-        enabled: true,
+        influence: tabVariant === TabVariant.OUT,
     });
-
-    // const { data: deploymentData, isLoading: isLoadingDeployments } =
-    //     useGetDeploymentInfluenceQuery({
-    //         cmdb,
-    //         enabled: !!deploymentName,
-    //     });
-
-    // const isLoading = !deploymentName ? isLoadingSystems : isLoadingDeployments;
-    const isLoading = isLoadingSystems;
-    // const data = !deploymentName ? systemData : deploymentData;
-    const data = systemData?.dependentSystems;
 
     const dataSorted = data
         ? [...data].sort((a, b) =>
@@ -58,9 +48,7 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
 
     const handleCopyClick = async () => {
         if (dataSorted) {
-            await navigator.clipboard.writeText(
-                dataSorted.map((system) => system.alias).join(', '),
-            );
+            await navigator.clipboard.writeText(dataSorted.map((system) => system.cmdb).join(', '));
             showSnackbar({ message: 'Список систем скопирован' });
         }
     };
@@ -112,11 +100,12 @@ export const AppTable: FC<IAppTable> = ({ cmdb }) => {
                     </TableHead>
                     <TableBody>
                         {dataSorted.map((system) => (
-                            <TableRow key={system.alias}>
+                            <TableRow key={system.cmdb}>
                                 <TableData>
                                     <Link
-                                        title={system.alias}
-                                        url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${system.alias}`}
+                                        outer={false}
+                                        title={system.cmdb}
+                                        url={`${R.MODELS_PATH}${R.IMPACT_PATH}?&name=${system.cmdb}&cmdb=${system.cmdb}`}
                                     />
                                 </TableData>
                                 <TableData>

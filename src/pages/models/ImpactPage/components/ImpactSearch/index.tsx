@@ -11,10 +11,11 @@ import { IInfraData } from 'api/product/types';
 import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
 import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { getHighlightedText } from 'utils/formatters';
 
-import { SearchVariants } from './const';
+import { SearchVariants } from '../../const';
+
 import * as S from './units';
-import { getHighlightedText } from './utils';
 
 export const ImpactSearch = () => {
     const [searchVariant, setSearchVariant] = useState<SearchVariants | null>(null);
@@ -48,7 +49,7 @@ export const ImpactSearch = () => {
     const handleInfraClick = (infra: IInfraData) => {
         setSearchParams({
             name: infra.name,
-            cmdb: infra.parents[0] ?? '',
+            cmdb: infra.parentSystems[0] ?? '',
         });
         setSearch(infra.name);
         setIsOpen(false);
@@ -65,6 +66,11 @@ export const ImpactSearch = () => {
             }
         }
     }, [data]);
+
+    const handleShowAllClick = () => {
+        setSearchParams({ search: search, searchVariant: searchVariant ?? '' });
+        setIsOpen(false);
+    };
 
     const handleEnterButtonClick = () => {
         // if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
@@ -160,7 +166,11 @@ export const ImpactSearch = () => {
                                             ))}
                                             {data.products.length > 7 && (
                                                 <S.ButtonContainer>
-                                                    <Button variant="plain" size="medium">
+                                                    <Button
+                                                        variant="plain"
+                                                        size="medium"
+                                                        onClick={handleShowAllClick}
+                                                    >
                                                         Посмотреть все результаты
                                                     </Button>
                                                 </S.ButtonContainer>
@@ -239,7 +249,9 @@ export const ImpactSearch = () => {
                                                                         inactive
                                                                         variant="overline"
                                                                     >
-                                                                        ДЕПЛОЙМЕНТ ДИАГРАММА
+                                                                        КОНТЕКСТНАЯ ДИАГРАММА
+                                                                        ВЛАДЕЛЬЦА{' '}
+                                                                        {server.parentSystems[0]}
                                                                     </Text>
                                                                     <Text variant="body2">
                                                                         {getHighlightedText(
@@ -259,7 +271,11 @@ export const ImpactSearch = () => {
                                             {data.servers.graph.length + data.servers.cmdb.length >
                                                 7 && (
                                                 <S.ButtonContainer>
-                                                    <Button variant="plain" size="medium">
+                                                    <Button
+                                                        variant="plain"
+                                                        size="medium"
+                                                        onClick={handleShowAllClick}
+                                                    >
                                                         Посмотреть все результаты
                                                     </Button>
                                                 </S.ButtonContainer>

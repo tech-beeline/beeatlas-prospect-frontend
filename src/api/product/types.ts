@@ -210,5 +210,5 @@ export interface ICompleteFitnessFunctionsData {
 
 export interface IInfraData {
     name: string;
-    parents: string[];
+    parentSystems: string[];
 }

@@ -18,16 +18,21 @@ import { useGetDeploymentInfluenceQuery } from 'api/queries/graph';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { TabVariant } from '../../const';
+
 import { keyToCriticalMap, SortingVariant } from './const';
 import { IDeploymentAppTable } from './types';
 import * as S from './units';
 
-export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id }) => {
+export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id, tabVariant }) => {
     const [sortingVariant, setSortingVariant] = useState(SortingVariant.ASC);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const { data, isLoading } = useGetDeploymentInfluenceQuery(id);
+    const { data, isLoading } = useGetDeploymentInfluenceQuery({
+        id,
+        influence: tabVariant === TabVariant.OUT,
+    });
 
     const dataSorted = data
         ? [...data].sort((a, b) =>
@@ -57,7 +62,9 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id }) => {
                         <TableRow>
                             <TableHeaderData>
                                 <S.FlexContainer>
-                                    Название{' '}
+                                    {tabVariant === TabVariant.IN
+                                        ? 'Используемые приложения'
+                                        : 'Зависимые приложения'}{' '}
                                     <IconButton
                                         size="medium"
                                         iconName={Icons.Copy}
@@ -69,7 +76,11 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id }) => {
                                     </TooltipContainer>
                                 </S.FlexContainer>
                             </TableHeaderData>
-                            <TableHeaderData>Зависимостей от элемента</TableHeaderData>
+                            <TableHeaderData>
+                                {tabVariant === TabVariant.IN
+                                    ? 'Используемые элементы'
+                                    : 'Зависимые элементы'}
+                            </TableHeaderData>
                             <TableHeaderData>Приложение</TableHeaderData>
                             <TableHeaderData>
                                 <S.SortingContainer

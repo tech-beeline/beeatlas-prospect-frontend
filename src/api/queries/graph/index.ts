@@ -2,9 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     getContextDotGraph,
+    getContextElements,
+    getContextInfluenceDotGraph,
+    getContextInfluenceElements,
     getDeploymentDiagramGraph,
     getDeploymentDotGraph,
-    getDeploymentInfluenceById,
+    getDeploymentElementsById,
+    getDeploymentInfluenceDotGraph,
+    getDeploymentInfluenceElementsById,
     getSearchDeployments,
     getSearchSystems,
 } from 'api/graph';
@@ -63,22 +68,60 @@ export const useGetCompleteArchitectureInfoQuery = (search: string) => {
 
             const data = await Promise.allSettled([...promises, ...optionalPromises]);
 
+            const cmdbData: IInfraData[] = [];
+            if (data[2].status === 'fulfilled') {
+                for (const infra of data[2].value) {
+                    if (infra.parentSystems.length === 1) {
+                        cmdbData.push(infra);
+                    }
+                    if (infra.parentSystems.length > 1) {
+                        cmdbData.push(
+                            ...infra.parentSystems.map((parent) => ({
+                                name: infra.name,
+                                parentSystems: [parent],
+                            })),
+                        );
+                    }
+                }
+            }
+            if (data[3] && data[3].status === 'fulfilled') {
+                for (const infra of data[3].value) {
+                    if (infra.parentSystems.length === 1) {
+                        cmdbData.push(infra);
+                    }
+                    if (infra.parentSystems.length > 1) {
+                        cmdbData.push(
+                            ...infra.parentSystems.map((parent) => ({
+                                name: infra.name,
+                                parentSystems: [parent],
+                            })),
+                        );
+                    }
+                }
+            }
+
             return {
                 products: data[0].status === 'fulfilled' ? data[0].value : [],
                 servers: {
                     graph: data[1].status === 'fulfilled' ? data[1].value : [],
-                    cmdb: data[2].status === 'fulfilled' ? data[2].value : [],
+                    cmdb: cmdbData,
                 },
             };
         },
-        // placeholderData: (prev) => prev,
     });
 };
 
-export const useGetSystemDiagramQuery = (cmdb: string) => {
+interface IGetSystemDiagramQueryParams {
+    cmdb: string;
+    influence: boolean;
+}
+export const useGetSystemDiagramQuery = (params: IGetSystemDiagramQueryParams) => {
     return useQuery({
-        queryKey: [GRAPH_PREFIX, 'system', cmdb],
-        queryFn: () => getContextDotGraph(cmdb).then((res) => res.data),
+        queryKey: [GRAPH_PREFIX, 'system', params],
+        queryFn: () =>
+            params.influence
+                ? getContextInfluenceDotGraph(params.cmdb).then((res) => res.data)
+                : getContextDotGraph(params.cmdb).then((res) => res.data),
     });
 };
 
@@ -89,16 +132,44 @@ export const useGetDeploymentDiagramQuery = (cmdb: string, env: string, deployme
     });
 };
 
-export const useGetDeploymentDotGraphQuery = (id: string) => {
+interface IGetDeploymentDiagramQuery {
+    id: string;
+    influence: boolean;
+}
+export const useGetDeploymentDotGraphQuery = (params: IGetDeploymentDiagramQuery) => {
     return useQuery({
-        queryKey: [GRAPH_PREFIX, 'deployment', 'dot', id],
-        queryFn: () => getDeploymentDotGraph(id).then((res) => res.data),
+        queryKey: [GRAPH_PREFIX, 'deployment', 'dot', params],
+        queryFn: () =>
+            params.influence
+                ? getDeploymentInfluenceDotGraph(params.id).then((res) => res.data)
+                : getDeploymentDotGraph(params.id).then((res) => res.data),
     });
 };
 
-export const useGetDeploymentInfluenceQuery = (id: string) => {
+interface IGetDeploymentInfluenceQueryParams {
+    id: string;
+    influence: boolean;
+}
+export const useGetDeploymentInfluenceQuery = (params: IGetDeploymentInfluenceQueryParams) => {
     return useQuery({
-        queryKey: [GRAPH_PREFIX, 'deployment', 'influence', id],
-        queryFn: () => getDeploymentInfluenceById(id).then((res) => res.data),
+        queryKey: [GRAPH_PREFIX, 'deployment', 'influence', params],
+        queryFn: () =>
+            params.influence
+                ? getDeploymentInfluenceElementsById(params.id).then((res) => res.data)
+                : getDeploymentElementsById(params.id).then((res) => res.data),
+    });
+};
+
+interface IGetSystemInfluenceParams {
+    cmdb: string;
+    influence: boolean;
+}
+export const useGetSystemInfluenceQuery = (params: IGetSystemInfluenceParams) => {
+    return useQuery({
+        queryKey: [GRAPH_PREFIX, 'system', 'influence', params],
+        queryFn: () =>
+            params.influence
+                ? getContextInfluenceElements(params.cmdb).then((res) => res.data)
+                : getContextElements(params.cmdb).then((res) => res.data),
     });
 };

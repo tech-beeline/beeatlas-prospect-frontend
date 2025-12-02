@@ -2,25 +2,26 @@ import React, { FC } from 'react';
 import { IconButton, Skeleton, TableBody, TableHead, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import { TooltipContainer } from 'components/interaction';
 import { useGetSystemDiagramQuery } from 'api/queries/graph';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
+import { TabVariant } from '../../const';
+
 import { IContextDiagram } from './types';
 import * as S from './units';
 import { useVizRenderer } from './utils';
-// import { useStructurizrRenderer } from './utils';
 
-export const ContextDiagram: FC<IContextDiagram> = ({ cmdb }) => {
+export const ContextDiagram: FC<IContextDiagram> = ({ cmdb, tabVariant }) => {
     const { modalOpened, openModal, closeModal } = useModal();
 
-    const { data, isLoading } = useGetSystemDiagramQuery(cmdb);
+    const { data, isLoading } = useGetSystemDiagramQuery({
+        cmdb,
+        influence: tabVariant === TabVariant.OUT,
+    });
 
     useVizRenderer(data, 'diagram');
     useVizRenderer(data, 'diagram-dialog', modalOpened);
-    // useStructurizrRenderer(data, 'diagram');
-    // useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
 
     return (
         <>
@@ -34,19 +35,6 @@ export const ContextDiagram: FC<IContextDiagram> = ({ cmdb }) => {
                                     <S.FlexContainer>
                                         <div>Контекстная диаграмма</div>
                                         <S.IconsContainer>
-                                            {/* <IconButton
-                                        size="medium"
-                                        iconName={Icons.Copy}
-                                        data-tooltip-id="copy-image"
-                                    />
-                                    <TooltipContainer
-                                        noArrow
-                                        place="top"
-                                        offset={8}
-                                        id="copy-image"
-                                    >
-                                        Копировать изображение
-                                    </TooltipContainer> */}
                                             <IconButton
                                                 size="medium"
                                                 iconName={Icons.Expand}
@@ -77,19 +65,6 @@ export const ContextDiagram: FC<IContextDiagram> = ({ cmdb }) => {
                                 <S.FlexContainer>
                                     <div>Контекстная диаграмма</div>
                                     <S.IconsContainer>
-                                        {/* <IconButton
-                                    size="medium"
-                                    iconName={Icons.Copy}
-                                    data-tooltip-id="copy-image-dialog"
-                                />
-                                <TooltipContainer
-                                    noArrow
-                                    place="top"
-                                    offset={8}
-                                    id="copy-image-dialog"
-                                >
-                                    Копировать изображение
-                                </TooltipContainer> */}
                                         <IconButton
                                             size="medium"
                                             iconName={Icons.Collapse}

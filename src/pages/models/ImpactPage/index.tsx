@@ -1,9 +1,10 @@
-import React from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
+import React, { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Breadcrumbs, Button, Icon, IconButton, Tab, Tabs } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { BreadCrumbsItem } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useModal } from 'hooks';
@@ -11,24 +12,30 @@ import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
-    // AppTable,
+    AppTable,
     ContextDiagram,
     DeploymentAppTable,
     DeploymentDiagram,
     E2ETCTable,
     ImpactSearch,
     RateSideblock,
+    SearchResults,
 } from './components';
+import { SearchVariants, TABS, TabVariant } from './const';
 import * as S from './units';
 
 export const ImpactPage = () => {
+    const navigate = useNavigate();
+
+    const [tabVariant, setTabVariant] = useState(TabVariant.IN);
+
     const [params] = useSearchParams();
+    const searchParam = params.get('search');
+    const searchVariantParam = params.get('searchVariant');
     const notFoundParam = params.get('notFound');
     // common
     const cmdbParam = params.get('cmdb');
     const nameParam = params.get('name');
-    // system
-    // server
     const idParam = params.get('id');
 
     const {
@@ -69,8 +76,27 @@ export const ImpactPage = () => {
                     />
                 </S.NotFoundContainer>
             )}
+            {typeof searchParam === 'string' && searchVariantParam && (
+                <SearchResults
+                    search={searchParam}
+                    searchVariant={searchVariantParam as SearchVariants}
+                />
+            )}
             {cmdbParam && (
                 <>
+                    <S.BreadCrumbsContainer>
+                        <Breadcrumbs>
+                            <BreadCrumbsItem
+                                name="Архитектура компании"
+                                index={0}
+                                id={0}
+                                onClick={() => {
+                                    navigate(`${R.MODELS_PATH}${R.IMPACT_PATH}`);
+                                }}
+                            />
+                            <BreadCrumbsItem name="" index={1} id={1} />
+                        </Breadcrumbs>
+                    </S.BreadCrumbsContainer>
                     <S.AppTitleContainer>
                         <S.AppTitleIconWrapper>
                             {nameParam && <Text variant="h4">{nameParam}</Text>}
@@ -89,17 +115,27 @@ export const ImpactPage = () => {
                             />
                         </Text>
                     </S.AppTitleContainer>
+                    <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
+                        {TABS.map((tab) => (
+                            <Tab
+                                key={tab.id}
+                                label={tab.label}
+                                value={tab.id}
+                                onClick={() => setTabVariant(tab.id)}
+                            />
+                        ))}
+                    </Tabs>
                     <S.GridContainer>
                         <S.FlexContainer>
-                            {cmdbParam && nameParam && !idParam && (
-                                <ContextDiagram cmdb={cmdbParam} />
+                            {!idParam && (
+                                <ContextDiagram cmdb={cmdbParam} tabVariant={tabVariant} />
                             )}
-                            {idParam && <DeploymentDiagram id={idParam} cmdb={cmdbParam} />}
+                            {idParam && <DeploymentDiagram id={idParam} tabVariant={tabVariant} />}
                         </S.FlexContainer>
 
                         <S.FlexContainer>
-                            {idParam && <DeploymentAppTable id={idParam} />}
-                            {/* <AppTable cmdb={cmdbParam} deploymentName={deploymentNameParam} /> */}
+                            {!idParam && <AppTable cmdb={cmdbParam} tabVariant={tabVariant} />}
+                            {idParam && <DeploymentAppTable id={idParam} tabVariant={tabVariant} />}
                             <E2ETCTable cmdb={cmdbParam} />
                         </S.FlexContainer>
                     </S.GridContainer>
