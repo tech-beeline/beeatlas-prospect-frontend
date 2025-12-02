@@ -44,6 +44,8 @@ export const TitleContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 16px;
+
+    margin-bottom: 4px;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -55,6 +57,8 @@ export const ButtonsContainer = styled.div`
 export const LabelsContainer = styled.div`
     display: flex;
     gap: 8px;
+
+    margin-top: 16px;
 `;
 
 export const TechnologyLabelsContainer = styled.div`

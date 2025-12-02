@@ -31,41 +31,41 @@ export const PatternCard: FC<IPatternCard> = ({ isAdmin, pattern, setPatternToDe
                     variant="contained"
                     type={pattern.isAntiPattern ? 'error' : 'success'}
                 />
-                <S.TitleContainer>
-                    <Text variant="subtitle2">
-                        <Link
-                            outer={false}
-                            title={pattern.name}
-                            url={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${pattern.id}`}
-                        />
+                <div>
+                    <S.TitleContainer>
+                        <Text variant="subtitle2">
+                            <Link
+                                outer={false}
+                                title={pattern.name}
+                                url={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${pattern.id}`}
+                            />
+                        </Text>
+                        {isAdmin && (
+                            <DropdownMenu
+                                id={String(Date.now())}
+                                items={[
+                                    [
+                                        {
+                                            title: 'Редактировать',
+                                            icon: Icons.Edit,
+                                            onClick: () => handleEditClick(pattern.id),
+                                        },
+                                    ],
+                                    [
+                                        {
+                                            title: 'Удалить',
+                                            icon: Icons.Delete,
+                                            onClick: () => setPatternToDelete(pattern),
+                                        },
+                                    ],
+                                ]}
+                            />
+                        )}
+                    </S.TitleContainer>
+                    <Text inactive variant="body3">
+                        {pattern.code}
                     </Text>
-                    {isAdmin && (
-                        <DropdownMenu
-                            id={String(Date.now())}
-                            items={[
-                                [
-                                    {
-                                        title: 'Редактировать',
-                                        icon: Icons.Edit,
-                                        onClick: () => handleEditClick(pattern.id),
-                                    },
-                                    // {
-                                    //    title: 'Скачать',
-                                    //    icon: Icons.Download,
-                                    //    onClick: handleEditClick,
-                                    // },
-                                ],
-                                [
-                                    {
-                                        title: 'Удалить',
-                                        icon: Icons.Delete,
-                                        onClick: () => setPatternToDelete(pattern),
-                                    },
-                                ],
-                            ]}
-                        />
-                    )}
-                </S.TitleContainer>
+                </div>
                 <S.MarginContainer>
                     <Text inactive variant="body3">
                         Описание

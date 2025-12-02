@@ -106,14 +106,25 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                     <S.SpaceBetweenContainer>
                         {isLoadingPattern && <Skeleton height={32} width={100} radius={4} />}
                         {patternData && (
-                            <S.TitleContainer>
-                                <Text variant="h4">{patternData.name}</Text>
-                                <Label
-                                    title={patternData.isAntiPattern ? 'Антипаттерн' : 'Паттерн'}
-                                    variant="contained"
-                                    type={patternData.isAntiPattern ? 'error' : 'success'}
-                                />
-                            </S.TitleContainer>
+                            <>
+                                <div>
+                                    <S.TitleContainer>
+                                        <Text variant="h4">{patternData.name}</Text>
+                                        <Label
+                                            title={
+                                                patternData.isAntiPattern
+                                                    ? 'Антипаттерн'
+                                                    : 'Паттерн'
+                                            }
+                                            variant="contained"
+                                            type={patternData.isAntiPattern ? 'error' : 'success'}
+                                        />
+                                    </S.TitleContainer>
+                                    <Text inactive variant="body3">
+                                        {patternData.code}
+                                    </Text>
+                                </div>
+                            </>
                         )}
                         <S.ButtonsContainer>
                             {/* {fileData && (
@@ -157,6 +168,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                             )}
                         </S.ButtonsContainer>
                     </S.SpaceBetweenContainer>
+
                     {(isLoading || (patternData && patternData.groups.length !== 0)) && (
                         <S.LabelsContainer>
                             {isLoading &&
