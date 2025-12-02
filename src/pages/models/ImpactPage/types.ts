@@ -4,3 +4,8 @@ export interface IFilterOptions {
     ring: number | null;
     groups: number[];
 }
+
+export interface IImpactBreadcrumb {
+    link: string;
+    name: string;
+}

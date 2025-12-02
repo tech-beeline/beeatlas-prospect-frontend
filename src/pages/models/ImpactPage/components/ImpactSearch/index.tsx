@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -11,13 +11,15 @@ import { IInfraData } from 'api/product/types';
 import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
 import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import * as R from 'router/const';
 import { getHighlightedText } from 'utils/formatters';
 
 import { SearchVariants } from '../../const';
 
+import { IImpactSearch } from './types';
 import * as S from './units';
 
-export const ImpactSearch = () => {
+export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
     const [searchVariant, setSearchVariant] = useState<SearchVariants | null>(null);
     const [, setSearchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +34,12 @@ export const ImpactSearch = () => {
 
     const handleSystemClick = (system: ISearchSystem) => {
         setSearchParams({ name: system.name, cmdb: system.cmdb });
+        setBreadcrumbs([
+            {
+                name: system.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${system.name}&cmdb=${system.cmdb}`,
+            },
+        ]);
         setSearch(system.name);
         setIsOpen(false);
     };
@@ -42,6 +50,12 @@ export const ImpactSearch = () => {
             name: server.deploymentName,
             cmdb: server.cmdb,
         });
+        setBreadcrumbs([
+            {
+                name: server.deploymentName,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?id=${server.id}&name=${server.deploymentName}&cmdb=${server.cmdb}`,
+            },
+        ]);
         setSearch(server.deploymentName);
         setIsOpen(false);
     };
@@ -51,6 +65,14 @@ export const ImpactSearch = () => {
             name: infra.name,
             cmdb: infra.parentSystems[0] ?? '',
         });
+        setBreadcrumbs([
+            {
+                name: infra.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${infra.name}&cmdb=${
+                    infra.parentSystems[0] ?? ''
+                }`,
+            },
+        ]);
         setSearch(infra.name);
         setIsOpen(false);
     };

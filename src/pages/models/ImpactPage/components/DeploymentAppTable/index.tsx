@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     IconButton,
     Skeleton,
@@ -11,6 +12,7 @@ import {
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
@@ -24,7 +26,12 @@ import { keyToCriticalMap, SortingVariant } from './const';
 import { IDeploymentAppTable } from './types';
 import * as S from './units';
 
-export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id, tabVariant }) => {
+export const DeploymentAppTable: FC<IDeploymentAppTable> = ({
+    id,
+    tabVariant,
+    breadcrumbs,
+    setBreadcrumbs,
+}) => {
     const [sortingVariant, setSortingVariant] = useState(SortingVariant.ASC);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -51,6 +58,13 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id, tabVariant }) 
             await navigator.clipboard.writeText(dataSorted.map((system) => system.name).join(', '));
             showSnackbar({ message: 'Список систем скопирован' });
         }
+    };
+
+    const navigate = useNavigate();
+
+    const handleLinkClick = (name: string, link: string) => {
+        navigate(link);
+        setBreadcrumbs([...breadcrumbs, { name, link }]);
     };
 
     return (
@@ -110,11 +124,19 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({ id, tabVariant }) 
                         {dataSorted.map((system) => (
                             <TableRow key={system.id}>
                                 <TableData>
-                                    <Link
-                                        outer={false}
-                                        title={system.name}
-                                        url={`${R.MODELS_PATH}${R.IMPACT_PATH}?id=${system.id}&name=${system.name}&cmdb=${system.cmdb}`}
-                                    />
+                                    <Text
+                                        pointer
+                                        link
+                                        variant="body3"
+                                        onClick={() =>
+                                            handleLinkClick(
+                                                system.name,
+                                                `${R.MODELS_PATH}${R.IMPACT_PATH}?id=${system.id}&name=${system.name}&cmdb=${system.cmdb}`,
+                                            )
+                                        }
+                                    >
+                                        {system.name}
+                                    </Text>
                                 </TableData>
                                 <TableData>{system.dependentCount}</TableData>
                                 <TableData>

@@ -8,6 +8,7 @@ import { Text } from 'components/core';
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
 import { IInfraData } from 'api/product/types';
 import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
+import * as R from 'router/const';
 import { getHighlightedText } from 'utils/formatters';
 
 import { SearchVariants } from '../../const';
@@ -17,7 +18,7 @@ import * as S from './units';
 
 const RESULTS_PER_PAGE = 10;
 
-export const SearchResults: FC<ISearchResults> = ({ search, searchVariant }) => {
+export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBreadcrumbs }) => {
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * RESULTS_PER_PAGE;
     const endIndex = page * RESULTS_PER_PAGE;
@@ -32,6 +33,12 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant }) => 
 
     const handleSystemClick = (system: ISearchSystem) => {
         setSearchParams({ name: system.name, cmdb: system.cmdb });
+        setBreadcrumbs([
+            {
+                name: system.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${system.name}&cmdb=${system.cmdb}`,
+            },
+        ]);
     };
 
     const handleServerClick = (server: ISearchDeployment) => {
@@ -40,6 +47,12 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant }) => 
             name: server.deploymentName,
             cmdb: server.cmdb,
         });
+        setBreadcrumbs([
+            {
+                name: server.deploymentName,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?id=${server.id}&name=${server.deploymentName}&cmdb=${server.cmdb}`,
+            },
+        ]);
     };
 
     const handleInfraClick = (infra: IInfraData) => {
@@ -47,6 +60,14 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant }) => 
             name: infra.name,
             cmdb: infra.parentSystems[0] ?? '',
         });
+        setBreadcrumbs([
+            {
+                name: infra.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${infra.name}&cmdb=${
+                    infra.parentSystems[0] ?? ''
+                }`,
+            },
+        ]);
     };
 
     const dataProductsSliced = data?.products.slice(startIndex, endIndex);

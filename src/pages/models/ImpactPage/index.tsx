@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Breadcrumbs, Button, Icon, IconButton, Tab, Tabs } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -22,6 +22,7 @@ import {
     SearchResults,
 } from './components';
 import { SearchVariants, TABS, TabVariant } from './const';
+import { IImpactBreadcrumb } from './types';
 import * as S from './units';
 
 export const ImpactPage = () => {
@@ -51,6 +52,16 @@ export const ImpactPage = () => {
         showSnackbar({ message: 'Ссылка скопирована' });
     };
 
+    const [breadcrumbs, setBreadcrumbs] = useState<IImpactBreadcrumb[]>([]);
+
+    useEffect(() => {
+        if (nameParam && cmdbParam) {
+            setBreadcrumbs([
+                { name: nameParam, link: window.location.pathname + window.location.search },
+            ]);
+        }
+    }, []);
+
     return (
         <S.PageWrapper>
             <S.TitleContainer>
@@ -66,7 +77,7 @@ export const ImpactPage = () => {
                     </Button>
                 )}
             </S.TitleContainer>
-            <ImpactSearch />
+            <ImpactSearch setBreadcrumbs={setBreadcrumbs} />
             {notFoundParam && (
                 <S.NotFoundContainer>
                     <NotFoundBlock
@@ -80,21 +91,42 @@ export const ImpactPage = () => {
                 <SearchResults
                     search={searchParam}
                     searchVariant={searchVariantParam as SearchVariants}
+                    setBreadcrumbs={setBreadcrumbs}
                 />
             )}
             {cmdbParam && (
                 <>
                     <S.BreadCrumbsContainer>
                         <Breadcrumbs>
-                            <BreadCrumbsItem
-                                name="Архитектура компании"
-                                index={0}
-                                id={0}
-                                onClick={() => {
-                                    navigate(`${R.MODELS_PATH}${R.IMPACT_PATH}`);
-                                }}
-                            />
-                            <BreadCrumbsItem name="" index={1} id={1} />
+                            {[
+                                <BreadCrumbsItem
+                                    key={0}
+                                    index={0}
+                                    id={0}
+                                    name="Архитектура компании"
+                                    onClick={() => {
+                                        navigate(`${R.MODELS_PATH}${R.IMPACT_PATH}`);
+                                    }}
+                                />,
+                                ...breadcrumbs.map((breadcrumb, i) => (
+                                    <BreadCrumbsItem
+                                        key={i + 1}
+                                        index={i + 1}
+                                        id={i + 1}
+                                        name={breadcrumb.name}
+                                        onClick={() => {
+                                            navigate(breadcrumb.link);
+                                            setBreadcrumbs(breadcrumbs.slice(0, i + 1));
+                                        }}
+                                    />
+                                )),
+                                <BreadCrumbsItem
+                                    name=""
+                                    key={Infinity}
+                                    index={Infinity}
+                                    id={Infinity}
+                                />,
+                            ]}
                         </Breadcrumbs>
                     </S.BreadCrumbsContainer>
                     <S.AppTitleContainer>
@@ -134,8 +166,22 @@ export const ImpactPage = () => {
                         </S.FlexContainer>
 
                         <S.FlexContainer>
-                            {!idParam && <AppTable cmdb={cmdbParam} tabVariant={tabVariant} />}
-                            {idParam && <DeploymentAppTable id={idParam} tabVariant={tabVariant} />}
+                            {!idParam && (
+                                <AppTable
+                                    cmdb={cmdbParam}
+                                    tabVariant={tabVariant}
+                                    breadcrumbs={breadcrumbs}
+                                    setBreadcrumbs={setBreadcrumbs}
+                                />
+                            )}
+                            {idParam && (
+                                <DeploymentAppTable
+                                    id={idParam}
+                                    tabVariant={tabVariant}
+                                    breadcrumbs={breadcrumbs}
+                                    setBreadcrumbs={setBreadcrumbs}
+                                />
+                            )}
                             <E2ETCTable cmdb={cmdbParam} />
                         </S.FlexContainer>
                     </S.GridContainer>
