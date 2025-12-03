@@ -23,6 +23,10 @@ export const TitleContainer = styled.div`
     height: 40px;
 `;
 
+export const BreadCrumbsContainer = styled.div`
+    margin-bottom: -16px;
+`;
+
 export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -37,6 +41,8 @@ export const AppTitleContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    margin-bottom: -16px;
 `;
 
 export const AppTitleIconWrapper = styled.div`

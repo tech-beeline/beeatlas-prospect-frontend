@@ -58,7 +58,7 @@ export const MenuModels = () => {
                         },
                         {
                             icon: Icons.DashboardDots,
-                            name: 'Влияние',
+                            name: 'Архитектура\xa0компании',
                             path: `${R.MODELS_PATH}${R.IMPACT_PATH}`,
                         },
                         {

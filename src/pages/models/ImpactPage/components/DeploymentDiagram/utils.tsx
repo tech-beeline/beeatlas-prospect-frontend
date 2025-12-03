@@ -36,8 +36,6 @@ export const useVizRenderer = (data: string | undefined, elementId: string, show
                 .then((viz) => elem?.replaceChildren(viz.renderSVGElement(data)))
                 .then(() => {
                     const panzoom = Panzoom(elem!, {
-                        bounds: true,
-                        boundsPadding: 1,
                         maxZoom: 5,
                         minZoom: 1,
                         initialZoom: 1,

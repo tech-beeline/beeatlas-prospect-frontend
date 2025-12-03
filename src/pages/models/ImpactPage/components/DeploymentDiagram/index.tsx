@@ -2,32 +2,26 @@ import React, { FC } from 'react';
 import { IconButton, Skeleton, TableBody, TableHead, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import { TooltipContainer } from 'components/interaction';
 import { useGetDeploymentDotGraphQuery } from 'api/queries/graph';
 import { useModal } from 'hooks';
 import { Dialog } from 'widgets/Dialog';
 
+import { TabVariant } from '../../const';
+
 import { IDeploymentDiagram } from './types';
 import * as S from './units';
 import { useVizRenderer } from './utils';
-// import { useStructurizrRenderer } from './utils';
 
-export const DeploymentDiagram: FC<IDeploymentDiagram> = ({
-    id,
-    // cmdb,
-    // deploymentName,
-    // environmentName,
-}) => {
+export const DeploymentDiagram: FC<IDeploymentDiagram> = ({ id, tabVariant }) => {
     const { modalOpened, openModal, closeModal } = useModal();
 
-    // const { data, isLoading } = useGetDeploymentDiagramQuery(cmdb, environmentName, deploymentName);
-
-    const { data, isLoading } = useGetDeploymentDotGraphQuery(id);
+    const { data, isLoading } = useGetDeploymentDotGraphQuery({
+        id,
+        influence: tabVariant === TabVariant.OUT,
+    });
 
     useVizRenderer(data, 'diagram');
     useVizRenderer(data, 'diagram-dialog', modalOpened);
-    // useStructurizrRenderer(data, 'diagram');
-    // useStructurizrRenderer(data, 'diagram-dialog', modalOpened);
 
     return (
         <>
@@ -41,19 +35,6 @@ export const DeploymentDiagram: FC<IDeploymentDiagram> = ({
                                     <S.FlexContainer>
                                         <div>Диаграмма зависимостей</div>
                                         <S.IconsContainer>
-                                            {/* <IconButton
-                                        size="medium"
-                                        iconName={Icons.Copy}
-                                        data-tooltip-id="copy-image"
-                                    />
-                                    <TooltipContainer
-                                        noArrow
-                                        place="top"
-                                        offset={8}
-                                        id="copy-image"
-                                    >
-                                        Копировать изображение
-                                    </TooltipContainer> */}
                                             <IconButton
                                                 size="medium"
                                                 iconName={Icons.Expand}
@@ -84,19 +65,6 @@ export const DeploymentDiagram: FC<IDeploymentDiagram> = ({
                                 <S.FlexContainer>
                                     <div>Диаграмма зависимостей</div>
                                     <S.IconsContainer>
-                                        {/* <IconButton
-                                    size="medium"
-                                    iconName={Icons.Copy}
-                                    data-tooltip-id="copy-image-dialog"
-                                />
-                                <TooltipContainer
-                                    noArrow
-                                    place="top"
-                                    offset={8}
-                                    id="copy-image-dialog"
-                                >
-                                    Копировать изображение
-                                </TooltipContainer> */}
                                         <IconButton
                                             size="medium"
                                             iconName={Icons.Collapse}

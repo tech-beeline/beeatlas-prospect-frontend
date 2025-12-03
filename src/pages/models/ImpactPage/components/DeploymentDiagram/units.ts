@@ -42,9 +42,9 @@ export const DiagramImage = styled.img`
 `;
 
 export const DiagramContainer = styled.div`
-    width: 100%;
     height: 100%;
-    max-height: calc(100vh - 414px);
+    width: 100%;
+    max-height: calc(100vh - 222px);
 
     overflow: hidden;
 

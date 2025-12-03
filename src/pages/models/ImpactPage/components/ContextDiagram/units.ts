@@ -44,7 +44,10 @@ export const DiagramImage = styled.img`
 export const DiagramContainer = styled.div`
     overflow: hidden;
 
-    max-height: calc(100vh - 414px);
+    width: 100%;
+    max-height: calc(100vh - 222px);
+
+    cursor: grab;
 `;
 
 export const Diagram = styled.div`
@@ -57,6 +60,8 @@ export const DiagramDialogContainer = styled.div`
 
     height: calc(100vh - 240px);
     width: calc(100vw - 320px);
+
+    cursor: grab;
 `;
 
 export const DiagramDialog = styled.div`

@@ -1,23 +1,29 @@
-import React, { useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Icon, Search, Skeleton } from '@beeline/design-system-react';
+import { Button, Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
-import { useGetSearchDeploymentsQuery, useGetSearchSystemsQuery } from 'api/queries/graph';
+import { IInfraData } from 'api/product/types';
+import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
 import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import * as R from 'router/const';
+import { getHighlightedText } from 'utils/formatters';
 
-import { SearchVariants, searchVariantToPlaceholderMap } from './const';
+import { SearchVariants } from '../../const';
+
+import { IImpactSearch } from './types';
 import * as S from './units';
 
-export const ImpactSearch = () => {
-    const [searchVariant] = useState(SearchVariants.SERVER);
+export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
+    const [searchVariant, setSearchVariant] = useState<SearchVariants | null>(null);
     const [, setSearchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
+
     const [search, setSearch] = useState('');
     const searchDebounced = useDebounce(search);
 
@@ -28,6 +34,12 @@ export const ImpactSearch = () => {
 
     const handleSystemClick = (system: ISearchSystem) => {
         setSearchParams({ name: system.name, cmdb: system.cmdb });
+        setBreadcrumbs([
+            {
+                name: system.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${system.name}&cmdb=${system.cmdb}`,
+            },
+        ]);
         setSearch(system.name);
         setIsOpen(false);
     };
@@ -38,118 +50,270 @@ export const ImpactSearch = () => {
             name: server.deploymentName,
             cmdb: server.cmdb,
         });
+        setBreadcrumbs([
+            {
+                name: server.deploymentName,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?id=${server.id}&name=${server.deploymentName}&cmdb=${server.cmdb}`,
+            },
+        ]);
         setSearch(server.deploymentName);
         setIsOpen(false);
     };
 
-    const { data: systemsData, isLoading: isLoadingSystemsData } = useGetSearchSystemsQuery({
-        search: searchDebounced,
-        enabled: searchVariant === SearchVariants.SYSTEM,
-    });
+    const handleInfraClick = (infra: IInfraData) => {
+        setSearchParams({
+            name: infra.name,
+            cmdb: infra.parentSystems[0] ?? '',
+        });
+        setBreadcrumbs([
+            {
+                name: infra.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${infra.name}&cmdb=${
+                    infra.parentSystems[0] ?? ''
+                }`,
+            },
+        ]);
+        setSearch(infra.name);
+        setIsOpen(false);
+    };
 
-    const { data: serverData, isLoading: isLoadingServerData } = useGetSearchDeploymentsQuery({
-        search: searchDebounced,
-        enabled: searchVariant === SearchVariants.SERVER,
-    });
+    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(searchDebounced);
+
+    useEffect(() => {
+        if (data) {
+            if (data.products.length > data.servers.graph.length) {
+                setSearchVariant(SearchVariants.PRODUCT);
+            } else {
+                setSearchVariant(SearchVariants.SERVER);
+            }
+        }
+    }, [data]);
+
+    const handleShowAllClick = () => {
+        setSearchParams({ search: search, searchVariant: searchVariant ?? '' });
+        setIsOpen(false);
+    };
 
     const handleEnterButtonClick = () => {
-        if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
-            handleSystemClick(systemsData[0]);
-        } else if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
-            handleServerClick(serverData[0]);
-        } else {
-            setSearchParams({ notFound: 'true' });
-            setIsOpen(false);
-        }
+        // if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
+        //     handleSystemClick(systemsData[0]);
+        // } else if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
+        //     handleServerClick(serverData[0]);
+        // } else {
+        //     setSearchParams({ notFound: 'true' });
+        //     setIsOpen(false);
+        // }
     };
 
     return (
         <S.Container>
-            <Search
-                fullWidth
-                ref={searchRef}
-                placeholder={searchVariantToPlaceholderMap[searchVariant]}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onFocus={() => setIsOpen(true)}
-                onClick={() => setIsOpen(true)}
-                onClear={() => setSearch('')}
-                onSearch={handleEnterButtonClick}
-            />
+            <S.SearchContainer>
+                <Search
+                    fullWidth
+                    ref={searchRef}
+                    placeholder="Имя/мнемоника приложения CMDB, мнемоника экземплара CMDB, имя сервиса, endpoint или сервера"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onFocus={() => setIsOpen(true)}
+                    onClick={() => setIsOpen(true)}
+                    onClear={() => setSearch('')}
+                    onSearch={handleEnterButtonClick}
+                />
+                <Button
+                    variant="plain"
+                    disabled={!search}
+                    size="medium"
+                    onClick={() => setSearch('')}
+                >
+                    Сбросить
+                </Button>
+            </S.SearchContainer>
             {isOpen && (
                 <S.Dropdown ref={dropdownRef}>
-                    {/* <Text variant="overline">Выбери категорию, в которой будем искать</Text>
+                    <Text inactive variant="subtitle3">
+                        Категории
+                    </Text>
                     <S.ChipsContainer>
-                        {CHIPS.map((chip) => (
-                            <Chip
-                                key={chip.value}
-                                label={chip.label}
-                                active={searchVariant === chip.value}
-                                onClick={() => setSearchVariant(chip.value)}
-                            />
-                        ))}
-                    </S.ChipsContainer> */}
-                    {searchVariant === SearchVariants.SYSTEM && (
-                        <>
-                            {isLoadingSystemsData && (
-                                <S.SkeletonContainer>
-                                    <Skeleton radius={12} height={40} />
-                                    <Skeleton radius={12} height={40} />
-                                </S.SkeletonContainer>
-                            )}
-                            {systemsData && (
-                                <S.CardsContainer>
-                                    {systemsData.map((system) => (
-                                        <S.SearchCard
-                                            key={system.cmdb}
-                                            onClick={() => handleSystemClick(system)}
-                                        >
-                                            <Icon iconName={Icons.Search} size="large" />
-                                            <Text variant="body2">{system.name}</Text>
-                                        </S.SearchCard>
-                                    ))}
-                                </S.CardsContainer>
-                            )}
-                            {systemsData && systemsData.length === 0 && (
-                                <NotFoundBlock
-                                    setMinSize={false}
-                                    smallImage
-                                    imageVariant={ImageVariants.SEARCH}
-                                    title="Нет результатов, подходящих под параметры поиска"
-                                    text="Попробуйте изменить запрос"
-                                />
-                            )}
-                        </>
+                        <Chip
+                            label={`Приложение${
+                                data?.products ? ` (${data.products.length})` : ''
+                            }`}
+                            active={searchVariant === SearchVariants.PRODUCT}
+                            onClick={() => setSearchVariant(SearchVariants.PRODUCT)}
+                        />
+                        <Chip
+                            label={`Сервер${
+                                data?.servers
+                                    ? ` (${data.servers.graph.length + data.servers.cmdb.length})`
+                                    : ''
+                            }`}
+                            active={searchVariant === SearchVariants.SERVER}
+                            onClick={() => setSearchVariant(SearchVariants.SERVER)}
+                        />
+                    </S.ChipsContainer>
+                    {isLoading && (
+                        <S.SkeletonContainer>
+                            {Array.from({ length: 2 }).map((_, i) => (
+                                <Skeleton key={i} radius={12} height={40} />
+                            ))}
+                        </S.SkeletonContainer>
                     )}
-                    {searchVariant === SearchVariants.SERVER && (
+                    {data && (
                         <>
-                            {isLoadingServerData && (
-                                <S.SkeletonContainer>
-                                    <Skeleton radius={12} height={40} />
-                                    <Skeleton radius={12} height={40} />
-                                </S.SkeletonContainer>
+                            {searchVariant === SearchVariants.PRODUCT && (
+                                <>
+                                    {data.products && (
+                                        <S.CardsContainer>
+                                            {data.products.slice(0, 7).map((system) => (
+                                                <S.SearchCard
+                                                    key={system.cmdb}
+                                                    onClick={() => handleSystemClick(system)}
+                                                >
+                                                    <Icon iconName={Icons.Search} size="large" />
+                                                    <S.SearchCardTextContainer>
+                                                        <Text inactive variant="overline">
+                                                            КОНТЕКСТНАЯ ДИАГРАММА
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            {getHighlightedText(
+                                                                system.name,
+                                                                search,
+                                                            )}
+                                                        </Text>
+                                                        <Text inactive variant="body3">
+                                                            Имя элемента/Продукт элемента
+                                                        </Text>
+                                                    </S.SearchCardTextContainer>
+                                                </S.SearchCard>
+                                            ))}
+                                            {data.products.length > 7 && (
+                                                <S.ButtonContainer>
+                                                    <Button
+                                                        variant="plain"
+                                                        size="medium"
+                                                        onClick={handleShowAllClick}
+                                                    >
+                                                        Посмотреть все результаты
+                                                    </Button>
+                                                </S.ButtonContainer>
+                                            )}
+                                        </S.CardsContainer>
+                                    )}
+                                    {data.products.length === 0 && (
+                                        <NotFoundBlock
+                                            setMinSize={false}
+                                            smallImage
+                                            imageVariant={ImageVariants.SEARCH}
+                                            title="Нет результатов, подходящих под параметры поиска"
+                                            text="Попробуйте изменить запрос"
+                                        />
+                                    )}
+                                </>
                             )}
-                            {serverData && (
-                                <S.CardsContainer>
-                                    {serverData.map((server) => (
-                                        <S.SearchCard
-                                            key={server.cmdb}
-                                            onClick={() => handleServerClick(server)}
-                                        >
-                                            <Icon iconName={Icons.Search} size="large" />
-                                            <Text variant="body2">{server.deploymentName}</Text>
-                                        </S.SearchCard>
-                                    ))}
-                                </S.CardsContainer>
-                            )}
-                            {serverData && serverData.length === 0 && (
-                                <NotFoundBlock
-                                    setMinSize={false}
-                                    smallImage
-                                    imageVariant={ImageVariants.SEARCH}
-                                    title="Нет результатов, подходящих под параметры поиска"
-                                    text="Попробуйте изменить запрос"
-                                />
+                            {searchVariant === SearchVariants.SERVER && (
+                                <>
+                                    {data.servers && (
+                                        <S.CardsContainer>
+                                            {data.servers.graph.length > 0 && (
+                                                <S.SubtitleContainer>
+                                                    <Text inactive variant="subtitle3">
+                                                        Graph
+                                                    </Text>
+                                                </S.SubtitleContainer>
+                                            )}
+                                            {data.servers.graph.slice(0, 7).map((server) => (
+                                                <S.SearchCard
+                                                    key={server.cmdb}
+                                                    onClick={() => handleServerClick(server)}
+                                                >
+                                                    <Icon iconName={Icons.Search} size="large" />
+                                                    <S.SearchCardTextContainer>
+                                                        <Text inactive variant="overline">
+                                                            ДЕПЛОЙМЕНТ ДИАГРАММА
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            {getHighlightedText(
+                                                                server.deploymentName,
+                                                                search,
+                                                            )}
+                                                        </Text>
+                                                        <Text inactive variant="body3">
+                                                            IP/Host сервера/Имя элемента/Продукт
+                                                            элемента
+                                                        </Text>
+                                                    </S.SearchCardTextContainer>
+                                                </S.SearchCard>
+                                            ))}
+                                            {data.servers.graph.length < 7 && (
+                                                <>
+                                                    {data.servers.cmdb.length > 0 && (
+                                                        <S.SubtitleContainer>
+                                                            <Text inactive variant="subtitle3">
+                                                                Cmdb
+                                                            </Text>
+                                                        </S.SubtitleContainer>
+                                                    )}
+                                                    {data.servers.cmdb
+                                                        .slice(0, 7 - data.servers.graph.length)
+                                                        .map((server) => (
+                                                            <S.SearchCard
+                                                                key={server.name}
+                                                                onClick={() =>
+                                                                    handleInfraClick(server)
+                                                                }
+                                                            >
+                                                                <Icon
+                                                                    iconName={Icons.Search}
+                                                                    size="large"
+                                                                />
+                                                                <S.SearchCardTextContainer>
+                                                                    <Text
+                                                                        inactive
+                                                                        variant="overline"
+                                                                    >
+                                                                        КОНТЕКСТНАЯ ДИАГРАММА
+                                                                        ВЛАДЕЛЬЦА{' '}
+                                                                        {server.parentSystems[0]}
+                                                                    </Text>
+                                                                    <Text variant="body2">
+                                                                        {getHighlightedText(
+                                                                            server.name,
+                                                                            search,
+                                                                        )}
+                                                                    </Text>
+                                                                    <Text inactive variant="body3">
+                                                                        IP/Host сервера/Имя
+                                                                        элемента/Продукт элемента
+                                                                    </Text>
+                                                                </S.SearchCardTextContainer>
+                                                            </S.SearchCard>
+                                                        ))}
+                                                </>
+                                            )}
+                                            {data.servers.graph.length + data.servers.cmdb.length >
+                                                7 && (
+                                                <S.ButtonContainer>
+                                                    <Button
+                                                        variant="plain"
+                                                        size="medium"
+                                                        onClick={handleShowAllClick}
+                                                    >
+                                                        Посмотреть все результаты
+                                                    </Button>
+                                                </S.ButtonContainer>
+                                            )}
+                                        </S.CardsContainer>
+                                    )}
+                                    {data.servers.graph.length + data.servers.cmdb.length === 0 && (
+                                        <NotFoundBlock
+                                            setMinSize={false}
+                                            smallImage
+                                            imageVariant={ImageVariants.SEARCH}
+                                            title="Нет результатов, подходящих под параметры поиска"
+                                            text="Попробуйте изменить запрос"
+                                        />
+                                    )}
+                                </>
                             )}
                         </>
                     )}

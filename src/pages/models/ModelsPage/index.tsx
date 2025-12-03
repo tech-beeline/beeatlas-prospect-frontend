@@ -69,7 +69,7 @@ export const ModelsPage = () => {
 
                     <S.CardStyled
                         variant={CardVariant.ERROR}
-                        title="Влияние"
+                        title="Архитектура компании"
                         to={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
                     >
                         Инструмент для оценки влияния сбойных элементов (приложений, экземпляров,

@@ -100,12 +100,6 @@ export const postStructurizrWorkspace = (data: T.IStructurizrWorkspaceForm) => {
     });
 };
 
-export const getSystemInfluence = (cmdb: string): AxiosPromise<T.ISystemInfluence> => {
-    return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/influence`,
-    });
-};
-
 export const getDeploymentInfluence = (cmdb: string): AxiosPromise<T.ISystemInfluence> => {
     return Api.get({
         url: `${GATEWAY_PRODUCT_URL}v1/product/deployment/${cmdb}/influence`,
@@ -121,5 +115,17 @@ export const getSystemE2E = (cmdb: string): AxiosPromise<T.ISystemE2E[]> => {
 export const getSystemTC = (id: string | number): AxiosPromise<T.ISystemTC> => {
     return Api.get({
         url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/product/${id}`,
+    });
+};
+
+export const getSystemInfrastrucutre = (search: string): AxiosPromise<T.IInfraData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/infra/contains?name=${search}`,
+    });
+};
+
+export const getSystemInfrastrucutreByIp = (search: string): AxiosPromise<T.IInfraData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/infra/search?parameter="vimIp"&value=${search}`,
     });
 };
