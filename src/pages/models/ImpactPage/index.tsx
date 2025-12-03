@@ -108,18 +108,20 @@ export const ImpactPage = () => {
                                         navigate(`${R.MODELS_PATH}${R.IMPACT_PATH}`);
                                     }}
                                 />,
-                                ...breadcrumbs.map((breadcrumb, i) => (
-                                    <BreadCrumbsItem
-                                        key={i + 1}
-                                        index={i + 1}
-                                        id={i + 1}
-                                        name={breadcrumb.name}
-                                        onClick={() => {
-                                            navigate(breadcrumb.link);
-                                            setBreadcrumbs(breadcrumbs.slice(0, i + 1));
-                                        }}
-                                    />
-                                )),
+                                ...breadcrumbs
+                                    .slice(0, breadcrumbs.length - 1)
+                                    .map((breadcrumb, i) => (
+                                        <BreadCrumbsItem
+                                            key={i + 1}
+                                            index={i + 1}
+                                            id={i + 1}
+                                            name={breadcrumb.name}
+                                            onClick={() => {
+                                                navigate(breadcrumb.link);
+                                                setBreadcrumbs(breadcrumbs.slice(0, i + 1));
+                                            }}
+                                        />
+                                    )),
                                 <BreadCrumbsItem
                                     name=""
                                     key={Infinity}

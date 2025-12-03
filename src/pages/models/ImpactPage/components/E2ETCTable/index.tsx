@@ -9,6 +9,7 @@ import {
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
+import { uniqBy } from 'lodash';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
@@ -26,7 +27,9 @@ export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
 
     const isLoading = isLoadingE2EData || isLoadingTCData;
 
-    const tcDataJoined = tcData ? [...tcData.responsibility, ...tcData.implemented] : [];
+    const tcDataJoined = tcData
+        ? uniqBy([...tcData.responsibility, ...tcData.implemented], 'id')
+        : [];
     return (
         <>
             {isLoading && <Skeleton height={50} radius={12} />}
