@@ -10,7 +10,6 @@ import {
     getProductStructurizrContainerByCmdb,
     getProductStructurizrInterfacesByCmdb,
     getSystemE2E,
-    getSystemInfluence,
     getSystemTC,
     getUserProducts,
     getUserProductsKeyById,
@@ -113,18 +112,6 @@ export const useCreateStructurizrWorkspaceMutation = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
         },
-    });
-};
-
-interface IGetSystemInfluenceParams {
-    cmdb: string;
-    enabled: boolean;
-}
-export const useGetSystemInfluenceQuery = (params: IGetSystemInfluenceParams) => {
-    return useQuery({
-        queryKey: [PRODUCT_PREFIX, 'system', 'influence', params.cmdb],
-        queryFn: () => getSystemInfluence(params.cmdb).then((res) => res.data),
-        enabled: params.enabled,
     });
 };
 

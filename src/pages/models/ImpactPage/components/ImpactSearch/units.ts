@@ -4,14 +4,22 @@ export const Container = styled.div`
     position: relative;
 `;
 
+export const SearchContainer = styled.div`
+    display: flex;
+    gap: 24px;
+`;
+
 export const Dropdown = styled.div`
     position: absolute;
     top: 48px;
     left: 0px;
 
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
-    max-height: 600px;
+    width: calc(100% - 140px);
+
     padding: 24px;
 
     overflow-y: auto;
@@ -28,15 +36,14 @@ export const Dropdown = styled.div`
 export const ChipsContainer = styled.div`
     display: flex;
     gap: 8px;
-
-    margin-top: 16px;
-    margin-bottom: 24px;
 `;
 
 export const SkeletonContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    margin-top: 8px;
 `;
 
 export const CardsContainer = styled.div`
@@ -58,4 +65,21 @@ export const SearchCard = styled.div`
     &:hover {
         background-color: var(--color-background-base-hover);
     }
+`;
+
+export const SearchCardTextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+
+    margin-top: 12px;
+`;
+
+export const SubtitleContainer = styled.div`
+    padding-left: 16px;
+    padding-bottom: 12px;
 `;

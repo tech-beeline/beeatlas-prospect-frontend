@@ -8,6 +8,7 @@ import { SideblockView } from '../../../../const';
 
 import { IFilterElement } from './types';
 import * as S from './units';
+import { getIdsRecursively } from './utils';
 
 export const FilterElement: FC<IFilterElement> = ({
     parentId,
@@ -38,7 +39,9 @@ export const FilterElement: FC<IFilterElement> = ({
                     </S.IconButtonContainer>
                     <Checkbox
                         checked={isChecked}
-                        onChange={(e) => onSelect(filterElement.id, e.target.checked)}
+                        onChange={(e) =>
+                            onSelect(getIdsRecursively(filterElement), e.target.checked)
+                        }
                     />
                     <Text variant="body3">{filterElement.name}</Text>
                 </S.TitleContainer>

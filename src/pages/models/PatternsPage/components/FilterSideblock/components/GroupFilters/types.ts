@@ -7,4 +7,5 @@ export interface IGroupFilters {
     setGroupToEdit: (group: IPatternGroupToEdit) => void;
     onClose: () => void;
     onGroupsChange: (groupIds: number[]) => void;
+    selectedGroups: number[];
 }

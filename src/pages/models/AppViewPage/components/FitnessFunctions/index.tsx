@@ -43,12 +43,14 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.fitnessFunctions.map((fitnessFunction) => (
-                            <FitnessFunctionRow
-                                fitnessFunction={fitnessFunction}
-                                key={fitnessFunction.id}
-                            />
-                        ))}
+                        {data.fitnessFunctions
+                            .sort((a, b) => a.code.localeCompare(b.code))
+                            .map((fitnessFunction) => (
+                                <FitnessFunctionRow
+                                    fitnessFunction={fitnessFunction}
+                                    key={fitnessFunction.id}
+                                />
+                            ))}
                     </TableBody>
                 </Table>
             )}

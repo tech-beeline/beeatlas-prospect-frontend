@@ -45,58 +45,64 @@ export const DocumentationForm: FC<IDocumentationForm> = ({
 
     return (
         <S.FormStyled onSubmit={onSubmit}>
-            <S.Container>
-                <S.FileContainer>
-                    <Text variant="subtitle1">Вложенный файл</Text>
+            <S.OverflowContainer>
+                <S.Container>
+                    <S.FileContainer>
+                        <Text variant="subtitle1">Добавить файл</Text>
 
-                    {!savedData.documentationFile && (
                         <FileUploader
                             hideFileList
                             accept=".md"
                             subTitle="markdown до 100 мб"
-                            onChange={(event) =>
+                            onChange={(event) => {
                                 setSavedData({
                                     ...savedData,
                                     documentationFile: Array.from(event.target.files ?? [])[0],
-                                })
-                            }
+                                });
+                                event.target.value = '';
+                            }}
                         />
-                    )}
 
-                    {savedData.documentationFile && fileText && (
-                        <>
-                            <S.MarkdownFileContainer>
-                                <Markdown
-                                    components={{ a: MarkdownLinkRenderer }}
-                                    urlTransform={(v) => v}
-                                    remarkPlugins={[remarkGfm]}
-                                >
-                                    {fileText}
-                                </Markdown>
-                            </S.MarkdownFileContainer>
+                        {savedData.documentationFile && fileText && (
+                            <>
+                                <S.MarkdownFileContainer>
+                                    <Markdown
+                                        components={{ a: MarkdownLinkRenderer }}
+                                        urlTransform={(v) => v}
+                                        remarkPlugins={[remarkGfm]}
+                                    >
+                                        {fileText}
+                                    </Markdown>
+                                </S.MarkdownFileContainer>
 
-                            <S.FileNameContainer>
-                                <S.FileMetadataContainer>
-                                    <Text variant="body3">{savedData.documentationFile.name}</Text>
-                                    <Text inactive variant="caption">
-                                        {formatSize(savedData.documentationFile.size)}{' '}
-                                        {dayjs(savedData.documentationFile.lastModified)
-                                            .local()
-                                            .format('DD.MM.YYYY, HH:mm')}
-                                    </Text>
-                                </S.FileMetadataContainer>
-                                <IconButton
-                                    iconName={Icons.Delete}
-                                    size="medium"
-                                    onClick={() =>
-                                        setSavedData({ ...savedData, documentationFile: undefined })
-                                    }
-                                />
-                            </S.FileNameContainer>
-                        </>
-                    )}
-                </S.FileContainer>
-            </S.Container>
+                                <S.FileNameContainer>
+                                    <S.FileMetadataContainer>
+                                        <Text variant="body3">
+                                            {savedData.documentationFile.name}
+                                        </Text>
+                                        <Text inactive variant="caption">
+                                            {formatSize(savedData.documentationFile.size)}{' '}
+                                            {dayjs(savedData.documentationFile.lastModified)
+                                                .local()
+                                                .format('DD.MM.YYYY, HH:mm')}
+                                        </Text>
+                                    </S.FileMetadataContainer>
+                                    <IconButton
+                                        iconName={Icons.Delete}
+                                        size="medium"
+                                        onClick={() =>
+                                            setSavedData({
+                                                ...savedData,
+                                                documentationFile: undefined,
+                                            })
+                                        }
+                                    />
+                                </S.FileNameContainer>
+                            </>
+                        )}
+                    </S.FileContainer>
+                </S.Container>
+            </S.OverflowContainer>
 
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.GENERAL_INFO)}

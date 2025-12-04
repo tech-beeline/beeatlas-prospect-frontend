@@ -1,4 +1,9 @@
+import { TabVariant } from '../../const';
+import { IImpactBreadcrumb } from '../../types';
+
 export interface IAppTable {
     cmdb: string;
-    deploymentName: string | null;
+    tabVariant: TabVariant;
+    breadcrumbs: IImpactBreadcrumb[];
+    setBreadcrumbs: (breadcrumbs: IImpactBreadcrumb[]) => void;
 }

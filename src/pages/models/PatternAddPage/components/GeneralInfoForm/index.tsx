@@ -88,7 +88,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                             <MultiSelect
                                 fullWidth
                                 name="group"
-                                label="Категория"
+                                label="Категории*"
                                 options={groupsOptions}
                                 disabled={isLoadingGroups}
                             />
@@ -98,7 +98,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                                 fullWidth
                                 filter
                                 name="tech"
-                                label="Технология"
+                                label="Технологии"
                                 options={technologiesOptions}
                                 disabled={isLoadingTech}
                                 makeOption={(option): JSX.Element => (
@@ -117,7 +117,7 @@ export const GeneralInfoForm: FC<IGeneralInfoForm> = ({
                         </S.SelectContainer>
                     </S.SelectGroup>
                 </S.Container>
-                <FormFooter cancelButtonDisabled submitButtonText="Далее" />
+                <FormFooter showCancelButton={false} submitButtonText="Далее" />
             </S.FormStyled>
         </FormProvider>
     );

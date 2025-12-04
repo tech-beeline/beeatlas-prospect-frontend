@@ -23,6 +23,30 @@ export const getSystemDiagramGraph = (cmdb: string): AxiosPromise<unknown> => {
     });
 };
 
+export const getContextDotGraph = (cmdb: string): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/context/dot?cmdb=${cmdb}`,
+    });
+};
+
+export const getContextInfluenceDotGraph = (cmdb: string): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/context/influence/dot?cmdb=${cmdb}`,
+    });
+};
+
+export const getContextElements = (cmdb: string): AxiosPromise<T.IContextElement[]> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/context/elements?cmdb=${cmdb}`,
+    });
+};
+
+export const getContextInfluenceElements = (cmdb: string): AxiosPromise<T.IContextElement[]> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/context/influence/elements?cmdb=${cmdb}`,
+    });
+};
+
 export const getDeploymentDiagramGraph = (
     cmdb: string,
     env: string,
@@ -39,10 +63,24 @@ export const getDeploymentDotGraph = (id: string | number): AxiosPromise<string>
     });
 };
 
-export const getDeploymentInfluenceById = (
+export const getDeploymentInfluenceDotGraph = (id: string | number): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/influence/dot?id=${id}`,
+    });
+};
+
+export const getDeploymentElementsById = (
     id: string | number,
 ): AxiosPromise<T.IDependentSystem[]> => {
     return Api.get({
         url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/elements?id=${id}`,
+    });
+};
+
+export const getDeploymentInfluenceElementsById = (
+    id: string | number,
+): AxiosPromise<T.IDependentSystem[]> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/influence/elements?id=${id}`,
     });
 };

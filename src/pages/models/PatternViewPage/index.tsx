@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Chip, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
+import { Button, Chip, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { MarkdownLinkRenderer, ringIdToLabelStatusMap } from 'features/technologies';
 import remarkGfm from 'remark-gfm';
@@ -9,16 +9,21 @@ import remarkGfm from 'remark-gfm';
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetPatternByIdQuery, useGetPatternFileByIdQuery } from 'api/queries/patterns';
-// import { useModal } from 'hooks';
+import {
+    useDeletePatternMutation,
+    useGetPatternByIdQuery,
+    useGetPatternFileByIdQuery,
+} from 'api/queries/patterns';
+import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
-// import { Dialog } from 'widgets/Dialog';
-// import { useSnackbarStore } from 'widgets/Snackbar';
+import { IPatternViewPage } from './types';
 import * as S from './units';
 
-export const PatternViewPage = () => {
+export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
@@ -28,8 +33,8 @@ export const PatternViewPage = () => {
     const [isRuleExpanded, setIsRuleExpanded] = useState(false);
     const [isDslExpanded, setIsDslExpanded] = useState(false);
 
-    // const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    // const { modalOpened, openModal, closeModal } = useModal();
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const { modalOpened, openModal, closeModal } = useModal();
 
     const navigate = useNavigate();
 
@@ -41,6 +46,8 @@ export const PatternViewPage = () => {
     const { data: fileData, isLoading: isLoadingFileData } = useGetPatternFileByIdQuery(paramId);
 
     const isLoading = isLoadingFileData || isLoadingPattern;
+
+    const { mutate: deletePattern, isPending: isDeletingPattern } = useDeletePatternMutation();
 
     // const [isSubscribed, setIsSubcribe] = useState(false);
 
@@ -70,6 +77,22 @@ export const PatternViewPage = () => {
         }
     };*/
 
+    const handleEditClick = () => {
+        navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}?id=${paramId}`);
+    };
+
+    const handleDeleteConfirmClick = async () => {
+        if (paramId) {
+            await deletePattern(paramId);
+
+            navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}`);
+
+            showSnackbar({
+                message: 'Паттерн удален',
+            });
+        }
+    };
+
     return (
         <S.PageWrapper>
             <S.Container>
@@ -83,14 +106,25 @@ export const PatternViewPage = () => {
                     <S.SpaceBetweenContainer>
                         {isLoadingPattern && <Skeleton height={32} width={100} radius={4} />}
                         {patternData && (
-                            <S.TitleContainer>
-                                <Text variant="h4">{patternData.name}</Text>
-                                <Label
-                                    title={patternData.isAntiPattern ? 'Антипаттерн' : 'Паттерн'}
-                                    variant="contained"
-                                    type={patternData.isAntiPattern ? 'error' : 'success'}
-                                />
-                            </S.TitleContainer>
+                            <>
+                                <div>
+                                    <S.TitleContainer>
+                                        <Text variant="h4">{patternData.name}</Text>
+                                        <Label
+                                            title={
+                                                patternData.isAntiPattern
+                                                    ? 'Антипаттерн'
+                                                    : 'Паттерн'
+                                            }
+                                            variant="contained"
+                                            type={patternData.isAntiPattern ? 'error' : 'success'}
+                                        />
+                                    </S.TitleContainer>
+                                    <Text inactive variant="body3">
+                                        {patternData.code}
+                                    </Text>
+                                </div>
+                            </>
                         )}
                         <S.ButtonsContainer>
                             {/* {fileData && (
@@ -116,8 +150,25 @@ export const PatternViewPage = () => {
                             >
                                 {isSubscribed ? 'Отписаться' : 'Подписаться'}
                             </Button> */}
+                            {isAdmin && (
+                                <>
+                                    <Button
+                                        startIcon={<Icon iconName={Icons.Edit} />}
+                                        onClick={handleEditClick}
+                                    >
+                                        Редактировать
+                                    </Button>
+                                    <Button
+                                        startIcon={<Icon iconName={Icons.Delete} />}
+                                        onClick={openModal}
+                                    >
+                                        Удалить
+                                    </Button>
+                                </>
+                            )}
                         </S.ButtonsContainer>
                     </S.SpaceBetweenContainer>
+
                     {(isLoading || (patternData && patternData.groups.length !== 0)) && (
                         <S.LabelsContainer>
                             {isLoading &&
@@ -282,23 +333,27 @@ export const PatternViewPage = () => {
                                     </>
                                 )}
                             </S.ExpandableContainer> */}
-                            <S.ExpandableContainer>
-                                <S.SpaceBetweenContainer>
-                                    <Text variant="h6">Правила идентификации</Text>
-                                    <IconButton
-                                        iconName={
-                                            isRuleExpanded ? Icons.NavArrowUp : Icons.NavArrowDown
-                                        }
-                                        onClick={() => setIsRuleExpanded(!isRuleExpanded)}
-                                        size="large"
-                                    />
-                                </S.SpaceBetweenContainer>
-                                {isRuleExpanded && (
-                                    <S.TextWrap>
-                                        {formatNullableString(patternData.rule)}
-                                    </S.TextWrap>
-                                )}
-                            </S.ExpandableContainer>
+                            {isAdmin && (
+                                <S.ExpandableContainer>
+                                    <S.SpaceBetweenContainer>
+                                        <Text variant="h6">Правила идентификации</Text>
+                                        <IconButton
+                                            iconName={
+                                                isRuleExpanded
+                                                    ? Icons.NavArrowUp
+                                                    : Icons.NavArrowDown
+                                            }
+                                            onClick={() => setIsRuleExpanded(!isRuleExpanded)}
+                                            size="large"
+                                        />
+                                    </S.SpaceBetweenContainer>
+                                    {isRuleExpanded && (
+                                        <S.TextWrap>
+                                            {formatNullableString(patternData.rule)}
+                                        </S.TextWrap>
+                                    )}
+                                </S.ExpandableContainer>
+                            )}
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
                                     <Text variant="h6">Описание архитектуры в structurizr dsl</Text>
@@ -316,14 +371,16 @@ export const PatternViewPage = () => {
                     </S.GridContainer>
                 )}
             </S.Container>
-            {/* <Dialog
+            <Dialog
                 opened={modalOpened}
                 onClose={closeModal}
-                onConfirm={handleUnsubscribeButtonClick}
-                title="Отписаться от технологии?"
+                onConfirm={handleDeleteConfirmClick}
+                isPending={isDeletingPattern}
+                title="Удалить паттерн?"
+                confirmText="Удалить"
             >
-                Вы отписываетесь от <S.BoldSpan>{patternData?.name}</S.BoldSpan>
-            </Dialog> */}
+                Паттерн <S.BoldSpan>{patternData?.name}</S.BoldSpan> будет удален
+            </Dialog>
         </S.PageWrapper>
     );
 };

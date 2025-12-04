@@ -174,9 +174,9 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                 {!isLoading && filteredData && filteredData.length === 0 && (
                     <S.NotFoundContainer>
                         <NotFoundBlock
-                            title="По заданным фильтрам ничего не найдено"
+                            title="Нет результатов, подходящих под параметры поиска"
                             text="Попробуйте изменить запрос"
-                            imageVariant={ImageVariants.EMPTY_BOX}
+                            imageVariant={ImageVariants.SEARCH}
                         />
                     </S.NotFoundContainer>
                 )}
@@ -205,6 +205,7 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
                     isAdmin={isAdmin}
                     onClose={closeModal}
                     onGroupsChange={setSelectedGroups}
+                    selectedGroups={selectedGroups}
                 />
             )}
 

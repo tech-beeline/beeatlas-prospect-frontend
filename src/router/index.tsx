@@ -504,7 +504,7 @@ export const NavigationRouter = () => {
                         <S.RouteWithDrawer>
                             <MenuModels />
                             <S.ContentWrapper>
-                                <PatternViewPage />
+                                <PatternViewPage isAdmin={isAdmin} />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }
