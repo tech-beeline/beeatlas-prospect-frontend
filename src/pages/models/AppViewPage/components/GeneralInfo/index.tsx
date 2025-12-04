@@ -1,14 +1,18 @@
 import React, { FC, useState } from 'react';
+import {
+    Button,
+    Icon,
+    Progress,
+    TableBody,
+    TableData,
+    TableHead,
+    TableHeaderData,
+    TableRow,
+} from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-// import {
-//     Table,
-//     TableBody,
-//     TableData,
-//     TableHead,
-//     TableHeaderData,
-//     TableRow,
-// } from '@beeline/design-system-react';
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Link, NotFoundBlock } from 'components/other';
 
 import { useGetUserProductsKeyById } from 'api/queries/product';
@@ -16,7 +20,12 @@ import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
 import { formatNullableString } from 'utils/formatters';
 
-import { BlurButton, CopyButton, CreateStructurizrWorkspaceSideblock } from './components';
+import {
+    BlurButton,
+    CopyButton,
+    CreateStructurizrWorkspaceSideblock,
+    UpdateArchitectureSideblock,
+} from './components';
 import { keyToCriticalMap } from './const';
 import { IGeneralInfo } from './types';
 import * as S from './units';
@@ -27,19 +36,10 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
     structurizrApiUrl,
     cmdb,
 }) => {
-    const { data: userInfoData } = useGetUserInfoQuery();
     const [blurState, setBlurState] = useState({
         apiKey: true,
         apiSecret: true,
     });
-    const { openModal, closeModal, modalOpened } = useModal();
-    const canGetKeys = (userInfoData?.productsIds ?? []).includes(productId);
-    const isAdministrator = userInfoData?.roles?.includes('ADMINISTRATOR');
-
-    const { data: keysData } = useGetUserProductsKeyById(productId, {
-        enabled: canGetKeys,
-    });
-
     const toggleBlur = (key: keyof typeof blurState) => {
         setBlurState((prev) => ({
             ...prev,
@@ -47,7 +47,23 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
         }));
     };
 
+    const { data: userInfoData } = useGetUserInfoQuery();
+
+    const canGetKeys = (userInfoData?.productsIds ?? []).includes(productId);
+    const isAdministrator = userInfoData?.roles?.includes('ADMINISTRATOR');
+
+    const { data: keysData } = useGetUserProductsKeyById(productId, {
+        enabled: canGetKeys,
+    });
+
     const hasKeyData = keysData?.structurizrApiKey && keysData?.structurizrApiSecret;
+
+    const { openModal, closeModal, modalOpened } = useModal();
+    const {
+        openModal: openArchitectureModal,
+        closeModal: closeArchitectureModal,
+        modalOpened: isArchitectureModalOpened,
+    } = useModal();
 
     return (
         <S.Container>
@@ -71,43 +87,6 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         }`,
                 )}
             </Text>
-            <Text inactive variant="body2">
-                Structurizr URL
-            </Text>
-            <Text variant="body2">
-                <S.LinkContainer>
-                    <Link
-                        title={formatNullableString(productData?.structurizrApiUrl)}
-                        url={productData?.structurizrApiUrl}
-                    />
-                    {structurizrApiUrl && structurizrApiUrl !== '' && (
-                        <CopyButton
-                            text={formatNullableString(productData?.structurizrApiUrl)}
-                            message="Ссылка скопирована"
-                        />
-                    )}
-                </S.LinkContainer>
-            </Text>
-            {cmdb &&
-                (structurizrApiUrl === null || structurizrApiUrl === '') &&
-                !hasKeyData &&
-                (isAdministrator || canGetKeys) && (
-                    <>
-                        <S.NotFoundContainer>
-                            <NotFoundBlock
-                                title="Чтобы получить доступ ко всем данным приложения, создайте рабочее пространство"
-                                text="Данные будут перенесены из Structurizr"
-                                buttonText="Создать"
-                                buttonProps={{ onClick: openModal }}
-                            />
-                        </S.NotFoundContainer>
-                        <CreateStructurizrWorkspaceSideblock
-                            isOpen={modalOpened}
-                            onClose={closeModal}
-                            cmdb={cmdb}
-                        />
-                    </>
-                )}
             {canGetKeys && hasKeyData && (
                 <>
                     <Text inactive variant="body2">
@@ -148,6 +127,156 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                     </Text>
                 </>
             )}
+            {structurizrApiUrl && structurizrApiUrl !== '' ? (
+                <S.StructurizrTitle>
+                    <Text inactive variant="body2">
+                        Structurizr URL
+                    </Text>
+                </S.StructurizrTitle>
+            ) : (
+                <Text inactive variant="body2">
+                    Structurizr URL
+                </Text>
+            )}
+            {structurizrApiUrl && structurizrApiUrl !== '' ? (
+                <S.StructurizrContainer>
+                    <S.StructurizrTitleContainer>
+                        <Text variant="body2">
+                            <S.LinkContainer>
+                                <Link
+                                    title={formatNullableString(productData?.structurizrApiUrl)}
+                                    url={productData?.structurizrApiUrl}
+                                />
+                                <CopyButton
+                                    text={formatNullableString(productData?.structurizrApiUrl)}
+                                    message="Ссылка скопирована"
+                                />
+                            </S.LinkContainer>
+                        </Text>
+                        <Button
+                            disabled
+                            data-tooltip-id="refresh"
+                            variant="outlined"
+                            startIcon={<Icon iconName={Icons.Refresh} />}
+                        />
+                        <TooltipContainer id="refresh" offset={8} place="top" noArrow>
+                            Обновить
+                        </TooltipContainer>
+                        <Button
+                            data-tooltip-id="upload"
+                            variant="outlined"
+                            startIcon={<Icon iconName={Icons.Download} />}
+                            onClick={openArchitectureModal}
+                        />
+                        <TooltipContainer id="upload" offset={8} place="top" noArrow>
+                            Загрузка версии архитектуры
+                        </TooltipContainer>
+                    </S.StructurizrTitleContainer>
+                    <S.TableStyled>
+                        <TableHead>
+                            <TableRow>
+                                <TableHeaderData>ID</TableHeaderData>
+                                <TableHeaderData>Дата</TableHeaderData>
+                                <TableHeaderData>Тип обновления</TableHeaderData>
+                                <TableHeaderData>Статус</TableHeaderData>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableData>
+                                    <S.StructurizrIdContainer>
+                                        <S.ProgressContainer>
+                                            <Progress
+                                                cycled
+                                                data-tooltip-id="progress"
+                                                shape="circle"
+                                                size="mini"
+                                            />
+                                            <TooltipContainer
+                                                id="progress"
+                                                offset={8}
+                                                place="top"
+                                                noArrow
+                                            >
+                                                Идет процесс обновления данных
+                                            </TooltipContainer>
+                                        </S.ProgressContainer>
+                                        876.567.999
+                                    </S.StructurizrIdContainer>
+                                </TableData>
+                                <TableData>12.12.2025, 23:59</TableData>
+                                <TableData>GitOPS pipeline</TableData>
+                                <TableData>Какой-то статус</TableData>
+                            </TableRow>
+                        </TableBody>
+                    </S.TableStyled>
+                    <UpdateArchitectureSideblock
+                        isOpen={isArchitectureModalOpened}
+                        onClose={closeArchitectureModal}
+                    />
+                </S.StructurizrContainer>
+            ) : (
+                <Text variant="body2">{formatNullableString(null)}</Text>
+            )}
+
+            <Text inactive variant="body2">
+                Репозиторий архитектуры
+            </Text>
+            {productData && (
+                <Text variant="body2">
+                    {productData.gitUrl ? (
+                        <S.LinkContainer>
+                            <Link title={productData.gitUrl} url={productData.gitUrl} />
+                            <CopyButton text={productData.gitUrl} message="Ссылка скопирована" />
+                        </S.LinkContainer>
+                    ) : (
+                        formatNullableString(null)
+                    )}
+                </Text>
+            )}
+            <Text inactive variant="body2">
+                Репозитории кода
+            </Text>
+            <S.TableStyled>
+                <TableHead>
+                    <TableRow>
+                        <TableHeaderData>Название репозитория</TableHeaderData>
+                        <TableHeaderData>Ссылка на репозиторий</TableHeaderData>
+                        <TableHeaderData>Ссылка на контейнер</TableHeaderData>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableData>Текст ячейки</TableData>
+                        <TableData>
+                            <Link url="https://bw.beeline.ru/catalog/apps/53" />
+                        </TableData>
+                        <TableData>
+                            <Link url="https://bw.beeline.ru/catalog/apps/53" />
+                        </TableData>
+                    </TableRow>
+                </TableBody>
+            </S.TableStyled>
+            {cmdb &&
+                (structurizrApiUrl === null || structurizrApiUrl === '') &&
+                !hasKeyData &&
+                (isAdministrator || canGetKeys) && (
+                    <>
+                        <S.NotFoundContainer>
+                            <NotFoundBlock
+                                title="Чтобы получить доступ ко всем данным приложения, создайте рабочее пространство"
+                                text="Данные будут перенесены из Structurizr"
+                                buttonText="Создать"
+                                buttonProps={{ onClick: openModal }}
+                            />
+                        </S.NotFoundContainer>
+                        <CreateStructurizrWorkspaceSideblock
+                            isOpen={modalOpened}
+                            onClose={closeModal}
+                            cmdb={cmdb}
+                        />
+                    </>
+                )}
             {/* <Text inactive variant="body2">
                 Влияние приложения
             </Text>
@@ -210,46 +339,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         formatNullableString(null)
                     )}
                 </Text>
-            )}
-            <Text inactive variant="body2">
-                Git проект
-            </Text>
-            {isLoading && <Skeleton height={22} width={200} radius={4} />}
-            {productData && (
-                <Text variant="body2">
-                    {productData.gitUrl ? (
-                        <S.LinkContainer>
-                            <Link title={productData.gitUrl} url={productData.gitUrl} />
-                            <CopyButton text={productData.gitUrl} message="Ссылка скопирована" />
-                        </S.LinkContainer>
-                    ) : (
-                        formatNullableString(null)
-                    )}
-                </Text>
             )}*/}
-            {/* <Text inactive variant="body2">
-                Git репозиторий
-            </Text>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableHeaderData>Название репозитория</TableHeaderData>
-                        <TableHeaderData>Ссылка на репозиторий</TableHeaderData>
-                        <TableHeaderData>Ссылка на контейнер</TableHeaderData>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow>
-                        <TableData>Текст ячейки</TableData>
-                        <TableData>
-                            <Link url="https://bw.beeline.ru/catalog/apps/53" />
-                        </TableData>
-                        <TableData>
-                            <Link url="https://bw.beeline.ru/catalog/apps/53" />
-                        </TableData>
-                    </TableRow>
-                </TableBody>
-            </Table> */}
         </S.Container>
     );
 };

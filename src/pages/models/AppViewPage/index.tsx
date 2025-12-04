@@ -82,6 +82,10 @@ export const AppViewPage = () => {
                             label={tab.label}
                             value={tab.id}
                             onClick={() => setSearchParams({ tab: tab.id, cmdb: paramCmdb ?? '' })}
+                            disabled={
+                                tab.id !== TabVariants.GENERAL_INFO &&
+                                !productData?.structurizrApiUrl
+                            }
                         />
                     ))}
                 </Tabs>
