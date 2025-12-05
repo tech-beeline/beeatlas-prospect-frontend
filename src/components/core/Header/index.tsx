@@ -10,6 +10,7 @@ import { MAIN_PAGE_PATH } from 'router/const';
 import { BaseIcon, Logo, Tab, Tabs } from '..';
 
 import { NotificationsPopup, ProfileIcon } from './components';
+import { TABS, TabVariants } from './const';
 import { IHeader } from './types';
 import * as S from './units';
 import { preventDefault } from './utils';
@@ -20,12 +21,6 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
     const { themeIsDark, toggleTheme } = useThemeStore();
 
     const navigate = useNavigate();
-
-    const tabs = [
-        { name: 'Модели', url: 'models' },
-        { name: 'База знаний', url: 'data-base' },
-        { name: 'Поддержка Cx', url: 'cx' },
-    ];
 
     return (
         <>
@@ -45,11 +40,14 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
 
                 {!isAdminPanel && (
                     <Tabs>
-                        {tabs.map((tab, index) => (
+                        {TABS.map((tab, index) => (
                             <Tab
                                 key={index}
-                                href={`/${tab.url}`}
-                                isActive={location.pathname?.includes(tab.url)}
+                                href={tab.url}
+                                isActive={
+                                    location.pathname?.includes(tab.url) ||
+                                    (tab.id === TabVariants.MODELS && location.pathname === '/')
+                                }
                                 onClick={(e) => {
                                     e.preventDefault();
                                     navigate(tab.url);

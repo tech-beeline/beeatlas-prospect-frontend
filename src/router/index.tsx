@@ -41,7 +41,6 @@ import {
     HowToPage,
     ImpactPage,
     ImportedDataPage,
-    MainPage,
     MapAddPage,
     MapPage,
     ModelsPage,
@@ -132,8 +131,9 @@ export const NavigationRouter = () => {
                     path={R.MAIN_PAGE_PATH}
                     element={
                         <S.RouteWithDrawer>
+                            <MenuModels />
                             <S.ContentWrapper>
-                                <MainPage />
+                                <ModelsPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }
