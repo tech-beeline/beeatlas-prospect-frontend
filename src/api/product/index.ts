@@ -84,6 +84,13 @@ export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductD
     });
 };
 
+export const putProductByCmdb = (cmdb: string, data: Partial<T.IFullProductData>) => {
+    return Api.put({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}`,
+        data,
+    });
+};
+
 export const getEntityParent = (id: string, type: string): AxiosPromise<T.IParent> => {
     return Api.get({
         url: `${GATEWAY_PRODUCT_URL}v1/product/parent?${formatNullableStringParam(

@@ -1,0 +1,148 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+    Button,
+    Search,
+    Skeleton,
+    TableBody,
+    TableData,
+    TableHead,
+    TableHeaderData,
+    TablePagination,
+    TableRow,
+} from '@beeline/design-system-react';
+
+import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+
+import { IFullProductData } from 'api/product/types';
+import { useGetAllProductsQuery } from 'api/queries/product';
+import * as R from 'router/const';
+import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
+
+import { ProductTableRow } from './components';
+import * as S from './units';
+
+export const AdminAppsPage = () => {
+    const [search, setSearch] = useState('');
+    const [itemsCountOnPage, setItemsCountOnPage] = useState(25);
+    const [countPage, setCountPage] = useState(1);
+
+    useEffect(() => {
+        setCountPage(1);
+    }, [search]);
+
+    const navigate = useNavigate();
+
+    const { data, isLoading } = useGetAllProductsQuery();
+
+    const [productToDelete, setProductToDelete] = useState<IFullProductData | null>(null);
+
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const filteredData = (data ?? []).filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase()),
+    );
+
+    const startIndex = (countPage - 1) * itemsCountOnPage;
+    const endIndex = countPage * itemsCountOnPage;
+    const displayedProducts = filteredData.slice(startIndex, endIndex);
+
+    const handleDeleteTechClick = async () => {
+        if (productToDelete) {
+            showSnackbar({ message: `Приложение ${productToDelete.name} удалено` });
+            setProductToDelete(null);
+        }
+    };
+
+    const handleAddClick = () => {
+        navigate(`${R.ADMIN_PATH}${R.APPS_PATH}${R.ADD_PATH}`);
+    };
+
+    return (
+        <S.PageWrapper>
+            <S.TitleContainer>
+                <Text variant="h4">Управление приложениями</Text>
+                <Button variant="contained" size="medium" onClick={handleAddClick}>
+                    Создать приложение
+                </Button>
+            </S.TitleContainer>
+
+            <S.FiltersContainer>
+                <S.SearchContainer>
+                    <Search
+                        fullWidth
+                        placeholder="Нвзвание приложения"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onClear={() => setSearch('')}
+                    />
+                </S.SearchContainer>
+                <Button disabled={!search} onClick={() => setSearch('')} variant="plain">
+                    Сбросить
+                </Button>
+            </S.FiltersContainer>
+
+            {isLoading && <Skeleton height={300} />}
+            {displayedProducts && displayedProducts.length > 0 && (
+                <S.TableStyled>
+                    <TableHead>
+                        <TableRow>
+                            <TableHeaderData>Приложение</TableHeaderData>
+                            <TableHeaderData>Код</TableHeaderData>
+                            <TableHeaderData>Критичность</TableHeaderData>
+                            <TableHeaderData>Владелец</TableHeaderData>
+                            <S.TableHeaderDataMaxWidth>Краткое описание</S.TableHeaderDataMaxWidth>
+                            <TableHeaderData></TableHeaderData>
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {displayedProducts.map((product) => (
+                            <ProductTableRow
+                                key={product.id}
+                                product={product}
+                                setProductToDelete={setProductToDelete}
+                            />
+                        ))}
+
+                        <TableRow>
+                            <TableData colSpan={8} alignRight>
+                                <TablePagination
+                                    onUserActions={(e) => {
+                                        setCountPage(e.page);
+                                        setItemsCountOnPage(e.rowsPerPage);
+                                    }}
+                                    page={countPage}
+                                    rowsCount={filteredData.length}
+                                    rowsPerPage={itemsCountOnPage}
+                                    rowsPerPageOptions={[25, 50, 100]}
+                                    showFirstAndLastButtons
+                                />
+                            </TableData>
+                        </TableRow>
+                    </TableBody>
+                </S.TableStyled>
+            )}
+            {!isLoading && displayedProducts && displayedProducts.length === 0 && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title="Нет результатов, подходящих под параметры поиска"
+                        text="Попробуйте изменить поисковой запрос"
+                    />
+                </S.NotFoundContainer>
+            )}
+            <Dialog
+                title="Удалить приложение?"
+                opened={!!productToDelete}
+                confirmText="Удалить"
+                onConfirm={handleDeleteTechClick}
+                onClose={() => setProductToDelete(null)}
+            >
+                Приложение <S.BoldSpan>{productToDelete?.name}</S.BoldSpan> будет удалено
+            </Dialog>
+        </S.PageWrapper>
+    );
+};

@@ -15,8 +15,13 @@ import {
     getUserProductsKeyById,
     postConnectionInterface,
     postStructurizrWorkspace,
+    putProductByCmdb,
 } from 'api/product';
-import { IConnectionInterfaceForm, IStructurizrWorkspaceForm } from 'api/product/types';
+import {
+    IConnectionInterfaceForm,
+    IFullProductData,
+    IStructurizrWorkspaceForm,
+} from 'api/product/types';
 
 const PRODUCT_PREFIX = 'PRODUCT_PREFIX';
 
@@ -103,6 +108,21 @@ export const useGetProductInfoByCmdbQuery = (cmdb: string | undefined | null) =>
         enabled: !!cmdb,
     });
 };
+
+interface IUpdateProductParams {
+    cmdb: string;
+    data: Partial<IFullProductData>;
+}
+export function useUpdateProductByCmdbMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'create', 'product'],
+        mutationFn: (params: IUpdateProductParams) => putProductByCmdb(params.cmdb, params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
+    });
+}
 
 export const useCreateStructurizrWorkspaceMutation = () => {
     const queryClient = useQueryClient();
