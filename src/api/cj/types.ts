@@ -33,6 +33,7 @@ export interface ICJData {
     lastModifiedDate: string;
     draft: boolean;
     id_user_profile: number;
+    uniqueIdent: string;
     productId: string;
 }
 

@@ -1,4 +1,4 @@
-import { Button } from '@beeline/design-system-react';
+import { Button, IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -109,6 +109,17 @@ export const ButtonContainer = styled.div`
 
 export const ButtonStyled = styled(Button)`
     pointer-events: auto !important;
+`;
+
+export const IconButtonStyled = styled(IconButton)`
+    pointer-events: auto !important;
+`;
+
+export const InfoContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
 `;
 
 export const NotFoundContainer = styled.div`

@@ -7,4 +7,8 @@ export interface ITextArea {
     helperText?: string;
     error?: boolean;
     externalErrorMessage?: string;
+    helperPosition?: 'block' | 'absolute';
+    autoFocus?: boolean;
+    onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }

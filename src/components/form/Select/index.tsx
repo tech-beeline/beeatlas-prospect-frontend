@@ -12,6 +12,8 @@ export const Select: FC<ISelect> = ({
     disabled = false,
     fullWidth = true,
     defaultValue = 1,
+    autoFocus,
+    onBlur,
     ...rest
 }) => {
     const {
@@ -31,6 +33,7 @@ export const Select: FC<ISelect> = ({
             render={({ field }) => (
                 <DesignSystemSelect
                     {...rest}
+                    autoFocus={autoFocus}
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}
@@ -39,6 +42,10 @@ export const Select: FC<ISelect> = ({
                     options={options}
                     values={[options.find((option) => option.id === field.value) ?? options[0]]}
                     onChange={(value) => field.onChange(value[0].id)}
+                    onBlur={(event) => {
+                        field.onBlur();
+                        onBlur?.(event);
+                    }}
                 />
             )}
         />

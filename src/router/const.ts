@@ -37,6 +37,7 @@ export const TECH_RADAR_PATH = '/tech-radar';
 export const CX_PATH = '/cx';
 export const CJ_PATH = '/cj';
 export const BI_PATH = '/bi';
+export const BPMN_PATH = '/bpmn';
 
 // Админка
 export const ADMIN_PATH = '/admin';

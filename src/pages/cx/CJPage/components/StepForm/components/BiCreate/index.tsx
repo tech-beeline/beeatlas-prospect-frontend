@@ -28,7 +28,7 @@ export const BiCreate: FC<IBiCreate> = ({
 
     return (
         <S.FlexContainer>
-            <S.Content hasButtons>
+            <S.Content hasButtons column>
                 <S.FlexWrapper>
                     <S.TitleFlexWrapper>
                         <IconButton
@@ -36,7 +36,7 @@ export const BiCreate: FC<IBiCreate> = ({
                             size="large"
                             onClick={() => setStage(Stage.BISEARCH)}
                         />
-                        <S.SideBlockTitle>Создание BI</S.SideBlockTitle>
+                        <S.SideBlockTitle>Создать BI</S.SideBlockTitle>
                     </S.TitleFlexWrapper>
                     <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
                 </S.FlexWrapper>
@@ -58,12 +58,12 @@ export const BiCreate: FC<IBiCreate> = ({
                     }}
                 />
             </S.Content>
-            <S.ButtonsContainer>
-                <Button onClick={() => setStage(Stage.BISEARCH)}>Отменить</Button>
-
+            <S.ButtonsContainer column>
                 <Button onClick={() => submitButtonRef.current?.click()} variant="contained">
-                    Сохранить
+                    Опубликовать
                 </Button>
+
+                <Button onClick={() => setStage(Stage.BISEARCH)}>Сохранить как черновик</Button>
             </S.ButtonsContainer>
         </S.FlexContainer>
     );

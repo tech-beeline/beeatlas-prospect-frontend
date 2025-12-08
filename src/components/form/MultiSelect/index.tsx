@@ -14,6 +14,8 @@ export const MultiSelect: FC<IMultiSelect> = ({
     defaultValue = [],
     filter = false,
     makeOption,
+    autoFocus,
+    onBlur,
 }) => {
     const {
         control,
@@ -42,6 +44,11 @@ export const MultiSelect: FC<IMultiSelect> = ({
                     makeOption={makeOption}
                     values={options.filter((option) => field.value.includes(option.id))}
                     onChange={(value) => field.onChange(value.map((v) => v.id))}
+                    autoFocus={autoFocus}
+                    onBlur={(event) => {
+                        field.onBlur();
+                        onBlur?.(event);
+                    }}
                 />
             )}
         />

@@ -1,6 +1,16 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { deleteCJ, getAllCJs, getCJById, getCJsByBIId, patchCJ, postCJ, putCJ } from 'api/cj';
+import {
+    deleteCJ,
+    getAllCJs,
+    getCJById,
+    getCJsByBIId,
+    patchCJ,
+    postCJ,
+    postCJByBPMN,
+    putCJ,
+    uploadBPMNFile,
+} from 'api/cj';
 import {
     CJLibraryStatus,
     ICJData,
@@ -53,6 +63,36 @@ export function useCreateCJMutation() {
         },
     });
 }
+
+export function useCreateCJByBPMN() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'create', 'BPMN'],
+        mutationFn: (id: string) => postCJByBPMN(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+        },
+    });
+}
+
+interface IUploadBPMNFileParams {
+    file: File;
+    cjId: string;
+}
+
+export const useUploadBPMNFile = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'upload'],
+        mutationFn: async (params: IUploadBPMNFileParams) => {
+            await uploadBPMNFile(params.file, params.cjId);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+        },
+    });
+};
 
 interface ICreateCJWithEmptyStepParams {
     data: ICJForm;
@@ -224,3 +264,29 @@ export const useGetCJCollectionByBIIdQuery = (biId: string | undefined | null, e
         enabled: enabled && Boolean(biId),
     });
 };
+
+/* export const useGetCJFileByIdQuery = (cjId: number | string  | null) => {
+    return useQuery({
+
+    })
+}
+
+export const useGetPatternFileByIdQuery = (patternId: string | number | null) => {
+    return useQuery({
+        queryKey: [PATTERNS_PREFIX, 'file', patternId],
+        queryFn: async () => {
+            const docTypes = await getPatternDocumentationTypes().then((res) => res.data);
+            const docTypeId = docTypes[0].id;
+
+            const patternFile = await getPatternFile(Number(patternId), docTypeId).then(
+                (res) => res,
+            );
+            const fileName = patternFile.headers['content-disposition']
+                .split('filename=')[1]
+                .replaceAll('"', '');
+
+            return { file: patternFile.data, fileName };
+        },
+        enabled: !!patternId,
+    });
+};*/

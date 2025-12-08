@@ -17,7 +17,10 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft'>
     clientScenario: formValues.clientScenario,
     flowLink: [{ url: formValues.flowLink, descr: '' }].filter((link) => link.url),
     ucsReaction: formValues.ucsReaction,
-    channel: formValues.channels.map((channel) => ({ id: channel.value })),
+    channel:
+        formValues.channels?.map((channelId) => ({
+            id: channelId,
+        })) || [],
     document: formValues.document
         .filter((document) => document.value)
         .map((document) => ({
@@ -44,7 +47,7 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
     status: data.status.id,
     feelings: data.feelings.id,
     clientScenario: data.clientScenario,
-    channels: data.channel.map((channel) => ({ value: channel.id })),
+    channels: data.channel?.map((channel) => channel.id) || [],
     ucsReaction: data.ucsReaction,
     participants: data.participants.map((participant) => ({
         descr: participant.descr,

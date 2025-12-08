@@ -6,13 +6,15 @@ export const TooltipContainer = styled(Tooltip)<{
     largeWidth?: boolean;
     displayFlex?: boolean;
     hideGap?: boolean;
+    infoWidth?: boolean;
 }>`
     ${({ displayFlex }) => (displayFlex ? 'display: flex;' : '')}
     ${({ displayFlex }) => (displayFlex ? 'flex-direction: column;' : '')}
     ${({ displayFlex, hideGap }) => (displayFlex && !hideGap ? 'gap: 16px;' : '')}
     
 
-    max-width: ${({ largeWidth }) => (largeWidth ? '480px' : '300px')};
+    max-width: ${({ largeWidth, infoWidth }) =>
+        largeWidth ? '480px' : infoWidth ? 'max-content' : '300px'};
     width: ${({ largeWidth }) => (largeWidth ? '480px' : 'max-content')};
     padding: ${({ largePadding }) => (largePadding ? '16px' : '4px 8px')};
 

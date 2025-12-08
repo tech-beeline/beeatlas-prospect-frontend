@@ -6,6 +6,8 @@ import { FeelingTypes, IconFeeling } from 'components/other';
 import { IParticipant, IStatus } from 'api/bi/types';
 import { formatNullableString } from 'utils/formatters';
 
+import { BIScenario } from '../../components/Table/components';
+
 import * as S from './units';
 
 export const formatCommunal = (communal: boolean) =>
@@ -14,7 +16,7 @@ export const formatCommunal = (communal: boolean) =>
 export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
 
 export const formatStatus = (status: IStatus) => <StatusLabel status={status} />;
-
+export const formatScenario = () => <BIScenario />;
 export const getFeelingType = (feelingId: number) => Object.values(FeelingTypes)[feelingId];
 
 export const formatFeeling = (feeling: number) => (

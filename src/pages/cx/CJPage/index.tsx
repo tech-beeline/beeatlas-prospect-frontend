@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
+import { Button, Icon, IconButton, Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { useSideSheetStore } from 'features/cx/store';
 
 import { TooltipContainer } from 'components/interaction';
 import { NotFoundBlock } from 'components/other';
@@ -12,9 +13,14 @@ import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
+import { BIEditScenario } from './components/BIEditScenario';
+import { BIEditSLA } from './components/BIEditSLA';
+import { CJImport } from './components/CJImport';
 import { CJUpdateForm } from './components/CJUpdateForm';
+import { CJVersion } from './components/CJVersion';
 import { InfoSidesheet } from './components/InfoSidesheet';
 import { Table } from './components/Table';
+import { SideSheetVariants } from './const';
 import * as S from './units';
 
 export const CJPage = () => {
@@ -39,8 +45,7 @@ export const CJPage = () => {
 
     const { mutateAsync: updateCJ, isPending: updatingCj } = usePartialUpdateCJMutation();
 
-    const [isOpenSettingsCJ, setOpenSettingsCJ] = useState(false);
-    const [isInfoSidesheetOpened, setIsInfoSidesheetOpened] = useState(false);
+    const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 
     const navigate = useNavigate();
 
@@ -75,7 +80,7 @@ export const CJPage = () => {
 
     const descriptionRef = useRef<HTMLDivElement>(null);
     const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
-
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     return (
         <S.PageWrapper>
             <S.Header>
@@ -117,14 +122,46 @@ export const CJPage = () => {
                         )}
                     </div>
 
+                    <S.InfoContainer>
+                        <IconButton
+                            iconName={Icons.InfoCircled}
+                            data-tooltip-id="info"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsInfoTooltipOpen((prev) => !prev);
+                            }}
+                        />
+                        {data && (
+                            <TooltipContainer
+                                largePadding
+                                id="info"
+                                place="bottom"
+                                noArrow
+                                offset={8}
+                                infoWidth
+                                isOpen={isInfoTooltipOpen}
+                                clickable
+                                afterHide={() => setIsInfoTooltipOpen(false)}
+                            >
+                                <InfoSidesheet
+                                    onClose={() => setIsInfoTooltipOpen(false)}
+                                    cj={data}
+                                />
+                            </TooltipContainer>
+                        )}
+
+                        <Label
+                            variant="contained"
+                            title={data?.draft ? 'Черновик' : 'Опубликован'}
+                            type={data?.draft ? 'default' : 'success'}
+                        />
+                    </S.InfoContainer>
+
                     {canEditCJ && (
                         <S.ButtonStyled
                             disabled={!data?.draft}
                             endIcon={<Icon iconName={Icons.Edit} />}
-                            onClick={() => {
-                                setOpenSettingsCJ(!isOpenSettingsCJ);
-                                setIsInfoSidesheetOpened(false);
-                            }}
+                            onClick={() => toggleSideSheet(SideSheetVariants.UPDATE_CJ)}
                             id="buttonToggleId"
                             data-tooltip-id="editButton"
                         />
@@ -141,13 +178,19 @@ export const CJPage = () => {
                         </TooltipContainer>
                     )}
 
-                    <S.ButtonStyled
-                        endIcon={<Icon iconName={Icons.InfoCircled} />}
-                        onClick={() => {
-                            setIsInfoSidesheetOpened(!isInfoSidesheetOpened);
-                            setOpenSettingsCJ(false);
-                        }}
-                    />
+                    <Button
+                        variant="outlined"
+                        onClick={() => toggleSideSheet(SideSheetVariants.VERSION_CJ)}
+                    >
+                        Показать версии
+                    </Button>
+
+                    <Button
+                        variant="outlined"
+                        onClick={() => toggleSideSheet(SideSheetVariants.IMPORT_CJ)}
+                    >
+                        Импортировать CJ
+                    </Button>
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
@@ -183,15 +226,26 @@ export const CJPage = () => {
             {data && (
                 <>
                     <CJUpdateForm
-                        isOpen={isOpenSettingsCJ}
+                        isOpen={openSideSheet === SideSheetVariants.UPDATE_CJ}
                         cjId={data.id}
-                        onClose={() => setOpenSettingsCJ(false)}
+                        onClose={closeSideSheet}
                         values={{ name: data.name, userPortrait: data.userPortrait }}
                     />
-                    <InfoSidesheet
-                        isOpen={isInfoSidesheetOpened}
-                        onClose={() => setIsInfoSidesheetOpened(false)}
-                        cj={data}
+                    <CJImport
+                        isOpen={openSideSheet === SideSheetVariants.IMPORT_CJ}
+                        onClose={closeSideSheet}
+                    />
+                    <CJVersion
+                        isOpen={openSideSheet === SideSheetVariants.VERSION_CJ}
+                        onClose={closeSideSheet}
+                    />
+                    <BIEditScenario
+                        isOpen={openSideSheet === SideSheetVariants.EDIT_SCENARIO_BI}
+                        onClose={closeSideSheet}
+                    />
+                    <BIEditSLA
+                        isOpen={openSideSheet === SideSheetVariants.EDIT_SLA_BI}
+                        onClose={closeSideSheet}
                     />
                 </>
             )}

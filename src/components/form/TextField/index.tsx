@@ -13,6 +13,9 @@ export const TextField: FC<ITextField> = ({
     disabled = false,
     fullWidth = true,
     helperPosition = 'absolute',
+    autoFocus,
+    onBlur,
+    onKeyDown,
 }) => {
     const {
         control,
@@ -22,7 +25,6 @@ export const TextField: FC<ITextField> = ({
     const error = get(errors, name);
     const errorMessage = error?.message ? String(error.message) : undefined;
     const isError = Boolean(error);
-
     return (
         <Controller
             name={name}
@@ -30,6 +32,7 @@ export const TextField: FC<ITextField> = ({
             defaultValue=""
             render={({ field }) => (
                 <DesignSystemTextField
+                    {...field}
                     id={id}
                     fullWidth={fullWidth}
                     disabled={disabled}
@@ -38,7 +41,12 @@ export const TextField: FC<ITextField> = ({
                     helperText={errorMessage}
                     helperPosition={errorMessage ? helperPosition : 'absolute'}
                     maxLength={maxLength}
-                    {...field}
+                    autoFocus={autoFocus}
+                    onBlur={(event) => {
+                        field.onBlur();
+                        onBlur?.(event);
+                    }}
+                    onKeyDown={onKeyDown}
                 />
             )}
         />

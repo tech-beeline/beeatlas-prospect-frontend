@@ -14,4 +14,6 @@ export interface IMultiSelect {
     defaultValue?: number[];
     filter?: boolean;
     makeOption?: (option: Option, selected?: boolean) => JSX.Element;
+    autoFocus?: boolean;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }

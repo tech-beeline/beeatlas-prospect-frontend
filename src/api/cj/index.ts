@@ -26,6 +26,12 @@ export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     });
 };
 
+export const postCJByBPMN = (id: string): AxiosPromise<T.ICompleteCJData> => {
+    return Api.post({
+        url: `${GATEWAY_URL}cx/v1/bpmn/cj/${id}`,
+    });
+};
+
 export const postCJ = (data: T.ICJForm, productId: number) => {
     return Api.post({
         url: `${GATEWAY_URL}cx/v1/product/${productId}/cj`,
@@ -56,5 +62,23 @@ export const deleteCJ = (id: string) => {
 export const getCJsByBIId = (biId: string): AxiosPromise<T.ICJData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}cx/v1/product/cj/step/bi/${biId}`,
+    });
+};
+
+export const uploadBPMNFile = (file: File, cjId: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const rest = Api.post({
+        url: `${GATEWAY_URL}document/v1/documents/CJ_BPMN/bpmn?targetId=${cjId}`,
+        data: formData,
+        headers: { 'Content-Disposition': `${file.name}` },
+    });
+    console.log(rest);
+};
+
+export const getBPMNFile = (cjId: number, docTypeId: number): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/${docTypeId}/${cjId}`,
     });
 };

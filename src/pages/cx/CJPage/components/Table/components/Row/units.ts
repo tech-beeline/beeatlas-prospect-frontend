@@ -14,10 +14,12 @@ export const Td = styled.td<{
     isClickable?: boolean;
     borderRight?: boolean;
     noBottomBorder?: boolean;
+    locked?: boolean;
+    isEditing?: boolean;
 }>`
     min-width: 320px;
     height: 52px;
-    padding: 18px 16px;
+    padding: ${({ locked, isEditing }) => (locked ? '' : isEditing ? '' : '18px 16px')};
 
     background-color: var(--color-background-base);
 
@@ -37,7 +39,16 @@ export const Td = styled.td<{
     }
 
     &:last-of-type {
-        padding-right: 24px;
+        padding-right: ${({ locked, isEditing }) => (locked ? '' : isEditing ? '' : '24px')};
+    }
+
+    &:hover {
+        ${({ locked, isEditing }) =>
+            !locked &&
+            !isEditing &&
+            css`
+                border: 1px solid black;
+            `}
     }
 
     pointer-events: ${({ isClickable }) => (isClickable === false ? 'none' : 'all')};

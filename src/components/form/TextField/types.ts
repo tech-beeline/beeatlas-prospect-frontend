@@ -8,4 +8,7 @@ export interface ITextField {
     disabled?: boolean;
     fullWidth?: boolean;
     helperPosition?: HelperPositionType;
+    autoFocus?: boolean;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
