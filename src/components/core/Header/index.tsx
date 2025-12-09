@@ -42,7 +42,13 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
 
                 {!isAdminPanel && (
                     <Tabs>
-                        {TABS.map((tab, index) => (
+                        {TABS.filter(
+                            (t) =>
+                                !(
+                                    t.id === TabVariants.BASE &&
+                                    window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
+                                ),
+                        ).map((tab, index) => (
                             <Tab
                                 key={index}
                                 href={tab.url}
@@ -64,26 +70,20 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
                 <S.ControlPanel className="HeaderControlPanel">
                     <S.LinksContainer>
                         <S.Link
-                            onClick={() =>
-                                window.open(
-                                    'https://beeatlas-doc-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/',
-                                )
-                            }
+                            onClick={() => window.open(window.FEATURE_FLAGS.FLAG_DOC_SERVICE_URL)}
                         >
                             <S.IconStyled size="medium" iconName={Icons.PagesMultiple} />
                             <Text variant="subtitle3">Документация</Text>
                         </S.Link>
 
-                        <S.Link
-                            onClick={() => {
-                                window.open(
-                                    'https://vs-code-server-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/',
-                                );
-                            }}
-                        >
-                            <S.IconStyled size="medium" iconName={Icons.Iframe} />
-                            <Text variant="subtitle3">WebIDE</Text>
-                        </S.Link>
+                        {window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
+                            <S.Link
+                                onClick={() => window.open(window.FEATURE_FLAGS.FLAG_WEBIDE_URL)}
+                            >
+                                <S.IconStyled size="medium" iconName={Icons.Iframe} />
+                                <Text variant="subtitle3">WebIDE</Text>
+                            </S.Link>
+                        )}
                     </S.LinksContainer>
 
                     <IconButton

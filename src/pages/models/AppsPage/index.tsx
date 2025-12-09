@@ -35,7 +35,7 @@ export const AppsPage = () => {
     return (
         <S.PageWrapper>
             <S.Container>
-                <OldVersionBanner />
+                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && <OldVersionBanner />}
                 <S.Header>
                     <Text variant="h4">Каталог приложений</Text>
                 </S.Header>

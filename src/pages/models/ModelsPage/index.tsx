@@ -58,14 +58,16 @@ export const ModelsPage = () => {
                         Содержит список приложений и дополнительную информацию о каждом приложении
                     </S.CardStyled>
 
-                    <S.CardStyled
-                        variant={CardVariant.INFO}
-                        title="E2E сценарии"
-                        to={`${R.MODELS_PATH}${R.E2E_PATH}`}
-                    >
-                        Содержит список сценариев и подробную информацию о них, включая проверку их
-                        описания
-                    </S.CardStyled>
+                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                        <S.CardStyled
+                            variant={CardVariant.INFO}
+                            title="E2E сценарии"
+                            to={`${R.MODELS_PATH}${R.E2E_PATH}`}
+                        >
+                            Содержит список сценариев и подробную информацию о них, включая проверку
+                            их описания
+                        </S.CardStyled>
+                    )}
 
                     <S.CardStyled
                         variant={CardVariant.ERROR}

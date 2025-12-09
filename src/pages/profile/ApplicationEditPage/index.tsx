@@ -200,18 +200,20 @@ export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
                                         </Text>
                                     </TooltipContainer>
                                 </S.RelativeContainer>
-                                <S.ProgressButtonStyled
-                                    type="button"
-                                    size="medium"
-                                    variant="outlined"
-                                    disabled={isGenerateButtonDisabled}
-                                    data-tooltip-id="generate-button"
-                                    state={isGeneratingDescription ? 'loading' : 'default'}
-                                    showProgress={isGeneratingDescription}
-                                    onClick={handleGenerateButtonClick}
-                                >
-                                    Сгенерировать определение
-                                </S.ProgressButtonStyled>
+                                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                                    <S.ProgressButtonStyled
+                                        type="button"
+                                        size="medium"
+                                        variant="outlined"
+                                        disabled={isGenerateButtonDisabled}
+                                        data-tooltip-id="generate-button"
+                                        state={isGeneratingDescription ? 'loading' : 'default'}
+                                        showProgress={isGeneratingDescription}
+                                        onClick={handleGenerateButtonClick}
+                                    >
+                                        Сгенерировать определение
+                                    </S.ProgressButtonStyled>
+                                )}
                                 {isGenerateButtonDisabled && (
                                     <TooltipContainer
                                         largePadding

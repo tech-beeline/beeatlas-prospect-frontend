@@ -338,7 +338,7 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    {!isLoadingCJ && data?.bpmn && (
+                    {!isLoadingCJ && data?.bpmn && window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
                         <>
                             <Button
                                 disabled={!data?.dashboardLink}

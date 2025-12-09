@@ -21,3 +21,5 @@ const hostnameToAuthMap: Record<string, string> = {
 export const authInstance = new VKITAuth({
     authUrl: hostnameToAuthMap[window.location.hostname] ?? LOCALHOST_LINK,
 });
+
+export const AUTHENTIK_CLIENT_ID = 'fbjYx7FXGVejXrgd6md8VFI4Ip227D7PLTyZSaQh';

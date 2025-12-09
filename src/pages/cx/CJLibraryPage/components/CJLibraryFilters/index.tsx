@@ -76,13 +76,18 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
                     </S.FlexWrapper>
 
                     <S.FiltersContainer>
-                        <Switch
-                            label="Показать CJ c дашбордами в grafana"
-                            checked={filterOptions.grafana}
-                            onChange={(e) =>
-                                setFilterOptions({ ...filterOptions, grafana: e.target.checked })
-                            }
-                        />
+                        {window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
+                            <Switch
+                                label="Показать CJ c дашбордами в grafana"
+                                checked={filterOptions.grafana}
+                                onChange={(e) =>
+                                    setFilterOptions({
+                                        ...filterOptions,
+                                        grafana: e.target.checked,
+                                    })
+                                }
+                            />
+                        )}
                         <Autocomplete
                             fullWidth
                             disabled={isLoadingProducts}

@@ -51,11 +51,15 @@ export const MenuModels = () => {
                             name: 'Каталог\xa0приложений',
                             path: `${R.MODELS_PATH}${R.APPS_PATH}`,
                         },
-                        {
-                            icon: Icons.List,
-                            name: 'E2E\xa0сценарии',
-                            path: `${R.MODELS_PATH}${R.E2E_PATH}`,
-                        },
+                        ...(window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
+                            ? []
+                            : [
+                                  {
+                                      icon: Icons.List,
+                                      name: 'E2E\xa0сценарии',
+                                      path: `${R.MODELS_PATH}${R.E2E_PATH}`,
+                                  },
+                              ]),
                         {
                             icon: Icons.DashboardDots,
                             name: 'Архитектура\xa0компании',
