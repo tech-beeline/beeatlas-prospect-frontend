@@ -8,6 +8,7 @@ import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { Autocomplete, TextArea } from 'components/form';
 
+import { useGetTS } from 'api/queries/bi';
 import { useGetProductsQuery } from 'hooks';
 
 import { FormValues, validationSchema } from './form';
@@ -17,12 +18,21 @@ import * as S from './units';
 export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
     const [searchText, setSearchText] = useState('');
     const [calls, setCalls] = useState<{ id: number; url: string; description: string }[]>([]);
+
+    const { data: techCapability, isLoading: techCapabilityLoading } = useGetTS();
     const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
 
-    const dataFilterd = (products ?? []).filter((g) =>
+    const techCapabilityFilterd = (techCapability ?? []).filter((g) =>
         g.name.toLowerCase().includes(searchText.toLowerCase()),
     );
-    const groupOptions = dataFilterd.map((group) => ({ id: group.id, value: group.name }));
+    const productsFilterd = (products ?? []).filter((g) =>
+        g.name.toLowerCase().includes(searchText.toLowerCase()),
+    );
+    const productsOptions = productsFilterd.map((group) => ({ id: group.id, value: group.name }));
+    const techCapabilityOptions = techCapabilityFilterd.map((group) => ({
+        id: group.id,
+        value: group.name,
+    }));
 
     const addCall = () => {
         setCalls((prev) => [
@@ -74,15 +84,15 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     disabled={isLoadingProducts}
                                                     label="Приложение"
                                                     name="group"
-                                                    options={groupOptions}
+                                                    options={productsOptions}
                                                     onInputChange={(v) => setSearchText(v)}
                                                 />
                                                 <Autocomplete
                                                     fullWidth
-                                                    disabled={isLoadingProducts}
+                                                    disabled={techCapabilityLoading}
                                                     label="Техническая возможность"
                                                     name="group"
-                                                    options={groupOptions}
+                                                    options={techCapabilityOptions}
                                                     onInputChange={(v) => setSearchText(v)}
                                                 />
                                                 <Autocomplete
@@ -90,7 +100,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     disabled={isLoadingProducts}
                                                     label="Endpoint"
                                                     name="group"
-                                                    options={groupOptions}
+                                                    options={[]}
                                                     onInputChange={(v) => setSearchText(v)}
                                                 />
                                                 <Autocomplete
@@ -98,7 +108,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     disabled={isLoadingProducts}
                                                     label="Интерфейс"
                                                     name="group"
-                                                    options={groupOptions}
+                                                    options={[]}
                                                     onInputChange={(v) => setSearchText(v)}
                                                 />
                                                 <TextArea name="descr" label="Описание вызова" />

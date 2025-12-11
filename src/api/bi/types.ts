@@ -69,6 +69,33 @@ export interface IParticipant {
     value: string;
 }
 
+export interface IRelations {
+    id: number;
+    user_id: string;
+    description: string;
+    tcId: number;
+    tcName: string;
+    tcCode: string;
+    productId: number;
+    productName: string;
+    productAlias: string;
+    interfaceId: number;
+    interfaceName: string;
+    interfaceCode: string;
+    operationId: number;
+    operation: string;
+    order: number;
+}
+
+export interface IStepsScenarion {
+    name: string;
+    id: number;
+    latency: number;
+    error_rate: number;
+    rps: number;
+    relations: IRelations[];
+}
+
 export interface IBIData {
     channel: IChannel[];
     clientScenario: string;
@@ -82,6 +109,7 @@ export interface IBIData {
     feelings: IFeelings;
     flowLink: IBILink[];
     id: number;
+    biSteps: IStepsScenarion[];
     mockupLink: IBILink[];
     name: string;
     ownerRole: string;
@@ -94,8 +122,20 @@ export interface IBIData {
     uniqueIdent: string;
     metrics: string | null;
     lastModifiedDate: string;
+    bpmn: boolean;
 }
 
 export interface IBIEditabilityData {
     editability: boolean;
+}
+
+export interface ITechCapability {
+    author: string;
+    code: string;
+    createdDate: string;
+    description: string;
+    id: number;
+    link: string;
+    name: string;
+    owner: string;
 }

@@ -26,6 +26,12 @@ export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     });
 };
 
+export const getCJByIdV1 = (id: string): AxiosPromise<T.ICompleteCJData> => {
+    return Api.get({
+        url: `${GATEWAY_URL}cx/v1/cj/${id}`,
+    });
+};
+
 export const postCJByBPMN = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.post({
         url: `${GATEWAY_URL}cx/v1/bpmn/cj/${id}`,
@@ -69,16 +75,36 @@ export const uploadBPMNFile = (file: File, cjId: string) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const rest = Api.post({
+    return Api.post({
         url: `${GATEWAY_URL}document/v1/documents/CJ_BPMN/bpmn?targetId=${cjId}`,
         data: formData,
         headers: { 'Content-Disposition': `${file.name}` },
     });
-    console.log(rest);
+};
+
+export const getCJDocumentationTypes = (): AxiosPromise<T.ICJDocumentTypesData[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documentations/CJ`,
+    });
 };
 
 export const getBPMNFile = (cjId: number, docTypeId: number): AxiosPromise<string> => {
     return Api.get({
         url: `${GATEWAY_URL}document/v1/documents/${docTypeId}/${cjId}`,
+    });
+};
+
+export const getBPMNFileData = (id: number): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/${id}`,
+    });
+};
+
+export const getBPMNFileVersion = (
+    cjId: number,
+    docTypeId: number,
+): AxiosPromise<T.IBPMNFileVersion[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/versions/${docTypeId}/${cjId}`,
     });
 };

@@ -1,123 +1,168 @@
-import React, { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { Select } from '@beeline/design-system-react';
 
-import { MultiSelect, Select, TextArea, TextField } from 'components/form';
-
+import { useUpdateBIMutation } from 'api/queries/bi';
 import { useGetBIChannelsQuery, useGetBIStatusesQuery } from 'api/queries/bi-library';
 
 import { RowIds } from '../../../../types';
 
 import { CellEditType, getCellTypeByRowId, getFieldNameByRowId, IEditableCellProps } from './types';
+import * as S from './units';
 
 export const EditableCell = <T,>({
     rowId,
-    formatData,
     element,
     isEditing,
+    formatData,
     onEndEdit,
 }: IEditableCellProps<T>) => {
-    const { data: channel } = useGetBIChannelsQuery();
-    const { data: statuses } = useGetBIStatusesQuery();
+    const { mutateAsync: updateBi } = useUpdateBIMutation();
 
-    const channelOptions = (channel ?? []).map((channel) => ({
-        id: channel.id,
-        value: channel.name,
-    }));
-    const statusOptions = (statuses ?? []).map((status) => ({
-        id: status.id,
-        value: status.name,
-    }));
+    const { data: channels } = useGetBIChannelsQuery();
+    const { data: statuses } = useGetBIStatusesQuery();
+    console.log(element);
+    const fieldName = getFieldNameByRowId(rowId);
+    const cellType = getCellTypeByRowId(rowId);
+
+    const [value, setValue] = useState<any>('');
+
+    useEffect(() => {
+        if (!isEditing || !element) return;
+
+        const raw = element[fieldName];
+
+        switch (cellType) {
+            case CellEditType.MULTISELECT:
+                // @ts-ignore
+                setValue(Array.isArray(raw) ? raw.map((item) => item.id ?? item) : []);
+                break;
+
+            case CellEditType.SELECT:
+                if (rowId === RowIds.TYPE) {
+                    const id = raw === true ? 0 : 1;
+                    setValue(id);
+                } else {
+                    // @ts-ignore
+                    setValue(raw?.id ?? raw ?? '');
+                }
+                break;
+
+            default:
+                setValue(raw ?? '');
+        }
+    }, [isEditing, element, fieldName, cellType]);
+
+    const statusOptions = statuses?.map((s) => ({ id: s.id, value: s.name })) ?? [];
+    const channelOptions = channels?.map((c) => ({ id: c.id, value: c.name })) ?? [];
     const typeOptions = [
         { id: 0, value: 'Целевой' },
         { id: 1, value: 'Фактический' },
     ];
 
-    let selectOptions: Array<{ id: number; value: string }> = [];
+    const selectOptions =
+        rowId === RowIds.STATUS ? statusOptions : rowId === RowIds.TYPE ? typeOptions : [];
 
-    switch (rowId) {
-        case RowIds.STATUS:
-            selectOptions = statusOptions;
+    const multiSelectOptions = rowId === RowIds.CHANNEL ? channelOptions : [];
 
-            break;
-        case RowIds.TYPE:
-            selectOptions = typeOptions;
-            break;
-        default:
-            break;
-    }
+    const sendUpdate = async (newValue: any) => {
+        let formatted = newValue;
 
-    const typeCell = getCellTypeByRowId(rowId);
-    const { setValue } = useFormContext();
-    const fieldName = getFieldNameByRowId(rowId);
-    useEffect(() => {
-        if (!isEditing || !element) return;
-
-        const value = element?.[fieldName];
-
-        if (typeCell === CellEditType.MULTISELECT && Array.isArray(value)) {
-            setValue(
-                fieldName,
-                value.map((v: any) => v.id ?? v),
-            );
-        } else {
-            setValue(fieldName, value ?? '');
+        if (cellType === CellEditType.SELECT) {
+            if (rowId === RowIds.TYPE) {
+                formatted = Number(newValue) === 0;
+            } else {
+                formatted = { id: Number(newValue) };
+            }
         }
-    }, [isEditing, fieldName, element, setValue]);
+
+        if (cellType === CellEditType.MULTISELECT) {
+            formatted = newValue.map((id: number) => ({ id }));
+        }
+
+        await updateBi({
+            id: String(element.id),
+            // @ts-ignore
+            data: {
+                [fieldName]: formatted,
+            },
+        });
+
+        onEndEdit?.();
+    };
 
     if (!isEditing) {
         return <div>{formatData}</div>;
     }
-    const handleBlur = () => {
-        if (element) {
-            const originalValue = element[fieldName];
-            if (typeCell === CellEditType.MULTISELECT && Array.isArray(originalValue)) {
-                setValue(
-                    fieldName,
-                    originalValue.map((v: any) => v.id ?? v),
-                );
-            } else {
-                setValue(fieldName, originalValue ?? '');
-            }
-        }
-        onEndEdit?.();
-    };
+
     return (
-        <>
-            {typeCell === CellEditType.TEXT && (
-                <TextField name={fieldName} label="" autoFocus onBlur={handleBlur} />
-            )}
-
-            {typeCell === CellEditType.TEXTAREA && (
-                <TextArea
-                    fullWidth
-                    name={fieldName}
-                    helperPosition="absolute"
-                    label=""
+        <div key={rowId}>
+            {cellType === CellEditType.TEXT && (
+                <S.InputStyled
                     autoFocus
-                    onBlur={handleBlur}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    onBlur={() => sendUpdate(value)}
                 />
             )}
 
-            {typeCell === CellEditType.SELECT && (
+            {cellType === CellEditType.TEXTAREA && (
+                <S.TextAreaStyled
+                    autoFocus
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    onBlur={() => sendUpdate(value)}
+                />
+            )}
+
+            {cellType === CellEditType.SELECT && (
+                <S.SelectStyled
+                    autoFocus
+                    value={String(value)}
+                    onChange={(e) => {
+                        const val = e.target.value === '' ? '' : Number(e.target.value);
+
+                        setValue(val);
+                    }}
+                    onBlur={() => sendUpdate(value)}
+                >
+                    {selectOptions.map((opt) => (
+                        <option key={opt.id} value={opt.id}>
+                            {opt.value}
+                        </option>
+                    ))}
+                </S.SelectStyled>
+            )}
+
+            {cellType === CellEditType.MULTISELECT && (
                 <Select
-                    name={fieldName}
-                    label=""
-                    options={selectOptions}
-                    autoFocus
-                    onBlur={handleBlur}
-                />
-            )}
-
-            {typeCell === CellEditType.MULTISELECT && (
-                <MultiSelect
-                    name={fieldName}
-                    label=""
+                    multiple
                     fullWidth
-                    options={channelOptions}
-                    autoFocus
-                    onBlur={handleBlur}
+                    options={multiSelectOptions.map((opt) => ({
+                        id: String(opt.id),
+                        value: opt.value,
+                    }))}
+                    values={multiSelectOptions
+                        .filter((opt) => value.includes(opt.id))
+                        .map((opt) => ({
+                            id: String(opt.id),
+                            value: opt.value,
+                        }))}
+                    onChange={(selectedOptions) => {
+                        if (!selectedOptions) {
+                            const empty: number[] = [];
+                            setValue(empty);
+                            sendUpdate(empty);
+                            return;
+                        }
+
+                        const newValue = selectedOptions.map((opt) => Number(opt.id));
+                        setValue(newValue);
+                        sendUpdate(newValue);
+                    }}
+                    size="medium"
+                    onBlur={() => sendUpdate(value)}
                 />
             )}
-        </>
+        </div>
     );
 };

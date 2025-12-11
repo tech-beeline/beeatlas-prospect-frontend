@@ -3,7 +3,7 @@ import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
 
-import { IParticipant, IStatus } from 'api/bi/types';
+import { IParticipant, IStatus, IStepsScenarion } from 'api/bi/types';
 import { formatNullableString } from 'utils/formatters';
 
 import { BIScenario } from '../../components/Table/components';
@@ -16,7 +16,7 @@ export const formatCommunal = (communal: boolean) =>
 export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
 
 export const formatStatus = (status: IStatus) => <StatusLabel status={status} />;
-export const formatScenario = () => <BIScenario />;
+export const formatScenario = (biSteps: IStepsScenarion) => <BIScenario biSteps={biSteps} />;
 export const getFeelingType = (feelingId: number) => Object.values(FeelingTypes)[feelingId];
 
 export const formatFeeling = (feeling: number) => (
@@ -39,3 +39,19 @@ export const formatParticipants = (participants: IParticipant[]) =>
     ) : (
         formatNullableString(null)
     );
+
+export const downloadBpmnFile = (filename: string, bpmnXml: string) => {
+    const element = document.createElement('a');
+    element.setAttribute(
+        'href',
+        'data:application/xml;charset=utf-8,' + encodeURIComponent(bpmnXml),
+    );
+    element.setAttribute('download', filename.endsWith('.bpmn') ? filename : filename + '.bpmn');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+};

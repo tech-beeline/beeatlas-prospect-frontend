@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Avatar, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useSideSheetStore } from 'features/cx/store';
@@ -8,9 +8,10 @@ import { Link } from 'components/other';
 
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 
+import { IBIScenario } from './types';
 import * as S from './units';
 
-export const BIScenario = () => {
+export const BIScenario: FC<IBIScenario> = ({ biSteps }) => {
     const [expanded, setExpanded] = useState(false);
     const { toggleSideSheet } = useSideSheetStore();
     return (

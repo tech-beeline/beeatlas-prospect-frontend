@@ -22,6 +22,40 @@ export const SideBlockTitle = styled.div`
     line-height: var(--font-line-height-h5);
 `;
 
+export const FileAddingContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+`;
+
+export const FileNameContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 352px;
+    padding: 12px 16px;
+    gap: 16px;
+`;
+
+export const FileNameWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+`;
+
+export const FileMetadataContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    width: 100%;
+    gap: 4px;
+`;
+
+export const IconButtonContainer = styled.div`
+    display: flex;
+    gap: 16px;
+`;
+
 export const ButtonContainer = styled.div`
     position: absolute;
     bottom: 0;

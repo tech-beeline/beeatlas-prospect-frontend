@@ -1,9 +1,10 @@
-import { Select } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     height: 100vh;
-
+    overflow: hidden;
     color: var(--color-text-active);
     background-color: var(--color-background-base);
 `;
@@ -55,11 +56,59 @@ export const Desription = styled.div`
     text-overflow: ellipsis;
 `;
 
-export const SelectWrapper = styled(Select)`
+export const SelectWrapper = styled.div`
     height: 40px;
     width: 360px;
 `;
 
 export const Content = styled.div`
+    flex: 1 1 auto;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    & > div {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    & .bjs-breadcrumbs {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        z-index: 999;
+        list-style-type: none;
+        display: flex;
+        gap: 24px;
+        border-radius: 12px;
+        font-size: var(--font-size-body3);
+        padding: 0;
+
+        > li {
+            padding: 12px;
+            color: var(--color-button-plain);
+
+            &:not(:last-child) {
+                cursor: pointer;
+            }
+        }
+
+        > li {
+            &:last-child {
+                color: var(--color-text-inactive);
+            }
+        }
+    }
+`;
+
+export const FileMetadataContainer = styled.div`
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+`;
+
+export const FileNameWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 `;

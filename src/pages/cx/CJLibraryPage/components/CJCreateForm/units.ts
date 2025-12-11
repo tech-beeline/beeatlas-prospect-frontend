@@ -47,6 +47,7 @@ export const FileAddingContainer = styled.div`
 
 export const FileNameContainer = styled.div`
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
     padding: 12px 16px;
     gap: 16px;

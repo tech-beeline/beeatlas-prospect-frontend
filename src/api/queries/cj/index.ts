@@ -3,7 +3,11 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import {
     deleteCJ,
     getAllCJs,
+    getBPMNFile,
+    getBPMNFileData,
+    getBPMNFileVersion,
     getCJById,
+    getCJDocumentationTypes,
     getCJsByBIId,
     patchCJ,
     postCJ,
@@ -44,6 +48,14 @@ export const useGetCJCollectionQuery = (params: IGetCJCollectionParams) => {
 export const useGetCJByIdQuery = (id: string | undefined | null) => {
     return useQuery<ICJNewData>({
         queryKey: [CJ_PREFIX, id],
+        queryFn: () => getCJById(id!).then((res) => res.data),
+        enabled: Boolean(id),
+    });
+};
+
+export const useGetCJByIdV1Query = (id: string | undefined | null) => {
+    return useQuery<ICJNewData>({
+        queryKey: [CJ_PREFIX, id, 'v1'],
         queryFn: () => getCJById(id!).then((res) => res.data),
         enabled: Boolean(id),
     });
@@ -97,6 +109,7 @@ export const useUploadBPMNFile = () => {
 interface ICreateCJWithEmptyStepParams {
     data: ICJForm;
     productId: number;
+    bpmn: boolean;
 }
 export function useCreateCJWithEmptyStepMutation() {
     const queryClient = useQueryClient();
@@ -110,7 +123,13 @@ export function useCreateCJWithEmptyStepMutation() {
                 },
                 params.productId,
             );
-            await postCJStep(cjData.data.id, { name: 'Название этапа', order: 0 });
+            console.log('params', params.bpmn);
+            if (params.bpmn === false) {
+                await postCJStep(cjData.data.id, {
+                    name: 'Название этапа',
+                    order: 0,
+                });
+            }
             return { cjId: cjData.data.id as string };
         },
         onSuccess: () => {
@@ -265,28 +284,48 @@ export const useGetCJCollectionByBIIdQuery = (biId: string | undefined | null, e
     });
 };
 
-/* export const useGetCJFileByIdQuery = (cjId: number | string  | null) => {
+export const useGetCJFileByIdQuery = (cjId: number | string | null) => {
     return useQuery({
-
-    })
-}
-
-export const useGetPatternFileByIdQuery = (patternId: string | number | null) => {
-    return useQuery({
-        queryKey: [PATTERNS_PREFIX, 'file', patternId],
+        queryKey: [CJ_PREFIX, 'file', cjId],
         queryFn: async () => {
-            const docTypes = await getPatternDocumentationTypes().then((res) => res.data);
+            const docTypes = await getCJDocumentationTypes().then((res) => res.data);
             const docTypeId = docTypes[0].id;
 
-            const patternFile = await getPatternFile(Number(patternId), docTypeId).then(
-                (res) => res,
-            );
-            const fileName = patternFile.headers['content-disposition']
+            const bpmnFile = await getBPMNFile(Number(cjId), docTypeId).then((res) => res);
+            console.log('queryBPMNfile', bpmnFile);
+            const fileName = bpmnFile.headers['content-disposition']
                 .split('filename=')[1]
                 .replaceAll('"', '');
 
-            return { file: patternFile.data, fileName };
+            return [{ file: bpmnFile.data, fileName }];
         },
-        enabled: !!patternId,
+        enabled: !!cjId,
     });
-};*/
+};
+
+export const useGetBPMNFileDataQuery = (id: number | string | null) => {
+    return useQuery({
+        queryKey: [CJ_PREFIX, 'fileData', id],
+        queryFn: async () => {
+            const fileData = await getBPMNFileData(Number(id)).then((res) => res.data);
+            return fileData;
+        },
+        enabled: !!id,
+    });
+};
+
+export const useGetCJFileVersionByIdQuery = (cjId: number | string | null) => {
+    return useQuery({
+        queryKey: [CJ_PREFIX, 'file', 'version', cjId],
+        queryFn: async () => {
+            const docTypes = await getCJDocumentationTypes().then((res) => res.data);
+            const docTypeId = docTypes[0].id;
+            console.log('docTypeVersdion', docTypeId);
+            const bpmnVersion = await getBPMNFileVersion(Number(cjId), docTypeId).then(
+                (res) => res.data,
+            );
+            return bpmnVersion;
+        },
+        enabled: !!cjId,
+    });
+};

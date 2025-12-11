@@ -67,7 +67,6 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const onSubmit = handleSubmit(async (values) => {
         try {
             if (bpmnFile) {
-                console.log(bpmnFile);
                 setIsProcessingBPMN(true);
                 const { cjId } = await createCJ({
                     data: {
@@ -76,6 +75,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         user_portrait: values.userPortrait,
                     },
                     productId: values.product,
+                    bpmn: Boolean(bpmnFile),
                 });
 
                 try {
@@ -99,6 +99,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     return;
                 }
             } else {
+                console.log(Boolean(bpmnFile));
                 const { cjId } = await createCJ({
                     data: {
                         draft: true,
@@ -106,6 +107,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         user_portrait: values.userPortrait,
                     },
                     productId: values.product,
+                    bpmn: Boolean(bpmnFile),
                 });
 
                 navigate({
@@ -194,9 +196,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                     <S.FileNameContainer>
                                         <Icon iconName={Icons.Page} size="large" />
                                         <S.FileMetadataContainer>
-                                            <Typography variant="body2">
-                                                Название документа в несколько строк текста. bpmn
-                                            </Typography>
+                                            <Typography variant="body2">{bpmnFile.name}</Typography>
                                             <Typography variant="caption" color="textSecondary">
                                                 {formatSize(bpmnFile.size)}{' '}
                                                 {dayjs(bpmnFile.lastModified)

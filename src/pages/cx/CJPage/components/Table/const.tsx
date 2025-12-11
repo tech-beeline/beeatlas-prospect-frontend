@@ -64,7 +64,7 @@ export const rowsData: RowData<any>[] = [
         rowId: RowIds.SCENARION_BI,
         label: 'Шаги сценария BI',
         formatData: formatScenario,
-        parseData: (bi: IBIData) => bi,
+        parseData: (bi: IBIData) => bi.biSteps,
     },
     {
         rowId: RowIds.CHANNEL,

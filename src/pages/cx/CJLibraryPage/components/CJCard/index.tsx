@@ -44,7 +44,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
     };
     const hasAccessToProduct = userProductIds.includes(productIdStr);
     const currentProduct = allProducts?.find((product) => String(product.id) === productIdStr);
-    const BPMN = true;
+
     return (
         <S.CJCard key={cj.id}>
             <S.FlexContainer>
@@ -54,7 +54,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                         title={cj.draft ? 'Черновик' : 'Опубликован'}
                         type={cj.draft ? 'default' : 'success'}
                     />
-                    {BPMN && <Label variant="contained" type="warning" title="BPMN" />}
+                    {cj.bpmn && <Label variant="contained" type="warning" title="BPMN" />}
                 </S.LabelContainer>
                 <DropdownMenu
                     id={String(cj.id)}

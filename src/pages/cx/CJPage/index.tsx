@@ -28,8 +28,7 @@ export const CJPage = () => {
     const paramId = params.get('id');
 
     const { modalOpened, openModal, closeModal } = useModal();
-
-    const { data, isLoading: isLoadingCJ } = useGetCompleteCJDataByIdQuery(paramId);
+    const { data, isLoading: isLoadingCJ, refetch } = useGetCompleteCJDataByIdQuery(paramId);
     const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
 
     const isLoading = isLoadingCJ || isLoadingProducts;
@@ -214,6 +213,7 @@ export const CJPage = () => {
                     cjId={data.id}
                     draft={data.draft}
                     tableData={data.steps}
+                    bpmn={data.bpmn}
                 />
             )}
 
@@ -234,6 +234,8 @@ export const CJPage = () => {
                     <CJImport
                         isOpen={openSideSheet === SideSheetVariants.IMPORT_CJ}
                         onClose={closeSideSheet}
+                        cjId={String(data.id)}
+                        onUploaded={refetch}
                     />
                     <CJVersion
                         isOpen={openSideSheet === SideSheetVariants.VERSION_CJ}

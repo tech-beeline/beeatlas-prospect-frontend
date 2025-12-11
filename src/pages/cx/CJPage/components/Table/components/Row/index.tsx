@@ -23,6 +23,7 @@ export const Row = <T,>({
     collapsedStedIds,
     draft,
     showShadow,
+    bpmn,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -120,10 +121,18 @@ export const Row = <T,>({
                                         locked={rowId === RowIds.SCENARION_BI}
                                         isEditing={editingCell === `${rowId}-${i}`}
                                         onClick={() => {
-                                            if (rowId !== RowIds.SCENARION_BI) {
+                                            if (
+                                                rowId !== RowIds.SCENARION_BI &&
+                                                rowId !== RowIds.IDENTIFICATOR &&
+                                                rowId !== RowIds.DOCUMENT
+                                            ) {
                                                 setEditingCell(`${rowId}-${i}`);
                                             }
                                         }}
+                                        hoverable={
+                                            rowId !== RowIds.IDENTIFICATOR &&
+                                            rowId !== RowIds.DOCUMENT
+                                        }
                                     >
                                         <EditableCell
                                             rowId={rowId}

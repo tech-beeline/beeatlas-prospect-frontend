@@ -1,17 +1,17 @@
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
-const GATEWAY_LINK = 'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api-gateway/';
+const GATEWAY_LINK = 'https://fdm-gateway-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api-gateway/';
 const GATEWAY_PRODUCT_LINK =
-    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/product/api/';
+    'https://fdm-gateway-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/product/api/';
 const GATEWAY_ARCH_GRAPH_LINK =
-    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/arch-graph/api/';
+    'https://fdm-gateway-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/arch-graph/api/';
 const GATEWAY_CAPABILITY_LINK =
-    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/capability/api/';
-const MONOLITH_LINK = 'https://eafdmmart-backend-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api/';
+    'https://fdm-gateway-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/capability/api/';
+const MONOLITH_LINK = 'https://eafdmmart-backend-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api/';
 const STRUCTURIZR_LINK =
-    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/structurizr-backend/';
+    'https://fdm-gateway-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/structurizr-backend/';
 const GATEWAY_GRAPH_VALIDATOR_LINK =
-    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/graph-validator/api/';
+    'https://fdm-gateway-func-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/graph-validator/api/';
 
 const PROD_GATEWAY = '/api-gateway/';
 const PROD_GATEWAY_PRODUCT = '/product/api/';

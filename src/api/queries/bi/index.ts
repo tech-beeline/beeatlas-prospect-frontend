@@ -5,10 +5,13 @@ import {
     getBIById,
     getBICollection,
     getBIEditabilityById,
+    getTechCapibility,
     patchBI,
+    patchSLABI,
+    patchStepRelationsBI,
     postBI,
 } from 'api/bi';
-import { IBIData, IBIForm } from 'api/bi/types';
+import { IBIData, IBIForm, IRelations, IStepsScenarion } from 'api/bi/types';
 
 import { CJ_PREFIX } from '../cj';
 
@@ -36,6 +39,13 @@ export const useGetBIByIdQuery = (id: string | undefined | null) => {
         queryKey: [BI_PREFIX, id],
         queryFn: () => getBIById(id!).then((res) => res.data),
         enabled: Boolean(id),
+    });
+};
+
+export const useGetTS = () => {
+    return useQuery({
+        queryKey: [BI_PREFIX],
+        queryFn: () => getTechCapibility().then((res) => res.data),
     });
 };
 
@@ -70,6 +80,40 @@ export function useUpdateBIMutation() {
     return useMutation({
         mutationKey: [BI_PREFIX, 'update'],
         mutationFn: ({ id, data }: IUpdateBIParams) => patchBI(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+            queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
+        },
+    });
+}
+
+interface IUpdateBISLA {
+    id: string;
+    data: IStepsScenarion;
+}
+
+export function useUpdateBISLA() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [BI_PREFIX, 'update', 'SLA'],
+        mutationFn: ({ id, data }: IUpdateBISLA) => patchSLABI(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+            queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
+        },
+    });
+}
+
+interface IUpdateBIStepRelations {
+    id: string;
+    data: IRelations;
+}
+
+export function useUpdateBIStepRelations() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [BI_PREFIX, 'update', 'StepRelations'],
+        mutationFn: ({ id, data }: IUpdateBIStepRelations) => patchStepRelationsBI(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
             queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });

@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
+import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
 import { SideBlock } from 'components/containers';
-import { Text } from 'components/core';
+// import { Text } from 'components/core';
 import { TextField } from 'components/form';
 
 import { useUpdateCJMutation } from 'api/queries/cj';
@@ -28,29 +28,29 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
     useEffect(() => reset(values), [values]);
 
-    const [links, setLinks] = useState<{ id: number; url: string; description: string }[]>([]);
+    // const [links, setLinks] = useState<{ id: number; url: string; description: string }[]>([]);
 
-    const addLink = () => {
-        setLinks((prev) => [
-            ...prev,
-            {
-                id: prev.length + 1,
-                url: '',
-                description: '',
-            },
-        ]);
-    };
+    // const addLink = () => {
+    //     setLinks((prev) => [
+    //         ...prev,
+    //         {
+    //             id: prev.length + 1,
+    //             url: '',
+    //             description: '',
+    //         },
+    //     ]);
+    // };
 
-    const removeLink = (id: number) => {
-        setLinks((prev) =>
-            prev
-                .filter((link) => link.id !== id)
-                .map((link, index) => ({
-                    ...link,
-                    id: index + 1,
-                })),
-        );
-    };
+    // const removeLink = (id: number) => {
+    //     setLinks((prev) =>
+    //         prev
+    //             .filter((link) => link.id !== id)
+    //             .map((link, index) => ({
+    //                 ...link,
+    //                 id: index + 1,
+    //             })),
+    //     );
+    // };
 
     const onSubmit = handleSubmit(async (values) => {
         try {
@@ -89,7 +89,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                                 <TextField label="Портрет пользователя" name="userPortrait" />
                             </S.TextFieldContainer>
 
-                            <S.LinkContainer>
+                            {/* /*<S.LinkContainer>
                                 <S.FlexWrapper>
                                     <Text variant="subtitle1">Полезные ссылки</Text>
                                     <Button
@@ -138,7 +138,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                                         </S.LinkBlock>
                                     ))}
                                 </S.LinkWrapper>
-                            </S.LinkContainer>
+                            </S.LinkContainer> */}
                         </S.Content>
 
                         <S.ButtonContainer>

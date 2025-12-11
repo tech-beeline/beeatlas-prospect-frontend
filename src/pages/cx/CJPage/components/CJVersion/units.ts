@@ -1,4 +1,3 @@
-import { FileUploaderListItem } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -33,11 +32,12 @@ export const FileNameContainer = styled.div`
 export const FileMetadataContainer = styled.div`
     display: flex;
     flex-direction: column;
+    max-width: 240px;
     gap: 4px;
 `;
 
-export const FileUploaderListItemWrapper = styled(FileUploaderListItem)`
-    > div > div > div {
-        width: 0;
-    }
+export const FileNameWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
 `;

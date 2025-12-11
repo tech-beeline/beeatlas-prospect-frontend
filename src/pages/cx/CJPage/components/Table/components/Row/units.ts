@@ -16,6 +16,7 @@ export const Td = styled.td<{
     noBottomBorder?: boolean;
     locked?: boolean;
     isEditing?: boolean;
+    hoverable?: boolean;
 }>`
     min-width: 320px;
     height: 52px;
@@ -43,11 +44,13 @@ export const Td = styled.td<{
     }
 
     &:hover {
-        ${({ locked, isEditing }) =>
+        ${({ locked, isEditing, hoverable }) =>
             !locked &&
             !isEditing &&
+            hoverable &&
             css`
-                border: 1px solid black;
+                outline: 1px solid black;
+                outline-offset: -1px;
             `}
     }
 
