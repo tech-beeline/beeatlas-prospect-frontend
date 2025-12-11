@@ -14,7 +14,6 @@ import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
 import { BIEditScenario } from './components/BIEditScenario';
-import { BIEditSLA } from './components/BIEditSLA';
 import { CJImport } from './components/CJImport';
 import { CJUpdateForm } from './components/CJUpdateForm';
 import { CJVersion } from './components/CJVersion';
@@ -30,7 +29,7 @@ export const CJPage = () => {
     const { modalOpened, openModal, closeModal } = useModal();
     const { data, isLoading: isLoadingCJ, refetch } = useGetCompleteCJDataByIdQuery(paramId);
     const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
-    console.log('CJ', data);
+
     const isLoading = isLoadingCJ || isLoadingProducts;
 
     const canEditCJ = (dataProducts ?? [])
@@ -243,10 +242,6 @@ export const CJPage = () => {
                     />
                     <BIEditScenario
                         isOpen={openSideSheet === SideSheetVariants.EDIT_SCENARIO_BI}
-                        onClose={closeSideSheet}
-                    />
-                    <BIEditSLA
-                        isOpen={openSideSheet === SideSheetVariants.EDIT_SLA_BI}
                         onClose={closeSideSheet}
                     />
                 </>

@@ -17,6 +17,7 @@ export const Td = styled.td<{
     locked?: boolean;
     isEditing?: boolean;
     hoverable?: boolean;
+    alignTop?: boolean;
 }>`
     min-width: 320px;
     height: 52px;
@@ -30,6 +31,8 @@ export const Td = styled.td<{
     border-right: ${({ borderRight }) => (borderRight ? '1px solid var(--color-divider)' : 'none')};
 
     white-space: pre-wrap;
+
+    ${({ alignTop }) => (alignTop ? 'vertical-align: top;' : '')}
 
     &:first-of-type {
         position: sticky;

@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSideSheetStore } from 'features/cx/store';
 
 import { SideBlock } from 'components/containers';
 import { TextField } from 'components/form';
@@ -15,14 +14,21 @@ import { FormValues, validationSchema } from './form';
 import { IBIEditSLA } from './types';
 import * as S from './units';
 
-export const BIEditSLA: FC<IBIEditSLA> = ({ isOpen, onClose }) => {
+export const BIEditSLA: FC<IBIEditSLA> = ({ isOpen, onClose, slaId, data }) => {
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
     });
-    const { payload: biId } = useSideSheetStore();
-    const { handleSubmit } = form;
+    const { handleSubmit, reset } = form;
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { mutateAsync: updateSLA } = useUpdateBISLA();
+
+    useEffect(() => {
+        reset({
+            errorRate: data.errorRate ? String(data.errorRate) : undefined,
+            latency: data.latency ? String(data.latency) : undefined,
+            rps: data.rps ? String(data.rps) : undefined,
+        });
+    }, [data]);
 
     const onSubmit = async (values: FormValues) => {
         const payload = {
@@ -32,14 +38,15 @@ export const BIEditSLA: FC<IBIEditSLA> = ({ isOpen, onClose }) => {
         };
 
         await updateSLA({
-            id: String(biId),
+            id: String(slaId),
             data: payload,
         });
+
         showSnackbar({ message: 'Изменения сохранены' });
         onClose();
     };
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose} large>
+        <SideBlock hasBackdrop isOpen={isOpen} onClose={onClose} large>
             <S.Container>
                 <FormProvider {...form}>
                     <form onSubmit={handleSubmit(onSubmit)}>

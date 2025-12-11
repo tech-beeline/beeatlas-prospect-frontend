@@ -1,13 +1,13 @@
-import { number, object } from 'yup';
+import { object, string } from 'yup';
 
 export type FormValues = {
-    rps: number;
-    latency: number;
-    errorRate: number;
+    rps: string;
+    latency: string;
+    errorRate: string;
 };
 
 export const validationSchema = object().shape({
-    rps: number().required('Заполните RPS'),
-    latency: number().required('Заполните RPS'),
-    errorRate: number().required('Заполните RPS'),
+    rps: string().default(''),
+    latency: string().default(''),
+    errorRate: string().default(''),
 });

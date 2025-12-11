@@ -7,7 +7,7 @@ import { capitalizeFirstLetter } from 'utils/helpers';
 import { useHiddenRowsStore } from '../../store/HiddenRowsStore';
 import { RowIds } from '../../types';
 
-import { EditableCell } from './components/EditableCell';
+import { EditableCell } from './components';
 import { IReducedTableData, IRow, RowElementType } from './types';
 import * as S from './units';
 
@@ -23,7 +23,6 @@ export const Row = <T,>({
     collapsedStedIds,
     draft,
     showShadow,
-    bpmn,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -117,6 +116,7 @@ export const Row = <T,>({
                                             reducedStepData[i + 1].type ===
                                                 RowElementType.COLLAPSED_STEP
                                         }
+                                        alignTop={rowId === RowIds.SCENARION_BI}
                                         data-testid={`${i}${capitalizeFirstLetter(rowId)}`}
                                         locked={rowId === RowIds.SCENARION_BI}
                                         isEditing={editingCell === `${rowId}-${i}`}

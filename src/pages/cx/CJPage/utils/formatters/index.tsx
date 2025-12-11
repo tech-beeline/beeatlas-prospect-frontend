@@ -23,7 +23,11 @@ export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
             {biSteps.length === 0
                 ? formatNullableString(null)
                 : biSteps.map((step, index) => (
-                      <BIScenario key={step.id ?? index} biSteps={step} />
+                      <BIScenario
+                          key={step.id ?? index}
+                          biSteps={step}
+                          last={index === biSteps.length - 1 && index !== 0}
+                      />
                   ))}
         </>
     );

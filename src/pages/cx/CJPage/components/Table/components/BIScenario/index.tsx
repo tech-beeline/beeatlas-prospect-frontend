@@ -1,24 +1,30 @@
 import React, { FC, useState } from 'react';
 import { Avatar, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { useSideSheetStore } from 'features/cx/store';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
-import { SideSheetVariants } from 'pages/cx/CJPage/const';
+import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
+
+import { BIEditSLA } from '../../../BIEditSLA';
 
 import { IBIScenario } from './types';
 import * as S from './units';
 
-export const BIScenario: FC<IBIScenario> = ({ biSteps }) => {
+export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     const [expanded, setExpanded] = useState(false);
-    const { toggleSideSheet } = useSideSheetStore();
+    const {
+        openModal: openSlaSidesheet,
+        closeModal: closeSlaSidesheet,
+        modalOpened: isSlaSidesheetOpened,
+    } = useModal();
+
     return (
         <>
-            <S.ScenarionTdWrapper expanded={expanded}>
+            <S.ScenarionTdWrapper last={last} expanded={expanded}>
                 <S.ScenationTitleWrapper>
                     <IconButton
                         onClick={() => setExpanded(!expanded)}
@@ -31,7 +37,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps }) => {
                 <IconButton
                     iconName={Icons.Edit}
                     size="medium"
-                    onClick={() => toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI)}
+                    // onClick={() => toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI)}
                 />
             </S.ScenarionTdWrapper>
 
@@ -43,9 +49,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps }) => {
                             <IconButton
                                 iconName={Icons.Edit}
                                 size="medium"
-                                onClick={() =>
-                                    toggleSideSheet(SideSheetVariants.EDIT_SLA_BI, biSteps.id)
-                                }
+                                onClick={openSlaSidesheet}
                             />
                         </S.SLATitle>
                         <S.SLAContent>
@@ -147,6 +151,12 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps }) => {
                     )}
                 </S.ScenarioContentWrapper>
             )}
+            <BIEditSLA
+                isOpen={isSlaSidesheetOpened}
+                onClose={closeSlaSidesheet}
+                slaId={String(biSteps.id)}
+                data={{ errorRate: biSteps.error_rate, latency: biSteps.latency, rps: biSteps.rps }}
+            />
         </>
     );
 };

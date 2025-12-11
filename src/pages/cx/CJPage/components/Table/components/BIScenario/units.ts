@@ -7,7 +7,7 @@ export const ScenarioTd = styled.td`
     border-right: 1px solid var(--color-divider);
 `;
 
-export const ScenarionTdWrapper = styled.div<{ expanded?: boolean }>`
+export const ScenarionTdWrapper = styled.div<{ expanded?: boolean; last: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,7 +17,7 @@ export const ScenarionTdWrapper = styled.div<{ expanded?: boolean }>`
     width: 100%;
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};
-    border-bottom: 1px solid var(--color-divider);
+    ${({ last }) => (last ? '' : 'border-bottom: 1px solid var(--color-divider);')}
 `;
 
 export const ScenationTitleWrapper = styled.div`
