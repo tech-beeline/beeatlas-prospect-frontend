@@ -9,6 +9,7 @@ import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
+import { BIEditScenario } from '../../../BIEditScenario';
 import { BIEditSLA } from '../../../BIEditSLA';
 
 import { IBIScenario } from './types';
@@ -22,6 +23,12 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
         modalOpened: isSlaSidesheetOpened,
     } = useModal();
 
+    const {
+        openModal: openRealtionsSidesheet,
+        closeModal: closeRelationsSidesheet,
+        modalOpened: isRelationsSidesheetOpened,
+    } = useModal();
+
     return (
         <>
             <S.ScenarionTdWrapper last={last} expanded={expanded}>
@@ -32,13 +39,9 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                         size="medium"
                     />
                     <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
-                    <Text variant="body3">Сценарий</Text>
+                    <Text variant="body3">{biSteps.name}</Text>
                 </S.ScenationTitleWrapper>
-                <IconButton
-                    iconName={Icons.Edit}
-                    size="medium"
-                    // onClick={() => toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI)}
-                />
+                <IconButton iconName={Icons.Edit} size="medium" onClick={openRealtionsSidesheet} />
             </S.ScenarionTdWrapper>
 
             {expanded && (
@@ -74,37 +77,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
 
                     {!biSteps.relations || biSteps.relations.length === 0 ? (
                         <S.FlexWrapper gap="16">
-                            <Text variant="subtitle3">Вызов 1</Text>
-
-                            <S.FlexWrapper gap="24">
-                                <S.FlexWrapper>
-                                    <Text variant="overline" inactive>
-                                        ПРИЛОЖЕНИЕ
-                                    </Text>
-                                    <Link title="Заголовок" />
-                                </S.FlexWrapper>
-
-                                <S.FlexWrapper>
-                                    <Text variant="overline" inactive>
-                                        ТЕХНИЧЕСКАЯ ВОЗМОЖНОСТЬ
-                                    </Text>
-                                    <Link title="Заголовок" />
-                                </S.FlexWrapper>
-
-                                <S.FlexWrapper>
-                                    <Text variant="overline" inactive>
-                                        ENDPOINT
-                                    </Text>
-                                    <Link title="Заголовок" />
-                                </S.FlexWrapper>
-
-                                <S.FlexWrapper>
-                                    <Text variant="overline" inactive>
-                                        ИНТЕРФЕЙС
-                                    </Text>
-                                    <Link title="Заголовок" />
-                                </S.FlexWrapper>
-                            </S.FlexWrapper>
+                            <Text variant="subtitle3">Нет вызовов</Text>
                         </S.FlexWrapper>
                     ) : (
                         biSteps.relations.map((relation, index) => (
@@ -114,36 +87,69 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                 <S.FlexWrapper gap="24">
                                     <S.FlexWrapper>
                                         <Text variant="overline" inactive>
+                                            ОПИСАНИЕ
+                                        </Text>
+                                        {formatNullableString(relation.description)}
+                                    </S.FlexWrapper>
+
+                                    <S.FlexWrapper>
+                                        <Text variant="overline" inactive>
                                             ПРИЛОЖЕНИЕ
                                         </Text>
-                                        <Link
-                                            title={relation.productName}
-                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${relation.productAlias}`}
-                                        />
+                                        {relation.productName && relation.productAlias ? (
+                                            <Link
+                                                title={relation.productName}
+                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${relation.productAlias}`}
+                                            />
+                                        ) : (
+                                            formatNullableString(null)
+                                        )}
                                     </S.FlexWrapper>
 
                                     <S.FlexWrapper>
                                         <Text variant="overline" inactive>
                                             ТЕХНИЧЕСКАЯ ВОЗМОЖНОСТЬ
                                         </Text>
-                                        <Link
-                                            title={relation.tcName}
-                                            url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${relation.tcId}&type=TECH`}
-                                        />
+                                        {relation.tcName && relation.tcId ? (
+                                            <Link
+                                                title={relation.tcName}
+                                                url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${relation.tcId}&type=TECH`}
+                                            />
+                                        ) : (
+                                            formatNullableString(null)
+                                        )}
                                     </S.FlexWrapper>
 
                                     <S.FlexWrapper>
                                         <Text variant="overline" inactive>
                                             ENDPOINT
                                         </Text>
-                                        <Link title={relation.operation} />
+                                        {relation.productAlias &&
+                                        relation.operation &&
+                                        relation.operationId ? (
+                                            <Link
+                                                title={relation.operation}
+                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.operationId}&type=arch_operation`}
+                                            />
+                                        ) : (
+                                            formatNullableString(null)
+                                        )}
                                     </S.FlexWrapper>
 
                                     <S.FlexWrapper>
                                         <Text variant="overline" inactive>
                                             ИНТЕРФЕЙС
                                         </Text>
-                                        <Link title={relation.interfaceName} />
+                                        {relation.productAlias &&
+                                        relation.interfaceName &&
+                                        relation.interfaceId ? (
+                                            <Link
+                                                title={relation.interfaceName}
+                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.interfaceId}&type=arch_interface`}
+                                            />
+                                        ) : (
+                                            formatNullableString(null)
+                                        )}
                                     </S.FlexWrapper>
                                 </S.FlexWrapper>
                             </S.FlexWrapper>
@@ -156,6 +162,12 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                 onClose={closeSlaSidesheet}
                 slaId={String(biSteps.id)}
                 data={{ errorRate: biSteps.error_rate, latency: biSteps.latency, rps: biSteps.rps }}
+            />
+            <BIEditScenario
+                isOpen={isRelationsSidesheetOpened}
+                onClose={closeRelationsSidesheet}
+                stepId={biSteps.id}
+                relationsData={biSteps.relations}
             />
         </>
     );

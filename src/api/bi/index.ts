@@ -57,7 +57,7 @@ export const patchSLABI = (id: string, data: T.IEditSLA) => {
     });
 };
 
-export const patchStepRelationsBI = (id: string, data: T.IRelations) => {
+export const patchStepRelationsBI = (id: string, data: T.IRelationForm[]) => {
     return Api.patch({
         url: `${GATEWAY_URL}cx/v1/library/business-interactions/step/${id}/relation`,
         data,

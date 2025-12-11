@@ -13,7 +13,6 @@ import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 
-import { BIEditScenario } from './components/BIEditScenario';
 import { CJImport } from './components/CJImport';
 import { CJUpdateForm } from './components/CJUpdateForm';
 import { CJVersion } from './components/CJVersion';
@@ -238,10 +237,6 @@ export const CJPage = () => {
                     />
                     <CJVersion
                         isOpen={openSideSheet === SideSheetVariants.VERSION_CJ}
-                        onClose={closeSideSheet}
-                    />
-                    <BIEditScenario
-                        isOpen={openSideSheet === SideSheetVariants.EDIT_SCENARIO_BI}
                         onClose={closeSideSheet}
                     />
                 </>

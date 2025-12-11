@@ -145,3 +145,16 @@ export const useGetSystemTCQuery = (cmdb: string | undefined | null) => {
         enabled: !!cmdb,
     });
 };
+
+export const useGetSystemTCByIdQuery = (id: string | number | undefined | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'system', 'tc', 'id', id],
+        queryFn: async () => {
+            return getSystemTC(id!).then((res) => [
+                ...res.data.implemented,
+                ...res.data.responsibility,
+            ]);
+        },
+        enabled: !!id,
+    });
+};

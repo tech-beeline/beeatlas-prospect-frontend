@@ -87,6 +87,14 @@ export interface IRelations {
     order: number;
 }
 
+export interface IRelationForm {
+    description?: string;
+    interfaceId?: number;
+    operationId?: number;
+    productId?: number;
+    tcId?: number;
+}
+
 export interface IStepsScenarion {
     name: string;
     id: number;

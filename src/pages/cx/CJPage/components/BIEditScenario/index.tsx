@@ -1,63 +1,74 @@
-import React, { FC, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
+import React, { FC, useEffect } from 'react';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
-import { Text } from 'components/core';
-import { Autocomplete, TextArea } from 'components/form';
 
-import { useGetTS } from 'api/queries/bi';
-import { useGetProductsQuery } from 'hooks';
+import { useUpdateBIStepRelations } from 'api/queries/bi';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { StepFields } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIEditScenario } from './types';
 import * as S from './units';
 
-export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
-    const [searchTextProduct, setSearchTextProduct] = useState('');
-    const [searchTextTechCapability, setSearchTextTechCapability] = useState('');
-    const [, setSearchTextEndpoint] = useState('');
-    const [, setSearchTextInterface] = useState('');
-    // const [selectedAppId, setSelectedAppId] = useState<number | null>(null);
-    const [calls, setCalls] = useState<{ id: number; url: string; description: string }[]>([]);
-
-    const { data: techCapability, isLoading: techCapabilityLoading } = useGetTS();
-    const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
-
-    const techCapabilityFilterd = (techCapability ?? [])
-        .slice(0, 100)
-        .filter((g) => g.name.toLowerCase().includes(searchTextTechCapability.toLowerCase()));
-    const productsFilterd = (products ?? []).filter((g) =>
-        g.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
-    );
-    const productsOptions = productsFilterd.map((group) => ({ id: group.id, value: group.name }));
-    const techCapabilityOptions = techCapabilityFilterd.map((group) => ({
-        id: group.id,
-        value: group.name,
-    }));
-
-    const addCall = () => {
-        setCalls((prev) => [
-            ...prev,
-            {
-                id: prev.length + 1,
-                url: '',
-                description: '',
-            },
-        ]);
-    };
+export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, relationsData }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
     });
 
+    const { handleSubmit, control, reset } = form;
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'steps',
+    });
+
+    useEffect(() => {
+        reset({
+            steps:
+                relationsData.length === 0
+                    ? [{ description: '' }]
+                    : relationsData.map((relation) => ({
+                          product: relation.productId,
+                          tc: relation.tcId,
+                          iface: relation.interfaceId,
+                          operation: relation.operationId,
+                          description: relation.description,
+                      })),
+        });
+    }, [relationsData]);
+
+    const { mutateAsync } = useUpdateBIStepRelations();
+
+    const onSubmit = handleSubmit(async (values: FormValues) => {
+        await mutateAsync({
+            id: String(stepId),
+            data: values.steps.map((step) => ({
+                description: step.description,
+                productId: step.product ?? undefined,
+                tcId: step.tc ?? undefined,
+                interfaceId: step.iface ?? undefined,
+                operationId: step.operation ?? undefined,
+            })),
+        });
+        showSnackbar({ message: 'Изменения сохранены' });
+        onClose();
+    });
+
+    const handleAddClick = () => {
+        append({ description: '' });
+    };
+
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose} large>
+        <SideBlock hasBackdrop isOpen={isOpen} onClose={onClose} large>
             <S.Container>
                 <FormProvider {...form}>
-                    <form onSubmit={() => []}>
+                    <form onSubmit={onSubmit}>
                         <S.Content hasButtons>
                             <S.FlexWrapper>
                                 <S.SideBlockTitle>Редактирование шага сценария BI</S.SideBlockTitle>
@@ -65,64 +76,14 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                 <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                             </S.FlexWrapper>
 
-                            <S.LinkContainer>
-                                <S.FlexWrapper>
-                                    <Text variant="subtitle1">Вызов 1</Text>
-                                    <Button
-                                        variant="plain"
-                                        size="small"
-                                        startIcon={<Icon iconName={Icons.Add} color="blue" />}
-                                        onClick={addCall}
-                                        type="button"
-                                    >
-                                        {' '}
-                                        Добавить
-                                    </Button>
-                                </S.FlexWrapper>
-                                <S.LinkWrapper>
-                                    {calls.map((call) => (
-                                        <S.LinkBlock key={call.id}>
-                                            <S.LinkTextField>
-                                                <Autocomplete
-                                                    fullWidth
-                                                    disabled={isLoadingProducts}
-                                                    label="Приложение"
-                                                    name="group"
-                                                    options={productsOptions}
-                                                    onInputChange={(v) => setSearchTextProduct(v)}
-                                                />
-                                                <Autocomplete
-                                                    fullWidth
-                                                    disabled={techCapabilityLoading}
-                                                    label="Техническая возможность"
-                                                    name="group"
-                                                    options={techCapabilityOptions}
-                                                    onInputChange={(v) =>
-                                                        setSearchTextTechCapability(v)
-                                                    }
-                                                />
-                                                <Autocomplete
-                                                    fullWidth
-                                                    disabled={isLoadingProducts}
-                                                    label="Endpoint"
-                                                    name="group"
-                                                    options={[]}
-                                                    onInputChange={(v) => setSearchTextEndpoint(v)}
-                                                />
-                                                <Autocomplete
-                                                    fullWidth
-                                                    disabled={isLoadingProducts}
-                                                    label="Интерфейс"
-                                                    name="group"
-                                                    options={[]}
-                                                    onInputChange={(v) => setSearchTextInterface(v)}
-                                                />
-                                                <TextArea name="descr" label="Описание вызова" />
-                                            </S.LinkTextField>
-                                        </S.LinkBlock>
-                                    ))}
-                                </S.LinkWrapper>
-                            </S.LinkContainer>
+                            {fields.map((field, i) => (
+                                <StepFields
+                                    key={field.id}
+                                    index={i}
+                                    handleAddClick={handleAddClick}
+                                    handleRemoveClick={remove}
+                                />
+                            ))}
                         </S.Content>
 
                         <S.ButtonContainer>
@@ -130,7 +91,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                 Отменить
                             </Button>
 
-                            <Button disabled={true} type="submit" variant="contained">
+                            <Button type="submit" variant="contained">
                                 Сохранить
                             </Button>
                         </S.ButtonContainer>

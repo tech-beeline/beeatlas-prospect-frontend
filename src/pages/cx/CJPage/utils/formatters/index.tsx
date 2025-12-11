@@ -20,15 +20,17 @@ export const formatStatus = (status: IStatus) => <StatusLabel status={status} />
 export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
     return (
         <>
-            {biSteps.length === 0
-                ? formatNullableString(null)
-                : biSteps.map((step, index) => (
-                      <BIScenario
-                          key={step.id ?? index}
-                          biSteps={step}
-                          last={index === biSteps.length - 1 && index !== 0}
-                      />
-                  ))}
+            {biSteps.length === 0 ? (
+                <></>
+            ) : (
+                biSteps.map((step, index) => (
+                    <BIScenario
+                        key={step.id ?? index}
+                        biSteps={step}
+                        last={index === biSteps.length - 1 && index !== 0}
+                    />
+                ))
+            )}
         </>
     );
 };
