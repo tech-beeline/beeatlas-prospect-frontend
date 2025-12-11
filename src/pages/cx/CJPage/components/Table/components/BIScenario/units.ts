@@ -17,7 +17,7 @@ export const ScenarionTdWrapper = styled.div<{ expanded?: boolean }>`
     width: 100%;
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};
-    border-bottom: ${({ expanded }) => (expanded ? '1px solid var(--color-divider)' : '')};
+    border-bottom: 1px solid var(--color-divider);
 `;
 
 export const ScenationTitleWrapper = styled.div`
@@ -33,6 +33,7 @@ export const ScenarioContentWrapper = styled.div`
     padding: 24px 16px 12px 36px;
     border-left: 4px solid var(--color-background-brand);
     gap: 24px;
+    overflow-y: auto;
 `;
 
 export const SLAWrapper = styled.div`
@@ -54,8 +55,9 @@ export const SLAContent = styled.div`
     padding: 12px 0;
 `;
 
-export const FlexWrapper = styled.div<{ gap?: string }>`
+export const FlexWrapper = styled.div<{ gap?: string; maxwidth?: boolean }>`
     display: flex;
     flex-direction: column;
     gap: ${({ gap }) => (gap ? `${gap}px` : '')};
+    max-width: ${({ maxwidth }) => (maxwidth ? '264px' : '')};
 `;

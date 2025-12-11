@@ -3,7 +3,7 @@ import VKITAuth from '@beeline/lk-auth';
 import {
     DEV_AUTH_LINK,
     FUNC_MOCK_AUTH_LINK,
-    // LOCALHOST_LINK,
+    LOCALHOST_LINK,
     PROD_AUTH_LINK,
     TEST_AUTH_LINK,
 } from 'utils/const';
@@ -19,5 +19,5 @@ const hostnameToAuthMap: Record<string, string> = {
 };
 
 export const authInstance = new VKITAuth({
-    authUrl: hostnameToAuthMap[window.location.hostname] ?? FUNC_MOCK_AUTH_LINK,
+    authUrl: hostnameToAuthMap[window.location.hostname] ?? LOCALHOST_LINK,
 });

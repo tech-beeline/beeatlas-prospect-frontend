@@ -96,6 +96,12 @@ export interface IStepsScenarion {
     relations: IRelations[];
 }
 
+export interface IEditSLA {
+    latency: number;
+    error_rate: number;
+    rps: number;
+}
+
 export interface IBIData {
     channel: IChannel[];
     clientScenario: string;

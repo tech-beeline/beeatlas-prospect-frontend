@@ -30,7 +30,7 @@ export const CJPage = () => {
     const { modalOpened, openModal, closeModal } = useModal();
     const { data, isLoading: isLoadingCJ, refetch } = useGetCompleteCJDataByIdQuery(paramId);
     const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
-
+    console.log('CJ', data);
     const isLoading = isLoadingCJ || isLoadingProducts;
 
     const canEditCJ = (dataProducts ?? [])

@@ -120,19 +120,19 @@ export const Row = <T,>({
                                         data-testid={`${i}${capitalizeFirstLetter(rowId)}`}
                                         locked={rowId === RowIds.SCENARION_BI}
                                         isEditing={editingCell === `${rowId}-${i}`}
-                                        onClick={() => {
-                                            if (
-                                                rowId !== RowIds.SCENARION_BI &&
-                                                rowId !== RowIds.IDENTIFICATOR &&
-                                                rowId !== RowIds.DOCUMENT
-                                            ) {
-                                                setEditingCell(`${rowId}-${i}`);
-                                            }
-                                        }}
-                                        hoverable={
-                                            rowId !== RowIds.IDENTIFICATOR &&
-                                            rowId !== RowIds.DOCUMENT
-                                        }
+                                        // onClick={() => {
+                                        //     if (
+                                        //         rowId !== RowIds.SCENARION_BI &&
+                                        //         rowId !== RowIds.IDENTIFICATOR &&
+                                        //         rowId !== RowIds.DOCUMENT
+                                        //     ) {
+                                        //         setEditingCell(`${rowId}-${i}`);
+                                        //     }
+                                        // }}
+                                        // hoverable={
+                                        //     rowId !== RowIds.IDENTIFICATOR &&
+                                        //     rowId !== RowIds.DOCUMENT
+                                        // }
                                     >
                                         <EditableCell
                                             rowId={rowId}

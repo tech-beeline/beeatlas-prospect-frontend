@@ -20,7 +20,7 @@ export const EditableCell = <T,>({
 
     const { data: channels } = useGetBIChannelsQuery();
     const { data: statuses } = useGetBIStatusesQuery();
-    console.log(element);
+
     const fieldName = getFieldNameByRowId(rowId);
     const cellType = getCellTypeByRowId(rowId);
 

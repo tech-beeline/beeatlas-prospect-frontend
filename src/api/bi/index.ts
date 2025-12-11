@@ -50,7 +50,7 @@ export const patchBI = (id: string, data: T.IBIForm) => {
     });
 };
 
-export const patchSLABI = (id: string, data: T.IStepsScenarion) => {
+export const patchSLABI = (id: string, data: T.IEditSLA) => {
     return Api.patch({
         url: `${GATEWAY_URL}cx/v1/library/business-interactions/step/${id}`,
         data,

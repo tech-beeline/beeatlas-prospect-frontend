@@ -16,17 +16,21 @@ import { IBIEditScenario } from './types';
 import * as S from './units';
 
 export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
-    const [searchText, setSearchText] = useState('');
+    const [searchTextProduct, setSearchTextProduct] = useState('');
+    const [searchTextTechCapability, setSearchTextTechCapability] = useState('');
+    const [, setSearchTextEndpoint] = useState('');
+    const [, setSearchTextInterface] = useState('');
+    // const [selectedAppId, setSelectedAppId] = useState<number | null>(null);
     const [calls, setCalls] = useState<{ id: number; url: string; description: string }[]>([]);
 
     const { data: techCapability, isLoading: techCapabilityLoading } = useGetTS();
     const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
 
-    const techCapabilityFilterd = (techCapability ?? []).filter((g) =>
-        g.name.toLowerCase().includes(searchText.toLowerCase()),
-    );
+    const techCapabilityFilterd = (techCapability ?? [])
+        .slice(0, 100)
+        .filter((g) => g.name.toLowerCase().includes(searchTextTechCapability.toLowerCase()));
     const productsFilterd = (products ?? []).filter((g) =>
-        g.name.toLowerCase().includes(searchText.toLowerCase()),
+        g.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
     );
     const productsOptions = productsFilterd.map((group) => ({ id: group.id, value: group.name }));
     const techCapabilityOptions = techCapabilityFilterd.map((group) => ({
@@ -85,7 +89,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     label="Приложение"
                                                     name="group"
                                                     options={productsOptions}
-                                                    onInputChange={(v) => setSearchText(v)}
+                                                    onInputChange={(v) => setSearchTextProduct(v)}
                                                 />
                                                 <Autocomplete
                                                     fullWidth
@@ -93,7 +97,9 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     label="Техническая возможность"
                                                     name="group"
                                                     options={techCapabilityOptions}
-                                                    onInputChange={(v) => setSearchText(v)}
+                                                    onInputChange={(v) =>
+                                                        setSearchTextTechCapability(v)
+                                                    }
                                                 />
                                                 <Autocomplete
                                                     fullWidth
@@ -101,7 +107,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     label="Endpoint"
                                                     name="group"
                                                     options={[]}
-                                                    onInputChange={(v) => setSearchText(v)}
+                                                    onInputChange={(v) => setSearchTextEndpoint(v)}
                                                 />
                                                 <Autocomplete
                                                     fullWidth
@@ -109,7 +115,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose }) => {
                                                     label="Интерфейс"
                                                     name="group"
                                                     options={[]}
-                                                    onInputChange={(v) => setSearchText(v)}
+                                                    onInputChange={(v) => setSearchTextInterface(v)}
                                                 />
                                                 <TextArea name="descr" label="Описание вызова" />
                                             </S.LinkTextField>

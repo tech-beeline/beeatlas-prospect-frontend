@@ -9,6 +9,7 @@ import { Text } from 'components/core';
 
 import { CJ_PREFIX, useCreateCJByBPMN, useUploadBPMNFile } from 'api/queries/cj';
 import { formatSize } from 'utils/formatters';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { downloadBpmnFile } from '../../utils/formatters';
 
@@ -20,7 +21,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
     const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const queryClient = useQueryClient();
-
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files && files.length > 0) {
@@ -53,6 +54,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
             setBpmnFile(null);
             onUploaded?.();
             onClose();
+            showSnackbar({ message: 'Изменения сохранены' });
         }
     };
     return (

@@ -16,7 +16,18 @@ export const formatCommunal = (communal: boolean) =>
 export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
 
 export const formatStatus = (status: IStatus) => <StatusLabel status={status} />;
-export const formatScenario = (biSteps: IStepsScenarion) => <BIScenario biSteps={biSteps} />;
+
+export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
+    return (
+        <>
+            {biSteps.length === 0
+                ? formatNullableString(null)
+                : biSteps.map((step, index) => (
+                      <BIScenario key={step.id ?? index} biSteps={step} />
+                  ))}
+        </>
+    );
+};
 export const getFeelingType = (feelingId: number) => Object.values(FeelingTypes)[feelingId];
 
 export const formatFeeling = (feeling: number) => (

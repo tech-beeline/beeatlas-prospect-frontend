@@ -1,11 +1,13 @@
-import { object, string } from 'yup';
+import { number, object } from 'yup';
 
 export type FormValues = {
-    name: string;
-    userPortrait: string;
+    rps: number;
+    latency: number;
+    errorRate: number;
 };
 
 export const validationSchema = object().shape({
-    name: string().required('Заполните название'),
-    userPortrait: string().required('Заполните портрет пользователя'),
+    rps: number().required('Заполните RPS'),
+    latency: number().required('Заполните RPS'),
+    errorRate: number().required('Заполните RPS'),
 });
