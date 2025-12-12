@@ -57,9 +57,19 @@ export const BIEditSLA: FC<IBIEditSLA> = ({ isOpen, onClose, slaId, data }) => {
                                 <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                             </S.FlexWrapper>
                             <S.TextFieldContainer>
-                                <TextField id="rps" label="RPS" name="rps" />
-                                <TextField id="latency" label="Latency, ms" name="latency" />
-                                <TextField id="errorRate" label="Error Rate, %" name="errorRate" />
+                                <TextField id="rps" label="RPS" name="rps" type="number" />
+                                <TextField
+                                    id="latency"
+                                    label="Latency, ms"
+                                    name="latency"
+                                    type="number"
+                                />
+                                <TextField
+                                    id="errorRate"
+                                    label="Error Rate, %"
+                                    name="errorRate"
+                                    type="number"
+                                />
                             </S.TextFieldContainer>
                         </S.Content>
 

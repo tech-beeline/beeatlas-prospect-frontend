@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField as DesignSystemTextField } from '@beeline/design-system-react';
 import get from 'lodash/get';
 
 import { ITextField } from './types';
+import * as S from './units';
 
 export const TextField: FC<ITextField> = ({
     name,
@@ -16,6 +16,7 @@ export const TextField: FC<ITextField> = ({
     autoFocus,
     onBlur,
     onKeyDown,
+    type,
 }) => {
     const {
         control,
@@ -31,7 +32,7 @@ export const TextField: FC<ITextField> = ({
             control={control}
             defaultValue=""
             render={({ field }) => (
-                <DesignSystemTextField
+                <S.TextFieldStyled
                     {...field}
                     id={id}
                     fullWidth={fullWidth}
@@ -47,6 +48,7 @@ export const TextField: FC<ITextField> = ({
                         onBlur?.(event);
                     }}
                     onKeyDown={onKeyDown}
+                    type={type}
                 />
             )}
         />
