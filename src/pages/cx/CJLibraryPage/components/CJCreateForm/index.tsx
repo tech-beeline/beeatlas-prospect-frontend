@@ -130,6 +130,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         if (files && files.length > 0) {
             setBpmnFile(files[0]);
         }
+        event.target.value = '';
     };
 
     const handleRemoveFile = () => {

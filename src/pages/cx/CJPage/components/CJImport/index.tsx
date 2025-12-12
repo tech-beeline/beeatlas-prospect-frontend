@@ -27,6 +27,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
         if (files && files.length > 0) {
             setBpmnFile(files[0]);
         }
+        event.target.value = '';
     };
 
     const handleRemoveFile = () => {
@@ -62,7 +63,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
             <S.Container>
                 <S.FlexWrapper>
                     <div>
-                        <S.SideBlockTitle>Импортировать cj</S.SideBlockTitle>
+                        <S.SideBlockTitle>Импортировать CJ</S.SideBlockTitle>
                         <Text inactive variant="body3">
                             Загрузка нового файла обновит предыдущие данные
                         </Text>
