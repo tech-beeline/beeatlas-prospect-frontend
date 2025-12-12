@@ -15,7 +15,7 @@ import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
 import { SideBlock } from 'components/containers';
-import { Select, TextField } from 'components/form';
+import { Autocomplete, TextField } from 'components/form';
 
 import {
     useCreateCJByBPMN,
@@ -32,6 +32,8 @@ import { ICJCreateForm } from './types';
 import * as S from './units';
 
 export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
+    const [searchTextProduct, setSearchTextProduct] = useState('');
+
     const [showBanner, setShowBanner] = useState(true);
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
     const [, setIsProcessingBPMN] = useState(false);
@@ -45,6 +47,15 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const { data: userProducts } = useGetUserProductsQuery(userProductIds);
     const products = isAdministrator ? allProducts : userProducts;
+
+    const productsFiltered = (products ?? []).filter((product) =>
+        product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
+    );
+    const productsOptions = productsFiltered.map((product) => ({
+        id: Number(product.id),
+        value: product.name,
+    }));
+
     const navigate = useNavigate();
 
     const form = useForm<FormValues>({
@@ -163,7 +174,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             </S.TitleContainer>
 
                             <S.TextFieldContainer>
-                                <Select
+                                {/* <Select
                                     disabled={isLoadingProducts}
                                     name="product"
                                     label="Приложение*"
@@ -173,6 +184,14 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                             value: product.name,
                                         })) ?? []
                                     }
+                                /> */}
+                                <Autocomplete
+                                    fullWidth
+                                    disabled={isLoadingProducts}
+                                    label="Приложение*"
+                                    name="product"
+                                    options={productsOptions}
+                                    onInputChange={(v) => setSearchTextProduct(v)}
                                 />
 
                                 <TextField label="Название CJ*" name="name" />
