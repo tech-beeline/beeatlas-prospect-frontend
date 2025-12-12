@@ -292,11 +292,10 @@ export const useGetCJFileByIdQuery = (cjId: number | string | null) => {
             const docTypeId = docTypes[0].id;
 
             const bpmnFile = await getBPMNFile(Number(cjId), docTypeId).then((res) => res);
-            console.log('queryBPMNfile', bpmnFile);
+
             const fileName = bpmnFile.headers['content-disposition']
                 .split('filename=')[1]
                 .replaceAll('"', '');
-
             return [{ file: bpmnFile.data, fileName }];
         },
         enabled: !!cjId,

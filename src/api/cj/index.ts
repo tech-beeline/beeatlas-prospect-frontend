@@ -78,7 +78,9 @@ export const uploadBPMNFile = (file: File, cjId: string) => {
     return Api.post({
         url: `${GATEWAY_URL}document/v1/documents/CJ_BPMN/bpmn?targetId=${cjId}`,
         data: formData,
-        headers: { 'Content-Disposition': `${file.name}` },
+        headers: {
+            'Content-Disposition': `${encodeURI(file.name)}`,
+        },
     });
 };
 

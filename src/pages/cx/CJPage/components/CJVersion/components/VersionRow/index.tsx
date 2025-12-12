@@ -23,7 +23,7 @@ export const VersionRow: FC<IVersion> = ({ version, cjId }) => {
         const withoutExt = filePart.replace('.bpmn', '');
         const base = withoutExt.split('_')[0];
 
-        return `${base}.bpmn`;
+        return `${decodeURI(base)}.bpmn`;
     };
 
     const handleDownload = () => {
