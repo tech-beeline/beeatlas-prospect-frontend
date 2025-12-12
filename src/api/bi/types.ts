@@ -88,25 +88,25 @@ export interface IRelations {
 }
 
 export interface IRelationForm {
-    description?: string;
-    interfaceId?: number;
-    operationId?: number;
-    productId?: number;
-    tcId?: number;
+    description: string;
+    interfaceId: number | null;
+    operationId: number | null;
+    productId: number | null;
+    tcId: number | null;
 }
 
 export interface IStepsScenarion {
     name: string;
     id: number;
     latency: number;
-    error_rate: number;
+    errorRate: number;
     rps: number;
     relations: IRelations[];
 }
 
-export interface IEditSLA {
+export interface ISLAForm {
     latency: number;
-    error_rate: number;
+    errorRate: number;
     rps: number;
 }
 

@@ -34,6 +34,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                 relationsData.length === 0
                     ? [{ description: '' }]
                     : relationsData.map((relation) => ({
+                          id: relation.id,
                           product: relation.productId,
                           tc: relation.tcId,
                           iface: relation.interfaceId,
@@ -49,11 +50,12 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
         await mutateAsync({
             id: String(stepId),
             data: values.steps.map((step) => ({
+                id: step.id ?? undefined,
                 description: step.description,
-                productId: step.product ?? undefined,
-                tcId: step.tc ?? undefined,
-                interfaceId: step.iface ?? undefined,
-                operationId: step.operation ?? undefined,
+                productId: step.product ?? null,
+                tcId: step.tc ?? null,
+                interfaceId: step.iface ?? null,
+                operationId: step.operation ?? null,
             })),
         });
         showSnackbar({ message: 'Изменения сохранены' });

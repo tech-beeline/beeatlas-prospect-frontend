@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -23,9 +23,17 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const [searchTextIface, setSearchTextIface] = useState('');
     const [searchTextOperation, setSearchTextOperation] = useState('');
 
-    const { watch } = useFormContext<FormValues>();
+    const { watch, setValue } = useFormContext<FormValues>();
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
     const productId = watch(`steps.${index}.product`);
+    const ifaceId = watch(`steps.${index}.iface`);
+
+    useEffect(() => {
+        if (!ifaceId) {
+            setValue(`steps.${index}.operation`, null);
+            setSearchTextOperation('');
+        }
+    }, [ifaceId]);
 
     const productCmdb = (productsData ?? []).find(
         (product) => !!productId && Number(product.id) === Number(productId),
@@ -39,7 +47,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
         product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
     );
     const productsOptions = productsFiltered.map((product) => ({
-        id: product.id,
+        id: Number(product.id),
         value: product.name,
     }));
 
@@ -53,16 +61,12 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     );
     const ifaceOptions = ifacesFiltered.map((iface) => ({ id: iface.id, value: iface.name }));
 
-    const operationFiltered = (archData ?? [])
-        .reduce(
-            (acc, v) => [...acc, ...v.operations],
-            [] as { id: string; name: string; type: string }[],
-        )
-        .filter((operation) =>
-            `${operation.type} ${operation.name}`
-                .toLowerCase()
-                .includes(searchTextOperation.toLowerCase()),
-        );
+    const selectedIface = (archData ?? []).find((arch) => arch.id === ifaceId);
+    const operationFiltered = [...(selectedIface?.operations ?? [])].filter((operation) =>
+        `${operation.type} ${operation.name}`
+            .toLowerCase()
+            .includes(searchTextOperation.toLowerCase()),
+    );
     const operationOptions = operationFiltered.map((operation) => ({
         id: Number(operation.id),
         value: `${operation.type} ${operation.name}`,
@@ -122,8 +126,9 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                             onInputChange={(v) => setSearchTextIface(v)}
                         />
                         <Autocomplete
+                            key={ifaceId}
                             fullWidth
-                            disabled={!productId || isLoadingArch}
+                            disabled={!productId || !ifaceId || isLoadingArch}
                             label="Endpoint"
                             name={`steps.${index}.operation`}
                             options={operationOptions}

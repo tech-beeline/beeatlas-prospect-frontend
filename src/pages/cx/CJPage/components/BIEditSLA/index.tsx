@@ -34,7 +34,7 @@ export const BIEditSLA: FC<IBIEditSLA> = ({ isOpen, onClose, slaId, data }) => {
         const payload = {
             latency: Number(values.latency),
             rps: Number(values.rps),
-            error_rate: Number(values.errorRate),
+            errorRate: Number(values.errorRate),
         };
 
         await updateSLA({

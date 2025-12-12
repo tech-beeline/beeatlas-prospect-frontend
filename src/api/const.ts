@@ -12,6 +12,7 @@ const STRUCTURIZR_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/structurizr-backend/';
 const GATEWAY_GRAPH_VALIDATOR_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/graph-validator/api/';
+const GATEWAY_CX_LINK = 'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/cx/api/';
 
 const PROD_GATEWAY = '/api-gateway/';
 const PROD_GATEWAY_PRODUCT = '/product/api/';
@@ -20,6 +21,7 @@ const PROD_GATEWAY_CAPABILITY = '/capability/api/';
 const PROD_STRUCTURIZR = '/structurizr-backend/';
 const PROD_MONOLITH = '/api/';
 const PROD_GATEWAY_GRAPH_VALIDATOR = '/graph-validator/api/';
+const PROD_GATEWAY_CX = '/cx/api/';
 
 export const API_URL = IS_DEV ? MONOLITH_LINK : PROD_MONOLITH;
 export const STRUCTURIZR_URL = IS_DEV ? STRUCTURIZR_LINK : PROD_STRUCTURIZR;
@@ -30,5 +32,6 @@ export const GATEWAY_CAPABILITY_URL = IS_DEV ? GATEWAY_CAPABILITY_LINK : PROD_GA
 export const GATEWAY_GRAPH_VALIDATOR_URL = IS_DEV
     ? GATEWAY_GRAPH_VALIDATOR_LINK
     : PROD_GATEWAY_GRAPH_VALIDATOR;
+export const GATEWAY_CX_URL = IS_DEV ? GATEWAY_CX_LINK : PROD_GATEWAY_CX;
 
 export const MOCK_PRODUCT_ID = 1;

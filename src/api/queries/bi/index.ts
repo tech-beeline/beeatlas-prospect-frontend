@@ -11,7 +11,7 @@ import {
     patchStepRelationsBI,
     postBI,
 } from 'api/bi';
-import { IBIData, IBIForm, IEditSLA, IRelationForm } from 'api/bi/types';
+import { IBIData, IBIForm, IRelationForm, ISLAForm } from 'api/bi/types';
 
 import { CJ_PREFIX } from '../cj';
 
@@ -89,7 +89,7 @@ export function useUpdateBIMutation() {
 
 interface IUpdateBISLA {
     id: string;
-    data: IEditSLA;
+    data: ISLAForm;
 }
 
 export function useUpdateBISLA() {

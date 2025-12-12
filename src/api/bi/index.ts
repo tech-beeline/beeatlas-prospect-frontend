@@ -3,7 +3,7 @@ import { AxiosPromise } from 'axios';
 import Api from 'utils/api/axiosWrapper';
 import { formatNullableBooleanParam, formatNullableNumberParam } from 'utils/formatters';
 
-import { GATEWAY_CAPABILITY_URL, GATEWAY_URL } from '../const';
+import { GATEWAY_CAPABILITY_URL, GATEWAY_CX_URL, GATEWAY_URL } from '../const';
 
 import * as T from './types';
 
@@ -50,16 +50,16 @@ export const patchBI = (id: string, data: T.IBIForm) => {
     });
 };
 
-export const patchSLABI = (id: string, data: T.IEditSLA) => {
+export const patchSLABI = (id: string, data: T.ISLAForm) => {
     return Api.patch({
-        url: `${GATEWAY_URL}cx/v1/library/business-interactions/step/${id}`,
+        url: `${GATEWAY_CX_URL}cx/v1/library/business-interactions/step/${id}`,
         data,
     });
 };
 
 export const patchStepRelationsBI = (id: string, data: T.IRelationForm[]) => {
     return Api.patch({
-        url: `${GATEWAY_URL}cx/v1/library/business-interactions/step/${id}/relation`,
+        url: `${GATEWAY_CX_URL}cx/v1/library/business-interactions/step/${id}/relation`,
         data,
     });
 };

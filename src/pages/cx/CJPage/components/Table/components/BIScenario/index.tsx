@@ -69,7 +69,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                             <S.FlexWrapper>
                                 <Text variant="overline">ERROR RATE, %</Text>
                                 <Text variant="overline">
-                                    {formatNullableString(biSteps.error_rate)}
+                                    {formatNullableString(biSteps.errorRate)}
                                 </Text>
                             </S.FlexWrapper>
                         </S.SLAContent>
@@ -122,22 +122,6 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
 
                                     <S.FlexWrapper>
                                         <Text variant="overline" inactive>
-                                            ENDPOINT
-                                        </Text>
-                                        {relation.productAlias &&
-                                        relation.operation &&
-                                        relation.operationId ? (
-                                            <Link
-                                                title={relation.operation}
-                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.operationId}&type=arch_operation`}
-                                            />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </S.FlexWrapper>
-
-                                    <S.FlexWrapper>
-                                        <Text variant="overline" inactive>
                                             ИНТЕРФЕЙС
                                         </Text>
                                         {relation.productAlias &&
@@ -146,6 +130,22 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                             <Link
                                                 title={relation.interfaceName}
                                                 url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.interfaceId}&type=arch_interface`}
+                                            />
+                                        ) : (
+                                            formatNullableString(null)
+                                        )}
+                                    </S.FlexWrapper>
+
+                                    <S.FlexWrapper>
+                                        <Text variant="overline" inactive>
+                                            ENDPOINT
+                                        </Text>
+                                        {relation.productAlias &&
+                                        relation.operation &&
+                                        relation.operationId ? (
+                                            <Link
+                                                title={relation.operation}
+                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.operationId}&type=arch_operation`}
                                             />
                                         ) : (
                                             formatNullableString(null)
@@ -161,7 +161,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                 isOpen={isSlaSidesheetOpened}
                 onClose={closeSlaSidesheet}
                 slaId={String(biSteps.id)}
-                data={{ errorRate: biSteps.error_rate, latency: biSteps.latency, rps: biSteps.rps }}
+                data={{ errorRate: biSteps.errorRate, latency: biSteps.latency, rps: biSteps.rps }}
             />
             <BIEditScenario
                 isOpen={isRelationsSidesheetOpened}
