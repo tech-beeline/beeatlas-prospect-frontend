@@ -72,6 +72,12 @@ export const CJPage = () => {
         }
     };
 
+    const isEmpty =
+        data &&
+        data.steps.length === 1 &&
+        data.steps.reduce((acc, step) => [...acc, ...step.bi.map((bi) => bi.id)], [] as number[])
+            .length === 0;
+
     const nameRef = useRef<HTMLDivElement>(null);
     const showNameTooltip = useShowTooltip<HTMLDivElement>(nameRef);
 
@@ -177,6 +183,7 @@ export const CJPage = () => {
 
                     <Button
                         variant="outlined"
+                        disabled={data?.bpmn === null && !isEmpty}
                         onClick={() => toggleSideSheet(SideSheetVariants.VERSION_CJ)}
                     >
                         Показать версии
@@ -184,6 +191,7 @@ export const CJPage = () => {
 
                     <Button
                         variant="outlined"
+                        disabled={data?.bpmn === null && !isEmpty}
                         onClick={() => toggleSideSheet(SideSheetVariants.IMPORT_CJ)}
                     >
                         Импортировать CJ
