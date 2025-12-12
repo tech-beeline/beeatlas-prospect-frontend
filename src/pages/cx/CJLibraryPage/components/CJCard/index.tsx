@@ -44,14 +44,18 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
     };
     const hasAccessToProduct = userProductIds.includes(productIdStr);
     const currentProduct = allProducts?.find((product) => String(product.id) === productIdStr);
+
     return (
         <S.CJCard key={cj.id}>
             <S.FlexContainer>
-                <Label
-                    variant="contained"
-                    title={cj.draft ? 'Черновик' : 'Опубликован'}
-                    type={cj.draft ? 'default' : 'success'}
-                />
+                <S.LabelContainer>
+                    <Label
+                        variant="contained"
+                        title={cj.draft ? 'Черновик' : 'Опубликован'}
+                        type={cj.draft ? 'default' : 'success'}
+                    />
+                    {cj.bpmn && <Label variant="contained" type="warning" title="BPMN" />}
+                </S.LabelContainer>
                 <DropdownMenu
                     id={String(cj.id)}
                     items={[
@@ -75,7 +79,12 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                     ]}
                 />
             </S.FlexContainer>
-            <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
+            <S.TitleContainer>
+                <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
+                <Text variant="body3" inactive>
+                    {cj.uniqueIdent}
+                </Text>
+            </S.TitleContainer>
             <S.Description ref={descriptionRef} clampLines={!expandDescription}>
                 {cj.userPortrait ?? cj.user_portrait}
             </S.Description>

@@ -14,6 +14,10 @@ export const TextArea: FC<ITextArea> = ({
     fullWidth = true,
     error: externalError,
     externalErrorMessage,
+    helperPosition,
+    autoFocus,
+    onBlur,
+    onKeyDown,
 }) => {
     const {
         control,
@@ -31,6 +35,7 @@ export const TextArea: FC<ITextArea> = ({
             defaultValue=""
             render={({ field }) => (
                 <DesignSystemTextArea
+                    {...field}
                     key={name}
                     fullWidth={fullWidth}
                     disabled={disabled}
@@ -38,7 +43,13 @@ export const TextArea: FC<ITextArea> = ({
                     error={isError}
                     helperText={finalHelperText}
                     maxLength={maxLength}
-                    {...field}
+                    helperPosition={helperPosition}
+                    autoFocus={autoFocus}
+                    onBlur={(event) => {
+                        field.onBlur();
+                        onBlur?.(event);
+                    }}
+                    onKeyDown={onKeyDown}
                 />
             )}
         />

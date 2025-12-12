@@ -6,7 +6,7 @@ import { RowIds } from '../../types';
 export interface IRow<T> {
     rowId: RowIds;
     label: string;
-
+    bpmn?: boolean;
     formatData: (data: T) => JSX.Element | string;
     onAddButtonClick: (biIndex: number) => void;
     firstRow?: boolean;

@@ -43,7 +43,7 @@ export const uploadPatternFile = (file: File, patternId: number) => {
     return Api.post({
         url: `${GATEWAY_URL}document/v1/documents/patterns/md?targetId=${patternId}&isPublic=true`,
         data: formData,
-        headers: { 'Content-Disposition': `${file.name}` },
+        headers: { 'Content-Disposition': `${encodeURI(file.name)}` },
     });
 };
 

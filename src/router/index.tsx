@@ -65,6 +65,7 @@ import {
     TemplatesPage,
     UsersPage,
 } from 'pages';
+import { BPMNViewPage } from 'pages/cx/BPMNViewPage';
 
 import * as R from './const';
 import * as S from './units';
@@ -74,6 +75,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
+    `${R.CX_PATH}${R.CJ_PATH}${R.BPMN_PATH}`,
     `${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}`,
     `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.VIEW_PATH}`,
     `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.VIEW_PATH}`,
@@ -632,6 +634,7 @@ export const NavigationRouter = () => {
 
                 <Route path={`${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`} element={<BIViewPage />} />
 
+                <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.BPMN_PATH}`} element={<BPMNViewPage />} />
                 <Route path={`${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`} element={<BIAddPage />} />
 
                 <Route

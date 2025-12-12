@@ -1,20 +1,20 @@
 import React, { FC, useRef, useState } from 'react';
 import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { useSideSheetStore } from 'features/cx/store';
 import { Nullable } from 'types/common';
 
-import { useModal } from 'hooks';
-
 import { formatNullableString } from '../../../../../utils/formatters';
+import { SideSheetVariants } from '../../const';
 import { StepForm } from '../StepForm';
 
+import { useHiddenRowsStore } from './store/HiddenRowsStore';
 import { ColumnMenu, Row } from './components';
 import { COLORS, rowsData } from './const';
-import { useHiddenRowsStore } from './store';
 import { ITable, RowIds } from './types';
 import * as S from './units';
 
-export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
+export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) => {
     const [hiddenRows, showHiddenRows, setHiddenRows, setShowHiddenRows] = useHiddenRowsStore(
         (state) => [
             state.hiddenRows,
@@ -45,18 +45,13 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
             setHiddenRows(hiddenRows.filter((row) => row !== RowIds.NAME));
         }
     };
-
+    console.log('tableBPMN', bpmn);
     const [selectedStep, setSelectedStep] = useState<Nullable<number>>(null);
-
-    const {
-        modalOpened: stepFormOpened,
-        openModal: openStepFrom,
-        closeModal: closeStepForm,
-    } = useModal();
+    const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 
     const handleAddRowButtonClick = (biIndex: number) => {
         setSelectedStep(biIndex);
-        openStepFrom();
+        toggleSideSheet(SideSheetVariants.SIDEBLOCK_BI);
     };
 
     const rowsFiltered =
@@ -129,14 +124,16 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                             <p data-testid={`${stepIndex}Step`}>{step.name}</p>
                                         </S.TitleWrapper>
 
-                                        {draft && (
+                                        {draft && !bpmn && (
                                             <ColumnMenu
                                                 cjId={cjId}
                                                 stepId={step.id}
                                                 stepName={step.name}
                                                 stepDescription={step.description ?? ''}
                                                 stepIndex={stepIndex}
-                                                setOpenSideBlockName={openStepFrom}
+                                                setOpenSideBlockName={() =>
+                                                    toggleSideSheet(SideSheetVariants.SIDEBLOCK_BI)
+                                                }
                                                 setRenameIndex={setSelectedStep}
                                                 collapsedStepIds={collapsedStepIds}
                                                 setCollapsedStepIds={setCollapsedStepIds}
@@ -180,6 +177,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                                 parseData={rowData.parseData}
                                 steps={tableData}
                                 collapsedStedIds={collapsedStepIds}
+                                bpmn={bpmn}
                             />
                         ))}
                     </S.Tbody>
@@ -215,8 +213,8 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft }) => {
                     productId={productId}
                     cjId={cjId}
                     step={tableData[selectedStep ?? 0]}
-                    isOpen={stepFormOpened}
-                    onClose={closeStepForm}
+                    isOpen={openSideSheet === SideSheetVariants.SIDEBLOCK_BI}
+                    onClose={closeSideSheet}
                 />
             )}
         </S.PageWrapper>

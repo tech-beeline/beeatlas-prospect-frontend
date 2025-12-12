@@ -33,7 +33,9 @@ export interface ICJData {
     lastModifiedDate: string;
     draft: boolean;
     id_user_profile: number;
+    uniqueIdent: string;
     productId: string;
+    bpmn: boolean;
 }
 
 export interface ICJNewData extends ICJData {
@@ -57,4 +59,16 @@ export enum CJLibraryStatus {
     ALL = 'ALL',
     DRAFT = 'DRAFT',
     PUBLISHED = 'PUBLIC',
+}
+
+export interface IBPMNFileVersion {
+    id: string;
+    key: string;
+    created_date: string;
+}
+
+export interface ICJDocumentTypesData {
+    docType: string;
+    id: number;
+    name: string;
 }

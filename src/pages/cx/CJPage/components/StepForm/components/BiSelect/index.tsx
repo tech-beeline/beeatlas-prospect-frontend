@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, Search, Skeleton, Tab } from '@beeline/design-system-react';
+import { Button, IconButton, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useGetBICollectionQuery } from 'api/queries/bi';
@@ -13,7 +13,7 @@ import { IBiSelect } from './types';
 
 export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiIds, onClose }) => {
     const [search, setSearch] = useState('');
-    const [selectedTab, setSeletedTab] = useState(0);
+    const [selectedTab] = useState(0);
 
     const debouncedSearch = useDebounce(search);
 
@@ -40,12 +40,12 @@ export const BiSelect: FC<IBiSelect> = ({ setStage, setSelectedBiId, selectedBiI
                     <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
                 </S.FlexWrapper>
 
-                <S.TabsContainer>
+                {/* <S.TabsContainer>
                     <S.TabsStyled selectedTabIndex={selectedTab} onChange={setSeletedTab}>
                         <Tab label="Продуктовые" />
                         <Tab label="Коммунальные" />
                     </S.TabsStyled>
-                </S.TabsContainer>
+                </S.TabsContainer>*/}
 
                 <S.TextFieldContainer>
                     <Search

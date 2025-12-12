@@ -124,7 +124,7 @@ export const uploadTechFile = (file: File, techId: number) => {
     return Api.post({
         url: `${GATEWAY_URL}document/v1/documents/tech_description/md?targetId=${techId}&isPublic=true`,
         data: formData,
-        headers: { 'Content-Disposition': `${file.name}` },
+        headers: { 'Content-Disposition': `${encodeURI(file.name)}` },
     });
 };
 

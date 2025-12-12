@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
-import { IconButton, Skeleton } from '@beeline/design-system-react';
+import { Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
-import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 
 import { useGetAllProductsQuery } from 'api/queries/product';
@@ -12,49 +11,41 @@ import { formatNullableString } from 'utils/formatters';
 import { IInfoSidesheet } from './types';
 import * as S from './units';
 
-export const InfoSidesheet: FC<IInfoSidesheet> = ({ isOpen, onClose, cj }) => {
+export const InfoSidesheet: FC<IInfoSidesheet> = ({ onClose, cj }) => {
     const { data: productsData, isLoading: isLoadingProducts } = useGetAllProductsQuery();
     const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
 
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose}>
-            <S.Container>
-                <S.FlexWrapper>
-                    <S.SideBlockTitle>Информация</S.SideBlockTitle>
+        <S.Container>
+            <S.FlexWrapper>
+                <S.SideBlockTitle>Информация</S.SideBlockTitle>
 
-                    <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
-                </S.FlexWrapper>
+                <S.IconButtonWrappet iconName={Icons.Close} onClick={onClose} size="large" />
+            </S.FlexWrapper>
 
-                <div>
-                    <Text inactive variant="body3">
-                        Автор CJ
-                    </Text>
-                    <Text variant="body2">{cj.author.fullName}</Text>
-                </div>
+            <S.FlexContainer>
+                <Text variant="subtitle3">Автор CJ</Text>
+                <Text variant="caption">{cj.author.fullName}</Text>
+            </S.FlexContainer>
 
-                <div>
-                    <Text inactive variant="body3">
-                        Приложение
-                    </Text>
-                    <Text variant="body2">
-                        {isLoadingProducts || !productsData ? (
-                            <Skeleton height={22} radius={4} />
-                        ) : (
-                            formatNullableString(
-                                productsData.find((product) => String(product.id) === productIdStr)
-                                    ?.name,
-                            )
-                        )}
-                    </Text>
-                </div>
+            <S.FlexContainer>
+                <Text variant="subtitle3">Приложение</Text>
+                <Text variant="caption">
+                    {isLoadingProducts || !productsData ? (
+                        <Skeleton height={22} radius={4} />
+                    ) : (
+                        formatNullableString(
+                            productsData.find((product) => String(product.id) === productIdStr)
+                                ?.name,
+                        )
+                    )}
+                </Text>
+            </S.FlexContainer>
 
-                <div>
-                    <Text inactive variant="body3">
-                        Дата изменения
-                    </Text>
-                    <Text variant="body2">{dayjs(cj.lastModifiedDate).format('DD.MM.YYYY')}</Text>
-                </div>
-            </S.Container>
-        </SideBlock>
+            <S.FlexContainer>
+                <Text variant="subtitle3">Дата изменения</Text>
+                <Text variant="caption">{dayjs(cj.lastModifiedDate).format('DD.MM.YYYY')}</Text>
+            </S.FlexContainer>
+        </S.Container>
     );
 };

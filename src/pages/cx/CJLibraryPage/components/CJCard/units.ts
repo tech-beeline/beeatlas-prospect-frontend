@@ -16,9 +16,15 @@ export const FlexContainer = styled.div`
     justify-content: space-between;
 `;
 
-export const Title = styled(Subtitle1)`
-    margin-top: 16px;
+export const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
+    margin-top: 16px;
+`;
+
+export const Title = styled(Subtitle1)`
     color: var(--color-text-link);
 
     cursor: pointer;
@@ -41,7 +47,7 @@ export const Description = styled.div<{ clampLines: boolean }>`
 
     overflow: hidden;
 
-    margin-top: 24px;
+    margin-top: 12px;
 
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
@@ -50,4 +56,10 @@ export const Description = styled.div<{ clampLines: boolean }>`
 
 export const DateContainer = styled.div`
     margin-top: 24px;
+`;
+
+export const LabelContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 `;

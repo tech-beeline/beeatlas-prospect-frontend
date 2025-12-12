@@ -1,4 +1,4 @@
-import { RowIds } from '../types';
+import { RowIds } from '../../types';
 
 export interface IHiddenRowsStore {
     hiddenRows: RowIds[];

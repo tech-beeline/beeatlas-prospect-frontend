@@ -2,7 +2,7 @@ import React from 'react';
 
 export const formatYesNo = (flag: boolean | undefined | null) => (Boolean(flag) ? 'Да' : 'Нет');
 
-export const formatNullableString = (str: string | undefined | null) =>
+export const formatNullableString = (str: string | undefined | null | number) =>
     Boolean(str) ? String(str) : '—';
 
 export const formatNullableNumberParam = (

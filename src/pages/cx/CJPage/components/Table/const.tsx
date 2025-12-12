@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'components/other';
 
 import { IBIData, IBILink } from 'api/bi/types';
-import { formatCommunal, formatStatus, formatTarget } from 'pages/cx/CJPage/utils/formatters';
+import { formatScenario, formatStatus, formatTarget } from 'pages/cx/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 
 import { RowIds } from './types';
@@ -43,12 +43,6 @@ export const rowsData: RowData<any>[] = [
         parseData: (bi: IBIData) => bi.descr,
     },
     {
-        rowId: RowIds.COMMUNAL,
-        label: 'Коммунальный',
-        formatData: formatCommunal,
-        parseData: (bi: IBIData) => bi.communal,
-    },
-    {
         rowId: RowIds.TYPE,
         label: 'Характеристики',
         formatData: formatTarget,
@@ -65,6 +59,12 @@ export const rowsData: RowData<any>[] = [
         label: 'Сценарий',
         formatData: formatNullableString,
         parseData: (bi: IBIData) => bi.clientScenario,
+    },
+    {
+        rowId: RowIds.SCENARION_BI,
+        label: 'Шаги сценария BI',
+        formatData: formatScenario,
+        parseData: (bi: IBIData) => bi.biSteps,
     },
     {
         rowId: RowIds.CHANNEL,
