@@ -79,18 +79,17 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                 });
 
                 try {
-                    const rest = await uploadBPMN({
+                    await uploadBPMN({
                         file: bpmnFile,
                         cjId,
                     });
-                    console.log('rest', rest);
+
                     await createCJByBPMN(cjId);
                     navigate({
                         pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
                     });
                 } catch (bpmnError) {
-                    console.error('Ошибка при обработке BPMN файла:', bpmnError);
                     setError('root', {
                         message:
                             'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.',
@@ -99,7 +98,6 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     return;
                 }
             } else {
-                console.log(Boolean(bpmnFile));
                 const { cjId } = await createCJ({
                     data: {
                         draft: true,
@@ -178,7 +176,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
                                 <TextField label="Название CJ*" name="name" />
 
-                                <TextField label="Портрет пользователя" name="userPortrait" />
+                                <TextField label="Портрет пользователя*" name="userPortrait" />
                             </S.TextFieldContainer>
 
                             <S.FileAddingContainer>

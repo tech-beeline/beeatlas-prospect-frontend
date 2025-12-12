@@ -86,7 +86,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                             <S.TextFieldContainer>
                                 <TextField label="Название" name="name" />
 
-                                <TextField label="Портрет пользователя" name="userPortrait" />
+                                <TextField label="Портрет пользователя*" name="userPortrait" />
                             </S.TextFieldContainer>
 
                             {/* /*<S.LinkContainer>
