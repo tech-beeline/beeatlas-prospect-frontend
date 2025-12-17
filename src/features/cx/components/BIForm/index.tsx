@@ -38,7 +38,7 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                 reset(defaultValues);
             } else if (products) {
                 reset({
-                    product: products[0]?.id ? Number(products[0].id) : 1,
+                    product: products[0] && String(products[0].id) ? Number(products[0].id) : 1,
                     channels: [],
                     document: [{ value: '' }],
                     mockup: [{ value: '' }],
