@@ -10,11 +10,13 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { Link, NotFoundBlock } from 'components/other';
 
+import { useGetProcessesByCmdbQuery, useRestartProcessMutation } from 'api/queries/camunda';
 import { useGetUserProductsKeyById } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
@@ -48,6 +50,15 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
     };
 
     const { data: userInfoData } = useGetUserInfoQuery();
+    const { data: processesData } = useGetProcessesByCmdbQuery(cmdb);
+
+    const { mutateAsync } = useRestartProcessMutation();
+
+    const handleRefreshClick = async () => {
+        if (cmdb && processesData && processesData[0]) {
+            await mutateAsync({ processId: processesData[0].id, cmdb });
+        }
+    };
 
     const canGetKeys = (userInfoData?.productsIds ?? []).includes(productId);
     const isAdministrator = userInfoData?.roles?.includes('ADMINISTRATOR');
@@ -154,10 +165,15 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                             </S.LinkContainer>
                         </Text>
                         <Button
-                            disabled
+                            disabled={
+                                !processesData ||
+                                !processesData[0] ||
+                                !(processesData[0].status.isDone || processesData[0].status.isError)
+                            }
                             data-tooltip-id="refresh"
                             variant="outlined"
                             startIcon={<Icon iconName={Icons.Refresh} />}
+                            onClick={handleRefreshClick}
                         />
                         <TooltipContainer id="refresh" offset={8} place="top" noArrow>
                             Обновить
@@ -172,54 +188,68 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                             Загрузка версии архитектуры
                         </TooltipContainer>
                     </S.StructurizrTitleContainer>
-                    <S.TableStyled>
-                        <TableHead>
-                            <TableRow>
-                                <TableHeaderData>ID</TableHeaderData>
-                                <TableHeaderData>Дата</TableHeaderData>
-                                <TableHeaderData>Тип обновления</TableHeaderData>
-                                <TableHeaderData>Статус</TableHeaderData>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableData>
-                                    <S.StructurizrIdContainer>
-                                        <S.ProgressContainer>
-                                            <Progress
-                                                cycled
-                                                data-tooltip-id="progress"
-                                                shape="circle"
-                                                size="mini"
-                                            />
-                                            <TooltipContainer
-                                                id="progress"
-                                                offset={8}
-                                                place="top"
-                                                noArrow
-                                            >
-                                                Идет процесс обновления данных
-                                            </TooltipContainer>
-                                        </S.ProgressContainer>
-                                        876.567.999
-                                    </S.StructurizrIdContainer>
-                                </TableData>
-                                <TableData>12.12.2025, 23:59</TableData>
-                                <TableData>GitOPS pipeline</TableData>
-                                <TableData>Какой-то статус</TableData>
-                            </TableRow>
-                        </TableBody>
-                    </S.TableStyled>
-                    <UpdateArchitectureSideblock
-                        isOpen={isArchitectureModalOpened}
-                        onClose={closeArchitectureModal}
-                    />
+                    {processesData && processesData[0] && (
+                        <S.TableStyled>
+                            <TableHead>
+                                <TableRow>
+                                    <TableHeaderData>ID</TableHeaderData>
+                                    <TableHeaderData>Дата</TableHeaderData>
+                                    <TableHeaderData>Тип обновления</TableHeaderData>
+                                    <TableHeaderData>Статус</TableHeaderData>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableData>
+                                        <S.StructurizrIdContainer>
+                                            {!(
+                                                processesData[0].status.isDone ||
+                                                processesData[0].status.isError
+                                            ) && (
+                                                <S.ProgressContainer>
+                                                    <Progress
+                                                        cycled
+                                                        data-tooltip-id="progress"
+                                                        shape="circle"
+                                                        size="mini"
+                                                    />
+                                                    <TooltipContainer
+                                                        id="progress"
+                                                        offset={8}
+                                                        place="top"
+                                                        noArrow
+                                                    >
+                                                        Идет процесс обновления данных
+                                                    </TooltipContainer>
+                                                </S.ProgressContainer>
+                                            )}
+                                            {processesData[0].procId}
+                                        </S.StructurizrIdContainer>
+                                    </TableData>
+                                    <TableData>
+                                        {dayjs(processesData[0].status.createdDate)
+                                            .local()
+                                            .format('DD.MM.YYYY, HH:mm')}
+                                    </TableData>
+                                    <TableData>{processesData[0].type.name}</TableData>
+                                    <TableData>{processesData[0].status.name}</TableData>
+                                </TableRow>
+                            </TableBody>
+                        </S.TableStyled>
+                    )}
+                    {cmdb && (
+                        <UpdateArchitectureSideblock
+                            isOpen={isArchitectureModalOpened}
+                            onClose={closeArchitectureModal}
+                            cmdb={cmdb}
+                        />
+                    )}
                 </S.StructurizrContainer>
             ) : (
                 <Text variant="body2">{formatNullableString(null)}</Text>
             )}
 
-            <Text inactive variant="body2">
+            {/* <Text inactive variant="body2">
                 Репозиторий архитектуры
             </Text>
             {productData && (
@@ -233,8 +263,8 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         formatNullableString(null)
                     )}
                 </Text>
-            )}
-            <Text inactive variant="body2">
+            )} */}
+            {/* <Text inactive variant="body2">
                 Репозитории кода
             </Text>
             <S.TableStyled>
@@ -256,7 +286,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         </TableData>
                     </TableRow>
                 </TableBody>
-            </S.TableStyled>
+            </S.TableStyled> */}
             {cmdb &&
                 (structurizrApiUrl === null || structurizrApiUrl === '') &&
                 !hasKeyData &&
