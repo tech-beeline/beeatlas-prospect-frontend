@@ -9,7 +9,6 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
 import { IInfraData } from 'api/product/types';
 import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
-import { useDebounce } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
 import { getHighlightedText } from 'utils/formatters';
@@ -25,7 +24,7 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [search, setSearch] = useState('');
-    const searchDebounced = useDebounce(search);
+    const [searchDebounced, setSearchDebounced] = useState('');
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchRef = useRef<HTMLInputElement>(null);
@@ -77,7 +76,10 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
         setIsOpen(false);
     };
 
-    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(searchDebounced);
+    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(
+        searchDebounced,
+        searchDebounced !== '',
+    );
 
     useEffect(() => {
         if (data) {
@@ -90,11 +92,12 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
     }, [data]);
 
     const handleShowAllClick = () => {
-        setSearchParams({ search: search, searchVariant: searchVariant ?? '' });
+        setSearchParams({ search: searchDebounced, searchVariant: searchVariant ?? '' });
         setIsOpen(false);
     };
 
     const handleEnterButtonClick = () => {
+        setSearchDebounced(search);
         // if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
         //     handleSystemClick(systemsData[0]);
         // } else if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
@@ -128,7 +131,7 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                     Сбросить
                 </Button>
             </S.SearchContainer>
-            {isOpen && (
+            {isOpen && searchDebounced !== '' && (
                 <S.Dropdown ref={dropdownRef}>
                     <Text inactive variant="subtitle3">
                         Категории

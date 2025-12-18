@@ -45,7 +45,7 @@ export const useGetSearchDeploymentsQuery = (params: IGetSearchDeploymentsQueryP
     });
 };
 
-export const useGetCompleteArchitectureInfoQuery = (search: string) => {
+export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = true) => {
     return useQuery({
         queryKey: [GRAPH_PREFIX, 'search', 'complete', search],
         queryFn: async () => {
@@ -108,6 +108,7 @@ export const useGetCompleteArchitectureInfoQuery = (search: string) => {
                 },
             };
         },
+        enabled,
     });
 };
 
