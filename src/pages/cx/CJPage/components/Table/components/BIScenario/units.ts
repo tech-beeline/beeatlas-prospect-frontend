@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 
 export const ScenarioTd = styled.td`
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
-    border-bottom: 1px solid var(--color-divider);
-    border-right: 1px solid var(--color-divider);
+    padding: 0;
 `;
 
 export const ScenarionTdWrapper = styled.div<{ expanded?: boolean; last: boolean }>`
@@ -15,9 +16,14 @@ export const ScenarionTdWrapper = styled.div<{ expanded?: boolean; last: boolean
     padding: 6px 16px;
     height: 100%;
     width: 100%;
+    border-bottom: ${({ expanded, last }) =>
+        expanded
+            ? '1px solid var(--color-divider)'
+            : last
+            ? 'none'
+            : '1px solid var(--color-divider)'};
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};
-    ${({ last }) => (last ? '' : 'border-bottom: 1px solid var(--color-divider);')}
 `;
 
 export const ScenationTitleWrapper = styled.div`
@@ -26,14 +32,16 @@ export const ScenationTitleWrapper = styled.div`
     gap: 12px;
 `;
 
-export const ScenarioContentWrapper = styled.div`
+export const ScenarioContentWrapper = styled.div<{ last: boolean }>`
     display: flex;
     flex-direction: column;
     max-height: 405px;
     padding: 24px 16px 12px 36px;
     border-left: 4px solid var(--color-background-brand);
+    border-right: 1px solid var(--color-divider);
     gap: 24px;
     overflow-y: auto;
+    ${({ last }) => (last ? '' : 'border-bottom: 1px solid var(--color-divider);')}
 `;
 
 export const SLAWrapper = styled.div`

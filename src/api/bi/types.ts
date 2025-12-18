@@ -10,9 +10,6 @@ export interface IBIForm {
         url: string;
     }[];
     draft: boolean;
-    feeling: {
-        id: number;
-    };
     flowLink: {
         descr: string;
         url: string;
@@ -46,11 +43,6 @@ export interface IBILink {
 }
 
 export interface IChannel {
-    id: number;
-    name: string;
-}
-
-interface IFeelings {
     id: number;
     name: string;
 }
@@ -120,7 +112,6 @@ export interface IBIData {
     dtCreated: Date;
     dtUpdated: Date;
     eaGuid: string;
-    feelings: IFeelings;
     flowLink: IBILink[];
     id: number;
     biSteps: IStepsScenarion[];

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-// @ts-ignore
-import BpmnViewer from 'react-bpmn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IconButton, Select } from '@beeline/design-system-react';
+import { IconButton, Select, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import drilldownModule from 'bpmn-js/lib/features/drilldown';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
@@ -20,6 +18,7 @@ import * as ROUTER from 'router/const';
 
 import { downloadBpmnFile } from '../CJPage/utils/formatters';
 
+import { TooltipContainer } from './components/TooltipContainer';
 import * as S from './units';
 
 export const BPMNViewPage = () => {
@@ -30,7 +29,7 @@ export const BPMNViewPage = () => {
 
     const { data: fileData } = useGetBPMNFileDataQuery(versionId);
     const { data: versions, isLoading: loadingVersion } = useGetCJFileVersionByIdQuery(cjId);
-    const { data: cj } = useGetCJByIdQuery(cjId);
+    const { data: cj, isLoading: isLoadingCJ } = useGetCJByIdQuery(cjId);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const viewerRef = useRef<any>(null);
@@ -43,7 +42,7 @@ export const BPMNViewPage = () => {
         const withoutExt = filePart.replace('.bpmn', '');
         const base = withoutExt.split('_')[0];
 
-        return `${base}.bpmn`;
+        return `${decodeURI(base)}.bpmn`;
     };
 
     const versionOptions = (versions ?? []).map((v) => ({
@@ -122,13 +121,16 @@ export const BPMNViewPage = () => {
             <S.Header>
                 <S.FlexSideContainer>
                     <IconButton iconName={Icons.ArrowLeft} size="large" onClick={hadleClosePage} />
-                    <div>
-                        <S.Name>{cj?.name}</S.Name>
-                        <S.Desription>
-                            Cj доступен только для просмотра. Чтобы внести изменения, скачайте и
-                            загрузите обновленный файл
-                        </S.Desription>
-                    </div>
+                    {isLoadingCJ && <Skeleton width={666} height={40} variant="square" />}
+                    {cj && (
+                        <div>
+                            <S.Name>{cj?.name}</S.Name>
+                            <S.Desription>
+                                Cj доступен только для просмотра. Чтобы внести изменения, скачайте и
+                                загрузите обновленный файл
+                            </S.Desription>
+                        </div>
+                    )}
                     <S.SelectWrapper>
                         <Select
                             fullWidth
@@ -146,7 +148,10 @@ export const BPMNViewPage = () => {
                             makeOption={(option) => (
                                 <S.FileMetadataContainer>
                                     <S.FileNameWrapper>
-                                        <Text variant="body2">{option.value}</Text>
+                                        <TooltipContainer
+                                            text={option.value}
+                                            tooltipId={`bpmn-filename-${option.id}`}
+                                        />
                                         <Text inactive variant="caption">
                                             {dayjs(option.created)
                                                 .local()

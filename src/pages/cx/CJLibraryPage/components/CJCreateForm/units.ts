@@ -1,3 +1,4 @@
+import { FileUploaderListItem } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div``;
@@ -51,6 +52,29 @@ export const FileNameContainer = styled.div`
     align-items: flex-start;
     padding: 12px 16px;
     gap: 16px;
+
+    .dsb_file-uploader_file {
+        margin: 0 !important;
+        padding: 0 !important;
+        margin-right: 0 !important;
+        width: 32px !important;
+
+        .dsb_file-uploader-file_name,
+        .dsb_file-uploader-file-icon {
+            margin-right: 0 !important;
+            min-height: auto !important;
+            min-width: auto !important;
+        }
+    }
+`;
+
+export const FileUploaderListItemStyled = styled(FileUploaderListItem)`
+    padding: 0;
+    width: 32px;
+
+    .dsb_file-uploader-file-delete {
+        display: none;
+    }
 `;
 
 export const FileMetadataContainer = styled.div`

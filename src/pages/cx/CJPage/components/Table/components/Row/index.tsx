@@ -8,7 +8,7 @@ import { useHiddenRowsStore } from '../../store/HiddenRowsStore';
 import { RowIds } from '../../types';
 
 import { EditableCell } from './components';
-import { IReducedTableData, IRow, RowElementType } from './types';
+import { IReducedTableData, IRow, RowElementType, UNEDITABLE_CELLS } from './types';
 import * as S from './units';
 
 export const Row = <T,>({
@@ -30,7 +30,7 @@ export const Row = <T,>({
         state.showHiddenRows,
     ]);
     const isHidden = hiddenRows.includes(rowId);
-    const [editingCell, setEditingCell] = useState<string | null>(null);
+    const [activeCell, setActiveCell] = useState<{ rowId: RowIds; elementId: string } | null>(null);
 
     const isLabelClickable = rowId !== RowIds.NAME || collapsedStedIds.length === 0;
 
@@ -49,6 +49,18 @@ export const Row = <T,>({
         setHiddenRows(
             isHidden ? hiddenRows.filter((item) => item !== rowId) : [...hiddenRows, rowId],
         );
+    };
+
+    const handleCellClick = (rowId: RowIds, biId: string) => {
+        if (UNEDITABLE_CELLS.has(rowId)) {
+            return;
+        }
+
+        setActiveCell({ rowId, elementId: biId });
+    };
+
+    const handleCellEndEdit = () => {
+        setActiveCell(null);
     };
 
     return (
@@ -109,39 +121,46 @@ export const Row = <T,>({
                                 )}
 
                                 {element.type === RowElementType.BI && (
-                                    <S.Td
-                                        key={i}
-                                        borderRight={
-                                            i === reducedStepData.length - 1 ||
-                                            reducedStepData[i + 1].type ===
-                                                RowElementType.COLLAPSED_STEP
-                                        }
-                                        alignTop={rowId === RowIds.SCENARION_BI}
-                                        data-testid={`${i}${capitalizeFirstLetter(rowId)}`}
-                                        locked={rowId === RowIds.SCENARION_BI}
-                                        isEditing={editingCell === `${rowId}-${i}`}
-                                        // onClick={() => {
-                                        //     if (
-                                        //         rowId !== RowIds.SCENARION_BI &&
-                                        //         rowId !== RowIds.IDENTIFICATOR &&
-                                        //         rowId !== RowIds.DOCUMENT
-                                        //     ) {
-                                        //         setEditingCell(`${rowId}-${i}`);
-                                        //     }
-                                        // }}
-                                        // hoverable={
-                                        //     rowId !== RowIds.IDENTIFICATOR &&
-                                        //     rowId !== RowIds.DOCUMENT
-                                        // }
-                                    >
-                                        <EditableCell
-                                            rowId={rowId}
-                                            formatData={formatData(parseData(element.bi))}
-                                            element={element.bi}
-                                            isEditing={editingCell === `${rowId}-${i}`}
-                                            onEndEdit={() => setEditingCell(null)}
-                                        />
-                                    </S.Td>
+                                    <>
+                                        {(() => {
+                                            const biId = String(element.bi.id);
+                                            const isActive =
+                                                activeCell?.rowId === rowId &&
+                                                activeCell?.elementId === biId;
+
+                                            return (
+                                                <S.Td
+                                                    key={i}
+                                                    borderRight={
+                                                        i === reducedStepData.length - 1 ||
+                                                        reducedStepData[i + 1].type ===
+                                                            RowElementType.COLLAPSED_STEP
+                                                    }
+                                                    alignTop={rowId === RowIds.SCENARION_BI}
+                                                    data-testid={`${i}${capitalizeFirstLetter(
+                                                        rowId,
+                                                    )}`}
+                                                    locked={rowId === RowIds.SCENARION_BI}
+                                                    onClick={() => handleCellClick(rowId, biId)}
+                                                    hoverable={
+                                                        rowId !== RowIds.IDENTIFICATOR &&
+                                                        rowId !== RowIds.DOCUMENT
+                                                    }
+                                                    isEditing={isActive}
+                                                >
+                                                    <EditableCell
+                                                        rowId={rowId}
+                                                        formatData={formatData(
+                                                            parseData(element.bi),
+                                                        )}
+                                                        element={element.bi}
+                                                        isActive={isActive}
+                                                        onEndEdit={handleCellEndEdit}
+                                                    />
+                                                </S.Td>
+                                            );
+                                        })()}
+                                    </>
                                 )}
                             </>
                         ))}

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 export const Row = styled.tr<{ isHidden?: boolean }>`
     width: 100%;
-
+    max-height: 52px;
     background-color: var(--color-background-base);
 
     color: ${({ isHidden }) => isHidden && '#a9a9a9'};
@@ -21,7 +21,7 @@ export const Td = styled.td<{
 }>`
     min-width: 320px;
     height: 52px;
-    padding: ${({ locked, isEditing }) => (locked ? '' : isEditing ? '' : '18px 16px')};
+    padding: ${({ locked, isEditing }) => (locked ? '0' : isEditing ? '0' : '18px 16px')};
 
     background-color: var(--color-background-base);
 

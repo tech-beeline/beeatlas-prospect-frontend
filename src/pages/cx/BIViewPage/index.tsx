@@ -3,7 +3,7 @@ import { createSearchParams, useNavigate, useSearchParams } from 'react-router-d
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
+import { StatusLabel, TargetLabel } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
 import { Link, NotFoundBlock } from 'components/other';
@@ -77,16 +77,8 @@ export const BIViewPage = () => {
                                     title="BI используется в других опубликованных CJ, редактирование недоступно"
                                 />
                             )}
-                            {data.communal && !data.draft && (
-                                <S.BannerStyled
-                                    color="default"
-                                    iconName={Icons.InfoCircled}
-                                    title="В коммунальный опубликованный BI нельзя вносить правки и удалять его."
-                                />
-                            )}
                             <S.LabelsContainer>
                                 <TargetLabel target={data.target} />
-                                {data.communal && <CommunalLabel />}
                                 <StatusLabel status={data.status} />
                                 <Label
                                     variant="contained"

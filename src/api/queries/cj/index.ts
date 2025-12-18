@@ -123,7 +123,6 @@ export function useCreateCJWithEmptyStepMutation() {
                 },
                 params.productId,
             );
-            console.log('params', params.bpmn);
             if (params.bpmn === false) {
                 await postCJStep(cjData.data.id, {
                     name: 'Название этапа',
@@ -319,7 +318,7 @@ export const useGetCJFileVersionByIdQuery = (cjId: number | string | null) => {
         queryFn: async () => {
             const docTypes = await getCJDocumentationTypes().then((res) => res.data);
             const docTypeId = docTypes[0].id;
-            console.log('docTypeVersdion', docTypeId);
+
             const bpmnVersion = await getBPMNFileVersion(Number(cjId), docTypeId).then(
                 (res) => res.data,
             );

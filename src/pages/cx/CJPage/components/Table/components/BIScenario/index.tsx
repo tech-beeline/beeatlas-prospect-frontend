@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
 import { Avatar, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { useSideSheetStore } from 'features/cx/store';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
-import { useModal } from 'hooks';
+import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -17,20 +18,18 @@ import * as S from './units';
 
 export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     const [expanded, setExpanded] = useState(false);
-    const {
-        openModal: openSlaSidesheet,
-        closeModal: closeSlaSidesheet,
-        modalOpened: isSlaSidesheetOpened,
-    } = useModal();
+    const { openSideSheet, payload, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 
-    const {
-        openModal: openRealtionsSidesheet,
-        closeModal: closeRelationsSidesheet,
-        modalOpened: isRelationsSidesheetOpened,
-    } = useModal();
+    const handleEditSLA = () => {
+        toggleSideSheet(SideSheetVariants.EDIT_SLA_BI, biSteps.id);
+    };
+
+    const handleEditScenario = () => {
+        toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI, biSteps.id);
+    };
 
     return (
-        <>
+        <S.ScenarioTd>
             <S.ScenarionTdWrapper last={last} expanded={expanded}>
                 <S.ScenationTitleWrapper>
                     <IconButton
@@ -41,18 +40,18 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                     <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
                     <Text variant="body3">{biSteps.name}</Text>
                 </S.ScenationTitleWrapper>
-                <IconButton iconName={Icons.Edit} size="medium" onClick={openRealtionsSidesheet} />
+                <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
             </S.ScenarionTdWrapper>
 
             {expanded && (
-                <S.ScenarioContentWrapper>
+                <S.ScenarioContentWrapper last={last}>
                     <S.SLAWrapper>
                         <S.SLATitle>
                             <Text variant="body3">SLA</Text>
                             <IconButton
                                 iconName={Icons.Edit}
                                 size="medium"
-                                onClick={openSlaSidesheet}
+                                onClick={handleEditSLA}
                             />
                         </S.SLATitle>
                         <S.SLAContent>
@@ -77,7 +76,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
 
                     {!biSteps.relations || biSteps.relations.length === 0 ? (
                         <S.FlexWrapper gap="16">
-                            <Text variant="subtitle3">Нет вызовов</Text>
+                            <Text variant="subtitle3">{formatNullableString(null)}</Text>
                         </S.FlexWrapper>
                     ) : (
                         biSteps.relations.map((relation, index) => (
@@ -158,17 +157,19 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                 </S.ScenarioContentWrapper>
             )}
             <BIEditSLA
-                isOpen={isSlaSidesheetOpened}
-                onClose={closeSlaSidesheet}
+                isOpen={openSideSheet === SideSheetVariants.EDIT_SLA_BI && payload === biSteps.id}
+                onClose={closeSideSheet}
                 slaId={String(biSteps.id)}
                 data={{ errorRate: biSteps.errorRate, latency: biSteps.latency, rps: biSteps.rps }}
             />
             <BIEditScenario
-                isOpen={isRelationsSidesheetOpened}
-                onClose={closeRelationsSidesheet}
+                isOpen={
+                    openSideSheet === SideSheetVariants.EDIT_SCENARIO_BI && payload === biSteps.id
+                }
+                onClose={closeSideSheet}
                 stepId={biSteps.id}
                 relationsData={biSteps.relations}
             />
-        </>
+        </S.ScenarioTd>
     );
 };

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Button, FileUploader, Icon, IconButton, Typography } from '@beeline/design-system-react';
+import { Button, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -82,7 +82,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
                     {bpmnFile && (
                         <S.FileNameContainer>
                             <S.FileNameWrapper>
-                                <Icon iconName={Icons.Page} size="large" />
+                                <S.FileUploaderListItemStyled name="" />
                                 <S.FileMetadataContainer>
                                     <Typography variant="body2">{bpmnFile.name}</Typography>
                                     <Typography variant="caption" color="textSecondary">

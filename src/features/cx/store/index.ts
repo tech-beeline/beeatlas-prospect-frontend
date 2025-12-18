@@ -8,10 +8,16 @@ export const useSideSheetStore = create<ISideSheetState>((set) => ({
 
     toggleSideSheet: (variant, payload = null) =>
         set((state) => {
-            const isClosing = state.openSideSheet === variant;
+            if (state.openSideSheet === variant) {
+                return {
+                    openSideSheet: null,
+                    payload: null,
+                };
+            }
+
             return {
-                openSideSheet: isClosing ? null : variant,
-                payload: isClosing ? null : payload,
+                openSideSheet: variant,
+                payload,
             };
         }),
 

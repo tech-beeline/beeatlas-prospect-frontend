@@ -73,7 +73,7 @@ export function useCreateBIMutation() {
 
 interface IUpdateBIParams {
     id: string;
-    data: IBIForm;
+    data: Partial<IBIForm>;
 }
 export function useUpdateBIMutation() {
     const queryClient = useQueryClient();

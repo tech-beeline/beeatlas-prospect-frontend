@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -27,6 +27,23 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
     const productId = watch(`steps.${index}.product`);
     const ifaceId = watch(`steps.${index}.iface`);
+
+    const isFirstRender = useRef(true);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        setValue(`steps.${index}.tc`, null);
+        setValue(`steps.${index}.iface`, null);
+        setValue(`steps.${index}.operation`, null);
+
+        setSearchTextTC('');
+        setSearchTextIface('');
+        setSearchTextOperation('');
+    }, [productId, index, setValue]);
 
     useEffect(() => {
         if (!ifaceId) {
@@ -110,6 +127,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                             onInputChange={(v) => setSearchTextProduct(v)}
                         />
                         <Autocomplete
+                            key={`tc-${productId}`}
                             fullWidth
                             disabled={!productId || isLoadingTC}
                             label="Техническая возможность"
@@ -119,6 +137,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                         />
                         <Autocomplete
                             fullWidth
+                            key={`iface-${productId}`}
                             disabled={!productId || isLoadingArch}
                             label="Интерфейс"
                             name={`steps.${index}.iface`}
@@ -126,7 +145,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                             onInputChange={(v) => setSearchTextIface(v)}
                         />
                         <Autocomplete
-                            key={ifaceId}
+                            key={`op-${productId}-${ifaceId}`}
                             fullWidth
                             disabled={!productId || !ifaceId || isLoadingArch}
                             label="Endpoint"
