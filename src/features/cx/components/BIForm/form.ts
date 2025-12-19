@@ -6,10 +6,6 @@ type ParticipantValues = {
     value: string;
 };
 
-type ChannelValues = {
-    value: number;
-};
-
 type LinkValues = {
     value: string;
     description: string;
@@ -30,51 +26,52 @@ export type FormValues = {
     participants: ParticipantValues[];
     document: LinkValues[];
     mockup: LinkValues[];
-    channels: ChannelValues[];
+    channels: number[];
     product: number;
     metrics: string;
 };
 
 export const validationSchema = object().shape({
-    id: number().default(0),
-    name: string().required('Заполните название'),
-    communal: boolean().default(false),
-    identificator: string().default(''),
-    descr: string().required('Заполните описание'),
-    type: number().default(0),
-    status: number().default(0),
-    feelings: number().default(2),
-    clientScenario: string().required('Заполните сценарий'),
-    flowLink: string().default(''),
-    ucsReaction: string().default(''),
+    id: number().defined().default(0),
+    name: string().defined().default(''),
+    communal: boolean().defined().default(false),
+    identificator: string().defined().default(''),
+    descr: string().defined().default(''),
+    type: number().defined().default(0),
+    status: number().defined().default(0),
+    feelings: number().defined().default(2),
+    clientScenario: string().defined().default(''),
+    flowLink: string().defined().default(''),
+    ucsReaction: string().defined().default(''),
     participants: array()
         .of(
-            object().shape({
-                participant: number().default(0),
-                descr: string().default(''),
-                value: string().default(''),
+            object({
+                participant: number().defined().default(0),
+                descr: string().defined().default(''),
+                value: string().defined().default(''),
             }),
         )
+        .ensure()
         .default([]),
     document: array()
         .of(
-            object().shape({
-                value: string().default('').url('Укажите корректную ссылку'),
-                description: string().default(''),
+            object({
+                value: string().defined().default(''),
+                description: string().defined().default(''),
             }),
         )
+        .ensure()
         .default([]),
     mockup: array()
         .of(
-            object().shape({
-                value: string().default(''),
-                description: string().default(''),
+            object({
+                value: string().defined().default(''),
+                description: string().defined().default(''),
             }),
         )
+        .ensure()
         .default([]),
-    channels: array()
-        .of(object().shape({ value: number().default(0) }))
-        .default([]),
-    product: number().required('Выберите приложение'),
-    metrics: string().default(''),
+    channels: array().of(number().defined()).ensure().default([]),
+    product: number().defined().default(0),
+    metrics: string().defined().default(''),
 });

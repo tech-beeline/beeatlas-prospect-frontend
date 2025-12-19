@@ -29,27 +29,31 @@
 </body>
 
 <script>
-    var _paq = window._paq = window._paq || [];
+    const isProd = window.location.hostname === 'beeatlas.vimpelcom.ru';
 
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    if (isProd) {
+        var _paq = window._paq = window._paq || [];
 
-    _paq.push(['trackPageView']);
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
 
-    _paq.push(['enableLinkTracking']);
+        _paq.push(['trackPageView']);
 
-    (function () {
+        _paq.push(['enableLinkTracking']);
 
-        var u = "//analytics.vimpelcom.ru/";
+        (function () {
 
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            var u = "//analytics.vimpelcom.ru/";
 
-        _paq.push(['setSiteId', '23']);
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
 
-        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            _paq.push(['setSiteId', '23']);
 
-        g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
 
-    })();
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+
+        })();
+    }
 </script>
 
 </html>

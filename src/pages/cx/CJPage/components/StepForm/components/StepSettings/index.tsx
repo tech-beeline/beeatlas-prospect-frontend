@@ -65,11 +65,10 @@ export const StepSettings: FC<IStepSettings> = ({
                 <S.SubtitleFlexWrapper>
                     <S.Subtitle>BI для этапа</S.Subtitle>
 
-                    <IconButton
-                        iconName={Icons.Add}
-                        size="large"
-                        onClick={() => setStage(Stage.BISEARCH)}
-                    />
+                    <Button variant="plain" size="large" onClick={() => setStage(Stage.BISEARCH)}>
+                        {' '}
+                        Добавить BI
+                    </Button>
                 </S.SubtitleFlexWrapper>
 
                 {step.bi.length === 0 && (

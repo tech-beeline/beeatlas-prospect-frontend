@@ -1,16 +1,14 @@
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
-
-    padding: 20px 16px;
+    width: 348px;
 `;
 
 export const FlexWrapper = styled.div`
-    position: relative;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,25 +20,12 @@ export const SideBlockTitle = styled.div`
     line-height: var(--font-line-height-h5);
 `;
 
-export const TextFieldContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-
-    width: 100%;
-    padding-top: 24px;
+export const IconButtonWrappet = styled(Icon)`
+    cursor: pointer;
 `;
 
-export const ButtonContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
+export const FlexContainer = styled.div`
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-
-    width: 100%;
-    height: 96px;
-    padding: 24px 16px;
+    flex-direction: column;
+    gap: 4px;
 `;

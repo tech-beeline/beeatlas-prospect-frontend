@@ -31,7 +31,7 @@ export const uploadImportFile = (
     return Api.post({
         url: `${GATEWAY_URL}document/v1/import/${filePath}?sync=false`,
         data: formData,
-        headers: { 'Content-Disposition': `${file.name}` },
+        headers: { 'Content-Disposition': `${encodeURI(file.name)}` },
         onUploadProgress,
         signal: abortController.signal,
     });

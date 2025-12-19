@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 
-export const ContainerFixed = styled.div<{ isOpen: boolean }>`
+export const ContainerFixed = styled.div<{ isOpen: boolean; large: boolean }>`
     position: fixed;
     top: 0;
     right: 0;
 
-    transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(320px)')};
+    transform: ${({ isOpen, large }) =>
+        isOpen ? 'translateX(0)' : large ? 'translateX(400px)' : 'translateX(320px)'};
 
-    width: 320px;
+    width: ${({ large }) => (large ? '400px' : '320px')};
     height: 100vh;
 
     background-color: var(--color-background-base);

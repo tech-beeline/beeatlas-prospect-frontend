@@ -14,10 +14,14 @@ export const Td = styled.td<{
     isClickable?: boolean;
     borderRight?: boolean;
     noBottomBorder?: boolean;
+    locked?: boolean;
+    isEditing?: boolean;
+    hoverable?: boolean;
+    alignTop?: boolean;
 }>`
     min-width: 320px;
     height: 52px;
-    padding: 18px 16px;
+    padding: ${({ locked, isEditing }) => (locked ? '' : isEditing ? '' : '18px 16px')};
 
     background-color: var(--color-background-base);
 
@@ -28,6 +32,8 @@ export const Td = styled.td<{
 
     white-space: pre-wrap;
 
+    ${({ alignTop }) => (alignTop ? 'vertical-align: top;' : '')}
+
     &:first-of-type {
         position: sticky;
         left: 0;
@@ -37,7 +43,18 @@ export const Td = styled.td<{
     }
 
     &:last-of-type {
-        padding-right: 24px;
+        padding-right: ${({ locked, isEditing }) => (locked ? '' : isEditing ? '' : '24px')};
+    }
+
+    &:hover {
+        ${({ locked, isEditing, hoverable }) =>
+            !locked &&
+            !isEditing &&
+            hoverable &&
+            css`
+                outline: 1px solid black;
+                outline-offset: -1px;
+            `}
     }
 
     pointer-events: ${({ isClickable }) => (isClickable === false ? 'none' : 'all')};

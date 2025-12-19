@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { capitalizeFirstLetter } from 'utils/helpers';
 
-import { useHiddenRowsStore } from '../../store';
+import { useHiddenRowsStore } from '../../store/HiddenRowsStore';
 import { RowIds } from '../../types';
 
+import { EditableCell } from './components';
 import { IReducedTableData, IRow, RowElementType } from './types';
 import * as S from './units';
 
@@ -28,8 +29,8 @@ export const Row = <T,>({
         state.setHiddenRows,
         state.showHiddenRows,
     ]);
-
     const isHidden = hiddenRows.includes(rowId);
+    const [editingCell, setEditingCell] = useState<string | null>(null);
 
     const isLabelClickable = rowId !== RowIds.NAME || collapsedStedIds.length === 0;
 
@@ -44,7 +45,6 @@ export const Row = <T,>({
         ],
         [] as IReducedTableData,
     );
-
     const handleLabelClick = () => {
         setHiddenRows(
             isHidden ? hiddenRows.filter((item) => item !== rowId) : [...hiddenRows, rowId],
@@ -71,6 +71,7 @@ export const Row = <T,>({
                                 </S.IconContainer>
                             </S.AlignItemsCenterWrapper>
                         </S.LabelTd>
+
                         {reducedStepData.map((element, i) => (
                             <>
                                 {element.type === RowElementType.EMPTY_STEP && firstRow && (
@@ -87,6 +88,7 @@ export const Row = <T,>({
                                         </S.ButtonContainer>
                                     </S.OnlyTd>
                                 )}
+
                                 {element.type === RowElementType.COLLAPSED_STEP && (
                                     <S.Td
                                         key={i}
@@ -105,6 +107,7 @@ export const Row = <T,>({
                                         )}
                                     </S.Td>
                                 )}
+
                                 {element.type === RowElementType.BI && (
                                     <S.Td
                                         key={i}
@@ -113,9 +116,31 @@ export const Row = <T,>({
                                             reducedStepData[i + 1].type ===
                                                 RowElementType.COLLAPSED_STEP
                                         }
+                                        alignTop={rowId === RowIds.SCENARION_BI}
                                         data-testid={`${i}${capitalizeFirstLetter(rowId)}`}
+                                        locked={rowId === RowIds.SCENARION_BI}
+                                        isEditing={editingCell === `${rowId}-${i}`}
+                                        // onClick={() => {
+                                        //     if (
+                                        //         rowId !== RowIds.SCENARION_BI &&
+                                        //         rowId !== RowIds.IDENTIFICATOR &&
+                                        //         rowId !== RowIds.DOCUMENT
+                                        //     ) {
+                                        //         setEditingCell(`${rowId}-${i}`);
+                                        //     }
+                                        // }}
+                                        // hoverable={
+                                        //     rowId !== RowIds.IDENTIFICATOR &&
+                                        //     rowId !== RowIds.DOCUMENT
+                                        // }
                                     >
-                                        {formatData(parseData(element.bi))}
+                                        <EditableCell
+                                            rowId={rowId}
+                                            formatData={formatData(parseData(element.bi))}
+                                            element={element.bi}
+                                            isEditing={editingCell === `${rowId}-${i}`}
+                                            onEndEdit={() => setEditingCell(null)}
+                                        />
                                     </S.Td>
                                 )}
                             </>

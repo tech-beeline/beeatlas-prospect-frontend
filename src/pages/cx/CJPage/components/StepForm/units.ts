@@ -65,7 +65,7 @@ export const Body2 = styled.div<{ marginBottom?: boolean }>`
     line-height: var(--font-line-height-body2);
 
     white-space: pre-wrap;
-
+    max-width: 304px;
     margin-bottom: ${({ marginBottom }) => (marginBottom ? '18px' : '0px')};
 `;
 
@@ -120,29 +120,34 @@ export const FlexContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
-    width: 320px;
+    width: 400px;
     min-height: 100%;
 `;
 
-export const ButtonsContainer = styled.div`
+export const ButtonsContainer = styled.div<{ column?: boolean }>`
     position: absolute;
     bottom: 0;
     left: 0;
 
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    flex-direction: ${({ column }) => (column ? 'column' : '')};
+    gap: ${({ column }) => (column ? '16px' : '10px')};
 
     width: 100%;
-    height: 96px;
-    padding: 24px 16px;
+    height: ${({ column }) => (column ? '152px' : '96px')};
+    padding: 24px;
 
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(25, 28, 52, 0.12);
+
+    > Button {
+        width: 100%;
+    }
 `;
 
-export const Content = styled.div<{ hasButtons: boolean }>`
-    height: ${({ hasButtons }) => (hasButtons ? 'calc(100vh - 96px)' : '100vh')};
-    padding: 20px 16px;
+export const Content = styled.div<{ hasButtons: boolean; column?: boolean }>`
+    height: ${({ hasButtons, column }) =>
+        hasButtons ? (column ? 'calc(100vh - 152px)' : 'calc(100vh - 96px)') : '100vh'};
+    padding: 24px;
 
     overflow-y: auto;
 `;

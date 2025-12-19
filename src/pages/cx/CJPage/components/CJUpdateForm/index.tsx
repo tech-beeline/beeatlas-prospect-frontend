@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
 import { SideBlock } from 'components/containers';
+// import { Text } from 'components/core';
 import { TextField } from 'components/form';
 
 import { useUpdateCJMutation } from 'api/queries/cj';
@@ -27,6 +28,30 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
     useEffect(() => reset(values), [values]);
 
+    // const [links, setLinks] = useState<{ id: number; url: string; description: string }[]>([]);
+
+    // const addLink = () => {
+    //     setLinks((prev) => [
+    //         ...prev,
+    //         {
+    //             id: prev.length + 1,
+    //             url: '',
+    //             description: '',
+    //         },
+    //     ]);
+    // };
+
+    // const removeLink = (id: number) => {
+    //     setLinks((prev) =>
+    //         prev
+    //             .filter((link) => link.id !== id)
+    //             .map((link, index) => ({
+    //                 ...link,
+    //                 id: index + 1,
+    //             })),
+    //     );
+    // };
+
     const onSubmit = handleSubmit(async (values) => {
         try {
             await updateCJ({
@@ -47,21 +72,74 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
     });
 
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose}>
+        <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
             <S.Container>
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
-                        <S.FlexWrapper>
-                            <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
+                        <S.Content hasButtons>
+                            <S.FlexWrapper>
+                                <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
 
-                            <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
-                        </S.FlexWrapper>
+                                <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
+                            </S.FlexWrapper>
 
-                        <S.TextFieldContainer>
-                            <TextField label="Название" name="name" />
+                            <S.TextFieldContainer>
+                                <TextField label="Название" name="name" />
 
-                            <TextField label="Портрет пользователя" name="userPortrait" />
-                        </S.TextFieldContainer>
+                                <TextField label="Портрет пользователя*" name="userPortrait" />
+                            </S.TextFieldContainer>
+
+                            {/* /*<S.LinkContainer>
+                                <S.FlexWrapper>
+                                    <Text variant="subtitle1">Полезные ссылки</Text>
+                                    <Button
+                                        variant="plain"
+                                        size="small"
+                                        startIcon={<Icon iconName={Icons.Add} color="blue" />}
+                                        onClick={addLink}
+                                        type="button"
+                                    >
+                                        {' '}
+                                        Добавить
+                                    </Button>
+                                </S.FlexWrapper>
+                                <S.LinkWrapper>
+                                    {links.map((link, index) => (
+                                        <S.LinkBlock key={link.id}>
+                                            <S.FlexWrapper>
+                                                <Text variant="subtitle2">Ссылка {index + 1}</Text>
+
+                                                <Button
+                                                    startIcon={
+                                                        <Icon
+                                                            iconName={Icons.Delete}
+                                                            color="blue"
+                                                        />
+                                                    }
+                                                    onClick={() => removeLink(link.id)}
+                                                    size="small"
+                                                    variant="plain"
+                                                    type="button"
+                                                >
+                                                    Удалить
+                                                </Button>
+                                            </S.FlexWrapper>
+
+                                            <S.LinkTextField>
+                                                <TextField
+                                                    label="Ссылка"
+                                                    name={`links.${index}.url`}
+                                                />
+                                                <TextField
+                                                    label="Описание ссылки"
+                                                    name={`links.${index}.description`}
+                                                />
+                                            </S.LinkTextField>
+                                        </S.LinkBlock>
+                                    ))}
+                                </S.LinkWrapper>
+                            </S.LinkContainer> */}
+                        </S.Content>
 
                         <S.ButtonContainer>
                             <Button type="button" onClick={onClose}>

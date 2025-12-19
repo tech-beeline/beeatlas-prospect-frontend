@@ -5,6 +5,7 @@ export interface ITable {
     cjId: number;
     draft: boolean;
     tableData: ICompleteStepData[];
+    bpmn?: boolean;
 }
 
 export enum RowIds {
@@ -17,6 +18,7 @@ export enum RowIds {
     PARTICIPANTS = 'participants',
     FEELING = 'feeling',
     CLIENT_SCENARIO = 'clientScenario',
+    SCENARION_BI = 'scenarioBI',
     FLOW_LINK = 'flowLink',
     UCS_REACTION = 'ucsReaction',
     CHANNEL = 'channel',

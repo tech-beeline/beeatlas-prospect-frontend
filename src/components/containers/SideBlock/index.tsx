@@ -16,6 +16,7 @@ export const SideBlock: FC<ISideBlock> = ({
     closeOnOutsideClick = false,
     outsideClickExceptionIds,
     aboveContent = true,
+    large = false,
 }) => {
     const sideBlockRef = useRef(null);
 
@@ -39,7 +40,7 @@ export const SideBlock: FC<ISideBlock> = ({
 
     return (
         <>
-            <Container ref={sideBlockRef} isOpen={isOpen}>
+            <Container ref={sideBlockRef} isOpen={isOpen} large={large}>
                 {children}
             </Container>
             {hasBackdrop && <S.Backdrop onClick={onClose} isOpen={isOpen} />}

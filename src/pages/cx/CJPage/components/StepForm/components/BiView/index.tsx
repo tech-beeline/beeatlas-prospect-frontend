@@ -48,7 +48,7 @@ export const BiView: FC<IBiView> = ({
 
     return (
         <S.FlexContainer>
-            <S.Content hasButtons>
+            <S.Content hasButtons column>
                 <S.FlexWrapper>
                     <S.TitleFlexWrapper>
                         <IconButton
@@ -56,7 +56,7 @@ export const BiView: FC<IBiView> = ({
                             size="large"
                             onClick={() => setStage(previousStage)}
                         />
-                        <S.SideBlockTitle>Атрибуты BI</S.SideBlockTitle>
+                        <S.SideBlockTitle>BI</S.SideBlockTitle>
                     </S.TitleFlexWrapper>
                     <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
                 </S.FlexWrapper>
@@ -139,30 +139,35 @@ export const BiView: FC<IBiView> = ({
                                 <S.Subtitle>Метрики</S.Subtitle>
                                 <S.Body2>{formatNullableString(bi.metrics)}</S.Body2>
                             </div>
+                            <div>
+                                <S.Subtitle>Привязка к CJ</S.Subtitle>
+                                <S.Body2>
+                                    <Link url="Название CJ" />
+                                </S.Body2>
+                            </div>
                         </>
                     )}
                     {isLoading &&
                         Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={40} />)}
                 </S.AttributesContainer>
             </S.Content>
-            <S.ButtonsContainer>
+            <S.ButtonsContainer column>
                 <Button
-                    variant={biSelected ? 'contained' : 'outlined'}
+                    type="submit"
+                    variant="contained"
+                    disabled={updatingStep}
+                    onClick={handleSelectClick}
+                >
+                    Выбрать
+                </Button>
+
+                <Button
+                    variant="outlined"
                     disabled={isLoading || isBiUneditable || isBiCommunalAndPublished}
                     onClick={() => setStage(biSelected ? Stage.SELECTEDBIEDIT : Stage.BIEDIT)}
                 >
-                    Редактировать
+                    Сделать черновиком
                 </Button>
-                {!biSelected && (
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        disabled={updatingStep}
-                        onClick={handleSelectClick}
-                    >
-                        Выбрать
-                    </Button>
-                )}
             </S.ButtonsContainer>
         </S.FlexContainer>
     );
