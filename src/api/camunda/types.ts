@@ -19,9 +19,11 @@ export interface IProcess {
 
 export interface IProcessForm {
     businessKey: string;
-    cmdb: string;
     isSync: true;
-    docId: number;
+    variables: {
+        cmdb: { value: string; type: 'String' };
+        docId: { value: string; type: 'Integer' };
+    };
 }
 
 export interface IProcessFullData extends IProcess {

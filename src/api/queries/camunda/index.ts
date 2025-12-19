@@ -38,9 +38,11 @@ export function useCreateProcessJSONMutation() {
             const { docId } = await uploadWorkspaceJSONFile(params.file).then((res) => res.data);
             await startProcess({
                 businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
-                cmdb: params.cmdb,
-                docId,
                 isSync: true,
+                variables: {
+                    cmdb: { value: params.cmdb, type: 'String' },
+                    docId: { value: String(docId), type: 'Integer' },
+                },
             });
         },
         onSuccess: () => {
@@ -57,9 +59,11 @@ export function useCreateProcessDSLMutation() {
             const { docId } = await uploadWorkspaceDSLFile(params.file).then((res) => res.data);
             await startProcess({
                 businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
-                cmdb: params.cmdb,
-                docId,
                 isSync: true,
+                variables: {
+                    cmdb: { value: params.cmdb, type: 'String' },
+                    docId: { value: String(docId), type: 'Integer' },
+                },
             });
         },
         onSuccess: () => {
@@ -83,9 +87,11 @@ export function useRestartProcessMutation() {
             if (docId) {
                 await startProcess({
                     businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
-                    cmdb: params.cmdb,
-                    docId: Number(docId),
                     isSync: true,
+                    variables: {
+                        cmdb: { value: params.cmdb, type: 'String' },
+                        docId: { value: String(docId), type: 'Integer' },
+                    },
                 });
             }
         },
