@@ -51,18 +51,24 @@ export function useCreateProcessJSONMutation() {
     });
 }
 
+interface ICreateProcessDSLForm {
+    workspace: string;
+    cmdb: string;
+}
 export function useCreateProcessDSLMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [CAMUNDA_PREFIX, 'create', 'dsl'],
-        mutationFn: async (params: ICreateProcessForm) => {
-            const { docId } = await uploadWorkspaceDSLFile(params.file).then((res) => res.data);
+        mutationFn: async (params: ICreateProcessDSLForm) => {
+            const { doc_id } = await uploadWorkspaceDSLFile({ workspace: params.workspace }).then(
+                (res) => res.data,
+            );
             await startProcess({
-                businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
+                businessKey: `${params.cmdb}_${doc_id}_${Date.now()}`,
                 isSync: true,
                 variables: {
                     cmdb: { value: params.cmdb, type: 'String' },
-                    docId: { value: String(docId), type: 'Integer' },
+                    docId: { value: String(doc_id), type: 'Integer' },
                 },
             });
         },

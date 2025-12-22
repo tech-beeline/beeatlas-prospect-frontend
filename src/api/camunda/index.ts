@@ -28,14 +28,12 @@ export const uploadWorkspaceJSONFile = (file: File): AxiosPromise<{ docId: numbe
     });
 };
 
-export const uploadWorkspaceDSLFile = (file: File): AxiosPromise<{ docId: number }> => {
-    const formData = new FormData();
-    formData.append('file', file);
-
+export const uploadWorkspaceDSLFile = (data: {
+    workspace: string;
+}): AxiosPromise<{ doc_id: number }> => {
     return Api.post({
         url: `${STRUCTURIZR_URL}api/v1/workspace/conversion2doc`,
-        data: formData,
-        headers: { 'Content-Disposition': `${encodeURI(file.name)}` },
+        data,
     });
 };
 

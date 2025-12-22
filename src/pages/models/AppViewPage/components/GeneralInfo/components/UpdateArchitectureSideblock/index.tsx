@@ -10,6 +10,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IUpdateArchitectureSideblock } from './types';
 import * as S from './units';
+import { toBase64 } from './utils';
 
 export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
     isOpen,
@@ -30,7 +31,8 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
             await createJSONProcess({ file: fileList[0], cmdb });
             showSnackbar({ message: 'Идет процесс обновления данных' });
         } else if (fileList[0] && fileList[0].name.split('.')[1] === 'dsl') {
-            await createDSLProcess({ file: fileList[0], cmdb });
+            const fileEncoded = await toBase64(fileList[0]);
+            await createDSLProcess({ workspace: fileEncoded, cmdb });
             showSnackbar({ message: 'Идет процесс обновления данных' });
         }
         onClose();
