@@ -68,11 +68,11 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
         }
     };
 
-    const canGetKeys = (userInfoData?.productsIds ?? []).includes(productId);
+    const isUserProduct = (userInfoData?.productsIds ?? []).includes(productId);
     const isAdministrator = userInfoData?.roles?.includes('ADMINISTRATOR');
 
     const { data: keysData } = useGetUserProductsKeyById(productId, {
-        enabled: canGetKeys,
+        enabled: isUserProduct,
     });
 
     const hasKeyData = keysData?.structurizrApiKey && keysData?.structurizrApiSecret;
@@ -106,7 +106,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         }`,
                 )}
             </Text>
-            {canGetKeys && hasKeyData && (
+            {isUserProduct && hasKeyData && (
                 <>
                     <Text inactive variant="body2">
                         Structurizr_api_key
@@ -172,39 +172,46 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                                 />
                             </S.LinkContainer>
                         </Text>
-                        <Button
-                            disabled={
-                                tempDisabled ||
-                                !processesData ||
-                                !processesData[0] ||
-                                !(processesData[0].status.isDone || processesData[0].status.isError)
-                            }
-                            data-tooltip-id="refresh"
-                            variant="outlined"
-                            startIcon={<Icon iconName={Icons.Refresh} />}
-                            onClick={handleRefreshClick}
-                        />
-                        <TooltipContainer id="refresh" offset={8} place="top" noArrow>
-                            Обновить
-                        </TooltipContainer>
-                        <Button
-                            disabled={
-                                tempDisabled ||
-                                (processesData &&
-                                    processesData[0] &&
-                                    !(
-                                        processesData[0].status.isDone ||
-                                        processesData[0].status.isError
-                                    ))
-                            }
-                            data-tooltip-id="upload"
-                            variant="outlined"
-                            startIcon={<Icon iconName={Icons.Download} />}
-                            onClick={openArchitectureModal}
-                        />
-                        <TooltipContainer id="upload" offset={8} place="top" noArrow>
-                            Загрузка версии архитектуры
-                        </TooltipContainer>
+                        {(isUserProduct || isAdministrator) && (
+                            <>
+                                <Button
+                                    disabled={
+                                        tempDisabled ||
+                                        !processesData ||
+                                        !processesData[0] ||
+                                        !(
+                                            processesData[0].status.isDone ||
+                                            processesData[0].status.isError
+                                        )
+                                    }
+                                    data-tooltip-id="refresh"
+                                    variant="outlined"
+                                    startIcon={<Icon iconName={Icons.Refresh} />}
+                                    onClick={handleRefreshClick}
+                                />
+                                <TooltipContainer id="refresh" offset={8} place="top" noArrow>
+                                    Обновить
+                                </TooltipContainer>
+                                <Button
+                                    disabled={
+                                        tempDisabled ||
+                                        (processesData &&
+                                            processesData[0] &&
+                                            !(
+                                                processesData[0].status.isDone ||
+                                                processesData[0].status.isError
+                                            ))
+                                    }
+                                    data-tooltip-id="upload"
+                                    variant="outlined"
+                                    startIcon={<Icon iconName={Icons.Download} />}
+                                    onClick={openArchitectureModal}
+                                />
+                                <TooltipContainer id="upload" offset={8} place="top" noArrow>
+                                    Загрузка версии архитектуры
+                                </TooltipContainer>
+                            </>
+                        )}
                     </S.StructurizrTitleContainer>
                     {processesData && processesData[0] && (
                         <S.TableStyled>
@@ -309,7 +316,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
             {cmdb &&
                 (structurizrApiUrl === null || structurizrApiUrl === '') &&
                 !hasKeyData &&
-                (isAdministrator || canGetKeys) && (
+                (isAdministrator || isUserProduct) && (
                     <>
                         <S.NotFoundContainer>
                             <NotFoundBlock
