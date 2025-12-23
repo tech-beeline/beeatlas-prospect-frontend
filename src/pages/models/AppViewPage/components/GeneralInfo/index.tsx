@@ -38,6 +38,8 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
     structurizrApiUrl,
     cmdb,
 }) => {
+    const [tempDisabled, setTempDisabled] = useState(false);
+
     const [blurState, setBlurState] = useState({
         apiKey: true,
         apiSecret: true,
@@ -56,7 +58,13 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
 
     const handleRefreshClick = async () => {
         if (cmdb && processesData && processesData[0]) {
-            await mutateAsync({ processId: processesData[0].id, cmdb });
+            try {
+                setTempDisabled(true);
+                await mutateAsync({ processId: processesData[0].id, cmdb });
+                setTimeout(() => setTempDisabled(false), 15 * 1000);
+            } catch (e) {
+                setTempDisabled(false);
+            }
         }
     };
 
@@ -166,6 +174,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                         </Text>
                         <Button
                             disabled={
+                                tempDisabled ||
                                 !processesData ||
                                 !processesData[0] ||
                                 !(processesData[0].status.isDone || processesData[0].status.isError)
@@ -179,6 +188,15 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                             Обновить
                         </TooltipContainer>
                         <Button
+                            disabled={
+                                tempDisabled ||
+                                (processesData &&
+                                    processesData[0] &&
+                                    !(
+                                        processesData[0].status.isDone ||
+                                        processesData[0].status.isError
+                                    ))
+                            }
                             data-tooltip-id="upload"
                             variant="outlined"
                             startIcon={<Icon iconName={Icons.Download} />}
@@ -242,6 +260,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                             isOpen={isArchitectureModalOpened}
                             onClose={closeArchitectureModal}
                             cmdb={cmdb}
+                            setTempDisabled={setTempDisabled}
                         />
                     )}
                 </S.StructurizrContainer>

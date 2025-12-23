@@ -16,6 +16,7 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
     isOpen,
     onClose,
     cmdb,
+    setTempDisabled,
 }) => {
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
@@ -27,15 +28,24 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
         useCreateProcessDSLMutation();
 
     const handleStartButtonClick = async () => {
-        if (fileList[0] && fileList[0].name.split('.')[1] === 'json') {
-            await createJSONProcess({ file: fileList[0], cmdb });
-            showSnackbar({ message: 'Идет процесс обновления данных' });
-        } else if (fileList[0] && fileList[0].name.split('.')[1] === 'dsl') {
-            const fileEncoded = await toBase64(fileList[0]);
-            await createDSLProcess({ workspace: fileEncoded, cmdb });
-            showSnackbar({ message: 'Идет процесс обновления данных' });
+        try {
+            if (fileList[0] && fileList[0].name.split('.')[1] === 'json') {
+                setTempDisabled(true);
+                await createJSONProcess({ file: fileList[0], cmdb });
+                showSnackbar({ message: 'Идет процесс обновления данных' });
+                setTimeout(() => setTempDisabled(false), 15 * 1000);
+            } else if (fileList[0] && fileList[0].name.split('.')[1] === 'dsl') {
+                setTempDisabled(true);
+                const fileEncoded = await toBase64(fileList[0]);
+                await createDSLProcess({ workspace: fileEncoded, cmdb });
+                showSnackbar({ message: 'Идет процесс обновления данных' });
+                setTimeout(() => setTempDisabled(false), 15 * 1000);
+            }
+        } catch (e) {
+            setTempDisabled(false);
+        } finally {
+            onClose();
         }
-        onClose();
     };
 
     return (
