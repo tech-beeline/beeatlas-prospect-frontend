@@ -71,6 +71,7 @@ export function useCreateProcessDSLMutation() {
                     docId: { value: String(doc_id), type: 'Integer' },
                 },
             });
+            setTimeout(() => queryClient.invalidateQueries({ queryKey: [CAMUNDA_PREFIX] }), 1000);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CAMUNDA_PREFIX] });
