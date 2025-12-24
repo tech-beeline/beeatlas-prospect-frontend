@@ -51,6 +51,7 @@ export interface ITechCapability {
     owner: string | null;
     parents: Array<Omit<IBusinessCapability, 'parent'>>;
     updatedDate: string;
+    criteria: ICriteria[];
 }
 
 export interface IParentsData {
