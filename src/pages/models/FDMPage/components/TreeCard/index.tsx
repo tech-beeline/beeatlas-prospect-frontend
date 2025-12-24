@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
+import { Button, Chip, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
@@ -144,9 +144,9 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                             <S.TitleSecond>ТС Реализована в приложении</S.TitleSecond>
                             <S.ChipsContainer>
                                 {item.system ? (
-                                    <S.ChipStyled
+                                    <Chip
                                         key={item.system.id}
-                                        label={item.system.alias}
+                                        label={item.system.name}
                                         onClick={() =>
                                             navigate(
                                                 `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${item.system?.alias}`,

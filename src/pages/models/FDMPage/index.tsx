@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Icon, Skeleton, Tab } from '@beeline/design-system-react';
+import { Breadcrumbs, Button, Chip, Icon, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
@@ -242,9 +242,9 @@ export const FDMPage = () => {
                                                     </S.DomainText>
                                                     <S.ChipsContainer>
                                                         {activeItem.system ? (
-                                                            <S.ChipStyled
+                                                            <Chip
                                                                 key={activeItem.system.id}
-                                                                label={activeItem.system.alias}
+                                                                label={activeItem.system.name}
                                                                 onClick={() =>
                                                                     navigate(
                                                                         `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${activeItem.system?.alias}`,
