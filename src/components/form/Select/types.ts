@@ -12,4 +12,5 @@ export interface ISelect {
     defaultValue?: number;
     autoFocus?: boolean;
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    helperText?: string;
 }

@@ -13,7 +13,18 @@ export interface IFullProductData {
     structurizrApiUrl: string | null;
     structurizrWorkspaceName: string | null;
     ownerName: string;
+    ownerEmail: string | null;
     critical: string | null;
+}
+
+export interface IProductForm {
+    alias: string;
+    critical: string;
+    description: string;
+    employeesIds: number[];
+    gitUrl: string;
+    name: string;
+    ownerId: number | null;
 }
 
 export interface IStructurizrKey {
@@ -211,4 +222,10 @@ export interface ICompleteFitnessFunctionsData {
 export interface IInfraData {
     name: string;
     parentSystems: string[];
+}
+
+export interface IEmployee {
+    email: string;
+    fullName: string;
+    id: number;
 }

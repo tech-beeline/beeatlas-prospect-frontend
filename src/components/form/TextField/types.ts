@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from 'react';
+import { HTMLInputTypeAttribute, ReactNode } from 'react';
 import { HelperPositionType } from '@beeline/design-system-react/types/components/TextField/TextField.types';
 
 export interface ITextField {
@@ -13,4 +13,5 @@ export interface ITextField {
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     type?: HTMLInputTypeAttribute;
+    endIcon?: ReactNode;
 }

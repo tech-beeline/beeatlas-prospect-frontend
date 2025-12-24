@@ -14,6 +14,7 @@ export const Select: FC<ISelect> = ({
     defaultValue = 1,
     autoFocus,
     onBlur,
+    helperText,
     ...rest
 }) => {
     const {
@@ -38,7 +39,7 @@ export const Select: FC<ISelect> = ({
                     disabled={disabled}
                     label={label}
                     error={isError}
-                    helperText={errorMessage}
+                    helperText={errorMessage ?? helperText}
                     options={options}
                     values={[options.find((option) => option.id === field.value) ?? options[0]]}
                     onChange={(value) => field.onChange(value[0].id)}

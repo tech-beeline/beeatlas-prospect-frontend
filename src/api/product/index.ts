@@ -84,6 +84,13 @@ export const getProductInfoByCmdb = (cmdb: string): AxiosPromise<T.IFullProductD
     });
 };
 
+export const putProductByCmdb = (data: T.IProductForm) => {
+    return Api.put({
+        url: `${GATEWAY_PRODUCT_URL}v1/product`,
+        data,
+    });
+};
+
 export const getEntityParent = (id: string, type: string): AxiosPromise<T.IParent> => {
     return Api.get({
         url: `${GATEWAY_PRODUCT_URL}v1/product/parent?${formatNullableStringParam(
@@ -127,5 +134,19 @@ export const getSystemInfrastrucutre = (search: string): AxiosPromise<T.IInfraDa
 export const getSystemInfrastrucutreByIp = (search: string): AxiosPromise<T.IInfraData[]> => {
     return Api.get({
         url: `${GATEWAY_PRODUCT_URL}v1/product/infra/search?parameter="vimIp"&value=${search}`,
+    });
+};
+
+export const getProductEmployeesByCmdb = (cmdb: string): AxiosPromise<T.IEmployee[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/employee`,
+    });
+};
+
+export const getProductAliasAvailability = (
+    cmdb: string,
+): AxiosPromise<{ isUniqAlias: boolean }> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/free`,
     });
 };

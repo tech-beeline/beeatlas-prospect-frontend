@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     getAllProducts,
     getDeploymentInfluence,
+    getProductEmployeesByCmdb,
     getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
     getProductMapicInterfacesByCmdb,
@@ -15,8 +16,13 @@ import {
     getUserProductsKeyById,
     postConnectionInterface,
     postStructurizrWorkspace,
+    putProductByCmdb,
 } from 'api/product';
-import { IConnectionInterfaceForm, IStructurizrWorkspaceForm } from 'api/product/types';
+import {
+    IConnectionInterfaceForm,
+    IProductForm,
+    IStructurizrWorkspaceForm,
+} from 'api/product/types';
 
 const PRODUCT_PREFIX = 'PRODUCT_PREFIX';
 
@@ -104,6 +110,20 @@ export const useGetProductInfoByCmdbQuery = (cmdb: string | undefined | null) =>
     });
 };
 
+interface IUpdateProductParams {
+    data: IProductForm;
+}
+export function useUpdateProductByCmdbMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'create', 'product'],
+        mutationFn: (params: IUpdateProductParams) => putProductByCmdb(params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
+    });
+}
+
 export const useCreateStructurizrWorkspaceMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -156,5 +176,17 @@ export const useGetSystemTCByIdQuery = (id: string | number | undefined | null) 
             ]);
         },
         enabled: !!id,
+    });
+};
+
+interface IGetProductEmployeesParams {
+    cmdb: string;
+    enabled: boolean;
+}
+export const useGetProductEmployeesByCmdbQuery = (params: IGetProductEmployeesParams) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'EMPLOYEES', params.cmdb],
+        queryFn: () => getProductEmployeesByCmdb(params.cmdb).then((res) => res.data),
+        enabled: params.enabled,
     });
 };

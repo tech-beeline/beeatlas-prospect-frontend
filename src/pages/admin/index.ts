@@ -1,3 +1,5 @@
+export { AdminAppsPage } from './AdminAppsPage';
+export { AppAddPage } from './AppAddPage';
 export { CapabilitiesPage } from './CapabilitiesPage';
 export { CapabilityAddPage } from './CapabilityAddPage';
 export { FileImportPage } from './FileImportPage';
