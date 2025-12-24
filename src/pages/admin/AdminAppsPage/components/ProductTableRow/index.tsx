@@ -1,6 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+    Skeleton,
     Table,
     TableBody,
     TableData,
@@ -9,9 +10,11 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { criticalCodeToNameMap } from 'features/apps';
 
 import { TooltipContainer } from 'components/interaction';
 
+import { useGetProductEmployeesByCmdbQuery } from 'api/queries/product';
 import { useShowTooltip } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
@@ -19,7 +22,7 @@ import { formatNullableString } from 'utils/formatters';
 import { IProductTableRow } from './types';
 import * as S from './units';
 
-export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDelete }) => {
+export const ProductTableRow: FC<IProductTableRow> = ({ product }) => {
     const navigate = useNavigate();
 
     const [expanded, setExpanded] = useState(false);
@@ -27,6 +30,11 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
     const descriptionRef = useRef<HTMLParagraphElement>(null);
 
     const showDescriptionTooltip = useShowTooltip(descriptionRef);
+
+    const { data, isLoading } = useGetProductEmployeesByCmdbQuery({
+        cmdb: product.alias,
+        enabled: expanded,
+    });
 
     return (
         <>
@@ -45,7 +53,10 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
                     </S.NameContainer>
                 </TableData>
                 <TableData>{product.alias}</TableData>
-                <TableData>{formatNullableString(product.critical)}</TableData>
+                <TableData>
+                    {criticalCodeToNameMap[product.critical ?? ''] ??
+                        formatNullableString(product.critical)}
+                </TableData>
                 <TableData>{formatNullableString(product.ownerName)}</TableData>
                 <TableData>
                     <S.DescriptionContainer
@@ -78,12 +89,6 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
                             }
                             data-tooltip-id={`edit-${product.id}`}
                         />
-                        <S.IconStyled
-                            iconName={Icons.Delete}
-                            size="medium"
-                            onClick={() => setProductToDelete(product)}
-                            data-tooltip-id={`delete-${product.id}`}
-                        />
                         <TooltipContainer
                             noArrow
                             // @ts-ignore Ошибка в .d.ts
@@ -93,15 +98,6 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
                         >
                             Редактировать
                         </TooltipContainer>
-                        <TooltipContainer
-                            noArrow
-                            // @ts-ignore Ошибка в .d.ts
-                            place="top-end"
-                            offset={8}
-                            id={`delete-${product.id}`}
-                        >
-                            Удалить
-                        </TooltipContainer>
                     </S.ButtonsContainer>
                 </TableData>
             </S.TableRowStyled>
@@ -109,29 +105,33 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
                 <TableRow>
                     <S.TableDataStyled colSpan={7}>
                         <S.VersionsContainer>
-                            <Table
-                                style={{
-                                    border: 0,
-                                    boxShadow: 'none',
-                                }}
-                            >
-                                <TableHead>
-                                    <TableRow>
-                                        <TableHeaderData>Сотрудник</TableHeaderData>
-                                        <TableHeaderData>Почта</TableHeaderData>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {Array.from({ length: 3 }).map((_, i) => (
-                                        <TableRow key={i}>
-                                            <TableData>
-                                                Крестовоздвиженский Александр Александрович
-                                            </TableData>
-                                            <TableData>example_mail@beeline.ru</TableData>
+                            {isLoading && <Skeleton height={32} />}
+                            {data && data.length !== 0 && (
+                                <Table
+                                    style={{
+                                        border: 0,
+                                        boxShadow: 'none',
+                                    }}
+                                >
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableHeaderData>Сотрудник</TableHeaderData>
+                                            <TableHeaderData>Почта</TableHeaderData>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHead>
+                                    <TableBody>
+                                        {data.map((employee, i) => (
+                                            <TableRow key={i}>
+                                                <TableData>{employee.fullName}</TableData>
+                                                <TableData>{employee.email}</TableData>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            )}
+                            {data && data.length === 0 && (
+                                <S.NoEmployees>Нет сотрудников</S.NoEmployees>
+                            )}
                         </S.VersionsContainer>
                     </S.TableDataStyled>
                 </TableRow>

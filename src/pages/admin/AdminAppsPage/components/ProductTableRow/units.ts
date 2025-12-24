@@ -114,3 +114,7 @@ export const NoVersions = styled.div`
 
     margin-bottom: 8px;
 `;
+
+export const NoEmployees = styled.div`
+    padding: 16px;
+`;

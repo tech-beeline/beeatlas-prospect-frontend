@@ -4,19 +4,23 @@ export type FormValues = {
     name: string;
     code: string;
     critical: number;
-    owner: number;
+    owner: number | undefined | null;
     description: string;
     gitUrl: string;
-    employees: number[];
+    employees: { employee: number | undefined | null }[];
 };
 
 export const getValidationSchema = () =>
     object().shape({
         name: string().required('Заполните поле'),
-        code: string().required('Заполните поле'),
+        code: string()
+            .required('Заполните поле')
+            .matches(/^[a-zA-Z]+$/, 'В названии кода используются некорректные символы'),
         critical: number().required('Заполните поле'),
-        owner: number().required('Заполните поле'),
+        owner: number().nullable(),
         description: string().default(''),
         gitUrl: string().default(''),
-        employees: array().of(number().required()).default([]),
+        employees: array()
+            .of(object().shape({ employee: number().nullable() }))
+            .default([]),
     });

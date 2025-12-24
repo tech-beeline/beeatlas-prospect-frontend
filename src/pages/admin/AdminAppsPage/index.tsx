@@ -41,8 +41,10 @@ export const AdminAppsPage = () => {
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const filteredData = (data ?? []).filter((product) =>
-        product.name.toLowerCase().includes(search.toLowerCase()),
+    const filteredData = (data ?? []).filter(
+        (product) =>
+            product.name.toLowerCase().includes(search.toLowerCase()) ||
+            product.alias.toLowerCase().includes(search.toLowerCase()),
     );
 
     const startIndex = (countPage - 1) * itemsCountOnPage;
@@ -73,7 +75,7 @@ export const AdminAppsPage = () => {
                 <S.SearchContainer>
                     <Search
                         fullWidth
-                        placeholder="Нвзвание приложения"
+                        placeholder="Название приложения"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         onClear={() => setSearch('')}
