@@ -5,7 +5,6 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
-import { useGetTechCapabilityProductsQuery } from 'api/queries/capability';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -15,6 +14,7 @@ import {
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal, useWindowResize } from 'hooks';
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -72,9 +72,6 @@ export const FDMPage = () => {
     const { data: subscribedBusinessCapabilitiyIds } =
         useGetSubscribedBusinessCapabilitiesIdsQuery();
     const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
-
-    const { data: techCapabilityProducts, isLoading: isLoadingProducts } =
-        useGetTechCapabilityProductsQuery(activeItem?.code, activeItem?.type === ItemTypes.TECH);
 
     const isSubscribed = Boolean(
         activeItem
@@ -244,27 +241,19 @@ export const FDMPage = () => {
                                                         ТС Реализована в приложении
                                                     </S.DomainText>
                                                     <S.ChipsContainer>
-                                                        {isLoadingProducts && (
-                                                            <Skeleton
-                                                                height={32}
-                                                                radius={30}
-                                                                width={123}
+                                                        {activeItem.system ? (
+                                                            <S.ChipStyled
+                                                                key={activeItem.system.id}
+                                                                label={activeItem.system.alias}
+                                                                onClick={() =>
+                                                                    navigate(
+                                                                        `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${activeItem.system?.alias}`,
+                                                                    )
+                                                                }
                                                             />
+                                                        ) : (
+                                                            formatNullableString(null)
                                                         )}
-                                                        {techCapabilityProducts &&
-                                                            techCapabilityProducts.length > 0 &&
-                                                            techCapabilityProducts.map(
-                                                                (product) => (
-                                                                    <S.ChipStyled
-                                                                        key={product.eaGuid}
-                                                                        label={product.name}
-                                                                    />
-                                                                ),
-                                                            )}
-                                                        {techCapabilityProducts &&
-                                                            techCapabilityProducts.length === 0 && (
-                                                                <S.ChipStyled label="Нет приложений" />
-                                                            )}
                                                     </S.ChipsContainer>
                                                 </>
                                             )}

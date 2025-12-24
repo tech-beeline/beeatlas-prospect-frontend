@@ -17,10 +17,18 @@ export interface Item {
     owner?: string | null;
     children: Item[];
     type: ItemTypes;
+    system?: ISystem;
     isDomain?: boolean;
     hasChildren?: boolean;
     parent: number | null;
     domainData?: DomainData;
+}
+
+export interface ISystem {
+    alias: string;
+    id: string;
+    name: string;
+    struturizrURL: string;
 }
 
 export interface Breadcrumb {
