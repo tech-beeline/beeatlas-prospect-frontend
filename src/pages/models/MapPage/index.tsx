@@ -66,9 +66,15 @@ export const MapPage = () => {
         error,
     } = useGetMapDataQuery(id ? Number(id) : undefined);
 
-    const { data: criteriasData, isLoading: isLoadingCriterias } = useGetMapCriteriasQuery();
-
     const activeItem = data ? (id ? (data as any as IMapItemData) : data[0]) : null;
+    const capabilityType =
+        !id || activeItem?.children.some((child) => child.isDomain)
+            ? 'bc'
+            : activeItem?.children.length === 0 && !activeItem.isDomain
+            ? 'tc'
+            : 'bc';
+    const { data: criteriasData, isLoading: isLoadingCriterias } =
+        useGetMapCriteriasQuery(capabilityType);
 
     const hasSubChildren =
         activeItem?.children.some((child) => child.children.length !== 0) ?? false;
@@ -84,7 +90,7 @@ export const MapPage = () => {
     useEffect(() => {
         if (activeItem && !activeItem.isDomain && activeItem.children.length === 0) {
             setMapVariant(MapVariant.DEFAULT);
-            setChipsDisabled(true);
+            // setChipsDisabled(false);
         } else {
             setChipsDisabled(false);
         }
@@ -309,6 +315,7 @@ export const MapPage = () => {
                                         <TechCapabilityCard
                                             key={techCapability.id}
                                             techCapability={techCapability}
+                                            mapVariant={mapVariant}
                                         />
                                     ),
                                 )}
