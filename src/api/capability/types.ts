@@ -51,6 +51,7 @@ export interface ITechCapability {
     owner: string | null;
     parents: Array<Omit<IBusinessCapability, 'parent'>>;
     updatedDate: string;
+    system: ISystem;
     criteria: ICriteria[];
 }
 
@@ -94,6 +95,13 @@ export interface IBusinessCapabilityForm {
     owner: string;
     link: string;
     author: string;
+}
+
+export interface ISystem {
+    alias: string;
+    id: string;
+    name: string;
+    struturizrURL: string;
 }
 
 export interface ICriteria {
