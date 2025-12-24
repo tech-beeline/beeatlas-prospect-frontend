@@ -15,7 +15,7 @@ export const getValidationSchema = () =>
         name: string().required('Заполните поле'),
         code: string()
             .required('Заполните поле')
-            .matches(/^[a-zA-Z]+$/, 'В названии кода используются некорректные символы'),
+            .matches(/^[a-zA-Z0-9]+$/, 'В названии кода используются некорректные символы'),
         critical: number().required('Заполните поле'),
         owner: number().nullable(),
         description: string().default(''),
