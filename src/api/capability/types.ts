@@ -105,7 +105,9 @@ export interface ISystem {
 }
 
 export interface ICriteria {
+    // @TODO: fix
     criterion_id: number;
+    criteria_id: number;
     grade: number;
     value: number;
     comment: null | string;

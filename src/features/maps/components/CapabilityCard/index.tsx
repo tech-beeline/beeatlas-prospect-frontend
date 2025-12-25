@@ -112,7 +112,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability, ma
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
     const criteria =
         mapVariant && mapVariant !== MapVariant.DEFAULT
-            ? techCapability.criteria?.find((c) => c.criterion_id === (mapVariant as any).id)
+            ? techCapability.criteria?.find((c) => c.criteria_id === (mapVariant as any).id)
             : undefined;
 
     const grade = criteria?.grade ?? 0;
