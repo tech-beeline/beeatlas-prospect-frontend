@@ -13,6 +13,7 @@ import { useUpdateBIMutation } from 'api/queries/bi';
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -206,6 +207,26 @@ export const CJPage = () => {
                                     title={data?.draft ? 'Черновик' : 'Опубликован'}
                                     type={data?.draft ? 'default' : 'success'}
                                 />
+                                <S.InfoTooltipContainer>
+                                    <Label
+                                        variant="contained"
+                                        title={data?.bpmn ? 'BPMN' : 'BEEATLAS'}
+                                        type={data?.bpmn ? 'warning' : 'magenta'}
+                                        data-tooltip-id="bpmn-label-tooltip"
+                                        iconName={Icons.InfoCircled}
+                                    />
+                                    <TooltipContainer
+                                        id="bpmn-label-tooltip"
+                                        place="bottom"
+                                        offset={8}
+                                        noArrow
+                                        largePadding
+                                    >
+                                        {data?.bpmn
+                                            ? 'Нельзя менять структуру CJ добавленного с помощью нотации BPMN, можно менять только распознанные атрибуты BI и этапов. Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beetlas'
+                                            : ''}
+                                    </TooltipContainer>
+                                </S.InfoTooltipContainer>
                             </S.InfoContainer>
 
                             {canEditCJ && (
@@ -249,7 +270,7 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button onClick={() => navigate(-1)}>Закрыть</Button>
+                    <Button onClick={() => navigate(`${R.CX_PATH}${R.CJ_PATH}`)}>Закрыть</Button>
 
                     {isLoadingCJ ? (
                         <Skeleton variant="square" width={127} height={40} />

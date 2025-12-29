@@ -120,7 +120,11 @@ export const BPMNViewPage = () => {
         <S.PageWrapper>
             <S.Header>
                 <S.FlexSideContainer>
-                    <IconButton iconName={Icons.ArrowLeft} size="large" onClick={hadleClosePage} />
+                    <IconButton
+                        iconName={Icons.ArrowLeft}
+                        size="large"
+                        onClick={() => navigate(-1)}
+                    />
                     {isLoadingCJ && <Skeleton width={666} height={40} variant="square" />}
                     {cj && (
                         <div>

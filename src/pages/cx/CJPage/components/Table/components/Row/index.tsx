@@ -24,6 +24,7 @@ export const Row = <T,>({
     draft,
     showShadow,
     bpmn,
+    onOpenStepFormByBiId,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -134,6 +135,12 @@ export const Row = <T,>({
                                                 isEditable &&
                                                 rowId !== RowIds.IDENTIFICATOR &&
                                                 rowId !== RowIds.DOCUMENT;
+                                            const content = formatData(
+                                                parseData(element.bi),
+                                                rowId === RowIds.IDENTIFICATOR
+                                                    ? onOpenStepFormByBiId
+                                                    : undefined,
+                                            );
                                             return (
                                                 <S.Td
                                                     key={i}
@@ -157,9 +164,7 @@ export const Row = <T,>({
                                                 >
                                                     <EditableCell
                                                         rowId={rowId}
-                                                        formatData={formatData(
-                                                            parseData(element.bi),
-                                                        )}
+                                                        formatData={content}
                                                         element={element.bi}
                                                         isActive={isActive}
                                                         onEndEdit={handleCellEndEdit}

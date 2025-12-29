@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
+import { StatusLabel, TargetLabel } from 'features/cx';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
 
@@ -9,9 +9,6 @@ import { formatNullableString } from 'utils/formatters';
 import { BIScenario } from '../../components/Table/components';
 
 import * as S from './units';
-
-export const formatCommunal = (communal: boolean) =>
-    communal ? <CommunalLabel /> : formatNullableString(null);
 
 export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
 

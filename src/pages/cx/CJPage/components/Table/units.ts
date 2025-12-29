@@ -1,5 +1,5 @@
 import { Tooltip } from 'react-tooltip';
-import { Icon } from '@beeline/design-system-react';
+import { Icon, IconButton } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -172,7 +172,7 @@ export const TooltipStyled = styled(Tooltip)`
     z-index: 100;
 `;
 
-export const CollapseIcon = styled(Icon)`
+export const CollapseIcon = styled(IconButton)`
     color: var(--color-text-inactive);
 
     cursor: pointer;
@@ -258,4 +258,9 @@ export const FlexContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+export const LinkStyled = styled.span`
+    cursor: pointer;
+    color: var(--color-text-link);
 `;

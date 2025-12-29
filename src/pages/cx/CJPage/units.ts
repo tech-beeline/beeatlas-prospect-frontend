@@ -155,3 +155,7 @@ export const NotFoundContainer = styled.div`
 
     padding-bottom: 100px;
 `;
+
+export const InfoTooltipContainer = styled.div`
+    position: relative;
+`;

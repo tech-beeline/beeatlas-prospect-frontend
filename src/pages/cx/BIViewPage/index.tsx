@@ -43,8 +43,7 @@ export const BIViewPage = () => {
         });
     };
 
-    const isEditDisabled =
-        !editabilityData || !data || !editabilityData.editability || (data.communal && !data.draft);
+    const isEditDisabled = !editabilityData || !data || !editabilityData.editability || !data.draft;
 
     return (
         <S.PageWrapper>

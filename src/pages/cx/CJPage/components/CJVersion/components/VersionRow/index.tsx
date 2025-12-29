@@ -39,6 +39,7 @@ export const VersionRow: FC<IVersion> = ({ version, cjId }) => {
                     <Link
                         title={getFileName(version.key)}
                         url={`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.BPMN_PATH}?cjId=${cjId}&versionId=${version.id}`}
+                        outer={false}
                     />
                     <Text inactive variant="caption">
                         {dayjs(version.created_date).local().format('DD.MM.YYYY, HH:mm')}

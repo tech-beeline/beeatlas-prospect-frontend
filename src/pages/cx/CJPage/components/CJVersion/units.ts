@@ -4,8 +4,9 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
-
+    height: 100vh;
     padding: 24px;
+    overflow-y: auto;
 `;
 
 export const FlexWrapper = styled.div`
