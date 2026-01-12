@@ -59,8 +59,7 @@ export const AppAddPage = () => {
     const { mutateAsync: updateProduct } = useUpdateProductByCmdbMutation();
 
     const form = useForm<FormValues>({
-        // @ts-expect-error
-        resolver: yupResolver(getValidationSchema()),
+        resolver: yupResolver(getValidationSchema(!!paramCmdb)),
     });
 
     const { control, handleSubmit, watch, reset, setError } = form;

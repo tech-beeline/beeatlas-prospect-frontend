@@ -7,15 +7,18 @@ export type FormValues = {
     owner: number | undefined | null;
     description: string;
     gitUrl: string;
-    employees: { employee: number | undefined | null }[];
+    employees: { employee?: number | undefined | null }[];
 };
 
-export const getValidationSchema = () =>
+export const getValidationSchema = (isEditing: boolean) =>
     object().shape({
         name: string().required('Заполните поле'),
         code: string()
             .required('Заполните поле')
-            .matches(/^[a-zA-Z0-9]+$/, 'В названии кода используются некорректные символы'),
+            .matches(
+                isEditing ? /.*?/ : /^[a-zA-Z0-9]+$/,
+                'В названии кода используются некорректные символы',
+            ),
         critical: number().required('Заполните поле'),
         owner: number().nullable(),
         description: string().default(''),
