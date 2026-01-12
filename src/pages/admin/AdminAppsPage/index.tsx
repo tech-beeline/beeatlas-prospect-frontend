@@ -95,7 +95,7 @@ export const AdminAppsPage = () => {
                             <TableHeaderData>Код</TableHeaderData>
                             <TableHeaderData>Критичность</TableHeaderData>
                             <TableHeaderData>Владелец</TableHeaderData>
-                            <S.TableHeaderDataMaxWidth>Краткое описание</S.TableHeaderDataMaxWidth>
+                            <TableHeaderData>Краткое описание</TableHeaderData>
                             <TableHeaderData></TableHeaderData>
                         </TableRow>
                     </TableHead>
@@ -109,7 +109,7 @@ export const AdminAppsPage = () => {
                             />
                         ))}
 
-                        <TableRow>
+                        <TableRow dense>
                             <TableData colSpan={8} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
@@ -130,9 +130,9 @@ export const AdminAppsPage = () => {
             {!isLoading && displayedProducts && displayedProducts.length === 0 && (
                 <S.NotFoundContainer>
                     <NotFoundBlock
-                        imageVariant={ImageVariants.EMPTY_BOX}
+                        imageVariant={ImageVariants.SEARCH}
                         title="Нет результатов, подходящих под параметры поиска"
-                        text="Попробуйте изменить поисковой запрос"
+                        text="Попробуйте изменить запрос"
                     />
                 </S.NotFoundContainer>
             )}

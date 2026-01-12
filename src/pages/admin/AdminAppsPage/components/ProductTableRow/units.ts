@@ -32,7 +32,7 @@ export const NameContainer = styled.div`
     width: 100%;
 `;
 
-export const DescriptionContainer = styled.p`
+export const OverflowContainer = styled.p`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -49,8 +49,6 @@ export const ButtonsContainer = styled.div`
     gap: 32px;
     align-items: center;
     justify-content: flex-end;
-
-    width: 72px;
 `;
 
 export const IconStyled = styled(Icon)`

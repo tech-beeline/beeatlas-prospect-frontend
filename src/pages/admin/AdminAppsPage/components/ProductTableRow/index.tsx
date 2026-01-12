@@ -27,8 +27,13 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product }) => {
 
     const [expanded, setExpanded] = useState(false);
 
-    const descriptionRef = useRef<HTMLParagraphElement>(null);
+    const nameRef = useRef<HTMLParagraphElement>(null);
+    const showNameTooltip = useShowTooltip(nameRef);
 
+    const ownerRef = useRef<HTMLParagraphElement>(null);
+    const showOwnerTooltip = useShowTooltip(ownerRef);
+
+    const descriptionRef = useRef<HTMLParagraphElement>(null);
     const showDescriptionTooltip = useShowTooltip(descriptionRef);
 
     const { data, isLoading } = useGetProductEmployeesByCmdbQuery({
@@ -48,7 +53,23 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product }) => {
                                 iconName={Icons.NavArrowDown}
                                 onClick={() => setExpanded(!expanded)}
                             />
-                            <div>{product.name}</div>
+                            <S.OverflowContainer
+                                ref={nameRef}
+                                data-tooltip-id={`name-${product.id}`}
+                            >
+                                {product.name}
+                            </S.OverflowContainer>
+                            {showNameTooltip && (
+                                <TooltipContainer
+                                    largePadding
+                                    id={`name-${product.id}`}
+                                    offset={8}
+                                    place="bottom"
+                                    noArrow
+                                >
+                                    {product.name}
+                                </TooltipContainer>
+                            )}
                         </S.IconContainer>
                     </S.NameContainer>
                 </TableData>
@@ -57,14 +78,29 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product }) => {
                     {criticalCodeToNameMap[product.critical ?? ''] ??
                         formatNullableString(product.critical)}
                 </TableData>
-                <TableData>{formatNullableString(product.ownerName)}</TableData>
                 <TableData>
-                    <S.DescriptionContainer
+                    <S.OverflowContainer ref={ownerRef} data-tooltip-id={`owner-${product.id}`}>
+                        {formatNullableString(product.ownerName)}
+                    </S.OverflowContainer>
+                    {showOwnerTooltip && (
+                        <TooltipContainer
+                            largePadding
+                            id={`owner-${product.id}`}
+                            offset={8}
+                            place="bottom"
+                            noArrow
+                        >
+                            {product.ownerName}
+                        </TooltipContainer>
+                    )}
+                </TableData>
+                <TableData>
+                    <S.OverflowContainer
                         ref={descriptionRef}
                         data-tooltip-id={`description-${product.id}`}
                     >
                         {formatNullableString(product.description)}
-                    </S.DescriptionContainer>
+                    </S.OverflowContainer>
                     {showDescriptionTooltip && (
                         <TooltipContainer
                             largePadding

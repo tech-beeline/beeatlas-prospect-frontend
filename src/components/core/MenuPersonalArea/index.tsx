@@ -45,7 +45,7 @@ export const MenuPersonalArea = () => {
                         },
                         {
                             icon: Icons.Services,
-                            name: 'Управление\xa0приложениями',
+                            name: 'Управление\nприложениями',
                             path: `${R.ADMIN_PATH}${R.APPS_PATH}`,
                         },
                         {

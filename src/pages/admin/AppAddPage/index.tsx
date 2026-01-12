@@ -107,6 +107,7 @@ export const AppAddPage = () => {
             await updateProduct({
                 data: productData,
             });
+            showSnackbar({ message: 'Приложение обновлено' });
         } else {
             const { isUniqAlias } = await getProductAliasAvailability(values.code).then(
                 (res) => res.data,
@@ -119,8 +120,8 @@ export const AppAddPage = () => {
                 setError('code', { message: 'Такой код уже существует' });
                 return;
             }
+            showSnackbar({ message: 'Приложение создано' });
         }
-        showSnackbar({ message: 'Приложение создано' });
         returnToApps();
     });
 
