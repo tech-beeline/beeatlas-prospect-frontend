@@ -32,22 +32,16 @@ export const SearchContainer = styled.div`
 
 export const TableStyled = styled(Table)`
     width: 100%;
+
+    table-layout: fixed !important;
 `;
 
-export const TableHeaderDataNoWrap = styled(TableHeaderData)`
-    white-space: nowrap;
-`;
-
-export const TableHeaderName = styled(TableHeaderDataNoWrap)`
-    min-width: 214px;
-`;
-
-export const TableHeaderStatus = styled(TableHeaderDataNoWrap)`
-    min-width: 100px;
-`;
-
-export const TableHeaderDataMaxWidth = styled(TableHeaderDataNoWrap)`
+export const TableHeaderDataStyled = styled(TableHeaderData)`
     width: 100%;
+`;
+
+export const TableHeaderDataButtons = styled(TableHeaderData)`
+    width: 52px;
 `;
 
 export const NameContainer = styled.div`

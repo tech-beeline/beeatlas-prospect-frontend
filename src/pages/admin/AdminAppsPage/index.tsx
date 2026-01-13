@@ -7,7 +7,6 @@ import {
     TableBody,
     TableData,
     TableHead,
-    TableHeaderData,
     TablePagination,
     TableRow,
 } from '@beeline/design-system-react';
@@ -88,12 +87,12 @@ export const AdminAppsPage = () => {
                 <S.TableStyled>
                     <TableHead>
                         <TableRow>
-                            <TableHeaderData>Приложение</TableHeaderData>
-                            <TableHeaderData>Код</TableHeaderData>
-                            <TableHeaderData>Критичность</TableHeaderData>
-                            <TableHeaderData>Владелец</TableHeaderData>
-                            <TableHeaderData>Краткое описание</TableHeaderData>
-                            <TableHeaderData></TableHeaderData>
+                            <S.TableHeaderDataStyled>Приложение</S.TableHeaderDataStyled>
+                            <S.TableHeaderDataStyled>Код</S.TableHeaderDataStyled>
+                            <S.TableHeaderDataStyled>Критичность</S.TableHeaderDataStyled>
+                            <S.TableHeaderDataStyled>Владелец</S.TableHeaderDataStyled>
+                            <S.TableHeaderDataStyled>Краткое описание</S.TableHeaderDataStyled>
+                            <S.TableHeaderDataButtons></S.TableHeaderDataButtons>
                         </TableRow>
                     </TableHead>
 
