@@ -26,6 +26,8 @@ export const FiltersContainer = styled.div`
 
 export const SearchContainer = styled.div`
     flex: 1;
+
+    max-width: 648px;
 `;
 
 export const TableStyled = styled(Table)`

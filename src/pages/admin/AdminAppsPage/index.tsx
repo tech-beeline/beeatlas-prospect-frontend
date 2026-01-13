@@ -81,9 +81,6 @@ export const AdminAppsPage = () => {
                         onClear={() => setSearch('')}
                     />
                 </S.SearchContainer>
-                <Button disabled={!search} onClick={() => setSearch('')} variant="plain">
-                    Сбросить
-                </Button>
             </S.FiltersContainer>
 
             {isLoading && <Skeleton height={300} />}
