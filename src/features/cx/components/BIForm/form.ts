@@ -19,7 +19,6 @@ export type FormValues = {
     descr: string;
     type: number;
     status: number;
-    feelings: number;
     clientScenario: string;
     flowLink: string;
     ucsReaction: string;
@@ -39,7 +38,6 @@ export const validationSchema = object().shape({
     descr: string().defined().default(''),
     type: number().defined().default(0),
     status: number().defined().default(0),
-    feelings: number().defined().default(2),
     clientScenario: string().defined().default(''),
     flowLink: string().defined().default(''),
     ucsReaction: string().defined().default(''),

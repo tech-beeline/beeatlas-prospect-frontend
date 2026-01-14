@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Icon, IconButton } from '@beeline/design-system-react';
+import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
@@ -34,11 +34,10 @@ export const VersionRow: FC<IVersion> = ({ version, cjId }) => {
     return (
         <S.FileNameContainer key={version.id}>
             <S.FileNameWrapper>
-                <Icon iconName={Icons.Page} size="large" />
+                <S.FileUploaderListItemStyled name="" />
                 <S.FileMetadataContainer>
                     <Link
                         title={getFileName(version.key)}
-                        outer={false}
                         url={`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.BPMN_PATH}?cjId=${cjId}&versionId=${version.id}`}
                     />
                     <Text inactive variant="caption">

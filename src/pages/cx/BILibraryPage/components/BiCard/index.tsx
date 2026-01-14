@@ -3,7 +3,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { CommunalLabel, TargetLabel } from 'features/cx';
+import { TargetLabel } from 'features/cx';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
@@ -111,8 +111,11 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
             <S.BICard key={bi.id}>
                 <S.FlexContainer>
                     <S.LabelsContainer>
-                        {bi.draft && <Label title="Черновик" type="default" variant="contained" />}
-                        {!bi.draft && bi.communal && <CommunalLabel />}
+                        <Label
+                            variant="contained"
+                            title={bi.draft ? 'Черновик' : 'Опубликован'}
+                            type={bi.draft ? 'default' : 'success'}
+                        />
                         {!bi.draft && <TargetLabel target={bi.target} />}
                     </S.LabelsContainer>
                     <DropdownMenu

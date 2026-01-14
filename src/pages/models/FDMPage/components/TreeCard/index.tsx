@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Button, Chip, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
@@ -40,7 +40,6 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
     const [, setParams] = useSearchParams();
 
     const { getСhildrenСapabilities } = useFDMStore();
-    const navigate = useNavigate();
 
     const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
@@ -148,7 +147,7 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                                         key={item.system.id}
                                         label={item.system.name}
                                         onClick={() =>
-                                            navigate(
+                                            window.open(
                                                 `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${item.system?.alias}`,
                                             )
                                         }

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
+import { StatusLabel, TargetLabel } from 'features/cx';
 
 import { Link } from 'components/other';
 
@@ -35,8 +35,6 @@ export const BiView: FC<IBiView> = ({
 
     const isBiUneditable = editabilityData && !editabilityData.editability;
 
-    const isBiCommunalAndPublished = bi && bi.communal && !bi.draft;
-
     const handleSelectClick = async () => {
         await updateStepBis({
             stepId: String(stepId),
@@ -67,19 +65,11 @@ export const BiView: FC<IBiView> = ({
                         title="BI используется в других опубликованных CJ, редактирование недоступно"
                     />
                 )}
-                {isBiCommunalAndPublished && (
-                    <S.BannerStyled
-                        color="default"
-                        iconName={Icons.InfoCircled}
-                        title="В коммунальный опубликованный BI нельзя вносить правки и удалять его."
-                    />
-                )}
                 <S.LabelsContainer>
                     {isLoading && <Skeleton height={24} />}
                     {bi && (
                         <>
                             <TargetLabel target={bi.target} />
-                            {bi.communal && <CommunalLabel />}
                             <StatusLabel status={bi.status} />
                             <Label
                                 variant="contained"
@@ -163,7 +153,7 @@ export const BiView: FC<IBiView> = ({
 
                 <Button
                     variant="outlined"
-                    disabled={isLoading || isBiUneditable || isBiCommunalAndPublished}
+                    disabled={isLoading || isBiUneditable}
                     onClick={() => setStage(biSelected ? Stage.SELECTEDBIEDIT : Stage.BIEDIT)}
                 >
                     Сделать черновиком

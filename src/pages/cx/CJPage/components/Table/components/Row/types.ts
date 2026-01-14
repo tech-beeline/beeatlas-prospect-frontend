@@ -26,6 +26,12 @@ export enum RowElementType {
     COLLAPSED_STEP = 'COLLAPSED_STEP',
 }
 
+export const UNEDITABLE_CELLS = new Set([
+    RowIds.SCENARION_BI,
+    RowIds.IDENTIFICATOR,
+    RowIds.DOCUMENT,
+]);
+
 export type IReducedTableData = (
     | { type: RowElementType.BI; bi: IBIData }
     | { type: RowElementType.EMPTY_STEP; stepIndex: number }

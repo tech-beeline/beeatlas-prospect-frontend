@@ -246,7 +246,7 @@ export const FDMPage = () => {
                                                                 key={activeItem.system.id}
                                                                 label={activeItem.system.name}
                                                                 onClick={() =>
-                                                                    navigate(
+                                                                    window.open(
                                                                         `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${activeItem.system?.alias}`,
                                                                     )
                                                                 }

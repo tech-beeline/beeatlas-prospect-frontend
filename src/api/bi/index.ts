@@ -43,7 +43,7 @@ export const postBI = (data: T.IBIForm) => {
     });
 };
 
-export const patchBI = (id: string, data: T.IBIForm) => {
+export const patchBI = (id: string, data: Partial<T.IBIForm>) => {
     return Api.patch({
         url: `${GATEWAY_URL}cx/v1/bi/${id}`,
         data,

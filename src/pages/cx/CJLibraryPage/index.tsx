@@ -36,7 +36,6 @@ export const CJLibraryPage = () => {
                 : filterOptions.product,
         sample: filterOptions.status,
     });
-    console.log(data);
     const dataByColumns = groupDataByColumns(data ?? [], COLUMNS_LENGTH);
 
     return (
