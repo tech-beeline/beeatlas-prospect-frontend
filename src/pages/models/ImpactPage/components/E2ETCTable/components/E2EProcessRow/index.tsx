@@ -28,7 +28,7 @@ export const E2EProcessRow: FC<IE2EProcessRow> = ({ cmdb, e2e }) => {
                             size="medium"
                         />
                         <Text link variant="body3">
-                            {e2e.e2e}
+                            {e2e.name}
                         </Text>
                     </S.NameContainer>
                 </TableData>
@@ -45,18 +45,20 @@ export const E2EProcessRow: FC<IE2EProcessRow> = ({ cmdb, e2e }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow>
-                                    <S.TableDataColomn>
-                                        {e2e.client.map((client, index, array) => (
-                                            <div key={index}>
-                                                {client}
-                                                {index < array.length - 1 ? ',' : ''}
-                                            </div>
-                                        ))}
-                                    </S.TableDataColomn>
-                                    <TableData>{e2e.operation}</TableData>
-                                    <TableData>{cmdb}</TableData>
-                                </TableRow>
+                                {e2e.operations.map((o, i) => (
+                                    <TableRow key={i}>
+                                        <S.TableDataColomn>
+                                            {o.clients.map((client, index, array) => (
+                                                <div key={index}>
+                                                    {client}
+                                                    {index < array.length - 1 ? ',' : ''}
+                                                </div>
+                                            ))}
+                                        </S.TableDataColomn>
+                                        <TableData>{o.operation}</TableData>
+                                        <TableData>{cmdb}</TableData>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </S.TableStyled>
                     </S.TableContainer>
