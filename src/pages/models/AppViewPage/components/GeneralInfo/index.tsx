@@ -59,7 +59,12 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
     const { data: processesData } = useGetProcessesByCmdbQuery(cmdb);
 
     useEffect(() => {
-        if (processesData && processesData[0].status.isDone && isUpdating.current === true) {
+        if (
+            processesData &&
+            processesData[0] &&
+            processesData[0].status.isDone &&
+            isUpdating.current === true
+        ) {
             showSnackbar({ message: 'Процесс обновления данных завершён' });
             isUpdating.current = false;
         } else if (
