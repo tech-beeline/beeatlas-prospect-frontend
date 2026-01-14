@@ -41,3 +41,9 @@ export const getSubscribedInterfaces = (): AxiosPromise<T.ISubscriptionV2[]> => 
         url: `${GATEWAY_URL}notify/v1/subscribe?entityType=arch_interface`,
     });
 };
+
+export const getSubscribedPattern = (): AxiosPromise<T.ISubscriptionV2[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}notify/v1/subscribe?entityType=pattern`,
+    });
+};

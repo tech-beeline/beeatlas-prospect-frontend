@@ -5,6 +5,7 @@ import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import {
     deleteSubscription,
     getSubscribedInterfaces,
+    getSubscribedPattern,
     getSubscriptionEntityTypes,
     getSubscriptions,
     postSubscription,
@@ -29,10 +30,12 @@ export const useGetAllSubscriptionsQuery = () => {
                 businessCapabilitiesSubscriptions,
                 techCapabilitiesSubscriptions,
                 technologiesSubscriptions,
+                patternsSubscriptions,
             ] = await Promise.all([
                 getSubscribedCapabilities(CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY),
                 getSubscribedCapabilities(CapabilitySearchResultTypeVariant.TECH_CAPABILITY),
                 getSubscribedTechnologies(),
+                getSubscribedPattern(),
             ]);
 
             subscriptions.push(
@@ -60,6 +63,14 @@ export const useGetAllSubscriptionsQuery = () => {
                     id: sub.id,
                     title: sub.label,
                     type: SubscriptionType.TECHNOLOGY,
+                })),
+            );
+
+            subscriptions.push(
+                ...patternsSubscriptions.data.map((sub) => ({
+                    id: sub.id,
+                    title: sub.name,
+                    type: SubscriptionType.PATTERN,
                 })),
             );
 
@@ -106,6 +117,20 @@ export const useGetSubscribedTechnologiesIdsQuery = () => {
             const techCapabilitiesSubscriptions = await getSubscribedTechnologies();
 
             return techCapabilitiesSubscriptions.data.map((sub) => sub.id);
+        },
+
+        staleTime: Infinity,
+        gcTime: Infinity,
+    });
+};
+
+export const useGetSubscribedPatternIdsQuery = () => {
+    return useQuery<number[]>({
+        queryKey: [SUBSCRIPTIONS_PREFIX, 'PATTERN_IDS'],
+        queryFn: async () => {
+            const patternsSubscriptions = await getSubscribedPattern();
+
+            return patternsSubscriptions.data.map((sub) => sub.id);
         },
 
         staleTime: Infinity,

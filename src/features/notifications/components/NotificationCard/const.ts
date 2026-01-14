@@ -8,6 +8,7 @@ export const notificationEntityTypeToIconMap: Record<SubscriptionEntityVariants,
     [SubscriptionEntityVariants.BUSINESS_CAPABILITY]: Icons.Capability,
     [SubscriptionEntityVariants.TECH]: Icons.Radar,
     [SubscriptionEntityVariants.ARCH_INTERFACE]: Icons.AppleImac,
+    [SubscriptionEntityVariants.PATTERN]: Icons.AppleImac,
 };
 
 export const notificationEntityTypeToColorMap: Record<SubscriptionEntityVariants, ColorTypes> = {
@@ -15,4 +16,5 @@ export const notificationEntityTypeToColorMap: Record<SubscriptionEntityVariants
     [SubscriptionEntityVariants.BUSINESS_CAPABILITY]: 'orange',
     [SubscriptionEntityVariants.TECH]: 'teal',
     [SubscriptionEntityVariants.ARCH_INTERFACE]: 'blue',
+    [SubscriptionEntityVariants.PATTERN]: 'blue',
 };

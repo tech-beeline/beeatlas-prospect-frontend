@@ -14,6 +14,8 @@ export const filterVariantToNotFoundTextMap = {
     [SubscriptionEntityVariants.TECH]: 'Подписаться на технологии можно в разделе «Технорадар»',
     [SubscriptionEntityVariants.ARCH_INTERFACE]:
         'Подписаться на интерфейсы можно в разделе «Каталог приложений»',
+    [SubscriptionEntityVariants.PATTERN]:
+        'Подписаться на интерфейсы можно в разделе «Каталог паттернов»',
 };
 
 export const filterVariantToButtonTextMap = {
@@ -21,6 +23,7 @@ export const filterVariantToButtonTextMap = {
     [SubscriptionEntityVariants.TECH_CAPABILITY]: 'Перейти в ФДМ',
     [SubscriptionEntityVariants.TECH]: 'Перейти в технорадар',
     [SubscriptionEntityVariants.ARCH_INTERFACE]: 'Перейти в каталог приложений',
+    [SubscriptionEntityVariants.PATTERN]: 'Перейти в каталог паттернов',
 };
 
 export const filterVariantToRouteMap = {
@@ -28,6 +31,7 @@ export const filterVariantToRouteMap = {
     [SubscriptionEntityVariants.TECH_CAPABILITY]: `${R.MODELS_PATH}${R.FDM_PATH}`,
     [SubscriptionEntityVariants.TECH]: `${R.MODELS_PATH}${R.TECH_RADAR_PATH}`,
     [SubscriptionEntityVariants.ARCH_INTERFACE]: `${R.MODELS_PATH}${R.APPS_PATH}`,
+    [SubscriptionEntityVariants.PATTERN]: `${R.MODELS_PATH}${R.PATTERNS_PATH}`,
 };
 
 export const subscriptionTypeToTitleMap = {
@@ -35,6 +39,7 @@ export const subscriptionTypeToTitleMap = {
     [SubscriptionEntityVariants.TECH_CAPABILITY]: 'технической возможности',
     [SubscriptionEntityVariants.TECH]: 'технологии',
     [SubscriptionEntityVariants.ARCH_INTERFACE]: 'интерфейса',
+    [SubscriptionEntityVariants.PATTERN]: 'паттерна',
 };
 
 // export const subscriptionTypeToEntityVariantMap = {
