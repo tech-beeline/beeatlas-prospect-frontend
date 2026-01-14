@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Button, FileUploader, IconButton, ProgressButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
@@ -18,9 +18,18 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
     cmdb,
     setTempDisabled,
 }) => {
+    const [error, setError] = useState(false);
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
     const [fileList, setFileList] = useState<File[]>([]);
+
+    useEffect(() => {
+        if (fileList.length === 0 || ['dsl', 'json'].includes(fileList[0].name.split('.')[1])) {
+            setError(false);
+        } else {
+            setError(true);
+        }
+    }, [fileList]);
 
     const { mutateAsync: createJSONProcess, isPending: isCreatingJSONProcess } =
         useCreateProcessJSONMutation();
@@ -56,15 +65,22 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
                         <Text variant="h5">Загрузка версии архитектуры</Text>
                         <IconButton iconName={Icons.Close} size="large" onClick={onClose} />
                     </S.TitleContainer>
-                    <FileUploader
-                        subTitle="dsl, json до 200 кб"
-                        accept=".dsl, .json"
-                        onChange={(event) => {
-                            setFileList(Array.from(event.target.files ?? []));
-                            event.target.value = '';
-                        }}
-                        onRemove={() => setFileList([])}
-                    />
+                    <div>
+                        <FileUploader
+                            subTitle="dsl, json до 5 мб"
+                            accept=".dsl, .json"
+                            onChange={(event) => {
+                                setFileList(Array.from(event.target.files ?? []));
+                                event.target.value = '';
+                            }}
+                            onRemove={() => setFileList([])}
+                        />
+                        {error && (
+                            <S.ErrorContainer>
+                                <Text variant="caption">Не то расширение</Text>
+                            </S.ErrorContainer>
+                        )}
+                    </div>
                 </S.ContentContainer>
                 <S.ButtonsContainer>
                     <Button fullWidth size="medium" variant="outlined" onClick={onClose}>
@@ -78,7 +94,7 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
                         state={
                             isCreatingJSONProcess || isCreatingDSLProcess ? 'loading' : 'default'
                         }
-                        disabled={!fileList[0]}
+                        disabled={!fileList[0] || error}
                     >
                         Запустить
                     </ProgressButton>

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
     Button,
     Icon,
@@ -21,6 +21,7 @@ import { useGetUserProductsKeyById } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
 import { formatNullableString } from 'utils/formatters';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
     BlurButton,
@@ -38,6 +39,9 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
     structurizrApiUrl,
     cmdb,
 }) => {
+    const isUpdating = useRef(false);
+    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
+
     const [tempDisabled, setTempDisabled] = useState(false);
 
     const [blurState, setBlurState] = useState({
@@ -53,6 +57,20 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
 
     const { data: userInfoData } = useGetUserInfoQuery();
     const { data: processesData } = useGetProcessesByCmdbQuery(cmdb);
+
+    useEffect(() => {
+        if (processesData && processesData[0].status.isDone && isUpdating.current === true) {
+            showSnackbar({ message: 'Процесс обновления данных завершён' });
+            isUpdating.current = false;
+        } else if (
+            processesData &&
+            processesData[0] &&
+            !processesData[0].status.isDone &&
+            !processesData[0].status.isError
+        ) {
+            isUpdating.current = true;
+        }
+    }, [processesData]);
 
     const { mutateAsync } = useRestartProcessMutation();
 

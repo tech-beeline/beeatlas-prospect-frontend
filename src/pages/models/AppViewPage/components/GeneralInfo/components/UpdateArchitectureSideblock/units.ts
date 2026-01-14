@@ -21,6 +21,13 @@ export const TitleContainer = styled.div`
     justify-content: space-between;
 `;
 
+export const ErrorContainer = styled.div`
+    color: var(--color-status-error);
+
+    padding-left: 68px;
+    margin-top: -8px;
+`;
+
 export const ButtonsContainer = styled.div`
     display: flex;
     gap: 16px;
