@@ -87,12 +87,14 @@ export const useGetCapabilityByIdQuery = (id?: string | null) => {
 export const useGetChildrenCapabilitiesQuery = ({
     id,
     enabled,
+    type,
 }: {
     id: number;
     enabled: boolean;
+    type?: string;
 }) => {
     return useQuery({
-        queryKey: [CAPABILITY_PREFIX, 'chdilren', id],
+        queryKey: [CAPABILITY_PREFIX, type, 'chdilren', id],
         queryFn: () => getBusinessCapabilityChildren(id).then((res) => res.data),
         enabled,
         gcTime: 0,
