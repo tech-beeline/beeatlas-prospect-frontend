@@ -79,7 +79,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
             });
             showSnackbar({
                 message:
-                    'Вы подписались на изменения технологии. Уведомления будут отображаться на витрине ФДМ',
+                    'Вы подписаны на изменения паттерна.Уведомления будут отображаться на витрине ФДМ',
             });
         }
     };
@@ -411,7 +411,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                 opened={isUnsubscribeModalOpen}
                 onClose={closeUnsubscribeModal}
                 onConfirm={handleUnsubscribeButtonClick}
-                title="Отписаться от технологии?"
+                title="Отписаться от паттерна?"
             >
                 Вы отписываетесь от <S.BoldSpan>{patternData?.name}</S.BoldSpan>
             </Dialog>

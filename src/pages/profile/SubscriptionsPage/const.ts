@@ -15,7 +15,7 @@ export const filterVariantToNotFoundTextMap = {
     [SubscriptionEntityVariants.ARCH_INTERFACE]:
         'Подписаться на интерфейсы можно в разделе «Каталог приложений»',
     [SubscriptionEntityVariants.PATTERN]:
-        'Подписаться на интерфейсы можно в разделе «Каталог паттернов»',
+        'Подписаться на паттерны можно в разделе «Каталог паттернов»',
 };
 
 export const filterVariantToButtonTextMap = {
