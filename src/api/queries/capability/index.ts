@@ -7,8 +7,10 @@ import {
     getCapabilitiesBySearch,
     getCoreBusinessCapabilities,
     getMapData,
+    getPromtByAlias,
     getTechCapabilityById,
     getTechCapabilityProducts,
+    postDescriptionByPromt,
     putBusinessCapability,
 } from 'api/capability';
 import { CapabilitySearchVariant, IBusinessCapabilityForm } from 'api/capability/types';
@@ -81,6 +83,38 @@ export const useGetCapabilityByIdQuery = (id?: string | null) => {
         queryKey: [CAPABILITY_PREFIX, 'id', id],
         queryFn: () => getBusinessCapabilityById(id!).then((res) => res.data),
         enabled: !!id,
+    });
+};
+
+export const useGetCapabilityDescriptionQuery = (name: string) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'promt', name],
+        queryFn: async () => {
+            const res = await getPromtByAlias('bc_description_generate').then((res) => res.data);
+            const resGeneration = await postDescriptionByPromt({
+                messages: [
+                    {
+                        role: 'user',
+                        content: res.promt.replace('<!!!>', name),
+                    },
+                ],
+                model: res.model,
+                stream: false,
+            }).then((res) => res.data);
+
+            const descriptionParsed = JSON.parse(
+                resGeneration?.choices[0]?.message?.content
+                    ?.replace('```json', '')
+                    .replace('```', ''),
+            )?.descr;
+
+            if (descriptionParsed) {
+                return descriptionParsed;
+            } else {
+                throw new Error();
+            }
+        },
+        enabled: false,
     });
 };
 

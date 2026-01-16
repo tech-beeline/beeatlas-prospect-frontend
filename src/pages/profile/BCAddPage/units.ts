@@ -1,6 +1,7 @@
+import { ProgressButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-import { TextArea } from 'components/form';
+import { TextArea, TextField } from 'components/form';
 
 export const PageWrapper = styled.div`
     display: flex;
@@ -60,26 +61,48 @@ export const ContentContainer = styled.div`
 `;
 
 export const TextAreaStyled = styled(TextArea)`
-    width: 100% !important;
+    & > textarea {
+        padding-right: 40px !important;
+    }
 `;
 
 export const FlexContainer = styled.div`
     display: flex;
-    align-items: center;
     gap: 24px;
 
     width: 100%;
 `;
 
+export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boolean }>`
+    height: 48px;
+    width: 264px;
+
+    .dsb-button-progress__svg {
+        display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
+    }
+`;
+
 export const RelativeContainer = styled.div`
     position: relative;
+
+    flex: 1;
+`;
+
+export const Unmargin = styled.div`
+    margin-top: -32px;
+`;
+
+export const TextFieldStyled = styled(TextField)`
+    & > div > input {
+        padding-right: 48px !important;
+    }
 `;
 
 export const IconContainer = styled.div`
     position: absolute;
 
-    top: 14px;
-    right: -36px;
+    top: 15px;
+    right: 16px;
 
     cursor: pointer;
 `;
