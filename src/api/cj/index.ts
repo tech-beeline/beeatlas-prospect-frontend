@@ -33,7 +33,7 @@ export const getCJByIdV1 = (id: string): AxiosPromise<T.ICompleteCJData> => {
 };
 
 export const postCJByBPMN = (id: string): AxiosPromise<T.ICompleteCJData> => {
-    return Api.post({
+    return Api.patch({
         url: `${GATEWAY_URL}cx/v1/bpmn/cj/${id}`,
     });
 };
