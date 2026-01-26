@@ -23,6 +23,7 @@ export const Row = <T,>({
     collapsedStedIds,
     draft,
     showShadow,
+    bpmn,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -127,7 +128,12 @@ export const Row = <T,>({
                                             const isActive =
                                                 activeCell?.rowId === rowId &&
                                                 activeCell?.elementId === biId;
-
+                                            const isEditable =
+                                                !UNEDITABLE_CELLS.has(rowId) && !bpmn;
+                                            const isHoverable =
+                                                isEditable &&
+                                                rowId !== RowIds.IDENTIFICATOR &&
+                                                rowId !== RowIds.DOCUMENT;
                                             return (
                                                 <S.Td
                                                     key={i}
@@ -141,11 +147,12 @@ export const Row = <T,>({
                                                         rowId,
                                                     )}`}
                                                     locked={rowId === RowIds.SCENARION_BI}
-                                                    onClick={() => handleCellClick(rowId, biId)}
-                                                    hoverable={
-                                                        rowId !== RowIds.IDENTIFICATOR &&
-                                                        rowId !== RowIds.DOCUMENT
-                                                    }
+                                                    onClick={() => {
+                                                        if (isEditable) {
+                                                            handleCellClick(rowId, biId);
+                                                        }
+                                                    }}
+                                                    hoverable={isHoverable}
                                                     isEditing={isActive}
                                                 >
                                                     <EditableCell
