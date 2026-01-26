@@ -19,6 +19,14 @@ module.exports = merge(commonConfig, {
                     from: 'public/docs',
                     to: 'docs',
                 },
+                {
+                    from: 'public/env',
+                    to: 'env',
+                },
+                {
+                    from: 'public/scripts',
+                    to: 'scripts',
+                },
             ],
         }),
     ],
