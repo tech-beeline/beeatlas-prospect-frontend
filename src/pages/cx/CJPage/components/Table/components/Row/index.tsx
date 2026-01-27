@@ -95,7 +95,7 @@ export const Row = <T,>({
                                                 onClick={() => onAddButtonClick(element.stepIndex)}
                                                 variant="outlined"
                                                 size="medium"
-                                                disabled={!draft}
+                                                disabled={!draft || bpmn}
                                                 startIcon={<Icon iconName={Icons.Add} />}
                                             />
                                         </S.ButtonContainer>
