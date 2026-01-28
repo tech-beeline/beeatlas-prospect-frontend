@@ -71,7 +71,8 @@ export const AppTable: FC<IAppTable> = ({ cmdb, tabVariant, breadcrumbs, setBrea
                         <TableRow>
                             <TableHeaderData>
                                 <S.FlexContainer>
-                                    Зависимые системы{' '}
+                                    {tabVariant === TabVariant.IN ? 'Влияющие' : 'Зависимые'}{' '}
+                                    приложения{' '}
                                     <IconButton
                                         size="medium"
                                         iconName={Icons.Copy}
