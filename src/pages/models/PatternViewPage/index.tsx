@@ -76,10 +76,11 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
             await createSubscription({
                 entityType: SubscriptionEntityVariants.PATTERN,
                 id: Number(paramId),
+                name: patternData?.name,
             });
             showSnackbar({
                 message:
-                    'Вы подписаны на изменения паттерна.Уведомления будут отображаться на витрине ФДМ',
+                    'Вы подписаны на изменения паттерна. Уведомления будут отображаться на витрине ФДМ',
             });
         }
     };

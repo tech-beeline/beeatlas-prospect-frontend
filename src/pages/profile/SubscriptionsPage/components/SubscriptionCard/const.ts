@@ -30,5 +30,5 @@ export const subscriptionTypeToLinkFormatterMap = {
     [SubscriptionEntityVariants.ARCH_INTERFACE]: (id: number) =>
         `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?id=${id}&type=arch_interface`,
     [SubscriptionEntityVariants.PATTERN]: (id: number) =>
-        `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?id=${id}&type=pattern`,
+        `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${id}`,
 };
