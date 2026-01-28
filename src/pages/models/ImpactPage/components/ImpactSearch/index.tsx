@@ -184,7 +184,7 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                                                             )}
                                                         </Text>
                                                         <Text inactive variant="body3">
-                                                            Имя элемента/Продукт элемента
+                                                            {system.cmdb}
                                                         </Text>
                                                     </S.SearchCardTextContainer>
                                                 </S.SearchCard>
@@ -236,13 +236,14 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                                                         </Text>
                                                         <Text variant="body2">
                                                             {getHighlightedText(
-                                                                server.deploymentName,
+                                                                server.deploymentName.split('~')[0],
                                                                 search,
                                                             )}
                                                         </Text>
                                                         <Text inactive variant="body3">
-                                                            IP/Host сервера/Имя элемента/Продукт
-                                                            элемента
+                                                            {server.ip ? `${server.ip}/` : ''}
+                                                            {server.host ? `${server.host}/` : ''}
+                                                            {server.cmdb ? `${server.cmdb}` : ''}
                                                         </Text>
                                                     </S.SearchCardTextContainer>
                                                 </S.SearchCard>

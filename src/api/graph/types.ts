@@ -8,6 +8,8 @@ export interface ISearchDeployment {
     deploymentName: string;
     cmdb: string;
     environmentName: string;
+    ip: string | null;
+    host: string | null;
 }
 
 export interface IDependentSystem {
