@@ -5,6 +5,7 @@ export enum SubscriptionType {
     DOMAIN = 'DOMAIN',
     CJ = 'CJ',
     TECHNOLOGY = 'TECHNOLOGY',
+    PATTERN = 'PATTERN',
 }
 
 export interface ISubscription {
@@ -18,6 +19,7 @@ export enum SubscriptionEntityVariants {
     TECH_CAPABILITY = 'TECH_CAPABILITY',
     TECH = 'TECH',
     ARCH_INTERFACE = 'arch_interface',
+    PATTERN = 'pattern',
 }
 
 export interface ISubscriptionForm {
