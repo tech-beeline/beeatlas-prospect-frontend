@@ -27,7 +27,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
     const isUsed = selectedCapabilitiesIds.includes(capability.id);
 
     const { attributes, listeners, setNodeRef } = useDraggable({
-        id: `TREE-${capability.id}`,
+        id: `TREE-${type}-${capability.id}`,
         disabled:
             (type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY &&
                 (capability.parent === null || capability.isDomain)) ||
@@ -46,6 +46,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
 
     const { data: childrenData, isLoading: isLoadingChildren } = useGetChildrenCapabilitiesQuery({
         id: capability.id,
+        type,
         enabled: isOpen,
     });
 
@@ -89,7 +90,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                     {childrenData &&
                         childrenData.businessCapabilities.map((capability) => (
                             <CapabilitiesTreeCard
-                                key={capability.id}
+                                key={`${type}-${capability.id}`}
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY}
                                 capability={capability}
@@ -100,7 +101,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                     {childrenData &&
                         childrenData.techCapabilities.map((capability) => (
                             <CapabilitiesTreeCard
-                                key={capability.id}
+                                key={`${type}-${capability.id}`}
                                 mapType={mapType}
                                 type={CapabilitySearchResultTypeVariant.TECH_CAPABILITY}
                                 capability={capability}

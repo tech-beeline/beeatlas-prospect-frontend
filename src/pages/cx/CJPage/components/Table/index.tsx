@@ -45,7 +45,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
             setHiddenRows(hiddenRows.filter((row) => row !== RowIds.NAME));
         }
     };
-    console.log('tableBPMN', bpmn);
+
     const [selectedStep, setSelectedStep] = useState<Nullable<number>>(null);
     const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 

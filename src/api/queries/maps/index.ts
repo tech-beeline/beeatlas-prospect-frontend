@@ -15,10 +15,10 @@ import { IPersonalMapForm, IPersonalMapGroupForm, IPersonalMapUpdateForm } from 
 const MAPS_PREFIX = 'MAPS_PREFIX';
 const MAPS_LIBRARY_PREFIX = 'MAPS_LIBRARY_PREFIX';
 
-export const useGetMapCriteriasQuery = () => {
+export const useGetMapCriteriasQuery = (type?: 'tc' | 'bc' | null) => {
     return useQuery({
-        queryKey: [MAPS_PREFIX, 'CRITERIAS'],
-        queryFn: () => getMapCriterias().then((res) => res.data),
+        queryKey: [MAPS_PREFIX, 'CRITERIAS', type],
+        queryFn: () => getMapCriterias(type).then((res) => res.data),
     });
 };
 

@@ -38,6 +38,18 @@ export const Name = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    @media (max-width: 1440px) {
+        max-width: 350px;
+    }
+
+    @media (max-width: 1200px) {
+        max-width: 200px;
+    }
+
+    @media (max-width: 1024px) {
+        max-width: 150px;
+    }
 `;
 
 export const Desription = styled.div`
@@ -54,6 +66,18 @@ export const Desription = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    @media (max-width: 1440px) {
+        max-width: 350px;
+    }
+
+    @media (max-width: 1200px) {
+        max-width: 200px;
+    }
+
+    @media (max-width: 1024px) {
+        max-width: 150px;
+    }
 `;
 
 export const IconWrapper = styled.div`

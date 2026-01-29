@@ -1,11 +1,10 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Icon, Skeleton } from '@beeline/design-system-react';
+import { Button, Chip, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
 
-import { useGetTechCapabilityProductsQuery } from 'api/queries/capability';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -21,6 +20,8 @@ import {
 } from 'pages/models/FDMPage/helpers';
 import { useFDMStore } from 'pages/models/FDMPage/store';
 import { Item, ItemTypes } from 'pages/models/FDMPage/store/types';
+import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -39,11 +40,6 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
     const [, setParams] = useSearchParams();
 
     const { getСhildrenСapabilities } = useFDMStore();
-
-    const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
-        item.code,
-        item.type === ItemTypes.TECH,
-    );
 
     const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
@@ -146,16 +142,18 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                         <S.MarginContainer>
                             <S.TitleSecond>ТС Реализована в приложении</S.TitleSecond>
                             <S.ChipsContainer>
-                                {isLoadingProducts && (
-                                    <Skeleton height={32} radius={30} width={123} />
-                                )}
-                                {products &&
-                                    products.length > 0 &&
-                                    products.map((product) => (
-                                        <S.ChipStyled key={product.eaGuid} label={product.name} />
-                                    ))}
-                                {products && products.length === 0 && (
-                                    <S.ChipStyled label="Нет приложений" />
+                                {item.system ? (
+                                    <Chip
+                                        key={item.system.id}
+                                        label={item.system.name}
+                                        onClick={() =>
+                                            window.open(
+                                                `${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${item.system?.alias}`,
+                                            )
+                                        }
+                                    />
+                                ) : (
+                                    formatNullableString(null)
                                 )}
                             </S.ChipsContainer>
                         </S.MarginContainer>

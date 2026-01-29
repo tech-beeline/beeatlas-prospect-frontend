@@ -77,8 +77,8 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({
                             <TableHeaderData>
                                 <S.FlexContainer>
                                     {tabVariant === TabVariant.IN
-                                        ? 'Используемые приложения'
-                                        : 'Зависимые приложения'}{' '}
+                                        ? 'Зависимые элементы'
+                                        : 'Влияющие элементы'}{' '}
                                     <IconButton
                                         size="medium"
                                         iconName={Icons.Copy}
@@ -90,11 +90,7 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({
                                     </TooltipContainer>
                                 </S.FlexContainer>
                             </TableHeaderData>
-                            <TableHeaderData>
-                                {tabVariant === TabVariant.IN
-                                    ? 'Используемые элементы'
-                                    : 'Зависимые элементы'}
-                            </TableHeaderData>
+                            <TableHeaderData>Кол-во зависимостей</TableHeaderData>
                             <TableHeaderData>Приложение</TableHeaderData>
                             <TableHeaderData>
                                 <S.SortingContainer

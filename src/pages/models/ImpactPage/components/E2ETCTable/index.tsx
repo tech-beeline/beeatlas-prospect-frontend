@@ -19,10 +19,13 @@ import { E2EProcessRow } from './components';
 import { CHIPS, TableVariant } from './const';
 import { IE2ETCTable } from './types';
 import * as S from './units';
+import { reduceE2EData } from './utils';
 
 export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
     const [tableVariant, setTableVariant] = useState(TableVariant.E2E);
     const { data: e2eData, isLoading: isLoadingE2EData } = useGetSystemE2EQuery(cmdb);
+    const e2eDataReduced = reduceE2EData(e2eData);
+
     const { data: tcData, isLoading: isLoadingTCData } = useGetSystemTCQuery(cmdb);
 
     const isLoading = isLoadingE2EData || isLoadingTCData;
@@ -61,12 +64,12 @@ export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
                             )}
                     </TableHead>
                     <TableBody>
-                        {tableVariant === TableVariant.E2E && e2eData && (
+                        {tableVariant === TableVariant.E2E && e2eDataReduced && (
                             <>
-                                {e2eData.map((e2e, i) => (
+                                {e2eDataReduced.map((e2e, i) => (
                                     <E2EProcessRow e2e={e2e} cmdb={cmdb} key={i} />
                                 ))}
-                                {e2eData.length === 0 && (
+                                {e2eDataReduced.length === 0 && (
                                     <TableRow>
                                         <S.TableDataMaxWidth>
                                             <NotFoundBlock

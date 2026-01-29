@@ -1,3 +1,4 @@
+import { Table } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -17,8 +18,42 @@ export const BlurText = styled.div<{ $isBlurred: boolean }>`
     transition: filter 0.3s ease;
 `;
 
+export const StructurizrTitle = styled.div`
+    display: flex;
+    align-items: center;
+
+    height: 40px;
+`;
+
+export const StructurizrContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
+
+export const StructurizrTitleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 16px;
+`;
+
+export const StructurizrIdContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+export const ProgressContainer = styled.div`
+    width: 20px;
+    height: 20px;
+`;
+
 export const NotFoundContainer = styled.div`
     display: flex;
     justify-content: center;
     grid-column: 1/-1;
+`;
+
+export const TableStyled = styled(Table)`
+    max-width: 640px;
 `;

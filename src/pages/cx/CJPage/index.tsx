@@ -1,22 +1,26 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon, IconButton, Label } from '@beeline/design-system-react';
+import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { dataToFormValues, formValuesToData } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
 import { TooltipContainer } from 'components/interaction';
 import { NotFoundBlock } from 'components/other';
 
 import { IBIData } from 'api/bi/types';
+import { useUpdateBIMutation } from 'api/queries/bi';
 import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import { Dialog } from 'widgets/Dialog';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { CJImport } from './components/CJImport';
 import { CJUpdateForm } from './components/CJUpdateForm';
 import { CJVersion } from './components/CJVersion';
 import { InfoSidesheet } from './components/InfoSidesheet';
+import { SkeletonTable } from './components/SkeletonTable';
 import { Table } from './components/Table';
 import { SideSheetVariants } from './const';
 import * as S from './units';
@@ -28,7 +32,8 @@ export const CJPage = () => {
     const { modalOpened, openModal, closeModal } = useModal();
     const { data, isLoading: isLoadingCJ, refetch } = useGetCompleteCJDataByIdQuery(paramId);
     const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
-
+    const { mutateAsync: updateBi } = useUpdateBIMutation();
+    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
     const isLoading = isLoadingCJ || isLoadingProducts;
 
     const canEditCJ = (dataProducts ?? [])
@@ -63,6 +68,33 @@ export const CJPage = () => {
         }
     };
 
+    const handlePublishAllBIs = async () => {
+        if (!data) return;
+
+        const draftBIs = data.steps.flatMap((step) => step.bi).filter((bi) => bi.draft);
+
+        await Promise.all(
+            draftBIs.map(async (bi) => {
+                const formValues = dataToFormValues(bi);
+                const updatedFormValues = { ...formValues, draft: false };
+                const dataToUpdate = formValuesToData(updatedFormValues);
+
+                await updateBi({
+                    id: String(bi.id),
+                    data: dataToUpdate,
+                });
+            }),
+        );
+
+        await updateCJ({
+            id: String(data.id),
+            data: { draft: false },
+        });
+
+        closeModal();
+        showSnackbar({ message: 'CJ опубликован' });
+    };
+
     const handleMarkAsDraft = () => {
         if (data) {
             updateCJ({
@@ -94,124 +126,151 @@ export const CJPage = () => {
                         style={{ cursor: 'pointer' }}
                     />
 
-                    <div>
-                        <S.Name data-tooltip-id="name" ref={nameRef}>
-                            {data?.name}
-                        </S.Name>
-                        {showNameTooltip && (
-                            <TooltipContainer
-                                largePadding
-                                id="name"
-                                offset={8}
-                                place="bottom"
-                                noArrow
-                            >
-                                {data?.name}
-                            </TooltipContainer>
-                        )}
-                        <S.Desription data-tooltip-id="description" ref={descriptionRef}>
-                            {data?.userPortrait}
-                        </S.Desription>
-                        {showDescriptionTooltip && (
-                            <TooltipContainer
-                                largePadding
-                                id="description"
-                                offset={8}
-                                place="bottom"
-                                noArrow
-                            >
-                                {data?.userPortrait}
-                            </TooltipContainer>
-                        )}
-                    </div>
+                    {isLoadingCJ ? (
+                        <>
+                            <Skeleton variant="square" width={221} height={40} />
 
-                    <S.InfoContainer>
-                        <IconButton
-                            iconName={Icons.InfoCircled}
-                            data-tooltip-id="info"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsInfoTooltipOpen((prev) => !prev);
-                            }}
-                        />
-                        {data && (
-                            <TooltipContainer
-                                largePadding
-                                id="info"
-                                place="bottom"
-                                noArrow
-                                offset={8}
-                                infoWidth
-                                isOpen={isInfoTooltipOpen}
-                                clickable
-                                afterHide={() => setIsInfoTooltipOpen(false)}
-                            >
-                                <InfoSidesheet
-                                    onClose={() => setIsInfoTooltipOpen(false)}
-                                    cj={data}
+                            <S.InfoContainer>
+                                <Skeleton variant="circle" width={24} height={24} />
+                                <Skeleton variant="circle" width={24} height={24} />
+                                <Skeleton variant="square" width={76} height={24} />
+                            </S.InfoContainer>
+
+                            <Skeleton variant="square" width={40} height={40} />
+                            <Skeleton variant="square" width={145} height={40} />
+                            <Skeleton variant="square" width={158} height={40} />
+                        </>
+                    ) : (
+                        <>
+                            <div>
+                                <S.Name data-tooltip-id="name" ref={nameRef}>
+                                    {data?.name}
+                                </S.Name>
+                                {showNameTooltip && (
+                                    <TooltipContainer
+                                        largePadding
+                                        id="name"
+                                        offset={8}
+                                        place="bottom"
+                                        noArrow
+                                    >
+                                        {data?.name}
+                                    </TooltipContainer>
+                                )}
+                                <S.Desription data-tooltip-id="description" ref={descriptionRef}>
+                                    {data?.userPortrait}
+                                </S.Desription>
+                                {showDescriptionTooltip && (
+                                    <TooltipContainer
+                                        largePadding
+                                        id="description"
+                                        offset={8}
+                                        place="bottom"
+                                        noArrow
+                                    >
+                                        {data?.userPortrait}
+                                    </TooltipContainer>
+                                )}
+                            </div>
+
+                            <S.InfoContainer>
+                                <IconButton
+                                    iconName={Icons.InfoCircled}
+                                    data-tooltip-id="info"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsInfoTooltipOpen((prev) => !prev);
+                                    }}
                                 />
-                            </TooltipContainer>
-                        )}
+                                {data && (
+                                    <TooltipContainer
+                                        largePadding
+                                        id="info"
+                                        place="bottom"
+                                        noArrow
+                                        offset={8}
+                                        infoWidth
+                                        isOpen={isInfoTooltipOpen}
+                                        clickable
+                                        afterHide={() => setIsInfoTooltipOpen(false)}
+                                    >
+                                        <InfoSidesheet
+                                            onClose={() => setIsInfoTooltipOpen(false)}
+                                            cj={data}
+                                        />
+                                    </TooltipContainer>
+                                )}
 
-                        <Label
-                            variant="contained"
-                            title={data?.draft ? 'Черновик' : 'Опубликован'}
-                            type={data?.draft ? 'default' : 'success'}
-                        />
-                    </S.InfoContainer>
+                                <Label
+                                    variant="contained"
+                                    title={data?.draft ? 'Черновик' : 'Опубликован'}
+                                    type={data?.draft ? 'default' : 'success'}
+                                />
+                            </S.InfoContainer>
 
-                    {canEditCJ && (
-                        <S.ButtonStyled
-                            disabled={!data?.draft}
-                            endIcon={<Icon iconName={Icons.Edit} />}
-                            onClick={() => toggleSideSheet(SideSheetVariants.UPDATE_CJ)}
-                            id="buttonToggleId"
-                            data-tooltip-id="editButton"
-                        />
+                            {canEditCJ && (
+                                <S.ButtonStyled
+                                    disabled={!data?.draft}
+                                    endIcon={<Icon iconName={Icons.Edit} />}
+                                    onClick={() => toggleSideSheet(SideSheetVariants.UPDATE_CJ)}
+                                    id="buttonToggleId"
+                                    data-tooltip-id="editButton"
+                                />
+                            )}
+                            {data && !data.draft && (
+                                <TooltipContainer
+                                    largePadding
+                                    id="editButton"
+                                    offset={8}
+                                    place="bottom"
+                                    noArrow
+                                >
+                                    Для редактирования CJ, его нужно сделать черновиком
+                                </TooltipContainer>
+                            )}
+
+                            <Button
+                                variant="outlined"
+                                disabled={data?.bpmn === null && !isEmpty}
+                                onClick={() => toggleSideSheet(SideSheetVariants.VERSION_CJ)}
+                            >
+                                Показать версии
+                            </Button>
+
+                            <Button
+                                variant="outlined"
+                                disabled={data?.bpmn === null && !isEmpty}
+                                onClick={() => toggleSideSheet(SideSheetVariants.IMPORT_CJ)}
+                            >
+                                Импортировать CJ
+                            </Button>
+                        </>
                     )}
-                    {data && !data.draft && (
-                        <TooltipContainer
-                            largePadding
-                            id="editButton"
-                            offset={8}
-                            place="bottom"
-                            noArrow
-                        >
-                            Для редактирования CJ, его нужно сделать черновиком
-                        </TooltipContainer>
-                    )}
-
-                    <Button
-                        variant="outlined"
-                        disabled={data?.bpmn === null && !isEmpty}
-                        onClick={() => toggleSideSheet(SideSheetVariants.VERSION_CJ)}
-                    >
-                        Показать версии
-                    </Button>
-
-                    <Button
-                        variant="outlined"
-                        disabled={data?.bpmn === null && !isEmpty}
-                        onClick={() => toggleSideSheet(SideSheetVariants.IMPORT_CJ)}
-                    >
-                        Импортировать CJ
-                    </Button>
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
                     <Button onClick={() => navigate(-1)}>Закрыть</Button>
 
-                    {data && canEditCJ && (
-                        <Button
-                            variant="contained"
-                            onClick={data.draft ? handlePublish : handleMarkAsDraft}
-                            disabled={updatingCj}
-                        >
-                            {data.draft ? 'Опубликовать' : 'Перевести в черновик'}
-                        </Button>
+                    {isLoadingCJ ? (
+                        <Skeleton variant="square" width={127} height={40} />
+                    ) : (
+                        data &&
+                        canEditCJ && (
+                            <Button
+                                variant="contained"
+                                onClick={data.draft ? handlePublish : handleMarkAsDraft}
+                                disabled={updatingCj}
+                            >
+                                {data.draft ? 'Опубликовать' : 'Перевести в черновик'}
+                            </Button>
+                        )
                     )}
                 </S.FlexSideContainer>
             </S.Header>
+
+            {isLoadingCJ && (
+                <SkeletonTable firstColumnRows={13} columns={5} otherColumnsRows={11} />
+            )}
 
             {data && (
                 <Table
@@ -251,13 +310,14 @@ export const CJPage = () => {
             )}
             <Dialog
                 opened={modalOpened}
-                confirmText="Закрыть"
-                onConfirm={closeModal}
+                title="Опубликовать CJ?"
+                confirmText="Опубликовать"
+                declineText="Отменить"
+                onConfirm={handlePublishAllBIs}
                 onClose={closeModal}
-                showDeclineButton={false}
+                showDeclineButton={true}
             >
-                CJ не может быть опубликован, так как в нем содержатся неопубликованные BI. Сначала
-                опубликуйте BI, а потом вы сможете опубликовать свой CJ.
+                В CJ есть неопубликованые BI. После публикации CJ все BI в нем станут опубликованы
             </Dialog>
         </S.PageWrapper>
     );

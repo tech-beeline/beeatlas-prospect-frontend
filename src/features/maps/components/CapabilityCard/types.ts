@@ -12,4 +12,5 @@ export interface ICapabilityCard {
 
 export interface ITechCapabilityCard {
     techCapability: ITechCapability;
+    mapVariant: MapVariant | IMapCriteria;
 }

@@ -14,6 +14,12 @@ import {
     useGetPatternByIdQuery,
     useGetPatternFileByIdQuery,
 } from 'api/queries/patterns';
+import {
+    useCreateSubscriptionMutation,
+    useDeleteSubscriptionMutation,
+    useGetSubscribedPatternIdsQuery,
+} from 'api/queries/subscriptions';
+import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
@@ -34,42 +40,63 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
     const [isDslExpanded, setIsDslExpanded] = useState(false);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const { modalOpened, openModal, closeModal } = useModal();
+    const {
+        modalOpened: isDeleteModalOpen,
+        openModal: openDeleteModal,
+        closeModal: closeDeleteModal,
+    } = useModal();
+
+    const {
+        modalOpened: isUnsubscribeModalOpen,
+        openModal: openUnsubscribeModal,
+        closeModal: closeUnsubscribeModal,
+    } = useModal();
 
     const navigate = useNavigate();
 
     const handleBreadcrumbClick = () => {
         navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}`);
     };
-
+    const { data: subscribedPatternsIds } = useGetSubscribedPatternIdsQuery();
     const { data: patternData, isLoading: isLoadingPattern } = useGetPatternByIdQuery(paramId);
     const { data: fileData, isLoading: isLoadingFileData } = useGetPatternFileByIdQuery(paramId);
 
     const isLoading = isLoadingFileData || isLoadingPattern;
 
     const { mutate: deletePattern, isPending: isDeletingPattern } = useDeletePatternMutation();
+    const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
+    const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
 
-    // const [isSubscribed, setIsSubcribe] = useState(false);
+    const isSubscribed = Boolean(paramId && subscribedPatternsIds?.includes(Number(paramId)));
 
-    // const handleSubscribeButtonClick = async () => {
-    //     if (isSubscribed) {
-    //         openModal();
-    //     } else {
-    //         setIsSubcribe(true);
-    //         showSnackbar({
-    //             message:
-    //                 'Вы подписались на изменения технологии. Уведомления будут отображаться на витрине ФДМ',
-    //         });
-    //     }
-    // };
+    const handleSubscribeButtonClick = async () => {
+        if (isSubscribed) {
+            openUnsubscribeModal();
+        } else if (paramId) {
+            await createSubscription({
+                entityType: SubscriptionEntityVariants.PATTERN,
+                id: Number(paramId),
+                name: patternData?.name,
+            });
+            showSnackbar({
+                message:
+                    'Ваша подписка на уведомления об изменениях паттерна оформлена. Все оповещения будут поступать в beeatlas',
+            });
+        }
+    };
 
-    // const handleUnsubscribeButtonClick = async () => {
-    //     setIsSubcribe(true);
-    //     closeModal();
-    //     showSnackbar({
-    //         message: 'Вы отписаны от уведомлений',
-    //     });
-    // };
+    const handleUnsubscribeButtonClick = async () => {
+        if (paramId) {
+            await deleteSubscrition({
+                entityType: SubscriptionEntityVariants.PATTERN,
+                id: Number(paramId),
+            });
+            closeUnsubscribeModal();
+            showSnackbar({
+                message: 'Вы отписаны от уведомлений',
+            });
+        }
+    };
 
     /* const handleExportButtonClick = () => {
         if (fileData && technologyData) {
@@ -136,7 +163,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                     Экспорт
                                 </Button>
                             )}*/}
-                            {/* <Button
+                            <Button
                                 startIcon={
                                     <Icon
                                         iconName={
@@ -149,7 +176,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                 onClick={handleSubscribeButtonClick}
                             >
                                 {isSubscribed ? 'Отписаться' : 'Подписаться'}
-                            </Button> */}
+                            </Button>
                             {isAdmin && (
                                 <>
                                     <Button
@@ -160,7 +187,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                     </Button>
                                     <Button
                                         startIcon={<Icon iconName={Icons.Delete} />}
-                                        onClick={openModal}
+                                        onClick={openDeleteModal}
                                     >
                                         Удалить
                                     </Button>
@@ -372,14 +399,22 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                 )}
             </S.Container>
             <Dialog
-                opened={modalOpened}
-                onClose={closeModal}
+                opened={isDeleteModalOpen}
+                onClose={closeDeleteModal}
                 onConfirm={handleDeleteConfirmClick}
                 isPending={isDeletingPattern}
                 title="Удалить паттерн?"
                 confirmText="Удалить"
             >
                 Паттерн <S.BoldSpan>{patternData?.name}</S.BoldSpan> будет удален
+            </Dialog>
+            <Dialog
+                opened={isUnsubscribeModalOpen}
+                onClose={closeUnsubscribeModal}
+                onConfirm={handleUnsubscribeButtonClick}
+                title="Отписаться от паттерна?"
+            >
+                Вы отписываетесь от <S.BoldSpan>{patternData?.name}</S.BoldSpan>
             </Dialog>
         </S.PageWrapper>
     );

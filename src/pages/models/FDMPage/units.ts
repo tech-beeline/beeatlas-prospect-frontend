@@ -1,4 +1,4 @@
-import { Banner, Chip, ProgressButton, Tabs } from '@beeline/design-system-react';
+import { Banner, ProgressButton, Tabs } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -192,10 +192,6 @@ export const FlexBlock = styled.div`
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
     letter-spacing: var(--font-letter-spacing-body3);
-`;
-
-export const ChipStyled = styled(Chip)`
-    cursor: auto !important;
 `;
 
 export const BoldSpan = styled.span`

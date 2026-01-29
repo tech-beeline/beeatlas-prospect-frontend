@@ -6,9 +6,9 @@ import { GATEWAY_URL } from '../const';
 
 import * as T from './types';
 
-export const getMapCriterias = (): AxiosPromise<T.IMapCriteria[]> => {
+export const getMapCriterias = (type?: 'tc' | 'bc' | null): AxiosPromise<T.IMapCriteria[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}capability/v1/criterias`,
+        url: `${GATEWAY_URL}capability/v1/criterias?filter=${type}`,
     });
 };
 

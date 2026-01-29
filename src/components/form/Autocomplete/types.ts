@@ -16,4 +16,5 @@ export interface IAutocomplete {
     loadingText?: string | ReactNode;
     noOptionsText?: string;
     onInputChange: (v: string) => void;
+    helperText?: string;
 }

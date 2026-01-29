@@ -108,10 +108,31 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
     );
 };
 
-export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) => {
+export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability, mapVariant }) => {
+    const themeIsDark = useThemeStore((store) => store.themeIsDark);
+    const criteria =
+        mapVariant && mapVariant !== MapVariant.DEFAULT
+            ? techCapability.criteria?.find((c) => c.criteria_id === (mapVariant as any).id)
+            : undefined;
+
+    const grade = criteria?.grade ?? 0;
+    const value = criteria?.value ?? 0;
+
+    let backgroundColor: string | undefined;
+
+    if (mapVariant && mapVariant !== MapVariant.DEFAULT) {
+        const gradient = generateMapColorGradient(
+            themeIsDark,
+            (mapVariant as any).revers ?? false,
+            (mapVariant as any).interval ?? 2,
+        );
+
+        backgroundColor = selectColorByCriteria(gradient, mapVariant, grade, value);
+    }
+
     return (
         <>
-            <S.TechCapabilityCard>
+            <S.TechCapabilityCard style={{ backgroundColor }}>
                 <S.TechCapabilityTitleContainer>
                     <S.CardText>{techCapability.name}</S.CardText>
                     <Icon
@@ -120,6 +141,12 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability }) 
                         size="large"
                     />
                 </S.TechCapabilityTitleContainer>
+                {mapVariant && mapVariant !== MapVariant.DEFAULT && (
+                    <S.CriteriaContainer>
+                        <Text variant="body3">{(mapVariant as any).description}</Text>
+                        <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
+                    </S.CriteriaContainer>
+                )}
             </S.TechCapabilityCard>
             <TooltipContainer
                 displayFlex

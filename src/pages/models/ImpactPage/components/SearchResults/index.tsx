@@ -107,7 +107,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
                                         {getHighlightedText(system.name, search)}
                                     </Text>
                                     <Text inactive variant="body3">
-                                        Имя элемента/Продукт элемента
+                                        {system.cmdb}
                                     </Text>
                                 </S.SearchCardTextContainer>
                             </S.SearchCard>
@@ -208,10 +208,15 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
                                                 ДЕПЛОЙМЕНТ ДИАГРАММА
                                             </Text>
                                             <Text variant="body2">
-                                                {getHighlightedText(item.deploymentName, search)}
+                                                {getHighlightedText(
+                                                    item.deploymentName.split('~')[0],
+                                                    search,
+                                                )}
                                             </Text>
                                             <Text inactive variant="body3">
-                                                IP/Host сервера/Имя элемента/Продукт элемента
+                                                {item.ip ? `${item.ip}/` : ''}
+                                                {item.host ? `${item.host}/` : ''}
+                                                {item.cmdb ? `${item.cmdb}` : ''}
                                             </Text>
                                         </S.SearchCardTextContainer>
                                     </S.SearchCard>

@@ -16,6 +16,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
     loadingText,
     noOptionsText,
     onInputChange,
+    helperText,
 }) => {
     const {
         control,
@@ -37,7 +38,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
                     disabled={disabled}
                     label={label}
                     error={isError}
-                    helperText={errorMessage}
+                    helperText={errorMessage ?? helperText}
                     options={options}
                     value={options.find((option) => option.id === field.value) ?? null}
                     noOptionsText={noOptionsText}

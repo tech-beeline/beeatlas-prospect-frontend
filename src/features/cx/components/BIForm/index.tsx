@@ -1,9 +1,16 @@
-import React, { forwardRef, Fragment, useEffect } from 'react';
+import React, { forwardRef, Fragment, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from '@beeline/design-system-react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { MultiSelect, RadioGroup, Select, TextArea, TextField } from 'components/form';
+import {
+    Autocomplete,
+    MultiSelect,
+    RadioGroup,
+    Select,
+    TextArea,
+    TextField,
+} from 'components/form';
 
 import { useGetBIChannelsQuery, useGetBIStatusesQuery } from 'api/queries/bi-library';
 import { useGetProductsQuery } from 'hooks';
@@ -15,10 +22,17 @@ import * as S from './units';
 
 export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
     ({ onClose, onSave, defaultValues, showButtons = true, fullscreen = false }, buttonRef) => {
+        const [searchTextProduct, setSearchTextProduct] = useState('');
         const { data: statuses } = useGetBIStatusesQuery();
 
         const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
-
+        const productsFiltered = (products ?? []).filter((product) =>
+            product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
+        );
+        const productsOptions = productsFiltered.map((product) => ({
+            id: Number(product.id),
+            value: product.name,
+        }));
         const form = useForm<FormValues>({
             resolver: yupResolver(validationSchema),
             mode: 'onChange',
@@ -61,25 +75,22 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                         <div id="top" />
                         <S.TextFieldContainer>
                             {fullscreen && !defaultValues && (
-                                <Select
+                                <Autocomplete
+                                    fullWidth
                                     disabled={isLoadingProducts}
-                                    name="product"
                                     label="Приложение"
-                                    options={
-                                        products?.map((product) => ({
-                                            id: Number(product.id),
-                                            value: product.name,
-                                        })) ?? []
-                                    }
+                                    name="product"
+                                    options={productsOptions}
+                                    onInputChange={(v) => setSearchTextProduct(v)}
                                 />
                             )}
 
                             <NameContainer>
                                 <TextField id="name" name="name" label="Название" maxLength={255} />
                             </NameContainer>
-
-                            <TextArea name="descr" label="Описание" />
-
+                            <S.TextAreaWrapper>
+                                <TextArea name="descr" label="Описание" />
+                            </S.TextAreaWrapper>
                             <S.SubTitle id="characteristics">Характеристики</S.SubTitle>
 
                             <S.FlexContainer>
@@ -115,7 +126,9 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <S.SubTitle id="scenarios">Сценарий</S.SubTitle>
 
-                            <TextArea name="clientScenario" label="Клиентский сценарий" />
+                            <S.TextAreaWrapper>
+                                <TextArea name="clientScenario" label="Клиентский сценарий" />
+                            </S.TextAreaWrapper>
 
                             <S.FieldsContainer>
                                 <S.SubTitle id="channels">Каналы</S.SubTitle>

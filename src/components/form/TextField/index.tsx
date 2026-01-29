@@ -17,6 +17,7 @@ export const TextField: FC<ITextField> = ({
     onBlur,
     onKeyDown,
     type,
+    endIcon,
 }) => {
     const {
         control,
@@ -49,6 +50,7 @@ export const TextField: FC<ITextField> = ({
                     }}
                     onKeyDown={onKeyDown}
                     type={type}
+                    endAdornment={endIcon}
                 />
             )}
         />

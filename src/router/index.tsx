@@ -13,6 +13,8 @@ import { FeedbackButton } from 'components/interaction';
 
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
+    AdminAppsPage,
+    AppAddPage,
     AppInfoPage,
     ApplicationEditPage,
     ApplicationsPage,
@@ -178,6 +180,34 @@ export const NavigationRouter = () => {
                             <MenuPersonalArea />
                             <S.ContentWrapper>
                                 <RoleAddPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.APPS_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <AdminAppsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.APPS_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <AppAddPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     ),

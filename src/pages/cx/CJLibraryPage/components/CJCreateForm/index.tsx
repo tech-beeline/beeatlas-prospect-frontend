@@ -1,14 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import {
-    Banner,
-    Button,
-    FileUploader,
-    Icon,
-    IconButton,
-    Typography,
-} from '@beeline/design-system-react';
+import { Banner, Button, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -24,6 +17,7 @@ import {
 } from 'api/queries/cj';
 import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
+import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';
 import * as ROUTER from 'router/const';
 import { formatSize } from 'utils/formatters';
 
@@ -36,6 +30,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
     const [showBanner, setShowBanner] = useState(true);
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
+    const [bpmnFileText, setBpmnFileText] = useState<string | null>(null);
     const [, setIsProcessingBPMN] = useState(false);
     const { data: userInfo } = useGetUserInfoQuery();
 
@@ -139,9 +134,32 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files && files.length > 0) {
-            setBpmnFile(files[0]);
+            const file = files[0];
+            setBpmnFile(file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                setBpmnFileText(typeof reader.result === 'string' ? reader.result : null);
+            };
+            reader.onerror = () => setBpmnFileText(null);
+            reader.readAsText(file);
         }
         event.target.value = '';
+    };
+
+    const getFileName = (key?: string): string => {
+        if (!key) return 'diagram.bpmn';
+
+        const filePart = key.split('/').pop() || '';
+        const withoutExt = filePart.replace('.bpmn', '');
+        const base = withoutExt.split('_')[0];
+
+        return `${decodeURI(base)}.bpmn`;
+    };
+
+    const handleDownload = () => {
+        if (!bpmnFileText || !bpmnFile) return;
+        downloadBpmnFile(getFileName(bpmnFile.name), bpmnFileText);
     };
 
     const handleRemoveFile = () => {
@@ -212,7 +230,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                 />
                                 {bpmnFile && (
                                     <S.FileNameContainer>
-                                        <Icon iconName={Icons.Page} size="large" />
+                                        <S.FileUploaderListItemStyled name="" />
                                         <S.FileMetadataContainer>
                                             <Typography variant="body2">{bpmnFile.name}</Typography>
                                             <Typography variant="caption" color="textSecondary">
@@ -225,7 +243,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                         <IconButton
                                             iconName={Icons.Download}
                                             size="medium"
-                                            onClick={handleRemoveFile}
+                                            onClick={handleDownload}
                                         />
                                         <IconButton
                                             iconName={Icons.Delete}
