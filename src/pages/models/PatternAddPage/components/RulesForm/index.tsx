@@ -9,6 +9,7 @@ import { TextArea } from 'components/form';
 import { Link } from 'components/other';
 
 import { useValidateRulesMutation } from 'api/queries/patterns';
+import * as ROUTER from 'router/const';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -83,14 +84,18 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                                 iconName={Icons.InfoCircled}
                                 color="info"
                                 title={
-                                    <S.BannerTitleContainer>
-                                        Прежде чем создавать правила идентификации архитектуры,
-                                        ознакомьтесь с{' '}
+                                    <div>
+                                        При создании паттерна данный шаг допускается пропустить — к
+                                        нему можно вернуться позднее. Перед разработкой правил
+                                        идентификации архитектуры обязательно ознакомьтесь с{' '}
                                         <Link
-                                            title="SDK BeeAtlas"
-                                            url="https://git.vimpelcom.ru/common/beeatlas/beeatlas_sdk"
+                                            title="информацией"
+                                            url={`${ROUTER.MODELS_PATH}${ROUTER.PATTERNS_PATH}${ROUTER.RULES_PATH}`}
                                         />
-                                    </S.BannerTitleContainer>
+                                        . Если при проверке правил возникнут ошибки, вы можете
+                                        перейти к следующему шагу и внести правки позже. Но до этого
+                                        момента за корректность правил отвечаете исключительно вы
+                                    </div>
                                 }
                                 onClose={() => setShowBanner(false)}
                             />
