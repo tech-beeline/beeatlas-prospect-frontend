@@ -18,6 +18,7 @@ export const TextField: FC<ITextField> = ({
     onKeyDown,
     type,
     endIcon,
+    ...rest
 }) => {
     const {
         control,
@@ -35,6 +36,7 @@ export const TextField: FC<ITextField> = ({
             render={({ field }) => (
                 <S.TextFieldStyled
                     {...field}
+                    {...rest}
                     id={id}
                     fullWidth={fullWidth}
                     disabled={disabled}

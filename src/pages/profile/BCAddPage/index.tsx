@@ -11,7 +11,10 @@ import { TextArea, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
 
 import { useCreateBCApplicationMutation } from 'api/queries/applications';
-import { useGetCapabilityByIdQuery } from 'api/queries/capability';
+import {
+    useGetCapabilityByIdQuery,
+    useGetCapabilityDescriptionQuery,
+} from 'api/queries/capability';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -53,7 +56,7 @@ export const BCAddPage = () => {
         resolver: yupResolver(validationSchema),
     });
 
-    const { handleSubmit, setValue } = form;
+    const { handleSubmit, setValue, watch, setError, clearErrors } = form;
 
     const onSubmit = () =>
         handleSubmit(async (values) => {
@@ -88,6 +91,39 @@ export const BCAddPage = () => {
         }
     }, [capabilityData]);
 
+    const nameValue = watch('name');
+    const descriptionValue = watch('description');
+
+    const isGenerateButtonDisabled = nameValue?.length === 0;
+
+    const {
+        data: descriptionData,
+        error: generationError,
+        refetch,
+        isFetching: isGeneratingDescription,
+    } = useGetCapabilityDescriptionQuery(nameValue);
+
+    useEffect(() => {
+        if (descriptionData) {
+            setValue('description', descriptionData);
+        }
+    }, [descriptionData]);
+
+    useEffect(() => {
+        if (generationError) {
+            setError('description', { message: 'Ошибка генерации определения' });
+        }
+    }, [generationError]);
+
+    useEffect(() => {
+        clearErrors('description');
+    }, [descriptionValue]);
+
+    const handleGenerateButtonClick = async () => {
+        setValue('description', '');
+        refetch();
+    };
+
     return (
         <FormProvider {...form}>
             <form onSubmit={onSubmit()}>
@@ -118,72 +154,109 @@ export const BCAddPage = () => {
                                     onClose={() => setShowBanner(false)}
                                 />
                             )}
-                            <S.RelativeContainer>
-                                <TextField
-                                    name="name"
-                                    label="Название*"
-                                    disabled={isLoadingCapabilityData}
-                                    helperPosition="block"
-                                    maxLength={200}
-                                />
-                                <S.IconContainer data-tooltip-id="name-icon">
-                                    <Icon iconName={Icons.InfoCircled} size="medium" />
-                                </S.IconContainer>
-                                <TooltipContainer
-                                    displayFlex
-                                    largePadding
-                                    hideGap
-                                    offset={0}
-                                    id="name-icon"
-                                    place="bottom"
-                                    noArrow
+                            <S.FlexContainer>
+                                <S.RelativeContainer>
+                                    <S.TextFieldStyled
+                                        name="name"
+                                        label="Название*"
+                                        disabled={isLoadingCapabilityData}
+                                        helperPosition="block"
+                                        maxLength={200}
+                                    />
+                                    <S.IconContainer data-tooltip-id="name-icon">
+                                        <Icon iconName={Icons.InfoCircled} size="medium" />
+                                    </S.IconContainer>
+                                    <TooltipContainer
+                                        displayFlex
+                                        largePadding
+                                        hideGap
+                                        offset={0}
+                                        id="name-icon"
+                                        place="bottom"
+                                        noArrow
+                                    >
+                                        <Text variant="subtitle3">Формула:</Text>
+                                        <Text variant="caption">
+                                            {
+                                                '<Действие-отглагольное существительное> <Объект действия - существительное> + <Характеристика объекта/уточнение>'
+                                            }
+                                        </Text>
+                                        <Text variant="subtitle3">Пример:</Text>
+                                        <Text variant="caption">
+                                            Возможность оценивать, анализировать, логировать
+                                            (действие) доступность, время отклика, корректность
+                                            взаимодействия (объект, характеристики)
+                                        </Text>
+                                    </TooltipContainer>
+                                </S.RelativeContainer>
+                                <S.ProgressButtonStyled
+                                    type="button"
+                                    size="medium"
+                                    variant="outlined"
+                                    disabled={isGenerateButtonDisabled}
+                                    data-tooltip-id="generate-button"
+                                    state={isGeneratingDescription ? 'loading' : 'default'}
+                                    showProgress={isGeneratingDescription}
+                                    onClick={handleGenerateButtonClick}
                                 >
-                                    <Text variant="subtitle3">Формула:</Text>
-                                    <Text variant="caption">
-                                        {
-                                            '<Действие-отглагольное существительное> <Объект действия - существительное> + <Характеристика объекта/уточнение>'
+                                    Сгенерировать определение
+                                </S.ProgressButtonStyled>
+                                {isGenerateButtonDisabled && (
+                                    <TooltipContainer
+                                        largePadding
+                                        offset={8}
+                                        id="generate-button"
+                                        place="bottom"
+                                        noArrow
+                                    >
+                                        Кнопка позволяет сгенерировать определение. Чтобы
+                                        сгенерировать определение, сначала нужно указать название
+                                        возможности
+                                    </TooltipContainer>
+                                )}
+                            </S.FlexContainer>
+                            <S.FlexContainer>
+                                <S.RelativeContainer>
+                                    <S.TextAreaStyled
+                                        name="description"
+                                        label={
+                                            isGeneratingDescription
+                                                ? 'Генерируем определение, подождите немного ...'
+                                                : 'Определение*'
                                         }
-                                    </Text>
-                                    <Text variant="subtitle3">Пример:</Text>
-                                    <Text variant="caption">
-                                        Возможность оценивать, анализировать, логировать (действие)
-                                        доступность, время отклика, корректность взаимодействия
-                                        (объект, характеристики)
-                                    </Text>
-                                </TooltipContainer>
-                            </S.RelativeContainer>
-                            <S.RelativeContainer>
-                                <S.TextAreaStyled
-                                    name="description"
-                                    label="Определение*"
-                                    disabled={isLoadingCapabilityData}
-                                />
-                                <S.IconContainer data-tooltip-id="description-icon">
-                                    <Icon iconName={Icons.InfoCircled} size="medium" />
-                                </S.IconContainer>
-                                <TooltipContainer
-                                    displayFlex
-                                    largePadding
-                                    hideGap
-                                    offset={0}
-                                    id="description-icon"
-                                    place="bottom"
-                                    noArrow
-                                >
-                                    <Text variant="subtitle3">Формула:</Text>
-                                    <Text variant="caption">
-                                        {`<Действие-отглагольное существительное> <Объект действия - существительное> + <Характеристика объекта/уточнение> <Ценность> или <Мотивация/конечная цель>`}
-                                    </Text>
-                                    <Text variant="subtitle3">Пример:</Text>
-                                    <Text variant="caption">
-                                        Возможность оценивать, анализировать, логировать (действие)
-                                        доступность, время отклика, корректность взаимодействия
-                                        (объект, характеристики) перед конфигурированием новых
-                                        сервисов на VAS-платформе (пояснение) для проверки
-                                        правильности настройки оборудования (мотивация/ценность)
-                                    </Text>
-                                </TooltipContainer>
-                            </S.RelativeContainer>
+                                        helperPosition="block"
+                                        disabled={
+                                            isLoadingCapabilityData || isGeneratingDescription
+                                        }
+                                    />
+                                    <S.IconContainer data-tooltip-id="description-icon">
+                                        <Icon iconName={Icons.InfoCircled} size="medium" />
+                                    </S.IconContainer>
+                                    <TooltipContainer
+                                        displayFlex
+                                        largePadding
+                                        hideGap
+                                        offset={0}
+                                        id="description-icon"
+                                        place="bottom"
+                                        noArrow
+                                    >
+                                        <Text variant="subtitle3">Формула:</Text>
+                                        <Text variant="caption">
+                                            {`<Действие-отглагольное существительное> <Объект действия - существительное> + <Характеристика объекта/уточнение> <Ценность> или <Мотивация/конечная цель>`}
+                                        </Text>
+                                        <Text variant="subtitle3">Пример:</Text>
+                                        <Text variant="caption">
+                                            Возможность оценивать, анализировать, логировать
+                                            (действие) доступность, время отклика, корректность
+                                            взаимодействия (объект, характеристики) перед
+                                            конфигурированием новых сервисов на VAS-платформе
+                                            (пояснение) для проверки правильности настройки
+                                            оборудования (мотивация/ценность)
+                                        </Text>
+                                    </TooltipContainer>
+                                </S.RelativeContainer>
+                            </S.FlexContainer>
                             <CapabilityAutocomplete
                                 isLoadingCapability={isLoadingCapabilityData}
                                 parent={capabilityData?.parent}
@@ -222,7 +295,7 @@ export const BCAddPage = () => {
                             <Button
                                 size="medium"
                                 variant="contained"
-                                disabled={isCreatingApplication}
+                                disabled={isCreatingApplication || isGeneratingDescription}
                                 type="submit"
                             >
                                 Отправить заявку
