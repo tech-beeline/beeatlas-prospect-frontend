@@ -11,6 +11,7 @@ import {
     useGetSystemTCByIdQuery,
 } from 'api/queries/product';
 import { useGetProductsQuery } from 'hooks';
+import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 
 import { FormValues } from '../../form';
 
@@ -68,10 +69,19 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
         value: product.name,
     }));
 
-    const tcFiltered = (tcData ?? []).filter((tc) =>
-        tc.name.toLowerCase().includes(searchTextTC.toLowerCase()),
+    const uniqueTcData = (tcData ?? []).filter(
+        (tc, index, self) => index === self.findIndex((t) => t.id === tc.id),
     );
-    const tcOptions = tcFiltered.map((tc) => ({ id: tc.id, value: tc.name }));
+
+    const tcFiltered = uniqueTcData.filter((tc) => {
+        const search = searchTextTC.toLowerCase();
+        return (
+            (tc.name != null && tc.name.toLowerCase().includes(search)) ||
+            (tc.code != null && tc.code.toLowerCase().includes(search))
+        );
+    });
+
+    const tcOptions = tcFiltered.map((tc) => ({ id: tc.id, value: tc.name, code: tc.code }));
 
     const ifacesFiltered = (archData ?? []).filter((iface) =>
         iface.name.toLowerCase().includes(searchTextIface.toLowerCase()),
@@ -125,15 +135,36 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                             name={`steps.${index}.product`}
                             options={productsOptions}
                             onInputChange={(v) => setSearchTextProduct(v)}
+                            makeOption={(option) => {
+                                return (
+                                    <TooltipContainer
+                                        text={option.value}
+                                        tooltipId={`product-name-${option.id}`}
+                                    />
+                                );
+                            }}
                         />
                         <Autocomplete
-                            key={`tc-${productId}`}
+                            key={`tc-autocomplete-${productId}`}
                             fullWidth
                             disabled={!productId || isLoadingTC}
                             label="Техническая возможность"
                             name={`steps.${index}.tc`}
                             options={tcOptions}
                             onInputChange={(v) => setSearchTextTC(v)}
+                            makeOption={(option) => {
+                                return (
+                                    <div>
+                                        <TooltipContainer
+                                            text={option.value}
+                                            tooltipId={`tc-name-${option.id}`}
+                                        />
+                                        <Text variant="body3" inactive>
+                                            {option.code}
+                                        </Text>
+                                    </div>
+                                );
+                            }}
                         />
                         <Autocomplete
                             fullWidth
@@ -143,6 +174,14 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                             name={`steps.${index}.iface`}
                             options={ifaceOptions}
                             onInputChange={(v) => setSearchTextIface(v)}
+                            makeOption={(option) => {
+                                return (
+                                    <TooltipContainer
+                                        text={option.value}
+                                        tooltipId={`iface-name-${option.id}`}
+                                    />
+                                );
+                            }}
                         />
                         <Autocomplete
                             key={`op-${productId}-${ifaceId}`}
@@ -152,6 +191,14 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                             name={`steps.${index}.operation`}
                             options={operationOptions}
                             onInputChange={(v) => setSearchTextOperation(v)}
+                            makeOption={(option) => {
+                                return (
+                                    <TooltipContainer
+                                        text={option.value}
+                                        tooltipId={`op-name-${option.id}`}
+                                    />
+                                );
+                            }}
                         />
                         <TextArea name={`steps.${index}.description`} label="Описание вызова" />
                     </S.LinkTextField>

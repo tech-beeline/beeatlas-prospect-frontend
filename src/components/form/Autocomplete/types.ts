@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 interface Option {
     id: number | string;
     value: string;
+    code?: string;
 }
 
 export interface IAutocomplete {
@@ -17,4 +18,5 @@ export interface IAutocomplete {
     noOptionsText?: string;
     onInputChange: (v: string) => void;
     helperText?: string;
+    makeOption?: (option: Option, inputValue: string) => JSX.Element | null;
 }

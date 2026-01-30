@@ -1,20 +1,24 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Autocomplete, Search, Select } from '@beeline/design-system-react';
+import React, { FC, useState } from 'react';
+import { Autocomplete, Button, IconButton, Select } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { CJLibraryStatus } from 'api/cj/types';
-import { useDebounce, useGetProductsQuery } from 'hooks';
+import { useGetBIChannelsQuery } from 'api/queries/bi-library';
+import { useGetProductsQuery } from 'hooks';
 
-import { ProductVariant } from './const';
+import { FormatVariant, ProductVariant } from './const';
 import { ICJLibraryFilters } from './types';
 import * as S from './units';
 
-export const CJLibraryFilters: FC<ICJLibraryFilters> = ({ filterOptions, setFilterOptions }) => {
-    const [search, setSearch] = useState(filterOptions.search);
+export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
+    filterOptions,
+    setFilterOptions,
+    onClose,
+}) => {
     const [productFilterText, setProductFilterText] = useState('');
-    const debouncedSearch = useDebounce(search);
 
     const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
-
+    const { data: channels } = useGetBIChannelsQuery();
     const productOptions = [
         { id: ProductVariant.ALL, value: 'Все' },
         ...(products
@@ -35,55 +39,140 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({ filterOptions, setFilt
         { id: CJLibraryStatus.PUBLISHED, value: 'Опубликован' },
     ];
 
-    useEffect(() => {
-        setFilterOptions({ ...filterOptions, search: debouncedSearch });
-    }, [debouncedSearch]);
+    const formatOptions = [
+        { id: FormatVariant.ALL, value: 'Все' },
+        { id: FormatVariant.BPMN, value: 'BPMN' },
+        { id: FormatVariant.BEEATLAS, value: 'BEEATLAS' },
+    ];
 
+    const channelOptions = channels?.map((c) => ({ id: c.id, value: c.name })) ?? [];
+
+    const handleResetClick = () => {
+        setFilterOptions({
+            product: ProductVariant.ALL,
+            status: CJLibraryStatus.ALL,
+            format: FormatVariant.ALL,
+            channel: [],
+            search: '',
+        });
+    };
+
+    const hasActiveFilters =
+        filterOptions.product !== ProductVariant.ALL ||
+        filterOptions.format !== FormatVariant.ALL ||
+        filterOptions.status !== CJLibraryStatus.ALL ||
+        filterOptions.channel.length > 0;
     return (
-        <S.FiltersContainer>
-            <Search
-                fullWidth
-                placeholder="Введите название CJ"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onClear={() => setSearch('')}
-            />
-            <Autocomplete
-                fullWidth
-                disabled={isLoadingProducts}
-                label="Приложение"
-                options={productOptions}
-                renderValue={(v) => v.value}
-                type="select"
-                value={productOptions.find((option) => option.id === filterOptions.product) ?? null}
-                onChange={(value) => {
-                    setProductFilterText('');
-                    setFilterOptions({
-                        ...filterOptions,
-                        product:
-                            value.id === ProductVariant.ALL ? ProductVariant.ALL : Number(value.id),
-                    });
-                }}
-                onInputChange={(v) => {
-                    setProductFilterText(v);
-                    setFilterOptions({ ...filterOptions, product: null });
-                }}
-                onInputClear={() => {
-                    setProductFilterText('');
-                    setFilterOptions({ ...filterOptions, product: null });
-                }}
-            />
-            <Select
-                fullWidth
-                label="Статус"
-                options={draftOptions}
-                values={
-                    filterOptions.status
-                        ? [draftOptions.find((option) => option.id === filterOptions.status)!]
-                        : []
-                }
-                onChange={(values) => setFilterOptions({ ...filterOptions, status: values[0].id })}
-            />
-        </S.FiltersContainer>
+        <>
+            <S.Overlay onClick={onClose} />
+            <S.Container>
+                <S.MainContent>
+                    <S.FlexWrapper>
+                        <S.SideBlockTitle>Фильтры</S.SideBlockTitle>
+
+                        <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
+                    </S.FlexWrapper>
+
+                    <S.FiltersContainer>
+                        <Autocomplete
+                            fullWidth
+                            disabled={isLoadingProducts}
+                            label="Приложение"
+                            options={productOptions}
+                            renderValue={(v) => v.value}
+                            type="select"
+                            value={
+                                productOptions.find(
+                                    (option) => option.id === filterOptions.product,
+                                ) ?? null
+                            }
+                            onChange={(value) => {
+                                setProductFilterText('');
+                                setFilterOptions({
+                                    ...filterOptions,
+                                    product:
+                                        value.id === ProductVariant.ALL
+                                            ? ProductVariant.ALL
+                                            : Number(value.id),
+                                });
+                            }}
+                            onInputChange={(v) => {
+                                setProductFilterText(v);
+                                setFilterOptions({ ...filterOptions, product: null });
+                            }}
+                            onInputClear={() => {
+                                setProductFilterText('');
+                                setFilterOptions({ ...filterOptions, product: null });
+                            }}
+                        />
+                        <Select
+                            fullWidth
+                            label="Статус"
+                            options={draftOptions}
+                            values={
+                                filterOptions.status
+                                    ? [
+                                          draftOptions.find(
+                                              (option) => option.id === filterOptions.status,
+                                          )!,
+                                      ]
+                                    : []
+                            }
+                            onChange={(values) =>
+                                setFilterOptions({ ...filterOptions, status: values[0].id })
+                            }
+                        />
+                        <Select
+                            fullWidth
+                            label="Формат"
+                            options={formatOptions}
+                            values={
+                                filterOptions.format !== FormatVariant.ALL
+                                    ? [
+                                          formatOptions.find(
+                                              (opt) => opt.id === filterOptions.format,
+                                          ) ?? formatOptions[0],
+                                      ]
+                                    : [formatOptions[0]]
+                            }
+                            onChange={(values) =>
+                                setFilterOptions({ ...filterOptions, format: values[0].id })
+                            }
+                        />
+                        <Select
+                            fullWidth
+                            multiple
+                            label="Каналы"
+                            options={channelOptions}
+                            values={
+                                filterOptions.channel
+                                    .map((id) => channelOptions.find((opt) => opt.id === id))
+                                    .filter(Boolean) as Array<{ id: number; value: string }>
+                            }
+                            onChange={(values) =>
+                                setFilterOptions({
+                                    ...filterOptions,
+                                    channel: values.map((v) => v.id),
+                                })
+                            }
+                        />
+                        <Select
+                            fullWidth
+                            label="Теги"
+                            options={formatOptions}
+                            values={[]}
+                            onChange={(values) =>
+                                setFilterOptions({ ...filterOptions, format: values[0].id })
+                            }
+                        />
+                    </S.FiltersContainer>
+                </S.MainContent>
+                <S.ButtonContainer>
+                    <Button disabled={!hasActiveFilters} variant="plain" onClick={handleResetClick}>
+                        Сбросить
+                    </Button>
+                </S.ButtonContainer>
+            </S.Container>
+        </>
     );
 };

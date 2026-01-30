@@ -1,13 +1,15 @@
-import { DraftVariants, ProductVariant, StatusVariant } from './const';
+import { CharacterVariant, ProductVariant, StatusVariant } from './const';
 
-export interface IFilterOptions {
+export interface IBIFilterOptions {
     search: string;
     product: ProductVariant | number | null;
-    status: StatusVariant | number;
-    draft: DraftVariants;
+    status: StatusVariant;
+    character: CharacterVariant;
+    channel: number[];
 }
 
 export interface IBILibraryFilters {
-    filterOptions: IFilterOptions;
-    setFilterOptions: (filterOptions: IFilterOptions) => void;
+    filterOptions: IBIFilterOptions;
+    setFilterOptions: (filterOptions: IBIFilterOptions) => void;
+    onClose: () => void;
 }

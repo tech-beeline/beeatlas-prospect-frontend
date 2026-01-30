@@ -21,7 +21,8 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
         resolver: yupResolver(validationSchema),
     });
 
-    const { handleSubmit, control, reset } = form;
+    const { handleSubmit, control, reset, formState } = form;
+    const { isDirty } = formState;
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -66,8 +67,15 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
         append({ description: '' });
     };
 
+    const handleClose = () => {
+        if (isDirty) {
+            showSnackbar({ message: 'Изменения не сохранены' });
+        }
+        onClose();
+    };
+
     return (
-        <SideBlock hasBackdrop isOpen={isOpen} onClose={onClose} large>
+        <SideBlock hasBackdrop isOpen={isOpen} onClose={handleClose} large>
             <S.Container>
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
@@ -75,7 +83,11 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                             <S.FlexWrapper>
                                 <S.SideBlockTitle>Редактирование шага сценария BI</S.SideBlockTitle>
 
-                                <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
+                                <IconButton
+                                    iconName={Icons.Close}
+                                    onClick={handleClose}
+                                    size="large"
+                                />
                             </S.FlexWrapper>
 
                             {fields.map((field, i) => (
@@ -89,7 +101,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                         </S.Content>
 
                         <S.ButtonContainer>
-                            <Button type="button" onClick={onClose}>
+                            <Button type="button" onClick={handleClose}>
                                 Отменить
                             </Button>
 

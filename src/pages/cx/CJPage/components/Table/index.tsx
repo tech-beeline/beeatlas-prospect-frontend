@@ -7,6 +7,7 @@ import { Nullable } from 'types/common';
 import { formatNullableString } from '../../../../../utils/formatters';
 import { SideSheetVariants } from '../../const';
 import { StepForm } from '../StepForm';
+import { Stage } from '../StepForm/types';
 
 import { useHiddenRowsStore } from './store/HiddenRowsStore';
 import { ColumnMenu, Row } from './components';
@@ -25,7 +26,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
     );
 
     const [showStepDescription, setShowStepDescription] = useState(false);
-
+    const [selectedBiIdForView, setSelectedBiIdForView] = useState<number | null>(null);
     const [collapsedStepIds, setCollapsedStepIds] = useState<number[]>([]);
 
     const handleCollapseStepButtonClick = (stepId: number) => {
@@ -51,6 +52,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
 
     const handleAddRowButtonClick = (biIndex: number) => {
         setSelectedStep(biIndex);
+        setSelectedBiIdForView(null);
         toggleSideSheet(SideSheetVariants.SIDEBLOCK_BI);
     };
 
@@ -67,6 +69,20 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
 
     const handleTableScroll = () => {
         setShowShadow(Boolean(wrapperRef.current && wrapperRef.current.scrollLeft !== 0));
+    };
+
+    const openStepFormByBiId = (biId: number) => {
+        const stepIndex = tableData.findIndex(
+            (step) => step.bi && step.bi.some((bi) => bi.id === biId),
+        );
+
+        if (stepIndex === -1) return;
+
+        setSelectedStep(stepIndex);
+        setSelectedBiIdForView(biId);
+        if (openSideSheet !== SideSheetVariants.SIDEBLOCK_BI) {
+            toggleSideSheet(SideSheetVariants.SIDEBLOCK_BI);
+        }
     };
 
     return (
@@ -110,6 +126,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
                                                     handleCollapseStepButtonClick(step.id)
                                                 }
                                                 data-tooltip-id={`collapse-${step.id}`}
+                                                disabled={!step.bi || step.bi.length === 0}
                                             />
                                             <S.TooltipStyled
                                                 id={`collapse-${step.id}`}
@@ -178,6 +195,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
                                 steps={tableData}
                                 collapsedStedIds={collapsedStepIds}
                                 bpmn={bpmn}
+                                onOpenStepFormByBiId={openStepFormByBiId}
                             />
                         ))}
                     </S.Tbody>
@@ -210,11 +228,14 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
 
             {tableData[selectedStep ?? 0] && (
                 <StepForm
+                    key={`stepform-${selectedStep}-${selectedBiIdForView}`}
                     productId={productId}
                     cjId={cjId}
                     step={tableData[selectedStep ?? 0]}
                     isOpen={openSideSheet === SideSheetVariants.SIDEBLOCK_BI}
                     onClose={closeSideSheet}
+                    initialBiId={selectedBiIdForView ?? undefined}
+                    initialStage={selectedBiIdForView != null ? Stage.BIVIEW : undefined}
                 />
             )}
         </S.PageWrapper>

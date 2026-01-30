@@ -17,6 +17,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
     noOptionsText,
     onInputChange,
     helperText,
+    makeOption,
 }) => {
     const {
         control,
@@ -58,6 +59,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
                     }}
                     renderValue={(v) => v.value}
                     type="select"
+                    makeOption={makeOption}
                 />
             )}
         />

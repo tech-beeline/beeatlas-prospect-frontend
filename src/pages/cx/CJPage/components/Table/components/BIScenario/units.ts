@@ -1,14 +1,17 @@
+import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const ScenarioTd = styled.td`
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 100%;
+    width: 320px;
     padding: 0;
+    border-left: 1px solid var(--color-divider);
+    border-right: 1px solid var(--color-divider);
 `;
 
-export const ScenarionTdWrapper = styled.div<{ expanded?: boolean; last: boolean }>`
+export const ScenarionTdWrapper = styled.div<{ expanded?: boolean; last?: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,7 +41,6 @@ export const ScenarioContentWrapper = styled.div<{ last: boolean }>`
     max-height: 405px;
     padding: 24px 16px 12px 36px;
     border-left: 4px solid var(--color-background-brand);
-    border-right: 1px solid var(--color-divider);
     gap: 24px;
     overflow-y: auto;
     ${({ last }) => (last ? '' : 'border-bottom: 1px solid var(--color-divider);')}
@@ -50,7 +52,7 @@ export const SLAWrapper = styled.div`
     padding: 13px 16px;
 `;
 
-export const SLATitle = styled.div`
+export const TitleWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,4 +70,32 @@ export const FlexWrapper = styled.div<{ gap?: string; maxwidth?: boolean }>`
     flex-direction: column;
     gap: ${({ gap }) => (gap ? `${gap}px` : '')};
     max-width: ${({ maxwidth }) => (maxwidth ? '264px' : '')};
+`;
+
+export const IconButtonStyled = styled(IconButton)<{ expanded: boolean }>`
+    transform: ${({ expanded }) => `rotate(${expanded ? -180 : 0}deg)`};
+
+    transition: all 0.25s;
+`;
+
+export const BICallsContainer = styled.div`
+    border: 1px solid var(--color-divider);
+    border-radius: 12px;
+`;
+
+export const CallsWrapper = styled(FlexWrapper)`
+    :not(:last-of-type) {
+        border-bottom: 1px solid var(--color-divider);
+    }
+`;
+
+export const CallsTitleWrapper = styled(TitleWrapper)<{ expanded?: boolean }>`
+    padding: 12px 16px;
+    border-bottom: ${({ expanded }) => (expanded ? '1px solid var(--color-divider)' : 'none')};
+    background-color: ${({ expanded }) =>
+        expanded ? 'var(--color-background-base-selected)' : ''};
+`;
+
+export const CallsContent = styled.div`
+    padding: 12px 16px;
 `;

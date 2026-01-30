@@ -3,6 +3,7 @@ export { AutocompleteControlled } from './AutocompleteControlled';
 export { BreadCrumbsItem } from './BreadCrumbsItem';
 export { Card, CardVariant } from './Card';
 export { DropdownMenu } from './DropdownMenu';
+export { DropdownMenuControlled } from './DropdownMenuControlled';
 export { FeedbackButton } from './FeedbackButton';
 export { FloatingNavigation } from './FloatingNavigation';
 export { Slider } from './Slider';

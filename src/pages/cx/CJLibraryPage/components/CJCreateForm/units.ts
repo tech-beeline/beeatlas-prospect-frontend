@@ -95,7 +95,7 @@ export const ButtonContainer = styled.div`
     width: 100%;
     height: 96px;
     padding: 24px;
-    border-top: 1px solid rgba(25, 28, 52, 0.12);
+    border-top: 1px solid var(--color-divider);
     > Button {
         width: 100%;
     }

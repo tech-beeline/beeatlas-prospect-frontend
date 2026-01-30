@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Text } from 'components/core';
 import { Link } from 'components/other';
 
 import { IBIData, IBILink } from 'api/bi/types';
@@ -33,8 +34,27 @@ export const rowsData: RowData<any>[] = [
     {
         rowId: RowIds.IDENTIFICATOR,
         label: 'Идентификатор BI',
-        formatData: formatNullableString,
-        parseData: (bi: IBIData) => bi.uniqueIdent,
+        formatData: (bi: IBIData, onOpen?: (biId: number) => void) => {
+            if (!onOpen) {
+                return <>{formatNullableString(null)}</>;
+            }
+
+            return (
+                <Text
+                    variant="nativeLink"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onOpen(bi.id);
+                    }}
+                    pointer
+                    link
+                >
+                    {bi.uniqueIdent}
+                </Text>
+            );
+        },
+        parseData: (bi: IBIData) => bi,
     },
     {
         rowId: RowIds.DESCRIPTION,
