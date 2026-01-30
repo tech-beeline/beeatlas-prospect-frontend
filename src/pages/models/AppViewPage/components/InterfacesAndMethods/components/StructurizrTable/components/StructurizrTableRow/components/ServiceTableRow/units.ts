@@ -1,5 +1,13 @@
-import { Table, TableData } from '@beeline/design-system-react';
+import { Table, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+export const TableRowStyled = styled(TableRow)`
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+        background-color: var(--color-background-base-hover);
+    }
+`;
 
 export const DataContainer = styled.div`
     display: flex;

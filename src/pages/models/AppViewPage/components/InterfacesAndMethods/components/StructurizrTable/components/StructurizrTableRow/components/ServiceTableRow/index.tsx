@@ -31,6 +31,7 @@ import * as S from './units';
 
 export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, selectedEntity }) => {
     const [isNotificationIconHovered, setIsNotificationIconHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const rowRef = useRef<HTMLDivElement | null>(null);
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -87,7 +88,10 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
     return (
         <>
             <div ref={rowRef} />
-            <TableRow>
+            <S.TableRowStyled
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
                 <S.TableDataFullWidth colSpan={2}>
                     <S.DataContainer>
                         <S.NameContainer>
@@ -98,18 +102,20 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                             />
                             {structurizrInterface.name}
                         </S.NameContainer>
-                        <IconButton
-                            iconName={
-                                isSubscribed && structurizrInterface.id
-                                    ? Icons.NotificationOff
-                                    : Icons.Notification
-                            }
-                            size="large"
-                            onClick={(e) => handleNotificationButtonClick(e as any)}
-                            onMouseEnter={() => setIsNotificationIconHovered(true)}
-                            onMouseLeave={() => setIsNotificationIconHovered(false)}
-                            data-tooltip-id={`notification-${structurizrInterface.id}`}
-                        />
+                        {(isHovered || isSubscribed) && (
+                            <IconButton
+                                iconName={
+                                    isSubscribed && structurizrInterface.id
+                                        ? Icons.NotificationOff
+                                        : Icons.Notification
+                                }
+                                size="large"
+                                onClick={(e) => handleNotificationButtonClick(e as any)}
+                                onMouseEnter={() => setIsNotificationIconHovered(true)}
+                                onMouseLeave={() => setIsNotificationIconHovered(false)}
+                                data-tooltip-id={`notification-${structurizrInterface.id}`}
+                            />
+                        )}
                         {/* <Link
                             showOuterIcon
                             showIconPermanently
@@ -130,7 +136,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                 <TableData colSpan={4} alignRight>
                     {structurizrInterface.operations.length}
                 </TableData>
-            </TableRow>
+            </S.TableRowStyled>
             {isExpanded && (
                 <TableRow>
                     <S.TableDataStyled colSpan={6}>
