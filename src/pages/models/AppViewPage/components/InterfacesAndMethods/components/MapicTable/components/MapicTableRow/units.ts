@@ -1,9 +1,29 @@
 import { Table, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const TableRowStyled = styled(TableRow)<{ disabled?: boolean; expanded?: boolean }>`
+export const TableRowStyled = styled(TableRow)<{
+    disabled?: boolean;
+    expanded?: boolean;
+    hasNoMapping?: boolean;
+}>`
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};
+
+    ${({ hasNoMapping }) =>
+        hasNoMapping &&
+        `
+        background-color: rgba(255, 85, 85, 0.08);
+        
+    `}
+`;
+
+export const OperationRowStyled = styled(TableRow)<{ hasNoMapping?: boolean }>`
+    ${({ hasNoMapping }) =>
+        hasNoMapping &&
+        `
+        background-color: rgba(255, 85, 85, 0.08);
+        
+    `}
 `;
 
 export const IconButtonContainer = styled.div`
@@ -51,6 +71,12 @@ export const TableDataFullWidth = styled(TableData)`
     }
 `;
 
+export const TableDataHovered = styled(TableDataFullWidth)`
+    &:hover {
+        outline: 1px solid var(--color-text-active);
+    }
+`;
+
 export const ProgressContainer = styled.td`
     padding: 0;
 `;
@@ -91,6 +117,8 @@ export const Dropdown = styled.div`
     left: 0px;
 
     width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
     padding: 8px 0;
 
     border-radius: var(--size-border-radius-x6);
