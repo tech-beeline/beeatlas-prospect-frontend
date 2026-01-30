@@ -67,7 +67,11 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
     return (
         <>
             <div ref={rowRef} />
-            <S.TableRowStyled disabled={disabled} expanded={expanded}>
+            <S.TableRowStyled
+                disabled={disabled}
+                expanded={expanded}
+                hasNoMapping={!mapicInterface.connectInterface.name}
+            >
                 <TableData>
                     <S.NameContainer>
                         <S.IconButtonContainer>
@@ -132,18 +136,13 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                     </S.TableDataInput>
                 )}
                 {!isEditing && (
-                    <S.TableDataFullWidth>
+                    <S.TableDataHovered onClick={() => setIsEditing(true)}>
                         <S.ConnectInterfaceContainer>
                             <Text inactive={disabled} variant="body3">
                                 {formatNullableString(mapicInterface.connectInterface.name)}
                             </Text>
-                            <IconButton
-                                size="medium"
-                                iconName={Icons.Edit}
-                                onClick={() => setIsEditing(true)}
-                            />
                         </S.ConnectInterfaceContainer>
-                    </S.TableDataFullWidth>
+                    </S.TableDataHovered>
                 )}
                 <TableData alignRight>
                     <Text inactive={disabled} variant="body3">
@@ -183,12 +182,19 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                                 </TableHead>
                                 <TableBody>
                                     {mapicOperationsFiltered.map((operation, i) => (
-                                        <TableRow key={i}>
+                                        <S.OperationRowStyled
+                                            key={i}
+                                            hasNoMapping={!operation.connectOperation}
+                                        >
                                             <TableData>{`${operation.type} ${operation.name}`}</TableData>
                                             <TableData>
-                                                {operation.connectOperation
-                                                    ? `${operation.connectOperation.type} ${operation.connectOperation.name}`
-                                                    : formatNullableString(null)}
+                                                {operation.connectOperation ? (
+                                                    `${operation.connectOperation.type} ${operation.connectOperation.name}`
+                                                ) : (
+                                                    <Text variant="body3" inactive>
+                                                        нет соответствия
+                                                    </Text>
+                                                )}
                                             </TableData>
                                             <TableData>
                                                 <Label
@@ -200,7 +206,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                                                     }
                                                 />
                                             </TableData>
-                                        </TableRow>
+                                        </S.OperationRowStyled>
                                     ))}
                                 </TableBody>
                             </S.TableStyled>
