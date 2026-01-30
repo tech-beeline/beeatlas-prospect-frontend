@@ -105,8 +105,10 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                         {(isHovered || isSubscribed) && (
                             <IconButton
                                 iconName={
-                                    isSubscribed && structurizrInterface.id
-                                        ? Icons.NotificationOff
+                                    isNotificationIconHovered
+                                        ? isSubscribed
+                                            ? Icons.NotificationOff
+                                            : Icons.Notification
                                         : Icons.Notification
                                 }
                                 size="large"
