@@ -6,6 +6,7 @@ import drilldownModule from 'bpmn-js/lib/features/drilldown';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import dayjs from 'dayjs';
 import searchModule from 'diagram-js/lib/features/search';
+import { getFileName } from 'features/cx/utils';
 
 import { Text } from 'components/core';
 
@@ -34,16 +35,6 @@ export const BPMNViewPage = () => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const viewerRef = useRef<any>(null);
     const resizeObserverRef = useRef<ResizeObserver | null>(null);
-
-    const getFileName = (key?: string): string => {
-        if (!key) return 'diagram.bpmn';
-
-        const filePart = key.split('/').pop() || '';
-        const withoutExt = filePart.replace('.bpmn', '');
-        const base = withoutExt.split('_')[0];
-
-        return `${decodeURI(base)}.bpmn`;
-    };
 
     const versionOptions = (versions ?? []).map((v) => ({
         value: getFileName(v.key),
