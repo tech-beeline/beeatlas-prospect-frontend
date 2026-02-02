@@ -150,3 +150,11 @@ export const getProductAliasAvailability = (
         url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/free`,
     });
 };
+
+export const getOperationsByTechCapabilityId = (
+    id: string,
+): AxiosPromise<T.IOperationContainer[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/operation/tech-capability/${id}`,
+    });
+};

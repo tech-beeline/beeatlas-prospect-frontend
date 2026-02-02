@@ -165,6 +165,32 @@ export const TreeCard: FC<ITreeCard> = ({ isFullWidthCard, item }) => {
                     </S.MarginContainer>
                 </div>
 
+                {/* {item.type === ItemTypes.TECH && (
+                    <S.MarginContainer>
+                        <Text variant="subtitle3">Связанные элементы</Text>
+                        <S.MetricsContainer>
+                            <div>
+                                <Text inactive variant="body3">
+                                    API
+                                </Text>
+                                <Text variant="body2">7</Text>
+                            </div>
+                            <div>
+                                <Text inactive variant="body3">
+                                    E2E
+                                </Text>
+                                <Text variant="body2">2</Text>
+                            </div>
+                            <div>
+                                <Text inactive variant="body3">
+                                    CJ
+                                </Text>
+                                <Text variant="body2">1</Text>
+                            </div>
+                        </S.MetricsContainer>
+                    </S.MarginContainer>
+                )} */}
+
                 {item.type === ItemTypes.BUSINESS && (
                     <S.ChildrenExpandTitle
                         onClick={handleRelatedCapabilitiesClick}

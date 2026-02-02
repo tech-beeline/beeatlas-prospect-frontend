@@ -158,3 +158,18 @@ export interface IGenerationData {
         },
     ];
 }
+
+export interface ITechCapabilitiesByProductData {
+    implemented: {
+        code: string;
+        description: string;
+        id: number;
+        name: string;
+    }[];
+    responsibility: {
+        code: string;
+        description: string;
+        id: number;
+        name: string;
+    }[];
+}

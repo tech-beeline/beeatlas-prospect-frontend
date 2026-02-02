@@ -1,8 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Chip, Icon, Skeleton, Tab } from '@beeline/design-system-react';
+import {
+    Breadcrumbs,
+    Button,
+    ButtonGroup,
+    Chip,
+    Icon,
+    Skeleton,
+    Tab,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import {
@@ -20,6 +29,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ItemTypes } from './store/types';
 import {
+    ApiTable,
     BreadCrumbsItem,
     HistoryTable,
     NestingMenu,
@@ -27,7 +37,7 @@ import {
     VersionInfo,
     ViewItemSwitcher,
 } from './components';
-import { TABS, TabVariant } from './const';
+import { MetricsVariants, TABS, TabVariant } from './const';
 import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
@@ -36,6 +46,8 @@ import * as S from './units';
 export const FDMPage = () => {
     const [showBanner, setShowBanner] = useState(false);
     const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
+
+    const [metricsVariant, setMetricsVariant] = useState(MetricsVariants.API);
 
     const handleCloseBannerClick = () => {
         setShowBanner(false);
@@ -190,7 +202,39 @@ export const FDMPage = () => {
                             {!versionId && (
                                 <>
                                     <S.TitleContainer>
-                                        <S.H4 data-testid="Title">{activeItem.name}</S.H4>
+                                        <Text variant="h4" data-testid="Title">
+                                            {activeItem.name}
+                                        </Text>
+
+                                        <S.SubscribeButtonContainer>
+                                            <S.ProgressButtonStyled
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={handleSubscribeButtonClick}
+                                                state={
+                                                    isUpdatingSubscriptions ? 'loading' : 'default'
+                                                }
+                                                showProgress={isUpdatingSubscriptions}
+                                            >
+                                                <S.ProgressButtonContent>
+                                                    <Icon
+                                                        iconName={
+                                                            isSubscribed
+                                                                ? Icons.NotificationOff
+                                                                : Icons.Notification
+                                                        }
+                                                    />
+                                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                                                </S.ProgressButtonContent>
+                                            </S.ProgressButtonStyled>
+                                            {activeItem.type === ItemTypes.BUSINESS &&
+                                                activeItem.isDomain === false && (
+                                                    <Button
+                                                        startIcon={<Icon iconName={Icons.Edit} />}
+                                                        onClick={handleEditButtonClick}
+                                                    ></Button>
+                                                )}
+                                        </S.SubscribeButtonContainer>
                                     </S.TitleContainer>
 
                                     <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
@@ -263,43 +307,64 @@ export const FDMPage = () => {
                                                 {activeItem.owner || 'Не определён'}
                                             </S.JustText>
 
-                                            <S.SubscribeButtonContainer>
-                                                <S.ProgressButtonStyled
-                                                    size="small"
-                                                    variant="outlined"
-                                                    onClick={handleSubscribeButtonClick}
-                                                    state={
-                                                        isUpdatingSubscriptions
-                                                            ? 'loading'
-                                                            : 'default'
-                                                    }
-                                                    showProgress={isUpdatingSubscriptions}
-                                                >
-                                                    <S.ProgressButtonContent>
-                                                        <Icon
-                                                            iconName={
-                                                                isSubscribed
-                                                                    ? Icons.NotificationOff
-                                                                    : Icons.Notification
-                                                            }
-                                                        />
-                                                        {isSubscribed
-                                                            ? 'Отписаться'
-                                                            : 'Подписаться'}
-                                                    </S.ProgressButtonContent>
-                                                </S.ProgressButtonStyled>
-                                                {activeItem.type === ItemTypes.BUSINESS &&
-                                                    activeItem.isDomain === false && (
-                                                        <Button
-                                                            startIcon={
-                                                                <Icon iconName={Icons.Edit} />
-                                                            }
-                                                            onClick={handleEditButtonClick}
-                                                        >
-                                                            Редактировать
-                                                        </Button>
+                                            {activeItem.type === ItemTypes.TECH && (
+                                                <S.MetricsContainer>
+                                                    <ButtonGroup
+                                                        alwaysSelected
+                                                        size="small"
+                                                        selectedOption={{ id: metricsVariant }}
+                                                        options={[
+                                                            {
+                                                                id: MetricsVariants.API,
+                                                                label: 'API',
+                                                            },
+                                                            // {
+                                                            //     id: MetricsVariants.E2E,
+                                                            //     label: 'E2E',
+                                                            // },
+                                                            // {
+                                                            //     id: MetricsVariants.CJ,
+                                                            //     label: 'CJ',
+                                                            // },
+                                                        ]}
+                                                        onChange={(option) =>
+                                                            setMetricsVariant(
+                                                                option.id as MetricsVariants,
+                                                            )
+                                                        }
+                                                    />
+                                                    {activeItem &&
+                                                        metricsVariant === MetricsVariants.API && (
+                                                            <ApiTable
+                                                                tcId={String(activeItem.id)}
+                                                            />
+                                                        )}
+                                                    {metricsVariant === MetricsVariants.E2E && (
+                                                        <S.MetricsFlexContainer>
+                                                            <Link
+                                                                title="Я, как клиент, хочу подключить домашний интернет, ТВ билайн и купить новую SIM"
+                                                                url={'https://beeline.ru'}
+                                                            />
+                                                            <Link
+                                                                title="Я, как клиент, хочу подключить домашний интернет, ТВ билайн и купить новую SIM"
+                                                                url={'https://beeline.ru'}
+                                                            />
+                                                        </S.MetricsFlexContainer>
                                                     )}
-                                            </S.SubscribeButtonContainer>
+                                                    {metricsVariant === MetricsVariants.CJ && (
+                                                        <S.MetricsFlexContainer>
+                                                            <Link
+                                                                title="[E2E][WEB][KA] Я, как клиент, хочу добровольно заблокировать Домашний Интернет (ЕЛК)"
+                                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=1`}
+                                                            />
+                                                            <Link
+                                                                title="[E2E][WEB][KA] Я, как клиент, хочу добровольно заблокировать Домашний Интернет (ЕЛК)"
+                                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=1`}
+                                                            />
+                                                        </S.MetricsFlexContainer>
+                                                    )}
+                                                </S.MetricsContainer>
+                                            )}
 
                                             {!isItemGroup &&
                                                 !!activeItem.children &&

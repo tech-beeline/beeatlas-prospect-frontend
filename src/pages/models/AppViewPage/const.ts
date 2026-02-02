@@ -25,12 +25,12 @@ export const TABS = [
         label: 'Фитнес-функции',
     },
     {
-        id: TabVariants.E2E_PROCESSES,
-        label: 'E2E процессы',
+        id: TabVariants.TECH_CAPABILITIES,
+        label: 'Технические возможности',
     },
     {
-        id: TabVariants.TECH_CAPABILITIES,
-        label: 'Возможности',
+        id: TabVariants.E2E_PROCESSES,
+        label: 'E2E процессы',
     },
     // {
     //     id: TabVariants.ARCHITECTURE_CHANGES,

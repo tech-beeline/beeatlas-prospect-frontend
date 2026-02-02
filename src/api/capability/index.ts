@@ -106,3 +106,11 @@ export const postDescriptionByPromt = (
         data,
     });
 };
+
+export const getCapabilitiesByProductId = (
+    id: string,
+): AxiosPromise<T.ITechCapabilitiesByProductData> => {
+    return Api.get({
+        url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/product/${id}`,
+    });
+};
