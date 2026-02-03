@@ -2,6 +2,7 @@ import React, { FC, useRef } from 'react';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, dataToFormValues, formValuesToData } from 'features/cx';
+import { FormValues } from 'features/cx/components/BIForm/form';
 
 import { useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -24,9 +25,22 @@ export const BiEdit: FC<IBiEdit> = ({
     const { data } = useGetBIByIdQuery(selectedBiId ? String(selectedBiId) : null);
     const { mutateAsync: updateBi } = useUpdateBIMutation();
 
+    const handleSave = async (values: FormValues, draft: boolean) => {
+        if (selectedBiId && data) {
+            await updateBi({
+                id: String(selectedBiId),
+                data: { ...formValuesToData(values), draft },
+            });
+            showSnackbar({
+                message: 'Изменения сохранены',
+            });
+            setStage(previousStage);
+        }
+    };
+
     return (
         <S.FlexContainer>
-            <S.Content hasButtons>
+            <S.Content hasButtons column>
                 <S.FlexWrapper>
                     <S.TitleFlexWrapper>
                         <IconButton
@@ -43,22 +57,32 @@ export const BiEdit: FC<IBiEdit> = ({
                     ref={submitButtonRef}
                     onClose={() => setStage(previousStage)}
                     onSave={async (values) => {
-                        if (selectedBiId && data) {
-                            await updateBi({
-                                id: String(selectedBiId),
-                                data: { ...formValuesToData(values), draft: data.draft },
-                            });
-                            showSnackbar({ message: 'Изменения сохранены' });
-                        }
+                        await handleSave(values, true);
                     }}
                     defaultValues={data ? dataToFormValues(data) : undefined}
                 />
             </S.Content>
-            <S.ButtonsContainer>
-                <Button onClick={() => setStage(previousStage)}>Отменить</Button>
-
-                <Button onClick={() => submitButtonRef.current?.click()} variant="contained">
-                    Сохранить
+            <S.ButtonsContainer column>
+                <Button
+                    onClick={async () => {
+                        if (submitButtonRef.current) {
+                            const formValues = dataToFormValues(data!);
+                            await handleSave(formValues, false);
+                        }
+                    }}
+                    variant="contained"
+                >
+                    Опубликовать
+                </Button>
+                <Button
+                    onClick={async () => {
+                        if (submitButtonRef.current) {
+                            const formValues = dataToFormValues(data!);
+                            await handleSave(formValues, true);
+                        }
+                    }}
+                >
+                    Сохранить как черновик
                 </Button>
             </S.ButtonsContainer>
         </S.FlexContainer>

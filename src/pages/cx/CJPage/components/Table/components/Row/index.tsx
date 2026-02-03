@@ -130,7 +130,7 @@ export const Row = <T,>({
                                                 activeCell?.rowId === rowId &&
                                                 activeCell?.elementId === biId;
                                             const isEditable =
-                                                !UNEDITABLE_CELLS.has(rowId) && !bpmn;
+                                                !UNEDITABLE_CELLS.has(rowId) && element.bi.draft;
                                             const isHoverable =
                                                 isEditable &&
                                                 rowId !== RowIds.IDENTIFICATOR &&

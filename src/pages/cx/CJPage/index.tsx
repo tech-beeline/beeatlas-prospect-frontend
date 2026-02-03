@@ -96,12 +96,28 @@ export const CJPage = () => {
         showSnackbar({ message: 'CJ опубликован' });
     };
 
-    const handleMarkAsDraft = () => {
+    const handleMarkAsDraft = async () => {
         if (data) {
-            updateCJ({
+            await updateCJ({
                 id: String(data.id),
                 data: { draft: true },
             });
+            const allBIs = data.steps.flatMap((step) => step.bi);
+
+            await Promise.all(
+                allBIs.map(async (bi) => {
+                    const formValues = dataToFormValues(bi);
+                    const dataToUpdate = formValuesToData(formValues);
+
+                    await updateBi({
+                        id: String(bi.id),
+                        data: {
+                            ...dataToUpdate,
+                            draft: true,
+                        },
+                    });
+                }),
+            );
         }
     };
 
@@ -224,7 +240,7 @@ export const CJPage = () => {
                                     >
                                         {data?.bpmn
                                             ? 'Нельзя менять структуру CJ добавленного с помощью нотации BPMN, можно менять только распознанные атрибуты BI и этапов. Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beetlas'
-                                            : ''}
+                                            : 'Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beeatlas. Чтобы импортировать CJ в формате BPMN, нужно сначала удалить все этапы и очистить последний оставшийся этап от BI'}
                                     </TooltipContainer>
                                 </S.InfoTooltipContainer>
                             </S.InfoContainer>
