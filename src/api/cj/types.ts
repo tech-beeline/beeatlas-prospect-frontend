@@ -17,7 +17,7 @@ export interface ICJStepData {
 export interface ICJForm {
     draft?: boolean;
     name: string;
-    user_portrait: string;
+    user_portrait?: string | null;
 }
 
 export interface ICJAuthor {

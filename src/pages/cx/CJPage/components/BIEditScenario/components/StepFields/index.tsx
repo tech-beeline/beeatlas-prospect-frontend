@@ -28,7 +28,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
     const productId = watch(`steps.${index}.product`);
     const ifaceId = watch(`steps.${index}.iface`);
-
+    const tcId = watch(`steps.${index}.tc`);
     const isFirstRender = useRef(true);
 
     useEffect(() => {
@@ -61,6 +61,10 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const { data: archData, isLoading: isLoadingArch } =
         useGetProductStructurizrInterfacesByCmdbQuery(productCmdb);
 
+    const selectedTc = (tcData ?? []).find((tc) => tc.id === tcId);
+    const selectedProduct = (productsData ?? []).find(
+        (product) => !!productId && Number(product.id) === Number(productId),
+    );
     const productsFiltered = (productsData ?? []).filter((product) =>
         product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
     );
@@ -101,7 +105,21 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     return (
         <S.LinkContainer>
             <S.FlexWrapper>
-                <Text variant="subtitle1">Вызов {index + 1}</Text>
+                <Text variant="subtitle1">
+                    {selectedTc ? (
+                        <TooltipContainer
+                            text={selectedTc.name}
+                            tooltipId={`title-relation-tc-${selectedTc.id}`}
+                        />
+                    ) : selectedProduct ? (
+                        <TooltipContainer
+                            text={selectedProduct.name}
+                            tooltipId={`title-relation-product-${selectedProduct.id}`}
+                        />
+                    ) : (
+                        `Вызов ${index + 1}`
+                    )}
+                </Text>
                 {index === 0 && (
                     <Button
                         variant="plain"

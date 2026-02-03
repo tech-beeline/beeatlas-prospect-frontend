@@ -61,11 +61,9 @@ export const BIAddPage = () => {
 
     const isBiUneditable = !notFound && editabilityData && !editabilityData.editability;
 
-    const isBiCommunalAndPublished = data && data.communal && !data.draft;
-
     return (
         <S.PageWrapper>
-            {isBiUneditable || isBiCommunalAndPublished ? (
+            {isBiUneditable ? (
                 <S.UneditableContainer>
                     <NotFoundBlock
                         imageVariant={ImageVariants.UNEDITABLE}

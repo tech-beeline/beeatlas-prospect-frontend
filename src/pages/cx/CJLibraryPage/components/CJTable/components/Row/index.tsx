@@ -67,10 +67,10 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
                     <>{formatNullableString(null)}</>
                 )}
             </S.TableDataStyled>
-            <S.TableDataStyled>
+            {/* <S.TableDataStyled>
                 <TooltipContainer text="lol" tooltipId={`cj-channel-${cj.id}`} />
             </S.TableDataStyled>
-            <S.TableDataStyled>{'—'}</S.TableDataStyled>
+            <S.TableDataStyled>{'—'}</S.TableDataStyled> */}
             <S.TableDataStyled>
                 {cj.draft ? (
                     <Label title="Черновик" type="default" variant="contained" />

@@ -51,7 +51,7 @@ export const BITable: FC<IBITable> = ({ data }) => {
                             <S.Th>Описание</S.Th>
                             <S.Th>Приложение</S.Th>
                             <S.Th>Каналы</S.Th>
-                            <S.Th>Теги</S.Th>
+                            {/* <S.Th>Теги</S.Th> */}
                             <S.Th>Статус</S.Th>
                             <S.Th>Характеристика</S.Th>
                             <S.ThDate>Дата изменения</S.ThDate>

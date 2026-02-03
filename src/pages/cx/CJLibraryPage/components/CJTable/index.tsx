@@ -47,8 +47,8 @@ export const CJTable: FC<ICJTable> = ({ data }) => {
                             <S.ThID>ID</S.ThID>
                             <S.Th>Портрет пользователя</S.Th>
                             <S.Th>Приложение</S.Th>
-                            <S.Th>Каналы</S.Th>
-                            <S.Th>Теги</S.Th>
+                            {/* <S.Th>Каналы</S.Th>
+                            <S.Th>Теги</S.Th> */}
                             <S.Th>Статус</S.Th>
                             <S.Th>Формат</S.Th>
                             <S.ThDate>Дата изменения</S.ThDate>

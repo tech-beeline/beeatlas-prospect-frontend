@@ -8,8 +8,8 @@ import {
     getTechCapibility,
     patchBI,
     patchSLABI,
-    patchStepRelationsBI,
     postBI,
+    putStepRelationsBI,
 } from 'api/bi';
 import { IBIData, IBIForm, IRelationForm, ISLAForm } from 'api/bi/types';
 
@@ -112,7 +112,7 @@ export function useUpdateBIStepRelations() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [BI_PREFIX, 'update', 'StepRelations'],
-        mutationFn: ({ id, data }: IUpdateBIStepRelations) => patchStepRelationsBI(id, data),
+        mutationFn: ({ id, data }: IUpdateBIStepRelations) => putStepRelationsBI(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
             queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });

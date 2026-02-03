@@ -19,6 +19,7 @@ export interface IRow<T> {
 
     draft: boolean;
     showShadow: boolean;
+    isBiEditable?: (biId: number) => boolean;
 }
 
 export enum RowElementType {
