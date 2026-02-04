@@ -31,18 +31,20 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     };
 
     return (
-        <S.ScenarioTd>
+        <S.ScenarioTd last={last}>
             <S.ScenarionTdWrapper last={last} expanded={expanded}>
-                <S.ScenationTitleWrapper>
-                    <IconButton
-                        onClick={() => setExpanded(!expanded)}
-                        iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                        size="medium"
-                    />
-                    <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
-                    <Text variant="body3">{biSteps.name}</Text>
-                </S.ScenationTitleWrapper>
-                <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
+                <S.ScenarionWrapper>
+                    <S.ScenationTitleWrapper>
+                        <IconButton
+                            onClick={() => setExpanded(!expanded)}
+                            iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
+                            size="medium"
+                        />
+                        <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
+                        <Text variant="body3">{biSteps.name}</Text>
+                    </S.ScenationTitleWrapper>
+                    <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
+                </S.ScenarionWrapper>
             </S.ScenarionTdWrapper>
 
             {expanded && (

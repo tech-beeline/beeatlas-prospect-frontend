@@ -138,7 +138,7 @@ export const EditableCell = ({
     };
 
     if (!isActive) {
-        return <div>{formatData}</div>;
+        return <>{formatData}</>;
     }
 
     const inputElement =
