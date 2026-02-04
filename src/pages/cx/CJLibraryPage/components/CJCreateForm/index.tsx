@@ -192,17 +192,6 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             </S.TitleContainer>
 
                             <S.TextFieldContainer>
-                                {/* <Select
-                                    disabled={isLoadingProducts}
-                                    name="product"
-                                    label="Приложение*"
-                                    options={
-                                        products?.map((product) => ({
-                                            id: Number(product.id),
-                                            value: product.name,
-                                        })) ?? []
-                                    }
-                                /> */}
                                 <Autocomplete
                                     fullWidth
                                     disabled={isLoadingProducts}
@@ -214,7 +203,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
                                 <TextField label="Название CJ*" name="name" />
 
-                                <TextField label="Портрет пользователя*" name="userPortrait" />
+                                <TextField label="Портрет пользователя" name="userPortrait" />
                             </S.TextFieldContainer>
 
                             <S.FileAddingContainer>

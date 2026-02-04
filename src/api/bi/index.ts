@@ -57,8 +57,8 @@ export const patchSLABI = (id: string, data: T.ISLAForm) => {
     });
 };
 
-export const patchStepRelationsBI = (id: string, data: T.IRelationForm[]) => {
-    return Api.patch({
+export const putStepRelationsBI = (id: string, data: T.IRelationForm[]) => {
+    return Api.put({
         url: `${GATEWAY_CX_URL}cx/v1/library/business-interactions/step/${id}/relation`,
         data,
     });

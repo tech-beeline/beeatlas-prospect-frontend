@@ -139,7 +139,7 @@ export const BITableRow: FC<IBITableRow> = ({
                         tooltipId={`bi-channel-${bi.id}`}
                     />
                 </S.TableDataStyled>
-                <S.TableDataStyled>{'—'}</S.TableDataStyled>
+                {/* <S.TableDataStyled>{'—'}</S.TableDataStyled> */}
                 <S.TableDataStyled>
                     {bi.draft ? (
                         <Label title="Черновик" type="default" variant="contained" />

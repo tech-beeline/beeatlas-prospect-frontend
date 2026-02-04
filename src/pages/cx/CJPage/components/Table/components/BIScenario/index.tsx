@@ -87,7 +87,12 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                             {relation.tcName ? (
                                                 <TooltipContainer
                                                     text={relation.tcName}
-                                                    tooltipId={`relation-${relation.tcName}`}
+                                                    tooltipId={`relation-${relation.tcName}-${relation.id}`}
+                                                />
+                                            ) : relation.productName ? (
+                                                <TooltipContainer
+                                                    text={relation.productName}
+                                                    tooltipId={`relation-${relation.productName}-${relation.id}`}
                                                 />
                                             ) : (
                                                 `Вызов ${index + 1}`

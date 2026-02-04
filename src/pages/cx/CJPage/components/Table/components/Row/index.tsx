@@ -25,6 +25,7 @@ export const Row = <T,>({
     showShadow,
     bpmn,
     onOpenStepFormByBiId,
+    isBiEditable,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -129,12 +130,11 @@ export const Row = <T,>({
                                             const isActive =
                                                 activeCell?.rowId === rowId &&
                                                 activeCell?.elementId === biId;
+                                            const isGlobalEditable = isBiEditable
+                                                ? isBiEditable(Number(biId))
+                                                : true;
                                             const isEditable =
-                                                !UNEDITABLE_CELLS.has(rowId) && element.bi.draft;
-                                            const isHoverable =
-                                                isEditable &&
-                                                rowId !== RowIds.IDENTIFICATOR &&
-                                                rowId !== RowIds.DOCUMENT;
+                                                !UNEDITABLE_CELLS.has(rowId) && isGlobalEditable;
                                             const content = formatData(
                                                 parseData(element.bi),
                                                 rowId === RowIds.IDENTIFICATOR
@@ -159,7 +159,7 @@ export const Row = <T,>({
                                                             handleCellClick(rowId, biId);
                                                         }
                                                     }}
-                                                    hoverable={isHoverable}
+                                                    hoverable={isEditable}
                                                     isEditing={isActive}
                                                 >
                                                     <EditableCell
