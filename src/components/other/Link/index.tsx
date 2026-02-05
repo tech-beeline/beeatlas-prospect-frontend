@@ -12,6 +12,7 @@ export const Link: FC<ILink> = ({
     showIconPermanently = false,
     outer = true,
     light = false,
+    visited = false,
 }) => {
     const navigate = useNavigate();
     return (
@@ -24,6 +25,7 @@ export const Link: FC<ILink> = ({
                         rel="noreferrer"
                         href={url}
                         light={light}
+                        visited={visited}
                     >
                         <span>{title}</span>
                         {showOuterIcon && (
@@ -37,7 +39,7 @@ export const Link: FC<ILink> = ({
                     '—'
                 )
             ) : (
-                <S.Link onClick={() => navigate(url ?? '')}>
+                <S.Link visited={visited} onClick={() => navigate(url ?? '')}>
                     <span>{title}</span>
                 </S.Link>
             )}

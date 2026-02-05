@@ -51,6 +51,26 @@ export const CardsContainer = styled.div`
     flex-direction: column;
 `;
 
+export const EndpointContainer = styled.div`
+    position: relative;
+
+    display: flex;
+    gap: 24px;
+
+    &:hover {
+        & > div:last-child {
+            opacity: 1;
+        }
+
+        & > div:first-child {
+            background-color: var(--color-background-base-hover);
+            & > div:last-child {
+                opacity: 1;
+            }
+        }
+    }
+`;
+
 export const SearchCard = styled.div`
     display: flex;
     align-items: center;
@@ -67,9 +87,47 @@ export const SearchCard = styled.div`
     }
 `;
 
+export const EndpointSearchCard = styled(SearchCard)`
+    width: calc((100% - 16px) / 2);
+
+    height: fit-content;
+`;
+
+export const EndpointServersSearchCard = styled(EndpointSearchCard)`
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    opacity: 0;
+
+    background-color: var(--color-background-base-selected);
+
+    z-index: 100;
+
+    &:hover {
+        opacity: 1;
+        z-index: 101;
+    }
+`;
+
 export const SearchCardTextContainer = styled.div`
     display: flex;
     flex-direction: column;
+`;
+
+export const SearchCardTextGapContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    flex: 1;
+`;
+
+export const ArrowContainer = styled.div`
+    min-width: 24px;
+    width: 24px;
+
+    opacity: 0;
 `;
 
 export const ButtonContainer = styled.div`
@@ -82,4 +140,13 @@ export const ButtonContainer = styled.div`
 export const SubtitleContainer = styled.div`
     padding-left: 16px;
     padding-bottom: 12px;
+`;
+
+export const BannerContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    max-width: 460px;
+    padding: 0px 16px;
 `;

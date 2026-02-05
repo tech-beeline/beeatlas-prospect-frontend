@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Icon, Pagination, Skeleton } from '@beeline/design-system-react';
+import { Avatar, Chip, Icon, Pagination, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { Link } from 'components/other';
 
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
 import { IInfraData } from 'api/product/types';
@@ -11,23 +12,41 @@ import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
 import * as R from 'router/const';
 import { getHighlightedText } from 'utils/formatters';
 
-import { SearchVariants } from '../../const';
+import { OperationTypes, SearchVariants } from '../../const';
 
 import { ISearchResults } from './types';
 import * as S from './units';
 
 const RESULTS_PER_PAGE = 10;
 
-export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBreadcrumbs }) => {
+export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visitedPages }) => {
+    const [searchVariant, setSearchVariant] = useState<SearchVariants>(SearchVariants.PRODUCT);
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * RESULTS_PER_PAGE;
     const endIndex = page * RESULTS_PER_PAGE;
 
     useEffect(() => {
         setPage(1);
-    }, [search]);
+    }, [search, searchVariant]);
 
-    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(search);
+    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(encodeURI(search));
+
+    useEffect(() => {
+        if (data) {
+            const productsLength = data.products.length;
+            const serversLength = data.servers.graph.length + data.servers.cmdb.length;
+            const endpointsLength =
+                data.endpoints.archOperations.length + data.endpoints.discoveredOperations.length;
+
+            if (productsLength > serversLength && productsLength > endpointsLength) {
+                setSearchVariant(SearchVariants.PRODUCT);
+            } else if (serversLength > endpointsLength) {
+                setSearchVariant(SearchVariants.SERVER);
+            } else {
+                setSearchVariant(SearchVariants.ENDPOINT);
+            }
+        }
+    }, [data]);
 
     const [, setSearchParams] = useSearchParams();
 
@@ -70,19 +89,91 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
         ]);
     };
 
+    // const handleEndpointClick = (operation: ISearchEndpoint, from: OperationTypes) => {
+    //     if (operation.product) {
+    //         if (from === OperationTypes.DISCOVERED) {
+    //             setSearchParams({
+    //                 id: String(operation.id),
+    //                 name: operation.name,
+    //                 cmdb: operation.product.alias,
+    //             });
+    //             setBreadcrumbs([
+    //                 {
+    //                     name: operation.name,
+    //                     link: `${R.MODELS_PATH}${R.IMPACT_PATH}?id=${operation.id}&name=${operation.name}&cmdb=${operation.product.alias}`,
+    //                 },
+    //             ]);
+    //         } else {
+    //             setSearchParams({ name: operation.product.name, cmdb: operation.product.alias });
+    //             setBreadcrumbs([
+    //                 {
+    //                     name: operation.product.name,
+    //                     link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${operation.product.name}&cmdb=${operation.product.alias}`,
+    //                 },
+    //             ]);
+    //         }
+    //     }
+    // };
+
     const dataProductsSliced = data?.products.slice(startIndex, endIndex);
     const productPagesCount = Math.ceil((data?.products.length ?? 0) / RESULTS_PER_PAGE);
 
     const dataServersCombined = data ? [...data.servers.graph, ...data.servers.cmdb] : undefined;
     const dataServersSliced = dataServersCombined?.slice(startIndex, endIndex);
-
     const serversPagesCount = Math.ceil(
         ((data?.servers.graph.length ?? 0) + (data?.servers.cmdb.length ?? 0)) / RESULTS_PER_PAGE,
+    );
+
+    const dataEndpointsCombined = data
+        ? [
+              ...data.endpoints.archOperations.map((o) => ({ ...o, from: OperationTypes.ARCH })),
+              ...data.endpoints.discoveredOperations.map((o) => ({
+                  ...o,
+                  from: OperationTypes.DISCOVERED,
+              })),
+          ]
+        : undefined;
+    const dataEndpointsSliced = dataEndpointsCombined?.slice(startIndex, endIndex);
+    const endpointPagesCount = Math.ceil(
+        ((data?.endpoints.archOperations.length ?? 0) +
+            (data?.endpoints.discoveredOperations.length ?? 0)) /
+            RESULTS_PER_PAGE,
     );
 
     return (
         <>
             <Text variant="h5">Результаты поиска</Text>
+            <Text inactive variant="subtitle3">
+                Категории
+            </Text>
+            <S.ChipsContainer>
+                <Chip
+                    label={`Приложение${data?.products ? ` (${data.products.length})` : ''}`}
+                    active={searchVariant === SearchVariants.PRODUCT}
+                    onClick={() => setSearchVariant(SearchVariants.PRODUCT)}
+                />
+                <Chip
+                    label={`Сервер${
+                        data?.servers
+                            ? ` (${data.servers.graph.length + data.servers.cmdb.length})`
+                            : ''
+                    }`}
+                    active={searchVariant === SearchVariants.SERVER}
+                    onClick={() => setSearchVariant(SearchVariants.SERVER)}
+                />
+                <Chip
+                    label={`Endpoint${
+                        data?.endpoints
+                            ? ` (${
+                                  data.endpoints.archOperations.length +
+                                  data.endpoints.discoveredOperations.length
+                              })`
+                            : ''
+                    }`}
+                    active={searchVariant === SearchVariants.ENDPOINT}
+                    onClick={() => setSearchVariant(SearchVariants.ENDPOINT)}
+                />
+            </S.ChipsContainer>
             {isLoading && (
                 <S.SkeletonContainer>
                     {Array.from({ length: 2 }).map((_, i) => (
@@ -103,7 +194,11 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
                                     <Text inactive variant="overline">
                                         КОНТЕКСТНАЯ ДИАГРАММА
                                     </Text>
-                                    <Text variant="body2">
+                                    <Text
+                                        link
+                                        visited={visitedPages.includes(system.name)}
+                                        variant="body2"
+                                    >
                                         {getHighlightedText(system.name, search)}
                                     </Text>
                                     <Text inactive variant="body3">
@@ -207,7 +302,11 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
                                             <Text inactive variant="overline">
                                                 ДЕПЛОЙМЕНТ ДИАГРАММА
                                             </Text>
-                                            <Text variant="body2">
+                                            <Text
+                                                link
+                                                variant="body2"
+                                                visited={visitedPages.includes(item.deploymentName)}
+                                            >
                                                 {getHighlightedText(
                                                     item.deploymentName.split('~')[0],
                                                     search,
@@ -247,7 +346,11 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
                                                 КОНТЕКСТНАЯ ДИАГРАММА ВЛАДЕЛЬЦА{' '}
                                                 {item.parentSystems[0]}
                                             </Text>
-                                            <Text variant="body2">
+                                            <Text
+                                                link
+                                                variant="body2"
+                                                visited={visitedPages.includes(item.name)}
+                                            >
                                                 {getHighlightedText(item.name, search)}
                                             </Text>
                                             <Text inactive variant="body3">
@@ -264,6 +367,156 @@ export const SearchResults: FC<ISearchResults> = ({ search, searchVariant, setBr
                             <Pagination
                                 collapsed
                                 count={serversPagesCount}
+                                page={page}
+                                onChange={setPage}
+                            />
+                        </S.PaginationContainer>
+                    )}
+                </>
+            )}
+            {searchVariant === SearchVariants.ENDPOINT && (
+                <>
+                    {(data?.endpoints.archOperations.length ?? 0) +
+                        (data?.endpoints.discoveredOperations.length ?? 0) ===
+                        50 && (
+                        <S.BannerContainer>
+                            <Avatar iconName={Icons.InfoCircled} color="blue" />
+                            <Text inactive variant="body3">
+                                Получено свыше 50 результатов. Выбраны наиболее релевантные.
+                                Уточните запрос для узкой выборки
+                            </Text>
+                        </S.BannerContainer>
+                    )}
+
+                    <S.CardsContainer>
+                        {dataEndpointsSliced?.map((endpoint, i) => (
+                            <>
+                                {i === 0 && page === 1 && endpoint.from === OperationTypes.ARCH && (
+                                    <S.SubtitleContainer>
+                                        <Text inactive variant="subtitle3">
+                                            Методы архитектуры
+                                        </Text>
+                                    </S.SubtitleContainer>
+                                )}
+                                {endpoint.from === OperationTypes.DISCOVERED &&
+                                    ((dataEndpointsCombined ?? [])[
+                                        (page - 1) * RESULTS_PER_PAGE + i - 1
+                                    ] === undefined ||
+                                        (dataEndpointsCombined ?? [])[
+                                            (page - 1) * RESULTS_PER_PAGE + i - 1
+                                        ].from === OperationTypes.ARCH) && (
+                                        <S.SubtitleContainer>
+                                            <Text inactive variant="subtitle3">
+                                                Методы mapic
+                                            </Text>
+                                        </S.SubtitleContainer>
+                                    )}
+                                <S.EndpointContainer>
+                                    <S.EndpointSearchCard>
+                                        <Icon iconName={Icons.Search} size="large" />
+                                        <S.SearchCardTextGapContainer>
+                                            <div>
+                                                <Text inactive variant="overline">
+                                                    {endpoint.from === OperationTypes.ARCH
+                                                        ? 'Контекстная диаграмма'
+                                                        : 'Деплоймент диаграмма'}
+                                                </Text>
+                                                {endpoint.from === OperationTypes.DISCOVERED &&
+                                                    endpoint.connectionOperation && (
+                                                        <Text variant="body2">
+                                                            {getHighlightedText(
+                                                                `Structurizr: ${endpoint.connectionOperation.type.toUpperCase()} ${
+                                                                    endpoint.connectionOperation
+                                                                        .name
+                                                                }`,
+                                                                search,
+                                                            )}
+                                                        </Text>
+                                                    )}
+                                                <Text variant="body2">
+                                                    {getHighlightedText(
+                                                        `${
+                                                            endpoint.from === OperationTypes.ARCH
+                                                                ? 'Structurizr:'
+                                                                : 'MAPIC:'
+                                                        } ${endpoint.type.toUpperCase()} ${
+                                                            endpoint.name
+                                                        }`,
+                                                        search,
+                                                    )}
+                                                </Text>
+                                            </div>
+                                            {endpoint.product && (
+                                                <div>
+                                                    <Text inactive variant="overline">
+                                                        CMDB
+                                                    </Text>
+                                                    <Text variant="body2">
+                                                        {endpoint.product?.alias}
+                                                    </Text>
+                                                </div>
+                                            )}
+                                            {endpoint.container && (
+                                                <div>
+                                                    <Text inactive variant="overline">
+                                                        Контейнер
+                                                    </Text>
+                                                    <Text variant="body2">
+                                                        {endpoint.container.code}
+                                                    </Text>
+                                                </div>
+                                            )}
+                                            {endpoint.interface && endpoint.interface.code && (
+                                                <div>
+                                                    <Text inactive variant="overline">
+                                                        Интерфейс
+                                                    </Text>
+                                                    <Text variant="body2">
+                                                        {endpoint.interface.code}
+                                                    </Text>
+                                                </div>
+                                            )}
+                                        </S.SearchCardTextGapContainer>
+                                        <S.ArrowContainer>
+                                            <Icon iconName={Icons.ArrowRight} size="large" />
+                                        </S.ArrowContainer>
+                                    </S.EndpointSearchCard>
+                                    <S.EndpointServersSearchCard>
+                                        <S.SearchCardTextGapContainer>
+                                            {endpoint.deploymentsNodes?.map((node) => (
+                                                <div key={node.id}>
+                                                    <Text inactive variant="overline">
+                                                        СЕРВЕР
+                                                    </Text>
+                                                    <Text variant="body2">
+                                                        <Link
+                                                            outer={false}
+                                                            visited={visitedPages.includes(
+                                                                node.name,
+                                                            )}
+                                                            url={`${R.MODELS_PATH}${R.IMPACT_PATH}?id=${node.id}&name=${node.name}&cmdb=${endpoint.product?.alias}`}
+                                                            title={node.environmentName}
+                                                        />
+                                                    </Text>
+                                                </div>
+                                            ))}
+                                            {(!endpoint.deploymentsNodes ||
+                                                endpoint.deploymentsNodes.length === 0) && (
+                                                <Text inactive variant="body2">
+                                                    Нет серверов
+                                                </Text>
+                                            )}
+                                        </S.SearchCardTextGapContainer>
+                                    </S.EndpointServersSearchCard>
+                                </S.EndpointContainer>
+                            </>
+                        ))}
+                    </S.CardsContainer>
+                    {endpointPagesCount > 1 && (
+                        <S.PaginationContainer>
+                            <Pagination
+                                collapsed
+                                count={endpointPagesCount}
                                 page={page}
                                 onChange={setPage}
                             />

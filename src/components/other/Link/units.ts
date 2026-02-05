@@ -1,8 +1,9 @@
 import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const Link = styled.a<{ light?: boolean }>`
-    color: ${({ light }) => (light ? '#5cb5ff' : 'var(--color-text-link)')};
+export const Link = styled.a<{ light?: boolean; visited?: boolean }>`
+    color: ${({ light, visited }) =>
+        visited ? 'var(--color-text-link-visited)' : light ? '#5cb5ff' : 'var(--color-text-link)'};
 
     cursor: pointer;
 
