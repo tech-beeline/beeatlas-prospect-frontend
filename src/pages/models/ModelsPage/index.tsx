@@ -86,6 +86,14 @@ export const ModelsPage = () => {
                         антипаттернов помогает избежать типичных ошибок при создании качественных
                         продуктов
                     </S.CardStyled>
+                    <S.CardStyled
+                        variant={CardVariant.SUCCESS}
+                        title="Аналитический отчет фитнес-функций"
+                        to={`${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`}
+                    >
+                        Это сводка автоматических проверок, которая показывает, насколько работа
+                        приложения соответствует ожидаемым производственным стандартам
+                    </S.CardStyled>
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>

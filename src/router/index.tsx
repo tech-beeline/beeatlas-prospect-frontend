@@ -14,6 +14,7 @@ import { FeedbackButton } from 'components/interaction';
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AdminAppsPage,
+    AnalyticalPage,
     AppAddPage,
     AppInfoPage,
     ApplicationEditPage,
@@ -29,6 +30,7 @@ import {
     BIAddPage,
     BILibraryPage,
     BIViewPage,
+    BPMNViewPage,
     CapabilitiesPage,
     CapabilityAddPage,
     CJLibraryPage,
@@ -68,7 +70,6 @@ import {
     TemplatesPage,
     UsersPage,
 } from 'pages';
-import { BPMNViewPage } from 'pages/cx/BPMNViewPage';
 
 import * as R from './const';
 import * as S from './units';
@@ -96,6 +97,7 @@ const PATHS_WITHOUT_FEEDBACK = [
     `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -510,6 +512,18 @@ export const NavigationRouter = () => {
                             <MenuModels />
                             <S.ContentWrapper>
                                 <ImpactPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                <Route
+                    path={`${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <AnalyticalPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }
