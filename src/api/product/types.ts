@@ -229,3 +229,24 @@ export interface IEmployee {
     fullName: string;
     id: number;
 }
+
+export interface IOperationContainer {
+    container: {
+        code: string;
+        id: number;
+        name: string;
+    };
+    id: number;
+    interface: {
+        code: string;
+        id: number;
+        name: string;
+    };
+    name: string;
+    product: {
+        alias: string;
+        id: number;
+        name: string;
+    };
+    type: string;
+}

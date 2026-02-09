@@ -1,3 +1,4 @@
+export { ApiTable } from './ApiTable';
 export { BreadCrumbsItem } from './BreadCrumbsItem';
 export { HistoryTable } from './HistoryTable';
 export { NestingMenu } from './NestingMenu';

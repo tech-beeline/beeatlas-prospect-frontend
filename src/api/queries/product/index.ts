@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     getAllProducts,
     getDeploymentInfluence,
+    getOperationsByTechCapabilityId,
     getProductEmployeesByCmdb,
     getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
@@ -188,5 +189,16 @@ export const useGetProductEmployeesByCmdbQuery = (params: IGetProductEmployeesPa
         queryKey: [PRODUCT_PREFIX, 'EMPLOYEES', params.cmdb],
         queryFn: () => getProductEmployeesByCmdb(params.cmdb).then((res) => res.data),
         enabled: params.enabled,
+    });
+};
+
+export const useGetOperationsByTechCapabilityQuery = (
+    id: string | undefined | null,
+    enabled = true,
+) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'OPERATIONS', 'TC', id],
+        queryFn: () => getOperationsByTechCapabilityId(id!).then((res) => res.data),
+        enabled: enabled && !!id,
     });
 };

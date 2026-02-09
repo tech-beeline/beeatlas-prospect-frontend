@@ -60,6 +60,13 @@ export const MarginContainer = styled.div`
     margin-top: 24px;
 `;
 
+export const MetricsContainer = styled.div`
+    display: flex;
+    gap: 40px;
+
+    margin-top: 12px;
+`;
+
 export const TitleSecond = styled.p`
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body3);

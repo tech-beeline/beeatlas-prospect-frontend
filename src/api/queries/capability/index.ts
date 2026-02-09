@@ -4,6 +4,7 @@ import {
     getBusinessCapabilityById,
     getBusinessCapabilityChildren,
     getBusinessCapabilityDomains,
+    getCapabilitiesByProductId,
     getCapabilitiesBySearch,
     getCoreBusinessCapabilities,
     getMapData,
@@ -146,5 +147,13 @@ export const useGetTechCapabilityByIdQuery = ({
         queryKey: [CAPABILITY_PREFIX, 'tech', 'parents', id],
         queryFn: () => getTechCapabilityById(id).then((res) => res.data),
         enabled,
+    });
+};
+
+export const useGetTechCapabilitiesByProductIdQuery = (id: string | undefined | null) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'tech', 'byProduct', id],
+        queryFn: () => getCapabilitiesByProductId(id!).then((res) => res.data),
+        enabled: !!id,
     });
 };

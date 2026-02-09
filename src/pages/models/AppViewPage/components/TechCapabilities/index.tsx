@@ -1,15 +1,52 @@
-import React, { useState } from 'react';
-import { ButtonGroup, Icon, Search, Switch } from '@beeline/design-system-react';
+import React, { FC, useState } from 'react';
+import { Button, ButtonGroup, Icon, Search, Skeleton, Switch } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { TechCapabilityCard } from './components';
-import { DisplayOptions } from './const';
-import * as S from './units';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
-export const TechCapabilities = () => {
+import { useGetTechCapabilitiesByProductIdQuery } from 'api/queries/capability';
+
+import { TechCapabilityCard } from './components';
+import { CapabilityOriginOptions, COLUMNS_LENGTH, DisplayOptions } from './const';
+import { ITechCapabilities } from './types';
+import * as S from './units';
+import { groupDataByColumns } from './utils';
+
+export const TechCapabilities: FC<ITechCapabilities> = ({ productId, cmdb }) => {
     const [displayOption, setDisplayOption] = useState(DisplayOptions.GRID);
     const [showWithApi, setShowWithApi] = useState(false);
     const [searchText, setSearchText] = useState('');
+
+    const { data, isLoading } = useGetTechCapabilitiesByProductIdQuery(productId);
+
+    const uniqueTechCapabilities = data
+        ? Array.from(
+              new Set([
+                  ...data.implemented.map((tc) => tc.id),
+                  ...data.responsibility.map((tc) => tc.id),
+              ]),
+          ).map((id) => {
+              const implemented = data.implemented.find((tc) => tc.id === id);
+              const responsibility = data.responsibility.find((tc) => tc.id === id)!;
+              if (implemented) {
+                  return { ...implemented, origin: CapabilityOriginOptions.IMPLEMENTED };
+              } else {
+                  return { ...responsibility, origin: CapabilityOriginOptions.RESPONSIBILITY };
+              }
+          })
+        : [];
+
+    const uniqueTechCapabilitiesFiltered = uniqueTechCapabilities.filter(
+        (tc) =>
+            (showWithApi ? tc.origin === CapabilityOriginOptions.IMPLEMENTED : true) &&
+            (tc.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                tc.code.toLowerCase().includes(searchText.toLowerCase())),
+    );
+
+    const uniqueTechCapabilitiesByColumns = groupDataByColumns(
+        uniqueTechCapabilitiesFiltered,
+        COLUMNS_LENGTH,
+    );
 
     return (
         <S.Container>
@@ -25,10 +62,21 @@ export const TechCapabilities = () => {
                         />
                     </S.SearchContainer>
                     <Switch
-                        label="Показать ТС с API"
+                        label="TC с интерфейсами"
                         checked={showWithApi}
                         onChange={(e) => setShowWithApi(e.target.checked)}
                     />
+                    <Button
+                        disabled={!showWithApi && searchText === ''}
+                        variant="plain"
+                        onClick={() => {
+                            setShowWithApi(false);
+                            setSearchText('');
+                        }}
+                        size="medium"
+                    >
+                        Сбросить
+                    </Button>
                 </S.FlexContainer>
                 <ButtonGroup
                     alwaysSelected
@@ -41,17 +89,37 @@ export const TechCapabilities = () => {
                     onChange={(option) => setDisplayOption(option.id as DisplayOptions)}
                 />
             </S.ActionsContainer>
-            <S.CardsContainer grid={displayOption === DisplayOptions.GRID}>
-                {Array.from({ length: displayOption === DisplayOptions.GRID ? 3 : 1 }).map(
-                    (_, i) => (
+            {displayOption === DisplayOptions.GRID && (
+                <S.CardsContainer grid>
+                    {Array.from({ length: COLUMNS_LENGTH }).map((_, i) => (
                         <S.CardsColumn key={i}>
-                            {Array.from({ length: 3 }).map((_, j) => (
-                                <TechCapabilityCard key={j} />
+                            {uniqueTechCapabilitiesByColumns[i].map((tc, j) => (
+                                <TechCapabilityCard tc={tc} cmdb={cmdb} key={j} />
                             ))}
+                            {isLoading && <Skeleton height={100} radius={12} />}
                         </S.CardsColumn>
-                    ),
-                )}
-            </S.CardsContainer>
+                    ))}
+                </S.CardsContainer>
+            )}
+            {displayOption === DisplayOptions.LIST && (
+                <S.CardsContainer grid={false}>
+                    <S.CardsColumn>
+                        {uniqueTechCapabilitiesFiltered.map((tc, i) => (
+                            <TechCapabilityCard tc={tc} cmdb={cmdb} key={i} />
+                        ))}
+                        {isLoading && <Skeleton height={100} radius={12} />}
+                    </S.CardsColumn>
+                </S.CardsContainer>
+            )}
+            {!isLoading && uniqueTechCapabilitiesFiltered.length === 0 && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title="Технических возможностей нет"
+                        text=""
+                    />
+                </S.NotFoundContainer>
+            )}
         </S.Container>
     );
 };

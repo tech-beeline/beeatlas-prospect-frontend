@@ -16,7 +16,7 @@ import {
     GeneralInfo,
     InDevelopment,
     InterfacesAndMethods,
-    // TechCapabilities,
+    TechCapabilities,
     // Patterns,
     // Technologies,
 } from './components';
@@ -108,8 +108,10 @@ export const AppViewPage = () => {
                 />
             )}
             {tabVariant === TabVariants.FITNESS_FUNCTIONS && <FitnessFunctions cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.TECH_CAPABILITIES && productData && (
+                <TechCapabilities productId={productData.id} cmdb={paramCmdb ?? ''} />
+            )}
             {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
-            {tabVariant === TabVariants.TECH_CAPABILITIES && <InDevelopment cmdb={paramCmdb} />}
             {/* {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
             {tabVariant === TabVariants.PATTERNS && <Patterns />} */}
             {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
