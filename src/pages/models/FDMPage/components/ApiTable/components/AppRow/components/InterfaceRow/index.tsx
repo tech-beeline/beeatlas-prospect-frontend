@@ -38,7 +38,7 @@ export const InterfaceRow: FC<IInterfaceRow> = ({ fullData, interfaceOperation }
                         />
                         <Link
                             title={interfaceOperation.interface.name}
-                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&subtab=Structurizr&type=arch_interface&id=${interfaceOperation.interface.id}&hideEmpty=false&hideDeleted=false&cmdb=fdmshowcaseapp`}
+                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&subtab=Structurizr&type=arch_interface&id=${interfaceOperation.interface.id}&hideEmpty=false&hideDeleted=false`}
                         />
                     </S.NameContainer>
                 </TableData>
@@ -93,7 +93,7 @@ export const InterfaceRow: FC<IInterfaceRow> = ({ fullData, interfaceOperation }
                                                 /> */}
                                                 <Link
                                                     title={`${methodOperation.type} ${methodOperation.name}`}
-                                                    url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&subtab=Structurizr&type=arch_operation&id=${methodOperation.id}&hideEmpty=false&hideDeleted=false&cmdb=fdmshowcaseapp`}
+                                                    url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&subtab=Structurizr&type=arch_operation&id=${methodOperation.id}&hideEmpty=false&hideDeleted=false`}
                                                 />
                                             </TableData>
                                             {/* <TableData alignRight>10</TableData>
