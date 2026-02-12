@@ -43,19 +43,24 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
 
     const onSubmmit = async () => {
         if (bpmnFile) {
-            await uploadBPMN({
-                file: bpmnFile,
-                cjId,
-            });
+            try {
+                await uploadBPMN({
+                    file: bpmnFile,
+                    cjId,
+                });
 
-            await createCJByBPMN(cjId);
-            queryClient.invalidateQueries({
-                queryKey: [CJ_PREFIX],
-            });
-            setBpmnFile(null);
-            onUploaded?.();
-            onClose();
-            showSnackbar({ message: 'Изменения сохранены' });
+                await createCJByBPMN(cjId);
+                queryClient.invalidateQueries({
+                    queryKey: [CJ_PREFIX],
+                });
+                setBpmnFile(null);
+                onUploaded?.();
+                onClose();
+                showSnackbar({ message: 'Изменения сохранены' });
+            } catch (bpmnError) {
+                showSnackbar({ message: 'Ошибка валидации файла', showCloseButton: true });
+                onClose();
+            }
         }
     };
     return (

@@ -1,3 +1,4 @@
+import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div<{ isOpen: boolean }>`
@@ -42,4 +43,9 @@ export const TextButton = styled.button`
     color: var(--color-chart-blue-active);
 
     cursor: pointer;
+`;
+
+export const IconButtonWrapper = styled(Icon)`
+    cursor: pointer;
+    color: var(--color-background-base);
 `;

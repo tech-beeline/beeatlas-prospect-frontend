@@ -1,5 +1,6 @@
 import React, { FC, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
@@ -14,7 +15,11 @@ export const Snackbar: FC = () => {
     const snackbarRef = useRef(null);
     const [themeElement, setThemeElement] = useState<HTMLElement | null>(null);
 
-    useOutsideClick(snackbarRef, activeSnackbar.isOpen, clearSnackbar);
+    useOutsideClick(
+        snackbarRef,
+        activeSnackbar.isOpen && !activeSnackbar.showCloseButton,
+        clearSnackbar,
+    );
 
     useMountEffect(() => {
         setThemeElement(document.getElementById('root'));
@@ -29,6 +34,17 @@ export const Snackbar: FC = () => {
                 <S.TextButton onClick={activeSnackbar.onClickButton}>
                     {activeSnackbar.textButton}
                 </S.TextButton>
+
+                {activeSnackbar.showCloseButton && (
+                    <S.IconButtonWrapper
+                        iconName={Icons.Close}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            clearSnackbar();
+                        }}
+                        size="small"
+                    />
+                )}
             </S.Wrapper>,
             themeElement,
         )
