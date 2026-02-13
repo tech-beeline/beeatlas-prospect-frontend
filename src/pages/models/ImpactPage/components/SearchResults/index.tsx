@@ -29,7 +29,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
         setPage(1);
     }, [search, searchVariant]);
 
-    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(encodeURI(search));
+    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(search);
 
     useEffect(() => {
         if (data) {
@@ -495,7 +495,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                                                                 node.name,
                                                             )}
                                                             url={`${R.MODELS_PATH}${R.IMPACT_PATH}?id=${node.id}&name=${node.name}&cmdb=${endpoint.product?.alias}`}
-                                                            title={node.environmentName}
+                                                            title={node.name.replaceAll('~', '/')}
                                                         />
                                                     </Text>
                                                 </div>

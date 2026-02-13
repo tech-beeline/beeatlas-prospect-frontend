@@ -18,6 +18,8 @@ import { ISearchDeployment, ISearchEndpointsData, ISearchSystem } from 'api/grap
 import { getSystemInfrastrucutre, getSystemInfrastrucutreByIp } from 'api/product';
 import { IInfraData } from 'api/product/types';
 
+import { splitSearch } from './utils';
+
 export const GRAPH_PREFIX = 'GRAPH_PREFIX';
 
 interface IGetSearchSytemsQueryParams {
@@ -50,23 +52,25 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
     return useQuery({
         queryKey: [GRAPH_PREFIX, 'search', 'complete', search],
         queryFn: async () => {
+            const { path, type } = splitSearch(search);
+
             const promises: [
                 Promise<ISearchSystem[]>,
                 Promise<ISearchDeployment[]>,
                 Promise<IInfraData[]>,
                 Promise<ISearchEndpointsData>,
             ] = [
-                getSearchSystems(search).then((res) => res.data),
-                getSearchDeployments(search).then((res) => res.data),
-                getSystemInfrastrucutre(search).then((res) => res.data),
-                getSearchOperations(search).then((res) => res.data),
+                getSearchSystems(encodeURI(search)).then((res) => res.data),
+                getSearchDeployments(encodeURI(search)).then((res) => res.data),
+                getSystemInfrastrucutre(encodeURI(search)).then((res) => res.data),
+                getSearchOperations(encodeURI(path), type).then((res) => res.data),
             ];
 
             const searchTest = RegExp(
                 '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
             ).test(search);
             const optionalPromises: [Promise<IInfraData[]>] | [] = searchTest
-                ? [getSystemInfrastrucutreByIp(search).then((res) => res.data)]
+                ? [getSystemInfrastrucutreByIp(encodeURI(search)).then((res) => res.data)]
                 : [];
 
             const data = await Promise.allSettled([...promises, ...optionalPromises]);
