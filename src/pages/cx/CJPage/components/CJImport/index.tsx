@@ -59,6 +59,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
                 showSnackbar({ message: 'Изменения сохранены' });
             } catch (bpmnError) {
                 showSnackbar({ message: 'Ошибка валидации файла', showCloseButton: true });
+                setBpmnFile(null);
                 onClose();
             }
         }

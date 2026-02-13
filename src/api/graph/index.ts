@@ -17,6 +17,12 @@ export const getSearchDeployments = (search: string): AxiosPromise<T.ISearchDepl
     });
 };
 
+export const getSearchOperations = (search: string): AxiosPromise<T.ISearchEndpointsData> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/deployment-nodes/operation?path=${search}`,
+    });
+};
+
 export const getSystemDiagramGraph = (cmdb: string): AxiosPromise<unknown> => {
     return Api.get({
         url: `${GATEWAY_ARCH_GRAPH_URL}v1/diagram/context?cmdb=${cmdb}&communicationDirection=in`,

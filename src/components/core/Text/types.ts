@@ -6,5 +6,6 @@ export interface IText extends Omit<ComponentProps<'div'>, 'ref'> {
     children: ReactNode;
     inactive?: boolean;
     link?: boolean;
+    visited?: boolean;
     pointer?: boolean;
 }

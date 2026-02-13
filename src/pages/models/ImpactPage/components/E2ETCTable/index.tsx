@@ -23,10 +23,10 @@ import { reduceE2EData } from './utils';
 
 export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
     const [tableVariant, setTableVariant] = useState(TableVariant.E2E);
-    const { data: e2eData, isLoading: isLoadingE2EData } = useGetSystemE2EQuery(cmdb);
+    const { data: e2eData, isLoading: isLoadingE2EData } = useGetSystemE2EQuery(encodeURI(cmdb));
     const e2eDataReduced = reduceE2EData(e2eData);
 
-    const { data: tcData, isLoading: isLoadingTCData } = useGetSystemTCQuery(cmdb);
+    const { data: tcData, isLoading: isLoadingTCData } = useGetSystemTCQuery(encodeURI(cmdb));
 
     const isLoading = isLoadingE2EData || isLoadingTCData;
 

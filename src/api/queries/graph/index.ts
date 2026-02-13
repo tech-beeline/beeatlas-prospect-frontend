@@ -11,9 +11,10 @@ import {
     getDeploymentInfluenceDotGraph,
     getDeploymentInfluenceElementsById,
     getSearchDeployments,
+    getSearchOperations,
     getSearchSystems,
 } from 'api/graph';
-import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
+import { ISearchDeployment, ISearchEndpointsData, ISearchSystem } from 'api/graph/types';
 import { getSystemInfrastrucutre, getSystemInfrastrucutreByIp } from 'api/product';
 import { IInfraData } from 'api/product/types';
 
@@ -53,10 +54,12 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
                 Promise<ISearchSystem[]>,
                 Promise<ISearchDeployment[]>,
                 Promise<IInfraData[]>,
+                Promise<ISearchEndpointsData>,
             ] = [
                 getSearchSystems(search).then((res) => res.data),
                 getSearchDeployments(search).then((res) => res.data),
                 getSystemInfrastrucutre(search).then((res) => res.data),
+                getSearchOperations(search).then((res) => res.data),
             ];
 
             const searchTest = RegExp(
@@ -84,8 +87,8 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
                     }
                 }
             }
-            if (data[3] && data[3].status === 'fulfilled') {
-                for (const infra of data[3].value) {
+            if (data[4] && data[4].status === 'fulfilled') {
+                for (const infra of data[4].value) {
                     if (infra.parentSystems.length === 1) {
                         cmdbData.push(infra);
                     }
@@ -106,6 +109,10 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
                     graph: data[1].status === 'fulfilled' ? data[1].value : [],
                     cmdb: cmdbData,
                 },
+                endpoints:
+                    data[3].status === 'fulfilled'
+                        ? data[3].value
+                        : { archOperations: [], discoveredOperations: [] },
             };
         },
         enabled,

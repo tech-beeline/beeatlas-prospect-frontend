@@ -93,6 +93,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     });
 
                     await createCJByBPMN(cjId);
+                    setBpmnFile(null);
                     navigate({
                         pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
@@ -103,6 +104,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.',
                     });
                     setIsProcessingBPMN(false);
+                    setBpmnFile(null);
                     showSnackbar({ message: `Ошибка валидации файла`, showCloseButton: true });
                     navigate({
                         pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
@@ -120,6 +122,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     productId: values.product,
                     bpmn: false,
                 });
+                setBpmnFile(null);
 
                 navigate({
                     pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
@@ -135,6 +138,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                 });
             }
             setIsProcessingBPMN(false);
+            setBpmnFile(null);
         }
     });
 

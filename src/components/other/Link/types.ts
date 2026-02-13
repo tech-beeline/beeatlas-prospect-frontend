@@ -5,4 +5,5 @@ export interface ILink {
     showOuterIcon?: boolean;
     showIconPermanently?: boolean;
     light?: boolean;
+    visited?: boolean;
 }

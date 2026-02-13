@@ -18,6 +18,7 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useGetSystemInfluenceQuery } from 'api/queries/graph';
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TabVariant } from '../../const';
@@ -32,7 +33,7 @@ export const AppTable: FC<IAppTable> = ({ cmdb, tabVariant, breadcrumbs, setBrea
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const { data, isLoading } = useGetSystemInfluenceQuery({
-        cmdb,
+        cmdb: encodeURI(cmdb),
         influence: tabVariant === TabVariant.OUT,
     });
 
@@ -127,13 +128,14 @@ export const AppTable: FC<IAppTable> = ({ cmdb, tabVariant, breadcrumbs, setBrea
                                     </Text>
                                 </TableData>
                                 <TableData>
-                                    {system.critical &&
-                                        `${system.critical.split('_')[1]}-${
-                                            keyToCriticalMap[system.critical.split('_')[0]] ??
-                                            system.critical.split('_')[0]
-                                        }`}
+                                    {system.critical
+                                        ? `${system.critical.split('_')[1]}-${
+                                              keyToCriticalMap[system.critical.split('_')[0]] ??
+                                              system.critical.split('_')[0]
+                                          }`
+                                        : formatNullableString(null)}
                                 </TableData>
-                                <TableData>{system.ownerName}</TableData>
+                                <TableData>{formatNullableString(system.ownerName)}</TableData>
                             </TableRow>
                         ))}
                         {dataSorted.length === 0 && (

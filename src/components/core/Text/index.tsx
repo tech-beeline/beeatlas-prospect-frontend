@@ -9,6 +9,7 @@ export const Text: FC<IText> = ({
     inactive = false,
     link = false,
     pointer = false,
+    visited = false,
     ...rest
 }) => (
     <S.TypographyStyled
@@ -17,6 +18,7 @@ export const Text: FC<IText> = ({
         inactive={inactive}
         link={link}
         pointer={pointer}
+        visited={visited}
     >
         {children}
     </S.TypographyStyled>
