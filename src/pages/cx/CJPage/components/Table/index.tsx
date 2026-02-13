@@ -4,6 +4,8 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useSideSheetStore } from 'features/cx/store';
 import { Nullable } from 'types/common';
 
+import { useGetBIEditabilityByIdQuery } from 'api/queries/bi';
+
 import { formatNullableString } from '../../../../../utils/formatters';
 import { SideSheetVariants } from '../../const';
 import { StepForm } from '../StepForm';
@@ -28,6 +30,29 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
     const [showStepDescription, setShowStepDescription] = useState(false);
     const [selectedBiIdForView, setSelectedBiIdForView] = useState<number | null>(null);
     const [collapsedStepIds, setCollapsedStepIds] = useState<number[]>([]);
+
+    const biIds: number[] = [];
+    tableData.forEach((step) => {
+        step.bi?.forEach((bi) => {
+            if (bi.id && !biIds.includes(bi.id)) {
+                biIds.push(bi.id);
+            }
+        });
+    });
+
+    const biEditabilityQueries = biIds.map((biId) => useGetBIEditabilityByIdQuery(String(biId)));
+
+    const biEditabilityMap: Record<number, boolean> = {};
+    biIds.forEach((biId, index) => {
+        const query = biEditabilityQueries[index];
+        if (query.data) {
+            biEditabilityMap[biId] = query.data.editability;
+        }
+    });
+
+    const isBiEditable = (biId: number): boolean => {
+        return biEditabilityMap[biId] ?? true;
+    };
 
     const handleCollapseStepButtonClick = (stepId: number) => {
         if (collapsedStepIds.includes(stepId)) {
@@ -196,6 +221,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
                                 collapsedStedIds={collapsedStepIds}
                                 bpmn={bpmn}
                                 onOpenStepFormByBiId={openStepFormByBiId}
+                                isBiEditable={isBiEditable}
                             />
                         ))}
                     </S.Tbody>

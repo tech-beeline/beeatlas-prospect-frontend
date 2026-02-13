@@ -3,7 +3,7 @@ import { Autocomplete, Button, IconButton, Select } from '@beeline/design-system
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { CJLibraryStatus } from 'api/cj/types';
-import { useGetBIChannelsQuery } from 'api/queries/bi-library';
+// import { useGetBIChannelsQuery } from 'api/queries/bi-library';
 import { useGetProductsQuery } from 'hooks';
 
 import { FormatVariant, ProductVariant } from './const';
@@ -18,7 +18,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
     const [productFilterText, setProductFilterText] = useState('');
 
     const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
-    const { data: channels } = useGetBIChannelsQuery();
+    // const { data: channels } = useGetBIChannelsQuery();
     const productOptions = [
         { id: ProductVariant.ALL, value: 'Все' },
         ...(products
@@ -45,7 +45,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
         { id: FormatVariant.BEEATLAS, value: 'BEEATLAS' },
     ];
 
-    const channelOptions = channels?.map((c) => ({ id: c.id, value: c.name })) ?? [];
+    // const channelOptions = channels?.map((c) => ({ id: c.id, value: c.name })) ?? [];
 
     const handleResetClick = () => {
         setFilterOptions({
@@ -139,7 +139,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
                                 setFilterOptions({ ...filterOptions, format: values[0].id })
                             }
                         />
-                        <Select
+                        {/* <Select
                             fullWidth
                             multiple
                             label="Каналы"
@@ -164,7 +164,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
                             onChange={(values) =>
                                 setFilterOptions({ ...filterOptions, format: values[0].id })
                             }
-                        />
+                        /> */}
                     </S.FiltersContainer>
                 </S.MainContent>
                 <S.ButtonContainer>

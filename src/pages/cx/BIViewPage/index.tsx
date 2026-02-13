@@ -3,12 +3,16 @@ import { createSearchParams, useNavigate, useSearchParams } from 'react-router-d
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { StatusLabel, TargetLabel } from 'features/cx';
+import { dataToFormValues, formValuesToData, StatusLabel, TargetLabel } from 'features/cx';
 
 import { FloatingNavigation } from 'components/interaction';
 import { Link, NotFoundBlock } from 'components/other';
 
-import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
+import {
+    useGetBIByIdQuery,
+    useGetBIEditabilityByIdQuery,
+    useUpdateBIMutation,
+} from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import * as ROUTER from 'router/const';
@@ -25,6 +29,7 @@ export const BIViewPage = () => {
     const { data: editabilityData, isLoading: isLoadingEditability } =
         useGetBIEditabilityByIdQuery(paramId);
     const { data: productsData } = useGetAllProductsQuery();
+    const { mutateAsync: updateBi } = useUpdateBIMutation();
     const currentProduct = productsData?.find(
         (product) => String(product.id) === String(data?.productId),
     );
@@ -43,7 +48,18 @@ export const BIViewPage = () => {
         });
     };
 
-    const isEditDisabled = !editabilityData || !data || !editabilityData.editability || !data.draft;
+    const handleMarkAsDraft = () => {
+        if (data) {
+            const formValues = dataToFormValues(data);
+            const dataToUpdate = formValuesToData(formValues);
+            updateBi({
+                id: String(data.id),
+                data: { ...dataToUpdate, draft: true },
+            });
+        }
+    };
+
+    const isEditDisabled = !editabilityData || !data || !editabilityData.editability;
 
     return (
         <S.PageWrapper>
@@ -59,8 +75,12 @@ export const BIViewPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button disabled={isEditDisabled} onClick={handleEditClick} variant="contained">
-                        Редактировать
+                    <Button
+                        disabled={isEditDisabled}
+                        onClick={data?.draft ? handleEditClick : handleMarkAsDraft}
+                        variant="contained"
+                    >
+                        {data?.draft ? 'Редактировать' : 'Сделать черновиком'}
                     </Button>
                 </S.FlexSideContainer>
             </S.Header>

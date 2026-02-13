@@ -157,7 +157,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
                                 })
                             }
                         />
-                        <Select
+                        {/* <Select
                             fullWidth
                             label="Теги"
                             options={characterOptions}
@@ -165,7 +165,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
                             onChange={(values) =>
                                 setFilterOptions({ ...filterOptions, character: values[0].id })
                             }
-                        />
+                        /> */}
                     </S.FiltersContainer>
                 </S.MainContent>
                 <S.ButtonContainer>

@@ -112,7 +112,10 @@ export const EditableCell = ({
 
         await updateBi({
             id: String(element.id),
-            data: dataToUpdate,
+            data: {
+                ...dataToUpdate,
+                draft: element.draft,
+            },
         });
 
         onEndEdit?.();

@@ -141,7 +141,7 @@ export const BiView: FC<IBiView> = ({
                         Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={40} />)}
                 </S.AttributesContainer>
             </S.Content>
-            <S.ButtonsContainer column>
+            <S.ButtonsContainer column={bi?.draft ? false : true}>
                 <Button
                     type="submit"
                     variant="contained"
@@ -156,7 +156,7 @@ export const BiView: FC<IBiView> = ({
                     disabled={isLoading || isBiUneditable}
                     onClick={() => setStage(biSelected ? Stage.SELECTEDBIEDIT : Stage.BIEDIT)}
                 >
-                    Сделать черновиком
+                    {bi?.draft ? 'Редактировать' : 'Сделать черновиком'}
                 </Button>
             </S.ButtonsContainer>
         </S.FlexContainer>
