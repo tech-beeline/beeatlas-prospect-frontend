@@ -57,6 +57,29 @@ export const useGetBIEditabilityByIdQuery = (id: string | undefined | null) => {
     });
 };
 
+export const useBIEditabilityMap = (id: number[]) => {
+    return useQuery({
+        queryKey: [BI_PREFIX, 'editability', id],
+        enabled: id.length > 0,
+        queryFn: async () => {
+            const results = await Promise.all(
+                id.map(async (id) => {
+                    const res = await getBIEditabilityById(String(id));
+                    return {
+                        id: id,
+                        editability: res.data.editability,
+                    };
+                }),
+            );
+
+            return results.reduce<Record<number, boolean>>((acc, item) => {
+                acc[item.id] = item.editability;
+                return acc;
+            }, {});
+        },
+    });
+};
+
 export function useCreateBIMutation() {
     const queryClient = useQueryClient();
     return useMutation({
