@@ -10,7 +10,11 @@ import { NotFoundBlock } from 'components/other';
 
 import { IBIData } from 'api/bi/types';
 import { useUpdateBIMutation } from 'api/queries/bi';
-import { useGetCompleteCJDataByIdQuery, usePartialUpdateCJMutation } from 'api/queries/cj';
+import {
+    useCreateCJDashboardMutation,
+    useGetCompleteCJDataByIdQuery,
+    usePartialUpdateCJMutation,
+} from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as ROUTER from 'router/const';
 import * as R from 'router/const';
@@ -47,6 +51,15 @@ export const CJPage = () => {
             .some((bi) => bi.draft) ?? false;
 
     const { mutateAsync: updateCJ, isPending: updatingCj } = usePartialUpdateCJMutation();
+
+    const { mutateAsync: createDashboard, isPending: isCreatingDashboard } =
+        useCreateCJDashboardMutation();
+
+    const handleCreateDashboardClick = async () => {
+        if (paramId) {
+            await createDashboard(Number(paramId));
+        }
+    };
 
     const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 
@@ -286,7 +299,25 @@ export const CJPage = () => {
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    <Button onClick={() => navigate(`${R.CX_PATH}${R.CJ_PATH}`)}>Закрыть</Button>
+                    {!isLoadingCJ && (
+                        <>
+                            <Button
+                                disabled={!data?.dashboardLink}
+                                startIcon={<Icon iconName={Icons.GraphUp} />}
+                                onClick={() => window.open(data?.dashboardLink ?? '/')}
+                            >
+                                Дашборд в grafana
+                            </Button>
+
+                            <Button
+                                disabled={data?.draft === false || isCreatingDashboard}
+                                startIcon={<Icon iconName={Icons.GraphUp} />}
+                                onClick={handleCreateDashboardClick}
+                            >
+                                Создать дашборд в grafana
+                            </Button>
+                        </>
+                    )}
 
                     {isLoadingCJ ? (
                         <Skeleton variant="square" width={127} height={40} />
@@ -302,6 +333,12 @@ export const CJPage = () => {
                             </Button>
                         )
                     )}
+
+                    <IconButton
+                        size="large"
+                        iconName={Icons.Close}
+                        onClick={() => navigate(`${R.CX_PATH}${R.CJ_PATH}`)}
+                    />
                 </S.FlexSideContainer>
             </S.Header>
 

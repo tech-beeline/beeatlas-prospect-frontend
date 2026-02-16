@@ -17,6 +17,8 @@ const GATEWAY_CAMUNDA_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/camunda/';
 const GATEWAY_AMBASSADOR_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/ambassador/';
+const GATEWAY_OBS_DASHBOARD_LINK =
+    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/obs-dashboard/api/';
 
 const PROD_GATEWAY = '/api-gateway/';
 const PROD_GATEWAY_PRODUCT = '/product/api/';
@@ -28,6 +30,7 @@ const PROD_GATEWAY_GRAPH_VALIDATOR = '/graph-validator/api/';
 const PROD_GATEWAY_CX = '/cx/api/';
 const PROD_GATEWAY_CAMUNDA = '/camunda/';
 const PROD_GATEWAY_AMBASSADOR = '/ambassador/';
+const PROD_OBS_DASHBOARD = '/obs-dashboard/api/';
 
 export const API_URL = IS_DEV ? MONOLITH_LINK : PROD_MONOLITH;
 export const STRUCTURIZR_URL = IS_DEV ? STRUCTURIZR_LINK : PROD_STRUCTURIZR;
@@ -41,5 +44,6 @@ export const GATEWAY_GRAPH_VALIDATOR_URL = IS_DEV
 export const GATEWAY_CX_URL = IS_DEV ? GATEWAY_CX_LINK : PROD_GATEWAY_CX;
 export const GATEWAY_CAMUNDA_URL = IS_DEV ? GATEWAY_CAMUNDA_LINK : PROD_GATEWAY_CAMUNDA;
 export const GATEWAY_AMBASSADOR_URL = IS_DEV ? GATEWAY_AMBASSADOR_LINK : PROD_GATEWAY_AMBASSADOR;
+export const GATEWAY_OBS_DASHBOARD_URL = IS_DEV ? GATEWAY_OBS_DASHBOARD_LINK : PROD_OBS_DASHBOARD;
 
 export const MOCK_PRODUCT_ID = 1;
