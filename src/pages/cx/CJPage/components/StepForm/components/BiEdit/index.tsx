@@ -3,6 +3,7 @@ import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, dataToFormValues, formValuesToData } from 'features/cx';
 import { FormValues } from 'features/cx/components/BIForm/form';
+import { BIFormRef } from 'features/cx/components/BIForm/types';
 
 import { useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -18,8 +19,8 @@ export const BiEdit: FC<IBiEdit> = ({
     onClose,
     previousStage = Stage.BIVIEW,
 }) => {
-    const submitButtonRef = useRef<HTMLButtonElement>(null);
-
+    const formRef = useRef<BIFormRef>(null);
+    const saveModeRef = useRef<'draft' | 'publish'>('draft');
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const { data } = useGetBIByIdQuery(selectedBiId ? String(selectedBiId) : null);
@@ -54,10 +55,11 @@ export const BiEdit: FC<IBiEdit> = ({
                 </S.FlexWrapper>
                 <BIForm
                     showButtons={false}
-                    ref={submitButtonRef}
+                    ref={formRef}
                     onClose={() => setStage(previousStage)}
                     onSave={async (values) => {
-                        await handleSave(values, true);
+                        const isDraft = saveModeRef.current === 'draft';
+                        await handleSave(values, isDraft);
                     }}
                     defaultValues={data ? dataToFormValues(data) : undefined}
                 />
@@ -65,10 +67,8 @@ export const BiEdit: FC<IBiEdit> = ({
             <S.ButtonsContainer column>
                 <Button
                     onClick={async () => {
-                        if (submitButtonRef.current) {
-                            const formValues = dataToFormValues(data!);
-                            await handleSave(formValues, false);
-                        }
+                        saveModeRef.current = 'publish';
+                        formRef.current?.onSubmit();
                     }}
                     variant="contained"
                 >
@@ -76,10 +76,8 @@ export const BiEdit: FC<IBiEdit> = ({
                 </Button>
                 <Button
                     onClick={async () => {
-                        if (submitButtonRef.current) {
-                            const formValues = dataToFormValues(data!);
-                            await handleSave(formValues, true);
-                        }
+                        saveModeRef.current = 'draft';
+                        formRef.current?.onSubmit();
                     }}
                 >
                     Сохранить как черновик

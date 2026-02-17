@@ -5,5 +5,6 @@ import { statusIdToLabelTypeMap } from './const';
 import { IStatusLabel } from './types';
 
 export const StatusLabel: FC<IStatusLabel> = ({ status }) => {
+    if (!status) return null;
     return <Label title={status.name} type={statusIdToLabelTypeMap[status.id] ?? 'default'} />;
 };

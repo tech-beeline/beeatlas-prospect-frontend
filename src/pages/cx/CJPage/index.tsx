@@ -1,6 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon, IconButton, Label, Skeleton } from '@beeline/design-system-react';
+import {
+    Button,
+    Icon,
+    IconButton,
+    Label,
+    ProgressButton,
+    Skeleton,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { dataToFormValues, formValuesToData } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
@@ -27,15 +34,20 @@ import { CJVersion } from './components/CJVersion';
 import { InfoSidesheet } from './components/InfoSidesheet';
 import { SkeletonTable } from './components/SkeletonTable';
 import { Table } from './components/Table';
-import { SideSheetVariants } from './const';
+import { ButtonState, SideSheetVariants } from './const';
 import * as S from './units';
 
 export const CJPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
-
+    const [buttonState, setButtonState] = useState<ButtonState>('default');
     const { modalOpened, openModal, closeModal } = useModal();
-    const { data, isLoading: isLoadingCJ, refetch } = useGetCompleteCJDataByIdQuery(paramId);
+    const {
+        data,
+        isLoading: isLoadingCJ,
+        refetch,
+        isFetching: isRefreshingCJ,
+    } = useGetCompleteCJDataByIdQuery(paramId);
     const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
     const { mutateAsync: updateBi } = useUpdateBIMutation();
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
@@ -50,7 +62,7 @@ export const CJPage = () => {
             .reduce((acc, step) => [...acc, ...step.bi], [] as IBIData[])
             .some((bi) => bi.draft) ?? false;
 
-    const { mutateAsync: updateCJ, isPending: updatingCj } = usePartialUpdateCJMutation();
+    const { mutateAsync: updateCJ } = usePartialUpdateCJMutation();
 
     const { mutateAsync: createDashboard, isPending: isCreatingDashboard } =
         useCreateCJDashboardMutation();
@@ -65,80 +77,84 @@ export const CJPage = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        return () => {
+            closeSideSheet();
+        };
+    }, [closeSideSheet]);
+
     const handleBackIconClick = () => {
         navigate(`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}`);
     };
 
-    const handlePublish = () => {
-        if (data) {
-            if (hasDraftBIs) {
-                openModal();
-            } else {
-                updateCJ({
+    const handleToggleDraft = async () => {
+        if (!data) return;
+
+        try {
+            setButtonState('loading');
+
+            if (data.draft) {
+                if (hasDraftBIs) {
+                    openModal();
+                    return;
+                }
+
+                await updateCJ({
                     id: String(data.id),
                     data: { draft: false },
                 });
+                await refetch();
+                showSnackbar({ message: 'CJ опубликован' });
+            } else {
+                await updateCJ({
+                    id: String(data.id),
+                    data: { draft: true },
+                });
+                await refetch();
+                showSnackbar({ message: 'CJ переведен в статус черновика' });
             }
+            setButtonState('default');
+        } finally {
+            setButtonState('default');
         }
     };
 
     const handlePublishAllBIs = async () => {
         if (!data) return;
 
-        const draftBIs = data.steps.flatMap((step) => step.bi).filter((bi) => bi.draft);
-
-        await Promise.all(
-            draftBIs.map(async (bi) => {
-                const formValues = dataToFormValues(bi);
-                const updatedFormValues = { ...formValues, draft: false };
-                const dataToUpdate = formValuesToData(updatedFormValues);
-
-                await updateBi({
-                    id: String(bi.id),
-                    data: dataToUpdate,
-                });
-            }),
-        );
-
-        await updateCJ({
-            id: String(data.id),
-            data: { draft: false },
-        });
-
-        closeModal();
-        showSnackbar({ message: 'CJ опубликован' });
-    };
-
-    const handleMarkAsDraft = async () => {
-        if (data) {
-            await updateCJ({
-                id: String(data.id),
-                data: { draft: true },
-            });
-            const allBIs = data.steps.flatMap((step) => step.bi);
+        try {
+            const draftBIs = data.steps.flatMap((step) => step.bi).filter((bi) => bi.draft);
 
             await Promise.all(
-                allBIs.map(async (bi) => {
+                draftBIs.map(async (bi) => {
                     const formValues = dataToFormValues(bi);
-                    const dataToUpdate = formValuesToData(formValues);
+                    const updatedFormValues = { ...formValues, draft: false };
+                    const dataToUpdate = formValuesToData(updatedFormValues);
 
                     await updateBi({
                         id: String(bi.id),
-                        data: {
-                            ...dataToUpdate,
-                            draft: true,
-                        },
+                        data: dataToUpdate,
                     });
                 }),
             );
+
+            await updateCJ({
+                id: String(data.id),
+                data: { draft: false },
+            });
+
+            showSnackbar({ message: 'CJ опубликован' });
+        } finally {
+            closeModal();
         }
     };
 
-    const isEmpty =
+    const isEmpty = !!(
         data &&
         data.steps.length === 1 &&
         data.steps.reduce((acc, step) => [...acc, ...step.bi.map((bi) => bi.id)], [] as number[])
-            .length === 0;
+            .length === 0
+    );
 
     const nameRef = useRef<HTMLDivElement>(null);
     const showNameTooltip = useShowTooltip<HTMLDivElement>(nameRef);
@@ -148,7 +164,7 @@ export const CJPage = () => {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     return (
         <S.PageWrapper>
-            <S.Header>
+            <S.Header data-testid="CjTopPanel">
                 <S.FlexSideContainer>
                     <Icon
                         iconName={Icons.ArrowLeft}
@@ -289,7 +305,9 @@ export const CJPage = () => {
 
                             <Button
                                 variant="outlined"
-                                disabled={data?.bpmn === null && !isEmpty}
+                                disabled={
+                                    (data?.bpmn === null && !isEmpty) || data?.draft === false
+                                }
                                 onClick={() => toggleSideSheet(SideSheetVariants.IMPORT_CJ)}
                             >
                                 Импортировать CJ
@@ -324,13 +342,16 @@ export const CJPage = () => {
                     ) : (
                         data &&
                         canEditCJ && (
-                            <Button
+                            <ProgressButton
+                                key={data.draft ? 'draft' : 'published'}
                                 variant="contained"
-                                onClick={data.draft ? handlePublish : handleMarkAsDraft}
-                                disabled={updatingCj}
+                                onClick={handleToggleDraft}
+                                disabled={buttonState === 'loading'}
+                                size="small"
+                                state={buttonState}
                             >
                                 {data.draft ? 'Опубликовать' : 'Перевести в черновик'}
-                            </Button>
+                            </ProgressButton>
                         )
                     )}
 
@@ -368,13 +389,17 @@ export const CJPage = () => {
                         isOpen={openSideSheet === SideSheetVariants.UPDATE_CJ}
                         cjId={data.id}
                         onClose={closeSideSheet}
-                        values={{ name: data.name, userPortrait: data.userPortrait }}
+                        values={{
+                            name: data.name,
+                            userPortrait: data.userPortrait,
+                        }}
                     />
                     <CJImport
                         isOpen={openSideSheet === SideSheetVariants.IMPORT_CJ}
                         onClose={closeSideSheet}
                         cjId={String(data.id)}
-                        onUploaded={refetch}
+                        isRefreshing={isRefreshingCJ}
+                        isEmptyCJ={isEmpty}
                     />
                     <CJVersion
                         isOpen={openSideSheet === SideSheetVariants.VERSION_CJ}

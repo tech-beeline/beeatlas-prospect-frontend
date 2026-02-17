@@ -6,7 +6,7 @@ import { StatusLabel, TargetLabel } from 'features/cx';
 import { Link } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
-import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
+import { useGetCJCollectionByBIIdQuery, useUpdateCJStepBIsMutation } from 'api/queries/cj';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -29,9 +29,12 @@ export const BiView: FC<IBiView> = ({
     const { data: editabilityData, isLoading: isLoadingEditability } = useGetBIEditabilityByIdQuery(
         String(selectedBiId),
     );
+    const { data: cjs, isLoading: isLoadingCjs } = useGetCJCollectionByBIIdQuery(
+        String(selectedBiId),
+    );
     const { mutateAsync: updateStepBis, isPending: updatingStep } = useUpdateCJStepBIsMutation();
 
-    const isLoading = isLoadingData || isLoadingEditability;
+    const isLoading = isLoadingData || isLoadingEditability || isLoadingCjs;
 
     const isBiUneditable = editabilityData && !editabilityData.editability;
 
@@ -132,7 +135,17 @@ export const BiView: FC<IBiView> = ({
                             <div>
                                 <S.Subtitle>Привязка к CJ</S.Subtitle>
                                 <S.Body2>
-                                    <Link url="Название CJ" />
+                                    {cjs &&
+                                        cjs.map((cj, index) => (
+                                            <>
+                                                <Link
+                                                    url={`/cx/cj/add?id=${cj.id}`}
+                                                    title={cj.name}
+                                                />
+                                                {index < cjs.length - 1 && ', '}
+                                            </>
+                                        ))}
+                                    {cjs && cjs.length === 0 && formatNullableString(null)}
                                 </S.Body2>
                             </div>
                         </>

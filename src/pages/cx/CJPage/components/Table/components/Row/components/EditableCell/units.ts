@@ -1,7 +1,8 @@
 import { Select } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const InputStyled = styled.input`
+export const InputStyled = styled.input<{ hasError?: boolean }>`
+    box-sizing: border-box;
     min-width: 10px;
     width: 100%;
     height: 52px;
@@ -13,7 +14,9 @@ export const InputStyled = styled.input`
     line-height: 18px;
 
     border-radius: 0px;
-    outline: 1px solid var(--color-border-focused);
+    border: 1px solid
+        ${({ hasError }) =>
+            hasError ? 'var(--color-border-error)' : 'var(--color-border-focused)'};
 `;
 
 export const TextAreaStyled = styled.textarea`

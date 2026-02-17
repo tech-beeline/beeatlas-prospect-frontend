@@ -21,7 +21,12 @@ export const Dialog: FC<IDialog> = ({
     const footer = showFooter ? (
         <S.ButtonsContainer>
             {showDeclineButton && (
-                <Button size="medium" variant="outlined" onClick={onDecline ?? onClose}>
+                <Button
+                    size="medium"
+                    variant="outlined"
+                    onClick={onDecline ?? onClose}
+                    disabled={isPending}
+                >
                     {declineText}
                 </Button>
             )}

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, BIFormValues, dataToFormValues, formValuesToData } from 'features/cx';
+import { BIFormRef } from 'features/cx/components/BIForm/types';
 
 import { FloatingNavigation } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -19,7 +20,7 @@ import * as S from './units';
 
 export const BIAddPage = () => {
     const draft = useRef(false);
-    const submitButtonRef = useRef<HTMLButtonElement>(null);
+    const formRef = useRef<BIFormRef>(null);
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
@@ -38,12 +39,12 @@ export const BIAddPage = () => {
 
     const handleSaveAsDraftClick = () => {
         draft.current = true;
-        submitButtonRef.current?.click();
+        formRef.current?.onSubmit();
     };
 
     const handlePublishClick = () => {
         draft.current = false;
-        submitButtonRef.current?.click();
+        formRef.current?.onSubmit();
     };
 
     const handleFormSave = async (values: BIFormValues) => {
@@ -115,7 +116,7 @@ export const BIAddPage = () => {
                                 <S.FormContainer>
                                     <BIForm
                                         fullscreen
-                                        ref={submitButtonRef}
+                                        ref={formRef}
                                         onClose={() => navigate(-1)}
                                         onSave={handleFormSave}
                                         defaultValues={data ? dataToFormValues(data) : undefined}

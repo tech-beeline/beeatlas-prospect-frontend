@@ -13,7 +13,6 @@ import {
     patchCJLink,
     postCJ,
     postCJByBPMN,
-    putCJ,
     putCjDashboard,
     uploadBPMNFile,
 } from 'api/cj';
@@ -165,7 +164,7 @@ export function useUpdateCJMutation() {
     return useMutation({
         mutationKey: [CJ_PREFIX, 'update'],
         mutationFn: async ({ id, data }: IUpdateCJParams) => {
-            await putCJ(id, data);
+            await patchCJ(id, data);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });

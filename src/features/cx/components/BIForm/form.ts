@@ -32,7 +32,7 @@ export type FormValues = {
 
 export const validationSchema = object().shape({
     id: number().defined().default(0),
-    name: string().defined().default(''),
+    name: string().trim().required('Заполните название'),
     communal: boolean().defined().default(false),
     identificator: string().defined().default(''),
     descr: string().defined().default(''),
