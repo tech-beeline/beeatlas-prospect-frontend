@@ -4,7 +4,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useSideSheetStore } from 'features/cx/store';
 import { Nullable } from 'types/common';
 
-import { useGetBIEditabilityByIdQuery } from 'api/queries/bi';
+import { useBIEditabilityMap } from 'api/queries/bi';
 
 import { formatNullableString } from '../../../../../utils/formatters';
 import { SideSheetVariants } from '../../const';
@@ -31,24 +31,9 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
     const [selectedBiIdForView, setSelectedBiIdForView] = useState<number | null>(null);
     const [collapsedStepIds, setCollapsedStepIds] = useState<number[]>([]);
 
-    const biIds: number[] = [];
-    tableData.forEach((step) => {
-        step.bi?.forEach((bi) => {
-            if (bi.id && !biIds.includes(bi.id)) {
-                biIds.push(bi.id);
-            }
-        });
-    });
+    const biIds = tableData.flatMap((step) => step.bi?.map((bi) => bi.id) ?? []);
 
-    const biEditabilityQueries = biIds.map((biId) => useGetBIEditabilityByIdQuery(String(biId)));
-
-    const biEditabilityMap: Record<number, boolean> = {};
-    biIds.forEach((biId, index) => {
-        const query = biEditabilityQueries[index];
-        if (query.data) {
-            biEditabilityMap[biId] = query.data.editability;
-        }
-    });
+    const { data: biEditabilityMap = {} } = useBIEditabilityMap(biIds);
 
     const isBiEditable = (biId: number): boolean => {
         return biEditabilityMap[biId] ?? true;

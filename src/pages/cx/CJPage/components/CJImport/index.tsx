@@ -8,7 +8,9 @@ import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 
 import { CJ_PREFIX, useCreateCJByBPMN, useUploadBPMNFile } from 'api/queries/cj';
+import { useModal } from 'hooks';
 import { formatSize } from 'utils/formatters';
+import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { downloadBpmnFile } from '../../utils/formatters';
@@ -18,7 +20,7 @@ import * as S from './units';
 
 export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) => {
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
-    const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
+    const { mutateAsync: createCJByBPMN, isPending: isLoadingCJbyBPMN } = useCreateCJByBPMN();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const queryClient = useQueryClient();
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -41,6 +43,8 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
         }
     };
 
+    const { modalOpened, openModal, closeModal } = useModal();
+
     const onSubmmit = async () => {
         if (bpmnFile) {
             try {
@@ -57,10 +61,12 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
                 onUploaded?.();
                 onClose();
                 showSnackbar({ message: 'Изменения сохранены' });
+                closeModal();
             } catch (bpmnError) {
                 showSnackbar({ message: 'Ошибка валидации файла', showCloseButton: true });
                 setBpmnFile(null);
                 onClose();
+                closeModal();
             }
         }
     };
@@ -123,12 +129,24 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
                         disabled={!bpmnFile}
                         type="submit"
                         variant="contained"
-                        onClick={onSubmmit}
+                        onClick={openModal}
                     >
                         Сохранить
                     </Button>
                 </S.ButtonContainer>
             </S.Container>
+            <Dialog
+                title="Сохранить новую версию?"
+                opened={modalOpened}
+                confirmText="Сохранить"
+                onConfirm={onSubmmit}
+                onClose={closeModal}
+                isPending={isLoadingCJbyBPMN}
+            >
+                Внимание! При сохранении новой версии CJ, описанные вызовы в удаленных шагах
+                сценария BI будут безвозвратно утеряны и не отобразятся при возвращении старой
+                версии
+            </Dialog>
         </SideBlock>
     );
 };
