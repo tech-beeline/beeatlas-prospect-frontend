@@ -1,32 +1,39 @@
 import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const ScenarioTd = styled.td`
+export const ScenarioTd = styled.div<{ last?: boolean }>`
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 320px;
+    /* height: 100%; */
+    height: fit-content;
+    min-width: 320px;
     padding: 0;
-    border-left: 1px solid var(--color-divider);
-    border-right: 1px solid var(--color-divider);
+
+    flex: 1;
+
+    border-bottom: ${({ last }) => (last ? 'none' : '1px solid var(--color-divider)')};
+    /* border-left: 1px solid var(--color-divider); */
+    /* border-right: 1px solid var(--color-divider); */
 `;
 
 export const ScenarionTdWrapper = styled.div<{ expanded?: boolean; last?: boolean }>`
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 24px;
     padding: 6px 16px;
     height: 100%;
     width: 100%;
-    border-bottom: ${({ expanded, last }) =>
+    /* border-bottom: ${({ expanded, last }) =>
         expanded
             ? '1px solid var(--color-divider)'
             : last
             ? 'none'
-            : '1px solid var(--color-divider)'};
+            : '1px solid var(--color-divider)'}; */
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : ''};
+
+    flex: ${({ expanded }) => (expanded ? 0 : 1)};
 `;
 
 export const ScenationTitleWrapper = styled.div`
@@ -35,15 +42,25 @@ export const ScenationTitleWrapper = styled.div`
     gap: 12px;
 `;
 
+export const ScenarionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+`;
+
 export const ScenarioContentWrapper = styled.div<{ last: boolean }>`
     display: flex;
     flex-direction: column;
-    max-height: 405px;
+    /* max-height: 405px; */
+    /* max-height: fit-content; */
     padding: 24px 16px 12px 36px;
     border-left: 4px solid var(--color-background-brand);
     gap: 24px;
     overflow-y: auto;
-    ${({ last }) => (last ? '' : 'border-bottom: 1px solid var(--color-divider);')}
+    /* ${({ last }) => (last ? '' : 'border-bottom: 1px solid var(--color-divider);')} */
+
+    flex: 1;
 `;
 
 export const SLAWrapper = styled.div`

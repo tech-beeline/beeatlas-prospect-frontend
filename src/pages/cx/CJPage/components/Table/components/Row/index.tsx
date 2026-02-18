@@ -145,6 +145,7 @@ export const Row = <T,>({
                                                 <S.Td
                                                     key={i}
                                                     borderRight={
+                                                        rowId === RowIds.SCENARION_BI ||
                                                         i === reducedStepData.length - 1 ||
                                                         reducedStepData[i + 1].type ===
                                                             RowElementType.COLLAPSED_STEP
