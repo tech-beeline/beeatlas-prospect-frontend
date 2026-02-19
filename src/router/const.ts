@@ -66,3 +66,4 @@ export const REVIEW_PATH = '/review';
 export const ADD_PATH = '/add';
 export const EDIT_PATH = '/edit';
 export const VIEW_PATH = '/view';
+export const RULES_PATH = '/rules';

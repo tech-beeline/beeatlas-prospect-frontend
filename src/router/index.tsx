@@ -55,6 +55,7 @@ import {
     PersonalMapPage,
     RoleAddPage,
     RolesPage,
+    RulesPage,
     SearchPage,
     ServicesPage,
     SubscriptionsPage,
@@ -518,6 +519,17 @@ export const NavigationRouter = () => {
                             <MenuModels />
                             <S.ContentWrapper>
                                 <PatternsPage isAdmin={isAdmin} />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                <Route
+                    path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.RULES_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <S.ContentWrapper>
+                                <RulesPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }
