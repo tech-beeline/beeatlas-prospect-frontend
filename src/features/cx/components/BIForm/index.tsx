@@ -1,6 +1,5 @@
-import React, { forwardRef, Fragment, useEffect, useState } from 'react';
+import React, { forwardRef, Fragment, useEffect, useImperativeHandle, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button } from '@beeline/design-system-react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
@@ -17,11 +16,11 @@ import { useGetProductsQuery } from 'hooks';
 
 import { LinksFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
-import { IBIForm } from './types';
+import { BIFormRef, IBIForm } from './types';
 import * as S from './units';
 
-export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
-    ({ onClose, onSave, defaultValues, showButtons = true, fullscreen = false }, buttonRef) => {
+export const BIForm = forwardRef<BIFormRef, IBIForm>(
+    ({ onClose, onSave, defaultValues, fullscreen = false }, buttonRef) => {
         const [searchTextProduct, setSearchTextProduct] = useState('');
         const { data: statuses } = useGetBIStatusesQuery();
 
@@ -66,6 +65,9 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
             reset();
         });
 
+        useImperativeHandle(buttonRef, () => ({
+            onSubmit,
+        }));
         const NameContainer = fullscreen ? S.NameFlexContainer : Fragment;
 
         return (
@@ -86,7 +88,12 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
                             )}
 
                             <NameContainer>
-                                <TextField id="name" name="name" label="Название" maxLength={255} />
+                                <TextField
+                                    id="name"
+                                    name="name"
+                                    label="Название*"
+                                    maxLength={255}
+                                />
                             </NameContainer>
                             <S.TextAreaWrapper>
                                 <TextArea name="descr" label="Описание" />
@@ -152,15 +159,6 @@ export const BIForm = forwardRef<HTMLButtonElement, IBIForm>(
 
                             <TextArea name="metrics" label="Текстовое описание измеримых метрик" />
                         </S.TextFieldContainer>
-
-                        <S.ButtonContainer style={{ display: showButtons ? 'flex' : 'none' }}>
-                            <Button type="button" size="medium" onClick={onClose}>
-                                Сохранить как черновик
-                            </Button>
-                            <Button type="submit" size="medium" variant="contained" ref={buttonRef}>
-                                Опубликовать
-                            </Button>
-                        </S.ButtonContainer>
                     </form>
                 </FormProvider>
             </>

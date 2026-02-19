@@ -7,3 +7,7 @@ export interface IBIForm {
     showButtons?: boolean;
     fullscreen?: boolean;
 }
+
+export interface BIFormRef {
+    onSubmit: () => void;
+}

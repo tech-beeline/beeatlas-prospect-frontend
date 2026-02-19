@@ -2,6 +2,7 @@ import React, { FC, useRef } from 'react';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, formValuesToData } from 'features/cx';
+import { BIFormRef } from 'features/cx/components/BIForm/types';
 
 import { useCreateBIMutation } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
@@ -19,8 +20,8 @@ export const BiCreate: FC<IBiCreate> = ({
     setStage,
     onClose,
 }) => {
-    const submitButtonRef = useRef<HTMLButtonElement>(null);
-
+    const formRef = useRef<BIFormRef>(null);
+    const saveModeRef = useRef<'draft' | 'publish'>('draft');
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const { mutateAsync: createBi } = useCreateBIMutation();
@@ -42,28 +43,49 @@ export const BiCreate: FC<IBiCreate> = ({
                 </S.FlexWrapper>
                 <BIForm
                     showButtons={false}
-                    ref={submitButtonRef}
+                    ref={formRef}
                     onClose={() => setStage(Stage.SETTINGS)}
                     onSave={async (values) => {
+                        const isDraft = saveModeRef.current === 'draft';
+
                         const { biId } = await createBi({
                             ...formValuesToData(values),
-                            draft: true,
+                            draft: isDraft,
                             productId,
                         });
+
                         await updateStepBis({
                             stepId: String(stepId),
                             data: { id_bi: Number(biId), order: stepBisLength },
                         });
-                        showSnackbar({ message: 'BI создан и добавлен в этап' });
+
+                        showSnackbar({
+                            message: isDraft
+                                ? 'BI сохранён как черновик'
+                                : 'BI опубликован и добавлен в этап',
+                        });
                     }}
                 />
             </S.Content>
             <S.ButtonsContainer column>
-                <Button onClick={() => submitButtonRef.current?.click()} variant="contained">
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        saveModeRef.current = 'publish';
+                        formRef.current?.onSubmit();
+                    }}
+                >
                     Опубликовать
                 </Button>
 
-                <Button onClick={() => setStage(Stage.BISEARCH)}>Сохранить как черновик</Button>
+                <Button
+                    onClick={() => {
+                        saveModeRef.current = 'draft';
+                        formRef.current?.onSubmit();
+                    }}
+                >
+                    Сохранить как черновик
+                </Button>
             </S.ButtonsContainer>
         </S.FlexContainer>
     );
