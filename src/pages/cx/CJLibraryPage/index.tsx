@@ -35,6 +35,7 @@ export const CJLibraryPage = () => {
         status: CJLibraryStatus.ALL,
         format: FormatVariant.ALL,
         channel: [],
+        grafana: false,
     });
 
     const [search, setSearch] = useState(filterOptions.search);
@@ -67,6 +68,9 @@ export const CJLibraryPage = () => {
                     cj.uniqueIdent?.toLowerCase().includes(term),
             );
         }
+        if (filterOptions.grafana) {
+            result = result.filter((cj) => !!cj.dashboardLink);
+        }
 
         return result;
     };
@@ -83,6 +87,7 @@ export const CJLibraryPage = () => {
             status: CJLibraryStatus.ALL,
             format: FormatVariant.ALL,
             channel: [],
+            grafana: false,
         });
         closeFilter();
     };
@@ -92,13 +97,15 @@ export const CJLibraryPage = () => {
         filterOptions.product !== ProductVariant.ALL ||
         filterOptions.status !== CJLibraryStatus.ALL ||
         filterOptions.format !== FormatVariant.ALL ||
-        filterOptions.channel.length > 0;
+        filterOptions.channel.length > 0 ||
+        filterOptions.grafana === true;
 
     const activeFiltersCount = [
         filterOptions.product !== ProductVariant.ALL ? 1 : 0,
         filterOptions.status !== CJLibraryStatus.ALL ? 1 : 0,
         filterOptions.format !== FormatVariant.ALL ? 1 : 0,
         filterOptions.channel.length > 0 ? 1 : 0,
+        filterOptions.grafana ? 1 : 0,
     ].reduce((a, b) => a + b, 0);
 
     useEffect(() => {

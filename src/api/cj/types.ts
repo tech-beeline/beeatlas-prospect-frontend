@@ -37,6 +37,7 @@ export interface ICJData {
     uniqueIdent: string;
     productId: string;
     bpmn: boolean;
+    dashboardLink?: string | null;
 }
 
 export interface ICJNewData extends ICJData {
