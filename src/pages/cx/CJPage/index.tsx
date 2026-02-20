@@ -19,6 +19,7 @@ import { IBIData } from 'api/bi/types';
 import { useUpdateBIMutation } from 'api/queries/bi';
 import {
     useCreateCJDashboardMutation,
+    useGetCJFileVersionByIdQuery,
     useGetCompleteCJDataByIdQuery,
     usePartialUpdateCJMutation,
 } from 'api/queries/cj';
@@ -49,6 +50,8 @@ export const CJPage = () => {
         isFetching: isRefreshingCJ,
     } = useGetCompleteCJDataByIdQuery(paramId);
     const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: versions, isLoading: isLoadingVersions } = useGetCJFileVersionByIdQuery(paramId);
+
     const { mutateAsync: updateBi } = useUpdateBIMutation();
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
     const isLoading = isLoadingCJ || isLoadingProducts;
@@ -156,6 +159,10 @@ export const CJPage = () => {
         data.steps.reduce((acc, step) => [...acc, ...step.bi.map((bi) => bi.id)], [] as number[])
             .length === 0
     );
+
+    const hasVersions = Array.isArray(versions) && versions.length > 0;
+    const isVersionsDisabled =
+        (data?.bpmn === null && !isEmpty) || isLoadingVersions || !hasVersions;
 
     const nameRef = useRef<HTMLDivElement>(null);
     const showNameTooltip = useShowTooltip<HTMLDivElement>(nameRef);
@@ -302,7 +309,7 @@ export const CJPage = () => {
                                                 icon: Icons.PagesMultipleEmpty,
                                                 onClick: () =>
                                                     toggleSideSheet(SideSheetVariants.VERSION_CJ),
-                                                disabled: data?.bpmn === null && !isEmpty,
+                                                disabled: isVersionsDisabled,
                                             },
                                         ],
                                     ]}
@@ -421,6 +428,8 @@ export const CJPage = () => {
                     <CJVersion
                         isOpen={openSideSheet === SideSheetVariants.VERSION_CJ}
                         onClose={closeSideSheet}
+                        versions={versions}
+                        cjId={paramId}
                     />
                 </>
             )}
