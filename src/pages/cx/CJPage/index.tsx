@@ -12,7 +12,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { dataToFormValues, formValuesToData } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
-import { TooltipContainer } from 'components/interaction';
+import { DropdownMenu, TooltipContainer } from 'components/interaction';
 import { NotFoundBlock } from 'components/other';
 
 import { IBIData } from 'api/bi/types';
@@ -70,6 +70,7 @@ export const CJPage = () => {
     const handleCreateDashboardClick = async () => {
         if (paramId) {
             await createDashboard(Number(paramId));
+            showSnackbar({ message: 'Дашборд в grafana создан' });
         }
     };
 
@@ -275,13 +276,44 @@ export const CJPage = () => {
                             </S.InfoContainer>
 
                             {canEditCJ && (
-                                <S.ButtonStyled
-                                    disabled={!data?.draft}
-                                    endIcon={<Icon iconName={Icons.Edit} />}
-                                    onClick={() => toggleSideSheet(SideSheetVariants.UPDATE_CJ)}
-                                    id="buttonToggleId"
-                                    data-tooltip-id="editButton"
-                                />
+                                <DropdownMenu
+                                    id="dropdown-contols"
+                                    position="left"
+                                    items={[
+                                        [
+                                            {
+                                                title: 'Редактировать',
+                                                icon: Icons.Edit,
+                                                onClick: () =>
+                                                    toggleSideSheet(SideSheetVariants.UPDATE_CJ),
+                                                disabled: !data?.draft,
+                                            },
+                                            {
+                                                title: 'Импортировать CJ',
+                                                icon: Icons.Import,
+                                                onClick: () =>
+                                                    toggleSideSheet(SideSheetVariants.IMPORT_CJ),
+                                                disabled:
+                                                    (data?.bpmn === null && !isEmpty) ||
+                                                    data?.draft === false,
+                                            },
+                                            {
+                                                title: 'Показать версии',
+                                                icon: Icons.PagesMultipleEmpty,
+                                                onClick: () =>
+                                                    toggleSideSheet(SideSheetVariants.VERSION_CJ),
+                                                disabled: data?.bpmn === null && !isEmpty,
+                                            },
+                                        ],
+                                    ]}
+                                >
+                                    <S.ButtonStyled
+                                        disabled={!data?.draft}
+                                        endIcon={<Icon iconName={Icons.MoreVert} />}
+                                        id="buttonToggleId"
+                                        data-tooltip-id="editButton"
+                                    />
+                                </DropdownMenu>
                             )}
                             {data && !data.draft && (
                                 <TooltipContainer
@@ -294,30 +326,12 @@ export const CJPage = () => {
                                     Для редактирования CJ, его нужно сделать черновиком
                                 </TooltipContainer>
                             )}
-
-                            <Button
-                                variant="outlined"
-                                disabled={data?.bpmn === null && !isEmpty}
-                                onClick={() => toggleSideSheet(SideSheetVariants.VERSION_CJ)}
-                            >
-                                Показать версии
-                            </Button>
-
-                            <Button
-                                variant="outlined"
-                                disabled={
-                                    (data?.bpmn === null && !isEmpty) || data?.draft === false
-                                }
-                                onClick={() => toggleSideSheet(SideSheetVariants.IMPORT_CJ)}
-                            >
-                                Импортировать CJ
-                            </Button>
                         </>
                     )}
                 </S.FlexSideContainer>
 
                 <S.FlexSideContainer>
-                    {!isLoadingCJ && (
+                    {!isLoadingCJ && data?.bpmn && (
                         <>
                             <Button
                                 disabled={!data?.dashboardLink}
@@ -327,13 +341,15 @@ export const CJPage = () => {
                                 Дашборд в grafana
                             </Button>
 
-                            <Button
-                                disabled={data?.draft === false || isCreatingDashboard}
-                                startIcon={<Icon iconName={Icons.GraphUp} />}
-                                onClick={handleCreateDashboardClick}
-                            >
-                                Создать дашборд в grafana
-                            </Button>
+                            {canEditCJ && (
+                                <Button
+                                    disabled={!data || data.draft === true || isCreatingDashboard}
+                                    startIcon={<Icon iconName={Icons.GraphUp} />}
+                                    onClick={handleCreateDashboardClick}
+                                >
+                                    Создать дашборд в grafana
+                                </Button>
+                            )}
                         </>
                     )}
 
@@ -374,6 +390,7 @@ export const CJPage = () => {
                     draft={data.draft}
                     tableData={data.steps}
                     bpmn={data.bpmn}
+                    canEditCJ={canEditCJ}
                 />
             )}
 

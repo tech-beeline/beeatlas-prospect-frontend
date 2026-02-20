@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Autocomplete, Button, IconButton, Select } from '@beeline/design-system-react';
+import { Autocomplete, Button, IconButton, Select, Switch } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { CJLibraryStatus } from 'api/cj/types';
@@ -54,6 +54,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
             format: FormatVariant.ALL,
             channel: [],
             search: '',
+            grafana: false,
         });
     };
 
@@ -61,7 +62,8 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
         filterOptions.product !== ProductVariant.ALL ||
         filterOptions.format !== FormatVariant.ALL ||
         filterOptions.status !== CJLibraryStatus.ALL ||
-        filterOptions.channel.length > 0;
+        filterOptions.channel.length > 0 ||
+        filterOptions.grafana === true;
     return (
         <>
             <S.Overlay onClick={onClose} />
@@ -74,6 +76,13 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
                     </S.FlexWrapper>
 
                     <S.FiltersContainer>
+                        <Switch
+                            label="Показать CJ c дашбордами в grafana"
+                            checked={filterOptions.grafana}
+                            onChange={(e) =>
+                                setFilterOptions({ ...filterOptions, grafana: e.target.checked })
+                            }
+                        />
                         <Autocomplete
                             fullWidth
                             disabled={isLoadingProducts}

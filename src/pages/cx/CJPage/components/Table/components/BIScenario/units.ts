@@ -98,6 +98,8 @@ export const IconButtonStyled = styled(IconButton)<{ expanded: boolean }>`
 export const BICallsContainer = styled.div`
     border: 1px solid var(--color-divider);
     border-radius: 12px;
+
+    overflow: hidden;
 `;
 
 export const CallsWrapper = styled(FlexWrapper)`

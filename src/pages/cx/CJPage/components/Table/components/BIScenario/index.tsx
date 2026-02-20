@@ -79,7 +79,9 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                     <S.BICallsContainer>
                         {!biSteps.relations || biSteps.relations.length === 0 ? (
                             <S.CallsTitleWrapper>
-                                <Text variant="subtitle3">{formatNullableString(null)}</Text>
+                                <Text inactive variant="body3">
+                                    В шаге сценария BI нет описанных вызовов
+                                </Text>
                             </S.CallsTitleWrapper>
                         ) : (
                             biSteps.relations.map((relation, index) => (

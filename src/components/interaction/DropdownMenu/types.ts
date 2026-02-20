@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 interface IDropdownMenuItem {
@@ -11,4 +12,6 @@ interface IDropdownMenuItem {
 export interface IDropdownMenu {
     id: string;
     items: IDropdownMenuItem[][];
+    children?: ReactNode;
+    position?: 'right' | 'left';
 }

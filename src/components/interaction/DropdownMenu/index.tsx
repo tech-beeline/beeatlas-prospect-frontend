@@ -7,7 +7,7 @@ import { useOutsideClick } from 'hooks/useOutsideClick';
 import { IDropdownMenu } from './types';
 import * as S from './units';
 
-export const DropdownMenu: FC<IDropdownMenu> = ({ id, items }) => {
+export const DropdownMenu: FC<IDropdownMenu> = ({ id, items, children, position = 'right' }) => {
     const menuRef = useRef(null);
     const menuButtonRef = useRef(null);
 
@@ -21,15 +21,12 @@ export const DropdownMenu: FC<IDropdownMenu> = ({ id, items }) => {
 
     return (
         <S.Container>
-            <S.IconStyled
-                id={id}
-                iconName={Icons.MoreVert}
-                ref={menuButtonRef}
-                onClick={handleIconClick}
-            />
+            <div id={id} ref={menuButtonRef} onClick={handleIconClick}>
+                {children ? children : <S.IconStyled iconName={Icons.MoreVert} />}
+            </div>
 
             {isMenuOpen && (
-                <S.MenuBlock ref={menuRef}>
+                <S.MenuBlock ref={menuRef} position={position}>
                     {items.map((group, i) => (
                         <>
                             {group.map((item, j) => (

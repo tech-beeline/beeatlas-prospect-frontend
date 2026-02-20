@@ -8,6 +8,7 @@ export interface ICJFilterOptions {
     status: CJLibraryStatus;
     format: FormatVariant;
     channel: number[];
+    grafana: boolean;
 }
 export interface ICJLibraryFilters {
     filterOptions: ICJFilterOptions;

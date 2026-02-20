@@ -12,6 +12,7 @@ export interface IRow<T> {
     onAddButtonClick: (biIndex: number) => void;
     firstRow?: boolean;
     lastRow?: boolean;
+    canEditCJ: boolean;
 
     steps: ICompleteStepData[];
     parseData: (bi: IBIData) => T;

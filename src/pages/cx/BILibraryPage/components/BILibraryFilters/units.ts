@@ -10,7 +10,7 @@ export const Overlay = styled.div`
 
         background: rgba(25, 28, 52, 0.24);
 
-        z-index: 999;
+        z-index: 102;
     }
 
     @media (min-width: 1401px) {
@@ -29,7 +29,7 @@ export const Container = styled.div`
 
     border-left: 1px solid var(--color-divider);
 
-    z-index: 99;
+    z-index: 101;
 
     @media (max-width: 1400px) {
         position: fixed;
@@ -38,7 +38,7 @@ export const Container = styled.div`
         bottom: 0;
 
         background-color: var(--color-background-base);
-        z-index: 1000;
+        z-index: 103;
     }
 `;
 

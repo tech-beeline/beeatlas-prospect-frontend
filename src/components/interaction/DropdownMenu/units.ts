@@ -5,10 +5,10 @@ export const Container = styled.div`
     position: relative;
 `;
 
-export const MenuBlock = styled.div`
+export const MenuBlock = styled.div<{ position: 'right' | 'left' }>`
     position: absolute;
     bottom: 0px;
-    right: 0;
+    ${({ position }) => (position === 'right' ? 'right: 0;' : 'left: 0;')}
 
     transform: translateY(100%);
 

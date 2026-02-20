@@ -17,7 +17,7 @@ import { COLORS, rowsData } from './const';
 import { ITable, RowIds } from './types';
 import * as S from './units';
 
-export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) => {
+export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn, canEditCJ }) => {
     const [hiddenRows, showHiddenRows, setHiddenRows, setShowHiddenRows] = useHiddenRowsStore(
         (state) => [
             state.hiddenRows,
@@ -151,7 +151,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
                                             <p data-testid={`${stepIndex}Step`}>{step.name}</p>
                                         </S.TitleWrapper>
 
-                                        {draft && !bpmn && (
+                                        {draft && !bpmn && canEditCJ && (
                                             <ColumnMenu
                                                 cjId={cjId}
                                                 stepId={step.id}
@@ -207,6 +207,7 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn }) =
                                 bpmn={bpmn}
                                 onOpenStepFormByBiId={openStepFormByBiId}
                                 isBiEditable={isBiEditable}
+                                canEditCJ={canEditCJ}
                             />
                         ))}
                     </S.Tbody>

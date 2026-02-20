@@ -80,9 +80,16 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
             </S.TableDataStyled>
             <S.TableDataStyled>
                 {cj.bpmn ? (
-                    <Label title="BPMN" type="warning" variant="outline" />
+                    <Label title="BPMN" type="warning" variant="contained" />
                 ) : (
-                    <Label title="BEEATLAS" type="magenta" variant="outline" />
+                    <Label title="BEEATLAS" type="magenta" variant="contained" />
+                )}
+            </S.TableDataStyled>
+            <S.TableDataStyled>
+                {cj.dashboardLink ? (
+                    <Label title="GRAFANA" type="teal" variant="contained" />
+                ) : (
+                    formatNullableString(null)
                 )}
             </S.TableDataStyled>
             <S.TdDate>{dayjs(cj.lastModifiedDate).format('DD.MM.YYYY')}</S.TdDate>
