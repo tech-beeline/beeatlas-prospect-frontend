@@ -254,7 +254,7 @@ export const BILibraryPage = () => {
                     ) : (
                         <BITable data={bis} />
                     )
-                ) : rawBis && rawBis.length === 0 ? (
+                ) : bis && bis.length === 0 ? (
                     <S.NotFoundContainer>
                         <NotFoundBlock
                             imageVariant={ImageVariants.EMPTY_BOX}

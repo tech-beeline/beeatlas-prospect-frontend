@@ -256,7 +256,7 @@ export const CJLibraryPage = () => {
                     ) : (
                         <CJTable data={CJs} />
                     )
-                ) : rawCJs && rawCJs.length === 0 ? (
+                ) : CJs && CJs.length === 0 ? (
                     <S.NotFoundContainer>
                         <NotFoundBlock
                             imageVariant={ImageVariants.EMPTY_BOX}

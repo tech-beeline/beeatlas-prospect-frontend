@@ -29,22 +29,6 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
         name: 'steps',
     });
 
-    useEffect(() => {
-        reset({
-            steps:
-                relationsData.length === 0
-                    ? [{ description: '' }]
-                    : relationsData.map((relation) => ({
-                          id: relation.id,
-                          product: relation.productId,
-                          tc: relation.tcId,
-                          iface: relation.interfaceId,
-                          operation: relation.operationId,
-                          description: relation.description,
-                      })),
-        });
-    }, [relationsData]);
-
     const { mutateAsync } = useUpdateBIStepRelations();
 
     const onSubmit = handleSubmit(async (values: FormValues) => {
@@ -64,7 +48,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
     });
 
     const handleAddClick = () => {
-        append({ description: '' });
+        append({ product: null, description: '', stepName: `Вызов ${fields.length + 1}` });
     };
 
     const handleClose = () => {
@@ -73,6 +57,30 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
         }
         onClose();
     };
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        reset({
+            steps:
+                relationsData.length === 0
+                    ? [{ description: '', stepName: 'Вызов 1' }]
+                    : relationsData.map((relation, i) => ({
+                          id: relation.id,
+                          product: relation.productId,
+                          tc: relation.tcId,
+                          iface: relation.interfaceId,
+                          operation: relation.operationId,
+                          description: relation.description,
+                          stepName:
+                              relation.tcName ??
+                              relation.operation ??
+                              relation.interfaceName ??
+                              relation.productName ??
+                              `Вызов ${i + 1}`,
+                      })),
+        });
+    }, [isOpen, relationsData]);
 
     return (
         <SideBlock hasBackdrop isOpen={isOpen} onClose={handleClose} large>

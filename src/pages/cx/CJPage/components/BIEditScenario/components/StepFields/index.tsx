@@ -28,7 +28,8 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
     const productId = watch(`steps.${index}.product`);
     const ifaceId = watch(`steps.${index}.iface`);
-    const tcId = watch(`steps.${index}.tc`);
+    const stepName = watch(`steps.${index}.stepName`);
+
     const isFirstRender = useRef(true);
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
         setSearchTextTC('');
         setSearchTextIface('');
         setSearchTextOperation('');
-    }, [productId, index, setValue]);
+    }, [productId, setValue]);
 
     useEffect(() => {
         if (!ifaceId) {
@@ -61,10 +62,6 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const { data: archData, isLoading: isLoadingArch } =
         useGetProductStructurizrInterfacesByCmdbQuery(productCmdb);
 
-    const selectedTc = (tcData ?? []).find((tc) => tc.id === tcId);
-    const selectedProduct = (productsData ?? []).find(
-        (product) => !!productId && Number(product.id) === Number(productId),
-    );
     const productsFiltered = (productsData ?? []).filter((product) =>
         product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
     );
@@ -106,19 +103,20 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
         <S.LinkContainer>
             <S.FlexWrapper>
                 <Text variant="subtitle1">
-                    {selectedTc ? (
+                    <TooltipContainer text={stepName} tooltipId={`title-${index}`} />
+                    {/* {selectedTc ? (
                         <TooltipContainer
                             text={selectedTc.name}
-                            tooltipId={`title-relation-tc-${selectedTc.id}`}
+                            tooltipId={`title-relation-${index}-tc-${selectedTc.id}`}
                         />
                     ) : selectedProduct ? (
                         <TooltipContainer
                             text={selectedProduct.name}
-                            tooltipId={`title-relation-product-${selectedProduct.id}`}
+                            tooltipId={`title-relation-product-${index}-${selectedProduct.id}`}
                         />
                     ) : (
                         `Вызов ${index + 1}`
-                    )}
+                    )} */}
                 </Text>
                 {index === 0 && (
                     <Button
@@ -157,7 +155,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                                 return (
                                     <TooltipContainer
                                         text={option.value}
-                                        tooltipId={`product-name-${option.id}`}
+                                        tooltipId={`product-name-${index}-${option.id}`}
                                     />
                                 );
                             }}
@@ -175,7 +173,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                                     <div>
                                         <TooltipContainer
                                             text={option.value}
-                                            tooltipId={`tc-name-${option.id}`}
+                                            tooltipId={`tc-name-${index}-${option.id}`}
                                         />
                                         <Text variant="body3" inactive>
                                             {option.code}
@@ -196,7 +194,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                                 return (
                                     <TooltipContainer
                                         text={option.value}
-                                        tooltipId={`iface-name-${option.id}`}
+                                        tooltipId={`iface-name-${index}-${option.id}`}
                                     />
                                 );
                             }}
@@ -213,7 +211,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                                 return (
                                     <TooltipContainer
                                         text={option.value}
-                                        tooltipId={`op-name-${option.id}`}
+                                        tooltipId={`op-name-${index}-${option.id}`}
                                     />
                                 );
                             }}
