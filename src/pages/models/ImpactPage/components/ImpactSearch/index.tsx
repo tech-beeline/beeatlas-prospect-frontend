@@ -117,7 +117,7 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                 <Search
                     fullWidth
                     ref={searchRef}
-                    placeholder="Имя/мнемоника приложения CMDB, мнемоника экземпляра CMDB, имя сервиса, endpoint или сервера"
+                    placeholder="Название приложения, сервера или endpoint"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     // onFocus={() => setIsOpen(true)}

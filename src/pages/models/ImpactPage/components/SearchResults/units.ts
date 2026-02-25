@@ -71,7 +71,7 @@ export const CardsContainer = styled.div`
     flex-direction: column;
 `;
 
-export const EndpointContainer = styled.div`
+export const EndpointContainer = styled.div<{ hovered: boolean }>`
     position: relative;
 
     display: flex;
@@ -89,6 +89,21 @@ export const EndpointContainer = styled.div`
             }
         }
     }
+
+    ${({ hovered }) =>
+        hovered &&
+        `
+        & > div:last-child {
+            opacity: 1;
+        }
+
+        & > div:first-child {
+            background-color: var(--color-background-base-hover);
+            & > div:last-child {
+                opacity: 1;
+            }
+        }
+        `}
 `;
 
 export const EndpointSearchCard = styled(SearchCard)`
@@ -129,4 +144,8 @@ export const ArrowContainer = styled.div`
     width: 24px;
 
     opacity: 0;
+`;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 64px;
 `;
