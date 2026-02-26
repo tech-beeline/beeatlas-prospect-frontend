@@ -1,12 +1,14 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { Button, IconButton } from '@beeline/design-system-react';
+import { useSearchParams } from 'react-router-dom';
+import { Button, IconButton, ProgressButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
 
 import { useUpdateBIStepRelations } from 'api/queries/bi';
+import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { StepFields } from './components';
@@ -16,6 +18,13 @@ import * as S from './units';
 
 export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, relationsData }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
+    const [params] = useSearchParams();
+    const paramId = params.get('id');
+
+    const { refetch } = useGetCompleteCJDataByIdQuery(paramId);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
@@ -32,6 +41,8 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
     const { mutateAsync } = useUpdateBIStepRelations();
 
     const onSubmit = handleSubmit(async (values: FormValues) => {
+        setIsSubmitting(true);
+
         await mutateAsync({
             id: String(stepId),
             data: values.steps.map((step) => ({
@@ -43,7 +54,10 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                 operationId: step.operation ?? null,
             })),
         });
+        await refetch();
+
         showSnackbar({ message: 'Изменения сохранены' });
+        setIsSubmitting(false);
         onClose();
     });
 
@@ -109,13 +123,18 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                         </S.Content>
 
                         <S.ButtonContainer>
-                            <Button type="button" onClick={handleClose}>
+                            <Button type="button" onClick={handleClose} disabled={isSubmitting}>
                                 Отменить
                             </Button>
 
-                            <Button type="submit" variant="contained">
+                            <ProgressButton
+                                type="submit"
+                                variant="contained"
+                                state={isSubmitting ? 'loading' : 'default'}
+                                disabled={isSubmitting}
+                            >
                                 Сохранить
-                            </Button>
+                            </ProgressButton>
                         </S.ButtonContainer>
                     </form>
                 </FormProvider>

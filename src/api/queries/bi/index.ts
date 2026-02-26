@@ -5,6 +5,8 @@ import {
     getBIById,
     getBICollection,
     getBIEditabilityById,
+    getPlantUML,
+    getSequenceDiagram,
     getTechCapibility,
     patchBI,
     patchSLABI,
@@ -152,5 +154,32 @@ export function useDeleteBIMutation() {
             void queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
             void queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
         },
+    });
+}
+
+interface IGetBISequenceDiagram {
+    productAlias: string;
+    TCCode: string;
+}
+
+export function useGetBISequenceDiagram({ productAlias, TCCode }: IGetBISequenceDiagram) {
+    return useQuery({
+        queryKey: [BI_PREFIX, 'StepRelationsDiagram'],
+        queryFn: async () => {
+            const response = await getSequenceDiagram(productAlias, TCCode);
+            return response.data;
+        },
+        enabled: Boolean(productAlias && TCCode),
+    });
+}
+
+export function useGetBIPlantUML({ productAlias, TCCode }: IGetBISequenceDiagram) {
+    return useQuery({
+        queryKey: [BI_PREFIX, 'StepRelationsPlantUML'],
+        queryFn: async () => {
+            const response = await getPlantUML(productAlias, TCCode);
+            return response.data;
+        },
+        enabled: Boolean(productAlias && TCCode),
     });
 }

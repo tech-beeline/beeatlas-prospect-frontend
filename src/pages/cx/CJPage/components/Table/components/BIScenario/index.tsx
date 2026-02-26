@@ -1,12 +1,14 @@
 import React, { FC, useState } from 'react';
 import { Avatar, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { CustomModal } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
 import { Text } from 'components/core';
+import { TooltipContainer as HoverTooltip } from 'components/interaction';
 import { Link } from 'components/other';
 
-import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
+import { TooltipContainer as TextTooltip } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
@@ -14,14 +16,24 @@ import { formatNullableString } from 'utils/formatters';
 import { BIEditScenario } from '../../../BIEditScenario';
 import { BIEditSLA } from '../../../BIEditSLA';
 
+import { DiagramView } from './DiagramView';
 import { IBIScenario } from './types';
 import * as S from './units';
 
 export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     const [expanded, setExpanded] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedRelation, setSelectedRelation] = useState<typeof biSteps.relations[0] | null>(
+        null,
+    );
+
+    const openDiagram = (relation: typeof biSteps.relations[0]) => {
+        if (!relation) return;
+        setSelectedRelation(relation);
+        setIsOpen(true);
+    };
     const [expandedCallIndices, setExpandedCallIndices] = useState<Set<number>>(new Set());
     const { openSideSheet, payload, toggleSideSheet, closeSideSheet } = useSideSheetStore();
-
     const handleEditSLA = () => {
         toggleSideSheet(SideSheetVariants.EDIT_SLA_BI, biSteps.id);
     };
@@ -89,12 +101,12 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                     <S.CallsTitleWrapper expanded={expandedCallIndices.has(index)}>
                                         <Text variant="subtitle3">
                                             {relation.tcName ? (
-                                                <TooltipContainer
+                                                <TextTooltip
                                                     text={relation.tcName}
                                                     tooltipId={`relation-${relation.tcName}-${relation.id}`}
                                                 />
                                             ) : relation.productName ? (
-                                                <TooltipContainer
+                                                <TextTooltip
                                                     text={relation.productName}
                                                     tooltipId={`relation-${relation.productName}-${relation.id}`}
                                                 />
@@ -102,22 +114,46 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                                 `Вызов ${index + 1}`
                                             )}
                                         </Text>
-                                        <S.IconButtonStyled
-                                            expanded={expandedCallIndices.has(index)}
-                                            size="medium"
-                                            iconName={Icons.NavArrowDown}
-                                            onClick={() => {
-                                                setExpandedCallIndices((prev) => {
-                                                    const newSet = new Set(prev);
-                                                    if (newSet.has(index)) {
-                                                        newSet.delete(index);
-                                                    } else {
-                                                        newSet.add(index);
-                                                    }
-                                                    return newSet;
-                                                });
-                                            }}
-                                        />
+                                        <S.ButtonsWrapper gap="8">
+                                            {relation.operation &&
+                                            relation.operationId &&
+                                            relation.tcCode ? (
+                                                <>
+                                                    <IconButton
+                                                        data-tooltip-id={`sequence-diagram-${relation.id}`}
+                                                        iconName={Icons.GraphDown}
+                                                        size="medium"
+                                                        onClick={() => openDiagram(relation)}
+                                                    />
+                                                    <HoverTooltip
+                                                        id={`sequence-diagram-${relation.id}`}
+                                                        offset={8}
+                                                        place="bottom"
+                                                        noArrow
+                                                    >
+                                                        Просмотр диаграммы последовательности
+                                                    </HoverTooltip>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <S.IconButtonStyled
+                                                expanded={expandedCallIndices.has(index)}
+                                                size="medium"
+                                                iconName={Icons.NavArrowDown}
+                                                onClick={() => {
+                                                    setExpandedCallIndices((prev) => {
+                                                        const newSet = new Set(prev);
+                                                        if (newSet.has(index)) {
+                                                            newSet.delete(index);
+                                                        } else {
+                                                            newSet.add(index);
+                                                        }
+                                                        return newSet;
+                                                    });
+                                                }}
+                                            />
+                                        </S.ButtonsWrapper>
                                     </S.CallsTitleWrapper>
 
                                     {expandedCallIndices.has(index) && (
@@ -212,6 +248,11 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                 stepId={biSteps.id}
                 relationsData={biSteps.relations}
             />
+            {isOpen && selectedRelation && (
+                <CustomModal open={isOpen} onClose={() => setIsOpen(false)}>
+                    <DiagramView relation={selectedRelation} onClose={() => setIsOpen(false)} />
+                </CustomModal>
+            )}
         </S.ScenarioTd>
     );
 };

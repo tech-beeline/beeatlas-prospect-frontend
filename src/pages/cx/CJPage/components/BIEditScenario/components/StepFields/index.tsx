@@ -1,16 +1,16 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, Icon } from '@beeline/design-system-react';
+import { Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Autocomplete, TextArea } from 'components/form';
 
 import {
+    useGetAllProductsQuery,
     useGetProductStructurizrInterfacesByCmdbQuery,
     useGetSystemTCByIdQuery,
 } from 'api/queries/product';
-import { useGetProductsQuery } from 'hooks';
 import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 
 import { FormValues } from '../../form';
@@ -25,7 +25,7 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
     const [searchTextOperation, setSearchTextOperation] = useState('');
 
     const { watch, setValue } = useFormContext<FormValues>();
-    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetAllProductsQuery();
     const productId = watch(`steps.${index}.product`);
     const ifaceId = watch(`steps.${index}.iface`);
     const stepName = watch(`steps.${index}.stepName`);
@@ -144,78 +144,94 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
             <S.LinkWrapper>
                 <S.LinkBlock>
                     <S.LinkTextField>
-                        <Autocomplete
-                            fullWidth
-                            disabled={isLoadingProducts}
-                            label="Приложение"
-                            name={`steps.${index}.product`}
-                            options={productsOptions}
-                            onInputChange={(v) => setSearchTextProduct(v)}
-                            makeOption={(option) => {
-                                return (
-                                    <TooltipContainer
-                                        text={option.value}
-                                        tooltipId={`product-name-${index}-${option.id}`}
-                                    />
-                                );
-                            }}
-                        />
-                        <Autocomplete
-                            key={`tc-autocomplete-${productId}`}
-                            fullWidth
-                            disabled={!productId || isLoadingTC}
-                            label="Техническая возможность"
-                            name={`steps.${index}.tc`}
-                            options={tcOptions}
-                            onInputChange={(v) => setSearchTextTC(v)}
-                            makeOption={(option) => {
-                                return (
-                                    <div>
+                        {isLoadingProducts ? (
+                            <Skeleton width={335} height={50} variant="square" />
+                        ) : (
+                            <Autocomplete
+                                fullWidth
+                                disabled={isLoadingProducts}
+                                label="Приложение"
+                                name={`steps.${index}.product`}
+                                options={productsOptions}
+                                onInputChange={(v) => setSearchTextProduct(v)}
+                                makeOption={(option) => {
+                                    return (
                                         <TooltipContainer
                                             text={option.value}
-                                            tooltipId={`tc-name-${index}-${option.id}`}
+                                            tooltipId={`product-name-${index}-${option.id}`}
                                         />
-                                        <Text variant="body3" inactive>
-                                            {option.code}
-                                        </Text>
-                                    </div>
-                                );
-                            }}
-                        />
-                        <Autocomplete
-                            fullWidth
-                            key={`iface-${productId}`}
-                            disabled={!productId || isLoadingArch}
-                            label="Интерфейс"
-                            name={`steps.${index}.iface`}
-                            options={ifaceOptions}
-                            onInputChange={(v) => setSearchTextIface(v)}
-                            makeOption={(option) => {
-                                return (
-                                    <TooltipContainer
-                                        text={option.value}
-                                        tooltipId={`iface-name-${index}-${option.id}`}
-                                    />
-                                );
-                            }}
-                        />
-                        <Autocomplete
-                            key={`op-${productId}-${ifaceId}`}
-                            fullWidth
-                            disabled={!productId || !ifaceId || isLoadingArch}
-                            label="Endpoint"
-                            name={`steps.${index}.operation`}
-                            options={operationOptions}
-                            onInputChange={(v) => setSearchTextOperation(v)}
-                            makeOption={(option) => {
-                                return (
-                                    <TooltipContainer
-                                        text={option.value}
-                                        tooltipId={`op-name-${index}-${option.id}`}
-                                    />
-                                );
-                            }}
-                        />
+                                    );
+                                }}
+                            />
+                        )}
+                        {isLoadingTC ? (
+                            <Skeleton width={335} height={50} variant="square" />
+                        ) : (
+                            <Autocomplete
+                                key={`tc-autocomplete-${productId}`}
+                                fullWidth
+                                disabled={!productId || isLoadingTC}
+                                label="Техническая возможность"
+                                name={`steps.${index}.tc`}
+                                options={tcOptions}
+                                onInputChange={(v) => setSearchTextTC(v)}
+                                makeOption={(option) => {
+                                    return (
+                                        <div>
+                                            <TooltipContainer
+                                                text={option.value}
+                                                tooltipId={`tc-name-${index}-${option.id}`}
+                                            />
+                                            <Text variant="body3" inactive>
+                                                {option.code}
+                                            </Text>
+                                        </div>
+                                    );
+                                }}
+                            />
+                        )}
+                        {isLoadingArch ? (
+                            <Skeleton width={335} height={50} variant="square" />
+                        ) : (
+                            <Autocomplete
+                                fullWidth
+                                key={`iface-${productId}`}
+                                disabled={!productId}
+                                label="Интерфейс"
+                                name={`steps.${index}.iface`}
+                                options={ifaceOptions}
+                                onInputChange={(v) => setSearchTextIface(v)}
+                                makeOption={(option) => {
+                                    return (
+                                        <TooltipContainer
+                                            text={option.value}
+                                            tooltipId={`iface-name-${index}-${option.id}`}
+                                        />
+                                    );
+                                }}
+                            />
+                        )}
+                        {isLoadingArch ? (
+                            <Skeleton width={335} height={50} variant="square" />
+                        ) : (
+                            <Autocomplete
+                                key={`op-${productId}-${ifaceId}`}
+                                fullWidth
+                                disabled={!productId || !ifaceId}
+                                label="Endpoint"
+                                name={`steps.${index}.operation`}
+                                options={operationOptions}
+                                onInputChange={(v) => setSearchTextOperation(v)}
+                                makeOption={(option) => {
+                                    return (
+                                        <TooltipContainer
+                                            text={option.value}
+                                            tooltipId={`op-name-${index}-${option.id}`}
+                                        />
+                                    );
+                                }}
+                            />
+                        )}
                         <TextArea name={`steps.${index}.description`} label="Описание вызова" />
                     </S.LinkTextField>
                 </S.LinkBlock>
