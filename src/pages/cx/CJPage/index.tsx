@@ -24,7 +24,6 @@ import {
     usePartialUpdateCJMutation,
 } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
-import * as ROUTER from 'router/const';
 import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -88,7 +87,7 @@ export const CJPage = () => {
     }, [closeSideSheet]);
 
     const handleBackIconClick = () => {
-        navigate(`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}`);
+        navigate(-1);
     };
 
     const handleToggleDraft = async () => {

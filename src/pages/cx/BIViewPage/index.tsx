@@ -38,7 +38,7 @@ export const BIViewPage = () => {
     const navigate = useNavigate();
 
     const handleBackIconClick = () => {
-        navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}`);
+        navigate(-1);
     };
 
     const handleEditClick = () => {

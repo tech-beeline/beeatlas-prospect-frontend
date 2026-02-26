@@ -13,6 +13,8 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
     filterOptions,
     setFilterOptions,
     onClose,
+    resetFilters,
+    hasActiveFilters,
 }) => {
     const [productFilterText, setProductFilterText] = useState('');
 
@@ -46,22 +48,6 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
     ];
 
     const channelOptions = channels?.map((c) => ({ id: c.id, value: c.name })) ?? [];
-
-    const handleResetClick = () => {
-        setFilterOptions({
-            product: ProductVariant.ALL,
-            status: StatusVariant.ALL,
-            character: CharacterVariant.ALL,
-            channel: [],
-            search: '',
-        });
-    };
-
-    const hasActiveFilters =
-        filterOptions.product !== ProductVariant.ALL ||
-        filterOptions.character !== CharacterVariant.ALL ||
-        filterOptions.status !== StatusVariant.ALL ||
-        filterOptions.channel.length > 0;
 
     return (
         <>
@@ -145,15 +131,13 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
                             multiple
                             label="Каналы"
                             options={channelOptions}
-                            values={
-                                filterOptions.channel
-                                    .map((id) => channelOptions.find((opt) => opt.id === id))
-                                    .filter(Boolean) as Array<{ id: number; value: string }>
-                            }
-                            onChange={(values) =>
+                            values={channelOptions.filter((opt) =>
+                                filterOptions.channel.includes(opt.id),
+                            )}
+                            onChange={(selectedOptions) =>
                                 setFilterOptions({
                                     ...filterOptions,
-                                    channel: values.map((v) => v.id),
+                                    channel: selectedOptions.map((o) => Number(o.id)),
                                 })
                             }
                         />
@@ -169,7 +153,11 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
                     </S.FiltersContainer>
                 </S.MainContent>
                 <S.ButtonContainer>
-                    <Button disabled={!hasActiveFilters} variant="plain" onClick={handleResetClick}>
+                    <Button
+                        disabled={!hasActiveFilters}
+                        variant="plain"
+                        onClick={() => resetFilters()}
+                    >
                         Сбросить
                     </Button>
                 </S.ButtonContainer>
