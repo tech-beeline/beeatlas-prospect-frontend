@@ -118,3 +118,17 @@ export const CallsTitleWrapper = styled(TitleWrapper)<{ expanded?: boolean }>`
 export const CallsContent = styled.div`
     padding: 12px 16px;
 `;
+
+export const ButtonsWrapper = styled.div<{ gap?: string }>`
+    display: flex;
+    gap: ${({ gap }) => (gap ? `${gap}px` : '')};
+    align-items: center;
+`;
+
+export const ButtonsWrapperRow = styled(ButtonsWrapper)`
+    flex-direction: row-reverse;
+
+    padding: 8px 16px;
+
+    border-bottom: 1px solid var(--color-border);
+`;

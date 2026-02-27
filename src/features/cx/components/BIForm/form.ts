@@ -56,8 +56,11 @@ export const validationSchema = object().shape({
             object({
                 value: string()
                     .trim()
-                    .url('Укажите корректную ссылку')
-                    .matches(/^https?:\/\/.+/, 'Укажите корректную ссылку')
+                    .test(
+                        'url-or-empty',
+                        'Укажите корректную ссылку',
+                        (value) => !value || /^https?:\/\/.+/.test(value),
+                    )
                     .defined()
                     .default(''),
                 description: string().defined().default(''),
