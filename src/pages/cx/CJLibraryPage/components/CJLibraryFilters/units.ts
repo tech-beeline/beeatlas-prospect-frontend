@@ -29,7 +29,7 @@ export const Container = styled.div`
 
     border-left: 1px solid var(--color-divider);
 
-    z-index: 101;
+    z-index: 1;
 
     @media (max-width: 1400px) {
         position: fixed;
