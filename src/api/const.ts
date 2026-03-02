@@ -1,6 +1,8 @@
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
-const GATEWAY_LINK = 'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api-gateway/';
+const GATEWAY_LINK = window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
+    ? window.FEATURE_FLAGS.FLAG_API_URL
+    : 'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/api-gateway/';
 const GATEWAY_PRODUCT_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/product/api/';
 const GATEWAY_ARCH_GRAPH_LINK =

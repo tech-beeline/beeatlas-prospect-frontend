@@ -12,16 +12,23 @@ USER nginx
 # ENV FLAG_IS_DEMO_STAND=true
 # ENV FLAG_AUTHENTIK_URL='https://sibur-demo-0.arch-code-demo.cloud.vimpelcom.ru'
 # ENV FLAG_API_URL='http://sibur-demo.arch-code-demo.cloud.vimpelcom.ru:9081/api-gateway/'
+# ENV FLAG_DOC_SERVICE_URL='https://docs.beeatlas.ai-platform.pro/'
+# ENV FLAG_WEBIDE_URL='https://vs-code-server.beeatlas.ai-platform.pro/'
 
 # for sibur external
 # ENV FLAG_IS_DEMO_STAND=true
 # ENV FLAG_AUTHENTIK_URL='https://auth.ai-platform.pro'
 # ENV FLAG_API_URL='https://api.beeatlas.ai-platform.pro/api-gateway/'
+# ENV FLAG_DOC_SERVICE_URL='https://docs.beeatlas.ai-platform.pro/'
+# ENV FLAG_WEBIDE_URL='https://vs-code-server.beeatlas.ai-platform.pro/'
 
+ENV FLAG_IS_PROD=false
 ENV FLAG_IS_DEMO_STAND=false
 ENV FLAG_IS_FUNC=false
 ENV FLAG_AUTHENTIK_URL='http://authentik:8080'
 ENV FLAG_API_URL=''
+ENV FLAG_DOC_SERVICE_URL='https://beeatlas-doc-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/'
+ENV FLAG_WEBIDE_URL='https://vs-code-server-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/'
 
 # defaults for nginx\site.d\http-frontend.conf.in.env
 ENV NGINX_LOCATION_API_GATEWAY='http://gateway:8080'

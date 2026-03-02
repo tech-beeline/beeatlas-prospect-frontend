@@ -45,9 +45,11 @@ export const AppViewPage = () => {
     return (
         <S.PageWrapper>
             <S.HeaderContainer>
-                <S.BannerContainer>
-                    <OldVersionBanner cmdb={paramCmdb} />
-                </S.BannerContainer>
+                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                    <S.BannerContainer>
+                        <OldVersionBanner cmdb={paramCmdb} />
+                    </S.BannerContainer>
+                )}
                 <Breadcrumbs>
                     <BreadCrumbsItem
                         name="Каталог приложений"
@@ -76,7 +78,11 @@ export const AppViewPage = () => {
             </S.HeaderContainer>
             <S.TabsContainer>
                 <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
-                    {TABS.map((tab) => (
+                    {TABS.filter((tab) =>
+                        window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
+                            ? ![TabVariants.E2E_PROCESSES].includes(tab.id)
+                            : true,
+                    ).map((tab) => (
                         <Tab
                             key={tab.id}
                             label={tab.label}
@@ -112,6 +118,8 @@ export const AppViewPage = () => {
                 <TechCapabilities productId={productData.id} cmdb={paramCmdb ?? ''} />
             )}
             {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.E2E_PROCESSES &&
+                !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <InDevelopment cmdb={paramCmdb} />}
             {/* {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
             {tabVariant === TabVariants.PATTERNS && <Patterns />} */}
             {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}

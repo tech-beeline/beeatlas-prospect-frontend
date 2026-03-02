@@ -168,31 +168,33 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
                 </Button>
             </S.ActionsContainer>
 
-            <ButtonGroup
-                alwaysSelected
-                selectedOption={{ id: interfaceOption }}
-                size="small"
-                options={[
-                    {
-                        id: InterfaceOptions.STRUCTURIZR,
-                        label: 'Structurizr',
-                    },
-                    {
-                        id: InterfaceOptions.MAPIC,
-                        label: 'Mapic',
-                    },
-                ]}
-                onChange={(option) => {
-                    setSearchText('');
-                    setSearchText('');
-                    setSearchParams(
-                        new URLSearchParams({
-                            ...Object.fromEntries(params),
-                            subtab: option.id ?? '',
-                        }),
-                    );
-                }}
-            />
+            {!window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                <ButtonGroup
+                    alwaysSelected
+                    selectedOption={{ id: interfaceOption }}
+                    size="small"
+                    options={[
+                        {
+                            id: InterfaceOptions.STRUCTURIZR,
+                            label: 'Structurizr',
+                        },
+                        {
+                            id: InterfaceOptions.MAPIC,
+                            label: 'Mapic',
+                        },
+                    ]}
+                    onChange={(option) => {
+                        setSearchText('');
+                        setSearchText('');
+                        setSearchParams(
+                            new URLSearchParams({
+                                ...Object.fromEntries(params),
+                                subtab: option.id ?? '',
+                            }),
+                        );
+                    }}
+                />
+            )}
 
             {(isLoadingMapicData || isLoadingStructurizrData) && <Skeleton height={300} />}
             {mapicDataFiltered && mapicDataFiltered.length !== 0 && structurizrData && (

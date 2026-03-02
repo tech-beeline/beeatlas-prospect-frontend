@@ -51,7 +51,9 @@ export const CJTable: FC<ICJTable> = ({ data }) => {
                             <S.Th>Теги</S.Th> */}
                             <S.Th>Статус</S.Th>
                             <S.Th>Формат</S.Th>
-                            <S.Th>Дашборд grafana</S.Th>
+                            {window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
+                                <S.Th>Дашборд grafana</S.Th>
+                            )}
                             <S.ThDate>Дата изменения</S.ThDate>
                             <S.LastTh showShadow={showShadow} right>
                                 <S.BorderDiv />

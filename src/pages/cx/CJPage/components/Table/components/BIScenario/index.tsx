@@ -117,7 +117,8 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                         <S.ButtonsWrapper gap="8">
                                             {relation.operation &&
                                             relation.operationId &&
-                                            relation.tcCode ? (
+                                            relation.tcCode &&
+                                            window.FEATURE_FLAGS.FLAG_IS_PROD === false ? (
                                                 <>
                                                     <IconButton
                                                         data-tooltip-id={`sequence-diagram-${relation.id}`}
