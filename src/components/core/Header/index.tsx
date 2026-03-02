@@ -5,6 +5,8 @@ import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { useAuthStore } from 'features/auth';
 import { useThemeStore } from 'features/theme';
 
+import { Text } from 'components/core';
+
 import { MAIN_PAGE_PATH } from 'router/const';
 
 import { BaseIcon, Logo, Tab, Tabs } from '..';
@@ -60,6 +62,30 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
                 )}
 
                 <S.ControlPanel className="HeaderControlPanel">
+                    <S.LinksContainer>
+                        <S.Link
+                            onClick={() =>
+                                window.open(
+                                    'https://beeatlas-doc-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/',
+                                )
+                            }
+                        >
+                            <S.IconStyled size="medium" iconName={Icons.PagesMultiple} />
+                            <Text variant="subtitle3">Документация</Text>
+                        </S.Link>
+
+                        <S.Link
+                            onClick={() => {
+                                window.open(
+                                    'https://vs-code-server-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/',
+                                );
+                            }}
+                        >
+                            <S.IconStyled size="medium" iconName={Icons.Iframe} />
+                            <Text variant="subtitle3">WebIDE</Text>
+                        </S.Link>
+                    </S.LinksContainer>
+
                     <IconButton
                         size="large"
                         iconName={!themeIsDark ? Icons.HalfMoon : Icons.Sun}
