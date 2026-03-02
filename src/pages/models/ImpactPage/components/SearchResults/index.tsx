@@ -4,7 +4,7 @@ import { Avatar, Chip, Icon, Pagination, Skeleton } from '@beeline/design-system
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
-import { Link } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
 import { IInfraData } from 'api/product/types';
@@ -20,10 +20,20 @@ import * as S from './units';
 const RESULTS_PER_PAGE = 10;
 
 export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visitedPages }) => {
-    const [searchVariant, setSearchVariant] = useState<SearchVariants>(SearchVariants.PRODUCT);
+    const [searchVariant, setSearchVariant] = useState<SearchVariants | null>(
+        SearchVariants.PRODUCT,
+    );
+
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * RESULTS_PER_PAGE;
     const endIndex = page * RESULTS_PER_PAGE;
+
+    const [firstEndpointHovered, setFirstEndpointHovered] = useState(true);
+    useEffect(() => {
+        if (searchVariant === SearchVariants.ENDPOINT) {
+            setFirstEndpointHovered(true);
+        }
+    }, [searchVariant, search]);
 
     useEffect(() => {
         setPage(1);
@@ -31,16 +41,19 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
 
     const { data, isLoading } = useGetCompleteArchitectureInfoQuery(search);
 
+    const productsLength = data?.products.length;
+    const serversLength = data ? data.servers.graph.length + data.servers.cmdb.length : undefined;
+    const endpointsLength = data
+        ? data.endpoints.archOperations.length + data.endpoints.discoveredOperations.length
+        : undefined;
+
     useEffect(() => {
         if (data) {
-            const productsLength = data.products.length;
-            const serversLength = data.servers.graph.length + data.servers.cmdb.length;
-            const endpointsLength =
-                data.endpoints.archOperations.length + data.endpoints.discoveredOperations.length;
-
-            if (productsLength > serversLength && productsLength > endpointsLength) {
+            if (productsLength === 0 && serversLength === 0 && endpointsLength === 0) {
+                setSearchVariant(null);
+            } else if (productsLength! > serversLength! && productsLength! > endpointsLength!) {
                 setSearchVariant(SearchVariants.PRODUCT);
-            } else if (serversLength > endpointsLength) {
+            } else if (serversLength! > endpointsLength!) {
                 setSearchVariant(SearchVariants.SERVER);
             } else {
                 setSearchVariant(SearchVariants.ENDPOINT);
@@ -89,32 +102,6 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
         ]);
     };
 
-    // const handleEndpointClick = (operation: ISearchEndpoint, from: OperationTypes) => {
-    //     if (operation.product) {
-    //         if (from === OperationTypes.DISCOVERED) {
-    //             setSearchParams({
-    //                 id: String(operation.id),
-    //                 name: operation.name,
-    //                 cmdb: operation.product.alias,
-    //             });
-    //             setBreadcrumbs([
-    //                 {
-    //                     name: operation.name,
-    //                     link: `${R.MODELS_PATH}${R.IMPACT_PATH}?id=${operation.id}&name=${operation.name}&cmdb=${operation.product.alias}`,
-    //                 },
-    //             ]);
-    //         } else {
-    //             setSearchParams({ name: operation.product.name, cmdb: operation.product.alias });
-    //             setBreadcrumbs([
-    //                 {
-    //                     name: operation.product.name,
-    //                     link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${operation.product.name}&cmdb=${operation.product.alias}`,
-    //                 },
-    //             ]);
-    //         }
-    //     }
-    // };
-
     const dataProductsSliced = data?.products.slice(startIndex, endIndex);
     const productPagesCount = Math.ceil((data?.products.length ?? 0) / RESULTS_PER_PAGE);
 
@@ -151,6 +138,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                     label={`Приложение${data?.products ? ` (${data.products.length})` : ''}`}
                     active={searchVariant === SearchVariants.PRODUCT}
                     onClick={() => setSearchVariant(SearchVariants.PRODUCT)}
+                    disabled={data && productsLength === 0}
                 />
                 <Chip
                     label={`Сервер${
@@ -160,6 +148,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                     }`}
                     active={searchVariant === SearchVariants.SERVER}
                     onClick={() => setSearchVariant(SearchVariants.SERVER)}
+                    disabled={data && serversLength === 0}
                 />
                 <Chip
                     label={`Endpoint${
@@ -172,6 +161,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                     }`}
                     active={searchVariant === SearchVariants.ENDPOINT}
                     onClick={() => setSearchVariant(SearchVariants.ENDPOINT)}
+                    disabled={data && endpointsLength === 0}
                 />
             </S.ChipsContainer>
             {isLoading && (
@@ -180,6 +170,15 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                         <Skeleton key={i} radius={12} height={60} />
                     ))}
                 </S.SkeletonContainer>
+            )}
+            {!isLoading && searchVariant === null && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.SEARCH}
+                        title="Нет результатов, подходящих под параметры поиска"
+                        text="Попробуйте изменить запрос"
+                    />
+                </S.NotFoundContainer>
             )}
             {searchVariant === SearchVariants.PRODUCT && dataProductsSliced && (
                 <>
@@ -411,7 +410,10 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                                             </Text>
                                         </S.SubtitleContainer>
                                     )}
-                                <S.EndpointContainer>
+                                <S.EndpointContainer
+                                    hovered={i === 0 && firstEndpointHovered}
+                                    onMouseEnter={() => setFirstEndpointHovered(false)}
+                                >
                                     <S.EndpointSearchCard>
                                         <Icon iconName={Icons.Search} size="large" />
                                         <S.SearchCardTextGapContainer>
