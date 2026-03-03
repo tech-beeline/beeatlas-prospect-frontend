@@ -14,6 +14,8 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
     filterOptions,
     setFilterOptions,
     onClose,
+    resetFilters,
+    hasActiveFilters,
 }) => {
     const [productFilterText, setProductFilterText] = useState('');
 
@@ -46,24 +48,6 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
     ];
 
     // const channelOptions = channels?.map((c) => ({ id: c.id, value: c.name })) ?? [];
-
-    const handleResetClick = () => {
-        setFilterOptions({
-            product: ProductVariant.ALL,
-            status: CJLibraryStatus.ALL,
-            format: FormatVariant.ALL,
-            channel: [],
-            search: '',
-            grafana: false,
-        });
-    };
-
-    const hasActiveFilters =
-        filterOptions.product !== ProductVariant.ALL ||
-        filterOptions.format !== FormatVariant.ALL ||
-        filterOptions.status !== CJLibraryStatus.ALL ||
-        filterOptions.channel.length > 0 ||
-        filterOptions.grafana === true;
     return (
         <>
             <S.Overlay onClick={onClose} />
@@ -182,7 +166,11 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
                     </S.FiltersContainer>
                 </S.MainContent>
                 <S.ButtonContainer>
-                    <Button disabled={!hasActiveFilters} variant="plain" onClick={handleResetClick}>
+                    <Button
+                        disabled={!hasActiveFilters}
+                        variant="plain"
+                        onClick={() => resetFilters()}
+                    >
                         Сбросить
                     </Button>
                 </S.ButtonContainer>

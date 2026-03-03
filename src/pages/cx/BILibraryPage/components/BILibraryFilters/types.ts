@@ -11,5 +11,7 @@ export interface IBIFilterOptions {
 export interface IBILibraryFilters {
     filterOptions: IBIFilterOptions;
     setFilterOptions: (filterOptions: IBIFilterOptions) => void;
+    resetFilters: () => void;
+    hasActiveFilters: boolean;
     onClose: () => void;
 }

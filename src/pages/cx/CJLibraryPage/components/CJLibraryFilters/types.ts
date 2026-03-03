@@ -13,5 +13,7 @@ export interface ICJFilterOptions {
 export interface ICJLibraryFilters {
     filterOptions: ICJFilterOptions;
     setFilterOptions: (filterOptions: ICJFilterOptions) => void;
+    resetFilters: () => void;
+    hasActiveFilters: boolean;
     onClose: () => void;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
@@ -6,7 +6,14 @@ import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { CJLibraryStatus } from 'api/cj/types';
 import { useGetCJCollectionQuery } from 'api/queries/cj';
-import { useDebounce, useModal } from 'hooks';
+import { useModal } from 'hooks';
+import {
+    createBooleanParser,
+    createEnumParser,
+    createNumberArrayParser,
+    createNumberOrEnumParser,
+    useURLFilters,
+} from 'hooks/useURLFilters';
 import * as STYLES from 'styles/units';
 
 import {
@@ -23,52 +30,64 @@ import * as S from './units';
 import { groupDataByColumns } from './utils';
 
 export const CJLibraryPage = () => {
-    const [displayOption, setDisplayOption] = useState(DisplayOptions.GRID);
     const {
         openModal: filterOpen,
         closeModal: closeFilter,
         modalOpened: isFilterOpen,
     } = useModal();
-    const [filterOptions, setFilterOptions] = useState<ICJFilterOptions>({
-        search: '',
-        product: ProductVariant.ALL,
-        status: CJLibraryStatus.ALL,
-        format: FormatVariant.ALL,
-        channel: [],
-        grafana: false,
-    });
 
-    const [search, setSearch] = useState(filterOptions.search);
-    const debouncedSearch = useDebounce(search);
+    const { filters, setFilters, resetFilters, hasActiveFilters, activeFiltersCount } =
+        useURLFilters<ICJFilterOptions & { display: DisplayOptions }>({
+            defaults: {
+                search: '',
+                product: ProductVariant.ALL,
+                status: CJLibraryStatus.ALL,
+                format: FormatVariant.ALL,
+                channel: [],
+                grafana: false,
+                display: DisplayOptions.GRID,
+            },
+            debounceKeys: ['search'],
+
+            parsers: {
+                product: createNumberOrEnumParser(ProductVariant, ProductVariant.ALL),
+                status: createEnumParser(CJLibraryStatus, CJLibraryStatus.ALL),
+                format: createEnumParser(FormatVariant, FormatVariant.ALL),
+                channel: createNumberArrayParser(),
+                grafana: createBooleanParser(),
+                display: createEnumParser(DisplayOptions, DisplayOptions.GRID),
+            },
+        });
+
     const { modalOpened: createFormOpen, closeModal: closeForm, openModal: formOpen } = useModal();
 
     const { data: rawCJs, isLoading } = useGetCJCollectionQuery({
         search: '',
         productId:
-            filterOptions.product === ProductVariant.ALL || filterOptions.product === null
+            filters.product === ProductVariant.ALL || filters.product === null
                 ? undefined
-                : filterOptions.product,
-        sample: filterOptions.status,
+                : filters.product,
+        sample: filters.status,
     });
 
     const applyClientFilters = (data: typeof rawCJs): typeof rawCJs => {
         let result = data ?? [];
 
-        if (filterOptions.format === FormatVariant.BPMN) {
+        if (filters.format === FormatVariant.BPMN) {
             result = result.filter((cj) => cj.bpmn === true);
-        } else if (filterOptions.format === FormatVariant.BEEATLAS) {
+        } else if (filters.format === FormatVariant.BEEATLAS) {
             result = result.filter((cj) => cj.bpmn !== true);
         }
 
-        if (filterOptions.search.trim() !== '') {
-            const term = filterOptions.search.toLowerCase().trim();
+        if (filters.search.trim() !== '') {
+            const term = filters.search.toLowerCase().trim();
             result = result.filter(
                 (cj) =>
                     cj.name?.toLowerCase().includes(term) ||
                     cj.uniqueIdent?.toLowerCase().includes(term),
             );
         }
-        if (filterOptions.grafana) {
+        if (filters.grafana) {
             result = result.filter((cj) => !!cj.dashboardLink);
         }
 
@@ -80,37 +99,9 @@ export const CJLibraryPage = () => {
     const dataByColumns = groupDataByColumns(CJs ?? [], columnsCount);
 
     const handleResetClick = () => {
-        setSearch('');
-        setFilterOptions({
-            search: '',
-            product: ProductVariant.ALL,
-            status: CJLibraryStatus.ALL,
-            format: FormatVariant.ALL,
-            channel: [],
-            grafana: false,
-        });
+        resetFilters();
         closeFilter();
     };
-
-    const hasActiveFilters =
-        search !== '' ||
-        filterOptions.product !== ProductVariant.ALL ||
-        filterOptions.status !== CJLibraryStatus.ALL ||
-        filterOptions.format !== FormatVariant.ALL ||
-        filterOptions.channel.length > 0 ||
-        filterOptions.grafana === true;
-
-    const activeFiltersCount = [
-        filterOptions.product !== ProductVariant.ALL ? 1 : 0,
-        filterOptions.status !== CJLibraryStatus.ALL ? 1 : 0,
-        filterOptions.format !== FormatVariant.ALL ? 1 : 0,
-        filterOptions.channel.length > 0 ? 1 : 0,
-        filterOptions.grafana ? 1 : 0,
-    ].reduce((a, b) => a + b, 0);
-
-    useEffect(() => {
-        setFilterOptions({ ...filterOptions, search: debouncedSearch });
-    }, [debouncedSearch]);
 
     return (
         <S.PageWrapper>
@@ -126,9 +117,9 @@ export const CJLibraryPage = () => {
                     <Search
                         fullWidth
                         placeholder="Название или ID CJ"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onClear={() => setSearch('')}
+                        value={filters.search}
+                        onChange={(e) => setFilters({ search: e.target.value })}
+                        onClear={() => setFilters({ search: '' })}
                     />
 
                     {columnsCount === 2 ? (
@@ -161,7 +152,7 @@ export const CJLibraryPage = () => {
                             </S.ButtonContainer>
                             <ButtonGroup
                                 alwaysSelected
-                                selectedOption={{ id: displayOption }}
+                                selectedOption={{ id: filters.display }}
                                 options={[
                                     {
                                         startIcon: <Icon iconName={Icons.Grid} />,
@@ -173,7 +164,9 @@ export const CJLibraryPage = () => {
                                     },
                                 ]}
                                 type="secondary"
-                                onChange={(option) => setDisplayOption(option.id as DisplayOptions)}
+                                onChange={(option) =>
+                                    setFilters({ display: option.id as DisplayOptions })
+                                }
                             />
                         </S.ActionsContainer>
                     ) : (
@@ -207,7 +200,7 @@ export const CJLibraryPage = () => {
                             <S.ToggleContainer>
                                 <ButtonGroup
                                     alwaysSelected
-                                    selectedOption={{ id: displayOption }}
+                                    selectedOption={{ id: filters.display }}
                                     options={[
                                         {
                                             startIcon: <Icon iconName={Icons.Grid} />,
@@ -220,7 +213,7 @@ export const CJLibraryPage = () => {
                                     ]}
                                     type="secondary"
                                     onChange={(option) =>
-                                        setDisplayOption(option.id as DisplayOptions)
+                                        setFilters({ display: option.id as DisplayOptions })
                                     }
                                 />
                             </S.ToggleContainer>
@@ -229,7 +222,7 @@ export const CJLibraryPage = () => {
                 </S.FiltersContainer>
 
                 {isLoading ? (
-                    displayOption === DisplayOptions.GRID ? (
+                    filters.display === DisplayOptions.GRID ? (
                         <S.CardContainer columns={columnsCount}>
                             {Array.from({ length: 3 }).map((_, index) => (
                                 <Skeleton key={index} height={150} />
@@ -243,7 +236,7 @@ export const CJLibraryPage = () => {
                         </S.CardContainer>
                     )
                 ) : CJs && CJs.length > 0 ? (
-                    displayOption === DisplayOptions.GRID ? (
+                    filters.display === DisplayOptions.GRID ? (
                         <S.CardContainer columns={columnsCount}>
                             {Array.from({ length: columnsCount }).map((_, i) => (
                                 <S.CardColumn key={i}>
@@ -268,9 +261,11 @@ export const CJLibraryPage = () => {
             </S.ContentWrapper>
             {isFilterOpen && (
                 <CJLibraryFilters
-                    filterOptions={filterOptions}
-                    setFilterOptions={setFilterOptions}
+                    filterOptions={filters}
+                    setFilterOptions={setFilters}
                     onClose={closeFilter}
+                    resetFilters={resetFilters}
+                    hasActiveFilters={hasActiveFilters}
                 />
             )}
             <CJCreateForm isOpen={createFormOpen} onClose={closeForm} />

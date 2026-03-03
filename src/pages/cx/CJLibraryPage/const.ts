@@ -1,6 +1,8 @@
 export const COLUMNS_LENGTH = 3;
 
-export enum DisplayOptions {
-    GRID = 'GRID',
-    TABLE = 'TABLE',
-}
+export const DisplayOptions = {
+    GRID: 'GRID',
+    TABLE: 'TABLE',
+} as const;
+
+export type DisplayOptions = typeof DisplayOptions[keyof typeof DisplayOptions];
