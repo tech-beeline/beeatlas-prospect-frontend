@@ -49,4 +49,5 @@ export interface IFDMStore {
     getCoreCababilities: () => Promise<void>;
     getParentCapabilities: (id: number, type: ItemTypes) => Promise<void>;
     getСhildrenСapabilities: (id: number) => Promise<void>;
+    removeItem: (id: number, type: ItemTypes) => void;
 }

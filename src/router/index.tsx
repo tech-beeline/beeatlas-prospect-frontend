@@ -357,7 +357,7 @@ export const NavigationRouter = () => {
                         <S.RouteWithDrawer>
                             <MenuModels />
                             <S.ContentWrapper>
-                                <FDMPage />
+                                <FDMPage isAdmin={isAdmin} />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }

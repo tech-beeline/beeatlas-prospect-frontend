@@ -114,3 +114,9 @@ export const getCapabilitiesByProductId = (
         url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/product/${id}`,
     });
 };
+
+export const deleteBusinessCapabilityByCode = (code: string) =>
+    Api.delete({ url: `${GATEWAY_CAPABILITY_URL}v1/business-capability/${code}` });
+
+export const deleteTechCapabilityByCode = (code: string) =>
+    Api.delete({ url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/${code}` });
