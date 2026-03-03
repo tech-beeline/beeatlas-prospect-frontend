@@ -117,7 +117,6 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.TECH_CAPABILITIES && productData && (
                 <TechCapabilities productId={productData.id} cmdb={paramCmdb ?? ''} />
             )}
-            {tabVariant === TabVariants.E2E_PROCESSES && <InDevelopment cmdb={paramCmdb} />}
             {tabVariant === TabVariants.E2E_PROCESSES &&
                 !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <InDevelopment cmdb={paramCmdb} />}
             {/* {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
