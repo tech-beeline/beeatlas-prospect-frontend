@@ -24,5 +24,9 @@ export const Container = styled.div`
 `;
 
 export const AlertContainer = styled.div`
+    margin-top: 32px;
+`;
+
+export const AlertText = styled.div`
     white-space: pre-line;
 `;

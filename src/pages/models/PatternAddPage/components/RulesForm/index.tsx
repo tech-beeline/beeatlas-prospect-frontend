@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Banner, InlineAlert } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -55,12 +55,15 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         return false;
     };
 
+    const lastValidatedRuleRef = useRef<string | null>(null);
+
     const onSubmit = handleSubmit(async (values) => {
-        if (values.rule === '') {
+        if (values.rule === '' || values.rule === lastValidatedRuleRef.current) {
             setSavedData({ ...savedData, rule: values.rule });
             setStepVariant(StepVariants.DESCRIPTION);
         } else {
             const ok = await validate(values.rule);
+            lastValidatedRuleRef.current = values.rule;
             if (ok) {
                 setSavedData({ ...savedData, rule: values.rule });
                 setStepVariant(StepVariants.DESCRIPTION);
@@ -108,9 +111,11 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                         error={!!errorMessage}
                     />
                     {errorMessage && (
-                        <InlineAlert type="error" iconName={Icons.InfoCircled}>
-                            <S.AlertContainer>{errorMessage}</S.AlertContainer>
-                        </InlineAlert>
+                        <S.AlertContainer>
+                            <InlineAlert type="error" iconName={Icons.InfoCircled}>
+                                <S.AlertText>{errorMessage}</S.AlertText>
+                            </InlineAlert>
+                        </S.AlertContainer>
                     )}
                 </S.Container>
                 <FormFooter
