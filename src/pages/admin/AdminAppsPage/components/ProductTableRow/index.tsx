@@ -22,7 +22,7 @@ import { formatNullableString } from 'utils/formatters';
 import { IProductTableRow } from './types';
 import * as S from './units';
 
-export const ProductTableRow: FC<IProductTableRow> = ({ product }) => {
+export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDelete }) => {
     const navigate = useNavigate();
 
     const [expanded, setExpanded] = useState(false);
@@ -134,6 +134,25 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product }) => {
                         >
                             Редактировать
                         </TooltipContainer>
+                        {window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
+                            <>
+                                <S.IconStyled
+                                    iconName={Icons.Delete}
+                                    size="medium"
+                                    onClick={() => setProductToDelete(product)}
+                                    data-tooltip-id={`delete-${product.id}`}
+                                />
+                                <TooltipContainer
+                                    noArrow
+                                    // @ts-ignore Ошибка в .d.ts
+                                    place="top-end"
+                                    offset={8}
+                                    id={`delete-${product.id}`}
+                                >
+                                    Удалить
+                                </TooltipContainer>
+                            </>
+                        )}
                     </S.ButtonsContainer>
                 </TableData>
             </S.TableRowStyled>

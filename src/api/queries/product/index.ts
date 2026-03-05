@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deleteProductById,
     getAllProducts,
     getDeploymentInfluence,
     getOperationsByTechCapabilityId,
@@ -202,3 +203,14 @@ export const useGetOperationsByTechCapabilityQuery = (
         enabled: enabled && !!id,
     });
 };
+
+export function useDeleteProductByIdMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'delete'],
+        mutationFn: (id: string) => deleteProductById(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
+    });
+}
