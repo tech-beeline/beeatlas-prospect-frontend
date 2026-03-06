@@ -68,3 +68,7 @@ export const TableDataStyled = styled(TableData)`
 export const BoldSpan = styled.span`
     font-weight: 500;
 `;
+
+export const TableDataError = styled(TableData)<{ isError: boolean }>`
+    ${({ isError }) => (isError ? 'background-color: var(--color-control-background-error);' : '')}
+`;

@@ -60,6 +60,7 @@ interface IStructurizrInterfaceTechCapabilityData {
     id: number;
     name: string;
     code: string;
+    deletedDate: string | null;
 }
 
 export interface IStructurizrOperation {
