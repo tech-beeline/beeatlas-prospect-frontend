@@ -158,3 +158,9 @@ export const getOperationsByTechCapabilityId = (
         url: `${GATEWAY_PRODUCT_URL}v1/operation/tech-capability/${id}`,
     });
 };
+
+export const deleteProductById = (id: string) => {
+    return Api.delete({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${id}`,
+    });
+};

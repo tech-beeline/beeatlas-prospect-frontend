@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { PivotArrow } from 'components/other';
@@ -39,6 +39,12 @@ export const Item: FC<IItem> = ({ item }) => {
         );
     };
 
+    useEffect(() => {
+        if (!item.hasChildren) {
+            setOpen(false);
+        }
+    }, [item.hasChildren]);
+
     return (
         <>
             <S.Wrapper
@@ -64,12 +70,12 @@ export const Item: FC<IItem> = ({ item }) => {
                 isAutoHeight
                 data-testid="Expand"
             >
-                {item.children.map((child, index) => (
-                    <Item key={index} item={child} />
+                {item.children.map((child) => (
+                    <Item key={`${child.type}-${child.id}`} item={child} />
                 ))}
-                {item.type === ItemTypes.BUSINESS && item.children.length === 0 && (
-                    <S.SkeletonStyled height={52} radius={12} />
-                )}
+                {item.type === ItemTypes.BUSINESS &&
+                    item.children.length === 0 &&
+                    item.hasChildren && <S.SkeletonStyled height={52} radius={12} />}
             </S.ExpandStyled>
         </>
     );

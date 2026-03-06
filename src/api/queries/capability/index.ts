@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deleteBusinessCapabilityByCode,
+    deleteTechCapabilityByCode,
     getBusinessCapabilityById,
     getBusinessCapabilityChildren,
     getBusinessCapabilityDomains,
@@ -157,3 +159,25 @@ export const useGetTechCapabilitiesByProductIdQuery = (id: string | undefined | 
         enabled: !!id,
     });
 };
+
+export function useDeleteBusinessCapabilityMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [CAPABILITY_PREFIX, 'bc', 'delete'],
+        mutationFn: (code: string) => deleteBusinessCapabilityByCode(code),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: [CAPABILITY_PREFIX] });
+        },
+    });
+}
+
+export function useDeleteTechCapabilityMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [CAPABILITY_PREFIX, 'tc', 'delete'],
+        mutationFn: (code: string) => deleteTechCapabilityByCode(code),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: [CAPABILITY_PREFIX] });
+        },
+    });
+}

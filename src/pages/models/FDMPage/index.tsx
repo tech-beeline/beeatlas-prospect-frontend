@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
     Breadcrumbs,
@@ -12,8 +12,13 @@ import {
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
+import {
+    useDeleteBusinessCapabilityMutation,
+    useDeleteTechCapabilityMutation,
+} from 'api/queries/capability';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -41,9 +46,10 @@ import { MetricsVariants, TABS, TabVariant } from './const';
 import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
+import { IFDMPage } from './types';
 import * as S from './units';
 
-export const FDMPage = () => {
+export const FDMPage: FC<IFDMPage> = ({ isAdmin }) => {
     const [showBanner, setShowBanner] = useState(false);
     const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
 
@@ -53,16 +59,27 @@ export const FDMPage = () => {
         setShowBanner(false);
     };
 
-    const { modalOpened, openModal, closeModal } = useModal();
+    const {
+        modalOpened: isUnsubscribeModalOpened,
+        openModal: openUnsubscribeModal,
+        closeModal: closeUnsubscribeModal,
+    } = useModal();
+
+    const {
+        modalOpened: isDeleteModalOpened,
+        openModal: openDeleteModal,
+        closeModal: closeDeleteModal,
+    } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const navigate = useNavigate();
 
-    const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
+    const [activeItem, breadcrumbs, loading, removeItem] = useFDMStore((state) => [
         state.activeItem,
         state.breadcrumbs,
         state.loading,
+        state.removeItem,
     ]);
 
     useEffect(() => {
@@ -85,6 +102,12 @@ export const FDMPage = () => {
         useGetSubscribedBusinessCapabilitiesIdsQuery();
     const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
 
+    const { mutateAsync: deleteBusinessCapability, isPending: isDeletingBusinessCapability } =
+        useDeleteBusinessCapabilityMutation();
+    const { mutateAsync: deleteTechCapability, isPending: isDeletingTechCapability } =
+        useDeleteTechCapabilityMutation();
+    const isDeletingCapability = isDeletingBusinessCapability || isDeletingTechCapability;
+
     const isSubscribed = Boolean(
         activeItem
             ? activeItem.type === ItemTypes.BUSINESS
@@ -99,7 +122,7 @@ export const FDMPage = () => {
         }
     }, [error]);
 
-    const [params] = useSearchParams();
+    const [params, setParams] = useSearchParams();
     const paramId = params.get('id');
     const versionId = params.get('v');
 
@@ -140,13 +163,13 @@ export const FDMPage = () => {
                 message: itemToSubscriptionMessageMap[getItemClassification(activeItem)],
             });
         } else {
-            openModal();
+            openUnsubscribeModal();
         }
     };
 
-    const handleModalConfirm = async () => {
+    const handleUnsubscribeConfirm = async () => {
         if (activeItem) {
-            closeModal();
+            closeUnsubscribeModal();
             await deleteSubscrition({
                 entityType:
                     activeItem.type === ItemTypes.BUSINESS
@@ -156,6 +179,39 @@ export const FDMPage = () => {
             });
             showSnackbar({
                 message: `Вы отписаны от уведомлений`,
+            });
+        }
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (activeItem) {
+            if (activeItem.type === ItemTypes.BUSINESS) {
+                await deleteBusinessCapability(activeItem.code);
+            } else {
+                await deleteTechCapability(activeItem.code);
+            }
+
+            closeDeleteModal();
+
+            setParams(
+                new URLSearchParams(
+                    activeItem.parent
+                        ? {
+                              id: String(activeItem.parent),
+                              type: ItemTypes.BUSINESS,
+                          }
+                        : {},
+                ),
+            );
+
+            removeItem(activeItem.id, activeItem.type);
+
+            showSnackbar({
+                message: `${
+                    activeItem.type === ItemTypes.BUSINESS
+                        ? 'Бизнес-возможность'
+                        : 'Техническая возможность'
+                } удалена`,
             });
         }
     };
@@ -232,7 +288,34 @@ export const FDMPage = () => {
                                                     <Button
                                                         startIcon={<Icon iconName={Icons.Edit} />}
                                                         onClick={handleEditButtonClick}
-                                                    ></Button>
+                                                    />
+                                                )}
+                                            {isAdmin &&
+                                                window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
+                                                    <>
+                                                        <Button
+                                                            startIcon={
+                                                                <Icon iconName={Icons.Delete} />
+                                                            }
+                                                            onClick={openDeleteModal}
+                                                            disabled={activeItem.hasChildren}
+                                                            data-tooltip-id="delete-button"
+                                                        />
+                                                        {activeItem.hasChildren && (
+                                                            <TooltipContainer
+                                                                noArrow
+                                                                largePadding
+                                                                id="delete-button"
+                                                                // @ts-expect-error
+                                                                place="bottom-end"
+                                                            >
+                                                                Невозможно удалить
+                                                                бизнес-возможность, имеющую дочерние
+                                                                элементы. Отвяжите их и удаление
+                                                                будет доступно
+                                                            </TooltipContainer>
+                                                        )}
+                                                    </>
                                                 )}
                                         </S.SubscribeButtonContainer>
                                     </S.TitleContainer>
@@ -453,12 +536,31 @@ export const FDMPage = () => {
             </S.Wrapper>
             {activeItem && (
                 <Dialog
-                    opened={modalOpened}
-                    onClose={closeModal}
-                    onConfirm={handleModalConfirm}
+                    opened={isUnsubscribeModalOpened}
+                    onClose={closeUnsubscribeModal}
+                    onConfirm={handleUnsubscribeConfirm}
                     title={`Отписаться от ${itemToNameMap[getItemClassification(activeItem)]}?`}
                 >
                     Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
+                </Dialog>
+            )}
+            {activeItem && (
+                <Dialog
+                    opened={isDeleteModalOpened}
+                    onClose={closeDeleteModal}
+                    onConfirm={handleDeleteConfirm}
+                    title={`Удалить ${
+                        activeItem.type === ItemTypes.BUSINESS
+                            ? 'бизнес-возможность'
+                            : 'техническую возможность'
+                    }?`}
+                    confirmText="Удалить"
+                    isPending={isDeletingCapability}
+                >
+                    {activeItem.type === ItemTypes.BUSINESS
+                        ? 'Бизнес-возможность '
+                        : 'Техническая возможность '}
+                    <S.BoldSpan>{activeItem.name}</S.BoldSpan> будет удалена
                 </Dialog>
             )}
         </S.PageWrapper>

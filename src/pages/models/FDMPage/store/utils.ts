@@ -42,3 +42,28 @@ export const getItemPathAndBreadcrumbs = (
 
     return { path, breadcrumbs };
 };
+
+export const removeItemFromTree = (items: Item[], id: number, type: ItemTypes): Item[] => {
+    return items
+        .filter((item) => !(item.id === id && item.type === type))
+        .map((item) => {
+            const hadDirectChildRemoved = item.children.some(
+                (child) => child.id === id && child.type === type,
+            );
+
+            const newChildren = removeItemFromTree(item.children, id, type);
+
+            if (hadDirectChildRemoved && newChildren.length === 0) {
+                return {
+                    ...item,
+                    children: newChildren,
+                    hasChildren: false,
+                };
+            }
+
+            return {
+                ...item,
+                children: newChildren,
+            };
+        });
+};
