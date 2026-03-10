@@ -229,7 +229,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                     urlTransform={(v) => v}
                                     remarkPlugins={[remarkGfm]}
                                 >
-                                    {fileData.file}
+                                    {String(fileData.file)}
                                 </Markdown>
                             ) : (
                                 <S.NotFoundContainer>
