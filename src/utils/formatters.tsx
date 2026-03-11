@@ -5,6 +5,10 @@ export const formatYesNo = (flag: boolean | undefined | null) => (Boolean(flag) 
 export const formatNullableString = (str: string | undefined | null | number) =>
     Boolean(str) ? String(str) : '—';
 
+export const formatNullableNumber = (value: number | string | null | undefined) => {
+    return value === null ? '—' : String(value);
+};
+
 export const formatNullableNumberParam = (
     paramName: string,
     param: number | undefined | null,

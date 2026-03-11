@@ -11,7 +11,7 @@ import { Link } from 'components/other';
 import { TooltipContainer as TextTooltip } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import * as R from 'router/const';
-import { formatNullableString } from 'utils/formatters';
+import { formatNullableNumber, formatNullableString } from 'utils/formatters';
 
 import { BIEditScenario } from '../../../BIEditScenario';
 import { BIEditSLA } from '../../../BIEditSLA';
@@ -73,16 +73,16 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                         <S.SLAContent>
                             <S.FlexWrapper>
                                 <Text variant="overline">RPS</Text>
-                                <Text variant="body3">{formatNullableString(biSteps.rps)}</Text>
+                                <Text variant="body3">{formatNullableNumber(biSteps.rps)}</Text>
                             </S.FlexWrapper>
                             <S.FlexWrapper>
                                 <Text variant="overline">LATENSY, MS</Text>
-                                <Text variant="body3">{formatNullableString(biSteps.latency)}</Text>
+                                <Text variant="body3">{formatNullableNumber(biSteps.latency)}</Text>
                             </S.FlexWrapper>
                             <S.FlexWrapper>
                                 <Text variant="overline">ERROR RATE, %</Text>
                                 <Text variant="body3">
-                                    {formatNullableString(biSteps.errorRate)}
+                                    {formatNullableNumber(biSteps.errorRate)}
                                 </Text>
                             </S.FlexWrapper>
                         </S.SLAContent>
