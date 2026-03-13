@@ -174,16 +174,38 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                                 formatNullableString(null)
                                             )}
                                         </TableData>
-                                        <TableData>
+                                        <S.TableDataError
+                                            isError={
+                                                !!structurizrInterface.techCapability?.deletedDate
+                                            }
+                                            data-tooltip-id={`TC-interface-${structurizrInterface.id}`}
+                                        >
                                             {structurizrInterface.techCapability ? (
-                                                <Link
-                                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=TECH`}
-                                                    title={structurizrInterface.techCapability.name}
-                                                />
+                                                structurizrInterface.techCapability.deletedDate ? (
+                                                    structurizrInterface.techCapability.name
+                                                ) : (
+                                                    <Link
+                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=TECH`}
+                                                        title={
+                                                            structurizrInterface.techCapability.name
+                                                        }
+                                                    />
+                                                )
                                             ) : (
                                                 formatNullableString(null)
                                             )}
-                                        </TableData>
+                                            {structurizrInterface.techCapability?.deletedDate && (
+                                                <TooltipContainer
+                                                    noArrow
+                                                    infoWidth
+                                                    id={`TC-interface-${structurizrInterface.id}`}
+                                                    place="bottom"
+                                                >
+                                                    Техническая возможность удалена. Переустановите
+                                                    связь
+                                                </TooltipContainer>
+                                            )}
+                                        </S.TableDataError>
                                         <TableData>
                                             {dayjs(
                                                 structurizrInterface.updateDate ??
@@ -234,16 +256,34 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                             <TableData>
                                                 {formatNullableString(operation.description)}
                                             </TableData>
-                                            <TableData>
+                                            <S.TableDataError
+                                                isError={!!operation.techCapability?.deletedDate}
+                                                data-tooltip-id={`TC-operation-${operation.id}`}
+                                            >
                                                 {operation.techCapability ? (
-                                                    <Link
-                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=TECH`}
-                                                        title={operation.techCapability.name}
-                                                    />
+                                                    operation.techCapability.deletedDate ? (
+                                                        operation.techCapability.name
+                                                    ) : (
+                                                        <Link
+                                                            url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=TECH`}
+                                                            title={operation.techCapability.name}
+                                                        />
+                                                    )
                                                 ) : (
                                                     formatNullableString(null)
                                                 )}
-                                            </TableData>
+                                                {operation.techCapability?.deletedDate && (
+                                                    <TooltipContainer
+                                                        noArrow
+                                                        infoWidth
+                                                        id={`TC-operation-${operation.id}`}
+                                                        place="bottom"
+                                                    >
+                                                        Техническая возможность удалена.
+                                                        Переустановите связь
+                                                    </TooltipContainer>
+                                                )}
+                                            </S.TableDataError>
                                             <TableData alignRight>
                                                 {typeof operation.sla?.rps === 'number'
                                                     ? operation.sla?.rps
