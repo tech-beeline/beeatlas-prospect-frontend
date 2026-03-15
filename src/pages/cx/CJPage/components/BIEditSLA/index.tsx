@@ -23,18 +23,20 @@ export const BIEditSLA: FC<IBIEditSLA> = ({ isOpen, onClose, slaId, data }) => {
     const { mutateAsync: updateSLA } = useUpdateBISLA();
 
     useEffect(() => {
-        reset({
-            errorRate: data.errorRate ? String(data.errorRate) : undefined,
-            latency: data.latency ? String(data.latency) : undefined,
-            rps: data.rps ? String(data.rps) : undefined,
-        });
-    }, [data]);
+        if (isOpen && data) {
+            reset({
+                errorRate: data.errorRate !== null ? String(data.errorRate) : '',
+                latency: data.latency !== null ? String(data.latency) : '',
+                rps: data.rps !== null ? String(data.rps) : '',
+            });
+        }
+    }, [isOpen, data, reset]);
 
     const onSubmit = async (values: FormValues) => {
         const payload = {
-            latency: Number(values.latency),
-            rps: Number(values.rps),
-            errorRate: Number(values.errorRate),
+            latency: values.latency !== '' ? Number(values.latency) : null,
+            rps: values.rps !== '' ? Number(values.rps) : null,
+            errorRate: values.errorRate !== '' ? Number(values.errorRate) : null,
         };
 
         await updateSLA({

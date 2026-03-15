@@ -97,9 +97,9 @@ export interface IStepsScenarion {
 }
 
 export interface ISLAForm {
-    latency: number;
-    errorRate: number;
-    rps: number;
+    latency: number | null;
+    errorRate: number | null;
+    rps: number | null;
 }
 
 export interface IBIData {
