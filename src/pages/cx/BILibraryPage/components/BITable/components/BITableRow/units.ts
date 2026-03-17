@@ -139,7 +139,7 @@ export const ExpandedContentWrapper = styled.div`
 
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
     &::after {
         content: '';
         position: absolute;
