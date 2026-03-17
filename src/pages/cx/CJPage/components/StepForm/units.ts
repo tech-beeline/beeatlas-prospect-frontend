@@ -30,9 +30,9 @@ export const SelectSubtitle = styled.div`
 `;
 
 export const Subtitle = styled.div`
-    font-weight: var(--font-weight-subtitle1);
-    font-size: var(--font-size-subtitle1);
-    line-height: var(--font-line-height-subtitle1);
+    font-weight: var(--font-weight-subtitle2);
+    font-size: var(--font-size-subtitle2);
+    line-height: var(--font-line-height-subtitle2);
 
     margin-bottom: 8px;
 `;
@@ -203,4 +203,18 @@ export const IconContainer = styled.div`
 
 export const BannerStyled = styled(Banner)`
     margin: 24px 0px;
+`;
+
+export const CJContainer = styled.div<{ open: boolean }>`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    height: ${({ open }) => (open ? 'auto' : '0px')};
+
+    margin-top: ${({ open }) => (open ? '12px' : '0px')};
+
+    overflow: hidden;
+
+    transition: all 0.25s;
 `;
