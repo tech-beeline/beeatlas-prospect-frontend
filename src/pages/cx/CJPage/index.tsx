@@ -287,22 +287,29 @@ export const CJPage = () => {
                                     position="left"
                                     items={[
                                         [
-                                            {
-                                                title: 'Редактировать',
-                                                icon: Icons.Edit,
-                                                onClick: () =>
-                                                    toggleSideSheet(SideSheetVariants.UPDATE_CJ),
-                                                disabled: !data?.draft,
-                                            },
-                                            {
-                                                title: 'Импортировать CJ',
-                                                icon: Icons.Import,
-                                                onClick: () =>
-                                                    toggleSideSheet(SideSheetVariants.IMPORT_CJ),
-                                                disabled:
-                                                    (data?.bpmn === null && !isEmpty) ||
-                                                    data?.draft === false,
-                                            },
+                                            ...(data?.draft
+                                                ? [
+                                                      {
+                                                          title: 'Редактировать',
+                                                          icon: Icons.Edit,
+                                                          onClick: () =>
+                                                              toggleSideSheet(
+                                                                  SideSheetVariants.UPDATE_CJ,
+                                                              ),
+                                                          disabled: !data?.draft,
+                                                      },
+                                                      {
+                                                          title: 'Импортировать CJ',
+                                                          icon: Icons.Import,
+                                                          onClick: () =>
+                                                              toggleSideSheet(
+                                                                  SideSheetVariants.IMPORT_CJ,
+                                                              ),
+                                                          disabled: data?.bpmn === null && !isEmpty,
+                                                      },
+                                                  ]
+                                                : []),
+
                                             {
                                                 title: 'Показать версии',
                                                 icon: Icons.PagesMultipleEmpty,
@@ -314,23 +321,11 @@ export const CJPage = () => {
                                     ]}
                                 >
                                     <S.ButtonStyled
-                                        disabled={!data?.draft}
                                         endIcon={<Icon iconName={Icons.MoreVert} />}
                                         id="buttonToggleId"
                                         data-tooltip-id="editButton"
                                     />
                                 </DropdownMenu>
-                            )}
-                            {data && !data.draft && (
-                                <TooltipContainer
-                                    largePadding
-                                    id="editButton"
-                                    offset={8}
-                                    place="bottom"
-                                    noArrow
-                                >
-                                    Для редактирования CJ, его нужно сделать черновиком
-                                </TooltipContainer>
                             )}
                         </>
                     )}
