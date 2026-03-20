@@ -42,6 +42,7 @@ import {
     CreateNFRsPage,
     CriteriasPage,
     CXPage,
+    CypherPage,
     DataBasePage,
     E2EDashboardPage,
     E2EPage,
@@ -169,6 +170,20 @@ export const NavigationRouter = () => {
                             <MenuPersonalArea />
                             <S.ContentWrapper>
                                 <UsersPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.CYPHER_REQUEST_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <CypherPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     ),
