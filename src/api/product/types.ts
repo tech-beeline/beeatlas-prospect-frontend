@@ -281,3 +281,64 @@ export interface IFitenssFunctionsAggregationResult {
     domain: IFitnessFunctionDomain[];
     fitnessFunctionEnum: IFitnessFunctionData[];
 }
+
+export interface IProductPattern {
+    code: string;
+    createDate: string;
+    deleteDate: string | null;
+    id: number;
+    isAntiPattern: boolean;
+    name: string;
+    rule: string;
+    technologies: {
+        id: number;
+        label: string;
+        ring: {
+            id: number;
+            name: string;
+            order: number;
+        };
+        sector: {
+            id: number;
+            name: string;
+            order: number;
+        };
+    }[];
+    updateDate: string;
+}
+
+export interface IProductEmbeddedTech {
+    id: number;
+    label: string;
+    link: string | null;
+    isCritical: boolean;
+    review: boolean;
+    lastModifiedDate: string;
+    ring: {
+        id: number;
+        name: string;
+        order: number;
+    };
+    sector: {
+        id: number;
+        name: string;
+        order: number;
+    };
+    category: {
+        id: number;
+        name: string;
+    }[];
+}
+
+export interface IProductTechProduct {
+    id: number;
+    createdDate: string;
+    deletedDate: string | null;
+    lastModifiedDate: string;
+    source: string;
+    tech: IProductEmbeddedTech | null;
+}
+
+export interface IProductTechnology extends IFullProductData {
+    techProducts: IProductTechProduct[];
+}
