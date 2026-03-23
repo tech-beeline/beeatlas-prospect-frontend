@@ -70,6 +70,11 @@ export const MenuModels = () => {
                             name: 'Каталог\xa0паттернов',
                             path: `${R.MODELS_PATH}${R.PATTERNS_PATH}`,
                         },
+                        {
+                            icon: Icons.Reports,
+                            name: 'Аналитический\xa0отчет\xa0фитнес-функций',
+                            path: `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
+                        },
                     ],
                 },
             ]}

@@ -1,3 +1,4 @@
+export { AnalyticalPage } from './AnalyticalPage';
 export { AppsDashboardPage } from './AppsDashboardPage';
 export { AppsPage } from './AppsPage';
 export { AppViewArchitecrurePage } from './AppViewArchitecrurePage';

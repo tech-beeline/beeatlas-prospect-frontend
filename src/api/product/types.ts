@@ -251,3 +251,33 @@ export interface IOperationContainer {
     };
     type: string;
 }
+
+export interface IFitnessFunctionCalculationData {
+    id: number;
+    isCheck: boolean;
+    countAll: number;
+    countSuccess: number;
+}
+export interface IFitnessFunctionProductData {
+    alias: string;
+    id: number;
+    name: string;
+    ownerId: null | number;
+    fitnessFunctions: IFitnessFunctionCalculationData[];
+}
+export interface IFitnessFunctionDomain {
+    alias: string;
+    id: number;
+    name: string;
+    ownerId: null | number;
+    product: IFitnessFunctionProductData[];
+}
+export interface IFitnessFunctionData {
+    id: number;
+    code: string;
+    description: string;
+}
+export interface IFitenssFunctionsAggregationResult {
+    domain: IFitnessFunctionDomain[];
+    fitnessFunctionEnum: IFitnessFunctionData[];
+}

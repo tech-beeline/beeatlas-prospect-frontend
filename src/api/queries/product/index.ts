@@ -4,6 +4,7 @@ import {
     deleteProductById,
     getAllProducts,
     getDeploymentInfluence,
+    getFitnessFunctionsAggregation,
     getOperationsByTechCapabilityId,
     getProductEmployeesByCmdb,
     getProductFitnessFunctionsByCmdb,
@@ -214,3 +215,10 @@ export function useDeleteProductByIdMutation() {
         },
     });
 }
+
+export const useGetFitnessFunctionsAggregationQuery = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'FITNESS_FUNCTIONS'],
+        queryFn: () => getFitnessFunctionsAggregation().then((res) => res.data),
+    });
+};

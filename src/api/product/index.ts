@@ -164,3 +164,10 @@ export const deleteProductById = (id: string) => {
         url: `${GATEWAY_PRODUCT_URL}v1/product/${id}`,
     });
 };
+
+export const getFitnessFunctionsAggregation =
+    (): AxiosPromise<T.IFitenssFunctionsAggregationResult> => {
+        return Api.get({
+            url: `${GATEWAY_PRODUCT_URL}v1/dashboard/fitness-function`,
+        });
+    };
