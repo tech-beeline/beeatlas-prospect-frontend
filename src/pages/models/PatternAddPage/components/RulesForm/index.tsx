@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Banner, InlineAlert } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -9,6 +9,7 @@ import { TextArea } from 'components/form';
 import { Link } from 'components/other';
 
 import { useValidateRulesMutation } from 'api/queries/patterns';
+import * as ROUTER from 'router/const';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -54,12 +55,15 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
         return false;
     };
 
+    const lastValidatedRuleRef = useRef<string | null>(null);
+
     const onSubmit = handleSubmit(async (values) => {
-        if (values.rule === '') {
+        if (values.rule === '' || values.rule === lastValidatedRuleRef.current) {
             setSavedData({ ...savedData, rule: values.rule });
             setStepVariant(StepVariants.DESCRIPTION);
         } else {
             const ok = await validate(values.rule);
+            lastValidatedRuleRef.current = values.rule;
             if (ok) {
                 setSavedData({ ...savedData, rule: values.rule });
                 setStepVariant(StepVariants.DESCRIPTION);
@@ -83,14 +87,18 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                                 iconName={Icons.InfoCircled}
                                 color="info"
                                 title={
-                                    <S.BannerTitleContainer>
-                                        Прежде чем создавать правила идентификации архитектуры,
-                                        ознакомьтесь с{' '}
+                                    <div>
+                                        При создании паттерна данный шаг допускается пропустить — к
+                                        нему можно вернуться позднее. Перед разработкой правил
+                                        идентификации архитектуры обязательно ознакомьтесь с{' '}
                                         <Link
-                                            title="SDK BeeAtlas"
-                                            url="https://git.vimpelcom.ru/common/beeatlas/beeatlas_sdk"
+                                            title="информацией"
+                                            url={`${ROUTER.MODELS_PATH}${ROUTER.PATTERNS_PATH}${ROUTER.RULES_PATH}`}
                                         />
-                                    </S.BannerTitleContainer>
+                                        . Если при проверке правил возникнут ошибки, вы можете
+                                        перейти к следующему шагу и внести правки позже. Но до этого
+                                        момента за корректность правил отвечаете исключительно вы
+                                    </div>
                                 }
                                 onClose={() => setShowBanner(false)}
                             />
@@ -103,9 +111,11 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                         error={!!errorMessage}
                     />
                     {errorMessage && (
-                        <InlineAlert type="error" iconName={Icons.InfoCircled}>
-                            <S.AlertContainer>{errorMessage}</S.AlertContainer>
-                        </InlineAlert>
+                        <S.AlertContainer>
+                            <InlineAlert type="error" iconName={Icons.InfoCircled}>
+                                <S.AlertText>{errorMessage}</S.AlertText>
+                            </InlineAlert>
+                        </S.AlertContainer>
                     )}
                 </S.Container>
                 <FormFooter

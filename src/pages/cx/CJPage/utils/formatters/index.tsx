@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommunalLabel, StatusLabel, TargetLabel } from 'features/cx';
+import { StatusLabel, TargetLabel } from 'features/cx';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
 
@@ -9,9 +9,6 @@ import { formatNullableString } from 'utils/formatters';
 import { BIScenario } from '../../components/Table/components';
 
 import * as S from './units';
-
-export const formatCommunal = (communal: boolean) =>
-    communal ? <CommunalLabel /> : formatNullableString(null);
 
 export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
 
@@ -23,13 +20,15 @@ export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
             {biSteps.length === 0 ? (
                 <></>
             ) : (
-                biSteps.map((step, index) => (
-                    <BIScenario
-                        key={step.id ?? index}
-                        biSteps={step}
-                        last={index === biSteps.length - 1 && index !== 0}
-                    />
-                ))
+                <S.ScenariosWrapper>
+                    {biSteps.map((step, index) => (
+                        <BIScenario
+                            key={step.id ?? index}
+                            biSteps={step}
+                            last={index === biSteps.length - 1}
+                        />
+                    ))}
+                </S.ScenariosWrapper>
             )}
         </>
     );

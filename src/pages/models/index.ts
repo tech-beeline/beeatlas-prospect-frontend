@@ -1,3 +1,4 @@
+export { AnalyticalPage } from './AnalyticalPage';
 export { AppsDashboardPage } from './AppsDashboardPage';
 export { AppsPage } from './AppsPage';
 export { AppViewArchitecrurePage } from './AppViewArchitecrurePage';
@@ -12,6 +13,7 @@ export { PatternAddPage } from './PatternAddPage';
 export { PatternsPage } from './PatternsPage';
 export { PatternViewPage } from './PatternViewPage';
 export { PersonalMapPage } from './PersonalMapPage';
+export { RulesPage } from './RulesPage';
 export { SearchPage } from './SearchPage';
 export { TechRadarPage } from './TechRadarPage';
 export { TechnologyViewPage } from './TecnologyViewPage';

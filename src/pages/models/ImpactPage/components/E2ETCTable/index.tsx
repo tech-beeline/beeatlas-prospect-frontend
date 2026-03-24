@@ -22,11 +22,13 @@ import * as S from './units';
 import { reduceE2EData } from './utils';
 
 export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
-    const [tableVariant, setTableVariant] = useState(TableVariant.E2E);
-    const { data: e2eData, isLoading: isLoadingE2EData } = useGetSystemE2EQuery(cmdb);
+    const [tableVariant, setTableVariant] = useState(
+        window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND ? TableVariant.TC : TableVariant.E2E,
+    );
+    const { data: e2eData, isLoading: isLoadingE2EData } = useGetSystemE2EQuery(encodeURI(cmdb));
     const e2eDataReduced = reduceE2EData(e2eData);
 
-    const { data: tcData, isLoading: isLoadingTCData } = useGetSystemTCQuery(cmdb);
+    const { data: tcData, isLoading: isLoadingTCData } = useGetSystemTCQuery(encodeURI(cmdb));
 
     const isLoading = isLoadingE2EData || isLoadingTCData;
 
@@ -37,13 +39,19 @@ export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
         <>
             {isLoading && <Skeleton height={50} radius={12} />}
 
-            {e2eData && tcData && (
+            {(window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND || e2eData) && tcData && (
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableData colSpan={5}>
                                 <S.FlexContainer>
-                                    {CHIPS.map((chip) => (
+                                    {CHIPS.filter(
+                                        (c) =>
+                                            !(
+                                                c.value === TableVariant.E2E &&
+                                                window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
+                                            ),
+                                    ).map((chip) => (
                                         <Chip
                                             key={chip.value}
                                             label={chip.label}

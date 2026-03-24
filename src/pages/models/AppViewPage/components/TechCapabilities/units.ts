@@ -37,3 +37,7 @@ export const CardsColumn = styled.div`
     flex-direction: column;
     gap: 24px;
 `;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 80px;
+`;

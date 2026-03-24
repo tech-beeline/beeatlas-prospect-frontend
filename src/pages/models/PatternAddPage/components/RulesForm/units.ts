@@ -23,11 +23,10 @@ export const Container = styled.div`
     padding: 32px 0px;
 `;
 
-export const BannerTitleContainer = styled.div`
-    display: flex;
-    gap: 4px;
+export const AlertContainer = styled.div`
+    margin-top: 32px;
 `;
 
-export const AlertContainer = styled.div`
+export const AlertText = styled.div`
     white-space: pre-line;
 `;

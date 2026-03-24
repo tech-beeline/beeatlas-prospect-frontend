@@ -40,8 +40,8 @@ export const TableHeaderDataStyled = styled(TableHeaderData)`
     width: 100%;
 `;
 
-export const TableHeaderDataButtons = styled(TableHeaderData)`
-    width: 52px;
+export const TableHeaderDataButtons = styled(TableHeaderData)<{ showDeleteButton: boolean }>`
+    width: ${({ showDeleteButton }) => (showDeleteButton ? '104px' : '52px')};
 `;
 
 export const NameContainer = styled.div`

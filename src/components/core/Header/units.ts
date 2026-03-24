@@ -68,3 +68,21 @@ export const ControlPanel = styled.div`
 export const SearchStyled = styled(Search)`
     margin-right: 16px;
 `;
+
+export const LinksContainer = styled.div`
+    display: flex;
+    gap: 16px;
+`;
+
+export const Link = styled.div`
+    display: flex;
+    gap: 8px;
+
+    cursor: pointer;
+
+    color: var(--color-text-link);
+`;
+
+export const IconStyled = styled(Icon)`
+    color: var(--color-text-link);
+`;

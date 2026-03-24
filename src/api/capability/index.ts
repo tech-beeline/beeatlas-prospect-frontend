@@ -2,7 +2,7 @@ import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
 
-import { API_URL, GATEWAY_URL } from '../const';
+import { API_URL, GATEWAY_AMBASSADOR_URL, GATEWAY_CAPABILITY_URL, GATEWAY_URL } from '../const';
 
 import * as T from './types';
 
@@ -91,3 +91,32 @@ export const getMapData = (id?: number): AxiosPromise<T.IMapItemData[]> => {
         url: `${GATEWAY_URL}capability/v1/business/tree/${id ?? ''}`,
     });
 };
+
+export const getPromtByAlias = (alias: string): AxiosPromise<T.IPromtData> => {
+    return Api.get({
+        url: `${GATEWAY_CAPABILITY_URL}v1/promt/${alias}`,
+    });
+};
+
+export const postDescriptionByPromt = (
+    data: T.IGenerationForm,
+): AxiosPromise<T.IGenerationData> => {
+    return Api.post({
+        url: `${GATEWAY_AMBASSADOR_URL}ai-tool/api/v1/chat/completions`,
+        data,
+    });
+};
+
+export const getCapabilitiesByProductId = (
+    id: string,
+): AxiosPromise<T.ITechCapabilitiesByProductData> => {
+    return Api.get({
+        url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/product/${id}`,
+    });
+};
+
+export const deleteBusinessCapabilityByCode = (code: string) =>
+    Api.delete({ url: `${GATEWAY_CAPABILITY_URL}v1/business-capability/${code}` });
+
+export const deleteTechCapabilityByCode = (code: string) =>
+    Api.delete({ url: `${GATEWAY_CAPABILITY_URL}v1/tech-capabilities/${code}` });

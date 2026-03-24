@@ -15,7 +15,7 @@ import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { IFullProductData } from 'api/product/types';
-import { useGetAllProductsQuery } from 'api/queries/product';
+import { useDeleteProductByIdMutation, useGetAllProductsQuery } from 'api/queries/product';
 import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -35,6 +35,8 @@ export const AdminAppsPage = () => {
     const navigate = useNavigate();
 
     const { data, isLoading } = useGetAllProductsQuery();
+    const { mutateAsync: deleteProduct, isPending: isDeletingProduct } =
+        useDeleteProductByIdMutation();
 
     const [productToDelete, setProductToDelete] = useState<IFullProductData | null>(null);
 
@@ -52,6 +54,7 @@ export const AdminAppsPage = () => {
 
     const handleDeleteTechClick = async () => {
         if (productToDelete) {
+            await deleteProduct(productToDelete.id);
             showSnackbar({ message: `Приложение ${productToDelete.name} удалено` });
             setProductToDelete(null);
         }
@@ -92,7 +95,9 @@ export const AdminAppsPage = () => {
                             <S.TableHeaderDataStyled>Критичность</S.TableHeaderDataStyled>
                             <S.TableHeaderDataStyled>Владелец</S.TableHeaderDataStyled>
                             <S.TableHeaderDataStyled>Краткое описание</S.TableHeaderDataStyled>
-                            <S.TableHeaderDataButtons></S.TableHeaderDataButtons>
+                            <S.TableHeaderDataButtons
+                                showDeleteButton={window.FEATURE_FLAGS.FLAG_IS_PROD === false}
+                            ></S.TableHeaderDataButtons>
                         </TableRow>
                     </TableHead>
 
@@ -138,6 +143,7 @@ export const AdminAppsPage = () => {
                 confirmText="Удалить"
                 onConfirm={handleDeleteTechClick}
                 onClose={() => setProductToDelete(null)}
+                isPending={isDeletingProduct}
             >
                 Приложение <S.BoldSpan>{productToDelete?.name}</S.BoldSpan> будет удалено
             </Dialog>

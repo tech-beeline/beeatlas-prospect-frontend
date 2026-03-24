@@ -7,3 +7,5 @@ export enum SideSheetVariants {
     EDIT_SCENARIO_BI = 'EDIT_SCENARIO_BI',
     EDIT_SLA_BI = 'EDIT_SLA_BI',
 }
+
+export type ButtonState = 'default' | 'loading' | 'success';

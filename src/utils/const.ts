@@ -1,5 +1,3 @@
-export const isFunc = window.location.hostname === 'eafdmmart-func.apps.yd-m6-kt22.vimpelcom.ru';
-
 export const isLocal = process.env.NODE_ENV === 'development';
 
 export const FUNC_MOCK_AUTH_LINK =

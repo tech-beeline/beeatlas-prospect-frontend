@@ -24,6 +24,9 @@ export const Row = <T,>({
     draft,
     showShadow,
     bpmn,
+    onOpenStepFormByBiId,
+    isBiEditable,
+    canEditCJ,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -95,7 +98,7 @@ export const Row = <T,>({
                                                 onClick={() => onAddButtonClick(element.stepIndex)}
                                                 variant="outlined"
                                                 size="medium"
-                                                disabled={!draft || bpmn}
+                                                disabled={!draft || bpmn || !canEditCJ}
                                                 startIcon={<Icon iconName={Icons.Add} />}
                                             />
                                         </S.ButtonContainer>
@@ -128,16 +131,22 @@ export const Row = <T,>({
                                             const isActive =
                                                 activeCell?.rowId === rowId &&
                                                 activeCell?.elementId === biId;
+                                            const isGlobalEditable = isBiEditable
+                                                ? isBiEditable(Number(biId))
+                                                : true;
                                             const isEditable =
-                                                !UNEDITABLE_CELLS.has(rowId) && !bpmn;
-                                            const isHoverable =
-                                                isEditable &&
-                                                rowId !== RowIds.IDENTIFICATOR &&
-                                                rowId !== RowIds.DOCUMENT;
+                                                !UNEDITABLE_CELLS.has(rowId) && isGlobalEditable;
+                                            const content = formatData(
+                                                parseData(element.bi),
+                                                rowId === RowIds.IDENTIFICATOR
+                                                    ? onOpenStepFormByBiId
+                                                    : undefined,
+                                            );
                                             return (
                                                 <S.Td
                                                     key={i}
                                                     borderRight={
+                                                        rowId === RowIds.SCENARION_BI ||
                                                         i === reducedStepData.length - 1 ||
                                                         reducedStepData[i + 1].type ===
                                                             RowElementType.COLLAPSED_STEP
@@ -152,14 +161,12 @@ export const Row = <T,>({
                                                             handleCellClick(rowId, biId);
                                                         }
                                                     }}
-                                                    hoverable={isHoverable}
+                                                    hoverable={isEditable}
                                                     isEditing={isActive}
                                                 >
                                                     <EditableCell
                                                         rowId={rowId}
-                                                        formatData={formatData(
-                                                            parseData(element.bi),
-                                                        )}
+                                                        formatData={content}
                                                         element={element.bi}
                                                         isActive={isActive}
                                                         onEndEdit={handleCellEndEdit}

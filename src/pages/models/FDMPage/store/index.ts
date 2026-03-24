@@ -8,7 +8,7 @@ import {
 } from 'api/capability';
 
 import { DomainData, IFDMStore, Item, ItemTypes } from './types';
-import { findItemInTree, getItemPathAndBreadcrumbs } from './utils';
+import { findItemInTree, getItemPathAndBreadcrumbs, removeItemFromTree } from './utils';
 
 export const useFDMStore = create<IFDMStore>()((set, get) => ({
     activeItem: null,
@@ -128,5 +128,11 @@ export const useFDMStore = create<IFDMStore>()((set, get) => ({
                 requestedCapabilities: [...get().requestedCapabilities, item.type + item.id],
             }));
         }
+    },
+
+    removeItem: (id, type) => {
+        set(() => ({
+            items: removeItemFromTree(get().items, id, type),
+        }));
     },
 }));

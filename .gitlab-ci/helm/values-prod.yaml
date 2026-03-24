@@ -55,5 +55,15 @@ env:
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: 'proxy_set_header Host fdm-gateway-prod-service;'
   NGINX_LOCATION_API: http://eafdmmart-backend-prod-service:8080
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: 'proxy_set_header Host eafdmmart-backend-prod-service;'
+  FLAG_IS_PROD: 'true'
+  FLAG_IS_DEMO_STAND: 'false'
+  FLAG_IS_FUNC: 'false'
+  FLAG_AUTHENTIK_URL: ''
+  FLAG_API_URL: ''
+  FLAG_DOC_SERVICE_URL: 'https://beeatlas-doc-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/'
 
 replicaCount: 1
+
+writableDir:
+  enabled: true
+  path: /www/env

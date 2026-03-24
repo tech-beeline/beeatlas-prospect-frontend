@@ -51,11 +51,15 @@ export const MenuModels = () => {
                             name: 'Каталог\xa0приложений',
                             path: `${R.MODELS_PATH}${R.APPS_PATH}`,
                         },
-                        {
-                            icon: Icons.List,
-                            name: 'E2E\xa0сценарии',
-                            path: `${R.MODELS_PATH}${R.E2E_PATH}`,
-                        },
+                        ...(window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
+                            ? []
+                            : [
+                                  {
+                                      icon: Icons.List,
+                                      name: 'E2E\xa0сценарии',
+                                      path: `${R.MODELS_PATH}${R.E2E_PATH}`,
+                                  },
+                              ]),
                         {
                             icon: Icons.DashboardDots,
                             name: 'Архитектура\xa0компании',
@@ -65,6 +69,11 @@ export const MenuModels = () => {
                             icon: Icons.Archive,
                             name: 'Каталог\xa0паттернов',
                             path: `${R.MODELS_PATH}${R.PATTERNS_PATH}`,
+                        },
+                        {
+                            icon: Icons.Reports,
+                            name: 'Аналитический\xa0отчет\xa0фитнес-функций',
+                            path: `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
                         },
                     ],
                 },

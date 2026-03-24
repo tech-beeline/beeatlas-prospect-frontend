@@ -32,17 +32,10 @@ export const BannerStyled = styled(Banner)`
 
 export const TitleContainer = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
-`;
+    gap: 16px;
 
-export const H4 = styled.h4`
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-h4);
-    line-height: var(--font-line-height-h4);
-    letter-spacing: var(--font-letter-spacing-body3);
-
-    margin: 8px 0;
+    margin: 8px 0px;
 `;
 
 export const JustText = styled.p`
@@ -163,10 +156,9 @@ export const ListSwitcherWrapper = styled.div`
 
 export const SubscribeButtonContainer = styled.div`
     display: flex;
-    justify-content: flex-end;
-    gap: 24px;
+    gap: 16px;
 
-    margin-top: 24px;
+    height: 40px;
 `;
 
 export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boolean }>`
@@ -203,6 +195,20 @@ export const BannerContainer = styled.div`
 `;
 
 export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+`;
+
+export const MetricsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    margin-top: 36px;
+`;
+
+export const MetricsFlexContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;

@@ -5,6 +5,5 @@ export interface ISideSheetState {
     payload: number | null;
 
     toggleSideSheet: (variant: SideSheetVariants, payload?: number | null) => void;
-
     closeSideSheet: () => void;
 }

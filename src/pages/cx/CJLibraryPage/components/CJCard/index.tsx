@@ -54,7 +54,12 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                         title={cj.draft ? 'Черновик' : 'Опубликован'}
                         type={cj.draft ? 'default' : 'success'}
                     />
-                    {cj.bpmn && <Label variant="contained" type="warning" title="BPMN" />}
+                    <Label
+                        variant="contained"
+                        title={cj.bpmn ? 'BPMN' : 'BEEATLAS'}
+                        type={cj.bpmn ? 'warning' : 'magenta'}
+                    />
+                    {cj.dashboardLink && <Label variant="contained" title="GRAFANA" type="teal" />}
                 </S.LabelContainer>
                 <DropdownMenu
                     id={String(cj.id)}

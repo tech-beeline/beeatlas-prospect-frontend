@@ -11,6 +11,7 @@ export const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
 
     height: 64px;
     padding: 20px 24px;
@@ -154,4 +155,8 @@ export const NotFoundContainer = styled.div`
     height: calc(100vh - 64px);
 
     padding-bottom: 100px;
+`;
+
+export const InfoTooltipContainer = styled.div`
+    position: relative;
 `;

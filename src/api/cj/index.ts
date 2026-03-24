@@ -3,7 +3,7 @@ import { AxiosPromise } from 'axios';
 import Api from 'utils/api/axiosWrapper';
 import { formatNullableNumberParam } from 'utils/formatters';
 
-import { GATEWAY_URL } from '../const';
+import { GATEWAY_CX_URL, GATEWAY_OBS_DASHBOARD_URL, GATEWAY_URL } from '../const';
 
 import * as T from './types';
 
@@ -13,8 +13,8 @@ export const getAllCJs = (
     productId?: number,
 ): AxiosPromise<T.ICJNewData[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}cx/v1/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
-            'idProduct',
+        url: `${GATEWAY_CX_URL}cx/v2/product/cj?sample=${sample}&search=${search}${formatNullableNumberParam(
+            'product-id',
             productId,
         )}`,
     });
@@ -108,5 +108,18 @@ export const getBPMNFileVersion = (
 ): AxiosPromise<T.IBPMNFileVersion[]> => {
     return Api.get({
         url: `${GATEWAY_URL}document/v1/documents/versions/${docTypeId}/${cjId}`,
+    });
+};
+
+export const putCjDashboard = (cjId: number): AxiosPromise<T.IDashboardData> => {
+    return Api.put({
+        url: `${GATEWAY_OBS_DASHBOARD_URL}v1/dashboard-cj/${cjId}`,
+    });
+};
+
+export const patchCJLink = (id: string, data: Partial<T.ICJForm>) => {
+    return Api.patch({
+        url: `${GATEWAY_CX_URL}v1/cj/${id}`,
+        data,
     });
 };

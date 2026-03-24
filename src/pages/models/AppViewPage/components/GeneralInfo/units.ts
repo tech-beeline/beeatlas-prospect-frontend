@@ -55,5 +55,5 @@ export const NotFoundContainer = styled.div`
 `;
 
 export const TableStyled = styled(Table)`
-    max-width: 640px;
+    width: 100%;
 `;

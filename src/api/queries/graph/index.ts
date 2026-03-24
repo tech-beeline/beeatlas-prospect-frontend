@@ -11,11 +11,14 @@ import {
     getDeploymentInfluenceDotGraph,
     getDeploymentInfluenceElementsById,
     getSearchDeployments,
+    getSearchOperations,
     getSearchSystems,
 } from 'api/graph';
-import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
+import { ISearchDeployment, ISearchEndpointsData, ISearchSystem } from 'api/graph/types';
 import { getSystemInfrastrucutre, getSystemInfrastrucutreByIp } from 'api/product';
 import { IInfraData } from 'api/product/types';
+
+import { splitSearch } from './utils';
 
 export const GRAPH_PREFIX = 'GRAPH_PREFIX';
 
@@ -49,21 +52,25 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
     return useQuery({
         queryKey: [GRAPH_PREFIX, 'search', 'complete', search],
         queryFn: async () => {
+            const { path, type } = splitSearch(search);
+
             const promises: [
                 Promise<ISearchSystem[]>,
                 Promise<ISearchDeployment[]>,
                 Promise<IInfraData[]>,
+                Promise<ISearchEndpointsData>,
             ] = [
-                getSearchSystems(search).then((res) => res.data),
-                getSearchDeployments(search).then((res) => res.data),
-                getSystemInfrastrucutre(search).then((res) => res.data),
+                getSearchSystems(encodeURI(search)).then((res) => res.data),
+                getSearchDeployments(encodeURI(search)).then((res) => res.data),
+                getSystemInfrastrucutre(encodeURI(search)).then((res) => res.data),
+                getSearchOperations(encodeURI(path), type).then((res) => res.data),
             ];
 
             const searchTest = RegExp(
                 '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
             ).test(search);
             const optionalPromises: [Promise<IInfraData[]>] | [] = searchTest
-                ? [getSystemInfrastrucutreByIp(search).then((res) => res.data)]
+                ? [getSystemInfrastrucutreByIp(encodeURI(search)).then((res) => res.data)]
                 : [];
 
             const data = await Promise.allSettled([...promises, ...optionalPromises]);
@@ -84,8 +91,8 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
                     }
                 }
             }
-            if (data[3] && data[3].status === 'fulfilled') {
-                for (const infra of data[3].value) {
+            if (data[4] && data[4].status === 'fulfilled') {
+                for (const infra of data[4].value) {
                     if (infra.parentSystems.length === 1) {
                         cmdbData.push(infra);
                     }
@@ -106,6 +113,10 @@ export const useGetCompleteArchitectureInfoQuery = (search: string, enabled = tr
                     graph: data[1].status === 'fulfilled' ? data[1].value : [],
                     cmdb: cmdbData,
                 },
+                endpoints:
+                    data[3].status === 'fulfilled'
+                        ? data[3].value
+                        : { archOperations: [], discoveredOperations: [] },
             };
         },
         enabled,

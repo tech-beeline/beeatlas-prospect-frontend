@@ -40,7 +40,7 @@ export const SideBlock: FC<ISideBlock> = ({
 
     return (
         <>
-            <Container ref={sideBlockRef} isOpen={isOpen} large={large}>
+            <Container ref={sideBlockRef} isOpen={isOpen} large={large} data-testid="Widget">
                 {children}
             </Container>
             {hasBackdrop && <S.Backdrop onClick={onClose} isOpen={isOpen} />}

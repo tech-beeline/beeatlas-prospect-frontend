@@ -1,5 +1,13 @@
-import { Table, TableData } from '@beeline/design-system-react';
+import { Table, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+export const TableRowStyled = styled(TableRow)`
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+        background-color: var(--color-background-base-hover);
+    }
+`;
 
 export const DataContainer = styled.div`
     display: flex;
@@ -59,4 +67,8 @@ export const TableDataStyled = styled(TableData)`
 
 export const BoldSpan = styled.span`
     font-weight: 500;
+`;
+
+export const TableDataError = styled(TableData)<{ isError: boolean }>`
+    ${({ isError }) => (isError ? 'background-color: var(--color-control-background-error);' : '')}
 `;

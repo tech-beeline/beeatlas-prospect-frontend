@@ -6,6 +6,7 @@ export interface ITable {
     draft: boolean;
     tableData: ICompleteStepData[];
     bpmn?: boolean;
+    canEditCJ: boolean;
 }
 
 export enum RowIds {

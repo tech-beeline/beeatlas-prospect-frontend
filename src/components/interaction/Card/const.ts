@@ -9,4 +9,5 @@ export const cardVariantToBackgroundColorMap = {
     [CardVariant.INFO]: 'var(--color-status-info-background)',
     [CardVariant.ERROR]: 'var(--color-status-error-background)',
     [CardVariant.WARNING]: 'var(--color-status-warning-background)',
+    [CardVariant.SUCCESS]: 'var(--color-status-success-background)',
 };

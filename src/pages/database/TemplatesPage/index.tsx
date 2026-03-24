@@ -5,7 +5,7 @@ import { IconCard } from 'components/other';
 
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
-import { FUNC_MOCK_CONFLUENCE_LINK, isFunc } from 'utils/const';
+import { FUNC_MOCK_CONFLUENCE_LINK } from 'utils/const';
 
 import * as S from './units';
 
@@ -25,7 +25,7 @@ export const TemplatesPage = () => {
                 text="Презентация идеи создания или развития ИТ-продукта или решения сложной проблемы (сложного коммунального элемента)"
                 onClick={() =>
                     window.open(
-                        isFunc
+                        window.FEATURE_FLAGS.FLAG_IS_FUNC
                             ? FUNC_MOCK_CONFLUENCE_LINK
                             : 'https://bwiki.beeline.ru/pages/viewpage.action?pageId=132433700',
                         '_blank',

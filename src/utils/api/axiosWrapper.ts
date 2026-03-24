@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { authInstance } from 'features/auth';
+import { userManager } from 'features/auth/hooks';
 
 import Api from './Api';
 
@@ -11,11 +12,18 @@ const instanceOfAxios = axios.create({
 
 instanceOfAxios.interceptors.request.use(
     async (config) => {
-        const accessToken = authInstance.getAccessToken();
-
-        if (accessToken) {
-            // @ts-ignore
-            config.headers.Authorization = `Bearer ${accessToken}`;
+        if (window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND) {
+            const u = await userManager.getUser();
+            if (u?.access_token) {
+                // @ts-ignore
+                config.headers.Authorization = `Bearer ${u.access_token}`;
+            }
+        } else {
+            const accessToken = authInstance.getAccessToken();
+            if (accessToken) {
+                // @ts-ignore
+                config.headers.Authorization = `Bearer ${accessToken}`;
+            }
         }
         return config;
     },
@@ -37,6 +45,7 @@ instanceOfAxios.interceptors.response.use(
         // error.errorText = TEXT.ERROR_NETWORK;
 
         // console.log(axios.isCancel(error));
+        console.log(error);
 
         switch (error.response.status) {
             case 504 || 502:
@@ -48,8 +57,11 @@ instanceOfAxios.interceptors.response.use(
                 break;
             case 401:
                 try {
-                    await authInstance.refreshTokens({ restartAuthFlowOnFail: true });
-
+                    if (window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND) {
+                        await userManager.signinSilent();
+                    } else {
+                        await authInstance.refreshTokens({ restartAuthFlowOnFail: true });
+                    }
                     return instanceOfAxios.request(error.config);
                 } catch (e) {
                     console.error(e);

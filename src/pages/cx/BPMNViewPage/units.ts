@@ -75,7 +75,6 @@ export const Content = styled.div`
         position: absolute;
         top: 5px;
         left: 10px;
-        z-index: 999;
         list-style-type: none;
         display: flex;
         gap: 24px;

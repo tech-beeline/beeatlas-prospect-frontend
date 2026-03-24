@@ -18,11 +18,16 @@ export const useSnackbarStore = create<ISnackbarStore>((set, get) => ({
         if (timer) {
             clearTimeout(timer);
         }
+
+        const shouldAutoClick = !snackbarProps.showCloseButton;
+
         set(() => ({
             activeSnackbar: { ...snackbarProps, isOpen: true },
-            timerId: setTimeout(() => {
-                get().clearSnackbar();
-            }, 3000) as unknown as number,
+            timerId: shouldAutoClick
+                ? (setTimeout(() => {
+                      get().clearSnackbar();
+                  }, 3000) as unknown as number)
+                : null,
         }));
     },
 }));

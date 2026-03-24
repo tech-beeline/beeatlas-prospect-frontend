@@ -1,10 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Chip, Icon, Skeleton, Tab } from '@beeline/design-system-react';
+import {
+    Breadcrumbs,
+    Button,
+    ButtonGroup,
+    Chip,
+    Icon,
+    Skeleton,
+    Tab,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
+import {
+    useDeleteBusinessCapabilityMutation,
+    useDeleteTechCapabilityMutation,
+} from 'api/queries/capability';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -20,6 +34,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ItemTypes } from './store/types';
 import {
+    ApiTable,
     BreadCrumbsItem,
     HistoryTable,
     NestingMenu,
@@ -27,30 +42,44 @@ import {
     VersionInfo,
     ViewItemSwitcher,
 } from './components';
-import { TABS, TabVariant } from './const';
+import { MetricsVariants, TABS, TabVariant } from './const';
 import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
+import { IFDMPage } from './types';
 import * as S from './units';
 
-export const FDMPage = () => {
+export const FDMPage: FC<IFDMPage> = ({ isAdmin }) => {
     const [showBanner, setShowBanner] = useState(false);
     const [tabVariant, setTabVariant] = useState(TabVariant.GENERAL);
+
+    const [metricsVariant, setMetricsVariant] = useState(MetricsVariants.API);
 
     const handleCloseBannerClick = () => {
         setShowBanner(false);
     };
 
-    const { modalOpened, openModal, closeModal } = useModal();
+    const {
+        modalOpened: isUnsubscribeModalOpened,
+        openModal: openUnsubscribeModal,
+        closeModal: closeUnsubscribeModal,
+    } = useModal();
+
+    const {
+        modalOpened: isDeleteModalOpened,
+        openModal: openDeleteModal,
+        closeModal: closeDeleteModal,
+    } = useModal();
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const navigate = useNavigate();
 
-    const [activeItem, breadcrumbs, loading] = useFDMStore((state) => [
+    const [activeItem, breadcrumbs, loading, removeItem] = useFDMStore((state) => [
         state.activeItem,
         state.breadcrumbs,
         state.loading,
+        state.removeItem,
     ]);
 
     useEffect(() => {
@@ -73,6 +102,12 @@ export const FDMPage = () => {
         useGetSubscribedBusinessCapabilitiesIdsQuery();
     const { data: subscribedTechCapabilitiyIds } = useGetSubscribedTechCapabilitiesIdsQuery();
 
+    const { mutateAsync: deleteBusinessCapability, isPending: isDeletingBusinessCapability } =
+        useDeleteBusinessCapabilityMutation();
+    const { mutateAsync: deleteTechCapability, isPending: isDeletingTechCapability } =
+        useDeleteTechCapabilityMutation();
+    const isDeletingCapability = isDeletingBusinessCapability || isDeletingTechCapability;
+
     const isSubscribed = Boolean(
         activeItem
             ? activeItem.type === ItemTypes.BUSINESS
@@ -87,7 +122,7 @@ export const FDMPage = () => {
         }
     }, [error]);
 
-    const [params] = useSearchParams();
+    const [params, setParams] = useSearchParams();
     const paramId = params.get('id');
     const versionId = params.get('v');
 
@@ -128,13 +163,13 @@ export const FDMPage = () => {
                 message: itemToSubscriptionMessageMap[getItemClassification(activeItem)],
             });
         } else {
-            openModal();
+            openUnsubscribeModal();
         }
     };
 
-    const handleModalConfirm = async () => {
+    const handleUnsubscribeConfirm = async () => {
         if (activeItem) {
-            closeModal();
+            closeUnsubscribeModal();
             await deleteSubscrition({
                 entityType:
                     activeItem.type === ItemTypes.BUSINESS
@@ -144,6 +179,39 @@ export const FDMPage = () => {
             });
             showSnackbar({
                 message: `Вы отписаны от уведомлений`,
+            });
+        }
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (activeItem) {
+            if (activeItem.type === ItemTypes.BUSINESS) {
+                await deleteBusinessCapability(activeItem.code);
+            } else {
+                await deleteTechCapability(activeItem.code);
+            }
+
+            closeDeleteModal();
+
+            setParams(
+                new URLSearchParams(
+                    activeItem.parent
+                        ? {
+                              id: String(activeItem.parent),
+                              type: ItemTypes.BUSINESS,
+                          }
+                        : {},
+                ),
+            );
+
+            removeItem(activeItem.id, activeItem.type);
+
+            showSnackbar({
+                message: `${
+                    activeItem.type === ItemTypes.BUSINESS
+                        ? 'Бизнес-возможность'
+                        : 'Техническая возможность'
+                } удалена`,
             });
         }
     };
@@ -190,7 +258,66 @@ export const FDMPage = () => {
                             {!versionId && (
                                 <>
                                     <S.TitleContainer>
-                                        <S.H4 data-testid="Title">{activeItem.name}</S.H4>
+                                        <Text variant="h4" data-testid="Title">
+                                            {activeItem.name}
+                                        </Text>
+
+                                        <S.SubscribeButtonContainer>
+                                            <S.ProgressButtonStyled
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={handleSubscribeButtonClick}
+                                                state={
+                                                    isUpdatingSubscriptions ? 'loading' : 'default'
+                                                }
+                                                showProgress={isUpdatingSubscriptions}
+                                            >
+                                                <S.ProgressButtonContent>
+                                                    <Icon
+                                                        iconName={
+                                                            isSubscribed
+                                                                ? Icons.NotificationOff
+                                                                : Icons.Notification
+                                                        }
+                                                    />
+                                                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                                                </S.ProgressButtonContent>
+                                            </S.ProgressButtonStyled>
+                                            {activeItem.type === ItemTypes.BUSINESS &&
+                                                activeItem.isDomain === false && (
+                                                    <Button
+                                                        startIcon={<Icon iconName={Icons.Edit} />}
+                                                        onClick={handleEditButtonClick}
+                                                    />
+                                                )}
+                                            {isAdmin &&
+                                                window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
+                                                    <>
+                                                        <Button
+                                                            startIcon={
+                                                                <Icon iconName={Icons.Delete} />
+                                                            }
+                                                            onClick={openDeleteModal}
+                                                            disabled={activeItem.hasChildren}
+                                                            data-tooltip-id="delete-button"
+                                                        />
+                                                        {activeItem.hasChildren && (
+                                                            <TooltipContainer
+                                                                noArrow
+                                                                largePadding
+                                                                id="delete-button"
+                                                                // @ts-expect-error
+                                                                place="bottom-end"
+                                                            >
+                                                                Невозможно удалить
+                                                                бизнес-возможность, имеющую дочерние
+                                                                элементы. Отвяжите их и удаление
+                                                                будет доступно
+                                                            </TooltipContainer>
+                                                        )}
+                                                    </>
+                                                )}
+                                        </S.SubscribeButtonContainer>
                                     </S.TitleContainer>
 
                                     <S.AliasText data-testid="Alias">{activeItem.code}</S.AliasText>
@@ -263,43 +390,64 @@ export const FDMPage = () => {
                                                 {activeItem.owner || 'Не определён'}
                                             </S.JustText>
 
-                                            <S.SubscribeButtonContainer>
-                                                <S.ProgressButtonStyled
-                                                    size="small"
-                                                    variant="outlined"
-                                                    onClick={handleSubscribeButtonClick}
-                                                    state={
-                                                        isUpdatingSubscriptions
-                                                            ? 'loading'
-                                                            : 'default'
-                                                    }
-                                                    showProgress={isUpdatingSubscriptions}
-                                                >
-                                                    <S.ProgressButtonContent>
-                                                        <Icon
-                                                            iconName={
-                                                                isSubscribed
-                                                                    ? Icons.NotificationOff
-                                                                    : Icons.Notification
-                                                            }
-                                                        />
-                                                        {isSubscribed
-                                                            ? 'Отписаться'
-                                                            : 'Подписаться'}
-                                                    </S.ProgressButtonContent>
-                                                </S.ProgressButtonStyled>
-                                                {activeItem.type === ItemTypes.BUSINESS &&
-                                                    activeItem.isDomain === false && (
-                                                        <Button
-                                                            startIcon={
-                                                                <Icon iconName={Icons.Edit} />
-                                                            }
-                                                            onClick={handleEditButtonClick}
-                                                        >
-                                                            Редактировать
-                                                        </Button>
+                                            {activeItem.type === ItemTypes.TECH && (
+                                                <S.MetricsContainer>
+                                                    <ButtonGroup
+                                                        alwaysSelected
+                                                        size="small"
+                                                        selectedOption={{ id: metricsVariant }}
+                                                        options={[
+                                                            {
+                                                                id: MetricsVariants.API,
+                                                                label: 'API',
+                                                            },
+                                                            // {
+                                                            //     id: MetricsVariants.E2E,
+                                                            //     label: 'E2E',
+                                                            // },
+                                                            // {
+                                                            //     id: MetricsVariants.CJ,
+                                                            //     label: 'CJ',
+                                                            // },
+                                                        ]}
+                                                        onChange={(option) =>
+                                                            setMetricsVariant(
+                                                                option.id as MetricsVariants,
+                                                            )
+                                                        }
+                                                    />
+                                                    {activeItem &&
+                                                        metricsVariant === MetricsVariants.API && (
+                                                            <ApiTable
+                                                                tcId={String(activeItem.id)}
+                                                            />
+                                                        )}
+                                                    {metricsVariant === MetricsVariants.E2E && (
+                                                        <S.MetricsFlexContainer>
+                                                            <Link
+                                                                title="Я, как клиент, хочу подключить домашний интернет, ТВ билайн и купить новую SIM"
+                                                                url={'https://beeline.ru'}
+                                                            />
+                                                            <Link
+                                                                title="Я, как клиент, хочу подключить домашний интернет, ТВ билайн и купить новую SIM"
+                                                                url={'https://beeline.ru'}
+                                                            />
+                                                        </S.MetricsFlexContainer>
                                                     )}
-                                            </S.SubscribeButtonContainer>
+                                                    {metricsVariant === MetricsVariants.CJ && (
+                                                        <S.MetricsFlexContainer>
+                                                            <Link
+                                                                title="[E2E][WEB][KA] Я, как клиент, хочу добровольно заблокировать Домашний Интернет (ЕЛК)"
+                                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=1`}
+                                                            />
+                                                            <Link
+                                                                title="[E2E][WEB][KA] Я, как клиент, хочу добровольно заблокировать Домашний Интернет (ЕЛК)"
+                                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=1`}
+                                                            />
+                                                        </S.MetricsFlexContainer>
+                                                    )}
+                                                </S.MetricsContainer>
+                                            )}
 
                                             {!isItemGroup &&
                                                 !!activeItem.children &&
@@ -388,12 +536,31 @@ export const FDMPage = () => {
             </S.Wrapper>
             {activeItem && (
                 <Dialog
-                    opened={modalOpened}
-                    onClose={closeModal}
-                    onConfirm={handleModalConfirm}
+                    opened={isUnsubscribeModalOpened}
+                    onClose={closeUnsubscribeModal}
+                    onConfirm={handleUnsubscribeConfirm}
                     title={`Отписаться от ${itemToNameMap[getItemClassification(activeItem)]}?`}
                 >
                     Вы отписываетесь от <S.BoldSpan>{activeItem.name}</S.BoldSpan>
+                </Dialog>
+            )}
+            {activeItem && (
+                <Dialog
+                    opened={isDeleteModalOpened}
+                    onClose={closeDeleteModal}
+                    onConfirm={handleDeleteConfirm}
+                    title={`Удалить ${
+                        activeItem.type === ItemTypes.BUSINESS
+                            ? 'бизнес-возможность'
+                            : 'техническую возможность'
+                    }?`}
+                    confirmText="Удалить"
+                    isPending={isDeletingCapability}
+                >
+                    {activeItem.type === ItemTypes.BUSINESS
+                        ? 'Бизнес-возможность '
+                        : 'Техническая возможность '}
+                    <S.BoldSpan>{activeItem.name}</S.BoldSpan> будет удалена
                 </Dialog>
             )}
         </S.PageWrapper>

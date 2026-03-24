@@ -1,14 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deleteBusinessCapabilityByCode,
+    deleteTechCapabilityByCode,
     getBusinessCapabilityById,
     getBusinessCapabilityChildren,
     getBusinessCapabilityDomains,
+    getCapabilitiesByProductId,
     getCapabilitiesBySearch,
     getCoreBusinessCapabilities,
     getMapData,
+    getPromtByAlias,
     getTechCapabilityById,
     getTechCapabilityProducts,
+    postDescriptionByPromt,
     putBusinessCapability,
 } from 'api/capability';
 import { CapabilitySearchVariant, IBusinessCapabilityForm } from 'api/capability/types';
@@ -84,6 +89,38 @@ export const useGetCapabilityByIdQuery = (id?: string | null) => {
     });
 };
 
+export const useGetCapabilityDescriptionQuery = (name: string) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'promt', name],
+        queryFn: async () => {
+            const res = await getPromtByAlias('bc_description_generate').then((res) => res.data);
+            const resGeneration = await postDescriptionByPromt({
+                messages: [
+                    {
+                        role: 'user',
+                        content: res.promt.replace('<!!!>', name),
+                    },
+                ],
+                model: res.model,
+                stream: false,
+            }).then((res) => res.data);
+
+            const descriptionParsed = JSON.parse(
+                resGeneration?.choices[0]?.message?.content
+                    ?.replace('```json', '')
+                    .replace('```', ''),
+            )?.descr;
+
+            if (descriptionParsed) {
+                return descriptionParsed;
+            } else {
+                throw new Error();
+            }
+        },
+        enabled: false,
+    });
+};
+
 export const useGetChildrenCapabilitiesQuery = ({
     id,
     enabled,
@@ -114,3 +151,33 @@ export const useGetTechCapabilityByIdQuery = ({
         enabled,
     });
 };
+
+export const useGetTechCapabilitiesByProductIdQuery = (id: string | undefined | null) => {
+    return useQuery({
+        queryKey: [CAPABILITY_PREFIX, 'tech', 'byProduct', id],
+        queryFn: () => getCapabilitiesByProductId(id!).then((res) => res.data),
+        enabled: !!id,
+    });
+};
+
+export function useDeleteBusinessCapabilityMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [CAPABILITY_PREFIX, 'bc', 'delete'],
+        mutationFn: (code: string) => deleteBusinessCapabilityByCode(code),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: [CAPABILITY_PREFIX] });
+        },
+    });
+}
+
+export function useDeleteTechCapabilityMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [CAPABILITY_PREFIX, 'tc', 'delete'],
+        mutationFn: (code: string) => deleteTechCapabilityByCode(code),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: [CAPABILITY_PREFIX] });
+        },
+    });
+}

@@ -28,6 +28,8 @@ const App = () => {
     useAuth();
     useTheme();
 
+    console.log(window.FEATURE_FLAGS);
+
     return (
         <>
             <QueryClientProvider client={queryClient}>

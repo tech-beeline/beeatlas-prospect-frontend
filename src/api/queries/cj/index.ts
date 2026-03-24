@@ -10,9 +10,10 @@ import {
     getCJDocumentationTypes,
     getCJsByBIId,
     patchCJ,
+    patchCJLink,
     postCJ,
     postCJByBPMN,
-    putCJ,
+    putCjDashboard,
     uploadBPMNFile,
 } from 'api/cj';
 import {
@@ -163,7 +164,7 @@ export function useUpdateCJMutation() {
     return useMutation({
         mutationKey: [CJ_PREFIX, 'update'],
         mutationFn: async ({ id, data }: IUpdateCJParams) => {
-            await putCJ(id, data);
+            await patchCJ(id, data);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
@@ -327,3 +328,18 @@ export const useGetCJFileVersionByIdQuery = (cjId: number | string | null) => {
         enabled: !!cjId,
     });
 };
+
+export function useCreateCJDashboardMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'dashboard', 'create'],
+        mutationFn: async (cjId: number) => {
+            const { path } = await putCjDashboard(cjId).then((res) => res.data);
+            await patchCJLink(String(cjId), { dashboardLink: path });
+            return path;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+        },
+    });
+}

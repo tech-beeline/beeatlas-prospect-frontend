@@ -30,3 +30,8 @@ env:
   NGINX_LOCATION_API: http://eafdmmart-backend-func-service:8080
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: ''
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: ''
+  FLAG_IS_FUNC: 'true'
+
+writableDir:
+  enabled: true
+  path: /www/env

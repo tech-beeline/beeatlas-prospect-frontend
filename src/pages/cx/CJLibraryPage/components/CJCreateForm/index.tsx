@@ -20,6 +20,7 @@ import { useGetUserInfoQuery } from 'api/queries/profile';
 import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';
 import * as ROUTER from 'router/const';
 import { formatSize } from 'utils/formatters';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
 import { ICJCreateForm } from './types';
@@ -33,6 +34,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const [bpmnFileText, setBpmnFileText] = useState<string | null>(null);
     const [, setIsProcessingBPMN] = useState(false);
     const { data: userInfo } = useGetUserInfoQuery();
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
     const isAdministrator = userInfo?.roles?.includes('ADMINISTRATOR');
     const userProductIds = userInfo?.productsIds || [];
@@ -81,7 +83,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         user_portrait: values.userPortrait,
                     },
                     productId: values.product,
-                    bpmn: Boolean(bpmnFile),
+                    bpmn: false,
                 });
 
                 try {
@@ -91,6 +93,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     });
 
                     await createCJByBPMN(cjId);
+                    setBpmnFile(null);
                     navigate({
                         pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
@@ -101,6 +104,12 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.',
                     });
                     setIsProcessingBPMN(false);
+                    setBpmnFile(null);
+                    showSnackbar({ message: `Ошибка валидации файла`, showCloseButton: true });
+                    navigate({
+                        pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                        search: createSearchParams({ id: cjId }).toString(),
+                    });
                     return;
                 }
             } else {
@@ -111,8 +120,9 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         user_portrait: values.userPortrait,
                     },
                     productId: values.product,
-                    bpmn: Boolean(bpmnFile),
+                    bpmn: false,
                 });
+                setBpmnFile(null);
 
                 navigate({
                     pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
@@ -128,6 +138,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                 });
             }
             setIsProcessingBPMN(false);
+            setBpmnFile(null);
         }
     });
 
@@ -192,17 +203,6 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                             </S.TitleContainer>
 
                             <S.TextFieldContainer>
-                                {/* <Select
-                                    disabled={isLoadingProducts}
-                                    name="product"
-                                    label="Приложение*"
-                                    options={
-                                        products?.map((product) => ({
-                                            id: Number(product.id),
-                                            value: product.name,
-                                        })) ?? []
-                                    }
-                                /> */}
                                 <Autocomplete
                                     fullWidth
                                     disabled={isLoadingProducts}
@@ -214,7 +214,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
                                 <TextField label="Название CJ*" name="name" />
 
-                                <TextField label="Портрет пользователя*" name="userPortrait" />
+                                <TextField label="Портрет пользователя" name="userPortrait" />
                             </S.TextFieldContainer>
 
                             <S.FileAddingContainer>

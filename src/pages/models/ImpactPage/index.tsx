@@ -21,7 +21,7 @@ import {
     RateSideblock,
     SearchResults,
 } from './components';
-import { SearchVariants, TABS, TabVariant } from './const';
+import { TABS, TabVariant } from './const';
 import { IImpactBreadcrumb } from './types';
 import * as S from './units';
 
@@ -32,7 +32,6 @@ export const ImpactPage = () => {
 
     const [params] = useSearchParams();
     const searchParam = params.get('search');
-    const searchVariantParam = params.get('searchVariant');
     const notFoundParam = params.get('notFound');
     // common
     const cmdbParam = params.get('cmdb');
@@ -62,6 +61,14 @@ export const ImpactPage = () => {
         }
     }, []);
 
+    const [visitedPages, setVisitedPages] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (nameParam) {
+            setVisitedPages([...visitedPages, nameParam]);
+        }
+    }, [nameParam]);
+
     return (
         <S.PageWrapper>
             <S.TitleContainer>
@@ -87,11 +94,11 @@ export const ImpactPage = () => {
                     />
                 </S.NotFoundContainer>
             )}
-            {typeof searchParam === 'string' && searchVariantParam && (
+            {typeof searchParam === 'string' && (
                 <SearchResults
                     search={searchParam}
-                    searchVariant={searchVariantParam as SearchVariants}
                     setBreadcrumbs={setBreadcrumbs}
+                    visitedPages={visitedPages}
                 />
             )}
             {cmdbParam && (

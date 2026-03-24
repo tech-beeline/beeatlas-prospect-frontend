@@ -2,6 +2,7 @@ import { AxiosPromise } from 'axios';
 
 import { GATEWAY_ARCH_GRAPH_URL } from 'api/const';
 import Api from 'utils/api/axiosWrapper';
+import { formatNullableStringParam } from 'utils/formatters';
 
 import * as T from './types';
 
@@ -14,6 +15,18 @@ export const getSearchSystems = (search: string): AxiosPromise<T.ISearchSystem[]
 export const getSearchDeployments = (search: string): AxiosPromise<T.ISearchDeployment[]> => {
     return Api.get({
         url: `${GATEWAY_ARCH_GRAPH_URL}v1/search/deployment-node?search=${search}`,
+    });
+};
+
+export const getSearchOperations = (
+    search: string,
+    type?: string | null,
+): AxiosPromise<T.ISearchEndpointsData> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/deployment-nodes/operation?path=${search}${formatNullableStringParam(
+            'type',
+            type,
+        )}`,
     });
 };
 

@@ -50,8 +50,6 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const { mutateAsync: validateDsl, isPending: pendingValidateDsl } =
         useValidateWorkspaceMutation();
 
-    console.log(savedData.dslFile);
-
     const [validationState, setValidationState] = useState<{
         status: 'idle' | 'valid' | 'invalid';
         message: string | null;

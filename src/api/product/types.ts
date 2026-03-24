@@ -60,6 +60,7 @@ interface IStructurizrInterfaceTechCapabilityData {
     id: number;
     name: string;
     code: string;
+    deletedDate: string | null;
 }
 
 export interface IStructurizrOperation {
@@ -228,4 +229,55 @@ export interface IEmployee {
     email: string;
     fullName: string;
     id: number;
+}
+
+export interface IOperationContainer {
+    container: {
+        code: string;
+        id: number;
+        name: string;
+    };
+    id: number;
+    interface: {
+        code: string;
+        id: number;
+        name: string;
+    };
+    name: string;
+    product: {
+        alias: string;
+        id: number;
+        name: string;
+    };
+    type: string;
+}
+
+export interface IFitnessFunctionCalculationData {
+    id: number;
+    isCheck: boolean;
+    countAll: number;
+    countSuccess: number;
+}
+export interface IFitnessFunctionProductData {
+    alias: string;
+    id: number;
+    name: string;
+    ownerId: null | number;
+    fitnessFunctions: IFitnessFunctionCalculationData[];
+}
+export interface IFitnessFunctionDomain {
+    alias: string;
+    id: number;
+    name: string;
+    ownerId: null | number;
+    product: IFitnessFunctionProductData[];
+}
+export interface IFitnessFunctionData {
+    id: number;
+    code: string;
+    description: string;
+}
+export interface IFitenssFunctionsAggregationResult {
+    domain: IFitnessFunctionDomain[];
+    fitnessFunctionEnum: IFitnessFunctionData[];
 }

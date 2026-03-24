@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
+import { Avatar, Button, Chip, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
 import { IInfraData } from 'api/product/types';
@@ -19,12 +19,17 @@ import { IImpactSearch } from './types';
 import * as S from './units';
 
 export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
-    const [searchVariant, setSearchVariant] = useState<SearchVariants | null>(null);
-    const [, setSearchParams] = useSearchParams();
+    const [searchVariant, setSearchVariant] = useState<SearchVariants>(SearchVariants.PRODUCT);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchParam = searchParams.get('search');
     const [isOpen, setIsOpen] = useState(false);
 
     const [search, setSearch] = useState('');
-    const [searchDebounced, setSearchDebounced] = useState('');
+    const [searchDebounced] = useState('');
+
+    useEffect(() => {
+        setSearch(searchParam ?? '');
+    }, [searchParam]);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchRef = useRef<HTMLInputElement>(null);
@@ -76,10 +81,7 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
         setIsOpen(false);
     };
 
-    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(
-        searchDebounced,
-        searchDebounced !== '',
-    );
+    const { data, isLoading } = useGetCompleteArchitectureInfoQuery(searchDebounced, false);
 
     useEffect(() => {
         if (data) {
@@ -92,12 +94,13 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
     }, [data]);
 
     const handleShowAllClick = () => {
-        setSearchParams({ search: searchDebounced, searchVariant: searchVariant ?? '' });
+        // setSearchParams({ search: searchDebounced, searchVariant: searchVariant ?? '' });
         setIsOpen(false);
     };
 
     const handleEnterButtonClick = () => {
-        setSearchDebounced(search);
+        // setSearchDebounced(search);
+        setSearchParams({ search });
         // if (searchVariant === SearchVariants.SYSTEM && systemsData && systemsData[0]) {
         //     handleSystemClick(systemsData[0]);
         // } else if (searchVariant === SearchVariants.SERVER && serverData && serverData[0]) {
@@ -114,22 +117,14 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                 <Search
                     fullWidth
                     ref={searchRef}
-                    placeholder="Имя/мнемоника приложения CMDB, мнемоника экземплара CMDB, имя сервиса, endpoint или сервера"
+                    placeholder="Название приложения, сервера или endpoint"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    onFocus={() => setIsOpen(true)}
-                    onClick={() => setIsOpen(true)}
+                    // onFocus={() => setIsOpen(true)}
+                    // onClick={() => setIsOpen(true)}
                     onClear={() => setSearch('')}
                     onSearch={handleEnterButtonClick}
                 />
-                <Button
-                    variant="plain"
-                    disabled={!search}
-                    size="medium"
-                    onClick={() => setSearch('')}
-                >
-                    Сбросить
-                </Button>
             </S.SearchContainer>
             {isOpen && searchDebounced !== '' && (
                 <S.Dropdown ref={dropdownRef}>
@@ -152,6 +147,11 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                             }`}
                             active={searchVariant === SearchVariants.SERVER}
                             onClick={() => setSearchVariant(SearchVariants.SERVER)}
+                        />
+                        <Chip
+                            label={`Endpoint (5)`}
+                            active={searchVariant === SearchVariants.ENDPOINT}
+                            onClick={() => setSearchVariant(SearchVariants.ENDPOINT)}
                         />
                     </S.ChipsContainer>
                     {isLoading && (
@@ -317,6 +317,191 @@ export const ImpactSearch: FC<IImpactSearch> = ({ setBreadcrumbs }) => {
                                             text="Попробуйте изменить запрос"
                                         />
                                     )}
+                                </>
+                            )}
+                            {searchVariant === SearchVariants.ENDPOINT && (
+                                <>
+                                    {data.endpoints.archOperations.length +
+                                        data.endpoints.discoveredOperations.length ===
+                                        50 && (
+                                        <S.BannerContainer>
+                                            <Avatar iconName={Icons.InfoCircled} color="blue" />
+                                            <Text inactive variant="body3">
+                                                Получено свыше 50 результатов. Выбраны наиболее
+                                                релевантные. Уточните запрос для узкой выборки
+                                            </Text>
+                                        </S.BannerContainer>
+                                    )}
+                                    <S.SubtitleContainer>
+                                        <Text inactive variant="subtitle3">
+                                            Методы архитектуры
+                                        </Text>
+                                    </S.SubtitleContainer>
+                                    <S.CardsContainer>
+                                        <S.EndpointContainer>
+                                            <S.EndpointSearchCard>
+                                                <Icon iconName={Icons.Search} size="large" />
+                                                <S.SearchCardTextGapContainer>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            Деплоймент диаграмма
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            {getHighlightedText(
+                                                                'Structurizr: GET /SSO/USERS ',
+                                                                search,
+                                                            )}
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            CMDB
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            td.mavenir.cms.(centralized management
+                                                            system)
+                                                        </Text>
+                                                    </div>
+                                                </S.SearchCardTextGapContainer>
+                                                <S.ArrowContainer>
+                                                    <Icon
+                                                        iconName={Icons.ArrowRight}
+                                                        size="large"
+                                                    />
+                                                </S.ArrowContainer>
+                                            </S.EndpointSearchCard>
+                                            <S.EndpointServersSearchCard>
+                                                <S.SearchCardTextGapContainer>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            СЕРВЕР
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            <Link
+                                                                url="https://beeline.ru"
+                                                                title="rich-PROD rich-TEST"
+                                                            />
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            СЕРВЕР
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            <Link
+                                                                url="https://beeline.ru"
+                                                                title="rich-PROD rich-TEST"
+                                                            />
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            СЕРВЕР
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            <Link
+                                                                url="https://beeline.ru"
+                                                                title="rich-PROD rich-TEST"
+                                                            />
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            СЕРВЕР
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            <Link
+                                                                url="https://beeline.ru"
+                                                                title="rich-PROD rich-TEST"
+                                                            />
+                                                        </Text>
+                                                    </div>
+                                                </S.SearchCardTextGapContainer>
+                                            </S.EndpointServersSearchCard>
+                                        </S.EndpointContainer>
+                                        <S.EndpointContainer>
+                                            <S.EndpointSearchCard>
+                                                <Icon iconName={Icons.Search} size="large" />
+                                                <S.SearchCardTextGapContainer>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            Деплоймент диаграмма
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            {getHighlightedText(
+                                                                'Structurizr: GET /SSO/USERS ',
+                                                                search,
+                                                            )}
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            CMDB
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            td.mavenir.cms.(centralized management
+                                                            system)
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            Контейнер
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            ext_langgraph_adapter_for_metric_&_anomaly_search
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            Интерфейс
+                                                        </Text>
+                                                        <Text variant="body2">ucp-proxy-api</Text>
+                                                    </div>
+                                                </S.SearchCardTextGapContainer>
+                                                <S.ArrowContainer>
+                                                    <Icon
+                                                        iconName={Icons.ArrowRight}
+                                                        size="large"
+                                                    />
+                                                </S.ArrowContainer>
+                                            </S.EndpointSearchCard>
+                                            <S.EndpointServersSearchCard>
+                                                <S.SearchCardTextGapContainer>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            СЕРВЕР
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            <Link
+                                                                url="https://beeline.ru"
+                                                                title="rich-PROD rich-TEST"
+                                                            />
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text inactive variant="overline">
+                                                            СЕРВЕР
+                                                        </Text>
+                                                        <Text variant="body2">
+                                                            <Link
+                                                                url="https://beeline.ru"
+                                                                title="rich-PROD rich-TEST"
+                                                            />
+                                                        </Text>
+                                                    </div>
+                                                </S.SearchCardTextGapContainer>
+                                            </S.EndpointServersSearchCard>
+                                        </S.EndpointContainer>
+                                        <S.ButtonContainer>
+                                            <Button
+                                                variant="plain"
+                                                size="medium"
+                                                onClick={handleShowAllClick}
+                                            >
+                                                Посмотреть все результаты
+                                            </Button>
+                                        </S.ButtonContainer>
+                                    </S.CardsContainer>
                                 </>
                             )}
                         </>

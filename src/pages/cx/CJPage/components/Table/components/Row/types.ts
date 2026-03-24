@@ -7,10 +7,12 @@ export interface IRow<T> {
     rowId: RowIds;
     label: string;
     bpmn?: boolean;
-    formatData: (data: T) => JSX.Element | string;
+    formatData: (data: T, onOpen?: (biId: number) => void) => JSX.Element | string;
+    onOpenStepFormByBiId?: (biId: number) => void;
     onAddButtonClick: (biIndex: number) => void;
     firstRow?: boolean;
     lastRow?: boolean;
+    canEditCJ: boolean;
 
     steps: ICompleteStepData[];
     parseData: (bi: IBIData) => T;
@@ -18,6 +20,7 @@ export interface IRow<T> {
 
     draft: boolean;
     showShadow: boolean;
+    isBiEditable?: (biId: number) => boolean;
 }
 
 export enum RowElementType {

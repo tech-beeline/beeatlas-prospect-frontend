@@ -17,7 +17,8 @@ export interface ICJStepData {
 export interface ICJForm {
     draft?: boolean;
     name: string;
-    user_portrait: string;
+    user_portrait?: string | null;
+    dashboardLink?: string;
 }
 
 export interface ICJAuthor {
@@ -36,6 +37,7 @@ export interface ICJData {
     uniqueIdent: string;
     productId: string;
     bpmn: boolean;
+    dashboardLink?: string | null;
 }
 
 export interface ICJNewData extends ICJData {
@@ -53,6 +55,7 @@ export interface ICompleteCJData extends ICJData {
     author: ICJAuthor;
     id_product?: string;
     idProductExt?: string;
+    dashboardLink?: string | null;
 }
 
 export enum CJLibraryStatus {
@@ -71,4 +74,14 @@ export interface ICJDocumentTypesData {
     docType: string;
     id: number;
     name: string;
+}
+
+export interface IDashboardData {
+    id: number;
+    path: string;
+    slug: string;
+    status: string;
+    uid: string;
+    url: string;
+    version: number;
 }

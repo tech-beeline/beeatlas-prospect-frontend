@@ -29,6 +29,7 @@ export const APPS_OLD_PATH = '/apps-old';
 export const E2E_PATH = '/e2e';
 export const IMPACT_PATH = '/impact';
 export const PATTERNS_PATH = '/patterns';
+export const ANALYTICAL_REPORT_PATH = '/analytical-report';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';
@@ -66,3 +67,4 @@ export const REVIEW_PATH = '/review';
 export const ADD_PATH = '/add';
 export const EDIT_PATH = '/edit';
 export const VIEW_PATH = '/view';
+export const RULES_PATH = '/rules';

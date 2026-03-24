@@ -18,6 +18,7 @@ export const Td = styled.td<{
     isEditing?: boolean;
     hoverable?: boolean;
     alignTop?: boolean;
+    isBIScenarion?: boolean;
 }>`
     min-width: 320px;
     height: 52px;
@@ -58,6 +59,14 @@ export const Td = styled.td<{
     }
 
     pointer-events: ${({ isClickable }) => (isClickable === false ? 'none' : 'all')};
+
+    ${({ isBIScenarion }) =>
+        isBIScenarion &&
+        css`
+            > div > td {
+                border-right: none;
+            }
+        `}
 
     ${({ isClickable }) =>
         isClickable &&

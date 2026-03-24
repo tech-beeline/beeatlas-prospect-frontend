@@ -8,6 +8,7 @@ export type FormValues = {
         iface?: number | undefined | null;
         operation?: number | undefined | null;
         description: string;
+        stepName: string;
     }[];
 };
 
@@ -21,6 +22,7 @@ export const validationSchema = object().shape({
                 iface: number().nullable(),
                 operation: number().nullable(),
                 description: string().default(''),
+                stepName: string().default(''),
             }),
         )
         .default([]),

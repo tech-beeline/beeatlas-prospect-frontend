@@ -12,6 +12,43 @@ export interface ISearchDeployment {
     host: string | null;
 }
 
+export interface ISearchEndpoint {
+    id: number;
+    name: string;
+    type: string;
+    container?: {
+        id: number;
+        name: string;
+        code: string;
+    };
+    product?: {
+        id: number;
+        name: string;
+        alias: string;
+    };
+    deploymentsNodes?: {
+        id: number;
+        name: string;
+        environmentName: string;
+    }[];
+    interface?: {
+        id: number;
+        name: string;
+        code: string;
+    };
+    connectionOperation: {
+        id: number;
+        name: string;
+        code: string;
+        type: string;
+    };
+}
+
+export interface ISearchEndpointsData {
+    archOperations: ISearchEndpoint[];
+    discoveredOperations: ISearchEndpoint[];
+}
+
 export interface IDependentSystem {
     id: number;
     name: string;

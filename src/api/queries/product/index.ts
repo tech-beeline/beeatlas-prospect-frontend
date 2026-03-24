@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deleteProductById,
     getAllProducts,
     getDeploymentInfluence,
+    getFitnessFunctionsAggregation,
+    getOperationsByTechCapabilityId,
     getProductEmployeesByCmdb,
     getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
@@ -188,5 +191,34 @@ export const useGetProductEmployeesByCmdbQuery = (params: IGetProductEmployeesPa
         queryKey: [PRODUCT_PREFIX, 'EMPLOYEES', params.cmdb],
         queryFn: () => getProductEmployeesByCmdb(params.cmdb).then((res) => res.data),
         enabled: params.enabled,
+    });
+};
+
+export const useGetOperationsByTechCapabilityQuery = (
+    id: string | undefined | null,
+    enabled = true,
+) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'OPERATIONS', 'TC', id],
+        queryFn: () => getOperationsByTechCapabilityId(id!).then((res) => res.data),
+        enabled: enabled && !!id,
+    });
+};
+
+export function useDeleteProductByIdMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'delete'],
+        mutationFn: (id: string) => deleteProductById(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
+    });
+}
+
+export const useGetFitnessFunctionsAggregationQuery = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'FITNESS_FUNCTIONS'],
+        queryFn: () => getFitnessFunctionsAggregation().then((res) => res.data),
     });
 };

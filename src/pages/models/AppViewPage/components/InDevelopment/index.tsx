@@ -23,17 +23,19 @@ export const InDevelopment: FC<IInDevelopment> = ({ cmdb }) => {
                         Доступ к информации можно получить в старой версии
                     </Text>
                 </S.SubtitleContainer>
-                <S.ButtonContainer>
-                    <Button
-                        size="medium"
-                        variant="contained"
-                        onClick={() =>
-                            window.open(`${R.MODELS_PATH}${R.APPS_OLD_PATH}?alias=${cmdb}`)
-                        }
-                    >
-                        К старой версии страницы
-                    </Button>
-                </S.ButtonContainer>
+                {!window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                    <S.ButtonContainer>
+                        <Button
+                            size="medium"
+                            variant="contained"
+                            onClick={() =>
+                                window.open(`${R.MODELS_PATH}${R.APPS_OLD_PATH}?alias=${cmdb}`)
+                            }
+                        >
+                            К старой версии страницы
+                        </Button>
+                    </S.ButtonContainer>
+                )}
             </S.Column>
         </S.Container>
     );

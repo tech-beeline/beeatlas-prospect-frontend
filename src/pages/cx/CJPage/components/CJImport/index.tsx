@@ -1,5 +1,11 @@
-import React, { FC, useState } from 'react';
-import { Button, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
+import React, { FC, useEffect, useState } from 'react';
+import {
+    Button,
+    FileUploader,
+    IconButton,
+    ProgressButton,
+    Typography,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -8,7 +14,9 @@ import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 
 import { CJ_PREFIX, useCreateCJByBPMN, useUploadBPMNFile } from 'api/queries/cj';
+import { useModal } from 'hooks';
 import { formatSize } from 'utils/formatters';
+import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { downloadBpmnFile } from '../../utils/formatters';
@@ -16,9 +24,10 @@ import { downloadBpmnFile } from '../../utils/formatters';
 import { ICJImport } from './types';
 import * as S from './units';
 
-export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) => {
+export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, isEmptyCJ }) => {
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
-    const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
+    const [isSideSheetSubmitting, setIsSideSheetSubmitting] = useState(false);
+    const { mutateAsync: createCJByBPMN, isPending: isPendingCJ } = useCreateCJByBPMN();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const queryClient = useQueryClient();
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -34,6 +43,8 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
         setBpmnFile(null);
     };
 
+    const isLoading = isRefreshing || isPendingCJ;
+
     const handleUploadFile = async () => {
         if (bpmnFile) {
             const fileContent = await bpmnFile.text();
@@ -41,23 +52,58 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
         }
     };
 
-    const onSubmmit = async () => {
-        if (bpmnFile) {
-            await uploadBPMN({
-                file: bpmnFile,
-                cjId,
-            });
+    const { modalOpened, openModal, closeModal } = useModal();
 
+    const handleSubmit = async (shouldCloseAfter = false) => {
+        if (!bpmnFile) return;
+
+        if (shouldCloseAfter) {
+            setIsSideSheetSubmitting(true);
+        }
+
+        try {
+            await uploadBPMN({ file: bpmnFile, cjId });
             await createCJByBPMN(cjId);
-            queryClient.invalidateQueries({
+
+            await queryClient.invalidateQueries({
                 queryKey: [CJ_PREFIX],
             });
+
+            if (shouldCloseAfter) {
+                setBpmnFile(null);
+                onClose();
+                showSnackbar({ message: 'Изменения сохранены' });
+            }
+        } catch (bpmnError) {
+            showSnackbar({ message: 'Ошибка валидации файла', showCloseButton: true });
             setBpmnFile(null);
-            onUploaded?.();
+            closeModal();
             onClose();
-            showSnackbar({ message: 'Изменения сохранены' });
+        } finally {
+            if (shouldCloseAfter) {
+                setIsSideSheetSubmitting(false);
+            }
         }
     };
+
+    const handleSaveClick = () => {
+        if (isEmptyCJ) {
+            handleSubmit(true);
+        } else {
+            openModal();
+        }
+    };
+
+    useEffect(() => {
+        if (!isRefreshing && !isPendingCJ) {
+            if (modalOpened) {
+                setBpmnFile(null);
+                closeModal();
+                onClose();
+                showSnackbar({ message: 'Изменения сохранены' });
+            }
+        }
+    }, [isRefreshing, isPendingCJ]);
     return (
         <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
             <S.Container>
@@ -109,20 +155,45 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, onUploaded }) =
                     )}
                 </S.FileAddingContainer>
                 <S.ButtonContainer>
-                    <Button type="button" onClick={onClose}>
+                    <Button
+                        type="button"
+                        disabled={isLoading}
+                        onClick={() => {
+                            setBpmnFile(null);
+                            onClose();
+                        }}
+                    >
                         Отменить
                     </Button>
 
-                    <Button
-                        disabled={!bpmnFile}
-                        type="submit"
-                        variant="contained"
-                        onClick={onSubmmit}
-                    >
-                        Сохранить
-                    </Button>
+                    {isSideSheetSubmitting ? (
+                        <ProgressButton size="medium" variant="contained" state="loading">
+                            Сохранить
+                        </ProgressButton>
+                    ) : (
+                        <Button
+                            disabled={!bpmnFile}
+                            type="submit"
+                            variant="contained"
+                            onClick={handleSaveClick}
+                        >
+                            Сохранить
+                        </Button>
+                    )}
                 </S.ButtonContainer>
             </S.Container>
+            <Dialog
+                title="Сохранить новую версию?"
+                opened={modalOpened}
+                confirmText="Сохранить"
+                onConfirm={() => handleSubmit(false)}
+                onClose={closeModal}
+                isPending={isLoading}
+            >
+                Внимание! При сохранении новой версии CJ, описанные вызовы в удаленных шагах
+                сценария BI будут безвозвратно утеряны и не отобразятся при возвращении старой
+                версии
+            </Dialog>
         </SideBlock>
     );
 };

@@ -15,3 +15,8 @@ export const FlexContainer = styled.div`
     align-items: center;
     justify-content: center;
 `;
+
+export const ScenariosWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;

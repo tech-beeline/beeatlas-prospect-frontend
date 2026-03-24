@@ -18,6 +18,7 @@ import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import { useGetDeploymentInfluenceQuery } from 'api/queries/graph';
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TabVariant } from '../../const';
@@ -134,7 +135,7 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({
                                         {system.name}
                                     </Text>
                                 </TableData>
-                                <TableData>{system.dependentCount}</TableData>
+                                <TableData>{formatNullableString(system.dependentCount)}</TableData>
                                 <TableData>
                                     <Link
                                         title={system.cmdb}
@@ -142,13 +143,14 @@ export const DeploymentAppTable: FC<IDeploymentAppTable> = ({
                                     />
                                 </TableData>
                                 <TableData>
-                                    {system.critical &&
-                                        `${system.critical.split('_')[1]}-${
-                                            keyToCriticalMap[system.critical.split('_')[0]] ??
-                                            system.critical.split('_')[0]
-                                        }`}
+                                    {system.critical
+                                        ? `${system.critical.split('_')[1]}-${
+                                              keyToCriticalMap[system.critical.split('_')[0]] ??
+                                              system.critical.split('_')[0]
+                                          }`
+                                        : formatNullableString(null)}
                                 </TableData>
-                                <TableData>{system.ownerName}</TableData>
+                                <TableData>{formatNullableString(system.ownerName)}</TableData>
                             </TableRow>
                         ))}
                         {dataSorted.length === 0 && (

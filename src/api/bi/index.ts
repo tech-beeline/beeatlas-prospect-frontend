@@ -3,7 +3,12 @@ import { AxiosPromise } from 'axios';
 import Api from 'utils/api/axiosWrapper';
 import { formatNullableBooleanParam, formatNullableNumberParam } from 'utils/formatters';
 
-import { GATEWAY_CAPABILITY_URL, GATEWAY_CX_URL, GATEWAY_URL } from '../const';
+import {
+    GATEWAY_CAPABILITY_URL,
+    GATEWAY_CX_URL,
+    GATEWAY_SEQUENCE_DIAGRAM_URL,
+    GATEWAY_URL,
+} from '../const';
 
 import * as T from './types';
 
@@ -57,8 +62,8 @@ export const patchSLABI = (id: string, data: T.ISLAForm) => {
     });
 };
 
-export const patchStepRelationsBI = (id: string, data: T.IRelationForm[]) => {
-    return Api.patch({
+export const putStepRelationsBI = (id: string, data: T.IRelationForm[]) => {
+    return Api.put({
         url: `${GATEWAY_CX_URL}cx/v1/library/business-interactions/step/${id}/relation`,
         data,
     });
@@ -73,5 +78,17 @@ export const getTechCapibility = (): AxiosPromise<T.ITechCapability[]> => {
 export const deleteBI = (id: string) => {
     return Api.delete({
         url: `${GATEWAY_URL}cx/v1/bi/${id}`,
+    });
+};
+
+export const getSequenceDiagram = (productAlias: string, TCCode: string): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_SEQUENCE_DIAGRAM_URL}svg?id=${productAlias}&key=${TCCode}`,
+    });
+};
+
+export const getPlantUML = (productAlias: string, TCCode: string): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_SEQUENCE_DIAGRAM_URL}plantuml?id=${productAlias}&key=${TCCode}`,
     });
 };

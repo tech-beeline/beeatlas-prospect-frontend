@@ -6,6 +6,8 @@ export interface IStepForm {
     isOpen: boolean;
     step: ICompleteStepData;
     onClose: () => void;
+    initialBiId?: number;
+    initialStage?: Stage;
 }
 
 export enum Stage {

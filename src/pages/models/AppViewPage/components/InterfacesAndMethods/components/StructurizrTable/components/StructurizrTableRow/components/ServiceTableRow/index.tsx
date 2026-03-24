@@ -31,6 +31,7 @@ import * as S from './units';
 
 export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, selectedEntity }) => {
     const [isNotificationIconHovered, setIsNotificationIconHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const rowRef = useRef<HTMLDivElement | null>(null);
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -87,7 +88,10 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
     return (
         <>
             <div ref={rowRef} />
-            <TableRow>
+            <S.TableRowStyled
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
                 <S.TableDataFullWidth colSpan={2}>
                     <S.DataContainer>
                         <S.NameContainer>
@@ -98,18 +102,22 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                             />
                             {structurizrInterface.name}
                         </S.NameContainer>
-                        <IconButton
-                            iconName={
-                                isSubscribed && structurizrInterface.id
-                                    ? Icons.NotificationOff
-                                    : Icons.Notification
-                            }
-                            size="large"
-                            onClick={(e) => handleNotificationButtonClick(e as any)}
-                            onMouseEnter={() => setIsNotificationIconHovered(true)}
-                            onMouseLeave={() => setIsNotificationIconHovered(false)}
-                            data-tooltip-id={`notification-${structurizrInterface.id}`}
-                        />
+                        {(isHovered || isSubscribed) && (
+                            <IconButton
+                                iconName={
+                                    isNotificationIconHovered
+                                        ? isSubscribed
+                                            ? Icons.NotificationOff
+                                            : Icons.Notification
+                                        : Icons.Notification
+                                }
+                                size="large"
+                                onClick={(e) => handleNotificationButtonClick(e as any)}
+                                onMouseEnter={() => setIsNotificationIconHovered(true)}
+                                onMouseLeave={() => setIsNotificationIconHovered(false)}
+                                data-tooltip-id={`notification-${structurizrInterface.id}`}
+                            />
+                        )}
                         {/* <Link
                             showOuterIcon
                             showIconPermanently
@@ -130,7 +138,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                 <TableData colSpan={4} alignRight>
                     {structurizrInterface.operations.length}
                 </TableData>
-            </TableRow>
+            </S.TableRowStyled>
             {isExpanded && (
                 <TableRow>
                     <S.TableDataStyled colSpan={6}>
@@ -166,16 +174,38 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                                 formatNullableString(null)
                                             )}
                                         </TableData>
-                                        <TableData>
+                                        <S.TableDataError
+                                            isError={
+                                                !!structurizrInterface.techCapability?.deletedDate
+                                            }
+                                            data-tooltip-id={`TC-interface-${structurizrInterface.id}`}
+                                        >
                                             {structurizrInterface.techCapability ? (
-                                                <Link
-                                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=TECH`}
-                                                    title={structurizrInterface.techCapability.name}
-                                                />
+                                                structurizrInterface.techCapability.deletedDate ? (
+                                                    structurizrInterface.techCapability.name
+                                                ) : (
+                                                    <Link
+                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${structurizrInterface.techCapability.id}&type=TECH`}
+                                                        title={
+                                                            structurizrInterface.techCapability.name
+                                                        }
+                                                    />
+                                                )
                                             ) : (
                                                 formatNullableString(null)
                                             )}
-                                        </TableData>
+                                            {structurizrInterface.techCapability?.deletedDate && (
+                                                <TooltipContainer
+                                                    noArrow
+                                                    infoWidth
+                                                    id={`TC-interface-${structurizrInterface.id}`}
+                                                    place="bottom"
+                                                >
+                                                    Техническая возможность удалена. Переустановите
+                                                    связь
+                                                </TooltipContainer>
+                                            )}
+                                        </S.TableDataError>
                                         <TableData>
                                             {dayjs(
                                                 structurizrInterface.updateDate ??
@@ -226,16 +256,34 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                             <TableData>
                                                 {formatNullableString(operation.description)}
                                             </TableData>
-                                            <TableData>
+                                            <S.TableDataError
+                                                isError={!!operation.techCapability?.deletedDate}
+                                                data-tooltip-id={`TC-operation-${operation.id}`}
+                                            >
                                                 {operation.techCapability ? (
-                                                    <Link
-                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=TECH`}
-                                                        title={operation.techCapability.name}
-                                                    />
+                                                    operation.techCapability.deletedDate ? (
+                                                        operation.techCapability.name
+                                                    ) : (
+                                                        <Link
+                                                            url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${operation.techCapability.id}&type=TECH`}
+                                                            title={operation.techCapability.name}
+                                                        />
+                                                    )
                                                 ) : (
                                                     formatNullableString(null)
                                                 )}
-                                            </TableData>
+                                                {operation.techCapability?.deletedDate && (
+                                                    <TooltipContainer
+                                                        noArrow
+                                                        infoWidth
+                                                        id={`TC-operation-${operation.id}`}
+                                                        place="bottom"
+                                                    >
+                                                        Техническая возможность удалена.
+                                                        Переустановите связь
+                                                    </TooltipContainer>
+                                                )}
+                                            </S.TableDataError>
                                             <TableData alignRight>
                                                 {typeof operation.sla?.rps === 'number'
                                                     ? operation.sla?.rps

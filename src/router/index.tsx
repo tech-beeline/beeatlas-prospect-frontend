@@ -14,6 +14,7 @@ import { FeedbackButton } from 'components/interaction';
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import {
     AdminAppsPage,
+    AnalyticalPage,
     AppAddPage,
     AppInfoPage,
     ApplicationEditPage,
@@ -29,6 +30,7 @@ import {
     BIAddPage,
     BILibraryPage,
     BIViewPage,
+    BPMNViewPage,
     CapabilitiesPage,
     CapabilityAddPage,
     CJLibraryPage,
@@ -55,6 +57,7 @@ import {
     PersonalMapPage,
     RoleAddPage,
     RolesPage,
+    RulesPage,
     SearchPage,
     ServicesPage,
     SubscriptionsPage,
@@ -67,7 +70,6 @@ import {
     TemplatesPage,
     UsersPage,
 } from 'pages';
-import { BPMNViewPage } from 'pages/cx/BPMNViewPage';
 
 import * as R from './const';
 import * as S from './units';
@@ -95,6 +97,7 @@ const PATHS_WITHOUT_FEEDBACK = [
     `${R.PROFILE_PATH}${R.APPLICATIONS_PATH}${R.EDIT_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -126,9 +129,8 @@ export const NavigationRouter = () => {
             {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
                 <Header isAdminPanel={isAdminPanel} isAdmin={isAdmin} />
             )}
-            {!PATHS_WITHOUT_FEEDBACK.some((path) => location.pathname?.includes(path)) && (
-                <FeedbackButton />
-            )}
+            {!PATHS_WITHOUT_FEEDBACK.some((path) => location.pathname?.includes(path)) &&
+                !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <FeedbackButton />}
 
             <Routes>
                 <Route
@@ -357,7 +359,7 @@ export const NavigationRouter = () => {
                         <S.RouteWithDrawer>
                             <MenuModels />
                             <S.ContentWrapper>
-                                <FDMPage />
+                                <FDMPage isAdmin={isAdmin} />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }
@@ -433,17 +435,19 @@ export const NavigationRouter = () => {
                     element={<MapAddPage />}
                 />
 
-                <Route
-                    path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
-                    element={
-                        <S.RouteWithDrawer>
-                            <MenuModels />
-                            <S.ContentWrapper>
-                                <AppsDashboardPage isProd={isProd} />
-                            </S.ContentWrapper>
-                        </S.RouteWithDrawer>
-                    }
-                />
+                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                    <Route
+                        path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <AppsDashboardPage isProd={isProd} />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+                )}
 
                 <Route
                     path={`${R.MODELS_PATH}${R.APPS_PATH}`}
@@ -481,23 +485,25 @@ export const NavigationRouter = () => {
                     }
                 />
 
-                <Route
-                    path={`${R.MODELS_PATH}${R.E2E_PATH}`}
-                    element={
-                        <S.RouteWithDrawer>
-                            <MenuModels />
-                            <S.ContentWrapper>
-                                <S.IFrameStyled
-                                    src={
-                                        isProd
-                                            ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
-                                            : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
-                                    }
-                                />
-                            </S.ContentWrapper>
-                        </S.RouteWithDrawer>
-                    }
-                />
+                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                    <Route
+                        path={`${R.MODELS_PATH}${R.E2E_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <S.IFrameStyled
+                                        src={
+                                            isProd
+                                                ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
+                                                : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
+                                        }
+                                    />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+                )}
 
                 <Route
                     path={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
@@ -512,12 +518,35 @@ export const NavigationRouter = () => {
                 />
 
                 <Route
+                    path={`${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <AnalyticalPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                <Route
                     path={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}
                     element={
                         <S.RouteWithDrawer>
                             <MenuModels />
                             <S.ContentWrapper>
                                 <PatternsPage isAdmin={isAdmin} />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                <Route
+                    path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.RULES_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <S.ContentWrapper>
+                                <RulesPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     }

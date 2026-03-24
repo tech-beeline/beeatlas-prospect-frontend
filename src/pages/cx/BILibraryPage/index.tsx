@@ -1,54 +1,104 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Skeleton } from '@beeline/design-system-react';
+import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useGetBICollectionQuery } from 'api/queries/bi';
+import { useModal } from 'hooks';
+import {
+    createEnumParser,
+    createNumberArrayParser,
+    createNumberOrEnumParser,
+    useURLFilters,
+} from 'hooks/useURLFilters';
 import * as ROUTER from 'router/const';
 import * as STYLES from 'styles/units';
 
+import { IBIFilterOptions } from './components/BILibraryFilters/types';
 import {
     BiCard,
     BILibraryFilters,
-    DraftVariants,
-    IFilterOptions,
+    BITable,
+    CharacterVariant,
     ProductVariant,
     StatusVariant,
 } from './components';
-import { COLUMNS_LENGTH } from './const';
+import { COLUMNS_LENGTH, DisplayOptions } from './const';
 import * as S from './units';
 import { groupDataByColumns } from './utils';
 
 export const BILibraryPage = () => {
-    const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
-        search: '',
-        product: ProductVariant.ALL,
-        status: StatusVariant.ALL,
-        draft: DraftVariants.ALL,
-    });
+    const { openModal, closeModal, modalOpened } = useModal();
 
-    const { data: bis, isLoading } = useGetBICollectionQuery({
-        search: filterOptions.search,
+    const { filters, setFilters, resetFilters, hasActiveFilters, activeFiltersCount } =
+        useURLFilters<IBIFilterOptions & { display: DisplayOptions }>({
+            defaults: {
+                search: '',
+                product: ProductVariant.ALL,
+                status: StatusVariant.ALL,
+                character: CharacterVariant.ALL,
+                channel: [],
+                display: DisplayOptions.GRID,
+            },
+            debounceKeys: ['search'],
+            parsers: {
+                product: createNumberOrEnumParser(ProductVariant, ProductVariant.ALL),
+                status: createEnumParser(StatusVariant, StatusVariant.ALL),
+                character: createEnumParser(CharacterVariant, CharacterVariant.ALL),
+                channel: createNumberArrayParser(),
+                display: createEnumParser(DisplayOptions, DisplayOptions.GRID),
+            },
+        });
+
+    const { data: rawBis, isLoading } = useGetBICollectionQuery({
+        search: filters.search,
         productId:
-            filterOptions.product === ProductVariant.ALL || filterOptions.product === null
+            filters.product === ProductVariant.ALL || filters.product === null
                 ? undefined
-                : filterOptions.product,
-        status: filterOptions.status === StatusVariant.ALL ? undefined : filterOptions.status,
+                : filters.product,
         draft:
-            filterOptions.draft === DraftVariants.ALL
+            filters.status === StatusVariant.ALL
                 ? undefined
-                : filterOptions.draft === DraftVariants.DRAFT
+                : filters.status === StatusVariant.DRAFT
                 ? true
                 : false,
     });
 
-    const dataByColumns = groupDataByColumns(bis ?? [], COLUMNS_LENGTH);
+    const applyClientFilters = (data: typeof rawBis): typeof rawBis => {
+        let result = data ?? [];
+
+        if (filters.character !== CharacterVariant.ALL) {
+            const isTarget = filters.character === CharacterVariant.TARGET;
+            result = result.filter((bi) => bi.target === isTarget);
+        }
+
+        if (filters.channel.length > 0) {
+            const required = new Set(filters.channel);
+            result = result.filter((bi) => {
+                const biChannels = new Set(bi.channel?.map((c) => c.id) ?? []);
+                return [...required].every((id) => biChannels.has(id));
+            });
+        }
+
+        return result;
+    };
+
+    const bis = applyClientFilters(rawBis);
+
+    const columnsCount = modalOpened ? 2 : COLUMNS_LENGTH;
+    const dataByColumns = groupDataByColumns(bis ?? [], columnsCount);
 
     const navigate = useNavigate();
 
     const handleCreateBiClick = () => {
         navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`);
+    };
+
+    const handleResetClick = () => {
+        resetFilters();
+        closeModal();
     };
 
     return (
@@ -61,27 +111,143 @@ export const BILibraryPage = () => {
                     </Button>
                 </S.TitleWrapper>
 
-                <BILibraryFilters
-                    filterOptions={filterOptions}
-                    setFilterOptions={setFilterOptions}
-                />
+                <S.FiltersContainer columns={columnsCount}>
+                    <Search
+                        fullWidth
+                        placeholder="Название или ID BI"
+                        value={filters.search}
+                        onChange={(e) => setFilters({ search: e.target.value })}
+                        onClear={() => setFilters({ search: '' })}
+                    />
 
-                <S.CardContainer columns={COLUMNS_LENGTH}>
-                    {bis &&
-                        bis.length > 0 &&
-                        Array.from({ length: COLUMNS_LENGTH }).map((_, i) => (
-                            <S.CardColumn key={i}>
-                                {dataByColumns[i].map((bi) => (
-                                    <BiCard key={bi.id} bi={bi} />
-                                ))}
-                            </S.CardColumn>
-                        ))}
-                    {isLoading &&
-                        Array.from({ length: 3 }).map((_, index) => (
-                            <Skeleton key={index} height={150} />
-                        ))}
-                </S.CardContainer>
-                {bis && bis.length === 0 && (
+                    {columnsCount === 2 ? (
+                        <S.ActionsContainer>
+                            <S.ButtonContainer>
+                                <Counter
+                                    size="small"
+                                    count={
+                                        activeFiltersCount && activeFiltersCount > 0
+                                            ? activeFiltersCount
+                                            : null
+                                    }
+                                >
+                                    <Button
+                                        startIcon={<Icon iconName={Icons.Filter} />}
+                                        size="medium"
+                                        onClick={openModal}
+                                    >
+                                        Фильтры
+                                    </Button>
+                                </Counter>
+                                <Button
+                                    disabled={!hasActiveFilters}
+                                    size="medium"
+                                    variant="plain"
+                                    onClick={handleResetClick}
+                                >
+                                    Сбросить
+                                </Button>
+                            </S.ButtonContainer>
+                            <ButtonGroup
+                                alwaysSelected
+                                selectedOption={{ id: filters.display }}
+                                options={[
+                                    {
+                                        startIcon: <Icon iconName={Icons.Grid} />,
+                                        id: DisplayOptions.GRID,
+                                    },
+                                    {
+                                        startIcon: <Icon iconName={Icons.TableColumns} />,
+                                        id: DisplayOptions.TABLE,
+                                    },
+                                ]}
+                                type="secondary"
+                                onChange={(option) =>
+                                    setFilters({ display: option.id as DisplayOptions })
+                                }
+                            />
+                        </S.ActionsContainer>
+                    ) : (
+                        <>
+                            <S.ButtonContainer>
+                                <Counter
+                                    size="small"
+                                    count={
+                                        activeFiltersCount && activeFiltersCount > 0
+                                            ? activeFiltersCount
+                                            : null
+                                    }
+                                >
+                                    <Button
+                                        startIcon={<Icon iconName={Icons.Filter} />}
+                                        size="medium"
+                                        onClick={openModal}
+                                    >
+                                        Фильтры
+                                    </Button>
+                                </Counter>
+                                <Button
+                                    disabled={!hasActiveFilters}
+                                    size="medium"
+                                    variant="plain"
+                                    onClick={handleResetClick}
+                                >
+                                    Сбросить
+                                </Button>
+                            </S.ButtonContainer>
+                            <S.ToggleContainer>
+                                <ButtonGroup
+                                    alwaysSelected
+                                    selectedOption={{ id: filters.display }}
+                                    options={[
+                                        {
+                                            startIcon: <Icon iconName={Icons.Grid} />,
+                                            id: DisplayOptions.GRID,
+                                        },
+                                        {
+                                            startIcon: <Icon iconName={Icons.TableColumns} />,
+                                            id: DisplayOptions.TABLE,
+                                        },
+                                    ]}
+                                    type="secondary"
+                                    onChange={(option) =>
+                                        setFilters({ display: option.id as DisplayOptions })
+                                    }
+                                />
+                            </S.ToggleContainer>
+                        </>
+                    )}
+                </S.FiltersContainer>
+
+                {isLoading ? (
+                    filters.display === DisplayOptions.GRID ? (
+                        <S.CardContainer columns={columnsCount}>
+                            {Array.from({ length: 3 }).map((_, index) => (
+                                <Skeleton key={index} height={150} />
+                            ))}
+                        </S.CardContainer>
+                    ) : (
+                        <S.CardContainer columns={columnsCount}>
+                            {Array.from({ length: 3 }).map((_, index) => (
+                                <Skeleton key={index} height={150} />
+                            ))}
+                        </S.CardContainer>
+                    )
+                ) : bis && bis.length > 0 ? (
+                    filters.display === DisplayOptions.GRID ? (
+                        <S.CardContainer columns={columnsCount}>
+                            {Array.from({ length: columnsCount }).map((_, i) => (
+                                <S.CardColumn key={i}>
+                                    {dataByColumns[i].map((bi) => (
+                                        <BiCard key={bi.id} bi={bi} />
+                                    ))}
+                                </S.CardColumn>
+                            ))}
+                        </S.CardContainer>
+                    ) : (
+                        <BITable data={bis} />
+                    )
+                ) : bis && bis.length === 0 ? (
                     <S.NotFoundContainer>
                         <NotFoundBlock
                             imageVariant={ImageVariants.EMPTY_BOX}
@@ -89,8 +255,17 @@ export const BILibraryPage = () => {
                             text="Попробуйте изменить поисковой запрос"
                         />
                     </S.NotFoundContainer>
-                )}
+                ) : null}
             </S.ContentWrapper>
+            {modalOpened && (
+                <BILibraryFilters
+                    filterOptions={filters}
+                    setFilterOptions={setFilters}
+                    onClose={closeModal}
+                    resetFilters={resetFilters}
+                    hasActiveFilters={hasActiveFilters}
+                />
+            )}
         </S.PageWrapper>
     );
 };

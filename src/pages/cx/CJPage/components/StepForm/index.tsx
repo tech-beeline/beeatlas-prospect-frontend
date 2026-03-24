@@ -5,28 +5,43 @@ import { SideBlock } from 'components/containers';
 import { BiCreate, BiEdit, BiSelect, BiView, StepSettings } from './components';
 import { IStepForm, Stage } from './types';
 
-export const StepForm: FC<IStepForm> = ({ productId, cjId, step, isOpen, onClose }) => {
+export const StepForm: FC<IStepForm> = ({
+    productId,
+    cjId,
+    step,
+    isOpen,
+    onClose,
+    initialBiId,
+    initialStage,
+}) => {
     const [stage, setStage] = useState<Stage>(Stage.SETTINGS);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [selectedBiId, setSelectedBiId] = useState<number | null>(null);
 
     useEffect(() => {
-        if (!isOpen) {
+        if (isOpen) {
+            if (initialBiId != null && initialStage === Stage.BIVIEW) {
+                setStage(Stage.BIVIEW);
+                setSelectedBiId(initialBiId);
+            } else {
+                setStage(Stage.SETTINGS);
+                setSelectedBiId(null);
+            }
             setName(step.name);
             setDescription(step.description ?? '');
         }
-    }, [isOpen, step]);
+    }, [isOpen, initialBiId, initialStage, step.name, step.description]);
 
     useEffect(() => {
-        setName(step.name);
-        setDescription(step.description ?? '');
-    }, [step.id]);
+        if (!isOpen) {
+            setStage(Stage.SETTINGS);
+            setSelectedBiId(null);
+        }
+    }, [isOpen]);
 
     const handleCloseClick = () => {
         onClose();
-        setStage(Stage.SETTINGS);
-        setName(step.name);
     };
 
     return (

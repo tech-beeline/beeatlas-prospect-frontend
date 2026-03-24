@@ -5,11 +5,13 @@ import {
     getBIById,
     getBICollection,
     getBIEditabilityById,
+    getPlantUML,
+    getSequenceDiagram,
     getTechCapibility,
     patchBI,
     patchSLABI,
-    patchStepRelationsBI,
     postBI,
+    putStepRelationsBI,
 } from 'api/bi';
 import { IBIData, IBIForm, IRelationForm, ISLAForm } from 'api/bi/types';
 
@@ -54,6 +56,29 @@ export const useGetBIEditabilityByIdQuery = (id: string | undefined | null) => {
         queryKey: [BI_PREFIX, 'editability', id],
         queryFn: () => getBIEditabilityById(id!).then((res) => res.data),
         enabled: Boolean(id),
+    });
+};
+
+export const useBIEditabilityMap = (id: number[]) => {
+    return useQuery({
+        queryKey: [BI_PREFIX, 'editability', id],
+        enabled: id.length > 0,
+        queryFn: async () => {
+            const results = await Promise.all(
+                id.map(async (id) => {
+                    const res = await getBIEditabilityById(String(id));
+                    return {
+                        id: id,
+                        editability: res.data.editability,
+                    };
+                }),
+            );
+
+            return results.reduce<Record<number, boolean>>((acc, item) => {
+                acc[item.id] = item.editability;
+                return acc;
+            }, {});
+        },
     });
 };
 
@@ -112,7 +137,7 @@ export function useUpdateBIStepRelations() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [BI_PREFIX, 'update', 'StepRelations'],
-        mutationFn: ({ id, data }: IUpdateBIStepRelations) => patchStepRelationsBI(id, data),
+        mutationFn: ({ id, data }: IUpdateBIStepRelations) => putStepRelationsBI(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
             queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
@@ -129,5 +154,32 @@ export function useDeleteBIMutation() {
             void queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
             void queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
         },
+    });
+}
+
+interface IGetBISequenceDiagram {
+    productAlias: string;
+    TCCode: string;
+}
+
+export function useGetBISequenceDiagram({ productAlias, TCCode }: IGetBISequenceDiagram) {
+    return useQuery({
+        queryKey: [BI_PREFIX, 'StepRelationsDiagram'],
+        queryFn: async () => {
+            const response = await getSequenceDiagram(productAlias, TCCode);
+            return response.data;
+        },
+        enabled: Boolean(productAlias && TCCode),
+    });
+}
+
+export function useGetBIPlantUML({ productAlias, TCCode }: IGetBISequenceDiagram) {
+    return useQuery({
+        queryKey: [BI_PREFIX, 'StepRelationsPlantUML'],
+        queryFn: async () => {
+            const response = await getPlantUML(productAlias, TCCode);
+            return response.data;
+        },
+        enabled: Boolean(productAlias && TCCode),
     });
 }

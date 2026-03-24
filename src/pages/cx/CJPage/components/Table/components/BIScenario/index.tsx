@@ -1,25 +1,39 @@
 import React, { FC, useState } from 'react';
 import { Avatar, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { CustomModal } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
 import { Text } from 'components/core';
+import { TooltipContainer as HoverTooltip } from 'components/interaction';
 import { Link } from 'components/other';
 
+import { TooltipContainer as TextTooltip } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import * as R from 'router/const';
-import { formatNullableString } from 'utils/formatters';
+import { formatNullableNumber, formatNullableString } from 'utils/formatters';
 
 import { BIEditScenario } from '../../../BIEditScenario';
 import { BIEditSLA } from '../../../BIEditSLA';
 
+import { DiagramView } from './DiagramView';
 import { IBIScenario } from './types';
 import * as S from './units';
 
 export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     const [expanded, setExpanded] = useState(false);
-    const { openSideSheet, payload, toggleSideSheet, closeSideSheet } = useSideSheetStore();
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedRelation, setSelectedRelation] = useState<typeof biSteps.relations[0] | null>(
+        null,
+    );
 
+    const openDiagram = (relation: typeof biSteps.relations[0]) => {
+        if (!relation) return;
+        setSelectedRelation(relation);
+        setIsOpen(true);
+    };
+    const [expandedCallIndices, setExpandedCallIndices] = useState<Set<number>>(new Set());
+    const { openSideSheet, payload, toggleSideSheet, closeSideSheet } = useSideSheetStore();
     const handleEditSLA = () => {
         toggleSideSheet(SideSheetVariants.EDIT_SLA_BI, biSteps.id);
     };
@@ -29,131 +43,196 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     };
 
     return (
-        <S.ScenarioTd>
+        <S.ScenarioTd last={last}>
             <S.ScenarionTdWrapper last={last} expanded={expanded}>
-                <S.ScenationTitleWrapper>
-                    <IconButton
-                        onClick={() => setExpanded(!expanded)}
-                        iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                        size="medium"
-                    />
-                    <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
-                    <Text variant="body3">{biSteps.name}</Text>
-                </S.ScenationTitleWrapper>
-                <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
+                <S.ScenarionWrapper>
+                    <S.ScenationTitleWrapper>
+                        <IconButton
+                            onClick={() => setExpanded(!expanded)}
+                            iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
+                            size="medium"
+                        />
+                        <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
+                        <Text variant="body3">{biSteps.name}</Text>
+                    </S.ScenationTitleWrapper>
+                    <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
+                </S.ScenarionWrapper>
             </S.ScenarionTdWrapper>
 
             {expanded && (
                 <S.ScenarioContentWrapper last={last}>
                     <S.SLAWrapper>
-                        <S.SLATitle>
+                        <S.TitleWrapper>
                             <Text variant="body3">SLA</Text>
                             <IconButton
                                 iconName={Icons.Edit}
                                 size="medium"
                                 onClick={handleEditSLA}
                             />
-                        </S.SLATitle>
+                        </S.TitleWrapper>
                         <S.SLAContent>
                             <S.FlexWrapper>
                                 <Text variant="overline">RPS</Text>
-                                <Text variant="overline">{formatNullableString(biSteps.rps)}</Text>
+                                <Text variant="body3">{formatNullableNumber(biSteps.rps)}</Text>
                             </S.FlexWrapper>
                             <S.FlexWrapper>
                                 <Text variant="overline">LATENSY, MS</Text>
-                                <Text variant="overline">
-                                    {formatNullableString(biSteps.latency)}
-                                </Text>
+                                <Text variant="body3">{formatNullableNumber(biSteps.latency)}</Text>
                             </S.FlexWrapper>
                             <S.FlexWrapper>
                                 <Text variant="overline">ERROR RATE, %</Text>
-                                <Text variant="overline">
-                                    {formatNullableString(biSteps.errorRate)}
+                                <Text variant="body3">
+                                    {formatNullableNumber(biSteps.errorRate)}
                                 </Text>
                             </S.FlexWrapper>
                         </S.SLAContent>
                     </S.SLAWrapper>
 
-                    {!biSteps.relations || biSteps.relations.length === 0 ? (
-                        <S.FlexWrapper gap="16">
-                            <Text variant="subtitle3">{formatNullableString(null)}</Text>
-                        </S.FlexWrapper>
-                    ) : (
-                        biSteps.relations.map((relation, index) => (
-                            <S.FlexWrapper key={index} gap="16">
-                                <Text variant="subtitle3">Вызов {index + 1}</Text>
-
-                                <S.FlexWrapper gap="24">
-                                    <S.FlexWrapper>
-                                        <Text variant="overline" inactive>
-                                            ОПИСАНИЕ
+                    <S.BICallsContainer>
+                        {!biSteps.relations || biSteps.relations.length === 0 ? (
+                            <S.CallsTitleWrapper>
+                                <Text inactive variant="body3">
+                                    В шаге сценария BI нет описанных вызовов
+                                </Text>
+                            </S.CallsTitleWrapper>
+                        ) : (
+                            biSteps.relations.map((relation, index) => (
+                                <S.CallsWrapper key={index} gap="16">
+                                    <S.CallsTitleWrapper expanded={expandedCallIndices.has(index)}>
+                                        <Text variant="subtitle3">
+                                            {relation.tcName ? (
+                                                <TextTooltip
+                                                    text={relation.tcName}
+                                                    tooltipId={`relation-${relation.tcName}-${relation.id}`}
+                                                />
+                                            ) : relation.productName ? (
+                                                <TextTooltip
+                                                    text={relation.productName}
+                                                    tooltipId={`relation-${relation.productName}-${relation.id}`}
+                                                />
+                                            ) : (
+                                                `Вызов ${index + 1}`
+                                            )}
                                         </Text>
-                                        {formatNullableString(relation.description)}
-                                    </S.FlexWrapper>
-
-                                    <S.FlexWrapper>
-                                        <Text variant="overline" inactive>
-                                            ПРИЛОЖЕНИЕ
-                                        </Text>
-                                        {relation.productName && relation.productAlias ? (
-                                            <Link
-                                                title={relation.productName}
-                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${relation.productAlias}`}
+                                        <S.ButtonsWrapper gap="8">
+                                            {relation.operation &&
+                                            relation.operationId &&
+                                            relation.tcCode &&
+                                            window.FEATURE_FLAGS.FLAG_IS_PROD === false ? (
+                                                <>
+                                                    <IconButton
+                                                        data-tooltip-id={`sequence-diagram-${relation.id}`}
+                                                        iconName={Icons.GraphDown}
+                                                        size="medium"
+                                                        onClick={() => openDiagram(relation)}
+                                                    />
+                                                    <HoverTooltip
+                                                        id={`sequence-diagram-${relation.id}`}
+                                                        offset={8}
+                                                        place="bottom"
+                                                        noArrow
+                                                    >
+                                                        Просмотр диаграммы последовательности
+                                                    </HoverTooltip>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <S.IconButtonStyled
+                                                expanded={expandedCallIndices.has(index)}
+                                                size="medium"
+                                                iconName={Icons.NavArrowDown}
+                                                onClick={() => {
+                                                    setExpandedCallIndices((prev) => {
+                                                        const newSet = new Set(prev);
+                                                        if (newSet.has(index)) {
+                                                            newSet.delete(index);
+                                                        } else {
+                                                            newSet.add(index);
+                                                        }
+                                                        return newSet;
+                                                    });
+                                                }}
                                             />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </S.FlexWrapper>
+                                        </S.ButtonsWrapper>
+                                    </S.CallsTitleWrapper>
 
-                                    <S.FlexWrapper>
-                                        <Text variant="overline" inactive>
-                                            ТЕХНИЧЕСКАЯ ВОЗМОЖНОСТЬ
-                                        </Text>
-                                        {relation.tcName && relation.tcId ? (
-                                            <Link
-                                                title={relation.tcName}
-                                                url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${relation.tcId}&type=TECH`}
-                                            />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </S.FlexWrapper>
+                                    {expandedCallIndices.has(index) && (
+                                        <S.CallsContent>
+                                            <S.FlexWrapper gap="24">
+                                                <S.FlexWrapper>
+                                                    <Text variant="overline" inactive>
+                                                        ПРИЛОЖЕНИЕ
+                                                    </Text>
+                                                    {relation.productName &&
+                                                    relation.productAlias ? (
+                                                        <Link
+                                                            title={relation.productName}
+                                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${relation.productAlias}`}
+                                                        />
+                                                    ) : (
+                                                        formatNullableString(null)
+                                                    )}
+                                                </S.FlexWrapper>
 
-                                    <S.FlexWrapper>
-                                        <Text variant="overline" inactive>
-                                            ИНТЕРФЕЙС
-                                        </Text>
-                                        {relation.productAlias &&
-                                        relation.interfaceName &&
-                                        relation.interfaceId ? (
-                                            <Link
-                                                title={relation.interfaceName}
-                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.interfaceId}&type=arch_interface`}
-                                            />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </S.FlexWrapper>
+                                                <S.FlexWrapper>
+                                                    <Text variant="overline" inactive>
+                                                        ТЕХНИЧЕСКАЯ ВОЗМОЖНОСТЬ
+                                                    </Text>
+                                                    {relation.tcName && relation.tcId ? (
+                                                        <Link
+                                                            title={relation.tcName}
+                                                            url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${relation.tcId}&type=TECH`}
+                                                        />
+                                                    ) : (
+                                                        formatNullableString(null)
+                                                    )}
+                                                </S.FlexWrapper>
 
-                                    <S.FlexWrapper>
-                                        <Text variant="overline" inactive>
-                                            ENDPOINT
-                                        </Text>
-                                        {relation.productAlias &&
-                                        relation.operation &&
-                                        relation.operationId ? (
-                                            <Link
-                                                title={relation.operation}
-                                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.operationId}&type=arch_operation`}
-                                            />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </S.FlexWrapper>
-                                </S.FlexWrapper>
-                            </S.FlexWrapper>
-                        ))
-                    )}
+                                                <S.FlexWrapper>
+                                                    <Text variant="overline" inactive>
+                                                        ИНТЕРФЕЙС
+                                                    </Text>
+                                                    {relation.productAlias &&
+                                                    relation.interfaceName &&
+                                                    relation.interfaceId ? (
+                                                        <Link
+                                                            title={relation.interfaceName}
+                                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.interfaceId}&type=arch_interface`}
+                                                        />
+                                                    ) : (
+                                                        formatNullableString(null)
+                                                    )}
+                                                </S.FlexWrapper>
+
+                                                <S.FlexWrapper>
+                                                    <Text variant="overline" inactive>
+                                                        ENDPOINT
+                                                    </Text>
+                                                    {relation.productAlias &&
+                                                    relation.operation &&
+                                                    relation.operationId ? (
+                                                        <Link
+                                                            title={relation.operation}
+                                                            url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&cmdb=${relation.productAlias}&id=${relation.operationId}&type=arch_operation`}
+                                                        />
+                                                    ) : (
+                                                        formatNullableString(null)
+                                                    )}
+                                                </S.FlexWrapper>
+                                                <S.FlexWrapper>
+                                                    <Text variant="overline" inactive>
+                                                        ОПИСАНИЕ
+                                                    </Text>
+                                                    {formatNullableString(relation.description)}
+                                                </S.FlexWrapper>
+                                            </S.FlexWrapper>
+                                        </S.CallsContent>
+                                    )}
+                                </S.CallsWrapper>
+                            ))
+                        )}
+                    </S.BICallsContainer>
                 </S.ScenarioContentWrapper>
             )}
             <BIEditSLA
@@ -170,6 +249,11 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                 stepId={biSteps.id}
                 relationsData={biSteps.relations}
             />
+            {isOpen && selectedRelation && (
+                <CustomModal open={isOpen} onClose={() => setIsOpen(false)}>
+                    <DiagramView relation={selectedRelation} onClose={() => setIsOpen(false)} />
+                </CustomModal>
+            )}
         </S.ScenarioTd>
     );
 };

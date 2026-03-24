@@ -129,3 +129,47 @@ export interface IMapItemData {
     updatedDate: Date;
     parent?: { id: number; name: string; isDomain: boolean }[];
 }
+
+export interface IPromtData {
+    alias: string;
+    id: number;
+    model: string;
+    promt: string;
+}
+
+export interface IGenerationForm {
+    messages: [
+        {
+            role: 'user';
+            content: string;
+        },
+    ];
+    model: string;
+    stream: boolean;
+}
+
+export interface IGenerationData {
+    choices: [
+        {
+            message: {
+                role: string;
+                content: string;
+            };
+        },
+    ];
+}
+
+export interface ITechCapabilitiesByProductData {
+    implemented: {
+        code: string;
+        description: string;
+        id: number;
+        name: string;
+    }[];
+    responsibility: {
+        code: string;
+        description: string;
+        id: number;
+        name: string;
+    }[];
+}

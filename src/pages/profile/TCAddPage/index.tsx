@@ -49,15 +49,12 @@ export const TCAddPage = () => {
         reset({ bc: [{}] });
     }, []);
 
-    const onSubmit = handleSubmit(async (values) => {
+    const onSubmit = handleSubmit(async () => {
         try {
-            console.log(values);
         } catch (error) {}
     });
 
     const productId = watch('product');
-
-    console.log(productId);
 
     return (
         <FormProvider {...form}>

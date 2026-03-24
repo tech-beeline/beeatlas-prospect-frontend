@@ -16,7 +16,7 @@ export const ContextDiagram: FC<IContextDiagram> = ({ cmdb, tabVariant }) => {
     const { modalOpened, openModal, closeModal } = useModal();
 
     const { data, isLoading } = useGetSystemDiagramQuery({
-        cmdb,
+        cmdb: encodeURI(cmdb),
         influence: tabVariant === TabVariant.OUT,
     });
 

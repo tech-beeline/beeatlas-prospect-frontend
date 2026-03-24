@@ -72,7 +72,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
     };
 
     const handleEditBiClick = async (bi: IBIData) => {
-        if (bi.communal && !bi.draft) {
+        if (!bi.draft) {
             openCommunalModal();
             return;
         }
@@ -88,7 +88,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
     };
 
     const handleDeleteBiClick = async (bi: IBIData) => {
-        if (bi.communal && !bi.draft) {
+        if (!bi.draft) {
             openCommunalModal();
             return;
         }
@@ -111,12 +111,12 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
             <S.BICard key={bi.id}>
                 <S.FlexContainer>
                     <S.LabelsContainer>
-                        <Label
-                            variant="contained"
-                            title={bi.draft ? 'Черновик' : 'Опубликован'}
-                            type={bi.draft ? 'default' : 'success'}
-                        />
-                        {!bi.draft && <TargetLabel target={bi.target} />}
+                        {bi.draft ? (
+                            <Label title="Черновик" type="default" variant="contained" />
+                        ) : (
+                            <Label title="Опубликован" type="success" variant="contained" />
+                        )}
+                        <TargetLabel target={bi.target} />
                     </S.LabelsContainer>
                     <DropdownMenu
                         id={String(bi.id)}
@@ -168,6 +168,14 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                 </S.DateContainer>
                 <S.DateContainer>
                     <Text inactive variant="body3">
+                        Каналы
+                    </Text>
+                    <Text variant="body2">
+                        {formatNullableString(bi.channel?.map((ch) => ch.name).join(', '))}
+                    </Text>
+                </S.DateContainer>
+                <S.DateContainer>
+                    <Text inactive variant="body3">
                         Дата изменения
                     </Text>
                     <Text variant="body2">{dayjs(bi.lastModifiedDate).format('DD.MM.YYYY')}</Text>
@@ -210,7 +218,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                 confirmText="Понятно"
                 showDeclineButton={false}
             >
-                Редактирование и удаление коммунального опубликованного BI недоступно
+                Редактирование и удаление опубликованного BI недоступно
             </Dialog>
         </>
     );

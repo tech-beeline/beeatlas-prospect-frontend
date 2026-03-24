@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { dataToFormValues, formValuesToData } from 'features/cx';
-import { FormValues } from 'features/cx/components/BIForm/form';
+import { FormValues, validationSchema } from 'features/cx/components/BIForm/form';
 
 import { useUpdateBIMutation } from 'api/queries/bi';
 import { useGetBIChannelsQuery, useGetBIStatusesQuery } from 'api/queries/bi-library';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { RowIds } from '../../../../types';
 
@@ -34,7 +35,8 @@ export const EditableCell = ({
 
     const [value, setValue] = useState<EditStateValue>('');
     const [initialValue, setInitialValue] = useState<EditStateValue>('');
-
+    const [hasError, setHasError] = useState(false);
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     useEffect(() => {
         if (!isActive || !element) return;
 
@@ -101,6 +103,21 @@ export const EditableCell = ({
         if (!formKey) {
             return;
         }
+
+        if (formKey === 'name') {
+            try {
+                await validationSchema.validateAt('name', {
+                    name: newValue,
+                });
+                setHasError(false);
+            } catch (err: any) {
+                setHasError(true);
+                showSnackbar({
+                    message: 'Заполните название',
+                });
+                return;
+            }
+        }
         const currentFormValues = dataToFormValues(element);
         const updatedFormValues: FormValues = { ...currentFormValues };
         (updatedFormValues[formKey] as FormValues[typeof formKey]) = formatValueForForm(
@@ -112,7 +129,10 @@ export const EditableCell = ({
 
         await updateBi({
             id: String(element.id),
-            data: dataToUpdate,
+            data: {
+                ...dataToUpdate,
+                draft: element.draft,
+            },
         });
 
         onEndEdit?.();
@@ -121,8 +141,11 @@ export const EditableCell = ({
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            e.stopPropagation();
             sendUpdate(value);
-        } else if (e.key === 'Escape') {
+        }
+
+        if (e.key === 'Escape') {
             e.preventDefault();
             setValue(initialValue);
             onEndEdit?.();
@@ -130,12 +153,13 @@ export const EditableCell = ({
     };
 
     const handleBlur = () => {
+        setHasError(false);
         setValue(initialValue);
         onEndEdit?.();
     };
 
     if (!isActive) {
-        return <div>{formatData}</div>;
+        return <>{formatData}</>;
     }
 
     const inputElement =
@@ -144,8 +168,8 @@ export const EditableCell = ({
                 autoFocus
                 value={value as string}
                 onChange={(e) => setValue(e.target.value)}
-                onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
+                hasError={hasError}
             />
         ) : null;
 
@@ -155,7 +179,6 @@ export const EditableCell = ({
                 autoFocus
                 value={value as string}
                 onChange={(e) => setValue(e.target.value)}
-                onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
             />
         ) : null;
@@ -181,7 +204,6 @@ export const EditableCell = ({
                     const numId = id === '' ? '' : Number(id);
                     sendUpdate(numId);
                 }}
-                onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
                 size="large"
             />
@@ -208,9 +230,11 @@ export const EditableCell = ({
                     const ids = (selectedOptions as OnChangeOption[]).map((opt) => Number(opt.id));
                     setValue(ids);
                 }}
-                onKeyDown={handleKeyDown}
-                onBlur={() => {
-                    sendUpdate(value);
+                onBlur={(e: React.FocusEvent<HTMLDivElement>) => {
+                    const related = e.relatedTarget as HTMLElement | null;
+                    if (related && e.currentTarget.contains(related)) return;
+
+                    setValue(initialValue);
                     onEndEdit?.();
                 }}
                 size="large"
@@ -218,11 +242,11 @@ export const EditableCell = ({
         ) : null;
 
     return (
-        <>
+        <div tabIndex={-1} onKeyDown={handleKeyDown} style={{ width: '100%' }}>
             {inputElement}
             {textAreaElement}
             {selectElement}
             {multiSelectElement}
-        </>
+        </div>
     );
 };
