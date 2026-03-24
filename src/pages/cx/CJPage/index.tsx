@@ -24,7 +24,6 @@ import {
     usePartialUpdateCJMutation,
 } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
-import * as R from 'router/const';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -372,11 +371,7 @@ export const CJPage = () => {
                         )
                     )}
 
-                    <IconButton
-                        size="large"
-                        iconName={Icons.Close}
-                        onClick={() => navigate(`${R.CX_PATH}${R.CJ_PATH}`)}
-                    />
+                    <IconButton size="large" iconName={Icons.Close} onClick={handleBackIconClick} />
                 </S.FlexSideContainer>
             </S.Header>
 
