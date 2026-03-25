@@ -1,3 +1,4 @@
+import { Banner, ProgressButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const SideblockContainer = styled.div`
@@ -28,6 +29,11 @@ export const ErrorContainer = styled.div`
     margin-top: -8px;
 `;
 
+export const BannerStyled = styled(Banner)`
+    overflow: hidden;
+    overflow-wrap: anywhere;
+`;
+
 export const ButtonsContainer = styled.div`
     display: flex;
     gap: 16px;
@@ -36,4 +42,10 @@ export const ButtonsContainer = styled.div`
     padding: 16px 16px 24px;
 
     border-top: 1px solid var(--color-divider);
+`;
+
+export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boolean }>`
+    .dsb-button-progress__svg {
+        display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
+    }
 `;
