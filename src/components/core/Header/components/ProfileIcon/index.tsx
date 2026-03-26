@@ -2,6 +2,7 @@ import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { userManager } from 'features/auth/hooks';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
@@ -45,6 +46,15 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, isAdminPanel, isAdmin 
                         <S.DropdownItem onClick={navigateToAdminPanel} className="DropdownItem">
                             {isAdminPanel ? 'Вернуться в приложение' : 'Консоль администратора'}
                             <Icon iconName={Icons.OpenInWindow} size="large" />
+                        </S.DropdownItem>
+                    )}
+                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                        <S.DropdownItem
+                            onClick={() => userManager.signoutRedirect()}
+                            className="DropdownItem"
+                        >
+                            Выйти
+                            <Icon iconName={Icons.LogOut} size="large" />
                         </S.DropdownItem>
                     )}
                 </S.Dropdown>
