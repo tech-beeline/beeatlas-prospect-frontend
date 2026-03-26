@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, FileUploader, IconButton, ProgressButton } from '@beeline/design-system-react';
+import { Button, FileUploader, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+import { AxiosError } from 'axios';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
@@ -8,7 +9,7 @@ import { Text } from 'components/core';
 import { useCreateProcessDSLMutation, useCreateProcessJSONMutation } from 'api/queries/camunda';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { IUpdateArchitectureSideblock } from './types';
+import { ArchitectureErrorTypes, IArchitectureError, IUpdateArchitectureSideblock } from './types';
 import * as S from './units';
 import { toBase64 } from './utils';
 
@@ -18,16 +19,16 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
     cmdb,
     setTempDisabled,
 }) => {
-    const [error, setError] = useState(false);
+    const [error, setError] = useState<IArchitectureError | null>(null);
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
     const [fileList, setFileList] = useState<File[]>([]);
 
     useEffect(() => {
         if (fileList.length === 0 || ['dsl', 'json'].includes(fileList[0].name.split('.')[1])) {
-            setError(false);
+            setError(null);
         } else {
-            setError(true);
+            setError({ type: ArchitectureErrorTypes.EXTENSION, title: 'Не то расширение' });
         }
     }, [fileList]);
 
@@ -50,10 +51,18 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
                 showSnackbar({ message: 'Идет процесс обновления данных' });
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
             }
-        } catch (e) {
-            setTempDisabled(false);
-        } finally {
             onClose();
+        } catch (e) {
+            const errorMessage = (e as AxiosError<{ detail: { error: string } }>).response?.data
+                ?.detail?.error;
+            if (errorMessage) {
+                setError({
+                    type: ArchitectureErrorTypes.VALIDATION,
+                    title: 'Ошибка валидации файла',
+                    errorMessage,
+                });
+            }
+            setTempDisabled(false);
         }
     };
 
@@ -77,27 +86,38 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
                         />
                         {error && (
                             <S.ErrorContainer>
-                                <Text variant="caption">Не то расширение</Text>
+                                <Text variant="caption">{error.title}</Text>
                             </S.ErrorContainer>
                         )}
                     </div>
+                    {error && error.errorMessage && (
+                        <S.BannerStyled
+                            color="error"
+                            title={error.errorMessage}
+                            iconName={Icons.InfoCircled}
+                        />
+                    )}
                 </S.ContentContainer>
                 <S.ButtonsContainer>
                     <Button fullWidth size="medium" variant="outlined" onClick={onClose}>
                         Отменить
                     </Button>
-                    <ProgressButton
+                    <S.ProgressButtonStyled
                         fullWidth
                         size="medium"
                         variant="contained"
                         onClick={handleStartButtonClick}
+                        showProgress={isCreatingJSONProcess || isCreatingDSLProcess}
                         state={
                             isCreatingJSONProcess || isCreatingDSLProcess ? 'loading' : 'default'
                         }
-                        disabled={!fileList[0] || error}
+                        disabled={
+                            !fileList[0] ||
+                            (!!error && error.type === ArchitectureErrorTypes.EXTENSION)
+                        }
                     >
                         Запустить
-                    </ProgressButton>
+                    </S.ProgressButtonStyled>
                 </S.ButtonsContainer>
             </S.SideblockContainer>
         </SideBlock>
