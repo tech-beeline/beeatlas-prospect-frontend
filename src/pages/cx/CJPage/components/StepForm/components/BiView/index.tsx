@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { StatusLabel, TargetLabel } from 'features/cx';
 
-import { Link } from 'components/other';
+import { Text } from 'components/core';
+import { Link, PivotArrow } from 'components/other';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery, useUpdateCJStepBIsMutation } from 'api/queries/cj';
@@ -25,13 +26,17 @@ export const BiView: FC<IBiView> = ({
     previousStage = Stage.BISEARCH,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const [showCjs, setShowCjs] = useState(false);
+
     const { data: bi, isLoading: isLoadingData } = useGetBIByIdQuery(String(selectedBiId));
     const { data: editabilityData, isLoading: isLoadingEditability } = useGetBIEditabilityByIdQuery(
         String(selectedBiId),
     );
-    const { data: cjs, isLoading: isLoadingCjs } = useGetCJCollectionByBIIdQuery(
-        String(selectedBiId),
-    );
+    const {
+        data: cjs,
+        isLoading: isLoadingCjs,
+        refetch,
+    } = useGetCJCollectionByBIIdQuery(String(selectedBiId), true);
     const { mutateAsync: updateStepBis, isPending: updatingStep } = useUpdateCJStepBIsMutation();
 
     const isLoading = isLoadingData || isLoadingEditability || isLoadingCjs;
@@ -45,6 +50,13 @@ export const BiView: FC<IBiView> = ({
         });
         showSnackbar({ message: 'BI добавлен в этап' });
         setStage(Stage.SETTINGS);
+    };
+
+    const handleArrowClick = async () => {
+        if (!showCjs) {
+            await refetch();
+        }
+        setShowCjs(!showCjs);
     };
 
     return (
@@ -133,20 +145,33 @@ export const BiView: FC<IBiView> = ({
                                 <S.Body2>{formatNullableString(bi.metrics)}</S.Body2>
                             </div>
                             <div>
-                                <S.Subtitle>Привязка к CJ</S.Subtitle>
-                                <S.Body2>
+                                <S.FlexWrapper>
+                                    <S.Subtitle>Связанные CJ {`(${cjs?.length})`}</S.Subtitle>
+                                    <PivotArrow
+                                        style={{ cursor: 'pointer' }}
+                                        position={showCjs && 'top'}
+                                        onClick={handleArrowClick}
+                                    />
+                                </S.FlexWrapper>
+                                <S.CJContainer open={showCjs}>
                                     {cjs &&
-                                        cjs.map((cj, index) => (
-                                            <>
+                                        cjs.map((cj) => (
+                                            <div key={cj.id}>
                                                 <Link
                                                     url={`/cx/cj/add?id=${cj.id}`}
                                                     title={cj.name}
                                                 />
-                                                {index < cjs.length - 1 && ', '}
-                                            </>
+                                                <Text variant="body3" inactive>
+                                                    {cj.uniqueIdent}
+                                                </Text>
+                                            </div>
                                         ))}
-                                    {cjs && cjs.length === 0 && formatNullableString(null)}
-                                </S.Body2>
+                                    {cjs && cjs.length === 0 && (
+                                        <Text variant="body2" inactive>
+                                            Нет связанных CJ
+                                        </Text>
+                                    )}
+                                </S.CJContainer>
                             </div>
                         </>
                     )}

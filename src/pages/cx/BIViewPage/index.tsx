@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { dataToFormValues, formValuesToData, StatusLabel, TargetLabel } from 'features/cx';
 
+import { Text } from 'components/core';
 import { FloatingNavigation } from 'components/interaction';
-import { Link, NotFoundBlock } from 'components/other';
+import { Link, NotFoundBlock, PivotArrow } from 'components/other';
 
 import {
     useGetBIByIdQuery,
@@ -24,8 +25,14 @@ export const BIViewPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
 
+    const [showCjs, setShowCjs] = useState(false);
+
     const { data, isLoading: isLoadingBI } = useGetBIByIdQuery(paramId);
-    const { data: cjs, isLoading: isLoadingCjs } = useGetCJCollectionByBIIdQuery(paramId);
+    const {
+        data: cjs,
+        isLoading: isLoadingCjs,
+        refetch,
+    } = useGetCJCollectionByBIIdQuery(paramId, true);
     const { data: editabilityData, isLoading: isLoadingEditability } =
         useGetBIEditabilityByIdQuery(paramId);
     const { data: productsData } = useGetAllProductsQuery();
@@ -33,7 +40,7 @@ export const BIViewPage = () => {
     const currentProduct = productsData?.find(
         (product) => String(product.id) === String(data?.productId),
     );
-    const isLoading = isLoadingBI || isLoadingCjs || isLoadingEditability;
+    const isLoading = isLoadingBI || isLoadingEditability;
 
     const navigate = useNavigate();
 
@@ -57,6 +64,13 @@ export const BIViewPage = () => {
                 data: { ...dataToUpdate, draft: true },
             });
         }
+    };
+
+    const handleArrowClick = async () => {
+        if (!showCjs) {
+            await refetch();
+        }
+        setShowCjs(!showCjs);
     };
 
     const isEditDisabled = !editabilityData || !data || !editabilityData.editability;
@@ -158,22 +172,37 @@ export const BIViewPage = () => {
                                 </div>
 
                                 <div>
-                                    <S.Subtitle marginBottom id="cjs">
-                                        Привязка к CJ
-                                    </S.Subtitle>
-                                    <S.Body2>
+                                    <S.FlexContainer>
+                                        <S.Subtitle marginBottom id="cjs">
+                                            Связанные CJ {`(${cjs?.length})`}
+                                        </S.Subtitle>
+                                        <PivotArrow
+                                            style={{ cursor: 'pointer' }}
+                                            position={showCjs && 'top'}
+                                            onClick={handleArrowClick}
+                                        />
+                                    </S.FlexContainer>
+                                    <S.CJContainer open={showCjs}>
                                         {cjs &&
-                                            cjs.map((cj, index) => (
-                                                <>
+                                            cjs.map((cj) => (
+                                                <div key={cj.id}>
                                                     <Link
+                                                        key={cj.id}
                                                         url={`/cx/cj/add?id=${cj.id}`}
                                                         title={cj.name}
                                                     />
-                                                    {index < cjs.length - 1 && ', '}
-                                                </>
+                                                    <Text variant="body3" inactive>
+                                                        {cj.uniqueIdent}
+                                                    </Text>
+                                                </div>
                                             ))}
-                                        {cjs && cjs.length === 0 && formatNullableString(null)}
-                                    </S.Body2>
+                                        {cjs && cjs.length === 0 && (
+                                            <Text variant="body2" inactive>
+                                                Нет связанных CJ
+                                            </Text>
+                                        )}
+                                        {isLoadingCjs && <Skeleton height={200} width={500} />}
+                                    </S.CJContainer>
                                 </div>
 
                                 <div>
