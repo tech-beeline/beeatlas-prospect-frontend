@@ -24,6 +24,8 @@ export const BiView: FC<IBiView> = ({
     onClose,
     biSelected = false,
     previousStage = Stage.BISEARCH,
+    draft,
+    bpmn = false,
 }) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const [showCjs, setShowCjs] = useState(false);
@@ -67,6 +69,7 @@ export const BiView: FC<IBiView> = ({
                         <IconButton
                             iconName={Icons.ArrowLeft}
                             size="large"
+                            disabled={bpmn || !draft}
                             onClick={() => setStage(previousStage)}
                         />
                         <S.SideBlockTitle>BI</S.SideBlockTitle>
@@ -183,7 +186,7 @@ export const BiView: FC<IBiView> = ({
                 <Button
                     type="submit"
                     variant="contained"
-                    disabled={updatingStep}
+                    disabled={updatingStep || bpmn || !draft}
                     onClick={handleSelectClick}
                 >
                     Выбрать

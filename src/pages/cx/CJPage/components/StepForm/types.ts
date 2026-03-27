@@ -5,6 +5,8 @@ export interface IStepForm {
     cjId: number;
     isOpen: boolean;
     step: ICompleteStepData;
+    draft: boolean;
+    bpmn?: boolean;
     onClose: () => void;
     initialBiId?: number;
     initialStage?: Stage;
