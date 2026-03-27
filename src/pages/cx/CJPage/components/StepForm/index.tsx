@@ -10,6 +10,8 @@ export const StepForm: FC<IStepForm> = ({
     cjId,
     step,
     isOpen,
+    draft,
+    bpmn,
     onClose,
     initialBiId,
     initialStage,
@@ -74,6 +76,8 @@ export const StepForm: FC<IStepForm> = ({
                     stepBisLength={step.bi.length}
                     setStage={setStage}
                     selectedBiId={selectedBiId}
+                    draft={draft}
+                    bpmn={bpmn}
                     onClose={handleCloseClick}
                 />
             )}
@@ -85,6 +89,8 @@ export const StepForm: FC<IStepForm> = ({
                     setStage={setStage}
                     selectedBiId={selectedBiId}
                     previousStage={Stage.SETTINGS}
+                    draft={draft}
+                    bpmn={bpmn}
                     onClose={handleCloseClick}
                 />
             )}
