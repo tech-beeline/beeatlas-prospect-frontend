@@ -9,4 +9,6 @@ export interface IBiView {
 
     biSelected?: boolean;
     previousStage?: Stage;
+    draft: boolean;
+    bpmn?: boolean;
 }
