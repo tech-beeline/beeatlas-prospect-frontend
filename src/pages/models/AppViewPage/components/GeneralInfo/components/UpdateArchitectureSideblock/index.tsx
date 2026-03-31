@@ -32,6 +32,13 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
         }
     }, [fileList]);
 
+    useEffect(() => {
+        if (!isOpen) {
+            setFileList([]);
+            setError(null);
+        }
+    }, [isOpen]);
+
     const { mutateAsync: createJSONProcess, isPending: isCreatingJSONProcess } =
         useCreateProcessJSONMutation();
     const { mutateAsync: createDSLProcess, isPending: isCreatingDSLProcess } =
@@ -82,6 +89,7 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
                                 setFileList(Array.from(event.target.files ?? []));
                                 event.target.value = '';
                             }}
+                            fileList={fileList}
                             onRemove={() => setFileList([])}
                         />
                         {error && (
