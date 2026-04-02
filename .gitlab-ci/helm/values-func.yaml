@@ -26,7 +26,7 @@ ingress:
         pathType: ImplementationSpecific
 
 env:
-  NGINX_LOCATION_API_GATEWAY: http://fdm-gateway-func-service:8080
+  NGINX_LOCATION_API_GATEWAY: http://eafdmmart-func-fdm-gateway
   NGINX_LOCATION_API: http://eafdmmart-backend-func-service:8080
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: ''
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: ''

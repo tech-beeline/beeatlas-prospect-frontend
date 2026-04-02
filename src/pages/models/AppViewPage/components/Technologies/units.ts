@@ -33,3 +33,14 @@ export const TableLayout = styled(Table)`
     table-layout: fixed;
     width: 100%;
 `;
+
+export const AutocompleteOptionRow = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 16px;
+`;
+
+export const EmptyStateContainer = styled.div`
+    width: 100%;
+    padding: 64px 0;
+`;

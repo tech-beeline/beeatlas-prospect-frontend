@@ -245,6 +245,8 @@ export const Table: FC<ITable> = ({ productId, cjId, tableData, draft, bpmn, can
                     cjId={cjId}
                     step={tableData[selectedStep ?? 0]}
                     isOpen={openSideSheet === SideSheetVariants.SIDEBLOCK_BI}
+                    draft={draft}
+                    bpmn={bpmn}
                     onClose={closeSideSheet}
                     initialBiId={selectedBiIdForView ?? undefined}
                     initialStage={selectedBiIdForView != null ? Stage.BIVIEW : undefined}

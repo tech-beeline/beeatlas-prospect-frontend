@@ -7,6 +7,8 @@ export const TooltipContainer = styled(Tooltip)<{
     displayFlex?: boolean;
     hideGap?: boolean;
     infoWidth?: boolean;
+    overflowY?: boolean;
+    hidePaddingRight?: boolean;
 }>`
     ${({ displayFlex }) => (displayFlex ? 'display: flex;' : '')}
     ${({ displayFlex }) => (displayFlex ? 'flex-direction: column;' : '')}
@@ -19,10 +21,12 @@ export const TooltipContainer = styled(Tooltip)<{
     padding: ${({ largePadding }) => (largePadding ? '16px' : '4px 8px')};
 
     background-color: var(--color-border-focus);
-    color: var(--color-text-active-inverse);
 
     border-radius: ${({ largePadding }) =>
         largePadding ? 'var(--size-border-radius-x8)' : 'var(--size-border-radius-x4)'};
+    ${({ hidePaddingRight }) => (hidePaddingRight ? 'padding-right: 0;' : '')};
+
+    ${({ overflowY }) => (overflowY ? 'pointer-events: auto;' : '')}
 
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-caption);

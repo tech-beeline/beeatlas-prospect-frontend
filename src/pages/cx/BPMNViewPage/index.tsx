@@ -103,10 +103,6 @@ export const BPMNViewPage = () => {
         downloadBpmnFile(filename, fileData);
     };
 
-    const hadleClosePage = () => {
-        navigate(`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}?id=${cjId}`);
-    };
-
     return (
         <S.PageWrapper>
             <S.Header>
@@ -163,7 +159,7 @@ export const BPMNViewPage = () => {
                         />
                     </S.SelectWrapper>
                 </S.FlexSideContainer>
-                <IconButton iconName={Icons.Close} size="large" onClick={hadleClosePage} />
+                <IconButton iconName={Icons.Close} size="large" onClick={() => navigate(-1)} />
             </S.Header>
             <S.Content ref={containerRef} />
         </S.PageWrapper>

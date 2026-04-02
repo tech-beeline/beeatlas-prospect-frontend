@@ -10,9 +10,11 @@ import {
     getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
     getProductMapicInterfacesByCmdb,
+    getProductPatterns,
     getProductsByTechnologyId,
     getProductStructurizrContainerByCmdb,
     getProductStructurizrInterfacesByCmdb,
+    getProductTechnologies,
     getSystemE2E,
     getSystemTC,
     getUserProducts,
@@ -220,5 +222,21 @@ export const useGetFitnessFunctionsAggregationQuery = () => {
     return useQuery({
         queryKey: [PRODUCT_PREFIX, 'FITNESS_FUNCTIONS'],
         queryFn: () => getFitnessFunctionsAggregation().then((res) => res.data),
+    });
+};
+
+export const useGetProductPatternsQuery = (alias?: string | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'patterns', alias],
+        queryFn: () => getProductPatterns(alias!).then((res) => res.data),
+        enabled: !!alias,
+    });
+};
+
+export const useGetProductTechnologiesQuery = (code?: string | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'technologies', code],
+        queryFn: () => getProductTechnologies(code!).then((res) => res.data),
+        enabled: !!code,
     });
 };

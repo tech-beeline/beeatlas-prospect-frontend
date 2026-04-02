@@ -181,7 +181,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                     <Text variant="body2">{dayjs(bi.lastModifiedDate).format('DD.MM.YYYY')}</Text>
                 </S.DateContainer>
                 <S.FlexContainerWithMargin>
-                    <S.Text>Связанные артефакты</S.Text>
+                    <S.Text>Связанные CJ</S.Text>
                     <PivotArrow
                         style={{ cursor: 'pointer' }}
                         position={showCjs && 'top'}
@@ -191,11 +191,14 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                 <S.CJContainer open={showCjs}>
                     {cjs &&
                         cjs.map((cj) => (
-                            <Link key={cj.id} url={`/cx/cj/add?id=${cj.id}`} title={cj.name} />
+                            <div key={cj.id}>
+                                <Link key={cj.id} url={`/cx/cj/add?id=${cj.id}`} title={cj.name} />
+                                <Text variant="body3" inactive>
+                                    {cj.uniqueIdent}
+                                </Text>
+                            </div>
                         ))}
-                    {cjs && cjs.length === 0 && (
-                        <S.TextInactive>Нет связанных артефактов</S.TextInactive>
-                    )}
+                    {cjs && cjs.length === 0 && <S.TextInactive>Нет связанных CJ</S.TextInactive>}
                     {isLoadingCjs && <Skeleton height={20} />}
                 </S.CJContainer>
             </S.BICard>

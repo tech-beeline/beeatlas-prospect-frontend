@@ -6,6 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { TargetLabel } from 'features/cx';
 
+import { Text } from 'components/core';
 import { DropdownMenuControlled } from 'components/interaction';
 import { Link } from 'components/other';
 
@@ -180,15 +181,25 @@ export const BITableRow: FC<IBITableRow> = ({
                 <tr>
                     <S.ExpandedTd colSpan={9}>
                         <S.ExpandedContentWrapper>
+                            <Text variant="subtitle3">Связанные CJ</Text>
                             {cjs &&
                                 cjs.map((cj) => (
-                                    <Link
-                                        key={cj.id}
-                                        url={`/cx/cj/add?id=${cj.id}`}
-                                        title={cj.name}
-                                    />
+                                    <div key={cj.id}>
+                                        <Link
+                                            key={cj.id}
+                                            url={`/cx/cj/add?id=${cj.id}`}
+                                            title={cj.name}
+                                        />
+                                        <Text variant="body3" inactive>
+                                            {cj.uniqueIdent}
+                                        </Text>
+                                    </div>
                                 ))}
-                            {cjs && cjs.length === 0 && <>Нет связанных артефактов</>}
+                            {cjs && cjs.length === 0 && (
+                                <Text variant="body2" inactive>
+                                    Нет связанных CJ
+                                </Text>
+                            )}
                             {isLoadingCjs && <Skeleton height={20} />}
                         </S.ExpandedContentWrapper>
                     </S.ExpandedTd>

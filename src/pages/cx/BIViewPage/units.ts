@@ -142,3 +142,23 @@ export const SkeletonContainer = styled.div`
 
     margin-top: 24px;
 `;
+
+export const CJContainer = styled.div<{ open: boolean }>`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    height: ${({ open }) => (open ? 'auto' : '0px')};
+
+    margin-top: ${({ open }) => (open ? '12px' : '0px')};
+
+    overflow: hidden;
+
+    transition: all 0.25s;
+`;
+
+export const FlexContainer = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+`;
