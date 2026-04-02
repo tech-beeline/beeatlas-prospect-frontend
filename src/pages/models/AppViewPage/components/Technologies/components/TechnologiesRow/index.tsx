@@ -1,42 +1,41 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Label, TableData, TableRow } from '@beeline/design-system-react';
+import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Link } from 'components/other';
 
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 
-export const TechnologiesRow = () => {
+import { ITechnologiesRow } from './types';
+
+export const TechnologiesRow: FC<ITechnologiesRow> = ({ techProduct }) => {
+    const { tech, source } = techProduct;
+
     return (
-        <>
-            <TableRow>
-                <TableData>
-                    <Link url={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}?id=1`} title="draw.io" />
-                </TableData>
-                <TableData>
-                    <Label title="Adopt" variant="contained" type="success" />
-                </TableData>
-
-                <TableData>
-                    <Label type="success" variant="outline" title="Допустимо КИ" />
-                </TableData>
-                <TableData>Технорадар/Structurizr</TableData>
-            </TableRow>
-            <TableRow>
-                <TableData>
-                    <Link
-                        url={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}?id=1`}
-                        title="Structurizr OnPremise"
-                    />
-                </TableData>
-                <TableData>
-                    <Label title="Adopt" variant="contained" type="success" />
-                </TableData>
-
-                <TableData>
-                    <Label type="success" variant="outline" title="Допустимо КИ" />
-                </TableData>
-                <TableData>Технорадар/Structurizr</TableData>
-            </TableRow>
-        </>
+        <TableRow>
+            <TableData>
+                <Link
+                    outer={true}
+                    title={tech.label}
+                    url={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}?id=${tech.id}`}
+                />
+            </TableData>
+            <TableData>
+                <Label
+                    title={tech.ring.name}
+                    variant="contained"
+                    type={ringIdToLabelStatusMap[tech.ring.id]}
+                />
+            </TableData>
+            <TableData>
+                <Label
+                    title={tech.isCritical ? 'Допустимо КИ' : 'Не допустимо КИ'}
+                    type={tech.isCritical ? 'success' : 'error'}
+                    variant="outline"
+                />
+            </TableData>
+            <TableData>{formatNullableString(source)}</TableData>
+        </TableRow>
     );
 };

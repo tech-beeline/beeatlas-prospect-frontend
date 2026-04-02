@@ -16,9 +16,9 @@ import {
     GeneralInfo,
     InDevelopment,
     InterfacesAndMethods,
+    Patterns,
     TechCapabilities,
-    // Patterns,
-    // Technologies,
+    Technologies,
 } from './components';
 import { TABS, TabVariants } from './const';
 import * as S from './units';
@@ -119,8 +119,8 @@ export const AppViewPage = () => {
             )}
             {tabVariant === TabVariants.E2E_PROCESSES &&
                 !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <InDevelopment cmdb={paramCmdb} />}
-            {/* {tabVariant === TabVariants.TECHNOLOGIES && <Technologies />}
-            {tabVariant === TabVariants.PATTERNS && <Patterns />} */}
+            {tabVariant === TabVariants.TECHNOLOGIES && <Technologies cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
             {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}
