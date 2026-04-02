@@ -11,6 +11,8 @@ RUN mkdir -p /www/env && chown -R nginx:root /www/env && chmod o+rw /www/env && 
 USER nginx
 
 # defaults for /www/env/env
+ARG VERSION=1.2.1
+ENV APPVERSION=${VERSION}
 ENV FLAG_IS_PROD=true
 ENV FLAG_IS_DEMO_STAND=false
 ENV FLAG_IS_FUNC=false
