@@ -16,6 +16,7 @@ import { formatNullableNumber, formatNullableString } from 'utils/formatters';
 import { BIEditScenario } from '../../../BIEditScenario';
 import { BIEditSLA } from '../../../BIEditSLA';
 
+import { stepTypeAvatarMap } from './const';
 import { DiagramView } from './DiagramView';
 import { IBIScenario } from './types';
 import * as S from './units';
@@ -41,6 +42,10 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
     const handleEditScenario = () => {
         toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI, biSteps.id);
     };
+    const stepAvatar = stepTypeAvatarMap[biSteps.type as keyof typeof stepTypeAvatarMap] ?? {
+        iconName: Icons.Settings,
+        color: 'blue',
+    };
 
     return (
         <S.ScenarioTd last={last}>
@@ -52,8 +57,17 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                             iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
                             size="medium"
                         />
-                        <Avatar variant="circle" iconName={Icons.Settings} color="blue" />
-                        <Text variant="body3">{biSteps.name}</Text>
+                        <Avatar
+                            variant="circle"
+                            iconName={stepAvatar.iconName}
+                            color={stepAvatar.color}
+                        />
+                        <S.FlexWrapper gap="4">
+                            <TextTooltip text={biSteps.name} tooltipId={`title-${biSteps.id}`} />
+                            <Text variant="caption">
+                                {formatNullableString(biSteps.uniqueIdent)}
+                            </Text>
+                        </S.FlexWrapper>
                     </S.ScenationTitleWrapper>
                     <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
                 </S.ScenarionWrapper>
