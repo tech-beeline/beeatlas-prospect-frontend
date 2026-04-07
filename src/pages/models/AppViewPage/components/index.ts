@@ -1,4 +1,5 @@
 export { ArchitectureChanges } from './ArchitectureChanges';
+export { Diagrams } from './Diagrams';
 export { E2EProcesses } from './E2EProcesses';
 export { FitnessFunctions } from './FitnessFunctions';
 export { GeneralInfo } from './GeneralInfo';

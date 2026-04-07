@@ -97,3 +97,18 @@ export const getDeploymentInfluenceElementsById = (
         url: `${GATEWAY_ARCH_GRAPH_URL}v1/influence/elements?id=${id}`,
     });
 };
+
+export const getCypherQuery = (query: string): AxiosPromise<T.ICypherDiagram[]> => {
+    const safeQuery = query
+        .replace(/\r\n|\r|\n/g, ' ')
+        .replace(/[^\x20-\x7E]/g, '?')
+        .trim();
+
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/elements`,
+        headers: {
+            'CYPHER-QUERY': safeQuery,
+            'Content-Type': 'application/json',
+        },
+    });
+};

@@ -64,3 +64,37 @@ export interface IContextElement {
     id: number;
     ownerName: string;
 }
+
+export interface ICypherNode {
+    labels: string[];
+    properties: {
+        description: string;
+        graphTag: string;
+        name: string;
+        originalName: string;
+        structurizr_dsl_identifier: string;
+        tags: string;
+        technology: string;
+        external_name: string;
+    };
+}
+
+export interface ICypherRelationship {
+    type: string;
+    properties: {
+        description: string;
+        graphTag: string;
+        level: string;
+        sourceWorkspace: string;
+        tags: string;
+        technology: string;
+    };
+}
+
+export type ICypherRecordValue = ICypherNode | ICypherRelationship;
+
+export interface ICypherDiagram {
+    m?: ICypherNode;
+    n?: ICypherNode;
+    r?: ICypherRelationship;
+}
