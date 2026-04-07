@@ -4,3 +4,5 @@ export interface IBIScenario {
     biSteps: IStepsScenarion;
     last: boolean;
 }
+
+export type StepType = 'UserTask' | 'ServiceTask';

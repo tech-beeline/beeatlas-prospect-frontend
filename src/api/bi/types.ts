@@ -90,6 +90,8 @@ export interface IRelationForm {
 export interface IStepsScenarion {
     name: string;
     id: number;
+    uniqueIdent: string;
+    type: string;
     latency: number;
     errorRate: number;
     rps: number;
