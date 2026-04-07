@@ -95,9 +95,9 @@ export const BIForm = forwardRef<BIFormRef, IBIForm>(
                                     maxLength={255}
                                 />
                             </NameContainer>
-                            <S.TextAreaWrapper>
-                                <TextArea name="descr" label="Описание" />
-                            </S.TextAreaWrapper>
+
+                            <TextArea name="descr" label="Описание" />
+
                             <S.SubTitle id="characteristics">Характеристики</S.SubTitle>
 
                             <S.FlexContainer>
@@ -133,9 +133,7 @@ export const BIForm = forwardRef<BIFormRef, IBIForm>(
 
                             <S.SubTitle id="scenarios">Сценарий</S.SubTitle>
 
-                            <S.TextAreaWrapper>
-                                <TextArea name="clientScenario" label="Клиентский сценарий" />
-                            </S.TextAreaWrapper>
+                            <TextArea name="clientScenario" label="Клиентский сценарий" />
 
                             <S.FieldsContainer>
                                 <S.SubTitle id="channels">Каналы</S.SubTitle>
