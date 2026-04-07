@@ -45,6 +45,7 @@ export const ScenationTitleWrapper = styled.div`
 export const ScenarionWrapper = styled.div`
     display: flex;
     align-items: center;
+    gap: 8px;
     width: 100%;
     justify-content: space-between;
 `;
