@@ -7,13 +7,14 @@ import { MarkdownLinkRenderer, ringIdToLabelStatusMap } from 'features/technolog
 import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 
 import {
     useDeletePatternMutation,
     useGetPatternByIdQuery,
     useGetPatternFileByIdQuery,
 } from 'api/queries/patterns';
+import { useGetNFRByPatternIdQuery } from 'api/queries/product';
 import {
     useCreateSubscriptionMutation,
     useDeleteSubscriptionMutation,
@@ -38,6 +39,7 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
     // const [isAppsExpanded, setIsAppsExpanded] = useState(false);
     const [isRuleExpanded, setIsRuleExpanded] = useState(false);
     const [isDslExpanded, setIsDslExpanded] = useState(false);
+    const [isNfrExpanded, setIsNfrExpanded] = useState(false);
 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const {
@@ -60,8 +62,9 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
     const { data: subscribedPatternsIds } = useGetSubscribedPatternIdsQuery();
     const { data: patternData, isLoading: isLoadingPattern } = useGetPatternByIdQuery(paramId);
     const { data: fileData, isLoading: isLoadingFileData } = useGetPatternFileByIdQuery(paramId);
+    const { data: nfrData, isLoading: isLoadingNfrData } = useGetNFRByPatternIdQuery(paramId);
 
-    const isLoading = isLoadingFileData || isLoadingPattern;
+    const isLoading = isLoadingFileData || isLoadingPattern || isLoadingNfrData;
 
     const { mutate: deletePattern, isPending: isDeletingPattern } = useDeletePatternMutation();
     const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
@@ -360,6 +363,40 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                     </>
                                 )}
                             </S.ExpandableContainer> */}
+                            <S.ExpandableContainer>
+                                <S.SpaceBetweenContainer>
+                                    <Text variant="h6">Нефункциональные требования</Text>
+                                    <IconButton
+                                        iconName={
+                                            isNfrExpanded ? Icons.NavArrowUp : Icons.NavArrowDown
+                                        }
+                                        onClick={() => setIsNfrExpanded(!isNfrExpanded)}
+                                        size="large"
+                                    />
+                                </S.SpaceBetweenContainer>
+                                {isNfrExpanded && (
+                                    <>
+                                        {nfrData &&
+                                            nfrData.length > 0 &&
+                                            nfrData.map((nfr) => (
+                                                <S.NfrContainer key={nfr.id}>
+                                                    <Link
+                                                        title={nfr.name}
+                                                        url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?nfrId=${nfr.id}`}
+                                                    />
+                                                    <Text variant="body3">{nfr.code}</Text>
+                                                </S.NfrContainer>
+                                            ))}
+                                        {(!nfrData || nfrData.length === 0) && (
+                                            <NotFoundBlock
+                                                title="Нет данных"
+                                                text=""
+                                                imageVariant={ImageVariants.EMPTY_BOX}
+                                            />
+                                        )}
+                                    </>
+                                )}
+                            </S.ExpandableContainer>
                             {isAdmin && (
                                 <S.ExpandableContainer>
                                     <S.SpaceBetweenContainer>

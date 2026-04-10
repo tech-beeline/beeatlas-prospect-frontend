@@ -7,6 +7,7 @@ export enum TabVariants {
     ARCHITECTURE_CHANGES = 'ARCHITECTURE_CHANGES',
     TECHNOLOGIES = 'TECHNOLOGIES',
     PATTERNS = 'PATTERNS',
+    REQUIREMENTS = 'REQUIREMENTS',
     DATA = 'DATA',
     STANDS = 'STANDS',
 }
@@ -43,6 +44,10 @@ export const TABS = [
     {
         id: TabVariants.PATTERNS,
         label: 'Паттерны',
+    },
+    {
+        id: TabVariants.REQUIREMENTS,
+        label: 'Нефункциональные требования',
     },
     // {
     //     id: TabVariants.DATA,

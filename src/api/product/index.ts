@@ -183,3 +183,115 @@ export const getFitnessFunctionsAggregation =
             url: `${GATEWAY_PRODUCT_URL}v1/dashboard/fitness-function`,
         });
     };
+
+export const getAllChapters = (): AxiosPromise<T.IChapter[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/chapter`,
+    });
+};
+
+export const getNfrsByPatternId = (
+    id: string | number,
+): AxiosPromise<T.INonFunctionalRequirement[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/requirement/pattern/${id}`,
+    });
+};
+
+export const getNfrById = (
+    id: string | number,
+): AxiosPromise<T.INonFunctionalRequirementFullData> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr/${id}`,
+    });
+};
+
+export const getNfrsByProductId = (
+    id: string | number,
+): AxiosPromise<T.INonFunctionalRequirementFullData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr/product?id=${id}`,
+    });
+};
+
+export const getNfrsByProductAlias = (
+    alias: string,
+): AxiosPromise<T.INonFunctionalRequirementFullData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr/product?alias=${alias}`,
+    });
+};
+
+export const postNfrsToProductById = (
+    productId: string | number,
+    nfrIds: number[],
+): AxiosPromise<void> => {
+    return Api.post({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr/product?id=${productId}`,
+        data: nfrIds,
+    });
+};
+
+export const postNfrsToProductByAlias = (alias: string, nfrIds: number[]): AxiosPromise<void> => {
+    return Api.post({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr/product?alias=${alias}`,
+        data: nfrIds,
+    });
+};
+
+export const deleteNfrFromProduct = (nfrId: number | string, alias: string): AxiosPromise<void> => {
+    return Api.delete({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr/${nfrId}/product?alias=${alias}`,
+    });
+};
+
+export const getNfr = (): AxiosPromise<T.INonFunctionalRequirement[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/nfr`,
+    });
+};
+
+export const postLifeSituation = (data: T.ILifeSituationForm): AxiosPromise<{ id: number }> => {
+    return Api.post({
+        url: `${GATEWAY_PRODUCT_URL}v1/chapter`,
+        data,
+    });
+};
+
+export const patchLifeSituation = (id: number, data: T.ILifeSituationForm) => {
+    return Api.patch({
+        url: `${GATEWAY_PRODUCT_URL}v1/chapter?id=${id}`,
+        data,
+    });
+};
+
+export const getFitnessFunctions = (): AxiosPromise<T.IFitnessFunctionData[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/ff`,
+    });
+};
+
+export const postNFR = (data: T.INFRForm): AxiosPromise<{ coreId: number; versionId: number }> => {
+    return Api.post({
+        url: `${GATEWAY_PRODUCT_URL}v1/requirement`,
+        data,
+    });
+};
+
+export const postNFRVersion = (
+    code: string,
+    data: T.INFRForm,
+): AxiosPromise<{ versionId: number }> => {
+    return Api.post({
+        url: `${GATEWAY_PRODUCT_URL}v1/requirement/version?code=${code}`,
+        data,
+    });
+};
+
+export const getNFRByPatternId = (
+    id: string | number | null,
+): AxiosPromise<T.INonFunctionalRequirement[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/requirement/pattern/${id}`,
+    });
+};

@@ -9,7 +9,8 @@ export enum CardVariant {
     INFO = 'INFO',
     ERROR = 'ERROR',
     WARNING = 'WARNING',
-    SUCCESS = 'SUCCEES',
+    SUCCESS = 'SUCCESS',
+    NEUTRAL = 'NEUTRAL',
 }
 
 export interface ICard {

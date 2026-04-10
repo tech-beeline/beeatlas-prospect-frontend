@@ -77,8 +77,13 @@ export const MenuModels = () => {
         },
         {
             icon: Icons.Reports,
-            name: 'Аналитический\xa0отчет\xa0фитнес-функций',
+            name: 'Аналитический\xa0отчет\nфитнес-функций',
             path: `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
+        },
+        {
+            icon: Icons.NetworkRight,
+            name: 'Каталог\xa0жизненных\nситуаций',
+            path: `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`,
         },
     ];
 

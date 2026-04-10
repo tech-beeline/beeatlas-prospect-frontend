@@ -9,7 +9,7 @@ export interface ISelect {
     options: Option[];
     disabled?: boolean;
     fullWidth?: boolean;
-    defaultValue?: number;
+    defaultValue?: number | null;
     autoFocus?: boolean;
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     helperText?: string;

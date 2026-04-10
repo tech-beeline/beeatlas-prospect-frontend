@@ -8,7 +8,13 @@ import { Text } from 'components/core';
 import { useGetPatternByIdQuery, useGetPatternFileByIdQuery } from 'api/queries/patterns';
 import * as R from 'router/const';
 
-import { DescriptionForm, DocumentationForm, GeneralInfoForm, RulesForm } from './components';
+import {
+    DescriptionForm,
+    DocumentationForm,
+    GeneralInfoForm,
+    NFRForm,
+    RulesForm,
+} from './components';
 import { ISavedData, STEPS, StepVariants } from './const';
 import * as S from './units';
 
@@ -91,6 +97,13 @@ export const PatternAddPage = () => {
             )}
             {stepVariant === StepVariants.DESCRIPTION && (
                 <DescriptionForm
+                    setStepVariant={setStepVariant}
+                    savedData={savedData}
+                    setSavedData={setSavedData}
+                />
+            )}
+            {stepVariant === StepVariants.NFR && (
+                <NFRForm
                     setStepVariant={setStepVariant}
                     savedData={savedData}
                     setSavedData={setSavedData}

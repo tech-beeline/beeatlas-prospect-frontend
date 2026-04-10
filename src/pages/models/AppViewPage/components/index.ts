@@ -5,5 +5,6 @@ export { GeneralInfo } from './GeneralInfo';
 export { InDevelopment } from './InDevelopment';
 export { InterfacesAndMethods } from './InterfacesAndMethods';
 export { Patterns } from './Patterns';
+export { Requirements } from './Requirements';
 export { TechCapabilities } from './TechCapabilities';
 export { Technologies } from './Technologies';

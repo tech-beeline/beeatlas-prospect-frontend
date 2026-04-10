@@ -1,6 +1,5 @@
 import React, { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Banner, FileUploader, IconButton, Progress, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { AxiosError } from 'axios';
@@ -11,15 +10,8 @@ import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 
-import {
-    useCreatePatternMutation,
-    useUpdatePatternMutation,
-    useUploadPatternFileMutation,
-    useValidateWorkspaceMutation,
-} from 'api/queries/patterns';
-import * as R from 'router/const';
+import { useValidateWorkspaceMutation } from 'api/queries/patterns';
 import { formatSize } from 'utils/formatters';
-import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -35,18 +27,9 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
 }) => {
     const [showBanner, setShowBanner] = useState(true);
 
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-    const navigate = useNavigate();
-
     const [fileText, setFileText] = useState<string | null>(null);
     const readerRef = useRef(new FileReader());
 
-    const [params] = useSearchParams();
-    const paramId = params.get('id');
-
-    const { mutateAsync: createPattern, isPending: pendingCreate } = useCreatePatternMutation();
-    const { mutateAsync: updatePattern, isPending: pendingUpdate } = useUpdatePatternMutation();
-    const { mutateAsync: uploadPatternFile } = useUploadPatternFileMutation();
     const { mutateAsync: validateDsl, isPending: pendingValidateDsl } =
         useValidateWorkspaceMutation();
 
@@ -59,7 +42,6 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
     const currentContent = savedData.dsl || fileText || '';
     const isContentChanged = lastValidatedContentRef.current !== currentContent;
     const isValid = validationState.status === 'valid';
-    const isSubmitting = pendingCreate || pendingUpdate;
 
     const runValidation = async (content: string): Promise<boolean> => {
         if (!content.trim()) {
@@ -122,46 +104,6 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
         }
     }, [savedData.dslFile, validationState.status]);
 
-    const handleSubmitData = async () => {
-        if (paramId) {
-            await updatePattern({
-                id: Number(paramId),
-                data: {
-                    name: savedData.name ?? '',
-                    isAntiPattern: savedData.type === 0 ? false : true,
-                    description: savedData.description ?? '',
-                    groups: savedData.group ?? [],
-                    relationsTech: savedData.tech ?? [],
-                    rule: savedData.rule ?? '',
-                    dsl: savedData.dsl ? savedData.dsl : fileText ? fileText : '',
-                },
-            });
-            if (savedData.documentationFile) {
-                await uploadPatternFile({
-                    file: savedData.documentationFile,
-                    patternId: Number(paramId),
-                });
-            }
-            showSnackbar({ message: 'Изменения сохранены' });
-            navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${paramId}`);
-        } else {
-            const { id } = await createPattern({
-                name: savedData.name ?? '',
-                isAntiPattern: savedData.type === 1,
-                description: savedData.description ?? '',
-                groups: savedData.group ?? [],
-                relationsTech: savedData.tech ?? [],
-                rule: savedData.rule ?? '',
-                dsl: savedData.dsl ? savedData.dsl : fileText ? fileText : '',
-            });
-            if (savedData.documentationFile) {
-                await uploadPatternFile({ file: savedData.documentationFile, patternId: id });
-            }
-            showSnackbar({ message: 'Паттерн создан' });
-            navigate(`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}?id=${id}`);
-        }
-    };
-
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!isValid || isContentChanged) {
@@ -169,13 +111,12 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             if (!ok) return;
         }
 
-        await handleSubmitData();
+        setSavedData({ ...savedData, dsl: currentContent });
+        setStepVariant(StepVariants.NFR);
     };
 
-    const submitButtonText = paramId ? 'Сохранить изменения' : 'Создать';
-
     const isSubmitButtonDisabled =
-        !currentContent || pendingValidateDsl || isSubmitting || (!isContentChanged && !isValid);
+        !currentContent || pendingValidateDsl || (!isContentChanged && !isValid);
 
     return (
         <S.FormStyled onSubmit={onSubmit}>
@@ -289,7 +230,7 @@ export const DescriptionForm: FC<IDescriptionForm> = ({
             <FormFooter
                 onCancelButtonClick={() => setStepVariant(StepVariants.RULES)}
                 submitButtonDisabled={isSubmitButtonDisabled}
-                submitButtonText={submitButtonText}
+                submitButtonText="Далее"
             />
         </S.FormStyled>
     );

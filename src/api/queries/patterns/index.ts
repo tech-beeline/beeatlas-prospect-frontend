@@ -9,6 +9,7 @@ import {
     getPatternGroups,
     getPatternGroupsTree,
     getPatterns,
+    getPatternsByChapterId,
     patchPattern,
     patchPatternGroup,
     postPattern,
@@ -182,5 +183,13 @@ export const useValidateRulesMutation = () => {
     return useMutation({
         mutationKey: [PATTERNS_PREFIX, 'rules', 'validate'],
         mutationFn: (rule: string) => validateRules(rule).then((res) => res.data),
+    });
+};
+
+export const useGetPatternsByChapterIdQuery = (chapterId: string | number | null | undefined) => {
+    return useQuery({
+        queryKey: [PATTERNS_PREFIX, 'patterns', 'byChapterId', chapterId],
+        queryFn: () => getPatternsByChapterId(chapterId!).then((res) => res.data),
+        enabled: !!chapterId,
     });
 };

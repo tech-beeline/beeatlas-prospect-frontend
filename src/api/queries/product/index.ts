@@ -1,10 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deleteNfrFromProduct,
     deleteProductById,
+    getAllChapters,
     getAllProducts,
     getDeploymentInfluence,
+    getFitnessFunctions,
     getFitnessFunctionsAggregation,
+    getNfr,
+    getNfrById,
+    getNFRByPatternId,
+    getNfrsByPatternId,
+    getNfrsByProductAlias,
+    getNfrsByProductId,
     getOperationsByTechCapabilityId,
     getProductEmployeesByCmdb,
     getProductFitnessFunctionsByCmdb,
@@ -19,15 +28,24 @@ import {
     getSystemTC,
     getUserProducts,
     getUserProductsKeyById,
+    patchLifeSituation,
     postConnectionInterface,
+    postLifeSituation,
+    postNFR,
+    postNfrsToProductByAlias,
+    postNfrsToProductById,
+    postNFRVersion,
     postStructurizrWorkspace,
     putProductByCmdb,
 } from 'api/product';
 import {
     IConnectionInterfaceForm,
+    ILifeSituationForm,
+    INFRForm,
     IProductForm,
     IStructurizrWorkspaceForm,
 } from 'api/product/types';
+import { getUserInfo } from 'api/user';
 
 const PRODUCT_PREFIX = 'PRODUCT_PREFIX';
 
@@ -238,5 +256,170 @@ export const useGetProductTechnologiesQuery = (code?: string | null) => {
         queryKey: [PRODUCT_PREFIX, 'technologies', code],
         queryFn: () => getProductTechnologies(code!).then((res) => res.data),
         enabled: !!code,
+    });
+};
+
+export const useGetAllChaptersQuery = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'chapters'],
+        queryFn: () => getAllChapters().then((res) => res.data),
+    });
+};
+
+export const useGetNfrsByPatternIdQuery = (id: string | number, enabled = true) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'nfrs', 'pattern', id],
+        queryFn: () => getNfrsByPatternId(id).then((res) => res.data),
+        enabled,
+    });
+};
+
+export const useGetNFRByIdQuery = (id: string | number) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'nfr', id],
+        queryFn: () => getNfrById(id).then((res) => res.data),
+        enabled: !!id,
+    });
+};
+
+export const useGetUserProductsWithNfrsQuery = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'user', 'WITH_NFRS'],
+        queryFn: async () => {
+            const userInfo = await getUserInfo().then((res) => res.data);
+            const productsData = await getUserProducts(userInfo.productsIds).then(
+                (res) => res.data,
+            );
+            const nfrsData = await Promise.all(
+                productsData.map((product) =>
+                    getNfrsByProductId(product.id).then((res) => res.data),
+                ),
+            );
+            return productsData.map((product, i) => ({
+                ...product,
+                nfrs: nfrsData[i],
+            }));
+        },
+    });
+};
+
+type IPostByIdsParams = {
+    productId: string | number;
+    nfrIds: number[];
+};
+type IPostByAliasParams = {
+    productAlias: string;
+    nfrIds: number[];
+};
+type IPostNfrsToProductParams = IPostByIdsParams | IPostByAliasParams;
+
+export const usePostNfrsToProductMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'post_nfrs_to_product'],
+        mutationFn: (params: IPostNfrsToProductParams) =>
+            'productId' in params
+                ? postNfrsToProductById(params.productId, params.nfrIds)
+                : postNfrsToProductByAlias(params.productAlias, params.nfrIds),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
+    });
+};
+
+export const useGetNfrsByProductAliasQuery = (alias?: string | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'nfrs', 'product', alias],
+        queryFn: () => getNfrsByProductAlias(alias!).then((res) => res.data),
+        enabled: !!alias,
+    });
+};
+
+interface IDeleteNfrFromProductParams {
+    nfrId: number | string;
+    alias: string;
+}
+export const useDeleteNfrFromProductMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'delete_nfr_from_product'],
+        mutationFn: (params: IDeleteNfrFromProductParams) =>
+            deleteNfrFromProduct(params.nfrId, params.alias),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX] });
+        },
+    });
+};
+
+export const useGetNfr = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'nfr'],
+        queryFn: () => getNfr().then((res) => res.data),
+    });
+};
+
+export function useCreateLifeSituationMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'create', 'life-situation'],
+        mutationFn: (params: ILifeSituationForm) =>
+            postLifeSituation(params).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX, 'chapters'] });
+        },
+    });
+}
+
+interface IPatchLifeSituationParams {
+    id: number;
+    data: ILifeSituationForm;
+}
+
+export function usePatchLifeSituationMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'patch', 'life-situation'],
+        mutationFn: ({ id, data }: IPatchLifeSituationParams) =>
+            patchLifeSituation(id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_PREFIX, 'chapters'] });
+        },
+    });
+}
+
+export const useGetFitnessFunctions = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'fitness-functions'],
+        queryFn: () => getFitnessFunctions().then((res) => res.data),
+    });
+};
+
+export const usePostNFRMutation = () => {
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'create', 'nfr'],
+        mutationFn: (params: INFRForm) => postNFR(params).then((res) => res.data),
+    });
+};
+
+interface IPostNFRVersionParams {
+    code: string;
+    data: INFRForm;
+}
+
+export const usePostNFRVersionMutation = () => {
+    return useMutation({
+        mutationKey: [PRODUCT_PREFIX, 'create', 'nfr', 'version'],
+        mutationFn: ({ code, data }: IPostNFRVersionParams) =>
+            postNFRVersion(code, data).then((res) => res.data),
+    });
+};
+
+export const useGetNFRByPatternIdQuery = (id: string | number | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'nfr', 'pattern', id],
+        queryFn: () => getNFRByPatternId(id).then((res) => res.data),
+        enabled: !!id,
     });
 };
