@@ -41,8 +41,12 @@ export const Select: FC<ISelect> = ({
                     error={isError}
                     helperText={errorMessage ?? helperText}
                     options={options}
-                    values={[options.find((option) => option.id === field.value) ?? options[0]]}
-                    onChange={(value) => field.onChange(value[0].id)}
+                    values={
+                        defaultValue === null && field.value === null
+                            ? []
+                            : [options.find((option) => option.id === field.value) ?? options[0]]
+                    }
+                    onChange={(value) => field.onChange(value[0]?.id ?? null)}
                     onBlur={(event) => {
                         field.onBlur();
                         onBlur?.(event);

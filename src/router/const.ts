@@ -24,12 +24,15 @@ export const HISTORY_PATH = '/history';
 export const MAP_PATH = '/map';
 export const PERSONAL_PATH = '/personal';
 export const APPS_PATH = '/apps';
+export const REQUIREMENT_PATH = '/requirement';
 export const ARCHITECTURE_PATH = '/architecture';
 export const APPS_OLD_PATH = '/apps-old';
 export const E2E_PATH = '/e2e';
 export const IMPACT_PATH = '/impact';
 export const PATTERNS_PATH = '/patterns';
 export const ANALYTICAL_REPORT_PATH = '/analytical-report';
+export const LIFE_SITUATIONS_PATH = '/life-situations';
+export const NFR_PATH = '/nfr';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';

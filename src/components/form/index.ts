@@ -1,4 +1,5 @@
 export { Autocomplete } from './Autocomplete';
+export { AutocompleteArray } from './AutocompleteArray';
 export { Checkbox } from './Checkbox';
 export { DatePicker } from './DatePicker';
 export { FeelingPicker } from './FeelingPicker';

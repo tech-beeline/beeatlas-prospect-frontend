@@ -17,6 +17,7 @@ import {
     InDevelopment,
     InterfacesAndMethods,
     Patterns,
+    Requirements,
     TechCapabilities,
     Technologies,
 } from './components';
@@ -121,6 +122,7 @@ export const AppViewPage = () => {
                 !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <InDevelopment cmdb={paramCmdb} />}
             {tabVariant === TabVariants.TECHNOLOGIES && <Technologies cmdb={paramCmdb} />}
             {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.REQUIREMENTS && <Requirements cmdb={paramCmdb} />}
             {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}

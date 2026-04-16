@@ -8,6 +8,7 @@ import { AxiosError } from 'axios';
 import { TextArea } from 'components/form';
 import { Link } from 'components/other';
 
+import { IValidateRulesResponse } from 'api/patterns/types';
 import { useValidateRulesMutation } from 'api/queries/patterns';
 import * as ROUTER from 'router/const';
 
@@ -37,19 +38,27 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
     }, [ruleValue]);
 
     const validate = async (cypher: string): Promise<boolean> => {
-        if (!cypher.trim()) {
-            setErrorMessage('Поле не может быть пустым');
-            return false;
-        }
-
         try {
             const response = await validateRules(cypher);
 
-            if (response.valid === true || response.valid === 'true') {
+            if (response.readOnly === 'false') {
+                setErrorMessage('Запрос должен быть только на чтение данных');
+                return false;
+            }
+            if (response.valid === 'true') {
                 return true;
             }
         } catch (err) {
-            setErrorMessage((err as AxiosError<{ error: string }>).response?.data?.error ?? '');
+            const errorData = (err as AxiosError<IValidateRulesResponse>)?.response?.data;
+            if (errorData) {
+                if (errorData.valid === 'false' && errorData.error) {
+                    setErrorMessage(errorData.error);
+                } else if (errorData.readOnly === 'false') {
+                    setErrorMessage('Запрос должен быть только на чтение данных');
+                } else {
+                    setErrorMessage('Неизвестная ошибка');
+                }
+            }
             return false;
         }
         return false;
@@ -58,7 +67,7 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
     const lastValidatedRuleRef = useRef<string | null>(null);
 
     const onSubmit = handleSubmit(async (values) => {
-        if (values.rule === '' || values.rule === lastValidatedRuleRef.current) {
+        if (values.rule === '') {
             setSavedData({ ...savedData, rule: values.rule });
             setStepVariant(StepVariants.DESCRIPTION);
         } else {
@@ -76,6 +85,8 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
             rule: savedData.rule,
         });
     }, [savedData]);
+
+    const isSubmitButtonDisabled = isValidating || ruleValue === lastValidatedRuleRef.current;
 
     return (
         <FormProvider {...form}>
@@ -95,9 +106,6 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                                             title="информацией"
                                             url={`${ROUTER.MODELS_PATH}${ROUTER.PATTERNS_PATH}${ROUTER.RULES_PATH}`}
                                         />
-                                        . Если при проверке правил возникнут ошибки, вы можете
-                                        перейти к следующему шагу и внести правки позже. Но до этого
-                                        момента за корректность правил отвечаете исключительно вы
                                     </div>
                                 }
                                 onClose={() => setShowBanner(false)}
@@ -120,7 +128,7 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                 </S.Container>
                 <FormFooter
                     onCancelButtonClick={() => setStepVariant(StepVariants.DOCUMENTATION)}
-                    submitButtonDisabled={isValidating}
+                    submitButtonDisabled={isSubmitButtonDisabled}
                     submitButtonText="Далее"
                 />
             </S.FormStyled>
