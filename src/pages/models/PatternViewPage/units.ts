@@ -66,12 +66,6 @@ export const TechnologyLabelsContainer = styled.div`
     gap: 8px;
 `;
 
-export const NfrContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: var(--size-spacing-x6);
-`;
-
 export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);

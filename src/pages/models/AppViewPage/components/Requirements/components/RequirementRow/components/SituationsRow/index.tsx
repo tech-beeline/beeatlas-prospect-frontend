@@ -13,6 +13,8 @@ import * as S from './units';
 export const SituationsRow: FC<ISituationsRow> = ({ chapters }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
+    const isEmpty = chapters.length === 0;
+
     return (
         <>
             <TableRow>
@@ -29,21 +31,30 @@ export const SituationsRow: FC<ISituationsRow> = ({ chapters }) => {
             </TableRow>
             {isExpanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={9}>
-                        <S.Container>
-                            {chapters.map((chapter) => (
-                                <S.SituationContainer key={chapter.id}>
-                                    <Link
-                                        title={chapter.name}
-                                        url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?chapterId=${chapter.id}`}
-                                    />
-                                    <Text inactive variant="body3">
-                                        {chapter.code}
-                                    </Text>
-                                </S.SituationContainer>
-                            ))}
-                        </S.Container>
-                    </S.TableDataStyled>
+                    {isEmpty && (
+                        <S.TableDataEmpty colSpan={9}>
+                            <Text inactive variant="body2">
+                                Нет связанных жизненных ситуаций
+                            </Text>
+                        </S.TableDataEmpty>
+                    )}
+                    {!isEmpty && (
+                        <S.TableDataStyled colSpan={9}>
+                            <S.Container>
+                                {chapters.map((chapter) => (
+                                    <S.SituationContainer key={chapter.id}>
+                                        <Link
+                                            title={chapter.name}
+                                            url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?chapterId=${chapter.id}`}
+                                        />
+                                        <Text inactive variant="body3">
+                                            {chapter.code}
+                                        </Text>
+                                    </S.SituationContainer>
+                                ))}
+                            </S.Container>
+                        </S.TableDataStyled>
+                    )}
                 </TableRow>
             )}
         </>

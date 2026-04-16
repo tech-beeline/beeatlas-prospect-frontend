@@ -4,6 +4,7 @@ import { Button, Divider, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
 import {
@@ -91,6 +92,7 @@ export const RequirementContent: FC<IRequirementContent> = ({ activeItem, isAdmi
                         </Button>
                     )}
                     <Button
+                        data-tooltip-id="assign-button"
                         disabled={isAssignButtonDisabled}
                         size="small"
                         variant="outlined"
@@ -98,6 +100,12 @@ export const RequirementContent: FC<IRequirementContent> = ({ activeItem, isAdmi
                     >
                         Назначить на приложение
                     </Button>
+                    {isAssignButtonDisabled && (
+                        // @ts-ignore
+                        <TooltipContainer noArrow place="bottom-end" offset={8} id="assign-button">
+                            Требование уже назначено на приложение
+                        </TooltipContainer>
+                    )}
                 </S.ButtonContainer>
             </S.SpaceBetweenContainer>
 
@@ -124,7 +132,7 @@ export const RequirementContent: FC<IRequirementContent> = ({ activeItem, isAdmi
                         open={expandedPanel === NfrPanelType.FITNESS_FUNCTIONS}
                         onOpen={() => setExpandedPanel(NfrPanelType.FITNESS_FUNCTIONS)}
                         onClose={() => setExpandedPanel(null)}
-                        title="Набор ФФ успешное прохождение которых, автоматически назначает НФТ к приложению"
+                        title="Набор фитнес-функций, успешное прохождение которых автоматически назначает НФТ к приложению"
                     >
                         <FitnessFunctions fitnessFunctions={data.fitnessFunctions} />
                     </S.ExpansionPanelStyled>

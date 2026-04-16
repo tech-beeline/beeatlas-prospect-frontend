@@ -9,7 +9,8 @@ import {
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Text } from 'components/core';
+import { Link } from 'components/other';
 
 import { IFitnessFunctionsRow } from './types';
 import * as S from './units';
@@ -29,8 +30,8 @@ export const FitnessFunctionsRow: FC<IFitnessFunctionsRow> = ({ fitnessFunctions
                             onClick={() => setIsExpanded(!isExpanded)}
                             size="medium"
                         />
-                        Набор ФФ успешное прохождение которых, автоматически назначает НФТ к
-                        приложению
+                        Набор фитнес-функций, успешное прохождение которых автоматически назначает
+                        НФТ к приложению
                     </S.CellContent>
                 </TableData>
             </TableRow>
@@ -38,14 +39,11 @@ export const FitnessFunctionsRow: FC<IFitnessFunctionsRow> = ({ fitnessFunctions
                 <>
                     {isEmpty && (
                         <TableRow>
-                            <S.TableDataFullWidth colSpan={9}>
-                                <S.NotFoundBlockContainer>
-                                    <NotFoundBlock
-                                        imageVariant={ImageVariants.EMPTY_BOX}
-                                        text="Нет связанных фитнес-функций"
-                                    />
-                                </S.NotFoundBlockContainer>
-                            </S.TableDataFullWidth>
+                            <S.TableDataEmpty colSpan={9}>
+                                <Text inactive variant="body2">
+                                    Нет связанных фитнес-функций
+                                </Text>
+                            </S.TableDataEmpty>
                         </TableRow>
                     )}
                     {!isEmpty && (

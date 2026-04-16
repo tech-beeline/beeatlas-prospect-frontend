@@ -109,16 +109,6 @@ export const Requirements: FC<IRequirements> = ({ cmdb }) => {
                     )}
                 </S.SearchContainer>
                 <Button
-                    variant="plain"
-                    size="medium"
-                    onClick={() => {
-                        setSearchText('');
-                        setSelectedSearchItemId(null);
-                    }}
-                >
-                    Сбросить
-                </Button>
-                <Button
                     variant="contained"
                     size="medium"
                     onClick={() =>

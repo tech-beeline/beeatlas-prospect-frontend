@@ -45,31 +45,40 @@ export const PatternRow: FC<IPatternRow> = ({ pattern, productPatterns }) => {
             </TableRow>
             {isExpanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={9}>
-                        <S.Container>
-                            <S.RequirementTitle>
-                                <Text variant="body3">
-                                    Нефункциональное требование для реализации паттерна:
-                                </Text>
-                            </S.RequirementTitle>
-                            {isLoading &&
-                                Array.from({ length: 3 }).map((_, index) => (
-                                    <Skeleton key={index} height={24} />
-                                ))}
-                            {data &&
-                                data.map((nfr) => (
-                                    <S.RequirementContainer key={nfr.id}>
-                                        <Link
-                                            title={nfr.name}
-                                            url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?nfrId=${nfr.id}`}
-                                        />
-                                        <Text inactive variant="body3">
-                                            {formatNullableString(nfr.code)}
-                                        </Text>
-                                    </S.RequirementContainer>
-                                ))}
-                        </S.Container>
-                    </S.TableDataStyled>
+                    {(isLoading || (data && data.length !== 0)) && (
+                        <S.TableDataStyled colSpan={9}>
+                            <S.Container>
+                                <S.RequirementTitle>
+                                    <Text variant="body3">
+                                        Нефункциональное требование для реализации паттерна:
+                                    </Text>
+                                </S.RequirementTitle>
+                                {isLoading &&
+                                    Array.from({ length: 3 }).map((_, index) => (
+                                        <Skeleton key={index} height={24} />
+                                    ))}
+                                {data &&
+                                    data.map((nfr) => (
+                                        <S.RequirementContainer key={nfr.id}>
+                                            <Link
+                                                title={nfr.name}
+                                                url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?nfrId=${nfr.id}`}
+                                            />
+                                            <Text inactive variant="body3">
+                                                {formatNullableString(nfr.code)}
+                                            </Text>
+                                        </S.RequirementContainer>
+                                    ))}
+                            </S.Container>
+                        </S.TableDataStyled>
+                    )}
+                    {data && data.length === 0 && (
+                        <S.TableDataEmpty colSpan={9}>
+                            <Text inactive variant="body2">
+                                Нет связанных требований
+                            </Text>
+                        </S.TableDataEmpty>
+                    )}
                 </TableRow>
             )}
         </>

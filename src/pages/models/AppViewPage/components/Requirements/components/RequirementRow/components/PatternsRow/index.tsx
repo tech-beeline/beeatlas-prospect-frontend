@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { IconButton, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
-import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Text } from 'components/core';
 
 import { PatternRow } from './components';
 import { IPatternsRow } from './types';
@@ -10,6 +10,8 @@ import * as S from './units';
 
 export const PatternsRow: FC<IPatternsRow> = ({ patterns, productPatterns }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const isEmpty = patterns.length === 0;
 
     return (
         <>
@@ -27,16 +29,13 @@ export const PatternsRow: FC<IPatternsRow> = ({ patterns, productPatterns }) => 
             </TableRow>
             {isExpanded && (
                 <>
-                    {patterns.length === 0 && (
+                    {isEmpty && (
                         <TableRow>
-                            <S.TableDataFullWidth colSpan={9}>
-                                <S.NotFoundBlockContainer>
-                                    <NotFoundBlock
-                                        imageVariant={ImageVariants.EMPTY_BOX}
-                                        text="Нет связанных паттернов"
-                                    />
-                                </S.NotFoundBlockContainer>
-                            </S.TableDataFullWidth>
+                            <S.TableDataEmpty colSpan={9}>
+                                <Text inactive variant="body2">
+                                    Нет связанных паттернов
+                                </Text>
+                            </S.TableDataEmpty>
                         </TableRow>
                     )}
                     {patterns.map((pattern) => (

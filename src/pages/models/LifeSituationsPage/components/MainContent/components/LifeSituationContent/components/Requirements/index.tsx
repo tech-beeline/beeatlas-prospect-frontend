@@ -17,10 +17,12 @@ export const Requirements: FC<IRequirements> = ({ displayOption, activeItem }) =
     return (
         <>
             {isEmpty && (
-                <NotFoundBlock
-                    imageVariant={ImageVariants.EMPTY_BOX}
-                    text="Нет связанных нефункциональных требований"
-                />
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        text="Нет связанных требований"
+                    />
+                </S.NotFoundContainer>
             )}
             {displayOption === DisplayOptions.TABLE && !isEmpty && (
                 <RequirementsTable nfr={activeItem.chapterData.nfr} activeItem={activeItem} />

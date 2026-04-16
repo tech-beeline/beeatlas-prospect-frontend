@@ -365,7 +365,9 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                             </S.ExpandableContainer> */}
                             <S.ExpandableContainer>
                                 <S.SpaceBetweenContainer>
-                                    <Text variant="h6">Нефункциональные требования</Text>
+                                    <Text variant="h6">
+                                        Нефункциональные требования ({nfrData?.length})
+                                    </Text>
                                     <IconButton
                                         iconName={
                                             isNfrExpanded ? Icons.NavArrowUp : Icons.NavArrowDown
@@ -379,13 +381,17 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                         {nfrData &&
                                             nfrData.length > 0 &&
                                             nfrData.map((nfr) => (
-                                                <S.NfrContainer key={nfr.id}>
-                                                    <Link
-                                                        title={nfr.name}
-                                                        url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?nfrId=${nfr.id}`}
-                                                    />
-                                                    <Text variant="body3">{nfr.code}</Text>
-                                                </S.NfrContainer>
+                                                <div key={nfr.id}>
+                                                    <Text variant="body2">
+                                                        <Link
+                                                            title={nfr.name}
+                                                            url={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}?nfrId=${nfr.id}`}
+                                                        />
+                                                    </Text>
+                                                    <Text inactive variant="body3">
+                                                        {nfr.code}
+                                                    </Text>
+                                                </div>
                                             ))}
                                         {(!nfrData || nfrData.length === 0) && (
                                             <NotFoundBlock

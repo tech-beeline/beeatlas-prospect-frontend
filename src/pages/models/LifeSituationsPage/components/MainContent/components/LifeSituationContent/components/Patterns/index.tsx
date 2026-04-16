@@ -17,10 +17,12 @@ export const Patterns: FC<IPatterns> = ({ displayOption, patterns, activeItem })
     return (
         <>
             {isEmpty && (
-                <NotFoundBlock
-                    imageVariant={ImageVariants.EMPTY_BOX}
-                    text="Нет связанных паттернов"
-                />
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        text="Нет связанных паттернов"
+                    />
+                </S.NotFoundContainer>
             )}
             {displayOption === DisplayOptions.TABLE && !isEmpty && (
                 <PatternsTable patterns={patterns} activeItem={activeItem} />

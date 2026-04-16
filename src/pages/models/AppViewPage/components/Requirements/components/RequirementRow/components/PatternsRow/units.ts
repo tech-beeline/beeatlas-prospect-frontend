@@ -21,3 +21,18 @@ export const NotFoundBlockContainer = styled.div`
 
     width: 100%;
 `;
+
+export const TableDataEmpty = styled(TableData)`
+    position: relative;
+    padding-left: 64px;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 4px;
+        background-color: var(--color-background-brand);
+    }
+`;

@@ -9,6 +9,7 @@ export const Container = styled.div`
 export const ControlsContainer = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 24px;
 `;
 
@@ -16,6 +17,8 @@ export const SearchContainer = styled.div`
     position: relative;
 
     flex: 1;
+
+    max-width: 648px;
 `;
 
 export const SelectContainer = styled.div`
