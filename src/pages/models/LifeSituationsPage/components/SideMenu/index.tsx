@@ -105,7 +105,12 @@ export const SideMenu: FC<ISideMenu> = ({ activeItem, isAdmin }) => {
                                         ].join('-')}
                                         onMouseDown={() => handleSearchResultClick(row)}
                                     >
-                                        {row.name}
+                                        <Text variant="body2">{row.name}</Text>
+                                        {row.type === SearchItemType.NFR && (
+                                            <Text inactive variant="body3">
+                                                {row.chapterName}
+                                            </Text>
+                                        )}
                                     </S.MenuItem>
                                 ))}
                                 {searchResultsFiltered.length === 0 && (

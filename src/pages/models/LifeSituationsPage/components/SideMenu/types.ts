@@ -20,6 +20,7 @@ export type ISearchItem =
     | {
           type: SearchItemType.NFR;
           chapterId: number;
+          chapterName: string;
           nfrId: string;
           name: string;
           code: string;

@@ -3,6 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { Text } from 'components/core';
 import { AutocompleteArray } from 'components/form';
 
 import {
@@ -12,7 +13,7 @@ import {
 } from 'api/queries/patterns';
 import { useGetNfr, useGetNFRByPatternIdQuery } from 'api/queries/product';
 import * as R from 'router/const';
-import { normalizeIds } from 'utils/formatters';
+import { isNotNull } from 'utils/helpers';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { StepVariants } from '../../const';
@@ -44,10 +45,14 @@ export const NFRForm: FC<INFRForm> = ({ setStepVariant, savedData, setSavedData 
     const nfrOptions = (nfr ?? []).map((item) => ({
         id: Number(item.id),
         value: item.name,
+        descr: item.code,
     }));
 
     const onSubmit = handleSubmit(async (values) => {
-        const updatedSavedData = { ...savedData, nfr: normalizeIds(values.nfr) };
+        const updatedSavedData = {
+            ...savedData,
+            nfr: values.nfr.map((item) => item.value).filter(isNotNull),
+        };
         setSavedData(updatedSavedData);
 
         if (paramId) {
@@ -61,7 +66,7 @@ export const NFRForm: FC<INFRForm> = ({ setStepVariant, savedData, setSavedData 
                     relationsTech: updatedSavedData.tech ?? [],
                     rule: updatedSavedData.rule ?? '',
                     dsl: updatedSavedData.dsl ?? '',
-                    nfr: normalizeIds(values.nfr),
+                    nfr: values.nfr.map((item) => item.value).filter(isNotNull),
                 },
             });
             if (updatedSavedData.documentationFile) {
@@ -83,7 +88,7 @@ export const NFRForm: FC<INFRForm> = ({ setStepVariant, savedData, setSavedData 
             relationsTech: updatedSavedData.tech ?? [],
             rule: updatedSavedData.rule ?? '',
             dsl: updatedSavedData.dsl ?? '',
-            nfr: normalizeIds(values.nfr),
+            nfr: values.nfr.map((item) => item.value).filter(isNotNull),
         });
         if (updatedSavedData.documentationFile) {
             await uploadPatternFile({ file: updatedSavedData.documentationFile, patternId: id });
@@ -100,7 +105,9 @@ export const NFRForm: FC<INFRForm> = ({ setStepVariant, savedData, setSavedData 
             const nfrFromPattern = selectedNfr.map((item) => Number(item.id));
 
             reset({
-                nfr: savedData.nfr ?? nfrFromPattern,
+                nfr: savedData.nfr
+                    ? savedData.nfr.map((item) => ({ value: item }))
+                    : nfrFromPattern.map((item) => ({ value: item })),
             });
 
             if (!savedData.nfr) {
@@ -110,7 +117,7 @@ export const NFRForm: FC<INFRForm> = ({ setStepVariant, savedData, setSavedData 
         }
 
         reset({
-            nfr: savedData.nfr ?? [],
+            nfr: savedData.nfr ? savedData.nfr.map((item) => ({ value: item })) : [],
         });
     }, [paramId, selectedNfr, savedData, reset, setSavedData]);
 
@@ -123,6 +130,14 @@ export const NFRForm: FC<INFRForm> = ({ setStepVariant, savedData, setSavedData 
                         options={nfrOptions}
                         label="Нефункциональное требование"
                         isLoading={isNfrLoading || isSelectedNfrLoading}
+                        makeOption={(option) => (
+                            <div>
+                                <Text variant="body2">{option.value}</Text>
+                                <Text variant="body3" inactive>
+                                    {option.descr}
+                                </Text>
+                            </div>
+                        )}
                     />
                 </S.Container>
                 <FormFooter

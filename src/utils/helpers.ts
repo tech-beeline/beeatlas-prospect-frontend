@@ -30,3 +30,5 @@ export const downloadTextFile = (filename: string, text: string) => {
 
     document.body.removeChild(element);
 };
+
+export const isNotNull = <T>(v: T | null): v is T => v !== null;

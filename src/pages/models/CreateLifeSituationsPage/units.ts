@@ -1,3 +1,4 @@
+import { ProgressButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
@@ -78,4 +79,31 @@ export const FooterContent = styled.div`
 
     width: 100%;
     padding: 16px 0;
+`;
+
+export const ProgressButtonStyled = styled(ProgressButton)<{ error: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    & > span {
+        opacity: 1;
+    }
+
+    & > div {
+        position: ${({ error }) => (error ? 'static' : 'absolute')};
+        & > span {
+            color: var(--color-status-error) !important;
+        }
+    }
+
+    ${({ error }) => (error ? 'background-color: var(--color-status-error-background);' : '')}
+
+    &:hover {
+        ${({ error }) =>
+            error
+                ? 'background-color: color-mix(in srgb, var(--color-status-error) 14%, transparent) !important;'
+                : ''}
+    }
 `;
