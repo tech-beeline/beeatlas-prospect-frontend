@@ -8,6 +8,7 @@ export enum TabVariants {
     TECHNOLOGIES = 'TECHNOLOGIES',
     PATTERNS = 'PATTERNS',
     REQUIREMENTS = 'REQUIREMENTS',
+    DIAGRAMS = 'DIAGRAMS',
     DATA = 'DATA',
     STANDS = 'STANDS',
 }
@@ -48,6 +49,10 @@ export const TABS = [
     {
         id: TabVariants.REQUIREMENTS,
         label: 'Нефункциональные требования',
+    },
+    {
+        id: TabVariants.DIAGRAMS,
+        label: 'Диаграммы',
     },
     // {
     //     id: TabVariants.DATA,

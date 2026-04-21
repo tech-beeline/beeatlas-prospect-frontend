@@ -10,6 +10,7 @@ import { useGetProductInfoByCmdbQuery } from 'api/queries/product';
 import * as R from 'router/const';
 
 import {
+    Diagrams,
     // ArchitectureChanges,
     // E2EProcesses,
     FitnessFunctions,
@@ -123,6 +124,7 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.TECHNOLOGIES && <Technologies cmdb={paramCmdb} />}
             {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
             {tabVariant === TabVariants.REQUIREMENTS && <Requirements cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.DIAGRAMS && <Diagrams cmdb={paramCmdb} />}
             {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
             {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
             {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}

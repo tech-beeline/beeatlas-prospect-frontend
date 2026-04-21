@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import {
     getContextDotGraph,
     getContextElements,
     getContextInfluenceDotGraph,
     getContextInfluenceElements,
+    getCypherQuery,
     getDeploymentDiagramGraph,
     getDeploymentDotGraph,
     getDeploymentElementsById,
@@ -183,5 +184,12 @@ export const useGetSystemInfluenceQuery = (params: IGetSystemInfluenceParams) =>
             params.influence
                 ? getContextInfluenceElements(params.cmdb).then((res) => res.data)
                 : getContextElements(params.cmdb).then((res) => res.data),
+    });
+};
+
+export const useGetCypherQuery = () => {
+    return useMutation({
+        mutationKey: [GRAPH_PREFIX, 'cypher'],
+        mutationFn: (query: string) => getCypherQuery(query).then((res) => res.data),
     });
 };
