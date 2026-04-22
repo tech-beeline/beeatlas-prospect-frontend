@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { ImageVariants, NotFoundBlock } from 'components/other';
+
 import { DiagramToolbar, GraphCanvas, LeftPanel, RightPanel } from './components';
 import { KNOWN_LABELS } from './const';
 import { useDiagramsController } from './hooks';
@@ -18,7 +20,6 @@ export const Diagrams: FC<IDiagrams> = ({ cmdb }) => {
     const [isRightPanelVisible, setIsRightPanelVisible] = useState(true);
     const isLoading = !controller.systemRootLoaded;
 
-    // Sync only selected node into URL so it can be shared.
     useEffect(() => {
         if (!controller.selectedNode) return;
         const current = params.get(DIAGRAM_FOCUS_PARAM);
@@ -28,7 +29,6 @@ export const Diagrams: FC<IDiagrams> = ({ cmdb }) => {
         setSearchParams(next, { replace: true });
     }, [controller.selectedNode?.id]);
 
-    // Open specific node from URL (readable link): ?node=<english-id>
     useEffect(() => {
         if (focusedRef.current) return;
         if (controller.graphLoading) return;
@@ -75,7 +75,13 @@ export const Diagrams: FC<IDiagrams> = ({ cmdb }) => {
 
                 <S.CanvasWrap>
                     {controller.visibleGraphData.nodes.length === 0 && (
-                        <S.CanvasState>Диаграмма пуста</S.CanvasState>
+                        <S.CanvasState>
+                            <NotFoundBlock
+                                imageVariant={ImageVariants.EMPTY_BOX}
+                                title="Диаграмма пуста"
+                                text={null}
+                            />
+                        </S.CanvasState>
                     )}
                     {controller.visibleGraphData.nodes.length > 0 && (
                         <GraphCanvas
@@ -120,7 +126,7 @@ export const Diagrams: FC<IDiagrams> = ({ cmdb }) => {
                 )}
             </S.Main>
 
-            {isRightPanelVisible && (
+            {isRightPanelVisible && controller.selectedNode && (
                 <RightPanel
                     selectedNode={controller.selectedNode}
                     onHide={() => setIsRightPanelVisible(false)}
