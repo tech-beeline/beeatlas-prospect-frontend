@@ -170,6 +170,14 @@ export const CJPage = () => {
     const descriptionRef = useRef<HTMLDivElement>(null);
     const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+
+    const handleOpenBPMN = () => {
+        if (!data) return;
+        navigate(
+            `${R.CX_PATH}${R.CJ_PATH}${R.BPMN_PATH}?cjId=${data.id}&versionId=${versions?.[0]?.id}`,
+        );
+    };
+
     return (
         <S.PageWrapper>
             <S.Header data-testid="CjTopPanel">
@@ -327,6 +335,11 @@ export const CJPage = () => {
                                         data-tooltip-id="editButton"
                                     />
                                 </DropdownMenu>
+                            )}
+                            {data?.bpmn && (
+                                <Button variant="outlined" color="primary" onClick={handleOpenBPMN}>
+                                    CJ в BPMN
+                                </Button>
                             )}
                         </>
                     )}
