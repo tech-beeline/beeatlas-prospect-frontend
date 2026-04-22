@@ -8,7 +8,7 @@ export interface UseDiagramsControllerResult {
     graphLoading: boolean;
     systemRootLoaded: boolean;
     visibleGraphData: GraphData;
-    selectedNode: C4Node;
+    selectedNode: C4Node | null;
     diagramHistoryLength: number;
     typeVisibility: Record<C4Label, boolean>;
     diagramNameFilter: string;

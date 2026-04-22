@@ -1,6 +1,5 @@
 import { useCallback, useRef } from 'react';
 
-import { C4Node } from '../components';
 import { layoutStorageKey, loadLayout } from '../utils';
 
 import { UseDiagramsControllerResult } from './types';
@@ -152,7 +151,7 @@ export const useDiagramsController = (cmdb: string | null): UseDiagramsControlle
         graphLoading: state.graphLoading,
         systemRootLoaded: systemRootLoadedRef.current,
         visibleGraphData,
-        selectedNode: state.selectedNode as C4Node,
+        selectedNode: state.selectedNode,
         diagramHistoryLength: state.diagramHistory.length,
         typeVisibility: state.typeVisibility,
         diagramNameFilter: state.diagramNameFilter,
