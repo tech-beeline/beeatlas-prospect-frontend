@@ -38,20 +38,21 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft'>
 
 export const dataToFormValues = (data: IBIData): FormValues => ({
     id: data.id,
-    name: data.name,
-    identificator: data.uniqueIdent,
-    communal: data.communal,
-    descr: data.descr,
+    name: data.name ?? '',
+    identificator: data.uniqueIdent ?? '',
+    communal: data.communal ?? false,
+    descr: data.descr ?? '',
     type: data.target ? 0 : 1,
-    status: data.status.id,
-    clientScenario: data.clientScenario,
-    channels: data.channel?.map((channel) => channel.id) || [],
-    ucsReaction: data.ucsReaction,
-    participants: data.participants.map((participant) => ({
-        descr: participant.descr,
-        value: participant.value,
-        participant: Number(participant.participant.id),
-    })),
+    status: data.status?.id ?? 3,
+    clientScenario: data.clientScenario ?? '',
+    channels: data.channel?.map((channel) => channel.id) ?? [],
+    ucsReaction: data.ucsReaction ?? '',
+    participants:
+        data.participants.map((participant) => ({
+            descr: participant.descr,
+            value: participant.value,
+            participant: Number(participant.participant.id),
+        })) ?? [],
     document: data.document.length
         ? data.document.map((document) => ({
               value: document.url,
@@ -61,7 +62,7 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
     mockup: data.mockupLink.length
         ? data.mockupLink.map((mockup) => ({ value: mockup.url, description: mockup.descr }))
         : [{ value: '', description: '' }],
-    flowLink: data.flowLink[0]?.url,
+    flowLink: data.flowLink[0]?.url ?? '',
     product: Number(data.productId),
     metrics: data.metrics ?? '',
 });

@@ -99,10 +99,16 @@ export const validateWorkspace = (data: T.IValidateWorkspaceRequest) => {
     });
 };
 
-export const validateRules = (rule: string) => {
+export const validateRules = (rule: string): AxiosPromise<T.IValidateRulesResponse> => {
     return Api.post({
-        url: `${GATEWAY_GRAPH_VALIDATOR_URL}v1/cypher/validate`,
+        url: `${GATEWAY_GRAPH_VALIDATOR_URL}v2/cypher/validate`,
         data: rule,
         headers: { 'Content-Type': 'text/plain' },
+    });
+};
+
+export const getPatternsByChapterId = (id: string | number): AxiosPromise<T.IPattern[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}techradar/v1/pattern/chapter/${id}`,
     });
 };

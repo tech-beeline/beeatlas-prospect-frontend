@@ -29,6 +29,7 @@ export interface IPatternForm {
     dsl: string;
     groups: number[];
     relationsTech: number[];
+    nfr: number[];
 }
 
 export interface IPatternGroup {
@@ -49,4 +50,10 @@ export interface IPatternGroupForm {
 
 export interface IValidateWorkspaceRequest {
     workspace: string;
+}
+
+export interface IValidateRulesResponse {
+    readOnly: string | null;
+    error: string | null;
+    valid: string;
 }

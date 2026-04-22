@@ -1,11 +1,15 @@
 export { AnalyticalPage } from './AnalyticalPage';
+export { AppRequirementAddPage } from './AppRequirementAddPage';
 export { AppsDashboardPage } from './AppsDashboardPage';
 export { AppsPage } from './AppsPage';
 export { AppViewArchitecrurePage } from './AppViewArchitecrurePage';
 export { AppViewPage } from './AppViewPage';
+export { CreateLifeSituationsPage } from './CreateLifeSituationsPage';
+export { CreateNFRsPage } from './CreateNFRsPage';
 export { FDMHistoryPage } from './FDMHistoryPage';
 export { FDMPage } from './FDMPage';
 export { ImpactPage } from './ImpactPage';
+export { LifeSituationsPage } from './LifeSituationsPage';
 export { MapAddPage } from './MapAddPage';
 export { MapPage } from './MapPage';
 export { ModelsPage } from './ModelsPage';

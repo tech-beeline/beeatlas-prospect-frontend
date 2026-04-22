@@ -127,7 +127,3 @@ export const GrowContainer = styled.div`
 export const MockButton = styled.div`
     width: 48px;
 `;
-
-export const TextAreaWrapper = styled.div`
-    margin-bottom: -32px;
-`;

@@ -102,7 +102,7 @@ export const postDescriptionByPromt = (
     data: T.IGenerationForm,
 ): AxiosPromise<T.IGenerationData> => {
     return Api.post({
-        url: `${GATEWAY_AMBASSADOR_URL}ai-tool/api/v1/chat/completions`,
+        url: `${GATEWAY_AMBASSADOR_URL}ai-tool/api/v3/chat/completions`,
         data,
     });
 };

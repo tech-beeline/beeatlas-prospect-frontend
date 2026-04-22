@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { IconButton, Label, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
@@ -10,8 +10,6 @@ import { IStructurizrTableRow } from './types';
 import * as S from './units';
 
 export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, selectedEntity }) => {
-    const rowRef = useRef<HTMLDivElement | null>(null);
-
     const [isExpanded, setIsExpanded] = useState(false);
 
     const methodsCount = container?.interfaces.reduce(
@@ -28,13 +26,11 @@ export const StructurizrTableRow: FC<IStructurizrTableRow> = ({ container, selec
                 container.interfaces.map((i) => i.id).includes(Number(selectedEntity.interfaceId)))
         ) {
             setIsExpanded(true);
-            rowRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
     }, [selectedEntity]);
 
     return (
         <>
-            <div ref={rowRef} />
             <S.TableRowStyled expanded={isExpanded}>
                 <TableData>
                     <S.NameContainer>

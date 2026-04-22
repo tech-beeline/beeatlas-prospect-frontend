@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
     IconButton,
     Label,
@@ -21,10 +21,13 @@ import {
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
+import { useScrollToSelectedEntity } from 'hooks/useScrollToSelectedEntity';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
+
+import { EntityTypes } from '../../../../types';
 
 import { IServiceTableRow } from './types';
 import * as S from './units';
@@ -33,13 +36,26 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
     const [isNotificationIconHovered, setIsNotificationIconHovered] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
-    const rowRef = useRef<HTMLDivElement | null>(null);
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { modalOpened, openModal, closeModal } = useModal();
     const { mutateAsync: createSubscription } = useCreateSubscriptionMutation();
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
     const { data: subscribedInterfacesIds } = useGetSubscribedInerfacesIdsQuery();
-    const [isExpanded, setIsExpanded] = useState(false);
+    const rowId = structurizrInterface.id;
+    const selectionKey = selectedEntity
+        ? `${selectedEntity.type}-${selectedEntity.id}-${selectedEntity.interfaceId ?? ''}`
+        : '';
+    const isSelectedInterface =
+        selectedEntity?.type === EntityTypes.INTERFACE && Number(selectedEntity.id) === rowId;
+    const isSelectedOperation =
+        selectedEntity?.type === EntityTypes.OPERATION && selectedEntity.interfaceId === rowId;
+
+    const { groupRowRef, childRowRefs, isExpanded, setIsExpanded } = useScrollToSelectedEntity({
+        selectionKey,
+        shouldAutoExpand: Boolean(isSelectedInterface || isSelectedOperation),
+        scrollToGroupRow: Boolean(isSelectedInterface),
+        scrollToChildId: isSelectedOperation && selectedEntity ? Number(selectedEntity.id) : null,
+    });
 
     const isSubscribed = Boolean(subscribedInterfacesIds?.includes(structurizrInterface.id));
 
@@ -71,15 +87,6 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
         }
     };
 
-    useEffect(() => {
-        if (
-            selectedEntity &&
-            structurizrInterface.operations.map((i) => i.id).includes(Number(selectedEntity.id))
-        ) {
-            setIsExpanded(true);
-        }
-    }, [selectedEntity]);
-
     const structurizrOperationsFiltered =
         selectedEntity && selectedEntity.interfaceId === structurizrInterface.id
             ? structurizrInterface.operations.filter((o) => o.id === selectedEntity.id)
@@ -87,7 +94,7 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
 
     return (
         <>
-            <div ref={rowRef} />
+            <div ref={groupRowRef} />
             <S.TableRowStyled
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -233,6 +240,12 @@ export const ServiceTableRow: FC<IServiceTableRow> = ({ structurizrInterface, se
                                     {structurizrOperationsFiltered.map((operation, i) => (
                                         <TableRow key={i}>
                                             <S.TableDataFullWidth>
+                                                <div
+                                                    ref={(element) => {
+                                                        childRowRefs.current[operation.id] =
+                                                            element;
+                                                    }}
+                                                />
                                                 <S.MethodNameContainer>
                                                     {`${operation.type} ${operation.name}`}
                                                     {/* <IconButton

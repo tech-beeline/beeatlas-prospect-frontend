@@ -21,6 +21,7 @@ import {
     ApplicationsPage,
     ApplicationsReviewPage,
     ApplicationViewPage,
+    AppRequirementAddPage,
     AppsDashboardPage,
     AppsPage,
     AppViewArchitecrurePage,
@@ -36,6 +37,8 @@ import {
     CJLibraryPage,
     CJPage,
     ConsultationPage,
+    CreateLifeSituationsPage,
+    CreateNFRsPage,
     CXPage,
     DataBasePage,
     ExportPage,
@@ -45,6 +48,7 @@ import {
     HowToPage,
     ImpactPage,
     ImportedDataPage,
+    LifeSituationsPage,
     MapAddPage,
     MapPage,
     ModelsPage,
@@ -87,6 +91,9 @@ const PATHS_WITHOUT_HEADER = [
     `${R.PROFILE_PATH}${R.REVIEW_PATH}${R.EDIT_PATH}`,
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.PATTERNS_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.NFR_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
 ];
 
 const PATHS_WITHOUT_FEEDBACK = [
@@ -98,6 +105,7 @@ const PATHS_WITHOUT_FEEDBACK = [
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
+    `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -484,6 +492,10 @@ export const NavigationRouter = () => {
                         </S.RouteWithDrawer>
                     }
                 />
+                <Route
+                    path={`${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`}
+                    element={<AppRequirementAddPage />}
+                />
 
                 {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
                     <Route
@@ -528,6 +540,32 @@ export const NavigationRouter = () => {
                         </S.RouteWithDrawer>
                     }
                 />
+
+                <Route
+                    path={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`}
+                    element={
+                        <S.RouteWithDrawer>
+                            <MenuModels />
+                            <S.ContentWrapper>
+                                <LifeSituationsPage isAdmin={isAdmin} />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    }
+                />
+
+                {withAdminRole({
+                    path: `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.ADD_PATH}`,
+                    element: <CreateLifeSituationsPage />,
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.NFR_PATH}${R.ADD_PATH}`,
+                    element: <CreateNFRsPage />,
+                    isAdmin,
+                    isLoading,
+                })}
 
                 <Route
                     path={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}

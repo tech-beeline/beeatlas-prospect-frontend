@@ -1,3 +1,5 @@
+import { IPattern } from 'api/patterns/types';
+
 export interface IProductData {
     id: string;
     name: string;
@@ -272,11 +274,11 @@ export interface IFitnessFunctionDomain {
     ownerId: null | number;
     product: IFitnessFunctionProductData[];
 }
-export interface IFitnessFunctionData {
+export type IFitnessFunctionData = {
     id: number;
     code: string;
     description: string;
-}
+};
 export interface IFitenssFunctionsAggregationResult {
     domain: IFitnessFunctionDomain[];
     fitnessFunctionEnum: IFitnessFunctionData[];
@@ -341,4 +343,46 @@ export interface IProductTechProduct {
 
 export interface IProductTechnology extends IFullProductData {
     techProducts: IProductTechProduct[];
+}
+
+export interface INonFunctionalRequirement {
+    id: string;
+    code: string;
+    version: number;
+    name: string;
+    description: string;
+    rule: string;
+    source: string;
+    sourcePurpose: string | null;
+    createdDate: string;
+}
+export interface IChapter {
+    id: number;
+    name: string;
+    description: string;
+    code: string;
+    docLink: string;
+    nfr: INonFunctionalRequirement[];
+}
+
+export interface INonFunctionalRequirementFullData extends INonFunctionalRequirement {
+    fitnessFunctions: (IFitnessFunctionData & { docLink: string })[];
+    chapters: Omit<IChapter, 'nfr'>[];
+    patterns: Omit<IPattern, 'groups' | 'technologies'>[];
+}
+
+export interface ILifeSituationForm {
+    name: string;
+    description: string;
+    docLink: string;
+    nfr: number[];
+    patterns: number[];
+}
+
+export interface INFRForm {
+    name: string;
+    description: string;
+    rule: string;
+    chapters: number[];
+    patterns: number[];
 }
