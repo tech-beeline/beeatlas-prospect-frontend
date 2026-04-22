@@ -7,8 +7,11 @@ export const buildSearchQuery = (tag: GraphTag, label: C4Label, name?: string): 
     const conditions = [graphTagPredicate('n', tag)];
 
     if (name?.trim()) {
+        const q = escapeCypherString(name.trim());
         conditions.push(
-            `toLower(coalesce(n.name,'')) CONTAINS toLower('${escapeCypherString(name.trim())}')`,
+            label === 'SoftwareSystem'
+                ? `toLower(coalesce(n.cmdb,'')) CONTAINS toLower('${q}')`
+                : `toLower(coalesce(n.name,'')) CONTAINS toLower('${q}')`,
         );
     }
 
