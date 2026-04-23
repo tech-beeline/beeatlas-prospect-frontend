@@ -64,14 +64,12 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
             ? mapicInterface.operations.filter((o) => o.id === selectedMapicOperation.id)
             : mapicInterface.operations;
 
+    const hasMapping = !!mapicInterface.connectInterface.name;
+
     return (
         <>
             <div ref={rowRef} />
-            <S.TableRowStyled
-                disabled={disabled}
-                expanded={expanded}
-                hasNoMapping={!mapicInterface.connectInterface.name}
-            >
+            <S.TableRowStyled disabled={disabled} expanded={expanded} hasNoMapping={!hasMapping}>
                 <TableData>
                     <S.NameContainer>
                         <S.IconButtonContainer>
@@ -138,9 +136,13 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                 {!isEditing && (
                     <S.TableDataHovered onClick={() => setIsEditing(true)}>
                         <S.ConnectInterfaceContainer>
-                            <Text inactive={disabled} variant="body3">
-                                {formatNullableString(mapicInterface.connectInterface.name)}
+                            <Text inactive={disabled || !hasMapping} variant="body3">
+                                {formatNullableString(
+                                    mapicInterface.connectInterface.name,
+                                    'нет соответствия',
+                                )}
                             </Text>
+                            <IconButton iconName={Icons.Edit} size="medium" />
                         </S.ConnectInterfaceContainer>
                     </S.TableDataHovered>
                 )}

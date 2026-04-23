@@ -5,8 +5,8 @@ export const normalizeIds = (items?: unknown[]): number[] =>
 
 export const formatYesNo = (flag: boolean | undefined | null) => (Boolean(flag) ? 'Да' : 'Нет');
 
-export const formatNullableString = (str: string | undefined | null | number) =>
-    Boolean(str) ? String(str) : '—';
+export const formatNullableString = (str: string | undefined | null | number, fallback?: string) =>
+    Boolean(str) ? String(str) : fallback ?? '—';
 
 export const formatNullableNumber = (value: number | string | null | undefined) => {
     return value === null ? '—' : String(value);
