@@ -75,6 +75,8 @@ export const TableDataHovered = styled(TableDataFullWidth)`
     &:hover {
         outline: 1px solid var(--color-text-active);
     }
+
+    cursor: pointer;
 `;
 
 export const ProgressContainer = styled.td`
