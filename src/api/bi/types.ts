@@ -104,7 +104,13 @@ export interface ISLAForm {
     rps: number | null;
 }
 
+interface IBIAuthor {
+    email: string;
+    fullName: string;
+    id: number;
+}
 export interface IBIData {
+    author: IBIAuthor;
     channel: IChannel[];
     clientScenario: string;
     communal: boolean;
