@@ -14,7 +14,7 @@ export const LifeSituationsPage: FC<ILifeSituationsPage> = ({ isAdmin }) => {
     const chapterId = searchParams.get('chapterId');
     const nfrId = searchParams.get('nfrId');
 
-    const { data } = useGetAllChaptersQuery();
+    const { data, isFetching } = useGetAllChaptersQuery();
 
     useEffect(() => {
         if (!chapterId && !nfrId) {
@@ -87,7 +87,12 @@ export const LifeSituationsPage: FC<ILifeSituationsPage> = ({ isAdmin }) => {
     return (
         <S.PageWrapper>
             <SideMenu activeItem={activeItem} isAdmin={isAdmin} />
-            <MainContent activeItem={activeItem} setActiveItem={setActiveItem} isAdmin={isAdmin} />
+            <MainContent
+                activeItem={activeItem}
+                setActiveItem={setActiveItem}
+                isAdmin={isAdmin}
+                isLoading={isFetching}
+            />
         </S.PageWrapper>
     );
 };

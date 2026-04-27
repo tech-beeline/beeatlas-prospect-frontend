@@ -131,7 +131,7 @@ export const Requirements: FC<IRequirements> = ({ cmdb }) => {
                             <TableHeaderData>Нефункциональное требование</TableHeaderData>
                             <TableHeaderData>Описание</TableHeaderData>
                             {/* <TableHeaderData>Источник</TableHeaderData> */}
-                            <TableHeaderData>Версия</TableHeaderData>
+                            <TableHeaderData alignRight>Версия</TableHeaderData>
                             <TableHeaderData>Статус реализации</TableHeaderData>
                             <TableHeaderData>Назначение</TableHeaderData>
                             <TableHeaderData>Инициатор назначения</TableHeaderData>

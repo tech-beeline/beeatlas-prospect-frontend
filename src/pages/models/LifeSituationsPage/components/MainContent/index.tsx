@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Skeleton } from '@beeline/design-system-react';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
@@ -8,9 +9,10 @@ import { LifeSituationContent, RequirementContent } from './components';
 import { IMainContent } from './types';
 import * as S from './units';
 
-export const MainContent: FC<IMainContent> = ({ activeItem, isAdmin }) => {
+export const MainContent: FC<IMainContent> = ({ activeItem, isAdmin, isLoading }) => {
     return (
         <S.Container>
+            {isLoading && <Skeleton height={100} radius={12} />}
             {!activeItem && (
                 <S.NotFoundContainer>
                     <NotFoundBlock
@@ -19,7 +21,7 @@ export const MainContent: FC<IMainContent> = ({ activeItem, isAdmin }) => {
                     />
                 </S.NotFoundContainer>
             )}
-            {activeItem && activeItem.type === ItemTypes.ERROR && (
+            {activeItem && activeItem.type === ItemTypes.ERROR && !isLoading && (
                 <S.NotFoundContainer>
                     <NotFoundBlock
                         imageVariant={ImageVariants.QUESTION_BOX}

@@ -71,7 +71,7 @@ export const RequirementRow: FC<IRequirementRow> = ({ nfr, activeItem }) => {
                 )}
             </TableData>
             <TableData>{formatNullableString(nfr.source)}</TableData>
-            <TableData>{formatNullableString(nfr.version)}</TableData>
+            <TableData alignRight>{formatNullableString(nfr.version)}</TableData>
         </TableRow>
     );
 };

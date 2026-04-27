@@ -7,7 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 
-import { useGetAllChaptersQuery, usePostNfrsToProductMutation } from 'api/queries/product';
+import {
+    useGetAllChaptersQuery,
+    useGetNfrsByProductAliasQuery,
+    usePostNfrsToProductMutation,
+} from 'api/queries/product';
 import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -21,7 +25,10 @@ export const AppRequirementAddPage = () => {
     const [params] = useSearchParams();
     const paramCmdb = params.get('cmdb');
 
-    const { data, isLoading } = useGetAllChaptersQuery();
+    const { data: chapters, isLoading: isLoadingChapters } = useGetAllChaptersQuery();
+    const { data: productNfrs, isLoading: isLoadingProductNfrs } =
+        useGetNfrsByProductAliasQuery(paramCmdb);
+    const isLoading = isLoadingChapters || isLoadingProductNfrs;
     const { mutateAsync: postNfrsToProduct } = usePostNfrsToProductMutation();
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
@@ -88,7 +95,8 @@ export const AppRequirementAddPage = () => {
                                         groupIndex={groupIndex}
                                         fieldsCount={fields.length}
                                         onDeleteGroup={remove}
-                                        chapters={data ?? []}
+                                        chapters={chapters ?? []}
+                                        productNfrs={productNfrs ?? []}
                                         isLoadingChapters={isLoading}
                                     />
                                 ))}
