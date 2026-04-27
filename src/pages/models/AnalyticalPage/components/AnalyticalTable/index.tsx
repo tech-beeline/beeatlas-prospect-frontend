@@ -11,7 +11,14 @@ import * as R from 'router/const';
 
 import { FitnessFunctionLabel, FitnessFunctionProgressBar } from './components';
 import { VIRTUOSO_SCROLLER_ID } from './const';
-import { AnalyticalTableHandle, IAnalyticalTable, IRowItem, RowItems } from './types';
+import {
+    AnalyticalTableHandle,
+    IAnalyticalTable,
+    IRowItem,
+    ISortOption,
+    RowItems,
+    SortDirection,
+} from './types';
 import * as S from './units';
 import { exportAnalyticalTableToExcel } from './utils';
 import { VirtuosoScroller, VirtuosoTableBody } from './virtuoso';
@@ -23,17 +30,73 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
         const [expandedByDomainId, setExpandedByDomainId] = useState<Record<number, boolean>>({});
         const [contentHeight, setContentHeight] = useState<number>(0);
         const [isScrolledHorizontally, setIsScrolledHorizontally] = useState(false);
+        const [sortOption, setSortOption] = useState<ISortOption | null>(null);
+
+        const handleSortClick = (code: string) => {
+            if (!sortOption || sortOption.code !== code) {
+                setSortOption({ code, direction: SortDirection.DESC });
+            } else if (sortOption.direction === SortDirection.DESC) {
+                setSortOption({ code, direction: SortDirection.ASC });
+            } else {
+                setSortOption(null);
+            }
+        };
 
         const themeIsDark = useThemeStore((store) => store.themeIsDark);
 
         const rows = useMemo<IRowItem[]>(() => {
             const result: IRowItem[] = [];
+            const { domain: domains, fitnessFunctionEnum } = fitnessFunctionsData;
 
-            fitnessFunctionsData.domain.forEach((domain, domainIndex) => {
+            const selectedFf = sortOption
+                ? fitnessFunctionEnum.find((f) => f.code === sortOption.code)
+                : undefined;
+
+            let domainIndices = domains.map((_, i) => i);
+            const productOrders: number[][] = domains.map((d) => d.product.map((_, i) => i));
+
+            if (sortOption && selectedFf) {
+                const mult = sortOption.direction === SortDirection.DESC ? -1 : 1;
+
+                const getDomainCheckPercent = (domainIndex: number) => {
+                    const products = domains[domainIndex].product;
+                    if (products.length === 0) return 0;
+                    const checkedCount = products.filter((p) => {
+                        const pff = p.fitnessFunctions.find((ff) => ff.id === selectedFf.id);
+                        return pff && pff.isCheck;
+                    }).length;
+                    return (checkedCount / products.length) * 100;
+                };
+
+                domainIndices = [...domainIndices].sort((a, b) => {
+                    const pa = getDomainCheckPercent(a);
+                    const pb = getDomainCheckPercent(b);
+                    if (pa !== pb) return mult * (pa > pb ? 1 : -1);
+                    return a - b;
+                });
+
+                for (let di = 0; di < domains.length; di += 1) {
+                    const products = domains[di].product;
+                    const idx = products.map((_, i) => i);
+                    productOrders[di] = idx.sort((a, b) => {
+                        const ca =
+                            products[a].fitnessFunctions.find((ff) => ff.id === selectedFf.id)
+                                ?.countSuccess ?? 0;
+                        const cb =
+                            products[b].fitnessFunctions.find((ff) => ff.id === selectedFf.id)
+                                ?.countSuccess ?? 0;
+                        if (ca !== cb) return mult * (ca > cb ? 1 : -1);
+                        return a - b;
+                    });
+                }
+            }
+
+            domainIndices.forEach((domainIndex) => {
+                const domain = domains[domainIndex];
                 result.push({ type: RowItems.DOMAIN, domainId: domain.id, domainIndex });
 
                 if (expandedByDomainId[domain.id]) {
-                    domain.product.forEach((_, productIndex) => {
+                    productOrders[domainIndex].forEach((productIndex) => {
                         result.push({
                             type: RowItems.PRODUCT,
                             domainId: domain.id,
@@ -45,7 +108,7 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
             });
 
             return result;
-        }, [expandedByDomainId, fitnessFunctionsData.domain]);
+        }, [expandedByDomainId, fitnessFunctionsData, sortOption]);
 
         useImperativeHandle(
             ref,
@@ -84,13 +147,17 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
 
         // 10px на горизонтальный скролл
         const virtuosoHeight = contentHeight + 10;
+        const tableWidth = 252 + fitnessFunctionsData.fitnessFunctionEnum.length * 140;
 
         return (
             <TableVirtuoso
                 data={rows}
                 totalCount={rows.length}
                 increaseViewportBy={800}
-                style={{ height: virtuosoHeight }}
+                style={{
+                    height: virtuosoHeight,
+                    width: tableWidth,
+                }}
                 totalListHeightChanged={setContentHeight}
                 computeItemKey={(_, item: IRowItem) =>
                     item.type === RowItems.DOMAIN
@@ -111,9 +178,24 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
                                 <>
                                     <S.TableHeaderDataSticky key={fitnessFunction.id}>
                                         <S.CodeContainer
-                                            data-tooltip-id={`ff-${fitnessFunction.id}`}
+                                            onClick={() => handleSortClick(fitnessFunction.code)}
+                                            showButton={
+                                                !!sortOption &&
+                                                sortOption.code === fitnessFunction.code
+                                            }
                                         >
-                                            {fitnessFunction.code}
+                                            <span data-tooltip-id={`ff-${fitnessFunction.id}`}>
+                                                {fitnessFunction.code}
+                                            </span>
+                                            <IconButton
+                                                size="medium"
+                                                iconName={
+                                                    !sortOption ||
+                                                    sortOption.direction === SortDirection.DESC
+                                                        ? Icons.ArrowDown
+                                                        : Icons.ArrowUp
+                                                }
+                                            />
                                         </S.CodeContainer>
                                     </S.TableHeaderDataSticky>
                                 </>
