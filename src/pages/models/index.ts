@@ -6,6 +6,8 @@ export { AppViewArchitecrurePage } from './AppViewArchitecrurePage';
 export { AppViewPage } from './AppViewPage';
 export { CreateLifeSituationsPage } from './CreateLifeSituationsPage';
 export { CreateNFRsPage } from './CreateNFRsPage';
+export { E2EDashboardPage } from './E2EDashboardPage';
+export { E2EPage } from './E2EPage';
 export { FDMHistoryPage } from './FDMHistoryPage';
 export { FDMPage } from './FDMPage';
 export { ImpactPage } from './ImpactPage';
