@@ -223,7 +223,7 @@ export const GlobalStyles = () => {
 
                 /* @TODO: Неправильный цвет активного чипса в тёмной теме, убрать с новой версией UI-кита */
                 .dsb_chip--active {
-                    & > p {
+                    & > div > p {
                         color: rgba(9, 11, 22, 0.94);
                     }
                 }

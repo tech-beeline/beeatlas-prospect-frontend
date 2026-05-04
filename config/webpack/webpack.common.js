@@ -19,6 +19,12 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            'process/browser': require.resolve('process/browser.js'),
+        },
+        fallback: {
+            process: require.resolve('process/browser.js'),
+        },
         plugins: [
             new TsconfigPathsPlugin({
                 configFile: path.join(process.env.PWD, 'tsconfig.json'),
@@ -87,7 +93,7 @@ module.exports = {
     },
     plugins: [
         new webpack.ProvidePlugin({
-            process: 'process/browser',
+            process: 'process/browser.js',
         }),
         new ForkTsCheckerWebpackPlugin(),
         new MiniCssExtractPlugin({

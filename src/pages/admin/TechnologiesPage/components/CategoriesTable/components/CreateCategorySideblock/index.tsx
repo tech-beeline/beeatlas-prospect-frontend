@@ -52,7 +52,6 @@ export const CreateCategorySideblock: FC<ICreateCategorySideblock> = ({ isOpen, 
                         }}
                         label="Название группы*"
                         maxLength={50}
-                        helperText={error ? 'Заполните название' : `${name.length}/50`}
                     />
                 </S.ContentContainer>
                 <S.ButtonsContainer>

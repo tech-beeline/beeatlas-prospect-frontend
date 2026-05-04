@@ -76,7 +76,6 @@ export const MergeCategoriesSideblock: FC<IMergeCategoriesSideblock> = ({
                             }}
                             onBlur={() => setMenuOpened(false)}
                             maxLength={50}
-                            helperText={error ? 'Заполните название' : `${name.length}/50`}
                         />
                         {menuOpened && filteredCategories.length > 0 && (
                             <S.MenuBlock>
