@@ -147,7 +147,7 @@ export interface IMapicInterfaceData {
 
 export interface IConnectionInterfaceForm {
     mapicInterfaceId: number;
-    archInterfaceId: number;
+    archInterfaceId: number | null;
 }
 
 export interface IStructurizrWorkspaceForm {
