@@ -41,6 +41,8 @@ import {
     CreateNFRsPage,
     CXPage,
     DataBasePage,
+    E2EDashboardPage,
+    E2EPage,
     ExportPage,
     FDMHistoryPage,
     FDMPage,
@@ -499,18 +501,26 @@ export const NavigationRouter = () => {
 
                 {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
                     <Route
+                        path={`${R.MODELS_PATH}${R.E2E_OLD_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuModels />
+                                <S.ContentWrapper>
+                                    <E2EDashboardPage isProd={isProd} />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+                )}
+
+                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                    <Route
                         path={`${R.MODELS_PATH}${R.E2E_PATH}`}
                         element={
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <S.IFrameStyled
-                                        src={
-                                            isProd
-                                                ? 'https://dashboard-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/e2e'
-                                                : 'https://dashboard-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/e2e'
-                                        }
-                                    />
+                                    <E2EPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

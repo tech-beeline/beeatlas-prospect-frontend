@@ -9,7 +9,7 @@ import * as R from 'router/const';
 import { IOldVersionBanner } from './types';
 import * as S from './units';
 
-export const OldVersionBanner: FC<IOldVersionBanner> = ({ cmdb }) => {
+export const OldVersionBanner: FC<IOldVersionBanner> = ({ cmdb, e2e = false }) => {
     return (
         <S.Container>
             <S.TextContainer>
@@ -21,7 +21,11 @@ export const OldVersionBanner: FC<IOldVersionBanner> = ({ cmdb }) => {
             </S.TextContainer>
             <Button
                 onClick={() =>
-                    window.open(`${R.MODELS_PATH}${R.APPS_OLD_PATH}${cmdb ? '?alias=' + cmdb : ''}`)
+                    window.open(
+                        e2e
+                            ? `${R.MODELS_PATH}${R.E2E_OLD_PATH}`
+                            : `${R.MODELS_PATH}${R.APPS_OLD_PATH}${cmdb ? '?alias=' + cmdb : ''}`,
+                    )
                 }
             >
                 К старой версии
