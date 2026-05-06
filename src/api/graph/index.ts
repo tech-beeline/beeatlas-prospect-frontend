@@ -112,3 +112,11 @@ export const getCypherQuery = (query: string): AxiosPromise<T.ICypherDiagram[]> 
         },
     });
 };
+
+export const getWorkspaceValidationByDocId = (
+    docId: string | number,
+): AxiosPromise<T.IWorkspaceValidationResult> => {
+    return Api.get({
+        url: `${GATEWAY_ARCH_GRAPH_URL}v1/workspace/validate/${docId}`,
+    });
+};

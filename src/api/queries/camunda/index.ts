@@ -7,6 +7,7 @@ import {
     uploadWorkspaceDSLFile,
     uploadWorkspaceJSONFile,
 } from 'api/camunda';
+import { getWorkspaceValidationByDocId } from 'api/graph';
 
 const CAMUNDA_PREFIX = 'CAMUNDA_PREFIX';
 
@@ -36,14 +37,17 @@ export function useCreateProcessJSONMutation() {
         mutationKey: [CAMUNDA_PREFIX, 'create', 'json'],
         mutationFn: async (params: ICreateProcessForm) => {
             const { docId } = await uploadWorkspaceJSONFile(params.file).then((res) => res.data);
-            await startProcess({
-                businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
-                isSync: true,
-                variables: {
-                    cmdb: { value: params.cmdb, type: 'String' },
-                    docId: { value: String(docId), type: 'Integer' },
-                },
-            });
+            const { valid } = await getWorkspaceValidationByDocId(docId).then((res) => res.data);
+            if (valid) {
+                await startProcess({
+                    businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
+                    isSync: true,
+                    variables: {
+                        cmdb: { value: params.cmdb, type: 'String' },
+                        docId: { value: String(docId), type: 'Integer' },
+                    },
+                });
+            }
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CAMUNDA_PREFIX] });

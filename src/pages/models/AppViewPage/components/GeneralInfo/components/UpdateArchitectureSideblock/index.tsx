@@ -45,31 +45,45 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
         useCreateProcessDSLMutation();
 
     const handleStartButtonClick = async () => {
-        try {
-            if (fileList[0] && fileList[0].name.split('.')[1] === 'json') {
+        if (fileList[0] && fileList[0].name.split('.')[1] === 'json') {
+            try {
                 setTempDisabled(true);
                 await createJSONProcess({ file: fileList[0], cmdb });
                 showSnackbar({ message: 'Идет процесс обновления данных' });
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
-            } else if (fileList[0] && fileList[0].name.split('.')[1] === 'dsl') {
+                onClose();
+            } catch (e) {
+                const errorMessage = (e as AxiosError<{ errorMessage: string }>).response?.data
+                    ?.errorMessage;
+                if (errorMessage) {
+                    setError({
+                        type: ArchitectureErrorTypes.VALIDATION,
+                        title: 'Ошибка валидации файла',
+                        errorMessage,
+                    });
+                }
+                setTempDisabled(false);
+            }
+        } else if (fileList[0] && fileList[0].name.split('.')[1] === 'dsl') {
+            try {
                 setTempDisabled(true);
                 const fileEncoded = await toBase64(fileList[0]);
                 await createDSLProcess({ workspace: fileEncoded, cmdb });
                 showSnackbar({ message: 'Идет процесс обновления данных' });
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
+                onClose();
+            } catch (e) {
+                const errorMessage = (e as AxiosError<{ detail: { error: string } }>).response?.data
+                    ?.detail?.error;
+                if (errorMessage) {
+                    setError({
+                        type: ArchitectureErrorTypes.VALIDATION,
+                        title: 'Ошибка валидации файла',
+                        errorMessage,
+                    });
+                }
+                setTempDisabled(false);
             }
-            onClose();
-        } catch (e) {
-            const errorMessage = (e as AxiosError<{ detail: { error: string } }>).response?.data
-                ?.detail?.error;
-            if (errorMessage) {
-                setError({
-                    type: ArchitectureErrorTypes.VALIDATION,
-                    title: 'Ошибка валидации файла',
-                    errorMessage,
-                });
-            }
-            setTempDisabled(false);
         }
     };
 
