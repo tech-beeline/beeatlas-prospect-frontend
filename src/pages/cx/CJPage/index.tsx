@@ -24,6 +24,8 @@ import {
     usePartialUpdateCJMutation,
 } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
+import * as R from 'router/const';
+import { safeNavigateBack } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -86,7 +88,7 @@ export const CJPage = () => {
     }, [closeSideSheet]);
 
     const handleBackIconClick = () => {
-        navigate(-1);
+        safeNavigateBack(navigate, `${R.CX_PATH}${R.CJ_PATH}`);
     };
 
     const handleToggleDraft = async () => {
@@ -172,10 +174,10 @@ export const CJPage = () => {
         <S.PageWrapper>
             <S.Header data-testid="CjTopPanel">
                 <S.FlexSideContainer>
-                    <Icon
+                    <IconButton
                         iconName={Icons.ArrowLeft}
                         onClick={handleBackIconClick}
-                        style={{ cursor: 'pointer' }}
+                        size="medium"
                     />
 
                     {isLoadingCJ ? (
