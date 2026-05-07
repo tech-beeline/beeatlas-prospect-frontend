@@ -35,7 +35,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
 
     const handleDropdownItemClick = async (
         mapicInterfaceId: number,
-        structurizrInterfaceId: number,
+        structurizrInterfaceId: number | null,
     ) => {
         await createConncetionInterface({
             mapicInterfaceId,
@@ -109,6 +109,15 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                                 }}
                             />
                             <S.Dropdown>
+                                {search.length === 0 && (
+                                    <S.DropdownItem
+                                        onMouseDown={() =>
+                                            handleDropdownItemClick(mapicInterface.id, null)
+                                        }
+                                    >
+                                        {formatNullableString(null)}
+                                    </S.DropdownItem>
+                                )}
                                 {sctructurizrInterfacesFiltered.map((structurizrInterface) => (
                                     <S.DropdownItem
                                         key={structurizrInterface.id}

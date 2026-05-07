@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, Button, Icon, IconButton, ProgressButton } from '@beeline/design-system-react';
+import { Banner, Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -17,7 +17,7 @@ import {
     usePatchLifeSituationMutation,
 } from 'api/queries/product';
 import * as R from 'router/const';
-import { normalizeIds } from 'utils/formatters';
+import { isNotNull } from 'utils/helpers';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
@@ -51,18 +51,23 @@ export const CreateLifeSituationsPage = () => {
             patterns: [],
         },
     });
-    const { handleSubmit, reset } = form;
+    const { handleSubmit, reset, watch } = form;
+
     const nfrOptions = (nfr ?? []).map((item) => ({
         id: Number(item.id),
         value: item.name,
+        descr: item.code,
     }));
     const patternOptions = (patterns ?? []).map((item) => ({
         id: item.id,
         value: item.name,
+        descr: item.code,
     }));
 
     const navigateBack = () => {
-        navigate(`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`);
+        navigate(
+            `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${paramId ? `?chapterId=${paramId}` : ''}`,
+        );
     };
 
     const onSubmit = handleSubmit(async (values) => {
@@ -73,8 +78,8 @@ export const CreateLifeSituationsPage = () => {
                 name: values.name,
                 description: values.description,
                 docLink: values.docLink,
-                nfr: normalizeIds(values.nfr),
-                patterns: normalizeIds(values.patterns),
+                nfr: values.nfr.map((item) => item.value).filter(isNotNull),
+                patterns: values.patterns.map((item) => item.value).filter(isNotNull),
             };
 
             if (paramId) {
@@ -131,10 +136,14 @@ export const CreateLifeSituationsPage = () => {
             name: chapter.name ?? '',
             description: chapter.description ?? '',
             docLink: chapter.docLink ?? '',
-            nfr: chapter.nfr.map((item) => Number(item.id)),
-            patterns: (selectedPatterns ?? []).map((item) => item.id),
+            nfr: chapter.nfr.map((item) => ({ value: Number(item.id) })),
+            patterns: (selectedPatterns ?? []).map((item) => ({ value: item.id })),
         });
     }, [chapters, paramId, selectedPatterns, reset]);
+
+    const name = watch('name');
+    const description = watch('description');
+    const isSubmitButtonDisabled = !name || !description;
 
     return (
         <FormProvider {...form}>
@@ -168,11 +177,19 @@ export const CreateLifeSituationsPage = () => {
                                 fullWidth
                             />
                             <AutocompleteArray
-                                title="Требования"
+                                title="Нефункциональное требование"
                                 name="nfr"
                                 options={nfrOptions}
                                 label="НФТ"
                                 isLoading={isNfrLoading}
+                                makeOption={(option) => (
+                                    <div>
+                                        <Text variant="body2">{option.value}</Text>
+                                        <Text variant="body3" inactive>
+                                            {option.descr}
+                                        </Text>
+                                    </div>
+                                )}
                             />
                             <AutocompleteArray
                                 title="Паттерн"
@@ -180,6 +197,14 @@ export const CreateLifeSituationsPage = () => {
                                 options={patternOptions}
                                 label="Паттерн"
                                 isLoading={isPatternsListLoading || isPatternsLoading}
+                                makeOption={(option) => (
+                                    <div>
+                                        <Text variant="body2">{option.value}</Text>
+                                        <Text variant="body3" inactive>
+                                            {option.descr}
+                                        </Text>
+                                    </div>
+                                )}
                             />
                         </S.FormContainer>
                     </S.Content>
@@ -193,19 +218,16 @@ export const CreateLifeSituationsPage = () => {
                             >
                                 Отмена
                             </Button>
-                            <ProgressButton
+                            <S.ProgressButtonStyled
                                 variant="contained"
                                 size="medium"
                                 type="submit"
                                 state={submitState}
-                                startIcon={
-                                    submitState === 'error' ? (
-                                        <Icon iconName={Icons.Refresh} size="small" />
-                                    ) : undefined
-                                }
+                                error={submitState === 'error'}
+                                disabled={isSubmitButtonDisabled}
                             >
                                 {paramId ? 'Сохранить изменения' : 'Создать'}
-                            </ProgressButton>
+                            </S.ProgressButtonStyled>
                         </S.FooterContent>
                     </S.Footer>
                 </S.Form>

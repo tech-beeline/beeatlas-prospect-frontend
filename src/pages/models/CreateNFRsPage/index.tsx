@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, Button, Icon, IconButton, ProgressButton } from '@beeline/design-system-react';
+import { Banner, Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -18,7 +18,7 @@ import {
     usePostNFRVersionMutation,
 } from 'api/queries/product';
 import * as R from 'router/const';
-import { normalizeIds } from 'utils/formatters';
+import { isNotNull } from 'utils/helpers';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
@@ -54,16 +54,18 @@ export const CreateNFRsPage = () => {
         },
     });
 
-    const { handleSubmit, reset } = form;
+    const { handleSubmit, reset, watch } = form;
 
     const patternOptions = (patterns ?? []).map((item) => ({
         id: item.id,
         value: item.name,
+        descr: item.code,
     }));
 
     const chapterOptions = (chapters ?? []).map((item) => ({
         id: item.id,
         value: item.name,
+        descr: item.code,
     }));
     const fitnessFunctionOptions = (fitnessFunctions ?? []).map((item) => ({
         id: item.id,
@@ -83,9 +85,9 @@ export const CreateNFRsPage = () => {
         reset({
             name: nfr.name ?? '',
             description: nfr.description ?? '',
-            chapters: (nfr.chapters ?? []).map((item) => item.id),
-            patterns: (nfr.patterns ?? []).map((item) => item.id),
-            rule: (nfr.fitnessFunctions ?? []).map((item) => item.id),
+            chapters: (nfr.chapters ?? []).map((item) => ({ value: item.id })),
+            patterns: (nfr.patterns ?? []).map((item) => ({ value: item.id })),
+            rule: (nfr.fitnessFunctions ?? []).map((item) => ({ value: item.id })),
         });
     }, [nfr, paramId, reset]);
 
@@ -96,16 +98,16 @@ export const CreateNFRsPage = () => {
             const fitnessFunctionCodeMap = new Map(
                 (fitnessFunctions ?? []).map((item) => [item.id, item.code]),
             );
-            const rule = normalizeIds(values.rule)
-                .map((id) => fitnessFunctionCodeMap.get(id))
+            const rule = values.rule
+                .map((r) => (r.value ? fitnessFunctionCodeMap.get(r.value) : null))
                 .filter((code): code is string => Boolean(code))
                 .join(',');
 
             const payload = {
                 name: values.name,
                 description: values.description,
-                chapters: normalizeIds(values.chapters),
-                patterns: normalizeIds(values.patterns),
+                chapters: values.chapters.map((item) => item.value).filter(isNotNull),
+                patterns: values.patterns.map((item) => item.value).filter(isNotNull),
                 rule,
             };
             if (paramId) {
@@ -150,6 +152,13 @@ export const CreateNFRsPage = () => {
         }
     });
 
+    const name = watch('name');
+    const description = watch('description');
+    const chaptersValue = watch('chapters');
+
+    const isSubmitButtonDisabled =
+        !name || !description || chaptersValue.filter((v) => v.value !== null).length === 0;
+
     return (
         <FormProvider {...form}>
             <S.PageWrapper>
@@ -185,6 +194,14 @@ export const CreateNFRsPage = () => {
                                 options={chapterOptions}
                                 label="Жизненная ситуация*"
                                 isLoading={isChaptersListLoading}
+                                makeOption={(option) => (
+                                    <div>
+                                        <Text variant="body2">{option.value}</Text>
+                                        <Text variant="body3" inactive>
+                                            {option.descr}
+                                        </Text>
+                                    </div>
+                                )}
                             />
                             <AutocompleteArray
                                 title="Паттерн"
@@ -192,6 +209,14 @@ export const CreateNFRsPage = () => {
                                 options={patternOptions}
                                 label="Паттерн"
                                 isLoading={isPatternsListLoading}
+                                makeOption={(option) => (
+                                    <div>
+                                        <Text variant="body2">{option.value}</Text>
+                                        <Text variant="body3" inactive>
+                                            {option.descr}
+                                        </Text>
+                                    </div>
+                                )}
                             />
                             <AutocompleteArray
                                 title="Фитнес-функция"
@@ -200,12 +225,12 @@ export const CreateNFRsPage = () => {
                                 label="Фитнес-функция"
                                 isLoading={isFitnessFunctionsListLoading}
                                 makeOption={(option) => (
-                                    <S.AutocompleteRow>
+                                    <div>
                                         <Text variant="body2">{option.value}</Text>
                                         <Text variant="body3" inactive>
                                             {option.descr}
                                         </Text>
-                                    </S.AutocompleteRow>
+                                    </div>
                                 )}
                             />
                         </S.FormContainer>
@@ -220,19 +245,16 @@ export const CreateNFRsPage = () => {
                             >
                                 Отмена
                             </Button>
-                            <ProgressButton
+                            <S.ProgressButtonStyled
                                 variant="contained"
                                 size="medium"
                                 type="submit"
                                 state={submitState}
-                                startIcon={
-                                    submitState === 'error' ? (
-                                        <Icon iconName={Icons.Refresh} size="small" />
-                                    ) : undefined
-                                }
+                                error={submitState === 'error'}
+                                disabled={isSubmitButtonDisabled}
                             >
-                                {submitState === 'error' ? 'Повторить' : 'Создать'}
-                            </ProgressButton>
+                                {paramId ? 'Сохранить изменения' : 'Создать'}
+                            </S.ProgressButtonStyled>
                         </S.FooterContent>
                     </S.Footer>
                 </S.Form>

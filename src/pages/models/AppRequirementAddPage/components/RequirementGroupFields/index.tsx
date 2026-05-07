@@ -17,6 +17,7 @@ export const RequirementGroupFields: FC<IRequirementGroupFields> = ({
     fieldsCount,
     onDeleteGroup,
     chapters,
+    productNfrs,
     isLoadingChapters,
 }) => {
     const [searchText, setSearchText] = useState('');
@@ -41,9 +42,14 @@ export const RequirementGroupFields: FC<IRequirementGroupFields> = ({
         const allRequirements = selectedChapter
             ? selectedChapter.nfr
             : chapters.flatMap((chapter) => chapter.nfr);
+
+        const allRequirementsFiltered = allRequirements.filter(
+            (requirement) => !productNfrs.some((nfr) => nfr.id === requirement.id),
+        );
+
         const optionsById = new Map<string, { id: number; value: string }>();
 
-        allRequirements.forEach((requirement) => {
+        allRequirementsFiltered.forEach((requirement) => {
             if (optionsById.has(requirement.id)) {
                 return;
             }

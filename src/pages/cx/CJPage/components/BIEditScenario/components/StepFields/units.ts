@@ -45,7 +45,6 @@ export const LinkContainer = styled.div`
     gap: 24px;
 
     padding-top: 32px;
-    overflow-y: auto;
 `;
 
 export const LinkBlock = styled.div`

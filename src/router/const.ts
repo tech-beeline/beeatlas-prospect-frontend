@@ -28,6 +28,7 @@ export const REQUIREMENT_PATH = '/requirement';
 export const ARCHITECTURE_PATH = '/architecture';
 export const APPS_OLD_PATH = '/apps-old';
 export const E2E_PATH = '/e2e';
+export const E2E_OLD_PATH = '/e2e-old';
 export const IMPACT_PATH = '/impact';
 export const PATTERNS_PATH = '/patterns';
 export const ANALYTICAL_REPORT_PATH = '/analytical-report';

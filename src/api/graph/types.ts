@@ -98,3 +98,8 @@ export interface ICypherDiagram {
     n?: ICypherNode;
     r?: ICypherRelationship;
 }
+
+export interface IWorkspaceValidationResult {
+    valid: true;
+    workspaceCmdb: string;
+}

@@ -266,7 +266,13 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
                                     <>
                                         {patternData.technologies.map((tech) => (
                                             <S.SpaceBetweenContainer key={tech.id}>
-                                                <Text variant="body2">{tech.label}</Text>
+                                                <Text variant="body2">
+                                                    <Link
+                                                        title={tech.label}
+                                                        url={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}?id=${tech.id}`}
+                                                    />
+                                                </Text>
+
                                                 <S.TechnologyLabelsContainer>
                                                     <Label
                                                         title={tech.ring.name}

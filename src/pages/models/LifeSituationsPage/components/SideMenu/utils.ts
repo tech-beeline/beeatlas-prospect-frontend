@@ -13,6 +13,7 @@ export const createSearchResults = (chapters: IChapter[]): ISearchItem[] =>
         ...chapter.nfr.map((nfr) => ({
             type: SearchItemType.NFR,
             chapterId: chapter.id,
+            chapterName: chapter.name,
             nfrId: nfr.id,
             name: nfr.name ?? '',
             code: nfr.code ?? '',
