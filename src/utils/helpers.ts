@@ -1,3 +1,5 @@
+import { NavigateFunction } from 'react-router-dom';
+
 export const capitalizeFirstLetter = (str: string): string =>
     str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -32,3 +34,12 @@ export const downloadTextFile = (filename: string, text: string) => {
 };
 
 export const isNotNull = <T>(v: T | null): v is T => v !== null;
+
+export const safeNavigateBack = (navigate: NavigateFunction, fallback: string) => {
+    const idx = (window.history.state as { idx?: number } | null)?.idx;
+    if (typeof idx === 'number' && idx > 0) {
+        navigate(-1);
+        return;
+    }
+    navigate(fallback);
+};
