@@ -12,13 +12,20 @@ import { itemTypeToColorMap, itemTypeToLettersMap } from './const';
 import { ITreeItem } from './types';
 import * as S from './units';
 
-export const TreeItem: FC<ITreeItem> = ({ item, level, activeItem }) => {
+export const TreeItem: FC<ITreeItem> = ({
+    item,
+    level,
+    activeItem,
+    itemToScroll,
+    setItemToScroll,
+}) => {
     const [, setParams] = useSearchParams();
     const [isExpanded, setIsExpanded] = useState(false);
     const children = 'children' in item ? item.children : [];
     const hasChildren = children.length > 0;
 
     const titleRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const showTitleTooltip = useShowTooltip(titleRef);
 
@@ -32,6 +39,13 @@ export const TreeItem: FC<ITreeItem> = ({ item, level, activeItem }) => {
     };
 
     useEffect(() => {
+        if (itemToScroll && itemToScroll.code === item.code) {
+            containerRef.current?.scrollIntoView({ behavior: 'smooth' });
+            setItemToScroll(null);
+        }
+    }, [itemToScroll, item, setItemToScroll]);
+
+    useEffect(() => {
         if (
             (activeItem && 'cjData' in activeItem && activeItem.cjData.cjId === item.id) ||
             (activeItem && 'biData' in activeItem && activeItem.biData.biId === item.id)
@@ -43,9 +57,11 @@ export const TreeItem: FC<ITreeItem> = ({ item, level, activeItem }) => {
     return (
         <>
             <S.Container
+                id={`tree-item-${item.code}`}
                 level={level}
                 selected={activeItem?.code === item.code}
                 onClick={handleItemClick}
+                ref={containerRef}
             >
                 <S.IconButtonContainer>
                     {hasChildren && (
@@ -86,6 +102,8 @@ export const TreeItem: FC<ITreeItem> = ({ item, level, activeItem }) => {
                             item={child}
                             level={level + 1}
                             activeItem={activeItem}
+                            itemToScroll={itemToScroll}
+                            setItemToScroll={setItemToScroll}
                         />
                     ))}
                 </>

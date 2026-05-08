@@ -4,4 +4,6 @@ export interface ITreeItem {
     item: IE2ETreeItem;
     level: number;
     activeItem: IE2ETreeItem | null;
+    itemToScroll: IE2ETreeItem | null;
+    setItemToScroll: (item: IE2ETreeItem | null) => void;
 }
