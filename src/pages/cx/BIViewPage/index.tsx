@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon, Label, Skeleton } from '@beeline/design-system-react';
+import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { dataToFormValues, formValuesToData, StatusLabel, TargetLabel } from 'features/cx';
@@ -16,8 +16,9 @@ import {
 } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
+import { safeNavigateBack } from 'utils/helpers';
 
 import * as S from './units';
 
@@ -45,12 +46,12 @@ export const BIViewPage = () => {
     const navigate = useNavigate();
 
     const handleBackIconClick = () => {
-        navigate(-1);
+        safeNavigateBack(navigate, `${R.CX_PATH}${R.BI_PATH}`);
     };
 
     const handleEditClick = () => {
         navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
+            pathname: `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
             search: createSearchParams({ id: String(paramId) }).toString(),
         });
     };
@@ -79,10 +80,10 @@ export const BIViewPage = () => {
         <S.PageWrapper>
             <S.Header>
                 <S.FlexSideContainer>
-                    <Icon
+                    <IconButton
                         iconName={Icons.ArrowLeft}
                         onClick={handleBackIconClick}
-                        style={{ cursor: 'pointer' }}
+                        size="medium"
                     />
                     {data && <S.Title>{data.name}</S.Title>}
                     {isLoading && <Skeleton height={24} width={120} radius={5} />}
