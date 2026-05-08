@@ -22,15 +22,16 @@ export const SideMenuContainer = styled.div`
 
     border-left: 1px solid var(--color-divider);
     border-right: 1px solid var(--color-divider);
-
-    overflow-y: auto;
-    overflow-x: hidden;
 `;
 
 export const SearchContainer = styled.div`
     position: relative;
 
-    padding: 24px 16px 0px 16px;
+    padding: 24px 16px 16px 16px;
+
+    background-color: var(--color-background-base);
+
+    border-bottom: 1px solid var(--color-divider);
 `;
 
 export const TreeContainer = styled.div`
@@ -38,12 +39,16 @@ export const TreeContainer = styled.div`
     flex-direction: column;
     gap: 4px;
 
-    padding: 32px 8px;
+    height: calc(100% - 81px);
+
+    padding: 16px 8px 32px 8px;
+
+    overflow-y: auto;
 `;
 
 export const MenuBlock = styled.div`
     position: absolute;
-    bottom: 0;
+    bottom: 16px;
     left: 16px;
     right: 16px;
 

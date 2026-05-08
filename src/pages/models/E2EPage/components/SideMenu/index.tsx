@@ -14,6 +14,7 @@ export const SideMenu: FC<ISideMenu> = ({ activeItem, treeData, flatData }) => {
     const [, setSearchParams] = useSearchParams();
     const [menuOpened, setMenuOpened] = useState(false);
     const [searchText, setSearchText] = useState('');
+    const [itemToScroll, setItemToScroll] = useState<IE2ETreeItem | null>(null);
 
     const searchResultsFiltered = flatData.filter(
         (item) =>
@@ -30,6 +31,7 @@ export const SideMenu: FC<ISideMenu> = ({ activeItem, treeData, flatData }) => {
         );
         setSearchText(item.title);
         setMenuOpened(false);
+        setItemToScroll(item);
     };
 
     return (
@@ -56,9 +58,9 @@ export const SideMenu: FC<ISideMenu> = ({ activeItem, treeData, flatData }) => {
                     />
                     {menuOpened && searchText.trim().length >= 1 && (
                         <S.MenuBlock>
-                            {searchResultsFiltered.map((item) => (
+                            {searchResultsFiltered.map((item, index) => (
                                 <S.MenuItem
-                                    key={item.code}
+                                    key={`${item.code}-${index}`}
                                     onMouseDown={() => handleSearchResultClick(item)}
                                 >
                                     <Text variant="body2">{item.title}</Text>
@@ -79,7 +81,14 @@ export const SideMenu: FC<ISideMenu> = ({ activeItem, treeData, flatData }) => {
                 </S.SearchContainer>
                 <S.TreeContainer>
                     {treeData.map((item) => (
-                        <TreeItem key={item.code} item={item} level={0} activeItem={activeItem} />
+                        <TreeItem
+                            key={item.code}
+                            item={item}
+                            level={0}
+                            activeItem={activeItem}
+                            itemToScroll={itemToScroll}
+                            setItemToScroll={setItemToScroll}
+                        />
                     ))}
                 </S.TreeContainer>
             </S.ResizableStyled>
