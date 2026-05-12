@@ -43,7 +43,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({ isOpen, onClose, d
     }, [data]);
 
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose}>
+        <SideBlock hasBackdrop large isOpen={isOpen} onClose={onClose}>
             <S.Container>
                 <S.Content>
                     <S.TitleContainer>

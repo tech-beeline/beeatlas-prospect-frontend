@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 
-export const Container = styled.div<{ level: number; selected: boolean }>`
+export const Container = styled.div<{ level: number; selected: boolean; isBiStep: boolean }>`
     display: flex;
     align-items: center;
     gap: 16px;
 
     min-height: 48px;
     padding: 4px 16px;
-    margin-left: ${({ level }) => `${level * 36}px`};
+    margin-left: ${({ level, isBiStep }) => `${level * 36 + (isBiStep ? 36 : 0)}px`};
 
     border-radius: var(--size-border-radius-x6);
 
