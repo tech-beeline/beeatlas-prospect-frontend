@@ -3,8 +3,8 @@ export interface IPageFormContainer {
     children: React.ReactNode;
     footer?: boolean;
     confirmButtonText?: string;
-    canselButtonText?: string;
+    cancelButtonText?: string;
     confirmButtonClick?: () => void;
-    canselButtonClick?: () => void;
+    cancelButtonClick?: () => void;
     disableConfirmButton?: boolean;
 }

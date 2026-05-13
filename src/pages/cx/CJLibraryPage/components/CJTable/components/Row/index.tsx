@@ -10,7 +10,7 @@ import { DropdownMenuControlled } from 'components/interaction';
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
 import { IRow } from './types';
@@ -25,10 +25,17 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
 
     const handleCJClick = (id?: number) => {
-        navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.VIEW_PATH}`,
-            search: id ? createSearchParams({ id: String(id) }).toString() : '',
-        });
+        navigate(
+            {
+                pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
+                search: id ? createSearchParams({ id: String(id) }).toString() : '',
+            },
+            {
+                state: {
+                    from: window.location.pathname,
+                },
+            },
+        );
     };
 
     return (
@@ -52,8 +59,8 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
                     <S.SpanLinkStyled
                         onClick={() =>
                             window.open(
-                                `${ROUTER.MODELS_PATH}${ROUTER.APPS_PATH}${
-                                    ROUTER.VIEW_PATH
+                                `${R.MODELS_PATH}${R.APPS_PATH}${
+                                    R.VIEW_PATH
                                 }?cmdb=${encodeURIComponent(currentProduct.alias)}`,
                             )
                         }

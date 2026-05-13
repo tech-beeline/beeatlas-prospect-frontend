@@ -2,7 +2,7 @@ import { AxiosPromise } from 'axios';
 
 import Api from 'utils/api/axiosWrapper';
 
-import { GATEWAY_URL } from '../const';
+import { GATEWAY_URL, GATEWAY_USER_URL } from '../const';
 
 import * as T from './types';
 
@@ -67,6 +67,16 @@ export const putRolePermission = (id: number, data: T.IPermission[]) => {
 
 export const getEmployee = (query: string): AxiosPromise<T.IBusinessOwner[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}auth/v1/users/myprofile?search=${query}`,
+        url: `${GATEWAY_USER_URL}v1/users/myprofile`,
+        params: {
+            search: query,
+        },
+    });
+};
+
+export const postEmployee = (data: T.IBusinessOwnerForm): AxiosPromise<T.IBusinessOwner[]> => {
+    return Api.post({
+        url: `${GATEWAY_URL}auth/v1/users`,
+        data,
     });
 };

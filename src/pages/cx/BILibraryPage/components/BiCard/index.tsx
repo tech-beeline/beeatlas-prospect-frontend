@@ -15,7 +15,7 @@ import { useDeleteBIMutation } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 
@@ -66,7 +66,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
 
     const handleBiClick = (id: number) => {
         navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
+            pathname: `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
             search: createSearchParams({ id: String(id) }).toString(),
         });
     };
@@ -79,7 +79,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
         const editabilityData = await getBIEditabilityById(String(bi.id));
         if (editabilityData.data.editability) {
             navigate({
-                pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
+                pathname: `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
                 search: createSearchParams({ id: String(bi.id) }).toString(),
             });
         } else {

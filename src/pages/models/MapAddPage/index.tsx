@@ -23,7 +23,7 @@ import {
     useUpdatePersonalMapMutation,
 } from 'api/queries/maps';
 import { useModal, useShowTooltip } from 'hooks';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {
@@ -140,7 +140,7 @@ export const MapAddPage = () => {
     const navigate = useNavigate();
 
     const handleBackIconClick = () => {
-        navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}?tab=PERSONAL`);
+        navigate(`${R.MODELS_PATH}${R.MAP_PATH}?tab=PERSONAL`);
     };
 
     const handleSave = async () => {
@@ -224,7 +224,7 @@ export const MapAddPage = () => {
                         <S.FlexSideContainer>
                             <Button
                                 onClick={() =>
-                                    navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}?tab=PERSONAL`)
+                                    navigate(`${R.MODELS_PATH}${R.MAP_PATH}?tab=PERSONAL`)
                                 }
                             >
                                 Закрыть

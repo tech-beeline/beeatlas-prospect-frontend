@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
     Badge,
     Button,
@@ -25,7 +25,6 @@ import {
 } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as R from 'router/const';
-import { safeNavigateBack } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -75,6 +74,7 @@ export const CJPage = () => {
     const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         return () => {
@@ -83,7 +83,13 @@ export const CJPage = () => {
     }, [closeSideSheet]);
 
     const handleBackIconClick = () => {
-        safeNavigateBack(navigate, `${R.CX_PATH}${R.CJ_PATH}`);
+        const from = (location.state as { from?: string } | null)?.from;
+
+        if (from === `${R.CX_PATH}${R.CJ_PATH}`) {
+            navigate(-1);
+        } else {
+            navigate(`${R.CX_PATH}${R.CJ_PATH}`);
+        }
     };
 
     const handleToggleDraft = async () => {
@@ -259,57 +265,56 @@ export const CJPage = () => {
                                 </S.InfoTooltipContainer>
                             </S.InfoContainer>
 
-                            {canEditCJ && (
-                                <DropdownMenu
-                                    id="dropdown-contols"
-                                    position="left"
-                                    items={[
-                                        [
-                                            {
-                                                title: 'Данные CJ',
-                                                icon: Icons.InfoCircled,
-                                                onClick: () =>
-                                                    toggleSideSheet(SideSheetVariants.DATA_CJ),
-                                            },
-                                            ...(data?.draft
-                                                ? [
-                                                      {
-                                                          title: 'Редактировать данные CJ',
-                                                          icon: Icons.Edit,
-                                                          onClick: () =>
-                                                              toggleSideSheet(
-                                                                  SideSheetVariants.UPDATE_CJ,
-                                                              ),
-                                                          disabled: !data?.draft,
-                                                      },
-                                                      {
-                                                          title: 'Импортировать CJ',
-                                                          icon: Icons.Import,
-                                                          onClick: () =>
-                                                              toggleSideSheet(
-                                                                  SideSheetVariants.IMPORT_CJ,
-                                                              ),
-                                                          disabled: data?.bpmn === null && !isEmpty,
-                                                      },
-                                                  ]
-                                                : []),
-                                            {
-                                                title: 'Показать версии',
-                                                icon: Icons.PagesMultipleEmpty,
-                                                onClick: () =>
-                                                    toggleSideSheet(SideSheetVariants.VERSION_CJ),
-                                                disabled: isVersionsDisabled,
-                                            },
-                                        ],
-                                    ]}
-                                >
-                                    <S.ButtonStyled
-                                        endIcon={<Icon iconName={Icons.MoreVert} />}
-                                        id="buttonToggleId"
-                                        data-tooltip-id="editButton"
-                                    />
-                                </DropdownMenu>
-                            )}
+                            <DropdownMenu
+                                id="dropdown-contols"
+                                position="left"
+                                items={[
+                                    [
+                                        {
+                                            title: 'Данные CJ',
+                                            icon: Icons.InfoCircled,
+                                            onClick: () =>
+                                                toggleSideSheet(SideSheetVariants.DATA_CJ),
+                                        },
+                                        ...(data?.draft && canEditCJ
+                                            ? [
+                                                  {
+                                                      title: 'Редактировать данные CJ',
+                                                      icon: Icons.Edit,
+                                                      onClick: () =>
+                                                          toggleSideSheet(
+                                                              SideSheetVariants.UPDATE_CJ,
+                                                          ),
+                                                      disabled: !data?.draft,
+                                                  },
+                                                  {
+                                                      title: 'Импортировать CJ',
+                                                      icon: Icons.Import,
+                                                      onClick: () =>
+                                                          toggleSideSheet(
+                                                              SideSheetVariants.IMPORT_CJ,
+                                                          ),
+                                                      disabled: data?.bpmn === null && !isEmpty,
+                                                  },
+                                              ]
+                                            : []),
+                                        {
+                                            title: 'Показать версии',
+                                            icon: Icons.PagesMultipleEmpty,
+                                            onClick: () =>
+                                                toggleSideSheet(SideSheetVariants.VERSION_CJ),
+                                            disabled: isVersionsDisabled,
+                                        },
+                                    ],
+                                ]}
+                            >
+                                <S.ButtonStyled
+                                    endIcon={<Icon iconName={Icons.MoreVert} />}
+                                    id="buttonToggleId"
+                                    data-tooltip-id="editButton"
+                                />
+                            </DropdownMenu>
+
                             {data?.bpmn && (
                                 <Button variant="outlined" color="primary" onClick={handleOpenBPMN}>
                                     CJ в BPMN

@@ -3,7 +3,7 @@ import React from 'react';
 import { BorderContainer } from 'components/containers';
 import { IconText } from 'components/other';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import * as STYLES from 'styles/units';
 
 import human1 from './images/human1.jpg';
@@ -98,14 +98,14 @@ export const ArchCommPage = () => {
                         icon="UserVerified"
                         text="Оппонирование"
                         color="success"
-                        to={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
+                        to={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
                     />
 
                     <IconText
                         icon="QuestionCircled"
                         text="Консультирование"
                         color="teal"
-                        to={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                        to={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
                     />
                 </S.Container>
             </S.BorderContainerStyled>

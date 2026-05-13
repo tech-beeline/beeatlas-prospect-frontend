@@ -16,7 +16,7 @@ import {
 } from 'api/queries/notifications';
 import { useGetSubscriptionEntityTypesQuery } from 'api/queries/subscriptions';
 import { useOutsideClick } from 'hooks/useOutsideClick';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import * as S from './units';
 
@@ -74,7 +74,7 @@ export const NotificationsPopup: FC = () => {
     useOutsideClick(dropdownRef, isOpen, setIsOpen, iconRef);
 
     const handleNavigateButtonClick = () => {
-        navigate(`${ROUTER.NOTIFICATIONS_PATH}?group=${notificationGroup}`);
+        navigate(`${R.NOTIFICATIONS_PATH}?group=${notificationGroup}`);
         setIsOpen(false);
     };
 

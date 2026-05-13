@@ -33,5 +33,12 @@ export interface IBusinessOwner {
     func_manager_employee_number: string;
     email: string;
     beeAtlas: boolean;
-    id: number;
+    id: number | null;
+}
+
+export interface IBusinessOwnerForm {
+    login: string;
+    fullName: string;
+    idExt: string;
+    email: string;
 }

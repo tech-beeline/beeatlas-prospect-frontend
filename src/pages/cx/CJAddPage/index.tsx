@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import {
-    Banner,
-    FileUploader,
-    IconButton,
-    TextField,
-    Typography,
-} from '@beeline/design-system-react';
+import { Banner, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
+import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'features/cx';
 
 import { PageFormContainer } from 'components/containers';
 import { Text } from 'components/core';
-import { Autocomplete, AutocompleteArray } from 'components/form';
+import { Autocomplete, TextField } from 'components/form';
 
 import {
     useCreateCJByBPMN,
@@ -23,8 +18,8 @@ import {
     useUploadBPMNFile,
 } from 'api/queries/cj';
 import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
-import { useGetEmployee, useGetUserInfoQuery } from 'api/queries/profile';
-import * as ROUTER from 'router/const';
+import { useGetUserInfoQuery, usePostUsersInfoMutation } from 'api/queries/profile';
+import * as R from 'router/const';
 import { formatSize } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -35,7 +30,6 @@ import * as S from './units';
 
 export const CJAddPage = () => {
     const [searchTextProduct, setSearchTextProduct] = useState('');
-    const [searchEmployee, setSearchEmployee] = useState('');
 
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
     const [bpmnFileText, setBpmnFileText] = useState<string | null>(null);
@@ -50,7 +44,7 @@ export const CJAddPage = () => {
     const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const { data: userProducts } = useGetUserProductsQuery(userProductIds);
-    const { data: employeeData, isLoading: isLoadingEmployee } = useGetEmployee(searchEmployee);
+    const { mutateAsync: postUsersInfo } = usePostUsersInfoMutation();
 
     const products = isAdministrator ? allProducts : userProducts;
 
@@ -60,11 +54,6 @@ export const CJAddPage = () => {
     const productsOptions = productsFiltered.map((product) => ({
         id: Number(product.id),
         value: product.name,
-    }));
-
-    const employeeOptions = (employeeData ?? []).map((employee) => ({
-        id: employee.id,
-        value: employee.fullName,
     }));
 
     const navigate = useNavigate();
@@ -82,6 +71,39 @@ export const CJAddPage = () => {
     }, [products]);
 
     const onSubmit = handleSubmit(async (values) => {
+        const isNewBusinessOwner = values.businessOwner.id === null;
+        let businessOwnerId = values.businessOwner.id;
+        if (isNewBusinessOwner) {
+            const createData = await postUsersInfo([
+                {
+                    email: values.businessOwner.email,
+                    fullName: values.businessOwner.fullname,
+                    idExt: values.businessOwner.employeeNumber,
+                    login: values.businessOwner.login,
+                },
+            ]);
+            businessOwnerId = createData[0].id;
+        }
+
+        const filledTechOwners = getFilledTechOwners(values.techOwner);
+        const newTechOwners = filledTechOwners.filter((owner) => owner.id === null);
+        let techOwnerIds = filledTechOwners.map((owner) => owner.id);
+
+        if (newTechOwners.length > 0) {
+            const createData = await postUsersInfo(
+                newTechOwners.map((owner) => ({
+                    email: owner.email,
+                    fullName: owner.fullname,
+                    idExt: owner.employeeNumber,
+                    login: owner.login,
+                })),
+            );
+            techOwnerIds = [
+                ...techOwnerIds.filter((id) => id !== null),
+                ...createData.map((owner) => owner.id),
+            ];
+        }
+
         try {
             if (bpmnFile) {
                 setIsProcessingBPMN(true);
@@ -90,8 +112,8 @@ export const CJAddPage = () => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
-                        businessOwner: values.businessOwner,
-                        techOwner: values.techOwner,
+                        businessOwner: businessOwnerId ?? 0,
+                        techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                         productId: String(values.product),
                     },
                     productId: values.product,
@@ -107,7 +129,7 @@ export const CJAddPage = () => {
                     await createCJByBPMN(cjId);
                     setBpmnFile(null);
                     navigate({
-                        pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                        pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
                     });
                 } catch (bpmnError) {
@@ -119,7 +141,7 @@ export const CJAddPage = () => {
                     setBpmnFile(null);
                     showSnackbar({ message: `Ошибка валидации файла`, showCloseButton: true });
                     navigate({
-                        pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                        pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
                     });
                     return;
@@ -130,8 +152,8 @@ export const CJAddPage = () => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
-                        businessOwner: values.businessOwner,
-                        techOwner: values.techOwner,
+                        businessOwner: businessOwnerId ?? 0,
+                        techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                         productId: String(values.product),
                     },
                     productId: values.product,
@@ -140,7 +162,7 @@ export const CJAddPage = () => {
                 setBpmnFile(null);
 
                 navigate({
-                    pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                    pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                     search: createSearchParams({ id: cjId }).toString(),
                 });
             }
@@ -192,13 +214,13 @@ export const CJAddPage = () => {
         setBpmnFile(null);
     };
 
-    const handleCanselClick = () => {
-        navigate(`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}`);
+    const handleCancelClick = () => {
+        navigate(`${R.CX_PATH}${R.CJ_PATH}`);
     };
     return (
         <PageFormContainer
             footer
-            canselButtonClick={handleCanselClick}
+            cancelButtonClick={handleCancelClick}
             confirmButtonClick={onSubmit}
             disableConfirmButton={creatingCJ || isLoadingProducts}
         >
@@ -230,26 +252,30 @@ export const CJAddPage = () => {
                                 />
                                 {bpmnFile && (
                                     <S.FileNameContainer>
-                                        <S.FileUploaderListItemStyled name="" />
-                                        <S.FileMetadataContainer>
-                                            <Typography variant="body2">{bpmnFile.name}</Typography>
-                                            <Typography variant="caption" color="textSecondary">
-                                                {formatSize(bpmnFile.size)}{' '}
-                                                {dayjs(bpmnFile.lastModified)
-                                                    .local()
-                                                    .format('DD.MM.YYYY, HH:mm')}
-                                            </Typography>
-                                        </S.FileMetadataContainer>
-                                        <IconButton
-                                            iconName={Icons.Download}
-                                            size="medium"
-                                            onClick={handleDownload}
-                                        />
-                                        <IconButton
-                                            iconName={Icons.Delete}
-                                            size="medium"
-                                            onClick={handleRemoveFile}
-                                        />
+                                        <S.FileDataContainer>
+                                            <S.FileUploaderListItemStyled name="" />
+                                            <S.FileMetadataContainer>
+                                                <Text variant="body2">{bpmnFile.name}</Text>
+                                                <Text inactive variant="caption">
+                                                    {formatSize(bpmnFile.size)}{' '}
+                                                    {dayjs(bpmnFile.lastModified)
+                                                        .local()
+                                                        .format('DD.MM.YYYY, HH:mm')}
+                                                </Text>
+                                            </S.FileMetadataContainer>
+                                        </S.FileDataContainer>
+                                        <S.FileDataContainer>
+                                            <IconButton
+                                                iconName={Icons.Download}
+                                                size="medium"
+                                                onClick={handleDownload}
+                                            />
+                                            <IconButton
+                                                iconName={Icons.Delete}
+                                                size="medium"
+                                                onClick={handleRemoveFile}
+                                            />
+                                        </S.FileDataContainer>
                                     </S.FileNameContainer>
                                 )}
                             </S.FileAddingContainer>
@@ -263,14 +289,7 @@ export const CJAddPage = () => {
                             </S.RowContainer>
 
                             <S.RowContainer>
-                                <Autocomplete
-                                    fullWidth
-                                    disabled={isLoadingEmployee}
-                                    name="businessOwner"
-                                    label="Владелец сценария*"
-                                    options={employeeOptions}
-                                    onInputChange={(v) => setSearchEmployee(v)}
-                                />
+                                <BusinessOwnerField />
                                 <Autocomplete
                                     fullWidth
                                     disabled={isLoadingProducts}
@@ -281,17 +300,8 @@ export const CJAddPage = () => {
                                 />
                             </S.RowContainer>
 
-                            <TextField label="Теги" name="tags" fullWidth />
-
                             <S.TechnicalContainer>
-                                <AutocompleteArray
-                                    label="ФИО"
-                                    name="techOwner"
-                                    options={employeeOptions}
-                                    title="Технический ответственный"
-                                    disabled={isLoadingEmployee}
-                                    useExternalAddButton
-                                />
+                                <TechOwnerFields />
                             </S.TechnicalContainer>
                         </S.TextFieldContainer>
                     </S.Content>

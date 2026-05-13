@@ -17,7 +17,7 @@ import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 
@@ -64,7 +64,7 @@ export const BITableRow: FC<IBITableRow> = ({
         const editabilityData = await getBIEditabilityById(String(bi.id));
         if (editabilityData.data.editability) {
             navigate({
-                pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
+                pathname: `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
                 search: createSearchParams({ id: String(bi.id) }).toString(),
             });
         } else {
@@ -98,9 +98,9 @@ export const BITableRow: FC<IBITableRow> = ({
                         <S.SpanLinkStyled
                             onClick={() =>
                                 window.open(
-                                    `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${
-                                        ROUTER.VIEW_PATH
-                                    }?${createSearchParams({ id: String(bi.id) })}`,
+                                    `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}?${createSearchParams({
+                                        id: String(bi.id),
+                                    })}`,
                                 )
                             }
                         >
@@ -119,8 +119,8 @@ export const BITableRow: FC<IBITableRow> = ({
                         <S.SpanLinkStyled
                             onClick={() =>
                                 window.open(
-                                    `${ROUTER.MODELS_PATH}${ROUTER.APPS_PATH}${
-                                        ROUTER.VIEW_PATH
+                                    `${R.MODELS_PATH}${R.APPS_PATH}${
+                                        R.VIEW_PATH
                                     }?cmdb=${encodeURIComponent(currentProduct.alias)}`,
                                 )
                             }

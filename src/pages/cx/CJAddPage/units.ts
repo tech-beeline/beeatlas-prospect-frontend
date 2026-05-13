@@ -59,6 +59,12 @@ export const FileNameContainer = styled.div`
     }
 `;
 
+export const FileDataContainer = styled.div`
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+`;
+
 export const FileUploaderListItemStyled = styled(FileUploaderListItem)`
     padding: 0;
     width: 32px;
@@ -71,7 +77,8 @@ export const FileUploaderListItemStyled = styled(FileUploaderListItem)`
 export const FileMetadataContainer = styled.div`
     display: flex;
     flex-direction: column;
-    max-width: 200px;
+
+    max-width: 768px;
     gap: 4px;
 `;
 

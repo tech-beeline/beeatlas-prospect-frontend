@@ -8,11 +8,7 @@ import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 
 import { useGetAllProductsQuery } from 'api/queries/product';
-import {
-    formatNullableNumber,
-    formatNullableNumberArray,
-    formatNullableString,
-} from 'utils/formatters';
+import { formatNullableString } from 'utils/formatters';
 
 import { SideSheetVariants } from '../../const';
 
@@ -24,7 +20,7 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
     const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
     const { toggleSideSheet } = useSideSheetStore();
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
+        <SideBlock isOpen={isOpen} onClose={onClose} large={true} hasBackdrop>
             <S.Container>
                 <S.Content hasButtons>
                     <S.FlexWrapper>
@@ -34,28 +30,40 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
                     </S.FlexWrapper>
 
                     <S.TextFieldContainer>
-                        <S.FlexContainer>
+                        <div>
                             <Text variant="body3" inactive>
                                 Название
                             </Text>
                             <Text variant="body2">{cj.name}</Text>
-                        </S.FlexContainer>
-                        <S.FlexContainer>
+                        </div>
+                        <div>
                             <Text variant="body3" inactive>
                                 Портрет пользователя
                             </Text>
                             <Text variant="body2">{formatNullableString(cj.userPortrait)}</Text>
-                        </S.FlexContainer>
-                        <S.FlexContainer>
+                        </div>
+                        <div>
                             <Text variant="body3" inactive>
                                 Владелец сценария
                             </Text>
-                            <Text variant="body2">{formatNullableNumber(cj.businessOwner)}</Text>
-                        </S.FlexContainer>
+                            {!cj.businessOwner && (
+                                <Text variant="body2">{formatNullableString(null)}</Text>
+                            )}
+                            {cj.businessOwner && (
+                                <>
+                                    <Text variant="body2">
+                                        {formatNullableString(cj.businessOwner.fullName)}
+                                    </Text>
+                                    <Text inactive variant="body3">
+                                        {formatNullableString(cj.businessOwner.email)}
+                                    </Text>
+                                </>
+                            )}
+                        </div>
 
-                        <S.FlexContainer>
+                        <div>
                             <Text variant="body3" inactive>
-                                Приложение CJ
+                                Приложение
                             </Text>
                             <Text variant="body2">
                                 {isLoadingProducts || !productsData ? (
@@ -68,43 +76,60 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
                                     )
                                 )}
                             </Text>
-                        </S.FlexContainer>
-                        <S.FlexContainer>
-                            <Text variant="body3" inactive>
-                                Технический ответственный
-                            </Text>
-                            <Text variant="body2">{formatNullableNumberArray(cj.techOwner)}</Text>
-                        </S.FlexContainer>
+                        </div>
 
-                        <S.FlexContainer>
+                        {cj.techOwners.length === 0 && (
+                            <div>
+                                <Text variant="body3" inactive>
+                                    Технический ответственный
+                                </Text>
+                                <Text variant="body2">{formatNullableString(null)}</Text>
+                            </div>
+                        )}
+
+                        {cj.techOwners.length > 0 &&
+                            cj.techOwners.map((techOwner) => (
+                                <div key={techOwner.id}>
+                                    <Text variant="body3" inactive>
+                                        Технический ответственный
+                                    </Text>
+                                    <Text variant="body2">{techOwner.fullName}</Text>
+                                    <Text inactive variant="body3">
+                                        {techOwner.email}
+                                    </Text>
+                                </div>
+                            ))}
+
+                        <div>
                             <Text variant="body3" inactive>
                                 Автор CJ
                             </Text>
-                            <Text variant="body2">{cj.author.fullName}</Text>
-                        </S.FlexContainer>
+                            <Text variant="body2">{formatNullableString(cj.author?.fullName)}</Text>
+                        </div>
 
-                        <S.FlexContainer>
+                        <div>
                             <Text variant="body3" inactive>
                                 Дата изменения
                             </Text>
                             <Text variant="body2">
                                 {dayjs(cj.lastModifiedDate).format('DD.MM.YYYY')}
                             </Text>
-                        </S.FlexContainer>
+                        </div>
                     </S.TextFieldContainer>
                 </S.Content>
                 <S.ButtonContainer>
                     <Button type="button" onClick={onClose}>
-                        Отменить
+                        Закрыть
                     </Button>
-
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        onClick={() => toggleSideSheet(SideSheetVariants.UPDATE_CJ)}
-                    >
-                        Редактировать
-                    </Button>
+                    {cj.draft && (
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            onClick={() => toggleSideSheet(SideSheetVariants.UPDATE_CJ)}
+                        >
+                            Редактировать
+                        </Button>
+                    )}
                 </S.ButtonContainer>
             </S.Container>
         </SideBlock>

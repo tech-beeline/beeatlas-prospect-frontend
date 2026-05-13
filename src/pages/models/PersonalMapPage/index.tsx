@@ -18,7 +18,7 @@ import { IMapItemData } from 'api/capability/types';
 import { IMapCriteria } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
 import { useGetMapCriteriasQuery, useGetPersonalMapByIdQuery } from 'api/queries/maps';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { PersonalCapabilityCard } from './components';
@@ -94,9 +94,7 @@ export const PersonalMapPage = () => {
                                         name="Мои карты"
                                         id={NaN}
                                         onClick={() =>
-                                            navigate(
-                                                `${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}?tab=PERSONAL`,
-                                            )
+                                            navigate(`${R.MODELS_PATH}${R.MAP_PATH}?tab=PERSONAL`)
                                         }
                                     />,
                                     ...(capabilityId && mapData
@@ -152,7 +150,7 @@ export const PersonalMapPage = () => {
                                 можно{' '}
                                 <Link
                                     title="в древе ФДМ"
-                                    url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${capabilityTreeData.id}&type=BUSINESS`}
+                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capabilityTreeData.id}&type=BUSINESS`}
                                 />
                             </S.Description>
                         )}
@@ -164,7 +162,7 @@ export const PersonalMapPage = () => {
                                     Посмотреть детальную информацию по дочерним элементам можно{' '}
                                     <Link
                                         title="в древе ФДМ"
-                                        url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${capabilityTreeData.id}&type=BUSINESS`}
+                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${capabilityTreeData.id}&type=BUSINESS`}
                                     />
                                 </Text>
                             )}

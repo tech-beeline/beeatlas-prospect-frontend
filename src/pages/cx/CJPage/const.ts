@@ -18,9 +18,19 @@ export type ButtonState = 'default' | 'loading' | 'success';
 export const mapCJToFormValues = (data: ICompleteCJData): FormValues => ({
     name: data.name,
     userPortrait: data.userPortrait,
-    businessOwner: data.businessOwner,
+    businessOwner: {
+        id: data.businessOwner?.id ?? null,
+        employeeNumber: '',
+        login: '',
+        fullname: data.businessOwner?.fullName ?? '',
+        email: data.businessOwner?.email ?? '',
+    },
     product: Number(data.productId),
-    techOwner: (data.techOwner ?? []).map((id) => ({
-        value: id,
+    techOwner: (data.techOwners ?? []).map((owner) => ({
+        id: owner.id ?? null,
+        employeeNumber: '',
+        login: '',
+        fullname: owner.fullName ?? '',
+        email: owner.email ?? '',
     })),
 });

@@ -13,9 +13,9 @@ export const PageFormContainer: FC<IPageFormContainer> = ({
     children,
     footer,
     confirmButtonText = 'Создать',
-    canselButtonText = 'Отмена',
+    cancelButtonText = 'Отмена',
     confirmButtonClick,
-    canselButtonClick,
+    cancelButtonClick,
     disableConfirmButton,
 }) => {
     const navigate = useNavigate();
@@ -42,8 +42,8 @@ export const PageFormContainer: FC<IPageFormContainer> = ({
             {footer && (
                 <S.Footer>
                     <S.FooterInner>
-                        <Button type="button" onClick={canselButtonClick} size="medium">
-                            {canselButtonText}
+                        <Button type="button" onClick={cancelButtonClick} size="medium">
+                            {cancelButtonText}
                         </Button>
                         <Button
                             type="submit"

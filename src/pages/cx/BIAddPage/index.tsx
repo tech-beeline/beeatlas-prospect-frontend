@@ -14,7 +14,7 @@ import {
     useGetBIEditabilityByIdQuery,
     useUpdateBIMutation,
 } from 'api/queries/bi';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import * as S from './units';
 
@@ -34,7 +34,7 @@ export const BIAddPage = () => {
     const navigate = useNavigate();
 
     const navigateToBiLibrary = () => {
-        navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}`);
+        navigate(`${R.CX_PATH}${R.BI_PATH}`);
     };
 
     const handleSaveAsDraftClick = () => {

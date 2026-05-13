@@ -21,7 +21,7 @@ export interface ICJForm {
     dashboardLink?: string;
     productId: string;
     businessOwner: number;
-    techOwner: number[];
+    techOwners: number[];
 }
 
 export interface ICJAuthor {
@@ -55,9 +55,9 @@ export interface ICompleteStepData extends ICJStepData {
 
 export interface ICompleteCJData extends ICJData {
     steps: ICompleteStepData[];
-    author: ICJAuthor;
-    businessOwner: number;
-    techOwner: number[];
+    author: ICJAuthor | null;
+    businessOwner: { email: string; fullName: string; id: number } | null;
+    techOwners: { email: string; fullName: string; id: number }[];
     id_product?: string;
     idProductExt?: string;
     dashboardLink?: string | null;
