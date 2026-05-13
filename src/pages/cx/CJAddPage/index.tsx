@@ -1,14 +1,21 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Banner, Button, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
+import {
+    Banner,
+    FileUploader,
+    IconButton,
+    TextField,
+    Typography,
+} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
-import { SideBlock } from 'components/containers';
-import { Autocomplete, TextField } from 'components/form';
+import { PageFormContainer } from 'components/containers';
+import { Text } from 'components/core';
+import { Autocomplete, AutocompleteArray } from 'components/form';
 
 import {
     useCreateCJByBPMN,
@@ -16,20 +23,20 @@ import {
     useUploadBPMNFile,
 } from 'api/queries/cj';
 import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
-import { useGetUserInfoQuery } from 'api/queries/profile';
-import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';
+import { useGetEmployee, useGetUserInfoQuery } from 'api/queries/profile';
 import * as ROUTER from 'router/const';
 import { formatSize } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { downloadBpmnFile } from '../CJPage/utils/formatters';
+
 import { FormValues, validationSchema } from './form';
-import { ICJCreateForm } from './types';
 import * as S from './units';
 
-export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
+export const CJAddPage = () => {
     const [searchTextProduct, setSearchTextProduct] = useState('');
+    const [searchEmployee, setSearchEmployee] = useState('');
 
-    const [showBanner, setShowBanner] = useState(true);
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
     const [bpmnFileText, setBpmnFileText] = useState<string | null>(null);
     const [, setIsProcessingBPMN] = useState(false);
@@ -43,6 +50,8 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const { data: userProducts } = useGetUserProductsQuery(userProductIds);
+    const { data: employeeData, isLoading: isLoadingEmployee } = useGetEmployee(searchEmployee);
+
     const products = isAdministrator ? allProducts : userProducts;
 
     const productsFiltered = (products ?? []).filter((product) =>
@@ -53,6 +62,11 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         value: product.name,
     }));
 
+    const employeeOptions = (employeeData ?? []).map((employee) => ({
+        id: employee.id,
+        value: employee.fullName,
+    }));
+
     const navigate = useNavigate();
 
     const form = useForm<FormValues>({
@@ -60,11 +74,6 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     });
 
     const { handleSubmit, reset, setError } = form;
-
-    const handleCloseClick = () => {
-        reset();
-        onClose();
-    };
 
     useEffect(() => {
         if (products) {
@@ -81,6 +90,9 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
+                        businessOwner: values.businessOwner,
+                        techOwner: values.techOwner,
+                        productId: String(values.product),
                     },
                     productId: values.product,
                     bpmn: false,
@@ -118,6 +130,9 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
+                        businessOwner: values.businessOwner,
+                        techOwner: values.techOwner,
+                        productId: String(values.product),
                     },
                     productId: values.product,
                     bpmn: false,
@@ -177,46 +192,31 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         setBpmnFile(null);
     };
 
+    const handleCanselClick = () => {
+        navigate(`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}`);
+    };
     return (
-        <SideBlock hasBackdrop isOpen={isOpen} onClose={handleCloseClick} large={true}>
-            <S.Container>
-                <FormProvider {...form}>
-                    <form onSubmit={onSubmit}>
-                        <S.Content hasButtons>
-                            <S.TitleContainer>
-                                <S.FlexWrapper>
-                                    <S.SideBlockTitle>Создать CJ</S.SideBlockTitle>
+        <PageFormContainer
+            footer
+            canselButtonClick={handleCanselClick}
+            confirmButtonClick={onSubmit}
+            disableConfirmButton={creatingCJ || isLoadingProducts}
+        >
+            <FormProvider {...form}>
+                <form onSubmit={onSubmit}>
+                    <S.Content>
+                        <S.TitleContainer>
+                            <S.FlexWrapper>
+                                <Text variant="h4">Создать CJ</Text>
+                            </S.FlexWrapper>
 
-                                    <IconButton
-                                        iconName={Icons.Close}
-                                        onClick={handleCloseClick}
-                                        size="large"
-                                    />
-                                </S.FlexWrapper>
-                                {showBanner && (
-                                    <Banner
-                                        onClose={() => setShowBanner(false)}
-                                        iconName={Icons.InfoCircled}
-                                        title="Нельзя менять структуру CJ добавленного с помощью нотации BPMN, можно менять только распознанные атрибуты BI и этапов. Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beetlas"
-                                    />
-                                )}
-                            </S.TitleContainer>
+                            <Banner
+                                iconName={Icons.InfoCircled}
+                                title="Нельзя менять структуру CJ добавленного с помощью нотации BPMN, можно менять только распознанные атрибуты BI и этапов. Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beetlas"
+                            />
+                        </S.TitleContainer>
 
-                            <S.TextFieldContainer>
-                                <Autocomplete
-                                    fullWidth
-                                    disabled={isLoadingProducts}
-                                    label="Приложение*"
-                                    name="product"
-                                    options={productsOptions}
-                                    onInputChange={(v) => setSearchTextProduct(v)}
-                                />
-
-                                <TextField label="Название CJ*" name="name" />
-
-                                <TextField label="Портрет пользователя" name="userPortrait" />
-                            </S.TextFieldContainer>
-
+                        <S.TextFieldContainer>
                             <S.FileAddingContainer>
                                 <Typography variant="subtitle1">
                                     Добавить CJ в bpmn формате{' '}
@@ -253,24 +253,50 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                     </S.FileNameContainer>
                                 )}
                             </S.FileAddingContainer>
-                        </S.Content>
+                            <S.RowContainer>
+                                <TextField label="Название CJ*" name="name" fullWidth />
+                                <TextField
+                                    label="Портрет пользователя"
+                                    name="userPortrait"
+                                    fullWidth
+                                />
+                            </S.RowContainer>
 
-                        <S.ButtonContainer>
-                            <Button type="button" onClick={handleCloseClick}>
-                                Отменить
-                            </Button>
+                            <S.RowContainer>
+                                <Autocomplete
+                                    fullWidth
+                                    disabled={isLoadingEmployee}
+                                    name="businessOwner"
+                                    label="Владелец сценария*"
+                                    options={employeeOptions}
+                                    onInputChange={(v) => setSearchEmployee(v)}
+                                />
+                                <Autocomplete
+                                    fullWidth
+                                    disabled={isLoadingProducts}
+                                    label="Приложение*"
+                                    name="product"
+                                    options={productsOptions}
+                                    onInputChange={(v) => setSearchTextProduct(v)}
+                                />
+                            </S.RowContainer>
 
-                            <Button
-                                disabled={creatingCJ || isLoadingProducts}
-                                type="submit"
-                                variant="contained"
-                            >
-                                Создать
-                            </Button>
-                        </S.ButtonContainer>
-                    </form>
-                </FormProvider>
-            </S.Container>
-        </SideBlock>
+                            <TextField label="Теги" name="tags" fullWidth />
+
+                            <S.TechnicalContainer>
+                                <AutocompleteArray
+                                    label="ФИО"
+                                    name="techOwner"
+                                    options={employeeOptions}
+                                    title="Технический ответственный"
+                                    disabled={isLoadingEmployee}
+                                    useExternalAddButton
+                                />
+                            </S.TechnicalContainer>
+                        </S.TextFieldContainer>
+                    </S.Content>
+                </form>
+            </FormProvider>
+        </PageFormContainer>
     );
 };

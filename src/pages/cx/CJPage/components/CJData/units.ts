@@ -12,55 +12,31 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div<{ hasButtons: boolean }>`
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-spacing-x6);
     height: ${({ hasButtons }) => (hasButtons ? 'calc(100vh - 96px)' : '100vh')};
     overflow-y: auto;
-    padding: 24px;
+    padding: var(--size-spacing-x6);
 `;
 
 export const FlexWrapper = styled.div`
-    position: relative;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
 
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+`;
+
 export const TextFieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 32px;
 
-    width: 100%;
-    padding-top: 24px;
-`;
-
-export const LinkContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-
-    padding-top: 32px;
-    overflow-y: auto;
-`;
-
-export const LinkBlock = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-`;
-
-export const LinkWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-`;
-
-export const LinkTextField = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-
-    width: 100%;
+    gap: var(--size-spacing-x6);
 `;
 
 export const ButtonContainer = styled.div`

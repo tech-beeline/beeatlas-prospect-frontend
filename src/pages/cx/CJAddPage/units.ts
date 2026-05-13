@@ -1,15 +1,12 @@
 import { FileUploaderListItem } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div``;
-
-export const Content = styled.div<{ hasButtons: boolean }>`
-    height: ${({ hasButtons }) => (hasButtons ? 'calc(100vh - 96px)' : '100vh')};
+export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 32px;
-    overflow-y: auto;
-    padding: 24px;
+
+    padding: var(--size-spacing-x8) 0 0;
 `;
 
 export const TitleContainer = styled.div`
@@ -24,12 +21,6 @@ export const FlexWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-`;
-
-export const SideBlockTitle = styled.div`
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-h5);
-    line-height: var(--font-line-height-h5);
 `;
 
 export const TextFieldContainer = styled.div`
@@ -84,19 +75,18 @@ export const FileMetadataContainer = styled.div`
     gap: 4px;
 `;
 
-export const ButtonContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
+export const RowContainer = styled.div`
     display: flex;
-    gap: 16px;
+    gap: var(--size-spacing-x6);
 
-    width: 100%;
-    height: 96px;
-    padding: 24px;
-    border-top: 1px solid var(--color-divider);
-    > Button {
-        width: 100%;
+    & > * {
+        flex: 1;
     }
+`;
+
+export const TechnicalContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--size-spacing-x6);
 `;

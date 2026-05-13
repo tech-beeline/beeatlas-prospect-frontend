@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Label, Skeleton } from '@beeline/design-system-react';
+import { Badge, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { TargetLabel } from 'features/cx';
+import { TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
@@ -111,12 +111,10 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
             <S.BICard key={bi.id}>
                 <S.FlexContainer>
                     <S.LabelsContainer>
-                        {bi.draft ? (
-                            <Label title="Черновик" type="default" variant="contained" />
-                        ) : (
-                            <Label title="Опубликован" type="success" variant="contained" />
-                        )}
-                        <TargetLabel target={bi.target} />
+                        <Badge type="secondary" semantic={bi.draft ? 'neutral' : 'success'}>
+                            {bi.draft ? 'Черновик' : 'Опубликован'}
+                        </Badge>
+                        <TargetBadge target={bi.target} />
                     </S.LabelsContainer>
                     <DropdownMenu
                         id={String(bi.id)}

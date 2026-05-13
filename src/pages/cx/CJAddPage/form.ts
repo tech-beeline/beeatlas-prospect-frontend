@@ -1,13 +1,17 @@
-import { number, object, string } from 'yup';
+import { array, number, object, string } from 'yup';
 
 export type FormValues = {
     name: string;
     userPortrait: string | undefined | null;
+    businessOwner: number;
     product: number;
+    techOwner: number[];
 };
 
 export const validationSchema = object().shape({
     name: string().required('Заполните название'),
     userPortrait: string().nullable().notRequired(),
-    product: number().required('Выберите приложение'),
+    businessOwner: number().defined().default(0),
+    product: number().defined().default(0),
+    techOwner: array().of(number().defined()).ensure().default([]),
 });

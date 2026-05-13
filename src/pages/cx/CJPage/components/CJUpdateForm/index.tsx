@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
@@ -6,10 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
 import { SideBlock } from 'components/containers';
-// import { Text } from 'components/core';
-import { TextField } from 'components/form';
+import { Text } from 'components/core';
+import { Autocomplete, AutocompleteArray, TextField } from 'components/form';
 
 import { useUpdateCJMutation } from 'api/queries/cj';
+import { useGetEmployee } from 'api/queries/profile';
+import { useGetProductsQuery } from 'hooks';
+import { isNotNull } from 'utils/helpers';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
@@ -17,8 +20,26 @@ import { ICJUpdateForm } from './types';
 import * as S from './units';
 
 export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose }) => {
+    const [searchTextProduct, setSearchTextProduct] = useState('');
+    const [searchEmployee, setSearchEmployee] = useState('');
+
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { mutateAsync: updateCJ, isPending: updatingCj } = useUpdateCJMutation();
+    const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: employeeData, isLoading: isLoadingEmployee } = useGetEmployee(searchEmployee);
+
+    const productsFiltered = (products ?? []).filter((product) =>
+        product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
+    );
+    const productsOptions = productsFiltered.map((product) => ({
+        id: Number(product.id),
+        value: product.name,
+    }));
+
+    const employeeOptions = (employeeData ?? []).map((employee) => ({
+        id: employee.id,
+        value: employee.fullName,
+    }));
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
@@ -59,6 +80,9 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                 data: {
                     name: values.name,
                     user_portrait: values.userPortrait,
+                    businessOwner: values.businessOwner,
+                    techOwner: values.techOwner.map((item) => item.value).filter(isNotNull),
+                    productId: String(values.product),
                 },
             });
             showSnackbar({ message: 'Изменения сохранены' });
@@ -78,7 +102,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                     <form onSubmit={onSubmit}>
                         <S.Content hasButtons>
                             <S.FlexWrapper>
-                                <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
+                                <Text variant="h5">Редактирование данных CJ</Text>
 
                                 <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                             </S.FlexWrapper>
@@ -87,6 +111,35 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                                 <TextField label="Название" name="name" />
 
                                 <TextField label="Портрет пользователя" name="userPortrait" />
+
+                                <Autocomplete
+                                    fullWidth
+                                    disabled={isLoadingEmployee}
+                                    name="businessOwner"
+                                    label="Владелец сценария*"
+                                    options={employeeOptions}
+                                    onInputChange={(v) => setSearchEmployee(v)}
+                                />
+
+                                <Autocomplete
+                                    label="Приложение"
+                                    fullWidth
+                                    name="product"
+                                    options={productsOptions}
+                                    disabled={isLoadingProducts}
+                                    onInputChange={(v) => setSearchTextProduct(v)}
+                                />
+
+                                <AutocompleteArray
+                                    label="ФИО"
+                                    name="techOwner"
+                                    options={employeeOptions}
+                                    disabled={isLoadingEmployee}
+                                    titleVariant="subtitle2"
+                                    title="Технический ответственный"
+                                    useExternalAddButton
+                                    smallButton
+                                />
                             </S.TextFieldContainer>
 
                             {/* /*<S.LinkContainer>

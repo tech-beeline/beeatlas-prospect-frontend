@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusLabel, TargetLabel } from 'features/cx';
+import { StatusBadge, TargetBadge } from 'features/cx';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
 
@@ -10,9 +10,9 @@ import { BIScenario } from '../../components/Table/components';
 
 import * as S from './units';
 
-export const formatTarget = (target: boolean) => <TargetLabel target={target} />;
+export const formatTarget = (target: boolean) => <TargetBadge target={target} />;
 
-export const formatStatus = (status: IStatus) => <StatusLabel status={status} />;
+export const formatStatus = (status: IStatus) => <StatusBadge status={status} />;
 
 export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
     return (

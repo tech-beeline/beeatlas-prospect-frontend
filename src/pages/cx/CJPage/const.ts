@@ -1,4 +1,9 @@
+import { ICompleteCJData } from 'api/cj/types';
+
+import { FormValues } from './components/CJUpdateForm';
+
 export enum SideSheetVariants {
+    DATA_CJ = 'DATA_CJ',
     IMPORT_CJ = 'IMPORT_CJ',
     UPDATE_CJ = 'UPDATE_CJ',
     VERSION_CJ = 'VERSION_CJ',
@@ -9,3 +14,13 @@ export enum SideSheetVariants {
 }
 
 export type ButtonState = 'default' | 'loading' | 'success';
+
+export const mapCJToFormValues = (data: ICompleteCJData): FormValues => ({
+    name: data.name,
+    userPortrait: data.userPortrait,
+    businessOwner: data.businessOwner,
+    product: Number(data.productId),
+    techOwner: (data.techOwner ?? []).map((id) => ({
+        value: id,
+    })),
+});

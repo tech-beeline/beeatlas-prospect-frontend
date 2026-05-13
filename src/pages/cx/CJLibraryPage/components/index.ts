@@ -1,5 +1,4 @@
 export { CJCard } from './CJCard';
-export { CJCreateForm } from './CJCreateForm';
 export { CJLibraryFilters } from './CJLibraryFilters';
 export { FormatVariant, ProductVariant } from './CJLibraryFilters/const';
 export type { ICJFilterOptions } from './CJLibraryFilters/types';

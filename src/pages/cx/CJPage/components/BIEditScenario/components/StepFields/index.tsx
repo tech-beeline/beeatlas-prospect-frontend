@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, Icon, Skeleton } from '@beeline/design-system-react';
+import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
@@ -18,7 +18,13 @@ import { FormValues } from '../../form';
 import { IStepFields } from './types';
 import * as S from './units';
 
-export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemoveClick }) => {
+export const StepFields: FC<IStepFields> = ({
+    index,
+    handleAddClick,
+    handleRemoveClick,
+    isLast,
+    totalFields,
+}) => {
     const [searchTextProduct, setSearchTextProduct] = useState('');
     const [searchTextTC, setSearchTextTC] = useState('');
     const [searchTextIface, setSearchTextIface] = useState('');
@@ -118,27 +124,14 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                         `Вызов ${index + 1}`
                     )} */}
                 </Text>
-                {index === 0 && (
-                    <Button
+                {totalFields > 1 && (
+                    <IconButton
                         variant="plain"
-                        size="small"
-                        startIcon={<Icon iconName={Icons.Add} color="blue" />}
-                        type="button"
-                        onClick={handleAddClick}
-                    >
-                        Добавить
-                    </Button>
-                )}
-                {index !== 0 && (
-                    <Button
-                        variant="plain"
-                        size="small"
-                        startIcon={<Icon iconName={Icons.Delete} color="blue" />}
+                        size="medium"
+                        iconName={Icons.Delete}
                         type="button"
                         onClick={() => handleRemoveClick(index)}
-                    >
-                        Удалить
-                    </Button>
+                    />
                 )}
             </S.FlexWrapper>
             <S.LinkWrapper>
@@ -236,6 +229,13 @@ export const StepFields: FC<IStepFields> = ({ index, handleAddClick, handleRemov
                     </S.LinkTextField>
                 </S.LinkBlock>
             </S.LinkWrapper>
+            {isLast && (
+                <S.ButtonContainer>
+                    <Button variant="outlined" size="small" type="button" onClick={handleAddClick}>
+                        Добавить вызов
+                    </Button>
+                </S.ButtonContainer>
+            )}
         </S.LinkContainer>
     );
 };

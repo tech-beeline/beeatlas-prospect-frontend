@@ -1,10 +1,10 @@
 import { FC, useState } from 'react';
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Label, Skeleton } from '@beeline/design-system-react';
+import { Badge, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { TargetLabel } from 'features/cx';
+import { TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { DropdownMenuControlled } from 'components/interaction';
@@ -142,14 +142,12 @@ export const BITableRow: FC<IBITableRow> = ({
                 </S.TableDataStyled>
                 {/* <S.TableDataStyled>{'—'}</S.TableDataStyled> */}
                 <S.TableDataStyled>
-                    {bi.draft ? (
-                        <Label title="Черновик" type="default" variant="contained" />
-                    ) : (
-                        <Label title="Опубликован" type="success" variant="contained" />
-                    )}
+                    <Badge type="secondary" semantic={bi.draft ? 'neutral' : 'success'}>
+                        {bi.draft ? 'Черновик' : 'Опубликован'}
+                    </Badge>
                 </S.TableDataStyled>
                 <S.TableDataStyled>
-                    <TargetLabel target={bi.target} />
+                    <TargetBadge target={bi.target} />
                 </S.TableDataStyled>
                 <S.TdDate>{dayjs(bi.lastModifiedDate).format('DD.MM.YYYY')}</S.TdDate>
                 <S.ActionCell showShadow={showShadow} expanded={isExpanded} isActive={isActive}>

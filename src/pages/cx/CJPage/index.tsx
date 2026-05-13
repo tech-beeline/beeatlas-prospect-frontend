@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
+    Badge,
     Button,
     Icon,
     IconButton,
-    Label,
     ProgressButton,
     Skeleton,
 } from '@beeline/design-system-react';
@@ -29,13 +29,8 @@ import { safeNavigateBack } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { CJImport } from './components/CJImport';
-import { CJUpdateForm } from './components/CJUpdateForm';
-import { CJVersion } from './components/CJVersion';
-import { InfoSidesheet } from './components/InfoSidesheet';
-import { SkeletonTable } from './components/SkeletonTable';
-import { Table } from './components/Table';
-import { ButtonState, SideSheetVariants } from './const';
+import { CJData, CJImport, CJUpdateForm, CJVersion, SkeletonTable, Table } from './components';
+import { ButtonState, mapCJToFormValues, SideSheetVariants } from './const';
 import * as S from './units';
 
 export const CJPage = () => {
@@ -169,7 +164,6 @@ export const CJPage = () => {
 
     const descriptionRef = useRef<HTMLDivElement>(null);
     const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
     const handleOpenBPMN = () => {
         if (!data) return;
@@ -236,46 +230,21 @@ export const CJPage = () => {
                             </div>
 
                             <S.InfoContainer>
-                                <IconButton
-                                    iconName={Icons.InfoCircled}
-                                    data-tooltip-id="info"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setIsInfoTooltipOpen((prev) => !prev);
-                                    }}
-                                />
-                                {data && (
-                                    <TooltipContainer
-                                        largePadding
-                                        id="info"
-                                        place="bottom"
-                                        noArrow
-                                        offset={8}
-                                        infoWidth
-                                        isOpen={isInfoTooltipOpen}
-                                        clickable
-                                        afterHide={() => setIsInfoTooltipOpen(false)}
-                                    >
-                                        <InfoSidesheet
-                                            onClose={() => setIsInfoTooltipOpen(false)}
-                                            cj={data}
-                                        />
-                                    </TooltipContainer>
-                                )}
-
-                                <Label
-                                    variant="contained"
-                                    title={data?.draft ? 'Черновик' : 'Опубликован'}
-                                    type={data?.draft ? 'default' : 'success'}
-                                />
+                                <Badge
+                                    type="secondary"
+                                    semantic={data?.draft ? 'neutral' : 'success'}
+                                >
+                                    {data?.draft ? 'Черновик' : 'Опубликован'}
+                                </Badge>
                                 <S.InfoTooltipContainer>
-                                    <Label
-                                        variant="contained"
-                                        title={data?.bpmn ? 'BPMN' : 'BEEATLAS'}
-                                        type={data?.bpmn ? 'warning' : 'magenta'}
+                                    <Badge
+                                        type="secondary"
                                         data-tooltip-id="bpmn-label-tooltip"
-                                        iconName={Icons.InfoCircled}
-                                    />
+                                        semantic={data?.bpmn ? 'warning' : 'info'}
+                                        icon={Icons.InfoCircled}
+                                    >
+                                        {data?.bpmn ? 'BPMN' : 'BEEATLAS'}
+                                    </Badge>
                                     <TooltipContainer
                                         id="bpmn-label-tooltip"
                                         place="bottom"
@@ -296,10 +265,16 @@ export const CJPage = () => {
                                     position="left"
                                     items={[
                                         [
+                                            {
+                                                title: 'Данные CJ',
+                                                icon: Icons.InfoCircled,
+                                                onClick: () =>
+                                                    toggleSideSheet(SideSheetVariants.DATA_CJ),
+                                            },
                                             ...(data?.draft
                                                 ? [
                                                       {
-                                                          title: 'Редактировать',
+                                                          title: 'Редактировать данные CJ',
                                                           icon: Icons.Edit,
                                                           onClick: () =>
                                                               toggleSideSheet(
@@ -318,7 +293,6 @@ export const CJPage = () => {
                                                       },
                                                   ]
                                                 : []),
-
                                             {
                                                 title: 'Показать версии',
                                                 icon: Icons.PagesMultipleEmpty,
@@ -417,10 +391,7 @@ export const CJPage = () => {
                         isOpen={openSideSheet === SideSheetVariants.UPDATE_CJ}
                         cjId={data.id}
                         onClose={closeSideSheet}
-                        values={{
-                            name: data.name,
-                            userPortrait: data.userPortrait,
-                        }}
+                        values={mapCJToFormValues(data)}
                     />
                     <CJImport
                         isOpen={openSideSheet === SideSheetVariants.IMPORT_CJ}
@@ -434,6 +405,11 @@ export const CJPage = () => {
                         onClose={closeSideSheet}
                         versions={versions}
                         cjId={paramId}
+                    />
+                    <CJData
+                        isOpen={openSideSheet === SideSheetVariants.DATA_CJ}
+                        onClose={closeSideSheet}
+                        cj={data}
                     />
                 </>
             )}

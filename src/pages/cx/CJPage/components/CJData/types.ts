@@ -1,6 +1,7 @@
 import { ICompleteCJData } from 'api/cj/types';
 
-export interface IInfoSidesheet {
+export interface ICJData {
     onClose: () => void;
+    isOpen: boolean;
     cj: ICompleteCJData;
 }

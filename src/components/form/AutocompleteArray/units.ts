@@ -13,3 +13,11 @@ export const Rows = styled.div`
     flex-direction: column;
     gap: var(--size-spacing-x8);
 `;
+
+export const Header = styled.div`
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;

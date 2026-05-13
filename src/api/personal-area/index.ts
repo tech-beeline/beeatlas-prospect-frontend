@@ -64,3 +64,9 @@ export const putRolePermission = (id: number, data: T.IPermission[]) => {
         data,
     });
 };
+
+export const getEmployee = (query: string): AxiosPromise<T.IBusinessOwner[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}auth/v1/users/myprofile?search=${query}`,
+    });
+};
