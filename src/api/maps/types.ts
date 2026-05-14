@@ -15,6 +15,17 @@ export interface IMapCriteria {
     type: string;
 }
 
+export interface ICriteriaForm {
+    name: string;
+    description: string;
+    type: string;
+    interval: number;
+    threshold: number | null;
+    revers: boolean;
+    minDesc: string;
+    maxDesc: string;
+}
+
 export interface IPersonalMapType {
     id: number;
     name: PersonalMapTypes;

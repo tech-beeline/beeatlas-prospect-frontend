@@ -54,6 +54,7 @@ export const PACKAGE_PATH = '/package';
 export const TECHNOLOGIES_PATH = '/technologies';
 export const VERSIONS_PATH = '/versions';
 export const CAPABILITIES_PATH = '/capabilities';
+export const CRITERIAS_PATH = '/criterias';
 
 // Уведомления
 export const NOTIFICATIONS_PATH = '/notifications';

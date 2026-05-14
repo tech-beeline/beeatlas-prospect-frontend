@@ -12,6 +12,19 @@ export const getMapCriterias = (type?: 'tc' | 'bc' | null): AxiosPromise<T.IMapC
     });
 };
 
+export const putCriteria = (data: T.ICriteriaForm) => {
+    return Api.put({
+        url: `${GATEWAY_URL}capability/v1/criterias`,
+        data,
+    });
+};
+
+export const deleteCriteria = (id: string | number) => {
+    return Api.delete({
+        url: `${GATEWAY_URL}capability/v1/criterias/${id}`,
+    });
+};
+
 export const getPersonalMaps = (): AxiosPromise<T.IPersonalMapData[]> => {
     return Api.get({
         url: `${GATEWAY_URL}capability/v1/maps`,

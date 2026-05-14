@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    deleteCriteria,
     deletePersonalMap,
     getMapCriterias,
     getPersonalMapById,
@@ -9,8 +10,14 @@ import {
     patchPersonalMap,
     patchPersonalMapGroups,
     postPersonalMap,
+    putCriteria,
 } from 'api/maps';
-import { IPersonalMapForm, IPersonalMapGroupForm, IPersonalMapUpdateForm } from 'api/maps/types';
+import {
+    ICriteriaForm,
+    IPersonalMapForm,
+    IPersonalMapGroupForm,
+    IPersonalMapUpdateForm,
+} from 'api/maps/types';
 
 const MAPS_PREFIX = 'MAPS_PREFIX';
 const MAPS_LIBRARY_PREFIX = 'MAPS_LIBRARY_PREFIX';
@@ -21,6 +28,28 @@ export const useGetMapCriteriasQuery = (type?: 'tc' | 'bc' | null) => {
         queryFn: () => getMapCriterias(type).then((res) => res.data),
     });
 };
+
+export function usePutCriteriaMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [MAPS_PREFIX, 'CRITERIAS', 'update'],
+        mutationFn: (data: ICriteriaForm) => putCriteria(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [MAPS_PREFIX, 'CRITERIAS'] });
+        },
+    });
+}
+
+export function useDeleteCriteriaMutation() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [MAPS_PREFIX, 'CRITERIAS', 'delete'],
+        mutationFn: (id: string | number) => deleteCriteria(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [MAPS_PREFIX, 'CRITERIAS'] });
+        },
+    });
+}
 
 export const useGetPersonalMapsQuery = () => {
     return useQuery({

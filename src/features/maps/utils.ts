@@ -47,6 +47,7 @@ export const generateMapColorGradient = (
     themeIsDark: boolean,
     reverse: boolean,
     interval: number,
+    threshold: number | null,
 ) => {
     const lightColors = [START_COLOR_LIGHT, END_COLOR_LIGHT];
     const darkColors = [START_COLOR_DARK, END_COLOR_DARK];
@@ -54,7 +55,7 @@ export const generateMapColorGradient = (
     return generateColorGradient(
         themeIsDark ? darkColors[reverse ? 1 : 0] : lightColors[reverse ? 1 : 0],
         themeIsDark ? darkColors[reverse ? 0 : 1] : lightColors[reverse ? 0 : 1],
-        interval,
+        threshold ? Math.floor(interval / threshold) : interval,
     );
 };
 
@@ -64,10 +65,9 @@ export const selectColorByCriteria = (
     grade: number,
     value: number,
 ): string => {
-    if (selectedCriteria.threshold === null) return gradient[grade];
-    if (value > selectedCriteria.threshold) return gradient[gradient.length - 1];
+    if (selectedCriteria.threshold === null)
+        return grade >= gradient.length ? gradient[gradient.length - 1] : gradient[grade];
+    if (value > (selectedCriteria.interval ?? 1)) return gradient[gradient.length - 1];
     if (value === 0) return gradient[0];
-    return gradient[
-        Math.ceil(value / (selectedCriteria.threshold / (selectedCriteria.interval ?? 1))) - 1
-    ];
+    return gradient[Math.floor((value - 1) / selectedCriteria.threshold)];
 };

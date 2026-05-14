@@ -32,6 +32,8 @@ export const MenuPersonalArea = () => {
                     ? `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`
                     : location.pathname.includes(R.CAPABILITIES_PATH)
                     ? `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`
+                    : location.pathname.includes(R.CRITERIAS_PATH)
+                    ? `${R.ADMIN_PATH}${R.CRITERIAS_PATH}`
                     : `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`
             }
             groups={[
@@ -49,6 +51,16 @@ export const MenuPersonalArea = () => {
                             path: `${R.ADMIN_PATH}${R.APPS_PATH}`,
                         },
                         {
+                            icon: Icons.Radar,
+                            name: 'Управление\nтехнологиями',
+                            path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,
+                        },
+                        {
+                            icon: Icons.Settings,
+                            name: 'Управление\nкритериями',
+                            path: `${R.ADMIN_PATH}${R.CRITERIAS_PATH}`,
+                        },
+                        {
                             icon: Icons.Import,
                             name: 'Импорт\xa0файлов',
                             path: `${R.ADMIN_PATH}${R.FILE_IMPORT_PATH}`,
@@ -57,11 +69,6 @@ export const MenuPersonalArea = () => {
                             icon: Icons.Cycle,
                             name: 'Процесс\xa0импорта',
                             path: `${R.ADMIN_PATH}${R.IMPORTED_DATA_PATH}`,
-                        },
-                        {
-                            icon: Icons.Radar,
-                            name: 'Управление\nтехнологиями',
-                            path: `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`,
                         },
                         {
                             icon: Icons.Capability,

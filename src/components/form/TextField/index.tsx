@@ -18,6 +18,7 @@ export const TextField: FC<ITextField> = ({
     onKeyDown,
     type,
     endIcon,
+    helperText,
     ...rest
 }) => {
     const {
@@ -42,7 +43,7 @@ export const TextField: FC<ITextField> = ({
                     disabled={disabled}
                     label={label}
                     error={isError}
-                    helperText={errorMessage}
+                    helperText={errorMessage ?? helperText}
                     helperPosition={errorMessage ? helperPosition : 'absolute'}
                     maxLength={maxLength}
                     autoFocus={autoFocus}
