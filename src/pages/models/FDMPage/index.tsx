@@ -36,6 +36,7 @@ import { ItemTypes } from './store/types';
 import {
     ApiTable,
     BreadCrumbsItem,
+    CJList,
     HistoryTable,
     NestingMenu,
     TreeCard,
@@ -405,10 +406,10 @@ export const FDMPage: FC<IFDMPage> = ({ isAdmin }) => {
                                                             //     id: MetricsVariants.E2E,
                                                             //     label: 'E2E',
                                                             // },
-                                                            // {
-                                                            //     id: MetricsVariants.CJ,
-                                                            //     label: 'CJ',
-                                                            // },
+                                                            {
+                                                                id: MetricsVariants.CJ,
+                                                                label: 'CJ',
+                                                            },
                                                         ]}
                                                         onChange={(option) =>
                                                             setMetricsVariant(
@@ -435,16 +436,7 @@ export const FDMPage: FC<IFDMPage> = ({ isAdmin }) => {
                                                         </S.MetricsFlexContainer>
                                                     )}
                                                     {metricsVariant === MetricsVariants.CJ && (
-                                                        <S.MetricsFlexContainer>
-                                                            <Link
-                                                                title="[E2E][WEB][KA] Я, как клиент, хочу добровольно заблокировать Домашний Интернет (ЕЛК)"
-                                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=1`}
-                                                            />
-                                                            <Link
-                                                                title="[E2E][WEB][KA] Я, как клиент, хочу добровольно заблокировать Домашний Интернет (ЕЛК)"
-                                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=1`}
-                                                            />
-                                                        </S.MetricsFlexContainer>
+                                                        <CJList tcId={String(activeItem.id)} />
                                                     )}
                                                 </S.MetricsContainer>
                                             )}
