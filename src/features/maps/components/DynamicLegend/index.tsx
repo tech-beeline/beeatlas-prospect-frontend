@@ -10,7 +10,12 @@ import * as S from './units';
 export const DynamicLegend: FC<IDynamicLegend> = ({ criteria }) => {
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
 
-    const gradient = generateMapColorGradient(themeIsDark, criteria.revers, criteria.interval ?? 2);
+    const gradient = generateMapColorGradient(
+        themeIsDark,
+        criteria.revers,
+        criteria.interval ?? 2,
+        criteria.threshold,
+    );
 
     return (
         <S.Wrapper>

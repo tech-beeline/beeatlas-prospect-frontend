@@ -123,3 +123,9 @@ export const patchCJLink = (id: string, data: Partial<T.ICJForm>) => {
         data,
     });
 };
+
+export const getCJsByTechCapabilityId = (techCapabilityId: string): AxiosPromise<T.ICJData[]> => {
+    return Api.get({
+        url: `${GATEWAY_CX_URL}cx/v1/tech-capability/${techCapabilityId}/cj`,
+    });
+};

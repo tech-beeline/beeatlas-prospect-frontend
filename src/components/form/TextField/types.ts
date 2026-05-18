@@ -14,4 +14,5 @@ export interface ITextField {
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     type?: HTMLInputTypeAttribute;
     endIcon?: ReactNode;
+    helperText?: string;
 }

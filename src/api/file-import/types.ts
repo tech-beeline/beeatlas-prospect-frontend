@@ -36,4 +36,5 @@ export interface IFileData {
 export enum FileUploadPath {
     BC = 'business_capability',
     TC = 'tech_capability',
+    CRITERIAS = 'capability_criterias',
 }

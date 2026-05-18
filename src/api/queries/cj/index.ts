@@ -9,6 +9,7 @@ import {
     getCJById,
     getCJDocumentationTypes,
     getCJsByBIId,
+    getCJsByTechCapabilityId,
     patchCJ,
     patchCJLink,
     postCJ,
@@ -343,3 +344,10 @@ export function useCreateCJDashboardMutation() {
         },
     });
 }
+
+export const useGetCJsByTechCapabilityIdQuery = (techCapabilityId: string) => {
+    return useQuery({
+        queryKey: [CJ_PREFIX, 'byTechCapability', techCapabilityId],
+        queryFn: () => getCJsByTechCapabilityId(techCapabilityId).then((res) => res.data),
+    });
+};

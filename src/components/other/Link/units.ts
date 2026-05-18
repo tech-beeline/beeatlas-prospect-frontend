@@ -7,19 +7,20 @@ export const Link = styled.a<{ light?: boolean; visited?: boolean }>`
 
     cursor: pointer;
 
-    :hover > span:nth-child(1) {
+    :hover > #title {
         text-decoration: underline;
     }
 
-    :hover > span:nth-child(2) {
+    :hover > #icon {
         display: inline;
     }
 `;
 
-export const IconOuter = styled(Icon)<{ showIconPermanently: boolean }>`
+export const IconOuter = styled(Icon)<{ showIconPermanently: boolean; iconLeft: boolean }>`
     display: ${({ showIconPermanently }) => (showIconPermanently ? 'inline' : 'none')};
 
-    margin-left: 8px;
+    margin-left: ${({ iconLeft }) => (iconLeft ? '0' : '8px')};
+    margin-right: ${({ iconLeft }) => (iconLeft ? '8px' : '0')};
     vertical-align: middle;
 
     color: var(--color-text-link);

@@ -47,6 +47,7 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
                                       themeIsDark,
                                       mapVariant.revers,
                                       mapVariant.interval ?? 2,
+                                      mapVariant.threshold,
                                   ),
                                   mapVariant,
                                   criteria?.grade ?? 0,
@@ -112,7 +113,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability, ma
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
     const criteria =
         mapVariant && mapVariant !== MapVariant.DEFAULT
-            ? techCapability.criteria?.find((c) => c.criteria_id === (mapVariant as any).id)
+            ? techCapability.criteria?.find((c) => c.criteria_id === mapVariant.id)
             : undefined;
 
     const grade = criteria?.grade ?? 0;
@@ -123,8 +124,9 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability, ma
     if (mapVariant && mapVariant !== MapVariant.DEFAULT) {
         const gradient = generateMapColorGradient(
             themeIsDark,
-            (mapVariant as any).revers ?? false,
-            (mapVariant as any).interval ?? 2,
+            mapVariant.revers ?? false,
+            mapVariant.interval ?? 2,
+            mapVariant.threshold,
         );
 
         backgroundColor = selectColorByCriteria(gradient, mapVariant, grade, value);
@@ -147,6 +149,10 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability, ma
                         <Text variant="subtitle3">{criteria?.value ?? 0}</Text>
                     </S.CriteriaContainer>
                 )}
+                <CapabilityCardCriteriaComment
+                    id={`tech-capability-${techCapability.id}`}
+                    comment={criteria?.comment}
+                />
             </S.TechCapabilityCard>
             <TooltipContainer
                 displayFlex

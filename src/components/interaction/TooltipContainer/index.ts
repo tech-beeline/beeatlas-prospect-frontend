@@ -17,7 +17,7 @@ export const TooltipContainer = styled(Tooltip)<{
 
     max-width: ${({ largeWidth, infoWidth }) =>
         largeWidth ? '480px' : infoWidth ? 'max-content' : '300px'};
-    width: ${({ largeWidth }) => (largeWidth ? '480px' : 'max-content')};
+    width: max-content;
     padding: ${({ largePadding }) => (largePadding ? '16px' : '4px 8px')};
 
     background-color: var(--color-border-focus);
@@ -32,6 +32,7 @@ export const TooltipContainer = styled(Tooltip)<{
     font-size: var(--font-size-caption);
     line-height: var(--font-line-height-caption);
     text-align: start;
+    color: var(--color-text-active-inverse);
     white-space: pre-line;
 
     user-select: none;

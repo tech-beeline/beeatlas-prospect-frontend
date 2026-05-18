@@ -71,7 +71,6 @@ export const PersonalMapPage = () => {
             childrenCapabilitiesData.techCapabilities.length !== 0
         ) {
             setMapVariant(MapVariant.DEFAULT);
-            // setChipsDisabled(false);
         } else {
             setChipsDisabled(false);
         }
@@ -191,26 +190,28 @@ export const PersonalMapPage = () => {
                                             : criteria.name !== 'Качество описания TC',
                                     )
                                     .map((criteria) => ({
-                                        label: criteria.name,
+                                        label: criteria.description ?? '',
                                         value: criteria.id,
                                     })),
                             ].map((chip, i) => (
-                                <Chip
-                                    key={chip.value}
-                                    disabled={chipsDisabled && i !== 0}
-                                    active={
-                                        chip.value === mapVariant ||
-                                        chip.value === (mapVariant as any)?.id
-                                    }
-                                    label={chip.label}
-                                    onClick={() =>
-                                        setMapVariant(
-                                            criteriasData?.find(
-                                                (criteria) => criteria.id === chip.value,
-                                            ) ?? MapVariant.DEFAULT,
-                                        )
-                                    }
-                                />
+                                <>
+                                    <Chip
+                                        key={chip.value}
+                                        disabled={chipsDisabled && i !== 0}
+                                        active={
+                                            chip.value === mapVariant ||
+                                            chip.value === (mapVariant as any)?.id
+                                        }
+                                        label={chip.label}
+                                        onClick={() =>
+                                            setMapVariant(
+                                                criteriasData?.find(
+                                                    (criteria) => criteria.id === chip.value,
+                                                ) ?? MapVariant.DEFAULT,
+                                            )
+                                        }
+                                    />
+                                </>
                             ))}
                             {isLoadingCriterias && (
                                 <>
