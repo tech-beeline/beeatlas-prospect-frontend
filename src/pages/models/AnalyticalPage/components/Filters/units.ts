@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 
 export const FiltersWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 24px;
+    flex-direction: column;
 `;
 
 export const SearchContainer = styled.div`
     position: relative;
+    max-width: 580px;
 
     flex: 1;
 `;
@@ -56,4 +57,11 @@ export const FlexContainer = styled.div`
 
 export const FlexGrowContainer = styled.div`
     flex: 1;
+    max-width: 278px;
+`;
+
+export const FitnessFunctionDescriptionContainer = styled.div`
+    overflow: hidden;
+    white-space: normal;
+    overflow-wrap: anywhere;
 `;

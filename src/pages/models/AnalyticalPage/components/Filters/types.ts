@@ -1,9 +1,10 @@
-import { IFitenssFunctionsAggregationResult } from 'api/product/types';
+import { IFitnessFunctionsAggregationResult } from 'api/product/types';
 
 export interface IFilterOptions {
     search: string;
     product: string[];
     domain: number[];
+    fitnessFunctions: number[];
     hideEmpty: boolean;
 }
 
@@ -21,5 +22,6 @@ export interface ISearchResultItem {
 export interface IFilters {
     filterOptions: IFilterOptions;
     setFilterOptions: (next: IFilterOptions | ((prev: IFilterOptions) => IFilterOptions)) => void;
-    fitnessFunctionsData?: IFitenssFunctionsAggregationResult;
+    fitnessFunctionsData?: IFitnessFunctionsAggregationResult;
+    isLoading: boolean;
 }
