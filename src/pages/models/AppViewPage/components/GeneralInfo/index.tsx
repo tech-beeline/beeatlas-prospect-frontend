@@ -169,7 +169,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                     </Text>
                 </>
             )}
-            {isAdministrator && structurizrApiUrl && structurizrApiUrl !== '' ? (
+            {(isAdministrator || isUserProduct) && structurizrApiUrl && structurizrApiUrl !== '' ? (
                 <S.StructurizrTitle>
                     <Text inactive variant="body2">
                         Structurizr URL
@@ -195,7 +195,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                                 />
                             </S.LinkContainer>
                         </Text>
-                        {isAdministrator && (isUserProduct || isAdministrator) && (
+                        {(isUserProduct || isAdministrator) && (
                             <>
                                 <Button
                                     disabled={
@@ -236,7 +236,7 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
                             </>
                         )}
                     </S.StructurizrTitleContainer>
-                    {isAdministrator && processesData && processesData[0] && (
+                    {(isAdministrator || isUserProduct) && processesData && processesData[0] && (
                         <S.TableStyled>
                             <TableHead>
                                 <TableRow>
