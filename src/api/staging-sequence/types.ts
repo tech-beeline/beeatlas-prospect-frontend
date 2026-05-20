@@ -15,6 +15,14 @@ export interface IStagingSequenceCJ {
     }[];
 }
 
+export interface IStagingSequenceBiStep {
+    id: number;
+    uid: string;
+    bi_step_id: number;
+    bi_ref_id: number;
+    name: string;
+}
+
 export interface IStagingSequenceAlert {
     id: number;
     uid: string;
@@ -38,6 +46,7 @@ export interface IStagingSequenceCallsData {
     bi_uid: string;
     cj_uid: string;
     bi_step_uid: string;
+    cj: { id: number; name: string; cj_uid: string }[];
     bi_step_relations: {
         id: number;
         call_order: number;

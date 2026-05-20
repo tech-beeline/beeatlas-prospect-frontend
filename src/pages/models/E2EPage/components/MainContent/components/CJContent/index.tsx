@@ -8,13 +8,13 @@ import * as R from 'router/const';
 import { ICJContent } from './types';
 import * as S from './units';
 
-export const CJContent: FC<ICJContent> = ({ activeItem }) => {
+export const CJContent: FC<ICJContent> = ({ activeTreeItem }) => {
     return (
         <>
             <S.TitleContainer>
-                <Text variant="h4">{activeItem.title}</Text>
+                <Text variant="h4">{activeTreeItem.title}</Text>
                 <Text inactive variant="body3">
-                    {activeItem.code}
+                    {activeTreeItem.code}
                 </Text>
             </S.TitleContainer>
             <div>
@@ -22,7 +22,7 @@ export const CJContent: FC<ICJContent> = ({ activeItem }) => {
                     CJ
                 </Text>
                 <Text variant="body2">
-                    <Link url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=${activeItem.id}`} />
+                    <Link url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=${activeTreeItem.id}`} />
                 </Text>
             </div>
         </>

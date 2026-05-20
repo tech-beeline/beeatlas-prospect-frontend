@@ -12,23 +12,23 @@ import { E2ETreeItemType, IE2EBiItem } from '../../../../types';
 import { IBIContent } from './types';
 import * as S from './units';
 
-export const BIContent: FC<IBIContent> = ({ activeItem }) => {
+export const BIContent: FC<IBIContent> = ({ activeTreeItem }) => {
     return (
         <>
             <S.TitleContainer>
                 <S.BreadcrumbsContainer>
                     <Link
                         outer={false}
-                        title={(activeItem as IE2EBiItem).cjData.cjName}
+                        title={(activeTreeItem as IE2EBiItem).cjData.cjName}
                         url={`${R.MODELS_PATH}${R.E2E_PATH}?type=${E2ETreeItemType.CJ}&id=${
-                            (activeItem as IE2EBiItem).cjData.cjCode
+                            (activeTreeItem as IE2EBiItem).cjData.cjCode
                         }`}
                     />
                     <Icon iconName={Icons.NavArrowRight} size="small" />
                 </S.BreadcrumbsContainer>
-                <Text variant="h4">{activeItem.title}</Text>
+                <Text variant="h4">{activeTreeItem.title}</Text>
                 <Text inactive variant="body3">
-                    {activeItem.code}
+                    {activeTreeItem.code}
                 </Text>
             </S.TitleContainer>
             <div>
@@ -36,7 +36,7 @@ export const BIContent: FC<IBIContent> = ({ activeItem }) => {
                     BI
                 </Text>
                 <Text variant="body2">
-                    <Link url={`${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}?id=${activeItem.id}`} />
+                    <Link url={`${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}?id=${activeTreeItem.id}`} />
                 </Text>
             </div>
         </>

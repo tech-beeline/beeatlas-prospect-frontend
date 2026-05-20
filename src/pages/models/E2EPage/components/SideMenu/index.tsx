@@ -1,37 +1,32 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search } from '@beeline/design-system-react';
+import { ButtonGroup } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
 
-import { IE2ETreeItem } from '../../types';
+import { E2EContentOptions } from '../../types';
 
-import { TreeItem } from './components';
+import { CJData, E2EData } from './components';
 import { ISideMenu } from './types';
 import * as S from './units';
 
-export const SideMenu: FC<ISideMenu> = ({ activeItem, treeData, flatData }) => {
-    const [, setSearchParams] = useSearchParams();
-    const [menuOpened, setMenuOpened] = useState(false);
-    const [searchText, setSearchText] = useState('');
-    const [itemToScroll, setItemToScroll] = useState<IE2ETreeItem | null>(null);
+export const SideMenu: FC<ISideMenu> = ({
+    activeTreeItem,
+    activeBiStep,
+    treeData,
+    flatTreeData,
+    biSteps,
+    isLoading,
+}) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const tab = searchParams.get('tab');
 
-    const searchResultsFiltered = flatData.filter(
-        (item) =>
-            item.title.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.code.toLowerCase().includes(searchText.toLowerCase()),
-    );
+    const contentOption = useMemo(() => {
+        return (tab as E2EContentOptions) ?? E2EContentOptions.CJ;
+    }, [tab]);
 
-    const handleSearchResultClick = (item: IE2ETreeItem) => {
-        setSearchParams(
-            new URLSearchParams({
-                id: String(item.code),
-                type: item.type,
-            }),
-        );
-        setSearchText(item.title);
-        setMenuOpened(false);
-        setItemToScroll(item);
+    const handleButtonClick = (option: E2EContentOptions) => {
+        setSearchParams(new URLSearchParams({ tab: option as E2EContentOptions }));
     };
 
     return (
@@ -45,52 +40,38 @@ export const SideMenu: FC<ISideMenu> = ({ activeItem, treeData, flatData }) => {
                 minWidth={340}
                 maxWidth={640}
             >
-                <S.SearchContainer>
-                    <Search
+                <S.FiltersContainer>
+                    <Text variant="h5">Каталог E2E сценариев</Text>
+                    <ButtonGroup
+                        alwaysSelected
                         fullWidth
+                        selectedOption={{ id: contentOption }}
                         size="small"
-                        placeholder="Название или код"
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                        onClear={() => setSearchText('')}
-                        onFocus={() => setMenuOpened(true)}
-                        onBlur={() => setMenuOpened(false)}
+                        options={[
+                            {
+                                id: E2EContentOptions.CJ,
+                                label: `CJ`,
+                            },
+                            {
+                                id: E2EContentOptions.E2E,
+                                label: `E2E`,
+                            },
+                        ]}
+                        type="secondary"
+                        onChange={(option) => handleButtonClick(option.id as E2EContentOptions)}
                     />
-                    {menuOpened && searchText.trim().length >= 1 && (
-                        <S.MenuBlock>
-                            {searchResultsFiltered.map((item, index) => (
-                                <S.MenuItem
-                                    key={`${item.code}-${index}`}
-                                    onMouseDown={() => handleSearchResultClick(item)}
-                                >
-                                    <Text variant="body2">{item.title}</Text>
-                                    <Text inactive variant="body3">
-                                        {item.code}
-                                    </Text>
-                                </S.MenuItem>
-                            ))}
-                            {searchResultsFiltered.length === 0 && (
-                                <S.MenuItem>
-                                    <Text inactive variant="subtitle3">
-                                        Нет совпадений
-                                    </Text>
-                                </S.MenuItem>
-                            )}
-                        </S.MenuBlock>
-                    )}
-                </S.SearchContainer>
-                <S.TreeContainer>
-                    {treeData.map((item) => (
-                        <TreeItem
-                            key={item.code}
-                            item={item}
-                            level={0}
-                            activeItem={activeItem}
-                            itemToScroll={itemToScroll}
-                            setItemToScroll={setItemToScroll}
-                        />
-                    ))}
-                </S.TreeContainer>
+                </S.FiltersContainer>
+                {contentOption === E2EContentOptions.CJ && (
+                    <CJData
+                        activeTreeItem={activeTreeItem}
+                        treeData={treeData}
+                        flatTreeData={flatTreeData}
+                        isLoading={isLoading}
+                    />
+                )}
+                {contentOption === E2EContentOptions.E2E && (
+                    <E2EData activeBiStep={activeBiStep} biSteps={biSteps} isLoading={isLoading} />
+                )}
             </S.ResizableStyled>
         </S.SideMenuContainer>
     );

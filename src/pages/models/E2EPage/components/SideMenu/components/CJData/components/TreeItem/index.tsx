@@ -16,11 +16,11 @@ import * as S from './units';
 export const TreeItem: FC<ITreeItem> = ({
     item,
     level,
-    activeItem,
+    activeTreeItem,
     itemToScroll,
     setItemToScroll,
 }) => {
-    const [, setParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [isExpanded, setIsExpanded] = useState(false);
     const children = 'children' in item ? item.children : [];
     const hasChildren = children.length > 0;
@@ -31,12 +31,10 @@ export const TreeItem: FC<ITreeItem> = ({
     const showTitleTooltip = useShowTooltip(titleRef);
 
     const handleItemClick = () => {
-        setParams(
-            new URLSearchParams({
-                id: String(item.code),
-                type: item.type,
-            }),
-        );
+        const params = new URLSearchParams(searchParams);
+        params.set('id', String(item.code));
+        params.set('type', item.type);
+        setSearchParams(params);
     };
 
     useEffect(() => {
@@ -48,12 +46,14 @@ export const TreeItem: FC<ITreeItem> = ({
 
     useEffect(() => {
         if (
-            (activeItem && 'cjData' in activeItem && activeItem.cjData.cjId === item.id) ||
-            (activeItem && 'biData' in activeItem && activeItem.biData.biId === item.id)
+            (activeTreeItem &&
+                'cjData' in activeTreeItem &&
+                activeTreeItem.cjData.cjId === item.id) ||
+            (activeTreeItem && 'biData' in activeTreeItem && activeTreeItem.biData.biId === item.id)
         ) {
             setIsExpanded(true);
         }
-    }, [activeItem]);
+    }, [activeTreeItem]);
 
     return (
         <>
@@ -61,7 +61,7 @@ export const TreeItem: FC<ITreeItem> = ({
                 isBiStep={item.type === E2ETreeItemType.BI_STEP}
                 id={`tree-item-${item.code}`}
                 level={level}
-                selected={activeItem?.code === item.code}
+                selected={activeTreeItem?.code === item.code}
                 onClick={handleItemClick}
                 ref={containerRef}
             >
@@ -105,7 +105,7 @@ export const TreeItem: FC<ITreeItem> = ({
                             key={child.code}
                             item={child}
                             level={level + 1}
-                            activeItem={activeItem}
+                            activeTreeItem={activeTreeItem}
                             itemToScroll={itemToScroll}
                             setItemToScroll={setItemToScroll}
                         />

@@ -14,7 +14,7 @@ import { TABS, TabVariants } from './const';
 import { IBIStepContent } from './types';
 import * as S from './units';
 
-export const BIStepContent: FC<IBIStepContent> = ({ activeItem }) => {
+export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
 
     return (
@@ -23,24 +23,24 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeItem }) => {
                 <S.BreadcrumbsContainer>
                     <Link
                         outer={false}
-                        title={(activeItem as IE2EBiStepItem).cjData.cjName}
+                        title={(activeTreeItem as IE2EBiStepItem).cjData.cjName}
                         url={`${R.MODELS_PATH}${R.E2E_PATH}?type=${E2ETreeItemType.CJ}&id=${
-                            (activeItem as IE2EBiStepItem).cjData.cjCode
+                            (activeTreeItem as IE2EBiStepItem).cjData.cjCode
                         }`}
                     />
                     <Icon iconName={Icons.NavArrowRight} size="small" />
                     <Link
                         outer={false}
-                        title={(activeItem as IE2EBiStepItem).biData.biName}
+                        title={(activeTreeItem as IE2EBiStepItem).biData.biName}
                         url={`${R.MODELS_PATH}${R.E2E_PATH}?type=${E2ETreeItemType.BI}&id=${
-                            (activeItem as IE2EBiStepItem).biData.biCode
+                            (activeTreeItem as IE2EBiStepItem).biData.biCode
                         }`}
                     />
                     <Icon iconName={Icons.NavArrowRight} size="small" />
                 </S.BreadcrumbsContainer>
-                <Text variant="h4">{activeItem.title}</Text>
+                <Text variant="h4">{activeTreeItem.title}</Text>
                 <Text inactive variant="body3">
-                    {activeItem.code}
+                    {activeTreeItem.code}
                 </Text>
             </S.TitleContainer>
             <S.TabsContainer>
@@ -55,9 +55,9 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeItem }) => {
                     ))}
                 </Tabs>
             </S.TabsContainer>
-            {tabVariant === TabVariants.CALLS && <CallsContent code={activeItem.code} />}
+            {tabVariant === TabVariants.CALLS && <CallsContent code={activeTreeItem.code} />}
             {tabVariant === TabVariants.OBSERVABILITY && (
-                <ObservabilityContent code={activeItem.code} />
+                <ObservabilityContent code={activeTreeItem.code} />
             )}
         </>
     );

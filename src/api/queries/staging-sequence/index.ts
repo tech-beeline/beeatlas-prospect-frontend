@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     getSequenceAlertById,
     getSequenceCallsById,
+    getStagingSequenceBiSteps,
     getStagingSequenceCjTree,
     postSequenceAlertById,
 } from 'api/staging-sequence';
@@ -14,6 +15,13 @@ export const useGetStagingSequenceCjTreeQuery = () => {
     return useQuery({
         queryKey: [STAGING_SEQUENCE_PREFIX, 'CJ_TREE'],
         queryFn: () => getStagingSequenceCjTree().then((res) => res.data),
+    });
+};
+
+export const useGetStagingSequenceBiStepsQuery = () => {
+    return useQuery({
+        queryKey: [STAGING_SEQUENCE_PREFIX, 'BI_STEPS'],
+        queryFn: () => getStagingSequenceBiSteps().then((res) => res.data),
     });
 };
 
