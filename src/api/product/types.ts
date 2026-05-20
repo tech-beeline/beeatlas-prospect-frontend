@@ -279,7 +279,7 @@ export type IFitnessFunctionData = {
     code: string;
     description: string;
 };
-export interface IFitenssFunctionsAggregationResult {
+export interface IFitnessFunctionsAggregationResult {
     domain: IFitnessFunctionDomain[];
     fitnessFunctionEnum: IFitnessFunctionData[];
 }

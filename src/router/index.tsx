@@ -39,6 +39,7 @@ import {
     ConsultationPage,
     CreateLifeSituationsPage,
     CreateNFRsPage,
+    CriteriasPage,
     CXPage,
     DataBasePage,
     E2EDashboardPage,
@@ -220,6 +221,20 @@ export const NavigationRouter = () => {
                             <MenuPersonalArea />
                             <S.ContentWrapper>
                                 <AppAddPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.CRITERIAS_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <CriteriasPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     ),

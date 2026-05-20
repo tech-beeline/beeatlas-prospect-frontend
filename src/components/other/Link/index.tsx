@@ -10,6 +10,7 @@ export const Link: FC<ILink> = ({
     url,
     showOuterIcon = false,
     showIconPermanently = false,
+    iconLeft = false,
     outer = true,
     light = false,
     visited = false,
@@ -27,9 +28,19 @@ export const Link: FC<ILink> = ({
                         light={light}
                         visited={visited}
                     >
-                        <span>{title}</span>
-                        {showOuterIcon && (
+                        {showOuterIcon && iconLeft && (
                             <S.IconOuter
+                                iconLeft={iconLeft}
+                                id="icon"
+                                showIconPermanently={showIconPermanently}
+                                iconName={Icons.OpenInBrowser}
+                            />
+                        )}
+                        <span id="title">{title}</span>
+                        {showOuterIcon && !iconLeft && (
+                            <S.IconOuter
+                                iconLeft={iconLeft}
+                                id="icon"
                                 showIconPermanently={showIconPermanently}
                                 iconName={Icons.OpenInBrowser}
                             />

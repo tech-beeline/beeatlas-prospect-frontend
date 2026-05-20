@@ -2,7 +2,7 @@ import { Table, TableData, TableHeaderData, TableRow } from '@beeline/design-sys
 import styled from '@emotion/styled';
 
 export const TableWrapper = styled.div`
-    width: 100%;
+    max-width: 100%;
     height: fit-content;
 
     border-radius: 12px;
@@ -58,8 +58,27 @@ export const TableHeaderDataSticky = styled(TableHeaderData)`
     }
 `;
 
-export const CodeContainer = styled.div`
+export const CodeContainer = styled.div<{ showButton: boolean }>`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+
     text-align: start;
+
+    overflow: hidden;
+    white-space: normal;
+    overflow-wrap: anywhere;
+
+    cursor: pointer;
+
+    & > button {
+        display: ${({ showButton }) => (showButton ? 'block' : 'none')};
+    }
+
+    &:hover > button {
+        display: block;
+    }
 `;
 
 export const TableDataFullWidth = styled(TableData)<{ isExpanded?: boolean }>`

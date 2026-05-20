@@ -1,4 +1,4 @@
-import { IFitenssFunctionsAggregationResult } from 'api/product/types';
+import { IFitnessFunctionsAggregationResult } from 'api/product/types';
 
 import { formatCellText } from './components/FitnessFunctionLabel/utils';
 import { IRowItem, RowItems } from './types';
@@ -62,7 +62,7 @@ export const exportAnalyticalTableToExcel = ({
     fitnessFunctionsData,
     rows,
 }: {
-    fitnessFunctionsData: IFitenssFunctionsAggregationResult;
+    fitnessFunctionsData: IFitnessFunctionsAggregationResult;
     rows: IRowItem[];
 }) => {
     const header: Array<string> = [

@@ -7,6 +7,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { TooltipContainer } from 'components/interaction';
 
 import { useShowTooltip } from 'hooks';
+import { E2ETreeItemType } from 'pages/models/E2EPage/types';
 
 import { itemTypeToColorMap, itemTypeToLettersMap } from './const';
 import { ITreeItem } from './types';
@@ -57,24 +58,27 @@ export const TreeItem: FC<ITreeItem> = ({
     return (
         <>
             <S.Container
+                isBiStep={item.type === E2ETreeItemType.BI_STEP}
                 id={`tree-item-${item.code}`}
                 level={level}
                 selected={activeItem?.code === item.code}
                 onClick={handleItemClick}
                 ref={containerRef}
             >
-                <S.IconButtonContainer>
-                    {hasChildren && (
-                        <IconButton
-                            size="medium"
-                            iconName={isExpanded ? Icons.NavArrowDown : Icons.NavArrowRight}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsExpanded(!isExpanded);
-                            }}
-                        />
-                    )}
-                </S.IconButtonContainer>
+                {item.type !== E2ETreeItemType.BI_STEP && (
+                    <S.IconButtonContainer>
+                        {hasChildren && (
+                            <IconButton
+                                size="medium"
+                                iconName={isExpanded ? Icons.NavArrowDown : Icons.NavArrowRight}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsExpanded(!isExpanded);
+                                }}
+                            />
+                        )}
+                    </S.IconButtonContainer>
+                )}
                 <Avatar
                     color={itemTypeToColorMap[item.type] as ColorTypes}
                     letter={itemTypeToLettersMap[item.type]}

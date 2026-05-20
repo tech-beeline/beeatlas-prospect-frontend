@@ -11,13 +11,18 @@ import { AnalyticalTableHandle } from './components/AnalyticalTable';
 import { IFilterOptions } from './components/Filters/types';
 import { AnalyticalTable, Filters } from './components';
 import * as S from './units';
-import { filterFitnessFunctionsAggregation, getAutoExpandedDomainIds } from './utils';
+import {
+    filterFitnessFunctionsAggregation,
+    getAutoExpandedDomainIds,
+    getDashboardData,
+} from './utils';
 
 export const AnalyticalPage = () => {
     const [filterOptions, setFilterOptions] = useState<IFilterOptions>({
         search: '',
         product: [],
         domain: [],
+        fitnessFunctions: [],
         hideEmpty: false,
     });
 
@@ -30,13 +35,20 @@ export const AnalyticalPage = () => {
             data,
             selectedDomainIds: new Set(filterOptions.domain),
             selectedProductIds: new Set(filterOptions.product.map((id) => String(id))),
+            selectedFitnessFunctionIds: new Set(filterOptions.fitnessFunctions),
             hideEmpty: filterOptions.hideEmpty,
         });
-    }, [data, filterOptions.domain, filterOptions.product, filterOptions.hideEmpty]);
+    }, [
+        data,
+        filterOptions.domain,
+        filterOptions.product,
+        filterOptions.hideEmpty,
+        filterOptions.fitnessFunctions,
+    ]);
 
-    const totalProdcutsFilteredCount = filteredFitnessFunctionsData?.domain.reduce(
-        (acc, v) => acc + v.product.length,
-        0,
+    const { correctProductsCount, correctProductsPercent, totalProductsCount } = useMemo(
+        () => getDashboardData(filteredFitnessFunctionsData),
+        [filteredFitnessFunctionsData],
     );
 
     const autoExpandedDomainIds = useMemo(() => {
@@ -67,10 +79,42 @@ export const AnalyticalPage = () => {
                 filterOptions={filterOptions}
                 setFilterOptions={setFilterOptions}
                 fitnessFunctionsData={data}
+                isLoading={isLoading}
             />
 
+            <S.CardsContainer>
+                {isLoading ? (
+                    <>
+                        <Skeleton height={48} radius={12} width={278} />
+                        <Skeleton height={48} radius={12} width={278} />
+                        <Skeleton height={48} radius={12} width={278} />
+                    </>
+                ) : (
+                    <>
+                        <S.Card>
+                            <Text variant="h5">{totalProductsCount}</Text>
+                            <Text inactive variant="subtitle3">
+                                Всего приложений
+                            </Text>
+                        </S.Card>
+                        <S.Card>
+                            <Text variant="h5">{correctProductsCount}</Text>
+                            <Text inactive variant="subtitle3">
+                                Корректных приложений
+                            </Text>
+                        </S.Card>
+                        <S.Card>
+                            <Text variant="h5">{correctProductsPercent}%</Text>
+                            <Text inactive variant="subtitle3">
+                                Корректных приложений
+                            </Text>
+                        </S.Card>
+                    </>
+                )}
+            </S.CardsContainer>
+
             {filteredFitnessFunctionsData &&
-                (totalProdcutsFilteredCount && totalProdcutsFilteredCount > 0 ? (
+                (totalProductsCount && totalProductsCount > 0 ? (
                     <AnalyticalTable
                         ref={tableRef}
                         fitnessFunctionsData={filteredFitnessFunctionsData}

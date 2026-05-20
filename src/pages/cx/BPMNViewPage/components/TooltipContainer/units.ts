@@ -11,7 +11,7 @@ export const ClampedFileName = styled.div`
     word-break: break-word;
     line-height: 1.4em;
     max-height: 2.8em;
-    max-width: 250px;
+    max-width: max-content;
     white-space: normal;
 `;
 

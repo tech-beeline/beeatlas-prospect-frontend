@@ -10,6 +10,7 @@ import { DropdownMenu } from 'components/interaction';
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useGetProductsQuery } from 'hooks';
+import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import * as ROUTER from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -85,7 +86,9 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                 />
             </S.FlexContainer>
             <S.TitleContainer>
-                <S.Title onClick={() => handleCJClick(cj.id)}>{cj.name}</S.Title>
+                <S.Title onClick={() => handleCJClick(cj.id)}>
+                    <TooltipContainer text={cj.name} tooltipId={`сj-${cj.name}`} />
+                </S.Title>
                 <Text variant="body3" inactive>
                     {cj.uniqueIdent}
                 </Text>

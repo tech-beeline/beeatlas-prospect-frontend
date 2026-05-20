@@ -115,7 +115,12 @@ export const BPMNViewPage = () => {
                     {isLoadingCJ && <Skeleton width={666} height={40} variant="square" />}
                     {cj && (
                         <div>
-                            <S.Name>{cj?.name}</S.Name>
+                            <S.Name>
+                                <TooltipContainer
+                                    text={cj.name}
+                                    tooltipId={`bpmn-filename-${cj.name}`}
+                                />
+                            </S.Name>
                             <S.Desription>
                                 Cj доступен только для просмотра. Чтобы внести изменения, скачайте и
                                 загрузите обновленный файл

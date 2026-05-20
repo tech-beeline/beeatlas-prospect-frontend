@@ -28,6 +28,7 @@ export const FlexSideContainer = styled.div`
 
 export const Name = styled.div`
     width: max-content;
+    max-width: 500px;
     height: var(--font-line-height-body2);
 
     font-weight: var(--font-weight-regular);
@@ -43,6 +44,7 @@ export const Name = styled.div`
 
 export const Desription = styled.div`
     width: max-content;
+
     height: var(--font-line-height-body2);
 
     font-weight: var(--font-weight-regular);
@@ -111,4 +113,10 @@ export const FileNameWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+`;
+
+export const NameContainer = styled.div`
+    max-width: 700px;
+
+    overflow: hidden;
 `;
