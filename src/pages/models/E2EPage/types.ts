@@ -43,3 +43,8 @@ export interface IE2ECjItem {
 }
 
 export type IE2ETreeItem = IE2ECjItem | IE2EBiItem | IE2EBiStepItem;
+
+export enum E2EContentOptions {
+    CJ = 'CJ',
+    E2E = 'E2E',
+}

@@ -1,19 +1,27 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { OldVersionBanner } from 'features/apps';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { E2ETreeItemType } from '../../types';
+import { E2EContentOptions, E2ETreeItemType } from '../../types';
 
-import { BIContent, BIStepContent, CJContent } from './components';
+import { BIContent, BIStepContent, CJContent, E2EContent } from './components';
 import { IMainContent } from './types';
 import * as S from './units';
 
-export const MainContent: FC<IMainContent> = ({ activeItem }) => {
+const MainContent: FC<IMainContent> = ({ activeTreeItem, activeBiStep }) => {
+    const [searchParams] = useSearchParams();
+    const tab = searchParams.get('tab');
+
+    const contentOption = useMemo(() => {
+        return (tab as E2EContentOptions) ?? E2EContentOptions.CJ;
+    }, [tab]);
+
     return (
         <S.MainContent>
             <OldVersionBanner e2e />
-            {!activeItem && (
+            {!activeTreeItem && !activeBiStep && (
                 <S.NotFoundContainer>
                     <NotFoundBlock
                         imageVariant={ImageVariants.EMPTY_BOX}
@@ -21,15 +29,24 @@ export const MainContent: FC<IMainContent> = ({ activeItem }) => {
                     />
                 </S.NotFoundContainer>
             )}
-            {activeItem && activeItem.type === E2ETreeItemType.CJ && (
-                <CJContent activeItem={activeItem} />
+            {activeTreeItem && contentOption === E2EContentOptions.CJ && (
+                <>
+                    {activeTreeItem.type === E2ETreeItemType.CJ && (
+                        <CJContent activeTreeItem={activeTreeItem} />
+                    )}
+                    {activeTreeItem.type === E2ETreeItemType.BI && (
+                        <BIContent activeTreeItem={activeTreeItem} />
+                    )}
+                    {activeTreeItem.type === E2ETreeItemType.BI_STEP && (
+                        <BIStepContent activeTreeItem={activeTreeItem} />
+                    )}
+                </>
             )}
-            {activeItem && activeItem.type === E2ETreeItemType.BI && (
-                <BIContent activeItem={activeItem} />
-            )}
-            {activeItem && activeItem.type === E2ETreeItemType.BI_STEP && (
-                <BIStepContent activeItem={activeItem} />
+
+            {activeBiStep && contentOption === E2EContentOptions.E2E && (
+                <E2EContent activeBiStep={activeBiStep} />
             )}
         </S.MainContent>
     );
 };
+export default MainContent;

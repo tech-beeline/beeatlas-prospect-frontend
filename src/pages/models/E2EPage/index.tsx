@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useGetStagingSequenceCjTreeQuery } from 'api/queries/staging-sequence';
+import {
+    useGetStagingSequenceBiStepsQuery,
+    useGetStagingSequenceCjTreeQuery,
+} from 'api/queries/staging-sequence';
 
 import { MainContent, SideMenu } from './components';
-import { IE2ETreeItem } from './types';
 import * as S from './units';
 import { formatFlatData, formatTreeData } from './utils';
 
@@ -13,24 +15,36 @@ export const E2EPage = () => {
     const code = searchParams.get('id');
     const type = searchParams.get('type');
 
-    const [activeItem, setActiveItem] = useState<IE2ETreeItem | null>(null);
+    const { data: stagingSequenceCjTree, isLoading: isCjTreeLoading } =
+        useGetStagingSequenceCjTreeQuery();
+    const treeData = useMemo(() => formatTreeData(stagingSequenceCjTree), [stagingSequenceCjTree]);
+    const flatTreeData = useMemo(() => formatFlatData(treeData), [treeData]);
 
-    const { data: stagingSequenceCjTree } = useGetStagingSequenceCjTreeQuery();
-    const treeData: IE2ETreeItem[] = formatTreeData(stagingSequenceCjTree);
-    const flatData: IE2ETreeItem[] = formatFlatData(treeData);
+    const { data: biSteps, isLoading: isBiStepsLoading } = useGetStagingSequenceBiStepsQuery();
 
-    useEffect(() => {
-        if (!code || !type || (activeItem?.code === code && activeItem?.type === type)) {
-            return;
-        }
+    const isLoading = isCjTreeLoading || isBiStepsLoading;
 
-        setActiveItem(flatData.find((item) => item.code === code && item.type === type) ?? null);
-    }, [flatData, code, type]);
+    const activeTreeItem = useMemo(() => {
+        if (!code || !type) return null;
+        return flatTreeData.find((item) => item.code === code && item.type === type) ?? null;
+    }, [flatTreeData, code, type]);
+
+    const activeBiStep = useMemo(() => {
+        if (!code || !type) return null;
+        return biSteps?.find((item) => item.uid === code) ?? null;
+    }, [biSteps, code, type]);
 
     return (
         <S.PageWrapper>
-            <SideMenu activeItem={activeItem} treeData={treeData} flatData={flatData} />
-            <MainContent activeItem={activeItem} />
+            <SideMenu
+                activeTreeItem={activeTreeItem}
+                activeBiStep={activeBiStep}
+                treeData={treeData}
+                flatTreeData={flatTreeData}
+                biSteps={biSteps ?? []}
+                isLoading={isLoading}
+            />
+            <MainContent activeTreeItem={activeTreeItem} activeBiStep={activeBiStep} />
         </S.PageWrapper>
     );
 };

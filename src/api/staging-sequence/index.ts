@@ -29,3 +29,9 @@ export const getSequenceCallsById = (uid: string): AxiosPromise<T.IStagingSequen
         url: `${GATEWAY_STAGING_SEQUENCE_URL}api/v1/bi-step-refs/${uid}/sequence`,
     });
 };
+
+export const getStagingSequenceBiSteps = (): AxiosPromise<T.IStagingSequenceBiStep[]> => {
+    return Api.get({
+        url: `${GATEWAY_STAGING_SEQUENCE_URL}api/v1/bi-step-refs`,
+    });
+};
