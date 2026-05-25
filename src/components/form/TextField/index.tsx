@@ -44,7 +44,7 @@ export const TextField: FC<ITextField> = ({
                     label={label}
                     error={isError}
                     helperText={errorMessage ?? helperText}
-                    helperPosition={errorMessage ? helperPosition : 'absolute'}
+                    helperPosition={errorMessage || helperText ? helperPosition : 'absolute'}
                     maxLength={maxLength}
                     autoFocus={autoFocus}
                     onBlur={(event) => {

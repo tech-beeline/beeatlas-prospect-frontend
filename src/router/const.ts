@@ -55,6 +55,7 @@ export const TECHNOLOGIES_PATH = '/technologies';
 export const VERSIONS_PATH = '/versions';
 export const CAPABILITIES_PATH = '/capabilities';
 export const CRITERIAS_PATH = '/criterias';
+export const FITNESS_FUNCTIONS_PATH = '/fitness-functions';
 
 // Уведомления
 export const NOTIFICATIONS_PATH = '/notifications';

@@ -49,6 +49,8 @@ import {
     FDMHistoryPage,
     FDMPage,
     FileImportPage,
+    FitnessFunctionAddPage,
+    FitnessFunctionsPage,
     HowToPage,
     ImpactPage,
     ImportedDataPage,
@@ -237,6 +239,34 @@ export const NavigationRouter = () => {
                             <MenuPersonalArea />
                             <S.ContentWrapper>
                                 <CriteriasPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <FitnessFunctionsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <FitnessFunctionAddPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     ),

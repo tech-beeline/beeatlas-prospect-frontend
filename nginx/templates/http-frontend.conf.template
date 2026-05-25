@@ -91,6 +91,12 @@ server {
         ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
         client_max_body_size 100M;
     }
+    
+    location /ff/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
 
     location /api {
         proxy_pass ${NGINX_LOCATION_API};

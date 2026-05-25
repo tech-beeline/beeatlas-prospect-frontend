@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import {
+    Badge,
     IconButton,
     Label,
     TableBody,
@@ -9,17 +10,29 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
+import {
+    FitnessFunctionStatus,
+    fitnessFunctionStatusToNameMap,
+    fitnessFunctionStatusToSemanticMap,
+} from 'features/fitness-functions';
 
 import { Text } from 'components/core';
-import { Link } from 'components/other';
 
 import { formatNullableString } from 'utils/formatters';
+
+import { FitnessFunctionsTab } from '../../const';
 
 import { IFitnessFunctionRow } from './types';
 import * as S from './units';
 
-export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction }) => {
+export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction, tab }) => {
     const [expanded, setExpanded] = useState(false);
+
+    const currentStatus = fitnessFunction.status as FitnessFunctionStatus;
+
+    const firstDetail = fitnessFunction.details?.[0];
+    const detailKeys = firstDetail ? Object.keys(firstDetail).filter((key) => key !== 'check') : [];
 
     return (
         <>
@@ -27,56 +40,63 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                 <TableData>
                     <S.CodeContainer>
                         <S.IconButtonContainer>
-                            {fitnessFunction.details &&
-                                fitnessFunction.details.length !== 0 &&
-                                fitnessFunction.tableStruct &&
-                                fitnessFunction.tableStruct.length !== 0 && (
-                                    <IconButton
-                                        iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                                        onClick={() => setExpanded(!expanded)}
-                                        size="medium"
-                                    />
-                                )}
+                            {fitnessFunction.details && fitnessFunction.details.length !== 0 && (
+                                <IconButton
+                                    iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
+                                    onClick={() => setExpanded(!expanded)}
+                                    size="medium"
+                                />
+                            )}
                         </S.IconButtonContainer>
-                        <Text variant="body3">{fitnessFunction.code}</Text>
+                        <Text variant="body3">{fitnessFunction.ff_code}</Text>
                     </S.CodeContainer>
                 </TableData>
-                <TableData>{fitnessFunction.description}</TableData>
+                <TableData>{fitnessFunction.ff_description}</TableData>
                 <TableData>
-                    <Link title={fitnessFunction.docLink} url={fitnessFunction.docLink} />
+                    <Badge semantic={fitnessFunctionStatusToSemanticMap[currentStatus]}>
+                        {fitnessFunctionStatusToNameMap[currentStatus]}
+                    </Badge>
                 </TableData>
                 <TableData>
                     <Label
-                        title={fitnessFunction.isCheck ? 'Успешно' : 'Ошибка'}
+                        title={
+                            fitnessFunction.is_check
+                                ? tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                    ? 'Успешно'
+                                    : 'Обнаружено'
+                                : tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                ? 'Ошибка'
+                                : 'Не обнаружено'
+                        }
                         variant="contained"
-                        type={fitnessFunction.isCheck ? 'success' : 'error'}
+                        type={
+                            fitnessFunction.is_check
+                                ? 'success'
+                                : tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                ? 'error'
+                                : 'default'
+                        }
                     />
                 </TableData>
-                {/* <TableData alignRight>
-                    <Text variant="body3">
-                        {fitnessFunction.details && fitnessFunction.details.length !== 0
-                            ? `${fitnessFunction.details.length}/${
-                                  fitnessFunction.details.filter((ff) => ff.isCheck).length
-                              }`
-                            : formatNullableString(null)}
-                    </Text>
-                </TableData> */}
+                <TableData>
+                    {dayjs(fitnessFunction.create_date).local().format('DD.MM.YYYY HH:mm')}
+                </TableData>
+                <TableData alignRight>
+                    {fitnessFunction.countDetail}/{fitnessFunction.successDetail}
+                </TableData>
             </S.TableRowStyled>
             {expanded && (
                 <TableRow>
-                    <S.TableDataStyled colSpan={4}>
+                    <S.TableDataStyled colSpan={6}>
                         <S.ServiceContainer>
-                            <Text variant="body3">
-                                {formatNullableString(fitnessFunction.assessmentDescription)}
-                            </Text>
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
                                         <S.TableHeaderDataFixedWidth>
                                             Статус публикации
                                         </S.TableHeaderDataFixedWidth>
-                                        {(fitnessFunction.tableStruct ?? []).map((value, i) => (
-                                            <TableHeaderData key={i}>{value}</TableHeaderData>
+                                        {detailKeys.map((key) => (
+                                            <TableHeaderData key={key}>{key}</TableHeaderData>
                                         ))}
                                     </TableRow>
                                 </TableHead>
@@ -85,28 +105,24 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction })
                                         <TableRow key={i}>
                                             <TableData>
                                                 <Label
-                                                    type={detail.isCheck ? 'success' : 'error'}
+                                                    type={detail.check ? 'success' : 'error'}
                                                     variant="icon"
                                                     iconName={
-                                                        detail.isCheck ? Icons.Check : Icons.Close
+                                                        detail.check ? Icons.Check : Icons.Close
                                                     }
                                                 />
                                             </TableData>
-                                            {(fitnessFunction.tableStruct ?? []).map(
-                                                (struct, i) => (
-                                                    <TableData key={i}>
-                                                        <S.ValueContainer
-                                                            dangerouslySetInnerHTML={{
-                                                                __html: formatNullableString(
-                                                                    detail.details.find(
-                                                                        (v) => v.key === struct,
-                                                                    )?.value,
-                                                                ),
-                                                            }}
-                                                        />
-                                                    </TableData>
-                                                ),
-                                            )}
+                                            {detailKeys.map((key) => (
+                                                <TableData key={key}>
+                                                    <S.ValueContainer
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: formatNullableString(
+                                                                String(detail[key] ?? ''),
+                                                            ),
+                                                        }}
+                                                    />
+                                                </TableData>
+                                            ))}
                                         </TableRow>
                                     ))}
                                 </TableBody>

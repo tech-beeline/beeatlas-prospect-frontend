@@ -4,6 +4,8 @@ export { CapabilitiesPage } from './CapabilitiesPage';
 export { CapabilityAddPage } from './CapabilityAddPage';
 export { CriteriasPage } from './CriteriasPage';
 export { FileImportPage } from './FileImportPage';
+export { FitnessFunctionAddPage } from './FitnessFunctionAddPage';
+export { FitnessFunctionsPage } from './FitnessFunctionsPage';
 export { ImportedDataPage } from './ImportedDataPage';
 export { PackagePage } from './PackagePage';
 export { RoleAddPage } from './RoleAddPage';

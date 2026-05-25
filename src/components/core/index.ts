@@ -1,6 +1,7 @@
 export { BaseIcon } from './BaseIcon';
 export { ErrorBoundary } from './ErrorBoundary';
 export { Header } from './Header';
+export { IconBadge } from './IconBadge';
 export { Loader } from './Loader';
 export { Logo } from './Logo';
 export { MenuCX } from './MenuCX';
