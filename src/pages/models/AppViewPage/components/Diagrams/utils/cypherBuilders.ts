@@ -10,7 +10,7 @@ export const buildSearchQuery = (tag: GraphTag, label: C4Label, name?: string): 
         const q = escapeCypherString(name.trim());
         conditions.push(
             label === 'SoftwareSystem'
-                ? `toLower(coalesce(n.cmdb,'')) CONTAINS toLower('${q}')`
+                ? `toLower(coalesce(n.cmdb,'')) = toLower('${q}')`
                 : `toLower(coalesce(n.name,'')) CONTAINS toLower('${q}')`,
         );
     }
