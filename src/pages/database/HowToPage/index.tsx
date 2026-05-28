@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IconText, Link } from 'components/other';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import * as STYLES from 'styles/units';
 
 import * as S from './units';
@@ -33,7 +33,7 @@ export const HowToPage = () => {
                 <Link
                     outer={false}
                     title="консультацией."
-                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                    url={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
                 />
             </STYLES.GrayText>
 
@@ -51,14 +51,14 @@ export const HowToPage = () => {
                 <Link
                     outer={false}
                     title="шаблон"
-                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+                    url={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
                 />{' '}
                 для составления презентации. Убедитесь, что ваша концепция/продукт соответствует
                 всем{' '}
                 <Link
                     outer={false}
                     title="принципам Технической политики."
-                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.TECH_POLICY_PATH}`}
+                    url={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
                 />
             </STYLES.GrayText>
 
@@ -72,7 +72,7 @@ export const HowToPage = () => {
                 Воспользуйтесь сервисом{' '}
                 <Link
                     title="заказа услуги"
-                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
+                    url={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
                     outer={false}
                 />{' '}
                 по составлению оппонирующей позиции.

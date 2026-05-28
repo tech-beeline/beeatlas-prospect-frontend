@@ -25,3 +25,20 @@ export interface IProfile {
     last_login: string;
     roles: IRole[];
 }
+
+export interface IBusinessOwner {
+    userName: string;
+    fullName: string;
+    employeeNumber: string;
+    func_manager_employee_number: string;
+    email: string;
+    beeAtlas: boolean;
+    id: number | null;
+}
+
+export interface IBusinessOwnerForm {
+    login: string;
+    fullName: string;
+    idExt: string;
+    email: string;
+}

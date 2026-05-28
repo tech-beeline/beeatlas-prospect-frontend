@@ -13,7 +13,7 @@ import {
     createNumberOrEnumParser,
     useURLFilters,
 } from 'hooks/useURLFilters';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import * as STYLES from 'styles/units';
 
 import { IBIFilterOptions } from './components/BILibraryFilters/types';
@@ -93,7 +93,7 @@ export const BILibraryPage = () => {
     const navigate = useNavigate();
 
     const handleCreateBiClick = () => {
-        navigate(`${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`);
+        navigate(`${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`);
     };
 
     const handleResetClick = () => {

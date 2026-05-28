@@ -15,7 +15,7 @@ import {
     useGetCJByIdQuery,
     useGetCJFileVersionByIdQuery,
 } from 'api/queries/cj';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { downloadBpmnFile } from '../CJPage/utils/formatters';
 
@@ -49,7 +49,7 @@ export const BPMNViewPage = () => {
         const newVersionId = String(first.id);
 
         navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.BPMN_PATH}`,
+            pathname: `${R.CX_PATH}${R.CJ_PATH}${R.BPMN_PATH}`,
             search: `?cjId=${cjId}&versionId=${newVersionId}`,
         });
     };

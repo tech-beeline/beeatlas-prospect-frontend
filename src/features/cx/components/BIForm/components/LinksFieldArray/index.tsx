@@ -1,8 +1,9 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Icon, IconButton } from '@beeline/design-system-react';
+import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { Text } from 'components/core';
 import { TextField } from 'components/form';
 
 import { FormValues } from '../../form';
@@ -27,59 +28,59 @@ export const LinksFieldArray: FC<ILinksFieldArray> = ({
         append({ value: '' }, { shouldFocus: false });
     };
 
-    const NameContainer = fullscreen ? S.FieldsFlexContainer : Fragment;
-
     return (
-        <div>
+        <S.Container>
             <S.FlexContainer>
-                <S.SubTitle id={fieldName}>{title}</S.SubTitle>
-                {!fullscreen && (
-                    <IconButton iconName={Icons.Add} size="large" onClick={handleAddClick} />
+                <Text id={fieldName} variant={fullscreen ? 'subtitle1' : 'subtitle2'}>
+                    {title}
+                </Text>
+
+                {fullscreen ? (
+                    <Button variant="outlined" onClick={handleAddClick} type="button">
+                        Добавить
+                    </Button>
+                ) : (
+                    <IconButton
+                        iconName={Icons.Add}
+                        size="medium"
+                        onClick={handleAddClick}
+                        type="button"
+                    />
                 )}
             </S.FlexContainer>
             {fields.map((field, index) => (
                 <div key={field.id}>
-                    {!fullscreen && (
-                        <S.FlexContainer>
-                            <S.SubTitleSmall>
-                                {itemLabel} {index + 1}
-                            </S.SubTitleSmall>
-                            {fields.length > 1 && (
-                                <IconButton
-                                    iconName={Icons.Delete}
-                                    size="large"
-                                    onClick={() => remove(index)}
-                                />
-                            )}
-                        </S.FlexContainer>
-                    )}
-                    <S.FieldsContainer marginTop={fullscreen}>
-                        <NameContainer>
+                    <S.FieldsContainer>
+                        <S.FieldsFlexContainer>
                             <S.GrowContainer>
                                 <TextField name={`${fieldName}.${index}.value`} label={itemLabel} />
                             </S.GrowContainer>
 
-                            {fullscreen && index === 0 && (
-                                <S.ButtonStyled onClick={handleAddClick} type="button">
-                                    <Icon iconName={Icons.Add} size="large" />
-                                </S.ButtonStyled>
+                            {fullscreen ? (
+                                <IconButton
+                                    iconName={Icons.Delete}
+                                    size="medium"
+                                    type="button"
+                                    variant="outlined"
+                                    onClick={() => remove(index)}
+                                />
+                            ) : (
+                                <IconButton
+                                    iconName={Icons.Delete}
+                                    size="medium"
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                />
                             )}
-                            {fullscreen && index !== 0 && (
-                                <S.ButtonStyled onClick={() => remove(index)} type="button">
-                                    <Icon iconName={Icons.Delete} size="large" />
-                                </S.ButtonStyled>
-                            )}
-                        </NameContainer>
+                        </S.FieldsFlexContainer>
                         <TextField
                             name={`${fieldName}.${index}.description`}
                             label="Описание ссылки"
                         />
                     </S.FieldsContainer>
-                    {fullscreen && fields.length !== 1 && index + 1 !== fields.length && (
-                        <S.DividerStyled />
-                    )}
+                    {fields.length !== 1 && index + 1 !== fields.length && <S.DividerStyled />}
                 </div>
             ))}
-        </div>
+        </S.Container>
     );
 };

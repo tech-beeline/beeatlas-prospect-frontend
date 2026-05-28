@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
+    Badge,
     Button,
     Icon,
     IconButton,
-    Label,
     ProgressButton,
     Skeleton,
 } from '@beeline/design-system-react';
@@ -25,17 +25,11 @@ import {
 } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as R from 'router/const';
-import { safeNavigateBack } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { CJImport } from './components/CJImport';
-import { CJUpdateForm } from './components/CJUpdateForm';
-import { CJVersion } from './components/CJVersion';
-import { InfoSidesheet } from './components/InfoSidesheet';
-import { SkeletonTable } from './components/SkeletonTable';
-import { Table } from './components/Table';
-import { ButtonState, SideSheetVariants } from './const';
+import { CJData, CJImport, CJUpdateForm, CJVersion, SkeletonTable, Table } from './components';
+import { ButtonState, mapCJToFormValues, SideSheetVariants } from './const';
 import * as S from './units';
 
 export const CJPage = () => {
@@ -80,6 +74,7 @@ export const CJPage = () => {
     const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         return () => {
@@ -88,7 +83,13 @@ export const CJPage = () => {
     }, [closeSideSheet]);
 
     const handleBackIconClick = () => {
-        safeNavigateBack(navigate, `${R.CX_PATH}${R.CJ_PATH}`);
+        const from = (location.state as { from?: string } | null)?.from;
+
+        if (from === `${R.CX_PATH}${R.CJ_PATH}`) {
+            navigate(-1);
+        } else {
+            navigate(`${R.CX_PATH}${R.CJ_PATH}`);
+        }
     };
 
     const handleToggleDraft = async () => {
@@ -169,7 +170,6 @@ export const CJPage = () => {
 
     const descriptionRef = useRef<HTMLDivElement>(null);
     const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
     const handleOpenBPMN = () => {
         if (!data) return;
@@ -236,46 +236,21 @@ export const CJPage = () => {
                             </div>
 
                             <S.InfoContainer>
-                                <IconButton
-                                    iconName={Icons.InfoCircled}
-                                    data-tooltip-id="info"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setIsInfoTooltipOpen((prev) => !prev);
-                                    }}
-                                />
-                                {data && (
-                                    <TooltipContainer
-                                        largePadding
-                                        id="info"
-                                        place="bottom"
-                                        noArrow
-                                        offset={8}
-                                        infoWidth
-                                        isOpen={isInfoTooltipOpen}
-                                        clickable
-                                        afterHide={() => setIsInfoTooltipOpen(false)}
-                                    >
-                                        <InfoSidesheet
-                                            onClose={() => setIsInfoTooltipOpen(false)}
-                                            cj={data}
-                                        />
-                                    </TooltipContainer>
-                                )}
-
-                                <Label
-                                    variant="contained"
-                                    title={data?.draft ? 'Черновик' : 'Опубликован'}
-                                    type={data?.draft ? 'default' : 'success'}
-                                />
+                                <Badge
+                                    type="secondary"
+                                    semantic={data?.draft ? 'neutral' : 'success'}
+                                >
+                                    {data?.draft ? 'Черновик' : 'Опубликован'}
+                                </Badge>
                                 <S.InfoTooltipContainer>
-                                    <Label
-                                        variant="contained"
-                                        title={data?.bpmn ? 'BPMN' : 'BEEATLAS'}
-                                        type={data?.bpmn ? 'warning' : 'magenta'}
+                                    <Badge
+                                        type="secondary"
                                         data-tooltip-id="bpmn-label-tooltip"
-                                        iconName={Icons.InfoCircled}
-                                    />
+                                        semantic={data?.bpmn ? 'warning' : 'info'}
+                                        icon={Icons.InfoCircled}
+                                    >
+                                        {data?.bpmn ? 'BPMN' : 'BEEATLAS'}
+                                    </Badge>
                                     <TooltipContainer
                                         id="bpmn-label-tooltip"
                                         place="bottom"
@@ -290,52 +265,56 @@ export const CJPage = () => {
                                 </S.InfoTooltipContainer>
                             </S.InfoContainer>
 
-                            {canEditCJ && (
-                                <DropdownMenu
-                                    id="dropdown-contols"
-                                    position="left"
-                                    items={[
-                                        [
-                                            ...(data?.draft
-                                                ? [
-                                                      {
-                                                          title: 'Редактировать',
-                                                          icon: Icons.Edit,
-                                                          onClick: () =>
-                                                              toggleSideSheet(
-                                                                  SideSheetVariants.UPDATE_CJ,
-                                                              ),
-                                                          disabled: !data?.draft,
-                                                      },
-                                                      {
-                                                          title: 'Импортировать CJ',
-                                                          icon: Icons.Import,
-                                                          onClick: () =>
-                                                              toggleSideSheet(
-                                                                  SideSheetVariants.IMPORT_CJ,
-                                                              ),
-                                                          disabled: data?.bpmn === null && !isEmpty,
-                                                      },
-                                                  ]
-                                                : []),
+                            <DropdownMenu
+                                id="dropdown-contols"
+                                position="left"
+                                items={[
+                                    [
+                                        {
+                                            title: 'Данные CJ',
+                                            icon: Icons.InfoCircled,
+                                            onClick: () =>
+                                                toggleSideSheet(SideSheetVariants.DATA_CJ),
+                                        },
+                                        ...(data?.draft && canEditCJ
+                                            ? [
+                                                  {
+                                                      title: 'Редактировать данные CJ',
+                                                      icon: Icons.Edit,
+                                                      onClick: () =>
+                                                          toggleSideSheet(
+                                                              SideSheetVariants.UPDATE_CJ,
+                                                          ),
+                                                      disabled: !data?.draft,
+                                                  },
+                                                  {
+                                                      title: 'Импортировать CJ',
+                                                      icon: Icons.Import,
+                                                      onClick: () =>
+                                                          toggleSideSheet(
+                                                              SideSheetVariants.IMPORT_CJ,
+                                                          ),
+                                                      disabled: data?.bpmn === null && !isEmpty,
+                                                  },
+                                              ]
+                                            : []),
+                                        {
+                                            title: 'Показать версии',
+                                            icon: Icons.PagesMultipleEmpty,
+                                            onClick: () =>
+                                                toggleSideSheet(SideSheetVariants.VERSION_CJ),
+                                            disabled: isVersionsDisabled,
+                                        },
+                                    ],
+                                ]}
+                            >
+                                <S.ButtonStyled
+                                    endIcon={<Icon iconName={Icons.MoreVert} />}
+                                    id="buttonToggleId"
+                                    data-tooltip-id="editButton"
+                                />
+                            </DropdownMenu>
 
-                                            {
-                                                title: 'Показать версии',
-                                                icon: Icons.PagesMultipleEmpty,
-                                                onClick: () =>
-                                                    toggleSideSheet(SideSheetVariants.VERSION_CJ),
-                                                disabled: isVersionsDisabled,
-                                            },
-                                        ],
-                                    ]}
-                                >
-                                    <S.ButtonStyled
-                                        endIcon={<Icon iconName={Icons.MoreVert} />}
-                                        id="buttonToggleId"
-                                        data-tooltip-id="editButton"
-                                    />
-                                </DropdownMenu>
-                            )}
                             {data?.bpmn && (
                                 <Button variant="outlined" color="primary" onClick={handleOpenBPMN}>
                                     CJ в BPMN
@@ -417,10 +396,7 @@ export const CJPage = () => {
                         isOpen={openSideSheet === SideSheetVariants.UPDATE_CJ}
                         cjId={data.id}
                         onClose={closeSideSheet}
-                        values={{
-                            name: data.name,
-                            userPortrait: data.userPortrait,
-                        }}
+                        values={mapCJToFormValues(data)}
                     />
                     <CJImport
                         isOpen={openSideSheet === SideSheetVariants.IMPORT_CJ}
@@ -434,6 +410,11 @@ export const CJPage = () => {
                         onClose={closeSideSheet}
                         versions={versions}
                         cjId={paramId}
+                    />
+                    <CJData
+                        isOpen={openSideSheet === SideSheetVariants.DATA_CJ}
+                        onClose={closeSideSheet}
+                        cj={data}
                     />
                 </>
             )}

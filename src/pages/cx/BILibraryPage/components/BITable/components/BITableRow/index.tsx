@@ -1,10 +1,10 @@
 import { FC, useState } from 'react';
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Label, Skeleton } from '@beeline/design-system-react';
+import { Badge, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { TargetLabel } from 'features/cx';
+import { TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { DropdownMenuControlled } from 'components/interaction';
@@ -17,7 +17,7 @@ import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 
@@ -64,7 +64,7 @@ export const BITableRow: FC<IBITableRow> = ({
         const editabilityData = await getBIEditabilityById(String(bi.id));
         if (editabilityData.data.editability) {
             navigate({
-                pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
+                pathname: `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
                 search: createSearchParams({ id: String(bi.id) }).toString(),
             });
         } else {
@@ -98,9 +98,9 @@ export const BITableRow: FC<IBITableRow> = ({
                         <S.SpanLinkStyled
                             onClick={() =>
                                 window.open(
-                                    `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${
-                                        ROUTER.VIEW_PATH
-                                    }?${createSearchParams({ id: String(bi.id) })}`,
+                                    `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}?${createSearchParams({
+                                        id: String(bi.id),
+                                    })}`,
                                 )
                             }
                         >
@@ -119,8 +119,8 @@ export const BITableRow: FC<IBITableRow> = ({
                         <S.SpanLinkStyled
                             onClick={() =>
                                 window.open(
-                                    `${ROUTER.MODELS_PATH}${ROUTER.APPS_PATH}${
-                                        ROUTER.VIEW_PATH
+                                    `${R.MODELS_PATH}${R.APPS_PATH}${
+                                        R.VIEW_PATH
                                     }?cmdb=${encodeURIComponent(currentProduct.alias)}`,
                                 )
                             }
@@ -142,14 +142,12 @@ export const BITableRow: FC<IBITableRow> = ({
                 </S.TableDataStyled>
                 {/* <S.TableDataStyled>{'—'}</S.TableDataStyled> */}
                 <S.TableDataStyled>
-                    {bi.draft ? (
-                        <Label title="Черновик" type="default" variant="contained" />
-                    ) : (
-                        <Label title="Опубликован" type="success" variant="contained" />
-                    )}
+                    <Badge type="secondary" semantic={bi.draft ? 'neutral' : 'success'}>
+                        {bi.draft ? 'Черновик' : 'Опубликован'}
+                    </Badge>
                 </S.TableDataStyled>
                 <S.TableDataStyled>
-                    <TargetLabel target={bi.target} />
+                    <TargetBadge target={bi.target} />
                 </S.TableDataStyled>
                 <S.TdDate>{dayjs(bi.lastModifiedDate).format('DD.MM.YYYY')}</S.TdDate>
                 <S.ActionCell showShadow={showShadow} expanded={isExpanded} isActive={isActive}>

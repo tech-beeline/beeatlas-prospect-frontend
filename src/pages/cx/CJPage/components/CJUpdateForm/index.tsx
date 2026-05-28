@@ -1,15 +1,18 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
+import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'features/cx';
 
 import { SideBlock } from 'components/containers';
-// import { Text } from 'components/core';
-import { TextField } from 'components/form';
+import { Text } from 'components/core';
+import { Autocomplete, TextField } from 'components/form';
 
 import { useUpdateCJMutation } from 'api/queries/cj';
+import { usePostUsersInfoMutation } from 'api/queries/profile';
+import { useGetProductsQuery } from 'hooks';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';
@@ -17,8 +20,20 @@ import { ICJUpdateForm } from './types';
 import * as S from './units';
 
 export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose }) => {
+    const [searchTextProduct, setSearchTextProduct] = useState('');
+
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { mutateAsync: updateCJ, isPending: updatingCj } = useUpdateCJMutation();
+    const { mutateAsync: postUsersInfo } = usePostUsersInfoMutation();
+    const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
+
+    const productsFiltered = (products ?? []).filter((product) =>
+        product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
+    );
+    const productsOptions = productsFiltered.map((product) => ({
+        id: Number(product.id),
+        value: product.name,
+    }));
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
@@ -28,37 +43,49 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
     useEffect(() => reset(values), [values]);
 
-    // const [links, setLinks] = useState<{ id: number; url: string; description: string }[]>([]);
-
-    // const addLink = () => {
-    //     setLinks((prev) => [
-    //         ...prev,
-    //         {
-    //             id: prev.length + 1,
-    //             url: '',
-    //             description: '',
-    //         },
-    //     ]);
-    // };
-
-    // const removeLink = (id: number) => {
-    //     setLinks((prev) =>
-    //         prev
-    //             .filter((link) => link.id !== id)
-    //             .map((link, index) => ({
-    //                 ...link,
-    //                 id: index + 1,
-    //             })),
-    //     );
-    // };
-
     const onSubmit = handleSubmit(async (values) => {
+        const isNewBusinessOwner = values.businessOwner.id === null;
+        let businessOwnerId = values.businessOwner.id;
+        if (isNewBusinessOwner) {
+            const createData = await postUsersInfo([
+                {
+                    email: values.businessOwner.email,
+                    fullName: values.businessOwner.fullname,
+                    idExt: values.businessOwner.employeeNumber,
+                    login: values.businessOwner.login,
+                },
+            ]);
+            businessOwnerId = createData[0].id;
+        }
+
+        const filledTechOwners = getFilledTechOwners(values.techOwner);
+        const newTechOwners = filledTechOwners.filter((owner) => owner.id === null);
+        let techOwnerIds = filledTechOwners.map((owner) => owner.id);
+
+        if (newTechOwners.length > 0) {
+            const createData = await postUsersInfo(
+                newTechOwners.map((owner) => ({
+                    email: owner.email,
+                    fullName: owner.fullname,
+                    idExt: owner.employeeNumber,
+                    login: owner.login,
+                })),
+            );
+            techOwnerIds = [
+                ...techOwnerIds.filter((id) => id !== null),
+                ...createData.map((owner) => owner.id),
+            ];
+        }
+
         try {
             await updateCJ({
                 id: String(cjId),
                 data: {
                     name: values.name,
                     user_portrait: values.userPortrait,
+                    businessOwner: businessOwnerId ?? 0,
+                    techOwners: techOwnerIds.filter((id) => id !== null) as number[],
+                    productId: String(values.product),
                 },
             });
             showSnackbar({ message: 'Изменения сохранены' });
@@ -72,13 +99,13 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
     });
 
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
+        <SideBlock isOpen={isOpen} onClose={onClose} large={true} hasBackdrop>
             <S.Container>
                 <FormProvider {...form}>
                     <form onSubmit={onSubmit}>
                         <S.Content hasButtons>
                             <S.FlexWrapper>
-                                <S.SideBlockTitle>Настройка CJ</S.SideBlockTitle>
+                                <Text variant="h5">Редактирование данных CJ</Text>
 
                                 <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                             </S.FlexWrapper>
@@ -87,58 +114,20 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                                 <TextField label="Название" name="name" />
 
                                 <TextField label="Портрет пользователя" name="userPortrait" />
+
+                                <BusinessOwnerField />
+
+                                <Autocomplete
+                                    label="Приложение"
+                                    fullWidth
+                                    name="product"
+                                    options={productsOptions}
+                                    disabled={isLoadingProducts}
+                                    onInputChange={(v) => setSearchTextProduct(v)}
+                                />
+
+                                <TechOwnerFields smallButton />
                             </S.TextFieldContainer>
-
-                            {/* /*<S.LinkContainer>
-                                <S.FlexWrapper>
-                                    <Text variant="subtitle1">Полезные ссылки</Text>
-                                    <Button
-                                        variant="plain"
-                                        size="small"
-                                        startIcon={<Icon iconName={Icons.Add} color="blue" />}
-                                        onClick={addLink}
-                                        type="button"
-                                    >
-                                        {' '}
-                                        Добавить
-                                    </Button>
-                                </S.FlexWrapper>
-                                <S.LinkWrapper>
-                                    {links.map((link, index) => (
-                                        <S.LinkBlock key={link.id}>
-                                            <S.FlexWrapper>
-                                                <Text variant="subtitle2">Ссылка {index + 1}</Text>
-
-                                                <Button
-                                                    startIcon={
-                                                        <Icon
-                                                            iconName={Icons.Delete}
-                                                            color="blue"
-                                                        />
-                                                    }
-                                                    onClick={() => removeLink(link.id)}
-                                                    size="small"
-                                                    variant="plain"
-                                                    type="button"
-                                                >
-                                                    Удалить
-                                                </Button>
-                                            </S.FlexWrapper>
-
-                                            <S.LinkTextField>
-                                                <TextField
-                                                    label="Ссылка"
-                                                    name={`links.${index}.url`}
-                                                />
-                                                <TextField
-                                                    label="Описание ссылки"
-                                                    name={`links.${index}.description`}
-                                                />
-                                            </S.LinkTextField>
-                                        </S.LinkBlock>
-                                    ))}
-                                </S.LinkWrapper>
-                            </S.LinkContainer> */}
                         </S.Content>
 
                         <S.ButtonContainer>

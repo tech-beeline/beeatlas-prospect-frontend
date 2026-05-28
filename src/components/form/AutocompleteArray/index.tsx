@@ -1,5 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { Button, IconButton } from '@beeline/design-system-react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 
@@ -17,6 +19,9 @@ export const AutocompleteArray: FC<IAutocompleteArray> = ({
     label,
     isLoading = false,
     makeOption,
+    useExternalAddButton = false,
+    smallButton = false,
+    titleVariant = 'subtitle1',
 }) => {
     const { control, watch } = useFormContext();
     const { fields, append, remove } = useFieldArray({
@@ -40,7 +45,11 @@ export const AutocompleteArray: FC<IAutocompleteArray> = ({
     };
 
     const handleDelete = (rowIndex: number) => {
-        if (rowIndex === 0) {
+        if (useExternalAddButton && fields.length === 1) {
+            return;
+        }
+
+        if (!useExternalAddButton && rowIndex === 0) {
             return;
         }
 
@@ -49,7 +58,32 @@ export const AutocompleteArray: FC<IAutocompleteArray> = ({
 
     return (
         <S.Container>
-            {title && <Text variant="subtitle1">{title}</Text>}
+            {(title || useExternalAddButton) && (
+                <S.Header>
+                    {title && <Text variant={titleVariant}>{title}</Text>}
+
+                    {useExternalAddButton &&
+                        (smallButton ? (
+                            <IconButton
+                                type="button"
+                                variant="plain"
+                                onClick={handleAdd}
+                                disabled={disabled}
+                                iconName={Icons.Add}
+                                size="large"
+                            />
+                        ) : (
+                            <Button
+                                type="button"
+                                variant="outlined"
+                                onClick={handleAdd}
+                                disabled={disabled}
+                            >
+                                Добавить
+                            </Button>
+                        ))}
+                </S.Header>
+            )}
             <S.Rows>
                 {fields.map((field, rowIndex) => (
                     <ArrayRow
@@ -64,6 +98,9 @@ export const AutocompleteArray: FC<IAutocompleteArray> = ({
                         disabled={disabled}
                         makeOption={makeOption}
                         selectedValueIds={selectedValuesIds}
+                        customActions={useExternalAddButton}
+                        showAddButton={false}
+                        canDelete={useExternalAddButton ? fields.length > 1 : rowIndex !== 0}
                     />
                 ))}
             </S.Rows>

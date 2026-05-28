@@ -1,13 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Banner, Button, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
+import { Banner, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
+import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'features/cx';
 
-import { SideBlock } from 'components/containers';
+import { PageFormContainer } from 'components/containers';
+import { Text } from 'components/core';
 import { Autocomplete, TextField } from 'components/form';
 
 import {
@@ -16,20 +18,19 @@ import {
     useUploadBPMNFile,
 } from 'api/queries/cj';
 import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
-import { useGetUserInfoQuery } from 'api/queries/profile';
-import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';
-import * as ROUTER from 'router/const';
+import { useGetUserInfoQuery, usePostUsersInfoMutation } from 'api/queries/profile';
+import * as R from 'router/const';
 import { formatSize } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { downloadBpmnFile } from '../CJPage/utils/formatters';
+
 import { FormValues, validationSchema } from './form';
-import { ICJCreateForm } from './types';
 import * as S from './units';
 
-export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
+export const CJAddPage = () => {
     const [searchTextProduct, setSearchTextProduct] = useState('');
 
-    const [showBanner, setShowBanner] = useState(true);
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
     const [bpmnFileText, setBpmnFileText] = useState<string | null>(null);
     const [, setIsProcessingBPMN] = useState(false);
@@ -43,6 +44,8 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const { data: userProducts } = useGetUserProductsQuery(userProductIds);
+    const { mutateAsync: postUsersInfo } = usePostUsersInfoMutation();
+
     const products = isAdministrator ? allProducts : userProducts;
 
     const productsFiltered = (products ?? []).filter((product) =>
@@ -61,11 +64,6 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
 
     const { handleSubmit, reset, setError } = form;
 
-    const handleCloseClick = () => {
-        reset();
-        onClose();
-    };
-
     useEffect(() => {
         if (products) {
             reset({ product: Number.isInteger(products[0]?.id) ? Number(products[0].id) : 1 });
@@ -73,6 +71,39 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
     }, [products]);
 
     const onSubmit = handleSubmit(async (values) => {
+        const isNewBusinessOwner = values.businessOwner.id === null;
+        let businessOwnerId = values.businessOwner.id;
+        if (isNewBusinessOwner) {
+            const createData = await postUsersInfo([
+                {
+                    email: values.businessOwner.email,
+                    fullName: values.businessOwner.fullname,
+                    idExt: values.businessOwner.employeeNumber,
+                    login: values.businessOwner.login,
+                },
+            ]);
+            businessOwnerId = createData[0].id;
+        }
+
+        const filledTechOwners = getFilledTechOwners(values.techOwner);
+        const newTechOwners = filledTechOwners.filter((owner) => owner.id === null);
+        let techOwnerIds = filledTechOwners.map((owner) => owner.id);
+
+        if (newTechOwners.length > 0) {
+            const createData = await postUsersInfo(
+                newTechOwners.map((owner) => ({
+                    email: owner.email,
+                    fullName: owner.fullname,
+                    idExt: owner.employeeNumber,
+                    login: owner.login,
+                })),
+            );
+            techOwnerIds = [
+                ...techOwnerIds.filter((id) => id !== null),
+                ...createData.map((owner) => owner.id),
+            ];
+        }
+
         try {
             if (bpmnFile) {
                 setIsProcessingBPMN(true);
@@ -81,6 +112,9 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
+                        businessOwner: businessOwnerId ?? 0,
+                        techOwners: techOwnerIds.filter((id) => id !== null) as number[],
+                        productId: String(values.product),
                     },
                     productId: values.product,
                     bpmn: false,
@@ -95,7 +129,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     await createCJByBPMN(cjId);
                     setBpmnFile(null);
                     navigate({
-                        pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                        pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
                     });
                 } catch (bpmnError) {
@@ -107,7 +141,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                     setBpmnFile(null);
                     showSnackbar({ message: `Ошибка валидации файла`, showCloseButton: true });
                     navigate({
-                        pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                        pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
                     });
                     return;
@@ -118,6 +152,9 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
+                        businessOwner: businessOwnerId ?? 0,
+                        techOwners: techOwnerIds.filter((id) => id !== null) as number[],
+                        productId: String(values.product),
                     },
                     productId: values.product,
                     bpmn: false,
@@ -125,7 +162,7 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                 setBpmnFile(null);
 
                 navigate({
-                    pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
+                    pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                     search: createSearchParams({ id: cjId }).toString(),
                 });
             }
@@ -177,46 +214,31 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
         setBpmnFile(null);
     };
 
+    const handleCancelClick = () => {
+        navigate(`${R.CX_PATH}${R.CJ_PATH}`);
+    };
     return (
-        <SideBlock hasBackdrop isOpen={isOpen} onClose={handleCloseClick} large={true}>
-            <S.Container>
-                <FormProvider {...form}>
-                    <form onSubmit={onSubmit}>
-                        <S.Content hasButtons>
-                            <S.TitleContainer>
-                                <S.FlexWrapper>
-                                    <S.SideBlockTitle>Создать CJ</S.SideBlockTitle>
+        <PageFormContainer
+            footer
+            cancelButtonClick={handleCancelClick}
+            confirmButtonClick={onSubmit}
+            disableConfirmButton={creatingCJ || isLoadingProducts}
+        >
+            <FormProvider {...form}>
+                <form onSubmit={onSubmit}>
+                    <S.Content>
+                        <S.TitleContainer>
+                            <S.FlexWrapper>
+                                <Text variant="h4">Создать CJ</Text>
+                            </S.FlexWrapper>
 
-                                    <IconButton
-                                        iconName={Icons.Close}
-                                        onClick={handleCloseClick}
-                                        size="large"
-                                    />
-                                </S.FlexWrapper>
-                                {showBanner && (
-                                    <Banner
-                                        onClose={() => setShowBanner(false)}
-                                        iconName={Icons.InfoCircled}
-                                        title="Нельзя менять структуру CJ добавленного с помощью нотации BPMN, можно менять только распознанные атрибуты BI и этапов. Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beetlas"
-                                    />
-                                )}
-                            </S.TitleContainer>
+                            <Banner
+                                iconName={Icons.InfoCircled}
+                                title="Нельзя менять структуру CJ добавленного с помощью нотации BPMN, можно менять только распознанные атрибуты BI и этапов. Нельзя импортировать CJ из BPMN в ранее собранный CJ в формате Beetlas"
+                            />
+                        </S.TitleContainer>
 
-                            <S.TextFieldContainer>
-                                <Autocomplete
-                                    fullWidth
-                                    disabled={isLoadingProducts}
-                                    label="Приложение*"
-                                    name="product"
-                                    options={productsOptions}
-                                    onInputChange={(v) => setSearchTextProduct(v)}
-                                />
-
-                                <TextField label="Название CJ*" name="name" />
-
-                                <TextField label="Портрет пользователя" name="userPortrait" />
-                            </S.TextFieldContainer>
-
+                        <S.TextFieldContainer>
                             <S.FileAddingContainer>
                                 <Typography variant="subtitle1">
                                     Добавить CJ в bpmn формате{' '}
@@ -230,47 +252,61 @@ export const CJCreateForm: FC<ICJCreateForm> = ({ isOpen, onClose }) => {
                                 />
                                 {bpmnFile && (
                                     <S.FileNameContainer>
-                                        <S.FileUploaderListItemStyled name="" />
-                                        <S.FileMetadataContainer>
-                                            <Typography variant="body2">{bpmnFile.name}</Typography>
-                                            <Typography variant="caption" color="textSecondary">
-                                                {formatSize(bpmnFile.size)}{' '}
-                                                {dayjs(bpmnFile.lastModified)
-                                                    .local()
-                                                    .format('DD.MM.YYYY, HH:mm')}
-                                            </Typography>
-                                        </S.FileMetadataContainer>
-                                        <IconButton
-                                            iconName={Icons.Download}
-                                            size="medium"
-                                            onClick={handleDownload}
-                                        />
-                                        <IconButton
-                                            iconName={Icons.Delete}
-                                            size="medium"
-                                            onClick={handleRemoveFile}
-                                        />
+                                        <S.FileDataContainer>
+                                            <S.FileUploaderListItemStyled name="" />
+                                            <S.FileMetadataContainer>
+                                                <Text variant="body2">{bpmnFile.name}</Text>
+                                                <Text inactive variant="caption">
+                                                    {formatSize(bpmnFile.size)}{' '}
+                                                    {dayjs(bpmnFile.lastModified)
+                                                        .local()
+                                                        .format('DD.MM.YYYY, HH:mm')}
+                                                </Text>
+                                            </S.FileMetadataContainer>
+                                        </S.FileDataContainer>
+                                        <S.FileDataContainer>
+                                            <IconButton
+                                                iconName={Icons.Download}
+                                                size="medium"
+                                                onClick={handleDownload}
+                                            />
+                                            <IconButton
+                                                iconName={Icons.Delete}
+                                                size="medium"
+                                                onClick={handleRemoveFile}
+                                            />
+                                        </S.FileDataContainer>
                                     </S.FileNameContainer>
                                 )}
                             </S.FileAddingContainer>
-                        </S.Content>
+                            <S.RowContainer>
+                                <TextField label="Название CJ*" name="name" fullWidth />
+                                <TextField
+                                    label="Портрет пользователя"
+                                    name="userPortrait"
+                                    fullWidth
+                                />
+                            </S.RowContainer>
 
-                        <S.ButtonContainer>
-                            <Button type="button" onClick={handleCloseClick}>
-                                Отменить
-                            </Button>
+                            <S.RowContainer>
+                                <BusinessOwnerField />
+                                <Autocomplete
+                                    fullWidth
+                                    disabled={isLoadingProducts}
+                                    label="Приложение*"
+                                    name="product"
+                                    options={productsOptions}
+                                    onInputChange={(v) => setSearchTextProduct(v)}
+                                />
+                            </S.RowContainer>
 
-                            <Button
-                                disabled={creatingCJ || isLoadingProducts}
-                                type="submit"
-                                variant="contained"
-                            >
-                                Создать
-                            </Button>
-                        </S.ButtonContainer>
-                    </form>
-                </FormProvider>
-            </S.Container>
-        </SideBlock>
+                            <S.TechnicalContainer>
+                                <TechOwnerFields />
+                            </S.TechnicalContainer>
+                        </S.TextFieldContainer>
+                    </S.Content>
+                </form>
+            </FormProvider>
+        </PageFormContainer>
     );
 };

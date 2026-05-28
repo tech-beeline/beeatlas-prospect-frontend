@@ -20,7 +20,7 @@ export const CJList: FC<ICJList> = ({ tcId }) => {
                         <Link
                             key={cj.id}
                             title={cj.name}
-                            url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=${cj.id}`}
+                            url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
                         />
                     ))}
                 </S.Container>

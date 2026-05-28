@@ -66,3 +66,7 @@ export const LinkTextField = styled.div`
 
     width: 100%;
 `;
+
+export const ButtonContainer = styled.div`
+    max-width: 141px;
+`;

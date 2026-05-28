@@ -19,6 +19,9 @@ export const ArrayRow: FC<IArrayRow> = ({
     onDeleteClick,
     index,
     selectedValueIds,
+    customActions = false,
+    showAddButton = false,
+    canDelete = false,
 }) => {
     const { watch } = useFormContext();
     const value = watch(`${name}.${index}.value`);
@@ -46,7 +49,31 @@ export const ArrayRow: FC<IArrayRow> = ({
                             makeOption={makeOption}
                         />
                     </S.SelectContainer>
-                    {index === 0 ? (
+                    {customActions ? (
+                        <>
+                            {showAddButton && (
+                                <Button
+                                    type="button"
+                                    size="medium"
+                                    variant="outlined"
+                                    onClick={onAddClick}
+                                    startIcon={<Icon iconName={Icons.Add} />}
+                                    disabled={disabled}
+                                />
+                            )}
+
+                            {canDelete && (
+                                <Button
+                                    type="button"
+                                    size="medium"
+                                    variant="outlined"
+                                    onClick={() => onDeleteClick(index)}
+                                    startIcon={<Icon iconName={Icons.Delete} />}
+                                    disabled={disabled}
+                                />
+                            )}
+                        </>
+                    ) : index === 0 ? (
                         <Button
                             type="button"
                             size="medium"

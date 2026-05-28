@@ -11,7 +11,7 @@ import * as S from './units';
 
 export const CJVersion: FC<ICJVersion> = ({ isOpen, onClose, versions, cjId }) => {
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
+        <SideBlock isOpen={isOpen} onClose={onClose} large={true} hasBackdrop>
             <S.Container>
                 <S.FlexWrapper>
                     <div>

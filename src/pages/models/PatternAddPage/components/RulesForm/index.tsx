@@ -10,7 +10,7 @@ import { Link } from 'components/other';
 
 import { IValidateRulesResponse } from 'api/patterns/types';
 import { useValidateRulesMutation } from 'api/queries/patterns';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';
@@ -104,7 +104,7 @@ export const RulesForm: FC<IRulesForm> = ({ setStepVariant, savedData, setSavedD
                                         идентификации архитектуры обязательно ознакомьтесь с{' '}
                                         <Link
                                             title="информацией"
-                                            url={`${ROUTER.MODELS_PATH}${ROUTER.PATTERNS_PATH}${ROUTER.RULES_PATH}`}
+                                            url={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.RULES_PATH}`}
                                         />
                                     </div>
                                 }

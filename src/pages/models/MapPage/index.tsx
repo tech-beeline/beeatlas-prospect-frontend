@@ -21,7 +21,7 @@ import { IMapCriteria } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
 import { useCreatePersonalMapMutation, useGetMapCriteriasQuery } from 'api/queries/maps';
 import { useModal } from 'hooks';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { PersonalMapsLibrary } from './components';
 import { TABS, TabVariant } from './const';
@@ -57,7 +57,7 @@ export const MapPage = () => {
 
     const handleFormSave = async (values: MapFormValues) => {
         const { mapId } = await createMap({ ...values, typeId: values.type });
-        navigate(`${ROUTER.MODELS_PATH}${ROUTER.MAP_PATH}${ROUTER.ADD_PATH}?id=${mapId}`);
+        navigate(`${R.MODELS_PATH}${R.MAP_PATH}${R.ADD_PATH}?id=${mapId}`);
     };
 
     const {
@@ -170,7 +170,7 @@ export const MapPage = () => {
                                                     дочерним элементам можно{' '}
                                                     <Link
                                                         title="в древе ФДМ"
-                                                        url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
+                                                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
                                                     />
                                                 </S.Description>
                                             )}
@@ -180,7 +180,7 @@ export const MapPage = () => {
                                                 элементам можно{' '}
                                                 <Link
                                                     title="в древе ФДМ"
-                                                    url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
+                                                    url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${activeItem.id}&type=BUSINESS`}
                                                 />
                                             </Text>
                                         )}

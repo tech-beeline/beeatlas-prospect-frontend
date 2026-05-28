@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Label, Skeleton } from '@beeline/design-system-react';
+import { Badge, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { TargetLabel } from 'features/cx';
+import { TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
@@ -15,7 +15,7 @@ import { useDeleteBIMutation } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 
@@ -66,7 +66,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
 
     const handleBiClick = (id: number) => {
         navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.VIEW_PATH}`,
+            pathname: `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
             search: createSearchParams({ id: String(id) }).toString(),
         });
     };
@@ -79,7 +79,7 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
         const editabilityData = await getBIEditabilityById(String(bi.id));
         if (editabilityData.data.editability) {
             navigate({
-                pathname: `${ROUTER.CX_PATH}${ROUTER.BI_PATH}${ROUTER.ADD_PATH}`,
+                pathname: `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
                 search: createSearchParams({ id: String(bi.id) }).toString(),
             });
         } else {
@@ -111,12 +111,10 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
             <S.BICard key={bi.id}>
                 <S.FlexContainer>
                     <S.LabelsContainer>
-                        {bi.draft ? (
-                            <Label title="Черновик" type="default" variant="contained" />
-                        ) : (
-                            <Label title="Опубликован" type="success" variant="contained" />
-                        )}
-                        <TargetLabel target={bi.target} />
+                        <Badge type="secondary" semantic={bi.draft ? 'neutral' : 'success'}>
+                            {bi.draft ? 'Черновик' : 'Опубликован'}
+                        </Badge>
+                        <TargetBadge target={bi.target} />
                     </S.LabelsContainer>
                     <DropdownMenu
                         id={String(bi.id)}

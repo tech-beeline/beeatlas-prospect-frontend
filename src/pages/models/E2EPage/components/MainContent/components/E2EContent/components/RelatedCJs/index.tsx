@@ -18,7 +18,7 @@ export const RelatedCJs: FC<IRelatedCJs> = ({ data, isLoading }) => {
                     <S.LinkContainer key={cj.id}>
                         <Link
                             title={cj.name}
-                            url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=${cj.id}`}
+                            url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
                         />
                     </S.LinkContainer>
                 ))}
