@@ -43,6 +43,7 @@ export const BILibraryPage = () => {
                 display: DisplayOptions.GRID,
             },
             debounceKeys: ['search'],
+            nonFilterKeys: ['display'],
             parsers: {
                 product: createNumberOrEnumParser(ProductVariant, ProductVariant.ALL),
                 status: createEnumParser(StatusVariant, StatusVariant.ALL),
