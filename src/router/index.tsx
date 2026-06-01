@@ -34,6 +34,7 @@ import {
     BPMNViewPage,
     CapabilitiesPage,
     CapabilityAddPage,
+    CJAddPage,
     CJLibraryPage,
     CJPage,
     ConsultationPage,
@@ -48,6 +49,8 @@ import {
     FDMHistoryPage,
     FDMPage,
     FileImportPage,
+    FitnessFunctionAddPage,
+    FitnessFunctionsPage,
     HowToPage,
     ImpactPage,
     ImportedDataPage,
@@ -84,6 +87,7 @@ import { withAdminRole } from './utils';
 
 const PATHS_WITHOUT_HEADER = [
     `${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`,
+    `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
     `${R.CX_PATH}${R.BI_PATH}${R.ADD_PATH}`,
     `${R.CX_PATH}${R.CJ_PATH}${R.BPMN_PATH}`,
@@ -235,6 +239,34 @@ export const NavigationRouter = () => {
                             <MenuPersonalArea />
                             <S.ContentWrapper>
                                 <CriteriasPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <FitnessFunctionsPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}${R.ADD_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <FitnessFunctionAddPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     ),
@@ -740,7 +772,8 @@ export const NavigationRouter = () => {
                     }
                 />
 
-                <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`} element={<CJPage />} />
+                <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`} element={<CJPage />} />
+                <Route path={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`} element={<CJAddPage />} />
 
                 <Route
                     path={`${R.CX_PATH}${R.BI_PATH}`}

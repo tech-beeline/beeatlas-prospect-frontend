@@ -9,7 +9,7 @@ import { Link } from 'components/other';
 
 import { useGetBPMNFileDataQuery } from 'api/queries/cj';
 import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { IVersion } from './types';
 import * as S from './units';
@@ -29,7 +29,7 @@ export const VersionRow: FC<IVersion> = ({ version, cjId }) => {
                 <S.FileMetadataContainer>
                     <Link
                         title={getFileName(version.key)}
-                        url={`${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.BPMN_PATH}?cjId=${cjId}&versionId=${version.id}`}
+                        url={`${R.CX_PATH}${R.CJ_PATH}${R.BPMN_PATH}?cjId=${cjId}&versionId=${version.id}`}
                         outer={false}
                     />
                     <Text inactive variant="caption">

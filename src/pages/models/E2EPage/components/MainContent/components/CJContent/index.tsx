@@ -22,7 +22,7 @@ export const CJContent: FC<ICJContent> = ({ activeTreeItem }) => {
                     CJ
                 </Text>
                 <Text variant="body2">
-                    <Link url={`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}?id=${activeTreeItem.id}`} />
+                    <Link url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${activeTreeItem.id}`} />
                 </Text>
             </div>
         </>

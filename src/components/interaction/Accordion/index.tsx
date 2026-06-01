@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Link, PivotArrow } from 'components/other';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import * as S from './units';
 
@@ -14,18 +14,18 @@ const TextBlock1 = () => {
             <Link
                 outer={false}
                 title="инструкцию по выходу на АК,"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+                url={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
             />{' '}
             <Link
                 outer={false}
                 title="шаблоны и чеклисты для материалов,"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+                url={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
             />{' '}
             требуемых на Архитектурном комитете. А еще можно{' '}
             <Link
                 outer={false}
                 title="проконсультироваться"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                url={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
             />{' '}
             у корпоративного архитектора по вопросам подготовки концепции, позиционирования и другим
             вопросам в рамках сервиса Корпоративной архитектуры.
@@ -40,7 +40,7 @@ const TextBlock2 = () => {
             <Link
                 outer={false}
                 title="Функционально-Доменная модель"
-                url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}`}
+                url={`${R.MODELS_PATH}${R.FDM_PATH}`}
             />{' '}
             ИТ-ландшафта ВК. По ней есть поиск, а можно просмотреть интересующие группировки и
             возможности доменов. По каждой возможности можно посмотреть детали – владельца,
@@ -57,7 +57,7 @@ const TextBlock3 = () => {
             <Link
                 outer={false}
                 title="консультацией"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                url={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
             />{' '}
             корпоративного архитектора, который подскажет правильные формулировки, и провалидирует
             подготовленный список.
@@ -75,11 +75,7 @@ const TextBlock4 = () => {
             корпоративный архитектор предложит позиционирование самостоятельно исходя из
             предоставленной концепции продукта. Воспользоваться сервисом позиционирования
             корпоративной архитектуры можно{' '}
-            <Link
-                outer={false}
-                title="тут."
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}`}
-            />{' '}
+            <Link outer={false} title="тут." url={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`} />{' '}
         </S.TextBlock>
     );
 };
@@ -94,12 +90,12 @@ const TextBlock5 = () => {
             <Link
                 outer={false}
                 title="инструкцией,"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_HOW_TO_PATH}`}
+                url={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
             />{' '}
             <Link
                 outer={false}
                 title="шаблоном,"
-                url={`${ROUTER.DATA_BASE_PATH}${ROUTER.ARCH_COMM_PATH}${ROUTER.ARCH_TEMPLATES_PATH}`}
+                url={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
             />{' '}
             или посмотреть примеры концепций продуктов, которые уже прошли защиту на Архитектурном
             комитете.

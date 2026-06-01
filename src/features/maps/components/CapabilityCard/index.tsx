@@ -9,7 +9,7 @@ import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 
 import { MapVariant } from '../../const';
 import { CapabilityCardCriteriaComment } from '../CapabailityCardCriteriaComment';
@@ -173,7 +173,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ techCapability, ma
                     <Link
                         light
                         title="в древе ФДМ"
-                        url={`${ROUTER.MODELS_PATH}${ROUTER.FDM_PATH}?id=${techCapability.id}&type=TECH`}
+                        url={`${R.MODELS_PATH}${R.FDM_PATH}?id=${techCapability.id}&type=TECH`}
                     />
                 </Text>
             </TooltipContainer>

@@ -9,6 +9,12 @@ export const formatNullableNumber = (value: number | string | null | undefined) 
     return value === null ? '—' : String(value);
 };
 
+export const formatNullableNumberArray = (value: number[] | null | undefined) => {
+    if (!value || value.length === 0) return '—';
+
+    return value.join(', ');
+};
+
 export const formatNullableNumberParam = (
     paramName: string,
     param: number | undefined | null,

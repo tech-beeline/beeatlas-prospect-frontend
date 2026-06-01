@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Label, Skeleton } from '@beeline/design-system-react';
+import { Badge, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
@@ -10,7 +10,7 @@ import { DropdownMenuControlled } from 'components/interaction';
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
 import { IRow } from './types';
@@ -25,10 +25,17 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
 
     const handleCJClick = (id?: number) => {
-        navigate({
-            pathname: `${ROUTER.CX_PATH}${ROUTER.CJ_PATH}${ROUTER.ADD_PATH}`,
-            search: id ? createSearchParams({ id: String(id) }).toString() : '',
-        });
+        navigate(
+            {
+                pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
+                search: id ? createSearchParams({ id: String(id) }).toString() : '',
+            },
+            {
+                state: {
+                    from: window.location.pathname,
+                },
+            },
+        );
     };
 
     return (
@@ -52,8 +59,8 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
                     <S.SpanLinkStyled
                         onClick={() =>
                             window.open(
-                                `${ROUTER.MODELS_PATH}${ROUTER.APPS_PATH}${
-                                    ROUTER.VIEW_PATH
+                                `${R.MODELS_PATH}${R.APPS_PATH}${
+                                    R.VIEW_PATH
                                 }?cmdb=${encodeURIComponent(currentProduct.alias)}`,
                             )
                         }
@@ -72,23 +79,25 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
             </S.TableDataStyled>
             <S.TableDataStyled>{'—'}</S.TableDataStyled> */}
             <S.TableDataStyled>
-                {cj.draft ? (
-                    <Label title="Черновик" type="default" variant="contained" />
-                ) : (
-                    <Label title="Опубликован" type="success" variant="contained" />
-                )}
+                <Badge type="secondary" semantic={cj.draft ? 'neutral' : 'success'}>
+                    {cj.draft ? 'Черновик' : 'Опубликован'}
+                </Badge>
             </S.TableDataStyled>
             <S.TableDataStyled>
-                {cj.bpmn ? (
-                    <Label title="BPMN" type="warning" variant="contained" />
-                ) : (
-                    <Label title="BEEATLAS" type="magenta" variant="contained" />
-                )}
+                <Badge
+                    type="secondary"
+                    semantic={cj.bpmn ? 'warning' : 'info'}
+                    icon={Icons.InfoCircled}
+                >
+                    {cj.bpmn ? 'BPMN' : 'BEEATLAS'}
+                </Badge>
             </S.TableDataStyled>
             {window.FEATURE_FLAGS.FLAG_IS_PROD === false && (
                 <S.TableDataStyled>
                     {cj.dashboardLink ? (
-                        <Label title="GRAFANA" type="teal" variant="contained" />
+                        <Badge type="secondary" semantic="teal">
+                            GRAFANA
+                        </Badge>
                     ) : (
                         formatNullableString(null)
                     )}

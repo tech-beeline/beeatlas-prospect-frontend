@@ -1,5 +1,8 @@
-import { IFitnessFunction } from 'api/product/types';
+import { IProductFitnessFunctions } from 'api/fitness-functions/types';
+
+import { FitnessFunctionsTab } from '../../const';
 
 export interface IFitnessFunctionRow {
-    fitnessFunction: IFitnessFunction;
+    fitnessFunction: IProductFitnessFunctions;
+    tab: FitnessFunctionsTab;
 }

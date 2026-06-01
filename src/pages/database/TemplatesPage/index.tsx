@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'components/other';
 import { IconCard } from 'components/other';
 
-import * as ROUTER from 'router/const';
+import * as R from 'router/const';
 import * as STYLES from 'styles/units';
 import { FUNC_MOCK_CONFLUENCE_LINK } from 'utils/const';
 
@@ -42,7 +42,7 @@ export const TemplatesPage = () => {
                 <Link
                     outer={false}
                     title="консультацией"
-                    url={`${ROUTER.DATA_BASE_PATH}${ROUTER.SERVICES_PATH}${ROUTER.CONSULTATION_PATH}`}
+                    url={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
                 />
             </S.SmallText>
         </S.PageWrapper>

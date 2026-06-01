@@ -47,7 +47,7 @@ export const StepForm: FC<IStepForm> = ({
     };
 
     return (
-        <SideBlock isOpen={isOpen} onClose={handleCloseClick} large={true}>
+        <SideBlock isOpen={isOpen} onClose={handleCloseClick} large={true} hasBackdrop>
             {stage === Stage.SETTINGS && (
                 <StepSettings
                     key={String(isOpen)}

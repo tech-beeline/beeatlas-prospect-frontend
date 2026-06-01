@@ -27,6 +27,9 @@ const GATEWAY_STAGING_SEQUENCE_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/staging-sequence/';
 const GATEWAY_DASHBOARD_SERVICE_LINK =
     'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/dashboard-service/';
+const GATEWAY_USER_LINK =
+    'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/user/api/';
+const GATEWAY_FF_LINK = 'https://fdm-gateway-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/ff/api/';
 
 const PROD_GATEWAY = '/api-gateway/';
 const PROD_GATEWAY_PRODUCT = '/product/api/';
@@ -42,6 +45,8 @@ const PROD_OBS_DASHBOARD = '/obs-dashboard/api/';
 const PROD_GATEWAY_SEQUENCE = '/sequence-backend/sequence/';
 const PROD_GATEWAY_STAGING_SEQUENCE = '/staging-sequence/';
 const PROD_GATEWAY_DASHBOARD_SERVICE = '/dashboard-service/';
+const PROD_GATEWAY_USER = '/user/api/';
+const PROD_GATEWAY_FF = '/ff/api/';
 
 export const API_URL = IS_DEV ? MONOLITH_LINK : PROD_MONOLITH;
 export const STRUCTURIZR_URL = IS_DEV ? STRUCTURIZR_LINK : PROD_STRUCTURIZR;
@@ -63,5 +68,7 @@ export const GATEWAY_STAGING_SEQUENCE_URL = IS_DEV
 export const GATEWAY_DASHBOARD_SERVICE_URL = IS_DEV
     ? GATEWAY_DASHBOARD_SERVICE_LINK
     : PROD_GATEWAY_DASHBOARD_SERVICE;
+export const GATEWAY_USER_URL = IS_DEV ? GATEWAY_USER_LINK : PROD_GATEWAY_USER;
+export const GATEWAY_FF_URL = IS_DEV ? GATEWAY_FF_LINK : PROD_GATEWAY_FF;
 
 export const MOCK_PRODUCT_ID = 1;

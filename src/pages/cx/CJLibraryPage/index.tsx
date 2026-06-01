@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
+import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { CJLibraryStatus } from 'api/cj/types';
@@ -14,11 +16,10 @@ import {
     createNumberOrEnumParser,
     useURLFilters,
 } from 'hooks/useURLFilters';
-import * as STYLES from 'styles/units';
+import * as R from 'router/const';
 
 import {
     CJCard,
-    CJCreateForm,
     CJLibraryFilters,
     CJTable,
     FormatVariant,
@@ -30,6 +31,7 @@ import * as S from './units';
 import { groupDataByColumns } from './utils';
 
 export const CJLibraryPage = () => {
+    const navigate = useNavigate();
     const {
         openModal: filterOpen,
         closeModal: closeFilter,
@@ -58,8 +60,6 @@ export const CJLibraryPage = () => {
                 display: createEnumParser(DisplayOptions, DisplayOptions.GRID),
             },
         });
-
-    const { modalOpened: createFormOpen, closeModal: closeForm, openModal: formOpen } = useModal();
 
     const { data: rawCJs, isLoading } = useGetCJCollectionQuery({
         search: '',
@@ -103,12 +103,16 @@ export const CJLibraryPage = () => {
         closeFilter();
     };
 
+    const handleClickAddCJ = () => {
+        navigate(`${R.CX_PATH}${R.CJ_PATH}${R.ADD_PATH}`);
+    };
+
     return (
         <S.PageWrapper>
             <S.ContentWrapper>
                 <S.TitleWrapper>
-                    <STYLES.H4>Библиотека CJ</STYLES.H4>
-                    <Button variant="contained" size="medium" onClick={formOpen}>
+                    <Text variant="h4">Библиотека CJ</Text>
+                    <Button variant="contained" size="medium" onClick={handleClickAddCJ}>
                         Создать CJ
                     </Button>
                 </S.TitleWrapper>
@@ -268,7 +272,6 @@ export const CJLibraryPage = () => {
                     hasActiveFilters={hasActiveFilters}
                 />
             )}
-            <CJCreateForm isOpen={createFormOpen} onClose={closeForm} />
         </S.PageWrapper>
     );
 };

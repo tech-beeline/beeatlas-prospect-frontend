@@ -105,7 +105,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
         }
     }, [isRefreshing, isPendingCJ]);
     return (
-        <SideBlock isOpen={isOpen} onClose={onClose} large={true}>
+        <SideBlock isOpen={isOpen} onClose={onClose} large={true} hasBackdrop>
             <S.Container>
                 <S.FlexWrapper>
                     <div>

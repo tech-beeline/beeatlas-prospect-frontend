@@ -3,7 +3,7 @@ import { createSearchParams, useNavigate, useSearchParams } from 'react-router-d
 import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
-import { dataToFormValues, formValuesToData, StatusLabel, TargetLabel } from 'features/cx';
+import { dataToFormValues, formValuesToData, StatusBadge, TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { FloatingNavigation } from 'components/interaction';
@@ -112,8 +112,8 @@ export const BIViewPage = () => {
                                 />
                             )}
                             <S.LabelsContainer>
-                                <TargetLabel target={data.target} />
-                                <StatusLabel status={data.status} />
+                                <TargetBadge target={data.target} />
+                                <StatusBadge status={data.status} />
                                 <Label
                                     variant="contained"
                                     title={data.draft ? 'Черновик' : 'Опубликован'}

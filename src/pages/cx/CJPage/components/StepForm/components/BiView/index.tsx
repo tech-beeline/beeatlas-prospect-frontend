@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { StatusLabel, TargetLabel } from 'features/cx';
+import { StatusBadge, TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { Link, PivotArrow } from 'components/other';
@@ -87,8 +87,8 @@ export const BiView: FC<IBiView> = ({
                     {isLoading && <Skeleton height={24} />}
                     {bi && (
                         <>
-                            <TargetLabel target={bi.target} />
-                            <StatusLabel status={bi.status} />
+                            <TargetBadge target={bi.target} />
+                            <StatusBadge status={bi.status} />
                             <Label
                                 variant="contained"
                                 title={bi.draft ? 'Черновик' : 'Опубликован'}

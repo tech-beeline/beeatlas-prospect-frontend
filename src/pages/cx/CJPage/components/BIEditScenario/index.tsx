@@ -6,6 +6,7 @@ import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
+import { Text } from 'components/core';
 
 import { useUpdateBIStepRelations } from 'api/queries/bi';
 import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
@@ -103,7 +104,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                     <form onSubmit={onSubmit}>
                         <S.Content hasButtons>
                             <S.FlexWrapper>
-                                <S.SideBlockTitle>Редактирование шага сценария BI</S.SideBlockTitle>
+                                <Text variant="h5">Редактирование шага сценария BI</Text>
 
                                 <IconButton
                                     iconName={Icons.Close}
@@ -116,6 +117,8 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                                 <StepFields
                                     key={field.id}
                                     index={i}
+                                    isLast={i === fields.length - 1}
+                                    totalFields={fields.length}
                                     handleAddClick={handleAddClick}
                                     handleRemoveClick={remove}
                                 />

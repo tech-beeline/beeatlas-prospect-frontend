@@ -1,6 +1,13 @@
 import { Button, Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--size-spacing-x4);
+`;
+
 export const FlexContainer = styled.div`
     display: flex;
     align-items: center;
@@ -9,6 +16,7 @@ export const FlexContainer = styled.div`
 
 export const FieldsFlexContainer = styled.div`
     display: flex;
+    align-items: center;
     gap: 24px;
 `;
 
@@ -19,7 +27,9 @@ export const FieldsContainer = styled.div<{ marginTop?: boolean }>`
 
     width: 100%;
 
-    margin-top: ${({ marginTop }) => (marginTop ? '24px' : '0px')};
+    &:not(:last-child) {
+        margin-bottom: 24px;
+    }
 `;
 
 export const ChannelsContainer = styled(FieldsContainer)`

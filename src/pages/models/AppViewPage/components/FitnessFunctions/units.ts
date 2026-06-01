@@ -5,3 +5,7 @@ export const Container = styled.div`
     flex-direction: column;
     gap: 24px;
 `;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 100px;
+`;

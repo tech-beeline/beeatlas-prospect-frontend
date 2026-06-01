@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
+    ButtonGroup,
     Skeleton,
     Table,
     TableBody,
@@ -7,52 +8,87 @@ import {
     TableHeaderData,
     TableRow,
 } from '@beeline/design-system-react';
-import dayjs from 'dayjs';
 
-import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetProductFitnessFunctionsByCmdbQuery } from 'api/queries/product';
+import { useGetProductFitnessFunctionsQuery } from 'api/queries/fitness-functions';
 
 import { FitnessFunctionRow } from './components';
+import { FitnessFunctionsTab } from './const';
 import { IFitnessFunctions } from './types';
 import * as S from './units';
 
 export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
-    const { data, isLoading } = useGetProductFitnessFunctionsByCmdbQuery(cmdb);
+    const [tab, setTab] = useState<FitnessFunctionsTab>(FitnessFunctionsTab.FITNESS_FUNCTIONS);
+    const { data, isLoading } = useGetProductFitnessFunctionsQuery(
+        cmdb,
+        tab === FitnessFunctionsTab.TRIGGERS ? true : undefined,
+    );
 
     return (
         <S.Container>
+            <ButtonGroup
+                alwaysSelected
+                size="small"
+                options={[
+                    { label: 'Проверка', id: FitnessFunctionsTab.FITNESS_FUNCTIONS },
+                    { label: 'Триггеры', id: FitnessFunctionsTab.TRIGGERS },
+                ]}
+                selectedOption={{
+                    id: tab,
+                }}
+                onChange={(option) => setTab(option.id as FitnessFunctionsTab)}
+            />
             {isLoading && <Skeleton height={200} radius={12} />}
-            {data && (
+            {data && data.results.length > 0 && (
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableHeaderData colSpan={4}>
-                                <Text variant="subtitle3">
-                                    Обновление фитнес-функций по итогам публикации архитектуры от{' '}
-                                    {dayjs.utc(data.createdDate).local().format('DD.MM.YYYY')}
-                                </Text>
+                            <TableHeaderData>
+                                {tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                    ? 'Код проверки'
+                                    : 'Код триггера'}
                             </TableHeaderData>
-                        </TableRow>
-                        <TableRow>
-                            <TableHeaderData>Код проверки</TableHeaderData>
-                            <TableHeaderData>Описание проверки</TableHeaderData>
-                            <TableHeaderData>Методика</TableHeaderData>
-                            <TableHeaderData>Результат проверки</TableHeaderData>
-                            {/* <TableHeaderData alignRight>Метрика(цель/факт)</TableHeaderData> */}
+                            <TableHeaderData>
+                                {tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                    ? 'Описание проверки'
+                                    : 'Описание триггера'}
+                            </TableHeaderData>
+                            <TableHeaderData>Статус</TableHeaderData>
+                            <TableHeaderData>
+                                {tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                    ? 'Результат проверки'
+                                    : 'Результат триггера'}
+                            </TableHeaderData>
+                            <TableHeaderData>Дата изменения</TableHeaderData>
+                            <TableHeaderData alignRight>Метрика&nbsp;(цель/факт)</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.fitnessFunctions
-                            .sort((a, b) => a.code.localeCompare(b.code))
+                        {data.results
+                            .sort((a, b) => a.ff_code.localeCompare(b.ff_code))
                             .map((fitnessFunction) => (
                                 <FitnessFunctionRow
-                                    fitnessFunction={fitnessFunction}
                                     key={fitnessFunction.id}
+                                    fitnessFunction={fitnessFunction}
+                                    tab={tab}
                                 />
                             ))}
                     </TableBody>
                 </Table>
+            )}
+            {data && data.results.length === 0 && (
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title={
+                            tab === FitnessFunctionsTab.FITNESS_FUNCTIONS
+                                ? 'Фитнес-функций нет'
+                                : 'Триггеров нет'
+                        }
+                        text=""
+                    />
+                </S.NotFoundContainer>
             )}
         </S.Container>
     );
