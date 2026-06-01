@@ -34,6 +34,8 @@ export const MenuPersonalArea = () => {
                     ? `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`
                     : location.pathname.includes(R.CRITERIAS_PATH)
                     ? `${R.ADMIN_PATH}${R.CRITERIAS_PATH}`
+                    : location.pathname.includes(R.FITNESS_FUNCTIONS_PATH)
+                    ? `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}`
                     : `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`
             }
             groups={[
@@ -59,6 +61,11 @@ export const MenuPersonalArea = () => {
                             icon: Icons.Settings,
                             name: 'Управление\nкритериями',
                             path: `${R.ADMIN_PATH}${R.CRITERIAS_PATH}`,
+                        },
+                        {
+                            icon: Icons.Security,
+                            name: 'Управление\nфитнес-функциями',
+                            path: `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}`,
                         },
                         {
                             icon: Icons.Import,
