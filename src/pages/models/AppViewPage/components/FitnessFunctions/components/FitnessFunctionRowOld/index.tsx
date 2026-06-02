@@ -56,7 +56,7 @@ export const FitnessFunctionRowOld: FC<IFitnessFunctionRowOld> = ({
                         type={fitnessFunction.isCheck ? 'success' : 'error'}
                     />
                 </TableData>
-                <TableData>{dayjs(createdDate).local().format('DD.MM.YYYY HH:mm')}</TableData>
+                <TableData>{dayjs.utc(createdDate).local().format('DD.MM.YYYY HH:mm')}</TableData>
                 <TableData alignRight>{formatNullableString(null)}</TableData>
                 {/* <TableData alignRight>
                     <Text variant="body3">

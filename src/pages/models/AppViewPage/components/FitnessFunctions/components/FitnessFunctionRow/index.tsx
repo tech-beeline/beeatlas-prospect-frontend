@@ -79,7 +79,10 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction, t
                     />
                 </TableData>
                 <TableData>
-                    {dayjs(fitnessFunction.create_date).local().format('DD.MM.YYYY HH:mm')}
+                    {dayjs(fitnessFunction.create_date)
+                        .utcOffset(3, true)
+                        .local()
+                        .format('DD.MM.YYYY HH:mm')}
                 </TableData>
                 <TableData alignRight>
                     {fitnessFunction.countDetail}/{fitnessFunction.successDetail}
