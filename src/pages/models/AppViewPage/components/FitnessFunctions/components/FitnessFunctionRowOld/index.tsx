@@ -9,6 +9,7 @@ import {
     TableRow,
 } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -18,7 +19,10 @@ import { formatNullableString } from 'utils/formatters';
 import { IFitnessFunctionRowOld } from './types';
 import * as S from './units';
 
-export const FitnessFunctionRowOld: FC<IFitnessFunctionRowOld> = ({ fitnessFunction }) => {
+export const FitnessFunctionRowOld: FC<IFitnessFunctionRowOld> = ({
+    fitnessFunction,
+    createdDate,
+}) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -52,7 +56,7 @@ export const FitnessFunctionRowOld: FC<IFitnessFunctionRowOld> = ({ fitnessFunct
                         type={fitnessFunction.isCheck ? 'success' : 'error'}
                     />
                 </TableData>
-                <TableData>{formatNullableString(null)}</TableData>
+                <TableData>{dayjs(createdDate).local().format('DD.MM.YYYY HH:mm')}</TableData>
                 <TableData alignRight>{formatNullableString(null)}</TableData>
                 {/* <TableData alignRight>
                     <Text variant="body3">

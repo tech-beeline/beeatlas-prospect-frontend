@@ -84,7 +84,11 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
                             oldData.fitnessFunctions
                                 .sort((a, b) => a.code.localeCompare(b.code))
                                 .map((oldFF) => (
-                                    <FitnessFunctionRowOld key={oldFF.id} fitnessFunction={oldFF} />
+                                    <FitnessFunctionRowOld
+                                        key={oldFF.id}
+                                        fitnessFunction={oldFF}
+                                        createdDate={oldData.createdDate}
+                                    />
                                 ))}
                     </TableBody>
                 </Table>
