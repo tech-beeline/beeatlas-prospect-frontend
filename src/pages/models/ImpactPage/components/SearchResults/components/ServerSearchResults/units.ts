@@ -1,21 +1,5 @@
 import styled from '@emotion/styled';
 
-export const CategoriesContainer = styled.div`
-    margin-top: -8px;
-`;
-
-export const SkeletonContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-`;
-
-export const SubtitleContainer = styled.div`
-    padding-left: 16px;
-
-    margin-bottom: 12px;
-`;
-
 export const SearchCard = styled.div<{ maxWidth?: boolean }>`
     display: flex;
     align-items: center;
@@ -42,13 +26,6 @@ export const SearchCardTextContainer = styled.div`
     flex-direction: column;
 `;
 
-export const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-
-    margin-top: 12px;
-`;
-
 export const PaginationContainer = styled.div`
     flex: 1;
     display: flex;
@@ -56,13 +33,9 @@ export const PaginationContainer = styled.div`
     justify-content: center;
 `;
 
-export const BannerContainer = styled.div`
+export const ChipsContainer = styled.div`
     display: flex;
-    align-items: center;
     gap: 8px;
-
-    max-width: 460px;
-    padding: 0px 16px;
 `;
 
 export const CardsContainer = styled.div`
@@ -70,7 +43,7 @@ export const CardsContainer = styled.div`
     flex-direction: column;
 `;
 
-export const EndpointContainer = styled.div<{ hovered: boolean }>`
+export const ServerContainer = styled.div<{ hovered: boolean }>`
     position: relative;
 
     display: flex;
@@ -79,6 +52,8 @@ export const EndpointContainer = styled.div<{ hovered: boolean }>`
     &:hover {
         & > div:last-child {
             opacity: 1;
+            pointer-events: auto;
+            z-index: 101;
         }
 
         & > div:first-child {
@@ -94,6 +69,8 @@ export const EndpointContainer = styled.div<{ hovered: boolean }>`
         `
         & > div:last-child {
             opacity: 1;
+            pointer-events: auto;
+            z-index: 101;
         }
 
         & > div:first-child {
@@ -105,28 +82,38 @@ export const EndpointContainer = styled.div<{ hovered: boolean }>`
         `}
 `;
 
-export const EndpointSearchCard = styled(SearchCard)`
+export const GraphServerSearchCard = styled(SearchCard)`
     width: calc((100% - 16px) / 2);
 
     height: fit-content;
-
-    cursor: default;
 `;
 
-export const EndpointServersSearchCard = styled(EndpointSearchCard)`
+const opaqueSelectedBackground = `
+    background:
+        linear-gradient(
+            var(--color-background-base-selected),
+            var(--color-background-base-selected)
+        ),
+        var(--color-background-base);
+`;
+
+export const GraphServerParentSearchCard = styled(GraphServerSearchCard)`
     position: absolute;
     top: 0;
     right: 0;
 
     opacity: 0;
+    pointer-events: none;
 
-    background-color: var(--color-background-base-selected);
+    ${opaqueSelectedBackground}
 
-    z-index: 100;
+    cursor: default;
 
-    &:hover {
+    &&:hover {
         opacity: 1;
-        z-index: 101;
+        pointer-events: auto;
+        z-index: 102;
+        ${opaqueSelectedBackground}
     }
 `;
 
@@ -143,13 +130,4 @@ export const ArrowContainer = styled.div`
     width: 24px;
 
     opacity: 0;
-`;
-
-export const NotFoundContainer = styled.div`
-    margin-top: 64px;
-`;
-
-export const ChipsContainer = styled.div`
-    display: flex;
-    gap: 8px;
 `;

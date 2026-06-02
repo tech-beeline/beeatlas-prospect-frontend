@@ -39,10 +39,16 @@ export const GridContainer = styled.div`
 
 export const AppTitleContainer = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 4px
 
     margin-bottom: -16px;
+`;
+
+export const AppInfoContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 export const AppTitleIconWrapper = styled.div`
