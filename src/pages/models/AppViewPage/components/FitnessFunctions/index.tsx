@@ -12,18 +12,24 @@ import {
 import { ImageVariants, NotFoundBlock } from 'components/other';
 
 import { useGetProductFitnessFunctionsQuery } from 'api/queries/fitness-functions';
+import { useGetProductFitnessFunctionsByCmdbQuery } from 'api/queries/product';
 
-import { FitnessFunctionRow } from './components';
+import { FitnessFunctionRow, FitnessFunctionRowOld } from './components';
 import { FitnessFunctionsTab } from './const';
 import { IFitnessFunctions } from './types';
 import * as S from './units';
 
 export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
     const [tab, setTab] = useState<FitnessFunctionsTab>(FitnessFunctionsTab.FITNESS_FUNCTIONS);
-    const { data, isLoading } = useGetProductFitnessFunctionsQuery(
+    const { data, isLoading: isLoadingNewData } = useGetProductFitnessFunctionsQuery(
         cmdb,
         tab === FitnessFunctionsTab.TRIGGERS ? true : undefined,
     );
+
+    const { data: oldData, isLoading: isOldDataLoading } =
+        useGetProductFitnessFunctionsByCmdbQuery(cmdb);
+
+    const isLoading = isOldDataLoading || isLoadingNewData;
 
     return (
         <S.Container>
@@ -40,7 +46,7 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
                 onChange={(option) => setTab(option.id as FitnessFunctionsTab)}
             />
             {isLoading && <Skeleton height={200} radius={12} />}
-            {data && data.results.length > 0 && (
+            {data && oldData && (data.results.length > 0 || oldData.fitnessFunctions.length > 0) && (
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -74,10 +80,20 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
                                     tab={tab}
                                 />
                             ))}
+                        {tab === FitnessFunctionsTab.FITNESS_FUNCTIONS &&
+                            oldData.fitnessFunctions
+                                .sort((a, b) => a.code.localeCompare(b.code))
+                                .map((oldFF) => (
+                                    <FitnessFunctionRowOld
+                                        key={oldFF.id}
+                                        fitnessFunction={oldFF}
+                                        createdDate={oldData.createdDate}
+                                    />
+                                ))}
                     </TableBody>
                 </Table>
             )}
-            {data && data.results.length === 0 && (
+            {data && data.results.length === 0 && oldData && oldData.fitnessFunctions.length === 0 && (
                 <S.NotFoundContainer>
                     <NotFoundBlock
                         imageVariant={ImageVariants.EMPTY_BOX}
