@@ -173,6 +173,14 @@ export const useGetDeploymentInfluenceQuery = (params: IGetDeploymentInfluenceQu
     });
 };
 
+export const usePostCypherDiagramm = (query: string) => {
+    return useQuery({
+        queryKey: [GRAPH_PREFIX, 'cypher', query],
+        queryFn: () => getCypherQuery(query).then((res) => res.data),
+        enabled: !!query && query.trim().length > 0,
+    });
+};
+
 interface IGetSystemInfluenceParams {
     cmdb: string;
     influence: boolean;

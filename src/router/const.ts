@@ -56,6 +56,7 @@ export const VERSIONS_PATH = '/versions';
 export const CAPABILITIES_PATH = '/capabilities';
 export const CRITERIAS_PATH = '/criterias';
 export const FITNESS_FUNCTIONS_PATH = '/fitness-functions';
+export const CYPHER_REQUEST_PATH = '/cypher-request';
 
 // Уведомления
 export const NOTIFICATIONS_PATH = '/notifications';

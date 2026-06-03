@@ -3,6 +3,7 @@ export { AppAddPage } from './AppAddPage';
 export { CapabilitiesPage } from './CapabilitiesPage';
 export { CapabilityAddPage } from './CapabilityAddPage';
 export { CriteriasPage } from './CriteriasPage';
+export { CypherPage } from './CypherPage';
 export { FileImportPage } from './FileImportPage';
 export { FitnessFunctionAddPage } from './FitnessFunctionAddPage';
 export { FitnessFunctionsPage } from './FitnessFunctionsPage';
