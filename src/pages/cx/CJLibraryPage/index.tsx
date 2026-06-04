@@ -50,7 +50,7 @@ export const CJLibraryPage = () => {
                 display: DisplayOptions.GRID,
             },
             debounceKeys: ['search'],
-
+            nonFilterKeys: ['display'],
             parsers: {
                 product: createNumberOrEnumParser(ProductVariant, ProductVariant.ALL),
                 status: createEnumParser(CJLibraryStatus, CJLibraryStatus.ALL),

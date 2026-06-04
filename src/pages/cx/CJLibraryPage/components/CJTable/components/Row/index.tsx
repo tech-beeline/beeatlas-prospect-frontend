@@ -84,11 +84,7 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
                 </Badge>
             </S.TableDataStyled>
             <S.TableDataStyled>
-                <Badge
-                    type="secondary"
-                    semantic={cj.bpmn ? 'warning' : 'info'}
-                    icon={Icons.InfoCircled}
-                >
+                <Badge type="secondary" semantic={cj.bpmn ? 'warning' : 'info'}>
                     {cj.bpmn ? 'BPMN' : 'BEEATLAS'}
                 </Badge>
             </S.TableDataStyled>

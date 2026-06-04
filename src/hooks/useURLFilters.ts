@@ -8,6 +8,7 @@ type Parser<T> = (value: string) => T;
 type Config<T extends object> = {
     defaults: T;
     debounceKeys?: (keyof T)[];
+    nonFilterKeys?: (keyof T)[];
     parsers?: {
         [K in keyof T]?: Parser<T[K]>;
     };
@@ -47,6 +48,7 @@ export const useURLFilters = <T extends object>({
     defaults,
     debounceKeys = [],
     parsers,
+    nonFilterKeys = [],
 }: Config<T>) => {
     const stableDefaults = useRef(defaults).current;
     const keys = useRef(Object.keys(stableDefaults) as (keyof T)[]).current;
@@ -91,9 +93,11 @@ export const useURLFilters = <T extends object>({
         searchParams,
     ]);
 
-    const activeFiltersCount = keys.reduce((count, key) => {
-        return !isEqual(localState[key], stableDefaults[key]) ? count + 1 : count;
-    }, 0);
+    const activeFiltersCount = keys
+        .filter((key) => !nonFilterKeys.includes(key))
+        .reduce((count, key) => {
+            return !isEqual(localState[key], stableDefaults[key]) ? count + 1 : count;
+        }, 0);
 
     const hasActiveFilters = activeFiltersCount > 0;
 
@@ -102,7 +106,13 @@ export const useURLFilters = <T extends object>({
     };
 
     const resetFilters = () => {
-        setLocalState({ ...stableDefaults });
+        setLocalState((prev) => {
+            const next = { ...stableDefaults };
+            nonFilterKeys.forEach((key) => {
+                next[key] = prev[key];
+            });
+            return next;
+        });
     };
 
     return {

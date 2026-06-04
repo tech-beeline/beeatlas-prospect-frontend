@@ -84,6 +84,13 @@ export const BITableRow: FC<IBITableRow> = ({
         }
     };
 
+    const handleBiClick = (id?: number) => {
+        navigate({
+            pathname: `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
+            search: id ? createSearchParams({ id: String(id) }).toString() : '',
+        });
+    };
+
     return (
         <>
             <S.RowStyled expanded={isExpanded} key={bi.id} isActive={isActive}>
@@ -95,15 +102,7 @@ export const BITableRow: FC<IBITableRow> = ({
                             iconName={Icons.NavArrowDown}
                             onClick={() => setIsExpanded(!isExpanded)}
                         />
-                        <S.SpanLinkStyled
-                            onClick={() =>
-                                window.open(
-                                    `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}?${createSearchParams({
-                                        id: String(bi.id),
-                                    })}`,
-                                )
-                            }
-                        >
+                        <S.SpanLinkStyled onClick={() => handleBiClick(bi.id)}>
                             <TooltipContainer text={bi.name} tooltipId={`bi-name-${bi.id}`} />
                         </S.SpanLinkStyled>
                     </S.AlignItemsCenterWrapper>
