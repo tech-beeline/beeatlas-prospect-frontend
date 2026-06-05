@@ -5,12 +5,12 @@ import { UserManager } from 'oidc-client-ts';
 import { getUserInfo } from 'api/user';
 import { useMountEffect } from 'hooks';
 
-import { AUTHENTIK_CLIENT_ID, authInstance } from '../const';
+import { authInstance } from '../const';
 import { useAuthStore } from '../store';
 
 export const userManager = new UserManager({
     authority: `${window.FEATURE_FLAGS.FLAG_AUTHENTIK_URL}`,
-    client_id: AUTHENTIK_CLIENT_ID,
+    client_id: window.FEATURE_FLAGS.FLAG_AUTHENTIK_CLIENT_ID,
     redirect_uri: window.location.href,
     scope: 'openid profile email offline_access',
     automaticSilentRenew: true,

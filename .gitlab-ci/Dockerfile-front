@@ -29,6 +29,7 @@ ENV FLAG_AUTHENTIK_URL='http://authentik:8080'
 ENV FLAG_API_URL=''
 ENV FLAG_DOC_SERVICE_URL='https://beeatlas-doc-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/'
 ENV FLAG_WEBIDE_URL='https://vs-code-server-dev-eafdmmart.apps.yd-m6-kt22.vimpelcom.ru/'
+ENV FLAG_AUTHENTIK_CLIENT_ID=''
 
 # defaults for nginx\site.d\http-frontend.conf.in.env
 ENV NGINX_LOCATION_API_GATEWAY='http://gateway:8080'

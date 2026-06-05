@@ -20,6 +20,7 @@ ENV FLAG_AUTHENTIK_URL='http://authentik'
 ENV FLAG_API_URL=''
 ENV FLAG_DOC_SERVICE_URL='http://documents-local'
 ENV FLAG_WEBIDE_URL='http://webide.local/'
+ENV FLAG_AUTHENTIK_CLIENT_ID=''
 
 # defaults for nginx\site.d\http-frontend.conf.template
 ENV NGINX_LOCATION_API_GATEWAY='http://gateway:8080'

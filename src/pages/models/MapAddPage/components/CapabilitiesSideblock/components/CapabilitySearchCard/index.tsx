@@ -9,11 +9,7 @@ import { TooltipContainer } from 'components/interaction';
 
 import { CapabilitySearchResultTypeVariant, IMapItemData } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
-import {
-    useGetMapDataQuery,
-    useGetTechCapabilityByIdQuery,
-    useGetTechCapabilityProductsQuery,
-} from 'api/queries/capability';
+import { useGetMapDataQuery, useGetTechCapabilityByIdQuery } from 'api/queries/capability';
 import { PersonalMapElementType } from 'pages/models/MapAddPage/types';
 
 import { ICapabilitySearchCard, ICapabilitySearchCardOverlay } from './types';
@@ -50,11 +46,6 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
 
     const capabilityParent = (treeData as IMapItemData | undefined)?.parent?.find(
         (c) => c.isDomain,
-    );
-
-    const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
-        capability.code,
-        capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && tooltipOpened,
     );
 
     const { data: techCapabilityData, isLoading: isLoadingTechCapability } =
@@ -148,12 +139,11 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                         <div>
                             <Text variant="subtitle3">TC реализована в приложении</Text>
                         </div>
-                        {isLoadingProducts && <Skeleton height={16} radius={4} />}
-                        {products && (
+                        {isLoadingTechCapability && <Skeleton height={16} radius={4} />}
+                        {techCapabilityData && (
                             <div>
                                 <Text variant="caption">
-                                    {products.map((product) => product.name).join(', ') ||
-                                        'Нет приложений'}
+                                    {techCapabilityData.system.name || 'Нет приложений'}
                                 </Text>
                             </div>
                         )}

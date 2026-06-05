@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
 
-import { GATEWAY_GRAPH_VALIDATOR_URL, GATEWAY_URL, STRUCTURIZR_URL } from 'api/const';
+import { GATEWAY_GRAPH_VALIDATOR_URL, GATEWAY_STRUCTURIZR_URL, GATEWAY_URL } from 'api/const';
 import Api from 'utils/api/axiosWrapper';
 
 import * as T from './types';
@@ -94,7 +94,7 @@ export const deletePatternGroup = (id: string | number) => {
 
 export const validateWorkspace = (data: T.IValidateWorkspaceRequest) => {
     return Api.post({
-        url: `${STRUCTURIZR_URL}api/v1/workspace/validate`,
+        url: `${GATEWAY_STRUCTURIZR_URL}api/v1/workspace/validate`,
         data,
     });
 };
