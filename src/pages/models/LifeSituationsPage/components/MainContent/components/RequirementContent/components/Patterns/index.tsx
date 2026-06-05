@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { TableBody } from '@beeline/design-system-react';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { TableBody } from 'components/ui';
 
 import { PatternRow } from './components';
 import { IPatterns } from './types';

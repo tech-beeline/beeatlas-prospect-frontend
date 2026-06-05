@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
 import {
     Icon,
     Skeleton,
@@ -9,8 +11,7 @@ import {
     TableHeaderData,
     TablePagination,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+} from 'components/ui';
 
 import { IProfile } from 'api/personal-area/types';
 import { useGetProfilesQuery } from 'api/queries/profile';

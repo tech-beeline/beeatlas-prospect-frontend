@@ -1,8 +1,8 @@
 import React, { FC, useId } from 'react';
-import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
 
 import { useSnackbarStore } from 'widgets/Snackbar';
 

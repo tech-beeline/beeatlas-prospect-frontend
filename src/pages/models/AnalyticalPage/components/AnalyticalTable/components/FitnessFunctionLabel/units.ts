@@ -1,5 +1,6 @@
-import { Label } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Label } from 'components/ui';
 
 export const CellVisual = styled.div`
     grid-column: 1;

@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { IconButton, Label, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Label, TableData, TableRow } from 'components/ui';
 
 import { ServiceTableRow } from './components';
 import { IStructurizrTableRow } from './types';

@@ -1,6 +1,6 @@
-import { Icon, TableData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { Icon, TableData } from 'components/ui';
 export const OverflowContainer = styled.p`
     display: -webkit-box;
     -webkit-line-clamp: 2;

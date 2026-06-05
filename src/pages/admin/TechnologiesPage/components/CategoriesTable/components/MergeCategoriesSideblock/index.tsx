@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, TextField } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { TextField } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { useMergeCategoriesMutation } from 'api/queries/technologies';
 import { useSnackbarStore } from 'widgets/Snackbar';

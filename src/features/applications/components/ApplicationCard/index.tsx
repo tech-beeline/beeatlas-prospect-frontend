@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
+import { Button, Label } from 'components/ui';
 
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationMutation } from 'api/queries/applications';

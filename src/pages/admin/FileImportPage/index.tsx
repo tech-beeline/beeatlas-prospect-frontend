@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+import dayjs from 'dayjs';
+
+import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Avatar,
     Banner,
@@ -12,13 +18,7 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
-import dayjs from 'dayjs';
-
-import { Text } from 'components/core';
-import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { FileStatus } from 'api/file-import/types';
 import { useGetAllFilesQuery, useGetTemplateFilesQuery } from 'api/queries/file-import';
@@ -136,7 +136,10 @@ export const FileImportPage = () => {
                                 <TableRow key={file.id}>
                                     <TableData>
                                         <S.FileNameContainer>
-                                            <Avatar iconName={Icons.Page} color="green" />
+                                            <Avatar
+                                                icon={<Icon iconName={Icons.Page} />}
+                                                color="green"
+                                            />
                                             <Text variant="body3">
                                                 {
                                                     [...file.key.split('/')]

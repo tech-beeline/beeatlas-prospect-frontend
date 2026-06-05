@@ -1,6 +1,8 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { IconButton } from 'components/ui';
+import { Button, Search, Skeleton } from 'components/ui';
 
 import { useGetBICollectionQuery } from 'api/queries/bi';
 import { useDebounce } from 'hooks';

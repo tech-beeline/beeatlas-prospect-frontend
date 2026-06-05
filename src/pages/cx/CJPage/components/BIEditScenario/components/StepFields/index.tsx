@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Autocomplete, TextArea } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Button, Skeleton } from 'components/ui';
 
 import {
     useGetAllProductsQuery,

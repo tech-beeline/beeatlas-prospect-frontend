@@ -1,5 +1,7 @@
-import { Search, Table, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Search } from 'components/ui';
+import { Table, TableHeaderData } from 'components/ui';
 
 import { Hint } from 'pages/models/TechRadarPage/components/LeftMenu/components';
 

@@ -1,14 +1,9 @@
 import React, { FC, useRef } from 'react';
-import {
-    Checkbox,
-    IconButton,
-    InlineEdit,
-    TableData,
-    TableRow,
-} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Checkbox, InlineEdit, TableData, TableRow } from 'components/ui';
 
 import { useDeleteCategoryMutation, useUpdateCategoryMutation } from 'api/queries/technologies';
 import { getTechnologiesByCategoryId } from 'api/technologies';

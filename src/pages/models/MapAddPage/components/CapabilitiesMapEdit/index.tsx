@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useDroppable } from '@dnd-kit/core';
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { uniqueId } from 'lodash';
+
+import { Button, Icon } from 'components/ui';
 
 import { NEW_GROUP_DROPPABLE_ID } from '../../const';
 import { PersonalMapElementType } from '../../types';

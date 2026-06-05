@@ -1,5 +1,6 @@
-import { Chip } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Chip } from 'components/ui';
 
 export const Card = styled.div`
     max-width: 100%;

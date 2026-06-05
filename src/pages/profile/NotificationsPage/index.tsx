@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import {
-    Button,
-    ButtonGroup,
-    Chip,
-    DatePickerRange,
-    Pagination,
-    Select,
-    Skeleton,
-} from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 import {
     BusinessNotificationCard,
@@ -18,6 +9,10 @@ import {
 } from 'features/notifications';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { DatePickerRange } from 'components/ui';
+import { Select } from 'components/ui';
+import { Pagination } from 'components/ui';
+import { Button, ButtonGroup, Chip, Skeleton } from 'components/ui';
 
 import {
     useGetNotificationsQuery,

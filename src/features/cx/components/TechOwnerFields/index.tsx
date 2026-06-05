@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, Icon } from 'components/ui';
 
 import { defaultOwner, OwnerFieldsFormValues } from '../utils';
 

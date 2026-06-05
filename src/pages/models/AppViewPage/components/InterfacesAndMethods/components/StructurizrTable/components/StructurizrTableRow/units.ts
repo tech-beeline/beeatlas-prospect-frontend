@@ -1,5 +1,6 @@
-import { TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TableRow } from 'components/ui';
 
 export const NameContainer = styled.div`
     display: flex;

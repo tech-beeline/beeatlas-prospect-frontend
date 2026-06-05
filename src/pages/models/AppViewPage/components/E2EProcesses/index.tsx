@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Search, Table, TableBody } from '@beeline/design-system-react';
+
+import { Search } from 'components/ui';
+import { Table, TableBody } from 'components/ui';
 
 import { E2EProcessRow } from './components';
 import * as S from './units';

@@ -1,5 +1,6 @@
-import { ColorTypes } from '@beeline/design-system-react/types/types/status';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { ColorTypes } from 'components/ui';
 
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import * as R from 'router/const';

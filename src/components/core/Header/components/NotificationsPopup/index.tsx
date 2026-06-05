@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, Counter, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BusinessNotificationCard,
@@ -8,6 +7,8 @@ import {
     NotificationCardSkeleton,
     NotificationGroups,
 } from 'features/notifications';
+
+import { Button, ButtonGroup, Counter, Divider, Icon } from 'components/ui';
 
 import {
     useGetNotificationsQuery,

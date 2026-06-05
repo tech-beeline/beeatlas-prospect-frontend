@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
 import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
 import { BreadCrumbsItem } from 'components/interaction';
+import { Breadcrumbs, Skeleton, Tab, Tabs } from 'components/ui';
 
 import { useGetProductInfoByCmdbQuery } from 'api/queries/product';
 import * as R from 'router/const';

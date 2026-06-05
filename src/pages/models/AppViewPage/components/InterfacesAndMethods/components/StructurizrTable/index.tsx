@@ -1,5 +1,10 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { has } from 'lodash';
+
+import { AutocompleteControlled } from 'components/interaction';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Button,
     ButtonGroup,
@@ -10,12 +15,7 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { has } from 'lodash';
-
-import { AutocompleteControlled } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { IStructurizrContainerInterfaceData, IStructurizrOperation } from 'api/product/types';
 import { useGetProductStructurizrContainerByCmdbQuery } from 'api/queries/product';

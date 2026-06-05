@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Chip, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
+import { Button, Chip, Icon } from 'components/ui';
 
 import {
     useCreateSubscriptionMutation,

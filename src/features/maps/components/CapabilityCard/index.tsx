@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { generateMapColorGradient, selectColorByCriteria } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
@@ -8,6 +7,7 @@ import { useThemeStore } from 'features/theme';
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
+import { Icon } from 'components/ui';
 
 import * as R from 'router/const';
 

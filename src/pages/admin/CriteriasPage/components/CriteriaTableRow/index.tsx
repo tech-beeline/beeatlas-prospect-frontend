@@ -1,8 +1,8 @@
 import React, { FC, useRef } from 'react';
-import { TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
+import { TableData, TableRow } from 'components/ui';
 
 import { useShowTooltip } from 'hooks';
 import { formatNullableString } from 'utils/formatters';

@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import { Icon } from 'components/ui';
 
 import { CardVariant, ICard } from './types';
 import * as S from './units';
@@ -34,8 +35,7 @@ const Card: FC<ICard> = ({
                     {title}
                 </S.Title>
 
-                {/* @ts-ignore */}
-                <Icon size={24} iconName={Icons.ArrowRight} />
+                <Icon iconName={Icons.ArrowRight} />
             </S.TitleWrapper>
 
             <S.Text className="CardText" withImage={withImage}>

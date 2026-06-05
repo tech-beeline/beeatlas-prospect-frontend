@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Label } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
 import { Link } from 'components/other';
+import { Label } from 'components/ui';
 
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';

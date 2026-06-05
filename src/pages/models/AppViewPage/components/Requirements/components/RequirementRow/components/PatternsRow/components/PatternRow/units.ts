@@ -1,5 +1,6 @@
-import { TableData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TableData } from 'components/ui';
 
 export const PatternContainer = styled.div`
     display: flex;

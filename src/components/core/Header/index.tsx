@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { useAuthStore } from 'features/auth';
 import { useThemeStore } from 'features/theme';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
 
 import { MAIN_PAGE_PATH } from 'router/const';
 

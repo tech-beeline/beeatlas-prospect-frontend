@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Button, Icon } from 'components/ui';
 
 import { ExportVariant } from 'api/file-export/types';
 import { useCreateExportMutation } from 'api/queries/file-export';

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Label, TableData, TableRow } from '@beeline/design-system-react';
 import { useThemeStore } from 'features/theme';
 
 import { OverflowList } from 'components/containers';
 import { Link } from 'components/other';
+import { Label, TableData, TableRow } from 'components/ui';
 
 import * as R from 'router/const';
 

@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Button, TextArea } from 'components/ui';
 
 import { IBlameSideblock } from './types';
 import * as S from './units';

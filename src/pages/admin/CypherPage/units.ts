@@ -1,7 +1,7 @@
-import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
 
 export const PageWrapper = styled.div`
     display: flex;

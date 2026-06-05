@@ -1,6 +1,7 @@
-import { Chip } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { Chip } from 'components/ui';
 
 export const MenuWrapper = styled.div`
     display: flex;

@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge, IconButton, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     FitnessFunctionStatus,
@@ -12,6 +11,8 @@ import {
 } from 'features/fitness-functions';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Badge, TableData, TableRow } from 'components/ui';
 
 import { usePostFitnessFunctionStatusMutation } from 'api/queries/fitness-functions';
 import { useModal, useShowTooltip } from 'hooks';

@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Autocomplete as DesignSystemAutocomplete } from '@beeline/design-system-react';
 import get from 'lodash/get';
+
+import { Autocomplete as UIAutocomplete } from 'components/ui';
 
 import { IAutocomplete } from './types';
 
@@ -34,7 +35,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
             control={control}
             defaultValue={defaultValue}
             render={({ field }) => (
-                <DesignSystemAutocomplete
+                <UIAutocomplete
                     fullWidth={fullWidth}
                     disabled={disabled}
                     label={label}

@@ -1,9 +1,9 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, Icon, Skeleton } from 'components/ui';
 
 import { useGetFitnessFunctionsAggregationQuery } from 'api/queries/product';
 

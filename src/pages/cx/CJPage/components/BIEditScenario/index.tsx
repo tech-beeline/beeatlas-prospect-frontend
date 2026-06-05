@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import { Button, IconButton, ProgressButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, ProgressButton } from 'components/ui';
 
 import { useUpdateBIStepRelations } from 'api/queries/bi';
 import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';

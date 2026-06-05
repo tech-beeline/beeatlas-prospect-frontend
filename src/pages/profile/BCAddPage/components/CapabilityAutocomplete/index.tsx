@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField } from '@beeline/design-system-react';
 import get from 'lodash/get';
+
+import { TextField } from 'components/ui';
 
 import { CapabilitySearchVariant } from 'api/capability/types';
 import { useGetCapabilitiesQuery } from 'api/queries/capability';

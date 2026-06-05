@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { dataToFormValues, formValuesToData, StatusBadge, TargetBadge } from 'features/cx';
@@ -8,6 +7,8 @@ import { dataToFormValues, formValuesToData, StatusBadge, TargetBadge } from 'fe
 import { Text } from 'components/core';
 import { FloatingNavigation } from 'components/interaction';
 import { Link, NotFoundBlock, PivotArrow } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Button, Label, Skeleton } from 'components/ui';
 
 import {
     useGetBIByIdQuery,

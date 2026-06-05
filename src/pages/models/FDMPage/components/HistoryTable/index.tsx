@@ -1,5 +1,9 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+
+import { Link } from 'components/other';
+import { TableHeaderData } from 'components/ui';
 import {
     Button,
     Checkbox,
@@ -8,12 +12,8 @@ import {
     TableBody,
     TableData,
     TableHead,
-    TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import dayjs from 'dayjs';
-
-import { Link } from 'components/other';
+} from 'components/ui';
 
 import { useGetCapabilityVersionsQuery } from 'api/queries/history';
 import * as R from 'router/const';

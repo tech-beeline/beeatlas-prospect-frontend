@@ -1,8 +1,10 @@
 import React, { FC, useRef } from 'react';
-import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, formValuesToData } from 'features/cx';
 import { BIFormRef } from 'features/cx/components/BIForm/types';
+
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { useCreateBIMutation } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';

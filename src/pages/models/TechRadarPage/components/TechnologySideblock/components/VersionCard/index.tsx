@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Divider } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { Divider } from 'components/ui';
 
 import { formatNullableString } from 'utils/formatters';
 

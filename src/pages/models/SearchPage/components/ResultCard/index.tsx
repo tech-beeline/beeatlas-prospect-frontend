@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import DOMPurify from 'dompurify';
+
+import { Icon, Skeleton } from 'components/ui';
 
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';

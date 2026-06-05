@@ -1,5 +1,4 @@
 import React, { CSSProperties, FC } from 'react';
-import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     horizontalListSortingStrategy,
@@ -10,6 +9,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
 
 import { useModal } from 'hooks';
 import {

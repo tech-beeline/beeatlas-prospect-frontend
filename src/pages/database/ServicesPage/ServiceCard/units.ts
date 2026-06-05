@@ -1,7 +1,7 @@
-import { Button } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { BorderContainer } from 'components/containers';
+import { Button } from 'components/ui';
 
 export const BorderContainerStyled = styled(BorderContainer)`
     flex-direction: column;

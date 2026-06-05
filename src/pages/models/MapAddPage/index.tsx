@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     DndContext,
@@ -14,6 +13,7 @@ import { CreateMapSideblock, MapFormValues } from 'features/maps';
 import { uniqueId } from 'lodash';
 
 import { TooltipContainer } from 'components/interaction';
+import { Button, Icon } from 'components/ui';
 
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';

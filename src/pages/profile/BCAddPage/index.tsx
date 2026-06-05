@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, Button, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuthStore } from 'features/auth';
@@ -9,6 +8,8 @@ import { useAuthStore } from 'features/auth';
 import { Text } from 'components/core';
 import { TextArea, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Banner, Button, Icon } from 'components/ui';
 
 import { useCreateBCApplicationMutation } from 'api/queries/applications';
 import {

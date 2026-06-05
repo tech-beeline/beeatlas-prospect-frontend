@@ -1,5 +1,7 @@
-import { Banner, IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { IconButton } from 'components/ui';
+import { Banner } from 'components/ui';
 
 export const TitleWrapper = styled.div`
     display: flex;

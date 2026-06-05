@@ -1,6 +1,6 @@
-import { Divider, Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { Divider, Icon } from 'components/ui';
 export const MenuBlock = styled.div`
     position: absolute;
     bottom: -10px;

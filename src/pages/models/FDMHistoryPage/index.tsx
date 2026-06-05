@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Divider, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Divider } from 'components/ui';
 
 import * as R from 'router/const';
 

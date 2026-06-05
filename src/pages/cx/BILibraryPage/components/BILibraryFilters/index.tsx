@@ -1,6 +1,8 @@
 import React, { FC, useState } from 'react';
-import { Autocomplete, Button, IconButton, Select } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { IconButton } from 'components/ui';
+import { Autocomplete, Button, Select } from 'components/ui';
 
 import { useGetBIChannelsQuery } from 'api/queries/bi-library';
 import { useGetProductsQuery } from 'hooks';

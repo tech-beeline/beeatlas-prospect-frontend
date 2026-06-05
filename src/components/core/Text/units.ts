@@ -1,5 +1,6 @@
-import { Typography } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Typography } from 'components/ui/Typography';
 
 export const TypographyStyled = styled(Typography)<{
     inactive?: boolean;

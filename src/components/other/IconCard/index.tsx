@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Button, Icon } from 'components/ui';
 
 import { IIconCard } from './types';
 import * as S from './units';

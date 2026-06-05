@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ButtonGroup, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { IconButton } from 'components/ui';
+import { ButtonGroup, Icon } from 'components/ui';
 
 import { useGetPatternsByChapterIdQuery } from 'api/queries/patterns';
 import * as R from 'router/const';

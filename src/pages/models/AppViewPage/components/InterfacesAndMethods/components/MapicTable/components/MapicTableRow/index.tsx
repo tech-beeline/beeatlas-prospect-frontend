@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
 import {
-    IconButton,
     Label,
     Progress,
     TableBody,
@@ -8,10 +11,7 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-
-import { Text } from 'components/core';
+} from 'components/ui';
 
 import { useCreateConnectionInterfaceMutation } from 'api/queries/product';
 import { formatNullableString } from 'utils/formatters';

@@ -1,6 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
-import { Button, Icon, Radio } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Button, Icon, Radio } from 'components/ui';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
 

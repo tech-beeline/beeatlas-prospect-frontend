@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ButtonGroup, Icon, IconButton, Progress, ToolbarItem } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
+import { ButtonGroup, Icon, Progress, ToolbarItem } from 'components/ui';
 
 import { useGetBIPlantUML, useGetBISequenceDiagram } from 'api/queries/bi';
 import { useSnackbarStore } from 'widgets/Snackbar';

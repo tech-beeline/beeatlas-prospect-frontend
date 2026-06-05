@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Badge } from '@beeline/design-system-react';
+
+import { Badge } from 'components/ui';
 
 import { statusIdToLabelTypeMap } from './const';
 import { IStatusBadge } from './types';

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from 'components/ui';
 
 import { CJLibraryStatus } from 'api/cj/types';
 import { useGetCJCollectionQuery } from 'api/queries/cj';

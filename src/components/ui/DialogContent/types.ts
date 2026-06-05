@@ -1,0 +1,43 @@
+import type { HTMLAttributes, ReactNode } from 'react';
+
+export type DialogVariant = 'mobile' | 'desktop';
+
+export interface DialogButtonProps {
+    label?: string;
+    onClick?: (event?: React.MouseEvent) => void;
+}
+
+export interface DialogActionsProps {
+    confirm?: DialogButtonProps;
+    cancel?: DialogButtonProps;
+}
+
+export interface DialogContentProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+    /**
+     * @deprecated Тип разрешения модального окна. Теперь адаптивное.
+     */
+    variant?: DialogVariant;
+    /**
+     * @deprecated Отображение разделительных линий. Теперь автоматическое.
+     */
+    scrollable?: boolean;
+    /** Заголовок в верхней части модального окна. */
+    title?: ReactNode;
+    /** Действия для стандартного футера с двумя кнопками. */
+    actions?: DialogActionsProps;
+    /** Компонент, отображаемый в нижней части модального окна. */
+    footer?: ReactNode;
+    /** Основное содержимое в центральной части модального окна. */
+    children?: ReactNode;
+    className?: string;
+    fullscreen?: boolean;
+}
+
+export interface StyledDialogContentProps {
+    $scrollable?: boolean;
+    $smallScreen?: boolean;
+}
+
+export interface StyledDialogSectionProps {
+    $scrollable?: boolean;
+}

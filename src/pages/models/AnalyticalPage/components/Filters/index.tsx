@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Button, Search, Select, Switch } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Select } from 'components/ui';
+import { Button, Search, Switch } from 'components/ui';
 
 import { IFitnessFunctionDomain, IFitnessFunctionProductData } from 'api/product/types';
 

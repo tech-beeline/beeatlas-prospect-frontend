@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, ButtonGroup, Tab, Tabs } from '@beeline/design-system-react';
 import { BreadCrumbsItem } from 'features/maps';
 
 import { Text } from 'components/core';
+import { Breadcrumbs, ButtonGroup, Tab, Tabs } from 'components/ui';
 
 import * as R from 'router/const';
 

@@ -1,17 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import {
-    Button,
-    FileUploader,
-    IconButton,
-    ProgressButton,
-    Typography,
-} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, FileUploader, ProgressButton } from 'components/ui';
+import { Typography } from 'components/ui/Typography';
 
 import { CJ_PREFIX, useCreateCJByBPMN, useUploadBPMNFile } from 'api/queries/cj';
 import { useModal } from 'hooks';

@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
-import { Label, TableData, TableRow } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { packageStatusToLabelTypeMap, packageStatusToStatusNameMap } from 'features/imported-data';
+
+import { Label, TableData, TableRow } from 'components/ui';
 
 import { prettifyJSONString } from 'utils/helpers';
 

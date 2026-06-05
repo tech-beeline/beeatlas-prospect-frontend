@@ -1,9 +1,10 @@
 import React, { FC, Fragment } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Select, TextArea, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Icon } from 'components/ui';
 
 import { FormValues } from '../../../../form';
 import * as S from '../../../units';

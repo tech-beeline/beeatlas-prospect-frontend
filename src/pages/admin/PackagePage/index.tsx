@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { packageStatusToLabelTypeMap, packageStatusToStatusNameMap } from 'features/imported-data';
+
+import { IconButton } from 'components/ui';
 import {
-    IconButton,
     Label,
     Skeleton,
     TableBody,
@@ -9,9 +12,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { packageStatusToLabelTypeMap, packageStatusToStatusNameMap } from 'features/imported-data';
+} from 'components/ui';
 
 import { PackageStatus } from 'api/imported-packages/types';
 import { useGetPackageWithContentByIdQuery } from 'api/queries/imported-packages';

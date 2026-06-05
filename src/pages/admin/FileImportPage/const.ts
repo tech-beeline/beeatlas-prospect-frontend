@@ -1,4 +1,4 @@
-import { AllStatuses } from '@beeline/design-system-react/types/types/status';
+import type { AllStatuses } from 'components/ui';
 
 import { FileStatus } from 'api/file-import/types';
 

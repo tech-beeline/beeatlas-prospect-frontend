@@ -1,15 +1,8 @@
 import React, { FC, useState } from 'react';
-import {
-    ButtonGroup,
-    Skeleton,
-    Table,
-    TableBody,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { TableHeaderData } from 'components/ui';
+import { ButtonGroup, Skeleton, Table, TableBody, TableHead, TableRow } from 'components/ui';
 
 import { useGetProductFitnessFunctionsQuery } from 'api/queries/fitness-functions';
 import { useGetProductFitnessFunctionsByCmdbQuery } from 'api/queries/product';

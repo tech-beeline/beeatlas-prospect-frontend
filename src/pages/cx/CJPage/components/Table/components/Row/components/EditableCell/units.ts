@@ -1,5 +1,6 @@
-import { Select } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Select } from 'components/ui';
 
 export const InputStyled = styled.input<{ hasError?: boolean }>`
     box-sizing: border-box;

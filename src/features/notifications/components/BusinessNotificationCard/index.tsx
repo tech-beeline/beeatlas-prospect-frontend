@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { Avatar, Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { Avatar, Button, Icon } from 'components/ui';
 
 import { useDownloadFileMutation } from 'api/queries/file-export';
 import { useUpdateBusinessNotificationsMutation } from 'api/queries/notifications';
@@ -40,7 +40,7 @@ export const BusinessNotificationCard: FC<IBusinessNotificationCard> = ({
                 <S.AvatarContainer>
                     {!businessNotification.webNotify && <S.Indicator />}
                     <Avatar
-                        iconName={Icons.PagesMultiple}
+                        icon={<Icon iconName={Icons.PagesMultiple} />}
                         color={isExportNotification ? 'green' : 'purple'}
                     />
                 </S.AvatarContainer>

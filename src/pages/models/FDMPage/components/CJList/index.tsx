@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Skeleton } from 'components/ui';
 
 import { useGetCJsByTechCapabilityIdQuery } from 'api/queries/cj';
 import * as R from 'router/const';

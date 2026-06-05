@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, Divider, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Select, TextField } from 'components/form';
+import { Button, Divider, Icon } from 'components/ui';
 
 import { VersionValues } from '../../form';
 

@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Banner, Pagination, Search, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     ApplicationCard,
@@ -11,6 +10,8 @@ import {
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Search } from 'components/ui';
+import { Banner, Pagination, Skeleton, Tab, Tabs } from 'components/ui';
 
 import { useGetApplicationsQuery } from 'api/queries/applications';
 

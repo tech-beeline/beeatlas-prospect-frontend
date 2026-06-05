@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ButtonGroup } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { ButtonGroup } from 'components/ui';
 
 import { E2EContentOptions } from '../../types';
 

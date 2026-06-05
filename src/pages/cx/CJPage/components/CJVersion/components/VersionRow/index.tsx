@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { getFileName } from 'features/cx/utils';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { IconButton } from 'components/ui';
 
 import { useGetBPMNFileDataQuery } from 'api/queries/cj';
 import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';

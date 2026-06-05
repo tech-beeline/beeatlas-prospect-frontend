@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Button,
-    Skeleton,
-    TableBody,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { TableHeaderData } from 'components/ui';
+import { Button, Skeleton, TableBody, TableHead, TableRow } from 'components/ui';
 
 import { useGetAllFitnessFunctionsQuery } from 'api/queries/fitness-functions';
 import * as R from 'router/const';

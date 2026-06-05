@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Markdown from 'react-markdown';
-import { Button, FileUploader, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer, TechnologyFileContainer } from 'features/technologies';
@@ -9,6 +8,8 @@ import remarkGfm from 'remark-gfm';
 
 import { Text } from 'components/core';
 import { MultiSelect, RadioGroupBoolean, Select, TextArea, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Button, FileUploader, Icon, Skeleton } from 'components/ui';
 
 import { formatSize } from 'utils/formatters';
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from 'components/ui';
 
 import { useGetBICollectionQuery } from 'api/queries/bi';
 import { useModal } from 'hooks';

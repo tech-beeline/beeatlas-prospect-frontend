@@ -1,9 +1,13 @@
 import React, { FC, useState } from 'react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { TooltipContainer } from 'components/interaction';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
 import {
     Autocomplete,
     Button,
     Icon,
-    IconButton,
     Select,
     Skeleton,
     Switch,
@@ -11,11 +15,7 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-
-import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import type { IProductEmbeddedTech, IProductTechProduct } from 'api/product/types';
 import { useGetProductTechnologiesQuery } from 'api/queries/product';

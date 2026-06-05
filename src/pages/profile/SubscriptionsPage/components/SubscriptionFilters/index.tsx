@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Chip, Skeleton } from '@beeline/design-system-react';
+
+import { Chip, Skeleton } from 'components/ui';
 
 import { useGetSubscriptionEntityTypesQuery } from 'api/queries/subscriptions';
 

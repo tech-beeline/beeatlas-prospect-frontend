@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
-import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { useSideSheetStore } from 'features/cx/store';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, Skeleton } from 'components/ui';
 
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { formatNullableString } from 'utils/formatters';

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { IconButton } from 'components/ui';
 
 import { Stage } from 'pages/cx/CJPage/components/StepForm/types';
 

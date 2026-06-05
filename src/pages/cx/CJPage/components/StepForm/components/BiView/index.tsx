@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { StatusBadge, TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { Link, PivotArrow } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Button, Label, Skeleton } from 'components/ui';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery, useUpdateCJStepBIsMutation } from 'api/queries/cj';

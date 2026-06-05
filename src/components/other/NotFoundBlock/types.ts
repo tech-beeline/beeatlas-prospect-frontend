@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { ButtonProps } from '@beeline/design-system-react/types/components/Button/Button.types';
+
+import { ButtonProps } from 'components/ui';
 
 export enum ImageVariants {
     EMPTY_BOX = 'EMPTY_BOX',

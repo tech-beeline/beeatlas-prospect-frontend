@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
-import { Checkbox, Icon, Search } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { Checkbox, Icon, Search } from 'components/ui';
 
 import { PanelEdgeToggleButton } from '../../units';
 import { mainLabel, nodeDisplayName } from '../../utils';

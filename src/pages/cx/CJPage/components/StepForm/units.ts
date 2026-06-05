@@ -1,5 +1,6 @@
-import { Banner, Tabs } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Banner, Tabs } from 'components/ui';
 
 export const FlexWrapper = styled.div`
     position: relative;

@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextArea as DesignSystemTextArea } from '@beeline/design-system-react';
 import get from 'lodash/get';
+
+import { TextArea as UiTextArea } from 'components/ui';
 
 import { ITextArea } from './types';
 
@@ -35,7 +36,7 @@ export const TextArea: FC<ITextArea> = ({
             control={control}
             defaultValue=""
             render={({ field }) => (
-                <DesignSystemTextArea
+                <UiTextArea
                     {...field}
                     {...rest}
                     key={name}

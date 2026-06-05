@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Avatar, Button, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/other';
+import { Avatar, Button, Icon, Skeleton } from 'components/ui';
 
 import {
     subscriptionTypeToColorMap,
@@ -45,7 +45,7 @@ export const SubscriptionCard: FC<ISubscriptionCard> = ({
             <S.ContentContainer>
                 {/* <Checkbox checked={isSelected} onChange={handleCheckboxClick} /> */}
                 <Avatar
-                    iconName={subscriptionTypeToIconMap[subscription.entityType]}
+                    icon={<Icon iconName={subscriptionTypeToIconMap[subscription.entityType]} />}
                     color={subscriptionTypeToColorMap[subscription.entityType]}
                 />
                 <div>

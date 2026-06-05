@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
@@ -9,6 +8,7 @@ import { AxiosError } from 'axios';
 import { TextField } from 'components/form';
 import { TitleBack } from 'components/interaction';
 import { NotFoundBlock } from 'components/other';
+import { Button, Icon } from 'components/ui';
 
 import {
     useCreateRoleMutation,

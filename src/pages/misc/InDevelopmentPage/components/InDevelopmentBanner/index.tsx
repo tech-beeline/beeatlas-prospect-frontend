@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@beeline/design-system-react';
+
+import { Button } from 'components/ui';
 
 import { MAIN_PAGE_PATH } from 'router/const';
 

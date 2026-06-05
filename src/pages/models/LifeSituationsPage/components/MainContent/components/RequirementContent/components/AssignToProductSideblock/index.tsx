@@ -1,9 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, IconButton, Select } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Select } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { usePostNfrsToProductMutation } from 'api/queries/product';
 import { useSnackbarStore } from 'widgets/Snackbar';

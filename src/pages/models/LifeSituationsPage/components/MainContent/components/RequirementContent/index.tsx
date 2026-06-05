@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Divider, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
+import { Button, Divider, Icon, Skeleton } from 'components/ui';
 
 import {
     useGetNFRByIdQuery,

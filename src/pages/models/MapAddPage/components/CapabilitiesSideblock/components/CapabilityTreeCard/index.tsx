@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Avatar, Icon, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useDraggable } from '@dnd-kit/core';
 import { uniqueId } from 'lodash';
 
 import { Text } from 'components/core';
 import { Expand } from 'components/other';
+import { Avatar, Icon, Skeleton } from 'components/ui';
 
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
@@ -73,7 +73,7 @@ export const CapabilitiesTreeCard: FC<ICapabilityTreeCard> = ({
                     />
                 ) : (
                     <Avatar
-                        iconName={Icons.Capability}
+                        icon={<Icon iconName={Icons.Capability} />}
                         color={
                             type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY
                                 ? 'orange'

@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
-import { Checkbox, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Checkbox } from 'components/ui';
 
 import { SideblockView } from '../../../../const';
 

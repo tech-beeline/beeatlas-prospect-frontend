@@ -1,5 +1,6 @@
-import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { IconButton } from 'components/ui';
 
 export const CapabilityCard = styled.div<{ isUsed: boolean }>`
     display: flex;

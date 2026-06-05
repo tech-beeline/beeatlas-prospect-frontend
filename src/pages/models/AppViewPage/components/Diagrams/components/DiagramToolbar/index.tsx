@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { DropdownMenu } from 'components/interaction';
+import { Button, Icon } from 'components/ui';
 
 import { TOOLBAR_EXPORT_BUTTONS } from './const';
 import { DiagramToolbarProps } from './types';

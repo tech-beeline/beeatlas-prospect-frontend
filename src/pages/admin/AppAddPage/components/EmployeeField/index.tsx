@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Autocomplete } from 'components/form';
+import { Button, Icon } from 'components/ui';
 
 import { IEmployeeField } from './types';
 import * as S from './units';

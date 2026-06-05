@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import {
-    Button,
-    Icon,
-    Search,
-    Skeleton,
-    TableBody,
-    TableHead,
-    TableRow,
-} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Button, Icon, Search, Skeleton, TableBody, TableHead, TableRow } from 'components/ui';
 
 import { IMapCriteria } from 'api/maps/types';
 import { useDeleteCriteriaMutation, useGetMapCriteriasQuery } from 'api/queries/maps';

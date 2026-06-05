@@ -1,19 +1,11 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Button,
-    Label,
-    Table,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
+import { TableHeaderData } from 'components/ui';
+import { Button, Label, Table, TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
 import { useUpdateTechnologyMutation } from 'api/queries/technologies';
 import { useShowTooltip } from 'hooks';

@@ -1,8 +1,8 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Search, Skeleton } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Button, Search, Skeleton } from 'components/ui';
 
 import { useGetAllChaptersQuery } from 'api/queries/product';
 import * as R from 'router/const';

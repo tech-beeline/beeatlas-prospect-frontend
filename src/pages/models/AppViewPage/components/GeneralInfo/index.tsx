@@ -1,4 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { Icons } from '@beeline/design-tokens/js/iconfont';
+import dayjs from 'dayjs';
+
+import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
+import { Link, NotFoundBlock } from 'components/other';
 import {
     Button,
     Icon,
@@ -8,13 +14,7 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-import dayjs from 'dayjs';
-
-import { Text } from 'components/core';
-import { TooltipContainer } from 'components/interaction';
-import { Link, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { useGetProcessesByCmdbQuery, useRestartProcessMutation } from 'api/queries/camunda';
 import { useGetUserProductsKeyById } from 'api/queries/product';

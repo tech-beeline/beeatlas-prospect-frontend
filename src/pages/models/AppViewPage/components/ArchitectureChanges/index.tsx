@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Button,
-    Checkbox,
-    Table,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 
 import { Link } from 'components/other';
+import { TableHeaderData } from 'components/ui';
+import { Button, Checkbox, Table, TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
 import * as R from 'router/const';
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Chip, Skeleton, Tab } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BreadCrumbsItem,
@@ -15,6 +14,7 @@ import {
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Breadcrumbs, Button, Chip, Skeleton, Tab } from 'components/ui';
 
 import { IMapItemData } from 'api/capability/types';
 import { IMapCriteria } from 'api/maps/types';

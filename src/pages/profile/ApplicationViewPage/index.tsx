@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Divider, IconButton, Label, Skeleton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Button, Divider, Label, Skeleton } from 'components/ui';
 
 import { ApplicationStatus } from 'api/applications/types';
 import {

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
 import { Text } from 'components/core';
 import { AutocompleteArray, TextArea, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Banner, Button } from 'components/ui';
 
 import { useGetPatternsQuery } from 'api/queries/patterns';
 import {

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Autocomplete, TextArea, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { CapabilitySearchVariant } from 'api/capability/types';
 import {

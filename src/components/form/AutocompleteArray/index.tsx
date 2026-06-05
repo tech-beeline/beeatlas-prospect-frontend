@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { isNotNull } from 'utils/helpers';
 

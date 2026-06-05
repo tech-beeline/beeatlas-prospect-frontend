@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 import { Autocomplete, DatePicker, Select, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Button, Icon } from 'components/ui';
 
 import { useGetProductsQuery } from 'hooks';
 // import { ImageVariants, Link, NotFoundBlock } from 'components/other';

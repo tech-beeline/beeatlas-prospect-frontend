@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, Resolver, useForm } from 'react-hook-form';
-import { Banner, Button, Icon, IconButton, Radio } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -8,6 +7,8 @@ import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { Checkbox, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Banner, Button, Icon, Radio } from 'components/ui';
 
 import { usePutCriteriaMutation } from 'api/queries/maps';
 import { useSnackbarStore } from 'widgets/Snackbar';

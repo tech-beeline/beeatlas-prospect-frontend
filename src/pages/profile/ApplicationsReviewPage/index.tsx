@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Pagination, Search, Skeleton, Tab, Tabs } from '@beeline/design-system-react';
 import {
     ApplicationCard,
     SortingButton,
@@ -10,6 +9,8 @@ import {
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Search } from 'components/ui';
+import { Pagination, Skeleton, Tab, Tabs } from 'components/ui';
 
 import { useGetArchitectApplicationsQuery } from 'api/queries/applications';
 

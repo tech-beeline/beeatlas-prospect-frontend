@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, Search, Select, Switch } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Select } from 'components/ui';
+import { Button, Search, Switch } from 'components/ui';
 
 import { useGetTechnologyCategoriesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';

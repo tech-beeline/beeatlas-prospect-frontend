@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
-import { Icon, Tab, Tabs } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { Icon, Tab, Tabs } from 'components/ui';
 
 import * as R from 'router/const';
 

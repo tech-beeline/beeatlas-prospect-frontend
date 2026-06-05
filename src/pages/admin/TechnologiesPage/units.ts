@@ -1,6 +1,6 @@
-import { Icon, Search, Table, TableData, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { Icon, Search, Table, TableData, TableHeaderData } from 'components/ui';
 export const PageWrapper = styled.div`
     width: 100%;
     padding: 0px 54px 54px;

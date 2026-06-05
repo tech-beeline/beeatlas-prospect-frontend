@@ -1,17 +1,9 @@
 import React, { FC, useState } from 'react';
-import {
-    Chip,
-    Skeleton,
-    Table,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 import { uniqBy } from 'lodash';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { TableHeaderData } from 'components/ui';
+import { Chip, Skeleton, Table, TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
 import { useGetSystemE2EQuery, useGetSystemTCQuery } from 'api/queries/product';
 

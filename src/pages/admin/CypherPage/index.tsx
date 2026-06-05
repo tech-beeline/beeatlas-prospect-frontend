@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Banner, Button, Skeleton, TextArea } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Tab, Tabs, Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Banner, Button, Skeleton, TextArea } from 'components/ui';
 
 import { ICypherDiagram } from 'api/graph/types';
 import { useGetCypherQuery } from 'api/queries/graph';

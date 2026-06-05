@@ -1,5 +1,7 @@
-import { Button, IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 export const PageWrapper = styled.div`
     height: 100vh;

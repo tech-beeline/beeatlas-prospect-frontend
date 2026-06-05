@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Banner, Button, IconButton } from '@beeline/design-system-react';
 import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -8,6 +7,8 @@ import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { RadioGroup, TextArea, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Banner, Button } from 'components/ui';
 
 import { useGetPersonalMapTypesQuery } from 'api/queries/maps';
 
