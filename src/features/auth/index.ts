@@ -1,3 +1,3 @@
-export { authInstance } from './const';
 export { useAuth } from './hooks';
+export { getAuthProvider } from './providers';
 export { useAuthStore } from './store';
