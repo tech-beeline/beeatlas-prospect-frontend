@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import {
     FitnessFunctionStatus,
@@ -19,6 +18,7 @@ import {
     TableRow,
 } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { FitnessFunctionsTab } from '../../const';

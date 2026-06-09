@@ -1,4 +1,4 @@
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 interface IDropdownMenuControlledcItem {
     title: string;

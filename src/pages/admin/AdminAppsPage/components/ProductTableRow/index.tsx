@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { criticalCodeToNameMap } from 'features/apps';
 
 import { TooltipContainer } from 'components/interaction';
@@ -10,6 +9,7 @@ import { Skeleton, Table, TableBody, TableData, TableHead, TableRow } from 'comp
 import { useGetProductEmployeesByCmdbQuery } from 'api/queries/product';
 import { useShowTooltip } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { IProductTableRow } from './types';

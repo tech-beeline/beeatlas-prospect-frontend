@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BreadCrumbsItem,
     CapabilityCard,
@@ -22,6 +21,7 @@ import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries
 import { useCreatePersonalMapMutation, useGetMapCriteriasQuery } from 'api/queries/maps';
 import { useModal } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { PersonalMapsLibrary } from './components';
 import { TABS, TabVariant } from './const';

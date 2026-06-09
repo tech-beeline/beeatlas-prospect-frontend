@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BusinessNotificationCard,
     NotificationCard,
@@ -18,6 +17,7 @@ import {
 import { useGetSubscriptionEntityTypesQuery } from 'api/queries/subscriptions';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import * as S from './units';
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { packageStatusToLabelTypeMap, packageStatusToStatusNameMap } from 'features/imported-data';
 
 import { IconButton } from 'components/ui';
@@ -17,6 +16,7 @@ import {
 import { PackageStatus } from 'api/imported-packages/types';
 import { useGetPackageWithContentByIdQuery } from 'api/queries/imported-packages';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { PackageTableRow } from './components';
 // import { StatusSortVariant } from './types';

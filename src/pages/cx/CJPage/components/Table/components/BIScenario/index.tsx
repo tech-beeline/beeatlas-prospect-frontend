@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CustomModal } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
@@ -12,6 +11,7 @@ import { Avatar, Icon } from 'components/ui';
 import { TooltipContainer as TextTooltip } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableNumber, formatNullableString } from 'utils/formatters';
 
 import { BIEditScenario } from '../../../BIEditScenario';

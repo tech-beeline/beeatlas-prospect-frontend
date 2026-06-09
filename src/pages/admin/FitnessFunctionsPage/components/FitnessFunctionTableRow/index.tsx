@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     FitnessFunctionStatus,
     fitnessFunctionStatuses,
@@ -18,6 +17,7 @@ import { usePostFitnessFunctionStatusMutation } from 'api/queries/fitness-functi
 import { useModal, useShowTooltip } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString, formatYesNo } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 

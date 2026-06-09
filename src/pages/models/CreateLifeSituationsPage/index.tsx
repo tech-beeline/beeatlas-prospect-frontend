@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
@@ -18,6 +17,7 @@ import {
     usePatchLifeSituationMutation,
 } from 'api/queries/product';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { isNotNull } from 'utils/helpers';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     DndContext,
     DragOverlay,
@@ -24,6 +23,7 @@ import {
 } from 'api/queries/maps';
 import { useModal, useShowTooltip } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {

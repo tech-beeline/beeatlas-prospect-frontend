@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 import { Icon } from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { E2ETreeItemType, IE2EBiItem } from '../../../../types';
 

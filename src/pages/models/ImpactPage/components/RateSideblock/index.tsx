@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { sendAnalytics } from 'features/analytics';
 
 import { SideBlock } from 'components/containers';
@@ -7,6 +6,8 @@ import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { IconButton } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IRateSideblock } from './types';
 import * as S from './units';

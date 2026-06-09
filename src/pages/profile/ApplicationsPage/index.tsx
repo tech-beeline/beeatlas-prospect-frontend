@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     ApplicationCard,
     SortingButton,
@@ -14,6 +13,7 @@ import { Search } from 'components/ui';
 import { Banner, Pagination, Skeleton, Tab, Tabs } from 'components/ui';
 
 import { useGetApplicationsQuery } from 'api/queries/applications';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { APPLICATIONS_PER_PAGE, availableStatusAliasesForTab, TABS } from './const';
 import * as S from './units';

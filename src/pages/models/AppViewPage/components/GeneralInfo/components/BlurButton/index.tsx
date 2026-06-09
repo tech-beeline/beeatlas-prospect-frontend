@@ -1,8 +1,9 @@
 import React, { FC, useId } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
 import { IconButton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IBlurButton } from './types';
 

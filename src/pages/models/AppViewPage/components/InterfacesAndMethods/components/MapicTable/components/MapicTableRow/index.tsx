@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { IconButton } from 'components/ui';
@@ -14,6 +13,7 @@ import {
 } from 'components/ui';
 
 import { useCreateConnectionInterfaceMutation } from 'api/queries/product';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { IMapicTableRow } from './types';

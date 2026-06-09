@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { TooltipContainer } from 'components/interaction';
 import { IconButton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { Divider } from '../Divider';
 

@@ -1,4 +1,4 @@
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import type { ColorTypes } from '../types';
 

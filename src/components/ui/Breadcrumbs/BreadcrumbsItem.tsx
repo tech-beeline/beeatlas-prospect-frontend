@@ -1,5 +1,6 @@
 import React, { cloneElement, FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import type { BreadcrumbsItemProps } from './types';
 import * as S from './units';

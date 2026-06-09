@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
@@ -8,6 +7,7 @@ import { Button, TextArea } from 'components/ui';
 
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationStatusMutation } from 'api/queries/applications';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IRevisionSideblock } from './types';

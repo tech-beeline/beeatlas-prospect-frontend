@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
@@ -21,6 +20,7 @@ import {
 import { useModal } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

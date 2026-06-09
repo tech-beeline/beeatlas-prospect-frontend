@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { generateMapColorGradient, selectColorByCriteria } from 'features/maps/utils';
 import { useThemeStore } from 'features/theme';
 
@@ -10,6 +9,7 @@ import { Link } from 'components/other';
 import { Icon } from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { MapVariant } from '../../const';
 import { CapabilityCardCriteriaComment } from '../CapabailityCardCriteriaComment';

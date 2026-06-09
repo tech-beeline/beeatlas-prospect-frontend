@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -23,6 +22,7 @@ import {
 import { FileStatus } from 'api/file-import/types';
 import { useGetAllFilesQuery, useGetTemplateFilesQuery } from 'api/queries/file-import';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { ImportSideblock } from './components';
 import { fileStatusToLabelTitleMap, fileStatusToLabelTypeMap } from './const';

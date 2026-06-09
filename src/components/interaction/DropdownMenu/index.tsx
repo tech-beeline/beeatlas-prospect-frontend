@@ -1,9 +1,9 @@
 import React, { FC, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Divider } from 'components/ui';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IDropdownMenu } from './types';
 import * as S from './units';

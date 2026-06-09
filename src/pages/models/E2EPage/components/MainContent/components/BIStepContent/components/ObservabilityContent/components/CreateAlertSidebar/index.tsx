@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { useAuthStore } from 'features/auth';
 
 import { SideBlock } from 'components/containers';
@@ -8,6 +7,7 @@ import { IconButton } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
 
 import { usePostSequenceAlertByIdMutation } from 'api/queries/staging-sequence';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ICreateAlertSidebar } from './types';

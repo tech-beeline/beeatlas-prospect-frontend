@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Select, TextField } from 'components/form';
 import { Button, Divider, Icon } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { VersionValues } from '../../form';
 

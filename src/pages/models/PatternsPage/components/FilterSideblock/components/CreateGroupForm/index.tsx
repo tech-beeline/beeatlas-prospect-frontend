@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
@@ -13,6 +12,7 @@ import {
     useGetPatternGroupsQuery,
     useUpdatePatternGroupMutation,
 } from 'api/queries/patterns';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { SideblockView } from '../../const';

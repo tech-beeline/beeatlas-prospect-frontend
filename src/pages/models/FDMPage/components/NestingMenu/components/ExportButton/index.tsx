@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Button, Icon } from 'components/ui';
 
 import { ExportVariant } from 'api/file-export/types';
 import { useCreateExportMutation } from 'api/queries/file-export';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import * as S from './units';

@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -20,6 +19,7 @@ import { useGetProcessesByCmdbQuery, useRestartProcessMutation } from 'api/queri
 import { useGetUserProductsKeyById } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

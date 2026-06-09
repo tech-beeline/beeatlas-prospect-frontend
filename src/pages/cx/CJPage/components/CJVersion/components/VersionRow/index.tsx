@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { getFileName } from 'features/cx/utils';
 
@@ -10,6 +9,7 @@ import { IconButton } from 'components/ui';
 import { useGetBPMNFileDataQuery } from 'api/queries/cj';
 import { downloadBpmnFile } from 'pages/cx/CJPage/utils/formatters';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IVersion } from './types';
 import * as S from './units';

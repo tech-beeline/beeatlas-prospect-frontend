@@ -1,10 +1,11 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Autocomplete } from 'components/form';
 import { IconButton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { type FormValues, createRequirement } from '../../form';
 

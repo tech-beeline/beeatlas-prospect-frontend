@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -13,6 +12,7 @@ import {
     useGetTechCapabilityVersionsComparsionQuery,
 } from 'api/queries/history';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { TabVariant } from '../../const';
 

@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Autocomplete } from 'components/form';
 import { Button, Icon, Skeleton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IArrayRow } from './types';
 import * as S from './units';

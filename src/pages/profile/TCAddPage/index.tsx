@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
@@ -13,6 +12,7 @@ import { Button, Icon } from 'components/ui';
 import { useGetProductsQuery } from 'hooks';
 // import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { BCField } from './components';
 import { FormValues, validationSchema } from './form';

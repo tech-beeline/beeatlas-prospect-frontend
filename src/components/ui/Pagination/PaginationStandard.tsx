@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { PaginationCell } from './PaginationCell';
 import type { PaginationStandardProps } from './types';

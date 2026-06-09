@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
@@ -11,6 +10,7 @@ import { Button, ProgressButton } from 'components/ui';
 
 import { useUpdateBIStepRelations } from 'api/queries/bi';
 import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { StepFields } from './components';

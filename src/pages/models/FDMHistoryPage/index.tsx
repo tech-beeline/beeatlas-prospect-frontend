@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -8,6 +7,7 @@ import { IconButton } from 'components/ui';
 import { Divider } from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IBusinessCapabilityVersion, ITechCapabilityVersion } from '../../../api/history/types';
 import {

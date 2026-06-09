@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
@@ -11,6 +10,7 @@ import { Typography } from 'components/ui/Typography';
 
 import { CJ_PREFIX, useCreateCJByBPMN, useUploadBPMNFile } from 'api/queries/cj';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { IconButton, Stepper } from 'components/ui';
 
 import { useGetPatternByIdQuery, useGetPatternFileByIdQuery } from 'api/queries/patterns';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import {
     DescriptionForm,

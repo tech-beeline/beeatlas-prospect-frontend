@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer } from 'features/technologies';
 import remarkGfm from 'remark-gfm';
@@ -9,6 +8,7 @@ import { Text } from 'components/core';
 import { IconButton } from 'components/ui';
 import { FileUploader } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 
 import { StepVariants } from '../../const';

@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Icon } from 'components/ui';
 import { TextField } from 'components/ui/TextField';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import {
     DEFAULT_DATA_TEST_ID,

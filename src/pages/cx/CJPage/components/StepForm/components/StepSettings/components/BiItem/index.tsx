@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { IconButton } from 'components/ui';
 
 import { Stage } from 'pages/cx/CJPage/components/StepForm/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import * as S from '../../../../units';
 import { BiMenu } from '../BiMenu';

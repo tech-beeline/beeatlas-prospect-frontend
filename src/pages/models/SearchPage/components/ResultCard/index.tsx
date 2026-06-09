@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import DOMPurify from 'dompurify';
 
 import { Icon, Skeleton } from 'components/ui';
 
 import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 // import { useIconOfItem } from 'hooks/useIconOfItem';
 import { IResultCard } from './types';

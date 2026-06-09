@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
@@ -11,6 +10,7 @@ import { IconButton } from 'components/ui';
 import { Banner, Button } from 'components/ui';
 
 import { useGetPersonalMapTypesQuery } from 'api/queries/maps';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { MapFormValues, validationSchema } from './form';
 import { ICreateMapSideblock } from './types';

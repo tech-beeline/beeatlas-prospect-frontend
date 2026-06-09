@@ -1,5 +1,4 @@
 import React, { CSSProperties, FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     horizontalListSortingStrategy,
     SortableContext,
@@ -19,6 +18,7 @@ import {
     IPersonalMapSubgroup,
     PersonalMapElementType,
 } from 'pages/models/MapAddPage/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IGroupCard, IGroupCardOverlay } from './types';
 import * as S from './units';

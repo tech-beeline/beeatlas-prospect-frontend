@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { ILink } from './types';
 import * as S from './units';

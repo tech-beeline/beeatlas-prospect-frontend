@@ -1,9 +1,52 @@
-import * as colors from '@beeline/design-tokens/js/tokens/globals/colors';
-
-import type { ProgressBarColors } from './const';
+import { ProgressBarColors } from './const';
 import type { ProgressBarValue } from './types';
 
-type ChartColorToken = keyof typeof colors;
+const CHART_COLOR_TOKENS: Record<ProgressBarColors, { default: string; active: string }> = {
+    [ProgressBarColors.grey]: {
+        default: 'var(--color-chart-grey, #d4d4d9)',
+        active: 'var(--color-chart-grey-active, #b6b7bf)',
+    },
+    [ProgressBarColors.red]: {
+        default: 'var(--color-chart-red, #ffb0b1)',
+        active: 'var(--color-chart-red-active, #ff9193)',
+    },
+    [ProgressBarColors.orange]: {
+        default: 'var(--color-chart-orange, #ffd086)',
+        active: 'var(--color-chart-orange-active, #ffbd55)',
+    },
+    [ProgressBarColors.green]: {
+        default: 'var(--color-chart-green, #a0dbae)',
+        active: 'var(--color-chart-green-active, #78ce8e)',
+    },
+    [ProgressBarColors.blue]: {
+        default: 'var(--color-chart-blue, #8dcaff)',
+        active: 'var(--color-chart-blue-active, #5cb5ff)',
+    },
+    [ProgressBarColors.teal]: {
+        default: 'var(--color-chart-teal, #80deef)',
+        active: 'var(--color-chart-teal-active, #4dd0e7)',
+    },
+    [ProgressBarColors.magenta]: {
+        default: 'var(--color-chart-magenta, #f2bceb)',
+        active: 'var(--color-chart-magenta-active, #e98dde)',
+    },
+    [ProgressBarColors.purple]: {
+        default: 'var(--color-chart-purple, #c89afa)',
+        active: 'var(--color-chart-purple-active, #b16cf9)',
+    },
+    [ProgressBarColors.aquamarine]: {
+        default: 'var(--color-chart-aquamarine, #8fd9cb)',
+        active: 'var(--color-chart-aquamarine-active, #63ccba)',
+    },
+    [ProgressBarColors.yellow]: {
+        default: 'var(--color-chart-yellow, #fff0a5)',
+        active: 'var(--color-chart-yellow-active, #fee262)',
+    },
+    [ProgressBarColors.saphire]: {
+        default: 'var(--color-chart-saphire, #a1a4e8)',
+        active: 'var(--color-chart-saphire-active, #7e87df)',
+    },
+};
 
 export const classNames = (
     ...values: Array<string | false | null | undefined | Record<string, boolean>>
@@ -45,10 +88,9 @@ export const normalizeValues = (
 };
 
 export const getChartColor = (color: ProgressBarColors, isHovered: boolean): string => {
-    const tokenName = `colorChart${color}${isHovered ? 'Active' : ''}` as ChartColorToken;
-    const tokenValue = colors[tokenName] ?? colors.colorChartGrey;
+    const tokens = CHART_COLOR_TOKENS[color] ?? CHART_COLOR_TOKENS[ProgressBarColors.grey];
 
-    return String(tokenValue);
+    return isHovered ? tokens.active : tokens.default;
 };
 
 export const polarToCartesian = (

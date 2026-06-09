@@ -1,9 +1,9 @@
 import React, { FC, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useMountEffect } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { useSnackbarStore } from './store';
 import * as S from './units';

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -10,6 +9,7 @@ import { Button, Label } from 'components/ui';
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationMutation } from 'api/queries/applications';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

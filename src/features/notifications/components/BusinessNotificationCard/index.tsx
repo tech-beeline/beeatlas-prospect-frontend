@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -9,6 +8,7 @@ import { Avatar, Button, Icon } from 'components/ui';
 import { useDownloadFileMutation } from 'api/queries/file-export';
 import { useUpdateBusinessNotificationsMutation } from 'api/queries/notifications';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { exportNotificationTypeNames } from './const';
 import { IBusinessNotificationCard } from './types';

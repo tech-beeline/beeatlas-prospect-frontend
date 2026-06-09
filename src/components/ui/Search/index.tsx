@@ -1,8 +1,9 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { IconButton } from 'components/ui';
 import { Divider } from 'components/ui/Divider';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { DEFAULT_DATA_TEST_ID, DEFAULT_SEARCH_SIZE, SEARCH_ICON_SIZE } from './const';
 import { ControlledSearch } from './ControlledSearch';

@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
@@ -14,6 +13,7 @@ import {
 } from 'components/ui';
 
 import { useGetProductPatternsQuery } from 'api/queries/product';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { PatternsRow } from './components';
 import { PatternType, PatternTypeValue } from './const';

@@ -1,5 +1,6 @@
 import type { ReactElement, ReactNode } from 'react';
-import type { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import type { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 export interface BreadcrumbsProps {
     /** Признак свёрнут / развёрнут */

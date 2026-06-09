@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { MarkdownLinkRenderer, ringIdToLabelStatusMap } from 'features/technologies';
 import remarkGfm from 'remark-gfm';
 
@@ -24,6 +23,7 @@ import {
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';

@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
@@ -9,6 +8,7 @@ import { Button, Chip, FileUploader, InlineAlert, TextArea } from 'components/ui
 
 import { usePutFitnessFunctionMutation } from 'api/queries/fitness-functions';
 import { StepVariants } from 'pages/admin/FitnessFunctionAddPage/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

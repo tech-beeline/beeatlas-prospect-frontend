@@ -1,5 +1,4 @@
 import React, { FC, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Icon } from 'components/ui';
 
@@ -9,6 +8,7 @@ import {
     useUpdateCJStepMutation,
 } from 'api/queries/cj';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IColumnMenu } from './types';

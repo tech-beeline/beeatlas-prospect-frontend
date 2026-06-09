@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -9,6 +8,7 @@ import { ButtonGroup, Icon } from 'components/ui';
 
 import { useGetPatternsByChapterIdQuery } from 'api/queries/patterns';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { Patterns, Requirements } from './components';

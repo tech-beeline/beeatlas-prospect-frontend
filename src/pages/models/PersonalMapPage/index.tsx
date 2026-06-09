@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BreadCrumbsItem,
     CapabilityCard,
@@ -20,6 +19,7 @@ import { IMapCriteria } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
 import { useGetMapCriteriasQuery, useGetPersonalMapByIdQuery } from 'api/queries/maps';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { PersonalCapabilityCard } from './components';

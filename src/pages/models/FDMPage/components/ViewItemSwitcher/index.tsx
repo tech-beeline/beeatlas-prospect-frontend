@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Icon } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IViewItemSwitcher } from './types';
 import * as S from './units';

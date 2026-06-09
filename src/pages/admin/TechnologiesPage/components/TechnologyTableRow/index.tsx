@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
@@ -11,6 +10,7 @@ import { useUpdateTechnologyMutation } from 'api/queries/technologies';
 import { useShowTooltip } from 'hooks';
 import { ringIdToStatusMap } from 'pages/admin/TechnologiesPage/const';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatYesNo } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
@@ -8,6 +7,7 @@ import { TextField } from 'components/ui';
 import { Button } from 'components/ui';
 
 import { useMergeCategoriesMutation } from 'api/queries/technologies';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IMergeCategoriesSideblock } from './types';

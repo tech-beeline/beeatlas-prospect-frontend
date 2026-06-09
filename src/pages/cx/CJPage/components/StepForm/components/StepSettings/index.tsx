@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { IconButton } from 'components/ui';
 import { Button, TextArea, TextField } from 'components/ui';
 
 import { useUpdateCJStepMutation } from 'api/queries/cj';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { Stage } from '../../types';

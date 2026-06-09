@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Checkbox, Icon } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IActionRow } from './types';
 import * as S from './units';

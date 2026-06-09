@@ -1,7 +1,8 @@
 import React, { Fragment, useMemo } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { Icon } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { Divider } from '../Divider';
 import { Typography } from '../Typography';

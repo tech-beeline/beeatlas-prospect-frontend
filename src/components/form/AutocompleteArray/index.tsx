@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { IconButton } from 'components/ui';
 import { Button } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { isNotNull } from 'utils/helpers';
 
 import { ArrayRow } from './components';

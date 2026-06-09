@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { IconButton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import type { TabsScrollerProps } from './types';
 import * as S from './units';

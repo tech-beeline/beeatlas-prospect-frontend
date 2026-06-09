@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link } from 'components/other';
 import { Avatar, Button, Icon, Skeleton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import {
     subscriptionTypeToColorMap,

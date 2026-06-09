@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { type FileUploaderListItemAction, FileUploaderListItem } from 'components/ui';
 
 import { useUploadImportFileMutation } from 'api/queries/file-import';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { fileTypeToPathMap } from './const';
 import { IFileItem } from './types';

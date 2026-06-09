@@ -1,5 +1,6 @@
 import type { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
-import type { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import type { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 export interface ExpansionPanelProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
     open?: boolean;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { Icon, Pagination } from 'components/ui';
@@ -12,6 +11,7 @@ import {
 } from 'api/queries/subscriptions';
 import { ISubscriptionV2, SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 // import { pluralize } from 'utils/helpers';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';

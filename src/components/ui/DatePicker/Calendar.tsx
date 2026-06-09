@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { Button } from 'components/ui/Button';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { CalendarNavigationIcon } from './CalendarNavigationIcon';
 import { CalendarPanel } from './CalendarPanel';

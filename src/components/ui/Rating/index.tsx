@@ -1,5 +1,6 @@
 import React, { FC, isValidElement, useMemo } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { DEFAULT_ITEM, DEFAULT_MAX_INDEX, DEFAULT_MIN_INDEX } from './const';
 import type { RatingItemType, RatingProps } from './types';

@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Button, Icon, Select } from 'components/ui';
 
 import { useGetTechnologyCategoriesQuery } from 'api/queries/technologies';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { ALL_VARIANT_ID, ringOptions, sectorOptions } from './const';
 import { ITechnologyFilters } from './types';

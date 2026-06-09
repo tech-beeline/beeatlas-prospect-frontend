@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -21,6 +20,7 @@ import {
 } from 'components/ui';
 
 import { useDownloadFileMutation, useGetExportFilesQuery } from 'api/queries/file-export';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { ExportButton } from './components';

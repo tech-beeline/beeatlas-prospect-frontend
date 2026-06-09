@@ -1,8 +1,9 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { IconButton } from 'components/ui';
 import { TextField } from 'components/ui/TextField';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { Calendar } from './Calendar';
 import { DEFAULT_DATA_TEST_ID } from './const';

@@ -1,6 +1,5 @@
 import React, { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer } from 'features/technologies';
@@ -12,6 +11,7 @@ import { IconButton } from 'components/ui';
 import { Banner, FileUploader, Progress, TextArea } from 'components/ui';
 
 import { useValidateWorkspaceMutation } from 'api/queries/patterns';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 
 import { StepVariants } from '../../const';

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { useSideSheetStore } from 'features/cx/store';
 
@@ -9,6 +8,7 @@ import { IconButton } from 'components/ui';
 import { Button, Skeleton } from 'components/ui';
 
 import { useGetAllProductsQuery } from 'api/queries/product';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { SideSheetVariants } from '../../const';

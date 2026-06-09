@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { TextField } from 'components/form';
 import { IconButton } from 'components/ui';
 import { Button } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { FormValues } from '../../form';
 import * as S from '../units';

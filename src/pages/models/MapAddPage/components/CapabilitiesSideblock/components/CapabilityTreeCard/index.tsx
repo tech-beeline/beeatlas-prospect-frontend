@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useDraggable } from '@dnd-kit/core';
 import { uniqueId } from 'lodash';
 
@@ -11,6 +10,7 @@ import { CapabilitySearchResultTypeVariant } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery } from 'api/queries/capability';
 import { PersonalMapElementType } from 'pages/models/MapAddPage/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { ICapabilityTreeCard } from './types';
 import * as S from './units';

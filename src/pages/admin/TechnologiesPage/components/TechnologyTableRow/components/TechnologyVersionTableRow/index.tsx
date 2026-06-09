@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { TooltipContainer } from 'components/interaction';
@@ -9,6 +8,7 @@ import { Label, TableData, TableRow } from 'components/ui';
 
 import { useDeleteTechnologyVersionMutation } from 'api/queries/technologies';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ITechnologyVersionTableRow } from './types';

@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { useAuthStore } from 'features/auth';
 
 import { SideBlock } from 'components/containers';
@@ -9,6 +8,7 @@ import { TextField } from 'components/ui';
 import { ProgressButton } from 'components/ui';
 
 import { useCreateStructurizrWorkspaceMutation } from 'api/queries/product';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ICreateStructurizrWorkspaceSideblock } from './types';

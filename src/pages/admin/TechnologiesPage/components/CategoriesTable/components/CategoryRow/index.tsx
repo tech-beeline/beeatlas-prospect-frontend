@@ -1,5 +1,4 @@
 import React, { FC, useRef } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { TooltipContainer } from 'components/interaction';
 import { IconButton } from 'components/ui';
@@ -9,6 +8,7 @@ import { useDeleteCategoryMutation, useUpdateCategoryMutation } from 'api/querie
 import { getTechnologiesByCategoryId } from 'api/technologies';
 import { ICategory } from 'api/technologies/types';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';

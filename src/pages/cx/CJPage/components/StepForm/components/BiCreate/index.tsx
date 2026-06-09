@@ -1,5 +1,4 @@
 import React, { FC, useRef } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, formValuesToData } from 'features/cx';
 import { BIFormRef } from 'features/cx/components/BIForm/types';
 
@@ -8,6 +7,7 @@ import { Button } from 'components/ui';
 
 import { useCreateBIMutation } from 'api/queries/bi';
 import { useUpdateCJStepBIsMutation } from 'api/queries/cj';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { Stage } from '../../types';

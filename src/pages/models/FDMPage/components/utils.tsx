@@ -1,8 +1,9 @@
 import React from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import styled from '@emotion/styled';
 
 import { Icon } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { Item, ItemTypes } from '../store/types';
 

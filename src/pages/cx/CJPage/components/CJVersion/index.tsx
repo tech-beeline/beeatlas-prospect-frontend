@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { IconButton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { VersionRow } from './components/VersionRow';
 import { ICJVersion } from './types';

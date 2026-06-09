@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import drilldownModule from 'bpmn-js/lib/features/drilldown';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import dayjs from 'dayjs';
@@ -18,6 +17,7 @@ import {
     useGetCJFileVersionByIdQuery,
 } from 'api/queries/cj';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { downloadBpmnFile } from '../CJPage/utils/formatters';
 

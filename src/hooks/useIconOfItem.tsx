@@ -1,8 +1,9 @@
 import React from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import styled from '@emotion/styled';
 
 import { Icon } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 export const IconStyled = styled(Icon)`
     color: ${({ type }) => !type && 'var(--color-text-inactive)'};

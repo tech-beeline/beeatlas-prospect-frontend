@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
@@ -7,6 +6,7 @@ import { Link } from 'components/other';
 import { IconButton } from 'components/ui';
 import { Label, TableBody, TableData, TableHead, TableHeaderData, TableRow } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { IFitnessFunctionRowOld } from './types';

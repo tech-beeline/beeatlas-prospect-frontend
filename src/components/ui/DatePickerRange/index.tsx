@@ -1,7 +1,8 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { IconButton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { DEFAULT_DATA_TEST_ID } from '../DatePicker/const';
 import { getDatePickerClassName } from '../DatePicker/utils';

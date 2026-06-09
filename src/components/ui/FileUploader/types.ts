@@ -1,5 +1,6 @@
 import type { HTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
-import type { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import type { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import type { FileState, FileUploaderListItemAction } from '../FileUploaderListItem/types';
 

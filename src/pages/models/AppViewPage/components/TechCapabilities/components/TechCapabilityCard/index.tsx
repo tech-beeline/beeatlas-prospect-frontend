@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -8,6 +7,7 @@ import { Skeleton } from 'components/ui';
 
 import { useGetOperationsByTechCapabilityQuery } from 'api/queries/product';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { CapabilityOriginOptions } from '../../const';
 

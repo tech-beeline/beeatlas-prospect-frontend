@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Markdown from 'react-markdown';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { MarkdownLinkRenderer, TechnologyFileContainer } from 'features/technologies';
 import remarkGfm from 'remark-gfm';
@@ -11,6 +10,7 @@ import { MultiSelect, RadioGroupBoolean, Select, TextArea, TextField } from 'com
 import { IconButton } from 'components/ui';
 import { Button, FileUploader, Icon, Skeleton } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 
 import { FormValues } from '../../form';

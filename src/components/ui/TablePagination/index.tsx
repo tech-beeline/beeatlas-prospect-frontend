@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { IconButton } from 'components/ui';
 import { Select } from 'components/ui/Select';
 import { Typography } from 'components/ui/Typography';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import {
     DEFAULT_PAGE,
