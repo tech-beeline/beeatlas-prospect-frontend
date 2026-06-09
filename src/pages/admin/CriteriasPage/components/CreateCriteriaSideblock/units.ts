@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { TextField } from 'components/form';
+
 export const SideblockContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -11,7 +13,7 @@ export const SideblockContainer = styled.div`
 export const ContentContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
 
     padding: 24px;
 
@@ -23,28 +25,16 @@ export const ContentContainer = styled.div`
 export const TitleContainer = styled.div`
     display: flex;
     justify-content: space-between;
-
-    margin-bottom: -8px;
 `;
 
-export const AxisContainer = styled.div`
-    margin-top: 12px;
-    margin-bottom: -8px;
+export const FlexContainer = styled.div<{ gapPX: number }>`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ gapPX }) => `${gapPX}px`};
 `;
 
 export const CheckboxContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding-right: 16px;
-
-    margin-left: 16px;
-    margin-bottom: -8px;
-`;
-
-export const MetricTitleContainer = styled.div`
-    margin-bottom: -16px;
+    padding-left: 16px;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -61,14 +51,8 @@ export const ButtonWrapper = styled.div`
     flex: 1;
 `;
 
-export const MetricsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-`;
-
-export const MetricCard = styled.div`
-    cursor: pointer;
+export const MetricCard = styled.div<{ isPointer?: boolean }>`
+    cursor: ${({ isPointer }) => (isPointer ? 'pointer' : 'default')};
 
     display: flex;
     flex-direction: column;
@@ -92,4 +76,10 @@ export const TwoFieldsRow = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+`;
+
+export const StyledTextField = styled(TextField)`
+    .dsb_input-helper-text-block-wrapper {
+        padding-bottom: 0;
+    }
 `;
