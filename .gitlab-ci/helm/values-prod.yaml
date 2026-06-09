@@ -62,6 +62,7 @@ env:
   FLAG_API_URL: ''
   FLAG_DOC_SERVICE_URL: 'https://beeatlas-doc-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/'
   FLAG_AUTHENTIK_CLIENT_ID: ''
+  FLAG_EAUTH_URL: 'https://eauth-prod.ess-prod.vimpelcom.ru'
 
 replicaCount: 1
 

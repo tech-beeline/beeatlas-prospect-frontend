@@ -56,5 +56,6 @@ env:
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: 'proxy_set_header Host fdm-gateway-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru;'
   NGINX_LOCATION_API: https://eafdmmart-backend-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru/api
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: 'proxy_set_header Host eafdmmart-backend-prod-eafdmmart.apps.yd-m3-k21.vimpelcom.ru;'
+  FLAG_EAUTH_URL: 'https://eauth-prod.ess-prod.vimpelcom.ru'
 
 replicaCount: 1

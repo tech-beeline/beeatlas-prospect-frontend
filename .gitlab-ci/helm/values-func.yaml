@@ -31,6 +31,7 @@ env:
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: ''
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: ''
   FLAG_IS_FUNC: 'true'
+  FLAG_EAUTH_URL: 'https://eafdmmart--test-yd-wiremock.apps.yd-m6-kt22.vimpelcom.ru'
 
 writableDir:
   enabled: true

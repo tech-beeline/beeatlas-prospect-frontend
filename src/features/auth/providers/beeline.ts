@@ -1,28 +1,11 @@
 import VKITAuth from '@beeline/lk-auth';
 
 import { getUserInfo } from 'api/user';
-import {
-    DEV_AUTH_LINK,
-    FUNC_MOCK_AUTH_LINK,
-    LOCALHOST_LINK,
-    PROD_AUTH_LINK,
-    TEST_AUTH_LINK,
-} from 'utils/const';
 
 import { AuthFlowContext, IAuthProvider } from '../types';
 
-const hostnameToAuthMap: Record<string, string> = {
-    'eafdmmart-prod.apps.yd-k03.vimpelcom.ru': PROD_AUTH_LINK,
-    'beeatlas.vimpelcom.ru': PROD_AUTH_LINK,
-    'techradar.vimpelcom.ru': PROD_AUTH_LINK,
-    'tr.vimpelcom.ru': PROD_AUTH_LINK,
-    'eafdmmart-dev.apps.yd-m6-kt22.vimpelcom.ru': DEV_AUTH_LINK,
-    'eafdmmart-e2e.apps.yd-m6-kt22.vimpelcom.ru': TEST_AUTH_LINK,
-    'eafdmmart-func.apps.yd-m6-kt22.vimpelcom.ru': FUNC_MOCK_AUTH_LINK,
-};
-
 const authInstance = new VKITAuth({
-    authUrl: hostnameToAuthMap[window.location.hostname] ?? LOCALHOST_LINK,
+    authUrl: window.FEATURE_FLAGS.FLAG_EAUTH_URL,
 });
 
 export const beelineAuthProvider: IAuthProvider = {

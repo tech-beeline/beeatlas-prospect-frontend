@@ -7,6 +7,7 @@ export type FeatureFlags = {
     FLAG_DOC_SERVICE_URL: string;
     FLAG_WEBIDE_URL: string;
     FLAG_AUTHENTIK_CLIENT_ID: string;
+    FLAG_EAUTH_URL: string;
 };
 declare global {
     interface Window {
