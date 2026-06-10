@@ -40,7 +40,7 @@ export const TableStyled = styled(Table)`
 `;
 
 export const TableHeaderDataStyled = styled(TableHeaderData)`
-    width: 33.33%;
+    white-space: nowrap;
 `;
 
 export const NotFoundContainer = styled.div`
