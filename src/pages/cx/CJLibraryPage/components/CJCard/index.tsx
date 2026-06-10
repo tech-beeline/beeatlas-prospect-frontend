@@ -4,12 +4,12 @@ import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
+import { ClampedText } from 'components/interaction';
 import { Badge, Skeleton } from 'components/ui';
 
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useGetProductsQuery } from 'hooks';
-import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
@@ -94,7 +94,13 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
             </S.FlexContainer>
             <S.TitleContainer>
                 <S.Title onClick={() => handleCJClick(cj.id)}>
-                    <TooltipContainer text={cj.name} tooltipId={`сj-${cj.name}`} />
+                    <ClampedText
+                        text={cj.name}
+                        tooltipId={`сj-${cj.name}`}
+                        noArrow
+                        place="top"
+                        offset={8}
+                    />
                 </S.Title>
                 <Text variant="body3" inactive>
                     {cj.uniqueIdent}

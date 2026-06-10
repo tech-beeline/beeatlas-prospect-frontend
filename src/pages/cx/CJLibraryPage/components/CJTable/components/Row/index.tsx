@@ -3,12 +3,11 @@ import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-import { DropdownMenuControlled } from 'components/interaction';
+import { ClampedText, DropdownMenuControlled } from 'components/interaction';
 import { Badge, Skeleton } from 'components/ui';
 
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
-import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
@@ -40,16 +39,25 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
 
     return (
         <S.RowStyled key={cj.id} isActive={isActive}>
-            <S.LabelTh showShadow={showShadow}>
+            <S.LabelTh showShadow={showShadow} isActive={isActive}>
                 <S.SpanLinkStyled onClick={() => handleCJClick(cj.id)}>
-                    <TooltipContainer text={cj.name} tooltipId={`cj-name-${cj.id}`} />
+                    <ClampedText
+                        text={cj.name}
+                        tooltipId={`cj-name-${cj.id}`}
+                        noArrow
+                        place="top"
+                        offset={8}
+                    />
                 </S.SpanLinkStyled>
             </S.LabelTh>
             <S.TdId>{cj.uniqueIdent}</S.TdId>
             <S.TableDataStyled>
-                <TooltipContainer
+                <ClampedText
                     text={formatNullableString(cj.userPortrait ?? cj.user_portrait)}
                     tooltipId={`bi-descr-${cj.id}`}
+                    noArrow
+                    place="top"
+                    offset={8}
                 />
             </S.TableDataStyled>
             <S.TableDataStyled>
@@ -65,9 +73,12 @@ export const Row: FC<IRow> = ({ cj, showShadow = false, isActive = false, onMenu
                             )
                         }
                     >
-                        <TooltipContainer
+                        <ClampedText
                             text={formatNullableString(currentProduct.name)}
                             tooltipId={`bi-product-${cj.id}`}
+                            noArrow
+                            place="top"
+                            offset={8}
                         />
                     </S.SpanLinkStyled>
                 ) : (

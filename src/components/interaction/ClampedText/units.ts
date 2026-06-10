@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { TooltipContainer } from 'components/interaction';
-
 export const ClampedFileName = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -13,8 +11,4 @@ export const ClampedFileName = styled.div`
     max-height: 2.8em;
     max-width: max-content;
     white-space: normal;
-`;
-
-export const TooltipContainerPadding = styled(TooltipContainer)`
-    padding: 16px;
 `;
