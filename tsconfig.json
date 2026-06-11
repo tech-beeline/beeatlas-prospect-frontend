@@ -15,6 +15,7 @@
         "strict": true,
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
+        "allowJs": true,
         "skipLibCheck": true,
         "declaration": false,
         "lib": ["dom", "dom.iterable", "esnext"],

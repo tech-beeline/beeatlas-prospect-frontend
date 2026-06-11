@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button } from '@beeline/design-system-react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 import { TextField } from 'components/form';
+import { Button } from 'components/ui';
 
 import { usePutFitnessFunctionMutation } from 'api/queries/fitness-functions';
 import { StepVariants } from 'pages/admin/FitnessFunctionAddPage/const';

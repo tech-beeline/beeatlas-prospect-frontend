@@ -1,18 +1,10 @@
 import React, { FC, useState } from 'react';
-import {
-    IconButton,
-    Label,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Label, TableBody, TableData, TableHead, TableHeaderData, TableRow } from 'components/ui';
 
 import {
     useCreateSubscriptionMutation,
@@ -23,6 +15,7 @@ import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
 import { useScrollToSelectedEntity } from 'hooks/useScrollToSelectedEntity';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';

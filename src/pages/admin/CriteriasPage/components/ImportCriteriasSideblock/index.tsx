@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Banner, Button, FileUploader, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Banner, Button, FileUploader } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { FileItem } from './components';
 import { IImportCriteriasSideblock } from './types';

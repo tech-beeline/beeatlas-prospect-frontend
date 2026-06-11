@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
-import { Button, Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Autocomplete } from 'components/form';
+import { Button, Icon } from 'components/ui';
 
 import { CapabilitySearchVariant } from 'api/capability/types';
 import { useGetCapabilitiesQuery } from 'api/queries/capability';
 import { useDebounce } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IBCField } from './types';
 import * as S from './units';

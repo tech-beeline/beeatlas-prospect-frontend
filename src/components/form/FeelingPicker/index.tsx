@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Radio } from '@beeline/design-system-react';
 
 import { FeelingTypes, IconFeeling } from 'components/other';
+import { Radio } from 'components/ui';
 
 import { IFeelingPicker } from './types';
 import * as S from './units';

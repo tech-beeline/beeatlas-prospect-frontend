@@ -1,11 +1,6 @@
-import {
-    FileUploaderListItem,
-    Icon,
-    TableData,
-    TableHeaderData,
-} from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { FileUploaderListItem, Icon, TableData, TableHeaderData } from 'components/ui';
 export const PageWrapper = styled.div`
     width: 100%;
     padding: 32px;

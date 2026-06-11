@@ -1,7 +1,7 @@
 import React from 'react';
-import { Divider } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Divider } from 'components/ui';
 
 import * as S from './units';
 

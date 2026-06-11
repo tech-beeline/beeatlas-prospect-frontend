@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
-import { Tab, Tabs } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Tab, Tabs } from 'components/ui';
 
 import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
 

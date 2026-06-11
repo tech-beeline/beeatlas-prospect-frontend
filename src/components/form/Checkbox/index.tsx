@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Checkbox as DesignSystemCheckbox } from '@beeline/design-system-react';
+
+import { Checkbox as UiCheckbox } from 'components/ui';
 
 import { ICheckbox } from './types';
 
@@ -13,12 +14,7 @@ export const Checkbox: FC<ICheckbox> = ({ name, label, disabled = false }) => {
             control={control}
             defaultValue={false}
             render={({ field }) => (
-                <DesignSystemCheckbox
-                    disabled={disabled}
-                    label={label}
-                    checked={field.value}
-                    {...field}
-                />
+                <UiCheckbox disabled={disabled} label={label} checked={field.value} {...field} />
             )}
         />
     );

@@ -1,13 +1,8 @@
 import React, { FC } from 'react';
-import {
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { TableHeaderData } from 'components/ui';
+import { TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
 import { IFitnessFunctions } from './types';
 import * as S from './units';

@@ -1,6 +1,6 @@
-import { Icon, Table, TableData, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { Icon, Table, TableData, TableHeaderData } from 'components/ui';
 export const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;

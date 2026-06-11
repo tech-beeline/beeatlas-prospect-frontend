@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Button, ProgressButton } from '@beeline/design-system-react';
+
+import { Button, ProgressButton } from 'components/ui';
 
 import { IDialog } from './types';
 import * as S from './units';

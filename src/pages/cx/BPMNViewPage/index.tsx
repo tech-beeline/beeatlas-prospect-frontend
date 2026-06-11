@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IconButton, Select, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import drilldownModule from 'bpmn-js/lib/features/drilldown';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import dayjs from 'dayjs';
@@ -9,6 +7,9 @@ import searchModule from 'diagram-js/lib/features/search';
 import { getFileName } from 'features/cx/utils';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Select } from 'components/ui';
+import { Skeleton } from 'components/ui';
 
 import {
     useGetBPMNFileDataQuery,
@@ -16,6 +17,7 @@ import {
     useGetCJFileVersionByIdQuery,
 } from 'api/queries/cj';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { downloadBpmnFile } from '../CJPage/utils/formatters';
 

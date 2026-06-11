@@ -1,9 +1,10 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Search } from '@beeline/design-system-react';
 import { AxiosError } from 'axios';
 
 import { Expand } from 'components/other';
+import { Search } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { useGetCapabilitiesQuery } from 'api/queries/capability';
 import { useMountEffect } from 'hooks';

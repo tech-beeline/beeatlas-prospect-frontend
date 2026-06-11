@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { Button } from '@beeline/design-system-react';
 
 import { Slider } from 'components/interaction';
+import { Button } from 'components/ui';
 
 import * as SPages from 'pages/units';
 import * as STYLES from 'styles/units';

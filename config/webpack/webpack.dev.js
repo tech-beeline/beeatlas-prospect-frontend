@@ -21,10 +21,7 @@ module.exports = merge(commonConfig, {
         open: false,
         historyApiFallback: true,
         devMiddleware: {
-            // https://webpack.js.org/configuration/experiments/#experimentslazycompilation
-            // lazy: false,
             stats: 'minimal',
-            // index: false,
         },
         client: {
             logging: 'info',
@@ -34,20 +31,10 @@ module.exports = merge(commonConfig, {
             },
         },
         proxy: {
-            '/oauth-idp': {
-                target: 'http://oauth-idp2-lkb2b-test.apps.k01.vimpelcom.ru/',
-                // target: 'http://dr-b2bon02.vimpelcom.ru:8082/',
-                // ws: false,
-                changeOrigin: true,
-                pathRewrite: { '^/oauth-idp': '' },
-                logLevel: 'debug' /*optional*/,
-            },
             '/api/v1/auth': {
-                // target: 'https://auth-lke.kube.vimpelcom.ru',
                 target: 'https://eauth-dev.ess-test.vimpelcom.ru',
                 changeOrigin: true,
-                // pathRewrite: { '^/api/v1/auth': '' },
-                logLevel: 'debug' /*optional*/,
+                logLevel: 'debug',
                 https: true,
                 secure: false,
             },

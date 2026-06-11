@@ -1,18 +1,18 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Search } from 'components/ui';
 import {
     Button,
-    Search,
     Skeleton,
     Table,
     TableBody,
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-
-import { Text } from 'components/core';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { INonFunctionalRequirementFullData } from 'api/product/types';
 import {

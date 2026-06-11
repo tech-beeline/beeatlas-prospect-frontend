@@ -1,5 +1,7 @@
-import { Table, TableData, TableHeaderData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TableHeaderData } from 'components/ui';
+import { Table, TableData, TableRow } from 'components/ui';
 
 export const TableWrapper = styled.div`
     max-width: 100%;

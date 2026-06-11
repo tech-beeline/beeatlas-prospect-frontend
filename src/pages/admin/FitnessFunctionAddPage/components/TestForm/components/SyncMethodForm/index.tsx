@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Autocomplete, Button, Checkbox } from '@beeline/design-system-react';
 import { AxiosError } from 'axios';
 import { FitnessFunctionRunResultsTable, FitnessFunctionStatus } from 'features/fitness-functions';
 
 import { Text } from 'components/core';
+import { Autocomplete } from 'components/ui';
+import { Button, Checkbox } from 'components/ui';
 
 import {
     usePostFitnessFunctionStatusMutation,

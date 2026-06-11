@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { useThemeStore } from 'features/theme';
 
-import { ProgressBarColors } from './const';
+import { ProgressBarColors } from 'components/ui';
+
 import { IFitnessFunctionProgressBar } from './types';
 import * as S from './units';
 

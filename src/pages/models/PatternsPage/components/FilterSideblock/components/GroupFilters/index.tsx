@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { Button, Icon, IconButton, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, Icon, Skeleton } from 'components/ui';
 
 import { IPatternGroupTree } from 'api/patterns/types';
 import {
@@ -10,6 +10,7 @@ import {
     useGetPatternGroupTreeQuery,
     useGetPatternsQuery,
 } from 'api/queries/patterns';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

@@ -1,9 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Chip, Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Link, PivotArrow } from 'components/other';
+import { Button, Chip, Icon } from 'components/ui';
 
 import {
     useCreateSubscriptionMutation,
@@ -21,6 +20,7 @@ import {
 import { useFDMStore } from 'pages/models/FDMPage/store';
 import { Item, ItemTypes } from 'pages/models/FDMPage/store/types';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';

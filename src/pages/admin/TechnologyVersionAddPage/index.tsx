@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, IconButton, InlineAlert } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
+
+import { IconButton } from 'components/ui';
+import { Button, InlineAlert } from 'components/ui';
 
 import {
     useCreateTechnologyVersionMutation,
@@ -12,6 +13,7 @@ import {
     useUpdateTechnologyVersionMutation,
 } from 'api/queries/technologies';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { TechnologyVersionField } from './components';

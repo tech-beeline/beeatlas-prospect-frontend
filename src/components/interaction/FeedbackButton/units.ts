@@ -1,5 +1,6 @@
-import { FAB } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { FAB } from 'components/ui';
 
 export const Container = styled.div`
     position: fixed;

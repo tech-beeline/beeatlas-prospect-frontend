@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button } from '@beeline/design-system-react';
+
+import { Button } from 'components/ui';
 
 import { useMountEffect } from 'hooks';
 import { ItemTypes } from 'pages/models/FDMPage/store/types';

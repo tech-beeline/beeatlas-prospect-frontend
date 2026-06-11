@@ -1,12 +1,12 @@
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Button, Icon, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { TitleBack } from 'components/interaction';
+import { Button, Icon, Skeleton } from 'components/ui';
 
 import { useGetAllRolesQuery } from 'api/queries';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import * as S from './units';
 

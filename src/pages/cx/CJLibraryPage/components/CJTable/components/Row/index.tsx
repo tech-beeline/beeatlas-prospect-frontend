@@ -1,16 +1,16 @@
 import { FC } from 'react';
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Badge, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { DropdownMenuControlled } from 'components/interaction';
+import { Badge, Skeleton } from 'components/ui';
 
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { IRow } from './types';

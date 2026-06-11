@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { Skeleton } from 'components/ui';
 
 import * as R from 'router/const';
 

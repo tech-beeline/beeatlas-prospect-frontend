@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, BIFormValues, dataToFormValues, formValuesToData } from 'features/cx';
 import { BIFormRef } from 'features/cx/components/BIForm/types';
 
 import { FloatingNavigation } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, Icon } from 'components/ui';
 
 import {
     useCreateBIMutation,
@@ -15,6 +14,7 @@ import {
     useUpdateBIMutation,
 } from 'api/queries/bi';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import * as S from './units';
 

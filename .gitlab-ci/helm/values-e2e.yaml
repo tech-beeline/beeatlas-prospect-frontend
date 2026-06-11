@@ -30,6 +30,7 @@ env:
   NGINX_LOCATION_API: http://eafdmmart-backend-e2e-service:8080
   NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS: ''
   NGINX_LOCATION_API_ADDITIONAL_PARAMS: ''
+  FLAG_EAUTH_URL: 'https://eauth-test.ess-test.vimpelcom.ru'
 
 writableDir:
   enabled: true

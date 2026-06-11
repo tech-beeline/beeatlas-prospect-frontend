@@ -1,25 +1,17 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Button,
-    Chip,
-    Counter,
-    Icon,
-    Search,
-    Select,
-    Skeleton,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, Chip, Counter, Icon, Search, Select, Skeleton } from 'components/ui';
 
 import { IPattern } from 'api/patterns/types';
 import { useDeletePatternMutation, useGetPatternsQuery } from 'api/queries/patterns';
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { useDebounce, useModal } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

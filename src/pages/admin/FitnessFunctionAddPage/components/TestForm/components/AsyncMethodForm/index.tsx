@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Autocomplete, Badge, Button, Checkbox, Progress } from '@beeline/design-system-react';
 import { FitnessFunctionRunResultsTable, FitnessFunctionStatus } from 'features/fitness-functions';
 
 import { Text } from 'components/core';
+import { Autocomplete } from 'components/ui';
+import { Badge, Button, Checkbox, Progress } from 'components/ui';
 
 import {
     useGetCallResultQuery,

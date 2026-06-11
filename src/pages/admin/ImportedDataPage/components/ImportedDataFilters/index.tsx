@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { Button, Select } from '@beeline/design-system-react';
+
+import { Select } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { StatusVariants } from './const';
 import { IImportedDataFilters } from './types';

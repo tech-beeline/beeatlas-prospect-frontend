@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { INodePanel } from './types';

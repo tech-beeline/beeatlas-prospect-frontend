@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Autocomplete as DesignSystemAutocomplete } from '@beeline/design-system-react';
 import get from 'lodash/get';
 
 import { Text } from 'components/core';
+import { Autocomplete } from 'components/ui';
 
 import { useGetEmployee } from 'api/queries/profile';
 import { useDebounce } from 'hooks';
@@ -48,7 +48,7 @@ export const BusinessOwnerField = () => {
             control={control}
             defaultValue={defaultBusinessOwner}
             render={({ field }) => (
-                <DesignSystemAutocomplete
+                <Autocomplete
                     fullWidth
                     label="Владелец сценария*"
                     error={Boolean(error)}

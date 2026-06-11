@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Banner, FileUploader, IconButton, Typography } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
@@ -11,6 +9,9 @@ import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'featur
 import { PageFormContainer } from 'components/containers';
 import { Text } from 'components/core';
 import { Autocomplete, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Banner, FileUploader } from 'components/ui';
+import { Typography } from 'components/ui/Typography';
 
 import {
     useCreateCJByBPMN,
@@ -20,6 +21,7 @@ import {
 import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
 import { useGetUserInfoQuery, usePostUsersInfoMutation } from 'api/queries/profile';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

@@ -1,5 +1,6 @@
-import { Table, TableData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Table, TableData } from 'components/ui';
 
 export const CellContent = styled.div`
     padding-left: 24px;

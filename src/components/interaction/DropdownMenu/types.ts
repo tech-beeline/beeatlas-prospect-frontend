@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 interface IDropdownMenuItem {
     title: string;

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Skeleton,
     Tab,
@@ -8,9 +10,7 @@ import {
     TablePagination,
     TableRow,
     Tabs,
-} from '@beeline/design-system-react';
-
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import {
     useDeleteTechnologyMutation,

@@ -1,5 +1,6 @@
-import { Progress } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Progress } from 'components/ui/Progress';
 
 export const PageWrapper = styled.div`
     display: flex;

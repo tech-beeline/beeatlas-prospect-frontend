@@ -1,13 +1,14 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { TableVirtuoso } from 'react-virtuoso';
-import { IconButton, TableRow } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useThemeStore } from 'features/theme';
 
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
+import { IconButton } from 'components/ui';
+import { TableRow } from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { FitnessFunctionLabel, FitnessFunctionProgressBar } from './components';
 import { VIRTUOSO_SCROLLER_ID } from './const';

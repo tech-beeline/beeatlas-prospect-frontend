@@ -5,10 +5,24 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { randomUUID } = require("node:crypto");
 
+const fs = require('fs');
 const webpack = require('webpack');
 const path = require('path');
 
 const isProd = process.env.NODE_ENV !== 'development';
+
+const lkAuthPackagePath = path.join(process.env.PWD, 'node_modules', '@beeline', 'lk-auth');
+const lkAuthStubPath = path.join(
+    process.env.PWD,
+    'src',
+    'features',
+    'auth',
+    'providers',
+    'lk-auth-stub.ts',
+);
+const lkAuthAlias = fs.existsSync(path.join(lkAuthPackagePath, 'package.json'))
+    ? lkAuthPackagePath
+    : lkAuthStubPath;
 
 module.exports = {
     entry: path.join(process.env.PWD, 'src', 'index.tsx'),
@@ -21,6 +35,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
             'process/browser': require.resolve('process/browser.js'),
+            '@beeline/lk-auth': lkAuthAlias,
         },
         fallback: {
             process: require.resolve('process/browser.js'),

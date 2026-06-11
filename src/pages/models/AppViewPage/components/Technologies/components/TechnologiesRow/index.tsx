@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Label, TableData, TableRow } from '@beeline/design-system-react';
 import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Link } from 'components/other';
+import { Label, TableData, TableRow } from 'components/ui';
 
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';

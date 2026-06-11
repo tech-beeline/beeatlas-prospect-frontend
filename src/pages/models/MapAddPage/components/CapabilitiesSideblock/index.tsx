@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
-import { Search, Skeleton } from '@beeline/design-system-react';
+
+import { Search } from 'components/ui';
+import { Skeleton } from 'components/ui';
 
 import { CapabilitySearchResultTypeVariant, CapabilitySearchVariant } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';

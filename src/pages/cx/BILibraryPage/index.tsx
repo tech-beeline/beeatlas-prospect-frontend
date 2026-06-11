@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from 'components/ui';
 
 import { useGetBICollectionQuery } from 'api/queries/bi';
 import { useModal } from 'hooks';
@@ -14,6 +13,7 @@ import {
     useURLFilters,
 } from 'hooks/useURLFilters';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import * as STYLES from 'styles/units';
 
 import { IBIFilterOptions } from './components/BILibraryFilters/types';

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Skeleton,
     TableBody,
@@ -6,9 +8,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-} from '@beeline/design-system-react';
-
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { useGetAllPackagesQuery } from 'api/queries/imported-packages';
 

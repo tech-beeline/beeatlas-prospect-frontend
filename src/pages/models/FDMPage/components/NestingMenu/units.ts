@@ -1,6 +1,7 @@
-import { Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 import { Resizable } from 're-resizable';
+
+import { Skeleton } from 'components/ui';
 
 // @ts-ignore
 export const ResizableStyled = styled(Resizable)`

@@ -1,5 +1,7 @@
-import { Table, TableData, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TableHeaderData } from 'components/ui';
+import { Table, TableData } from 'components/ui';
 
 export const TableHeaderDataFullWidth = styled(TableHeaderData)`
     & > div > div {

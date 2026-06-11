@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Button } from '@beeline/design-system-react';
+
+import { Button } from 'components/ui';
 
 import dialogBox from './images/box-with-dialog.png';
 import questionBox from './images/box-with-question.png';

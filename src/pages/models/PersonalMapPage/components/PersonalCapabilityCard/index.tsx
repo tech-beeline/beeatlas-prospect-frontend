@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     CapabilityCardCriteriaComment,
     generateMapColorGradient,
@@ -13,9 +11,11 @@ import { useThemeStore } from 'features/theme';
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
+import { Icon } from 'components/ui';
 
 import { IMapCapability, IMapCriteria, PersonalMapTypes } from 'api/maps/types';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IPersonalCapabilityCard } from './types';
 import * as S from './units';

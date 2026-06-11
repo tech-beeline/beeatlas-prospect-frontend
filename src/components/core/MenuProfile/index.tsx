@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { useGetMyRolesQuery } from 'api/queries/profile';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import * as S from './units';
 

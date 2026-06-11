@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
 
@@ -10,6 +9,7 @@ import {
 } from 'api/queries/subscriptions';
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { criticalCodeToNameMap, criticalNameToCodeMap } from 'features/apps';
 
 import { Autocomplete, Select, TextArea, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Button, Icon } from 'components/ui';
 
 import { getProductAliasAvailability } from 'api/product';
 import { IProductForm } from 'api/product/types';
@@ -18,6 +18,7 @@ import {
 } from 'api/queries/product';
 import { useGetProfilesQuery } from 'api/queries/profile';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { EmployeeField } from './components';

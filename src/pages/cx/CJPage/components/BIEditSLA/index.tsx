@@ -1,13 +1,14 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
 import { TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { useUpdateBISLA } from 'api/queries/bi';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';

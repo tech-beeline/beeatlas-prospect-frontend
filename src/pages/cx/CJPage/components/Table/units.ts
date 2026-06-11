@@ -1,7 +1,9 @@
 import { Tooltip } from 'react-tooltip';
-import { Icon, IconButton } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { IconButton } from 'components/ui';
+import { Icon } from 'components/ui';
 
 export const PageWrapper = styled.div`
     display: flex;

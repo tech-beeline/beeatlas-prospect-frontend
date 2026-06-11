@@ -1,6 +1,8 @@
-import { Table, TableData, TableHeaderData } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { TableHeaderData } from 'components/ui';
+import { Table, TableData } from 'components/ui';
 
 const technologiesColumnSizing = css`
     min-width: 200px;

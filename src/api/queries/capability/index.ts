@@ -12,7 +12,6 @@ import {
     getMapData,
     getPromtByAlias,
     getTechCapabilityById,
-    getTechCapabilityProducts,
     postDescriptionByPromt,
     putBusinessCapability,
 } from 'api/capability';
@@ -43,14 +42,6 @@ export const useGetBusinessCapabilityDomainsQuery = (
         queryKey: [CAPABILITY_PREFIX, 'DOMAINS', params],
         queryFn: () => getBusinessCapabilityDomains().then((res) => res.data),
         enabled: params.enabled,
-    });
-};
-
-export const useGetTechCapabilityProductsQuery = (code?: string, enabled = true) => {
-    return useQuery({
-        queryKey: [CAPABILITY_PREFIX, 'techCapability', code],
-        queryFn: () => getTechCapabilityProducts(code!).then((res) => res.data),
-        enabled: enabled && Boolean(code),
     });
 };
 

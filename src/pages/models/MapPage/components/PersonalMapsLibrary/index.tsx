@@ -1,16 +1,16 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Skeleton } from 'components/ui';
 
 import { IPersonalMapData } from 'api/maps/types';
 import { useDeletePersonalMapMutation, useGetPersonalMapsQuery } from 'api/queries/maps';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

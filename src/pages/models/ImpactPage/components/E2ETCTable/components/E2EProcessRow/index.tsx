@@ -1,15 +1,10 @@
 import React, { FC, useState } from 'react';
-import {
-    IconButton,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { TableBody, TableData, TableHead, TableHeaderData, TableRow } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IE2EProcessRow } from './types';
 import * as S from './units';

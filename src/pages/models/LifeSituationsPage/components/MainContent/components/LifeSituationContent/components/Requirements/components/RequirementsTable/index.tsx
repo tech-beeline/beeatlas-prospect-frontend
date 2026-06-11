@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { TableBody, TableHead, TableHeaderData, TableRow } from '@beeline/design-system-react';
+
+import { TableHeaderData } from 'components/ui';
+import { TableBody, TableHead, TableRow } from 'components/ui';
 
 import { RequirementRow } from './components';
 import { IRequirementsTable } from './types';

@@ -1,4 +1,4 @@
-import { BadgeSemantic } from '@beeline/design-system-react';
+import type { BadgeSemantic } from 'components/ui';
 
 export enum FitnessFunctionStatus {
     TEST = 'TEST',

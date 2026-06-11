@@ -1,7 +1,7 @@
-import { ColorTypes } from '@beeline/design-system-react/types/types/status';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+import { ColorTypes } from 'components/ui';
 
 import { SubscriptionEntityVariants } from 'api/subscriptions/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 export const notificationEntityTypeToIconMap: Record<SubscriptionEntityVariants, Icons> = {
     [SubscriptionEntityVariants.TECH_CAPABILITY]: Icons.Capability,

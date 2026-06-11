@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Icon, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Icon, Skeleton } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { DiagramToolbar, GraphCanvas, LeftPanel, RightPanel } from './components';
 import { KNOWN_LABELS } from './const';

@@ -1,9 +1,11 @@
 import React, { FC, useMemo } from 'react';
-import { Chip, Icon, IconButton, TextField } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Icon, TextField } from 'components/ui';
+import { Chip } from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { PanelEdgeToggleButton } from '../../units';

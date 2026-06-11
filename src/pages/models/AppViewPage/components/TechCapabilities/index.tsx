@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
-import { Button, ButtonGroup, Icon, Search, Skeleton, Switch } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, ButtonGroup, Icon, Search, Skeleton, Switch } from 'components/ui';
 
 import { useGetTechCapabilitiesByProductIdQuery } from 'api/queries/capability';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { TechCapabilityCard } from './components';
 import { CapabilityOriginOptions, COLUMNS_LENGTH, DisplayOptions } from './const';

@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableBody } from '@beeline/design-system-react';
+
+import { TableBody } from 'components/ui';
 
 import { DiagramTableRow } from './components';
 import * as S from './units';

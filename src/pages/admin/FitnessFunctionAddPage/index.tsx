@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Banner, IconButton, Stepper } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
+import { Stepper } from 'components/ui';
+import { IconButton } from 'components/ui';
+import { Banner } from 'components/ui';
 
 import { useGetAllFitnessFunctionsQuery } from 'api/queries/fitness-functions';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { GeneralInfoForm, LogicForm, TestForm } from './components';
 import { STEPS, StepVariants } from './const';

@@ -1,17 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import {
-    Button,
-    Search,
-    Skeleton,
-    TableBody,
-    TableData,
-    TableHead,
-    TableRow,
-} from '@beeline/design-system-react';
 import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Search } from 'components/ui';
+import { Button, Skeleton, TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
 import {
     useGetAllProductsQuery,

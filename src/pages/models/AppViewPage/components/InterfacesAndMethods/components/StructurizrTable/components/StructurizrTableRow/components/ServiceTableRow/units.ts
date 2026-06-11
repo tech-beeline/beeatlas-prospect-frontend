@@ -1,5 +1,6 @@
-import { Table, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Table, TableData, TableRow } from 'components/ui';
 
 export const TableRowStyled = styled(TableRow)`
     transition: background-color 0.25s ease-in-out;

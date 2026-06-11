@@ -1,5 +1,6 @@
-import { Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Skeleton } from 'components/ui';
 
 export const SubscriptionCard = styled.div<{ isSelected?: boolean }>`
     display: flex;

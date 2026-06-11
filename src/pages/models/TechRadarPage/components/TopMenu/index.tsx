@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { sendAnalytics } from 'features/analytics';
 
-// import { Chip } from '@beeline/design-system-react';
 import * as C from './const';
 import * as T from './types';
 import * as S from './units';

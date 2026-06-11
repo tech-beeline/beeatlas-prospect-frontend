@@ -1,8 +1,7 @@
-import { Icon, Skeleton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Expand } from 'components/other';
-
+import { Icon, Skeleton } from 'components/ui';
 export const Wrapper = styled.div<{ isActive?: boolean; isSubItems?: boolean }>`
     position: relative;
 

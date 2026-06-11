@@ -1,5 +1,6 @@
-import { Dialog, DialogContent } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Dialog, DialogContent } from 'components/ui';
 
 export const DialogStyled = styled(Dialog)`
     z-index: 103;

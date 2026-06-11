@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { TablePagination } from '@beeline/design-system-react';
+
+import { TablePagination } from 'components/ui';
 
 import { Row } from './components/Row';
 import { ICJTable } from './types';

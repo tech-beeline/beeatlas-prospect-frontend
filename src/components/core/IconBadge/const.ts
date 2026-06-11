@@ -1,4 +1,4 @@
-import type { BadgeSemantic, BadgeType } from '@beeline/design-system-react';
+import type { BadgeSemantic, BadgeType } from 'components/ui';
 
 export type IconBadgeColors = {
     backgroundColor: string;

@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
-import { IconButton, Skeleton, TableBody, TableHead, TableRow } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { IconButton } from 'components/ui';
+import { Skeleton, TableBody, TableHead, TableRow } from 'components/ui';
 
 import { useGetSystemDiagramQuery } from 'api/queries/graph';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
 
 import { TabVariant } from '../../const';

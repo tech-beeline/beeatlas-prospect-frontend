@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
-import { Chip, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Chip } from 'components/ui';
+
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { ICypherChip } from './types';
 import { isTextLabelTruncated, textLabel } from './utils';

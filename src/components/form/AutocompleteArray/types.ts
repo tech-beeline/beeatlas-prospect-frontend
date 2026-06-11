@@ -1,4 +1,4 @@
-import { TypographyVariant } from '@beeline/design-system-react';
+import type { TypographyVariant } from 'components/ui/Typography/types';
 
 export interface ISelectOption {
     id: number | string;

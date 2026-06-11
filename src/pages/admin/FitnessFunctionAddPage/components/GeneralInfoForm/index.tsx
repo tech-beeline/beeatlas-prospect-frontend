@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button } from '@beeline/design-system-react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 import { MultiSelect, RadioGroup, RadioGroupBoolean, TextField } from 'components/form';
+import { Button } from 'components/ui';
 
 import { StepVariants } from '../../const';
 

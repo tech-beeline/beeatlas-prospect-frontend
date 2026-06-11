@@ -1,20 +1,16 @@
 import React, { FC, useState } from 'react';
-import { Avatar, Icon, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useDraggable } from '@dnd-kit/core';
 import { uniqueId } from 'lodash';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
+import { Avatar, Icon, Skeleton } from 'components/ui';
 
 import { CapabilitySearchResultTypeVariant, IMapItemData } from 'api/capability/types';
 import { PersonalMapTypes } from 'api/maps/types';
-import {
-    useGetMapDataQuery,
-    useGetTechCapabilityByIdQuery,
-    useGetTechCapabilityProductsQuery,
-} from 'api/queries/capability';
+import { useGetMapDataQuery, useGetTechCapabilityByIdQuery } from 'api/queries/capability';
 import { PersonalMapElementType } from 'pages/models/MapAddPage/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { ICapabilitySearchCard, ICapabilitySearchCardOverlay } from './types';
 import * as S from './units';
@@ -52,11 +48,6 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
         (c) => c.isDomain,
     );
 
-    const { data: products, isLoading: isLoadingProducts } = useGetTechCapabilityProductsQuery(
-        capability.code,
-        capability.type === CapabilitySearchResultTypeVariant.TECH_CAPABILITY && tooltipOpened,
-    );
-
     const { data: techCapabilityData, isLoading: isLoadingTechCapability } =
         useGetTechCapabilityByIdQuery({
             id: capability.id,
@@ -70,7 +61,7 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
             <S.CapabilityCard isUsed={isUsed} ref={setNodeRef} {...attributes} {...listeners}>
                 <S.FlexContainer>
                     <Avatar
-                        iconName={Icons.Capability}
+                        icon={<Icon iconName={Icons.Capability} />}
                         color={
                             capability.type ===
                             CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY
@@ -148,12 +139,11 @@ export const CapabilitiesSearchCard: FC<ICapabilitySearchCard> = ({
                         <div>
                             <Text variant="subtitle3">TC реализована в приложении</Text>
                         </div>
-                        {isLoadingProducts && <Skeleton height={16} radius={4} />}
-                        {products && (
+                        {isLoadingTechCapability && <Skeleton height={16} radius={4} />}
+                        {techCapabilityData && (
                             <div>
                                 <Text variant="caption">
-                                    {products.map((product) => product.name).join(', ') ||
-                                        'Нет приложений'}
+                                    {techCapabilityData.system.name || 'Нет приложений'}
                                 </Text>
                             </div>
                         )}
@@ -168,7 +158,7 @@ export const CapabilitiesSearchCardOverlay: FC<ICapabilitySearchCardOverlay> = (
     return (
         <S.CapabilityCard dragged>
             <Avatar
-                iconName={Icons.Capability}
+                icon={<Icon iconName={Icons.Capability} />}
                 color={
                     capability.type === CapabilitySearchResultTypeVariant.BUSINESS_CAPABILITY
                         ? 'orange'
