@@ -1,12 +1,8 @@
 {
     "name": "beeline",
     "version": "2.0.0",
-    "repository": {
-        "type": "git",
-        "url": "git+https://git.vimpelcom.ru/products/lkb2b/widget/wiget"
-    },
-    "author": "Kirill Ovdin",
-    "private": true,
+    "author": "Sergey Bolshakov, Alexey Chernetskiy, Kirill Ovdin",
+    "private": false,
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack serve --config config/webpack/webpack.dev.js --hot",
         "build": "cross-env NODE_ENV=production webpack --config config/webpack/webpack.prod.js",
