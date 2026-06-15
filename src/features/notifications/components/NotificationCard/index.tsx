@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Avatar, Skeleton } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { Avatar, Icon, Skeleton } from 'components/ui';
 
 import { NotificationChangeType } from 'api/notifications/types';
 import { useUpdateNotificationsMutation } from 'api/queries/notifications';
@@ -28,7 +28,11 @@ export const NotificationCard: FC<INotificationCard> = ({ notification, entityAl
                 <S.AvatarContainer>
                     {!notification.webNotify && <S.Indicator />}
                     <Avatar
-                        iconName={notificationEntityTypeToIconMap[notification.entityType]}
+                        icon={
+                            <Icon
+                                iconName={notificationEntityTypeToIconMap[notification.entityType]}
+                            />
+                        }
                         color={notificationEntityTypeToColorMap[notification.entityType]}
                     />
                 </S.AvatarContainer>

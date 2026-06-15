@@ -1,16 +1,16 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Banner, InlineAlert } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 
 import { TextArea } from 'components/form';
 import { Link } from 'components/other';
+import { Banner, InlineAlert } from 'components/ui';
 
 import { IValidateRulesResponse } from 'api/patterns/types';
 import { useValidateRulesMutation } from 'api/queries/patterns';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { StepVariants } from '../../const';
 import { FormFooter } from '../FormFooter';

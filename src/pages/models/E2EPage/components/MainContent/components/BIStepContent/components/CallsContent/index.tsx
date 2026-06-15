@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Skeleton } from 'components/ui';
 
 import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
 

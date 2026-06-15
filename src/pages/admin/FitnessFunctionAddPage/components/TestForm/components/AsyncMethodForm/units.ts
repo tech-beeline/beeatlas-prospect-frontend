@@ -1,7 +1,7 @@
-import { ProgressButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
 import { Text } from 'components/core';
+import { ProgressButton } from 'components/ui';
 
 export const Container = styled.div`
     display: flex;

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Icon } from '@beeline/design-system-react';
+
+import { Icon } from 'components/ui';
 
 import { ICON_BADGE_SEMANTIC_COLORS } from './const';
 import { IIconBadge } from './types';

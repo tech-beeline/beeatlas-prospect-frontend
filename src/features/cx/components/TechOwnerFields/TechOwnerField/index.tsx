@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Autocomplete as DesignSystemAutocomplete } from '@beeline/design-system-react';
 import get from 'lodash/get';
 
 import { Text } from 'components/core';
+import { Autocomplete } from 'components/ui';
 
 import { useGetEmployee } from 'api/queries/profile';
 import { useDebounce } from 'hooks';
@@ -59,7 +59,7 @@ export const TechOwnerField = ({ index, excludeEmployeeNumbers = [] }: TechOwner
             control={control}
             defaultValue={defaultOwner}
             render={({ field }) => (
-                <DesignSystemAutocomplete
+                <Autocomplete
                     fullWidth
                     label="ФИО"
                     error={Boolean(fieldError)}

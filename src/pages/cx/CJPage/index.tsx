@@ -1,19 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import {
-    Badge,
-    Button,
-    Icon,
-    IconButton,
-    ProgressButton,
-    Skeleton,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { dataToFormValues, formValuesToData } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
 import { DropdownMenu, TooltipContainer } from 'components/interaction';
 import { NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Badge, Button, Icon, ProgressButton, Skeleton } from 'components/ui';
 
 import { IBIData } from 'api/bi/types';
 import { useUpdateBIMutation } from 'api/queries/bi';
@@ -25,6 +18,7 @@ import {
 } from 'api/queries/cj';
 import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

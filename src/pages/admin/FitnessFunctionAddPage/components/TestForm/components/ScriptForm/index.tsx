@@ -1,18 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Autocomplete,
-    Banner,
-    Button,
-    Checkbox,
-    InlineAlert,
-    TextArea,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { AxiosError } from 'axios';
 import { FitnessFunctionRunResultsTable, FitnessFunctionStatus } from 'features/fitness-functions';
 
 import { Text } from 'components/core';
+import { Autocomplete } from 'components/ui';
+import { Banner, Button, Checkbox, InlineAlert, TextArea } from 'components/ui';
 
 import {
     usePostFitnessFunctionStatusMutation,
@@ -22,6 +15,7 @@ import {
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { StepVariants } from 'pages/admin/FitnessFunctionAddPage/const';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IProductOption, IScriptForm } from './types';

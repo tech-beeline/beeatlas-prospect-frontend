@@ -1,16 +1,16 @@
 import React, { FC, useState } from 'react';
-import { Avatar, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { CustomModal } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
 import { Text } from 'components/core';
-import { TooltipContainer as HoverTooltip } from 'components/interaction';
+import { ClampedText, TooltipContainer as HoverTooltip } from 'components/interaction';
 import { Link } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Avatar, Icon } from 'components/ui';
 
-import { TooltipContainer as TextTooltip } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableNumber, formatNullableString } from 'utils/formatters';
 
 import { BIEditScenario } from '../../../BIEditScenario';
@@ -59,11 +59,17 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                         />
                         <Avatar
                             variant="circle"
-                            iconName={stepAvatar.iconName}
+                            icon={<Icon iconName={stepAvatar.iconName} />}
                             color={stepAvatar.color}
                         />
                         <S.FlexWrapper gap="4">
-                            <TextTooltip text={biSteps.name} tooltipId={`title-${biSteps.id}`} />
+                            <ClampedText
+                                text={biSteps.name}
+                                tooltipId={`title-${biSteps.id}`}
+                                noArrow
+                                place="top"
+                                offset={8}
+                            />
                             <Text variant="caption">
                                 {formatNullableString(biSteps.uniqueIdent)}
                             </Text>
@@ -115,14 +121,20 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                     <S.CallsTitleWrapper expanded={expandedCallIndices.has(index)}>
                                         <Text variant="subtitle3">
                                             {relation.tcName ? (
-                                                <TextTooltip
+                                                <ClampedText
                                                     text={relation.tcName}
                                                     tooltipId={`relation-${relation.tcName}-${relation.id}`}
+                                                    noArrow
+                                                    place="top"
+                                                    offset={8}
                                                 />
                                             ) : relation.productName ? (
-                                                <TextTooltip
+                                                <ClampedText
                                                     text={relation.productName}
                                                     tooltipId={`relation-${relation.productName}-${relation.id}`}
+                                                    noArrow
+                                                    place="top"
+                                                    offset={8}
                                                 />
                                             ) : (
                                                 `Вызов ${index + 1}`

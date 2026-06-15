@@ -1,5 +1,7 @@
-import { Table, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TableHeaderData } from 'components/ui';
+import { Table } from 'components/ui';
 
 export const PageWrapper = styled.div`
     position: relative;
@@ -40,7 +42,7 @@ export const TableStyled = styled(Table)`
 `;
 
 export const TableHeaderDataStyled = styled(TableHeaderData)`
-    width: 33.33%;
+    white-space: nowrap;
 `;
 
 export const NotFoundContainer = styled.div`

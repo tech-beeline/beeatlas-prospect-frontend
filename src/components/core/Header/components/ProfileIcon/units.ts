@@ -1,5 +1,6 @@
-import { Divider } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Divider } from 'components/ui';
 
 export const Wrapper = styled.div`
     position: relative;

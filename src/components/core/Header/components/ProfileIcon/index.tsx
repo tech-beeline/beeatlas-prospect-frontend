@@ -1,11 +1,12 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-import { userManager } from 'features/auth/hooks';
+import { getAuthProvider } from 'features/auth';
+
+import { Icon } from 'components/ui';
 
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IProfileIcon } from './types';
 import * as S from './units';
@@ -48,9 +49,9 @@ export const ProfileIcon: FC<IProfileIcon> = ({ initials, isAdminPanel, isAdmin 
                             <Icon iconName={Icons.OpenInWindow} size="large" />
                         </S.DropdownItem>
                     )}
-                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                    {getAuthProvider().supportsSignout && (
                         <S.DropdownItem
-                            onClick={() => userManager.signoutRedirect()}
+                            onClick={() => getAuthProvider().signout?.()}
                             className="DropdownItem"
                         >
                             Выйти

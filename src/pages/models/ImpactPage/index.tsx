@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Button, Icon, IconButton, Tab, Tabs } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { BreadCrumbsItem } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Breadcrumbs, Button, Icon, Tab, Tabs } from 'components/ui';
 
 import { useModal } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import {

@@ -1,5 +1,6 @@
-import { TextField } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TextField } from 'components/ui';
 
 export const TextFieldStyled = styled(TextField)`
     input[type='number'] {

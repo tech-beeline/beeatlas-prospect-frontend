@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
-import { IconButton, TableData, TableRow } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { IconButton } from 'components/ui';
+import { TableData, TableRow } from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { ISituationsRow } from './types';
 import * as S from './units';

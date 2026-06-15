@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Skeleton } from 'components/ui';
 
 import { ItemTypes } from '../../types';
 

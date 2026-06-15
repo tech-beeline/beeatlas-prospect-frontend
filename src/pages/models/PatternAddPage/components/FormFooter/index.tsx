@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Button } from '@beeline/design-system-react';
+
+import { Button } from 'components/ui';
 
 import { IFormFooter } from './types';
 import * as S from './units';

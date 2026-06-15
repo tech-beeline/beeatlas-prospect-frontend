@@ -1,5 +1,6 @@
-import { InlineEdit } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { InlineEdit } from 'components/ui';
 
 export const GroupCard = styled.div<{ isOver: boolean; selected: boolean; hasSubgroups: boolean }>`
     display: flex;

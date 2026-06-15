@@ -15,11 +15,11 @@ import { NavigationRouter } from 'router';
 import { GlobalStyles } from 'styles';
 import { Snackbar } from 'widgets/Snackbar';
 
-import '@beeline/design-tokens/css/tokens/globals/index.css';
-import '@beeline/design-tokens/css/tokens/themes/light.css';
-import '@beeline/design-tokens/css/tokens/themes/dark.css';
-import '@beeline/design-tokens/css/iconfont/iconfont.css';
-import '@beeline/design-tokens/css/font-face.css';
+import 'styles/design-tokens/css/tokens/globals/index.css';
+import 'styles/design-tokens/css/tokens/themes/light.css';
+import 'styles/design-tokens/css/tokens/themes/dark.css';
+import 'styles/design-tokens/css/iconfont/iconfont.css';
+import 'styles/design-tokens/css/font-face.css';
 
 dayjs.extend(utc);
 

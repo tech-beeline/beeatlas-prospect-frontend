@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IconButton, Select, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import drilldownModule from 'bpmn-js/lib/features/drilldown';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import dayjs from 'dayjs';
@@ -9,6 +7,10 @@ import searchModule from 'diagram-js/lib/features/search';
 import { getFileName } from 'features/cx/utils';
 
 import { Text } from 'components/core';
+import { ClampedText } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Select } from 'components/ui';
+import { Skeleton } from 'components/ui';
 
 import {
     useGetBPMNFileDataQuery,
@@ -16,10 +18,10 @@ import {
     useGetCJFileVersionByIdQuery,
 } from 'api/queries/cj';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { downloadBpmnFile } from '../CJPage/utils/formatters';
 
-import { TooltipContainer } from './components/TooltipContainer';
 import * as S from './units';
 
 export const BPMNViewPage = () => {
@@ -116,9 +118,12 @@ export const BPMNViewPage = () => {
                     {cj && (
                         <div>
                             <S.Name>
-                                <TooltipContainer
+                                <ClampedText
                                     text={cj.name}
                                     tooltipId={`bpmn-filename-${cj.name}`}
+                                    noArrow
+                                    place="top"
+                                    offset={8}
                                 />
                             </S.Name>
                             <S.Desription>
@@ -144,9 +149,12 @@ export const BPMNViewPage = () => {
                             makeOption={(option) => (
                                 <S.FileMetadataContainer>
                                     <S.FileNameWrapper>
-                                        <TooltipContainer
+                                        <ClampedText
                                             text={option.value}
                                             tooltipId={`bpmn-filename-${option.id}`}
+                                            noArrow
+                                            place="top"
+                                            offset={8}
                                         />
                                         <Text inactive variant="caption">
                                             {dayjs(option.created)

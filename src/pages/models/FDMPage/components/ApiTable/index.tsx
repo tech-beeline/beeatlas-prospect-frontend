@@ -1,14 +1,8 @@
 import React, { FC } from 'react';
-import {
-    Skeleton,
-    Table,
-    TableBody,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
+import { TableHeaderData } from 'components/ui';
+import { Skeleton, Table, TableBody, TableHead, TableRow } from 'components/ui';
 
 import { useGetOperationsByTechCapabilityQuery } from 'api/queries/product';
 

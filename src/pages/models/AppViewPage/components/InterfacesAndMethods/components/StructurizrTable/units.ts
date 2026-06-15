@@ -1,5 +1,7 @@
-import { TableData, TableHeaderData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { TableHeaderData } from 'components/ui';
+import { TableData } from 'components/ui';
 
 export const ActionsContainer = styled.div`
     display: flex;

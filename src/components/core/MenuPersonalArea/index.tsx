@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import * as S from './units';
 
@@ -36,6 +36,8 @@ export const MenuPersonalArea = () => {
                     ? `${R.ADMIN_PATH}${R.CRITERIAS_PATH}`
                     : location.pathname.includes(R.FITNESS_FUNCTIONS_PATH)
                     ? `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}`
+                    : location.pathname.includes(R.CYPHER_REQUEST_PATH)
+                    ? `${R.ADMIN_PATH}${R.CYPHER_REQUEST_PATH}`
                     : `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`
             }
             groups={[
@@ -81,6 +83,11 @@ export const MenuPersonalArea = () => {
                             icon: Icons.Capability,
                             name: 'Управление\nвозможностями',
                             path: `${R.ADMIN_PATH}${R.CAPABILITIES_PATH}`,
+                        },
+                        {
+                            icon: Icons.Map,
+                            name: 'Cypher\nзапросы',
+                            path: `${R.ADMIN_PATH}${R.CYPHER_REQUEST_PATH}`,
                         },
                     ],
                 },

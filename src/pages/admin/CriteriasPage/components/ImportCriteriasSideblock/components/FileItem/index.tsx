@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
-import { FileUploaderListItem } from '@beeline/design-system-react';
-import { FileUploaderListItemAction } from '@beeline/design-system-react/types/components/FileUploader/FileUploaderList/FileUploaderListItem/FileUploaderListItem.types';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
+
+import { type FileUploaderListItemAction, FileUploaderListItem } from 'components/ui';
 
 import { FileUploadPath } from 'api/file-import/types';
 import { useUploadImportFileMutation } from 'api/queries/file-import';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { IFileItem } from './types';
 

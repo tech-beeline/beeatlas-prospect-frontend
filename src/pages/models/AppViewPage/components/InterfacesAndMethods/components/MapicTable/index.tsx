@@ -1,9 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+
+import { AutocompleteControlled } from 'components/interaction';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Select } from 'components/ui';
 import {
     Button,
     ButtonGroup,
-    Select,
     Skeleton,
     Table,
     TableBody,
@@ -11,11 +15,7 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import dayjs from 'dayjs';
-
-import { AutocompleteControlled } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { IMapicInterfaceOperationData } from 'api/product/types';
 import {

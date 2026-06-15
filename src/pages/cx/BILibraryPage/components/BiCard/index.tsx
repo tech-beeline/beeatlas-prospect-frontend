@@ -1,13 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Badge, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
 import { Link, PivotArrow } from 'components/other';
+import { Badge, Skeleton } from 'components/ui';
 
 import { getBIEditabilityById } from 'api/bi';
 import { IBIData } from 'api/bi/types';
@@ -16,6 +15,7 @@ import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 

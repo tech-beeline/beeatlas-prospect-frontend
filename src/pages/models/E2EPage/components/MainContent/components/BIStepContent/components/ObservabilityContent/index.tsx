@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { Button, Icon, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { Button, Icon, Skeleton } from 'components/ui';
 
 import { useGetSequenceAlertByIdQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { CreateAlertSidebar } from './components';
 import { IObservabilityContent } from './types';

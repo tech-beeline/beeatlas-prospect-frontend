@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { Search } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Search } from 'components/ui';
 
 import { useModal } from 'hooks';
 

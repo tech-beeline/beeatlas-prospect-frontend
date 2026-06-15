@@ -1,6 +1,7 @@
-import { Icon } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { Icon } from 'components/ui';
 
 export const Row = styled.tr<{ isHidden?: boolean }>`
     width: 100%;

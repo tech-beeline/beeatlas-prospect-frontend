@@ -1,15 +1,4 @@
 import React, { FC, useState } from 'react';
-import {
-    Badge,
-    IconButton,
-    Label,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import {
     FitnessFunctionStatus,
@@ -18,7 +7,18 @@ import {
 } from 'features/fitness-functions';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import {
+    Badge,
+    Label,
+    TableBody,
+    TableData,
+    TableHead,
+    TableHeaderData,
+    TableRow,
+} from 'components/ui';
 
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { FitnessFunctionsTab } from '../../const';

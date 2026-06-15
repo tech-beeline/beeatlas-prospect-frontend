@@ -1,5 +1,6 @@
-import { Rating } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Rating } from 'components/ui';
 
 export const Container = styled.div`
     display: flex;

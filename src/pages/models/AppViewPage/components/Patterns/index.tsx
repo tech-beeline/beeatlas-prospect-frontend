@@ -1,4 +1,6 @@
 import React, { FC, useState } from 'react';
+
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Autocomplete,
     Button,
@@ -8,12 +10,10 @@ import {
     TableBody,
     TableHead,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { useGetProductPatternsQuery } from 'api/queries/product';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { PatternsRow } from './components';
 import { PatternType, PatternTypeValue } from './const';

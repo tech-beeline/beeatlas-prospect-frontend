@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Button, Skeleton, Table, TableBody } from '@beeline/design-system-react';
+
+import { Button, Skeleton, Table, TableBody } from 'components/ui';
 
 import { useGetTechnologyCategoriesQuery } from 'api/queries/technologies';
 import { ICategory } from 'api/technologies/types';

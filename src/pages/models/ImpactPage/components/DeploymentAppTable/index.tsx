@@ -1,7 +1,11 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
 import {
-    IconButton,
     Skeleton,
     Table,
     TableBody,
@@ -9,15 +13,11 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-
-import { Text } from 'components/core';
-import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { useGetDeploymentInfluenceQuery } from 'api/queries/graph';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

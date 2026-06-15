@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+
+import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
 import {
     Avatar,
-    IconButton,
+    Icon,
     Label,
     Progress,
     Skeleton,
@@ -11,15 +17,10 @@ import {
     TableHead,
     TableHeaderData,
     TableRow,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
-import dayjs from 'dayjs';
-
-import { Text } from 'components/core';
-import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { useDownloadFileMutation, useGetExportFilesQuery } from 'api/queries/file-export';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
 import { ExportButton } from './components';
@@ -69,7 +70,10 @@ export const ExportPage = () => {
                                             {!file.key && (
                                                 <Progress size="mini" shape="circle" cycled />
                                             )}
-                                            <Avatar iconName={Icons.Page} color="green" />
+                                            <Avatar
+                                                icon={<Icon iconName={Icons.Page} />}
+                                                color="green"
+                                            />
 
                                             <Text inactive={!file.key} variant="body3">
                                                 {file.key

@@ -1,5 +1,6 @@
-import { IconButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { IconButton } from 'components/ui';
 
 export const IconButtonStyled = styled(IconButton)<{ expanded: boolean }>`
     transform: ${({ expanded }) => `rotate(${expanded ? -180 : 0}deg)`};

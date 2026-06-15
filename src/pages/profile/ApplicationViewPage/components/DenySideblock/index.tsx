@@ -1,12 +1,13 @@
 import React, { FC, useState } from 'react';
-import { Button, IconButton, TextArea } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, TextArea } from 'components/ui';
 
 import { ApplicationStatus } from 'api/applications/types';
 import { usePatchBCApplicationStatusMutation } from 'api/queries/applications';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IDenySideblock } from './types';

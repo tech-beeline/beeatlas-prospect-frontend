@@ -1,5 +1,6 @@
-import { Icon } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Icon } from 'components/ui';
 
 export const PageWrapper = styled.div`
     display: flex;

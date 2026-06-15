@@ -1,10 +1,11 @@
 import React, { FC, useRef, useState } from 'react';
-import { IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { useSideSheetStore } from 'features/cx/store';
 import { Nullable } from 'types/common';
 
+import { IconButton } from 'components/ui';
+
 import { useBIEditabilityMap } from 'api/queries/bi';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { formatNullableString } from '../../../../../utils/formatters';
 import { SideSheetVariants } from '../../const';

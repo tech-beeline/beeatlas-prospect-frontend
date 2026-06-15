@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Select as DesignSystemSelect } from '@beeline/design-system-react';
 import get from 'lodash/get';
+
+import { Select as DesignSystemSelect } from 'components/ui';
 
 import { ISelect } from './types';
 

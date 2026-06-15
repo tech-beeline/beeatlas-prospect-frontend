@@ -12,8 +12,14 @@ export const TitleWrapper = styled.div<{ withImage: boolean }>`
     display: flex;
     align-items: center;
 
-    & > span {
+    margin-bottom: 16px;
+
+    & > .dsb_icon {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
         font-size: 32px;
+        line-height: 32px;
 
         padding-bottom: ${({ withImage }) => (withImage ? '8px' : '16px')};
 
@@ -22,7 +28,7 @@ export const TitleWrapper = styled.div<{ withImage: boolean }>`
         transition: all 0.25s ease-out;
     }
 
-    &:hover > span {
+    &:hover > .dsb_icon {
         transform: translateX(18px);
 
         opacity: 1;
@@ -48,8 +54,6 @@ export const Title = styled.h4<{ withImage: boolean }>`
                   font-size: var(--font-size-h4);
                   line-height: var(--font-line-height-h4);
               `}
-
-    margin-bottom: 16px;
 
     transition: all 0.25s ease-out;
 `;

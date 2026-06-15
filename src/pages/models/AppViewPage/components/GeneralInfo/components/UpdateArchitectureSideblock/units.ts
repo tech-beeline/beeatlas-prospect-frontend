@@ -1,5 +1,7 @@
-import { Banner, ProgressButton } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { ProgressButton } from 'components/ui';
+import { Banner } from 'components/ui';
 
 export const SideblockContainer = styled.div`
     display: flex;

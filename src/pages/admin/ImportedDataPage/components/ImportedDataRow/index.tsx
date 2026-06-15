@@ -1,5 +1,4 @@
 import React, { FC, useRef } from 'react';
-import { Label, TableData, TableRow } from '@beeline/design-system-react';
 import dayjs from 'dayjs';
 import {
     packageOperationToOperationNameMap,
@@ -9,6 +8,7 @@ import {
 
 import { TooltipContainer } from 'components/interaction';
 import { Link } from 'components/other';
+import { Label, TableData, TableRow } from 'components/ui';
 
 import { useShowTooltip } from 'hooks';
 import * as R from 'router/const';

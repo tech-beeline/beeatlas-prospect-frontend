@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Banner } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { Banner } from 'components/ui';
 
 import { IBusinessCapabilityVersion, ITechCapabilityVersion } from 'api/history/types';
 import {
@@ -13,6 +12,7 @@ import {
     useGetTechCapabilityVersionsComparsionQuery,
 } from 'api/queries/history';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { TabVariant } from '../../const';
 

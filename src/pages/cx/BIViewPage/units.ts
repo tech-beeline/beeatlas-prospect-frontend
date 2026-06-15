@@ -1,5 +1,6 @@
-import { Banner } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Banner } from 'components/ui';
 
 export const PageWrapper = styled.div`
     height: 100vh;

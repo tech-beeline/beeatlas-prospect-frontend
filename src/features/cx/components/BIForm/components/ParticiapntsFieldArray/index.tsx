@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
+
+import { IconButton } from 'components/ui';
 
 import { useGetBIParticipantsQuery } from 'api/queries/bi-library';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { FormValues } from '../../form';
 import * as S from '../units';

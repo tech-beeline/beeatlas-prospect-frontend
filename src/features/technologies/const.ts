@@ -1,4 +1,4 @@
-import { AllStatuses } from '@beeline/design-system-react/types/types/status';
+import type { AllStatuses } from 'components/ui';
 
 export const ringIdToLabelStatusMap: Record<number, AllStatuses> = {
     1: 'success',

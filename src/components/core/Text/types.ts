@@ -1,5 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
-import { TypographyVariant } from '@beeline/design-system-react';
+
+import type { TypographyVariant } from 'components/ui/Typography/types';
 
 export interface IText extends Omit<ComponentProps<'div'>, 'ref'> {
     variant: TypographyVariant;

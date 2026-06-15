@@ -1,11 +1,7 @@
 import React, { FC } from 'react';
-import {
-    Table,
-    TableBody,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from '@beeline/design-system-react';
+
+import { TableHeaderData } from 'components/ui';
+import { Table, TableBody, TableHead, TableRow } from 'components/ui';
 
 import { IPatternsTable } from './components/types';
 import { PatternRow } from './components';

@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
 
-import { GATEWAY_CAMUNDA_URL, GATEWAY_URL, STRUCTURIZR_URL } from 'api/const';
+import { GATEWAY_CAMUNDA_URL, GATEWAY_STRUCTURIZR_URL, GATEWAY_URL } from 'api/const';
 import Api from 'utils/api/axiosWrapper';
 
 import * as T from './types';
@@ -32,7 +32,7 @@ export const uploadWorkspaceDSLFile = (data: {
     workspace: string;
 }): AxiosPromise<{ doc_id: number }> => {
     return Api.post({
-        url: `${STRUCTURIZR_URL}api/v1/workspace/conversion2doc`,
+        url: `${GATEWAY_STRUCTURIZR_URL}api/v1/workspace/conversion2doc`,
         data,
     });
 };

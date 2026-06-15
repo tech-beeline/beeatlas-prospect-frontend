@@ -1,6 +1,7 @@
-import { Icon, IconButton, TableData, TableRow } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
 
+import { IconButton } from 'components/ui';
+import { Icon, TableData, TableRow } from 'components/ui';
 export const TableRowStyled = styled(TableRow)<{ expanded: boolean }>`
     background-color: ${({ expanded }) =>
         expanded ? 'var(--color-background-base-selected)' : 'var(--color-background-base)'};

@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, Skeleton } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Search, Skeleton } from 'components/ui';
 
 import { IStagingSequenceBiStep } from 'api/staging-sequence/types';
 import { E2ETreeItemType } from 'pages/models/E2EPage/types';

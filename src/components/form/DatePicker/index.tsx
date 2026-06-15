@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { DatePicker as DesignSystemDatePicker } from '@beeline/design-system-react';
 import get from 'lodash/get';
+
+import { DatePicker as UIDatePicker } from 'components/ui/DatePicker';
 
 import { IDatePicker } from './types';
 
@@ -28,7 +29,7 @@ export const DatePicker: FC<IDatePicker> = ({
             control={control}
             defaultValue=""
             render={({ field }) => (
-                <DesignSystemDatePicker
+                <UIDatePicker
                     id={id}
                     fullWidth={fullWidth}
                     disabled={disabled}

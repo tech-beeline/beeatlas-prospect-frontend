@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Breadcrumbs, Chip, IconButton, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     BreadCrumbsItem,
     CapabilityCard,
@@ -13,12 +11,15 @@ import {
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { IconButton } from 'components/ui';
+import { Breadcrumbs, Chip, Skeleton } from 'components/ui';
 
 import { IMapItemData } from 'api/capability/types';
 import { IMapCriteria } from 'api/maps/types';
 import { useGetChildrenCapabilitiesQuery, useGetMapDataQuery } from 'api/queries/capability';
 import { useGetMapCriteriasQuery, useGetPersonalMapByIdQuery } from 'api/queries/maps';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { PersonalCapabilityCard } from './components';

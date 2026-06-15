@@ -6,8 +6,8 @@ import { formatNullableStringParam } from 'utils/formatters';
 import {
     GATEWAY_CAPABILITY_URL,
     GATEWAY_PRODUCT_URL,
+    GATEWAY_STRUCTURIZR_URL,
     GATEWAY_URL,
-    STRUCTURIZR_URL,
 } from '../const';
 
 import * as T from './types';
@@ -102,7 +102,7 @@ export const getEntityParent = (id: string, type: string): AxiosPromise<T.IParen
 
 export const postStructurizrWorkspace = (data: T.IStructurizrWorkspaceForm) => {
     return Api.post({
-        url: `${STRUCTURIZR_URL}workspace`,
+        url: `${GATEWAY_STRUCTURIZR_URL}workspace`,
         data,
     });
 };

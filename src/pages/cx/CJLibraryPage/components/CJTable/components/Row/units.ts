@@ -41,8 +41,9 @@ export const ActionCell = styled(TableDataStyled)<{ showShadow: boolean; isActiv
     }
 `;
 
-export const LabelTh = styled(TableDataStyled)<{ showShadow: boolean }>`
+export const LabelTh = styled(TableDataStyled)<{ showShadow: boolean; isActive?: boolean }>`
     border-left: 1px solid var(--color-border);
+    z-index: ${({ isActive }) => (isActive ? 100 : 10)};
     ${({ showShadow }) => (showShadow ? 'box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);' : '')}
     &:not(:last-of-type) {
         ${({ showShadow }) => (showShadow ? 'border-bottom: none;' : '')}

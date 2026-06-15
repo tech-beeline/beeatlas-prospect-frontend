@@ -1,17 +1,18 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
 import { Autocomplete, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import {
     useCreatePatternGroupMutation,
     useGetPatternGroupsQuery,
     useUpdatePatternGroupMutation,
 } from 'api/queries/patterns';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { SideblockView } from '../../const';

@@ -1,15 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Avatar, Chip, Icon, Pagination, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Avatar, Chip, Icon, Pagination, Skeleton } from 'components/ui';
 
 import { ISearchDeployment, ISearchSystem } from 'api/graph/types';
 import { IInfraData } from 'api/product/types';
 import { useGetCompleteArchitectureInfoQuery } from 'api/queries/graph';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { getHighlightedText } from 'utils/formatters';
 
 import { OperationTypes, SearchVariants } from '../../const';
@@ -379,7 +379,7 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
                         (data?.endpoints.discoveredOperations.length ?? 0) ===
                         50 && (
                         <S.BannerContainer>
-                            <Avatar iconName={Icons.InfoCircled} color="blue" />
+                            <Avatar icon={<Icon iconName={Icons.InfoCircled} />} color="blue" />
                             <Text inactive variant="body3">
                                 Получено свыше 50 результатов. Выбраны наиболее релевантные.
                                 Уточните запрос для узкой выборки

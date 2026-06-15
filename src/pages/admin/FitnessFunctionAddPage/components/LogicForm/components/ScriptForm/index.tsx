@@ -1,20 +1,14 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import {
-    Button,
-    Chip,
-    FileUploader,
-    IconButton,
-    InlineAlert,
-    TextArea,
-} from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, Chip, FileUploader, InlineAlert, TextArea } from 'components/ui';
 
 import { usePutFitnessFunctionMutation } from 'api/queries/fitness-functions';
 import { StepVariants } from 'pages/admin/FitnessFunctionAddPage/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 

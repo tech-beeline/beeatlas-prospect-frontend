@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Avatar, IconButton } from '@beeline/design-system-react';
-import { ColorTypes } from '@beeline/design-system-react/types/types/status';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Avatar, ColorTypes } from 'components/ui';
 
 import { useShowTooltip } from 'hooks';
 import { E2ETreeItemType } from 'pages/models/E2EPage/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { itemTypeToColorMap, itemTypeToLettersMap } from './const';
 import { ITreeItem } from './types';

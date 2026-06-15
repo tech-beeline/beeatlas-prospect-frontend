@@ -1,7 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge, IconButton, TableData, TableRow } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     FitnessFunctionStatus,
     fitnessFunctionStatuses,
@@ -12,11 +10,14 @@ import {
 } from 'features/fitness-functions';
 
 import { TooltipContainer } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Badge, TableData, TableRow } from 'components/ui';
 
 import { usePostFitnessFunctionStatusMutation } from 'api/queries/fitness-functions';
 import { useModal, useShowTooltip } from 'hooks';
 import { useOutsideClick } from 'hooks/useOutsideClick';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString, formatYesNo } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 

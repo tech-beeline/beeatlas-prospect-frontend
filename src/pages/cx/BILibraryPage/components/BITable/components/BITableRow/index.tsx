@@ -1,14 +1,13 @@
 import { FC, useState } from 'react';
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Badge, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import dayjs from 'dayjs';
 import { TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
-import { DropdownMenuControlled } from 'components/interaction';
+import { ClampedText, DropdownMenuControlled } from 'components/interaction';
 import { Link } from 'components/other';
+import { Badge, Skeleton } from 'components/ui';
 
 import { getBIEditabilityById } from 'api/bi';
 import { IBIData } from 'api/bi/types';
@@ -16,8 +15,8 @@ import { useDeleteBIMutation } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { useModal } from 'hooks';
-import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { Dialog } from 'widgets/Dialog';
 
@@ -84,6 +83,13 @@ export const BITableRow: FC<IBITableRow> = ({
         }
     };
 
+    const handleBiClick = (id?: number) => {
+        navigate({
+            pathname: `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}`,
+            search: id ? createSearchParams({ id: String(id) }).toString() : '',
+        });
+    };
+
     return (
         <>
             <S.RowStyled expanded={isExpanded} key={bi.id} isActive={isActive}>
@@ -95,22 +101,26 @@ export const BITableRow: FC<IBITableRow> = ({
                             iconName={Icons.NavArrowDown}
                             onClick={() => setIsExpanded(!isExpanded)}
                         />
-                        <S.SpanLinkStyled
-                            onClick={() =>
-                                window.open(
-                                    `${R.CX_PATH}${R.BI_PATH}${R.VIEW_PATH}?${createSearchParams({
-                                        id: String(bi.id),
-                                    })}`,
-                                )
-                            }
-                        >
-                            <TooltipContainer text={bi.name} tooltipId={`bi-name-${bi.id}`} />
+                        <S.SpanLinkStyled onClick={() => handleBiClick(bi.id)}>
+                            <ClampedText
+                                text={bi.name}
+                                tooltipId={`bi-name-${bi.id}`}
+                                noArrow
+                                place="top"
+                                offset={8}
+                            />
                         </S.SpanLinkStyled>
                     </S.AlignItemsCenterWrapper>
                 </S.LabelTh>
                 <S.TdId>{bi.uniqueIdent}</S.TdId>
                 <S.TableDataStyled>
-                    <TooltipContainer text={bi.descr} tooltipId={`bi-descr-${bi.id}`} />
+                    <ClampedText
+                        text={bi.descr}
+                        tooltipId={`bi-descr-${bi.id}`}
+                        noArrow
+                        place="top"
+                        offset={8}
+                    />
                 </S.TableDataStyled>
                 <S.TableDataStyled>
                     {isLoadingProducts || !productsData ? (
@@ -125,9 +135,12 @@ export const BITableRow: FC<IBITableRow> = ({
                                 )
                             }
                         >
-                            <TooltipContainer
+                            <ClampedText
                                 text={formatNullableString(currentProduct.name)}
                                 tooltipId={`bi-product-${bi.id}`}
+                                noArrow
+                                place="top"
+                                offset={8}
                             />
                         </S.SpanLinkStyled>
                     ) : (
@@ -135,9 +148,12 @@ export const BITableRow: FC<IBITableRow> = ({
                     )}
                 </S.TableDataStyled>
                 <S.TableDataStyled>
-                    <TooltipContainer
+                    <ClampedText
                         text={formatNullableString(bi.channel?.map((c) => c.name).join(', '))}
                         tooltipId={`bi-channel-${bi.id}`}
+                        noArrow
+                        place="top"
+                        offset={8}
                     />
                 </S.TableDataStyled>
                 {/* <S.TableDataStyled>{'—'}</S.TableDataStyled> */}

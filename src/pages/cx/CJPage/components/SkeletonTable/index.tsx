@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Skeleton } from '@beeline/design-system-react';
+
+import { Skeleton } from 'components/ui';
 
 import { SkeletonTableProps } from './types';
 import * as S from './units';

@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Button, Search, Select, Switch } from '@beeline/design-system-react';
 import {
     fitnessFunctionStatusToNameMap,
     fitnessFunctionTypeToNameMap,
@@ -7,6 +6,8 @@ import {
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
+import { Select } from 'components/ui';
+import { Button, Search, Switch } from 'components/ui';
 
 import { IFitnessFunctionData } from 'api/fitness-functions/types';
 

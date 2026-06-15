@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Button,
     Search,
@@ -9,10 +12,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-} from '@beeline/design-system-react';
-
-import { Text } from 'components/core';
-import { ImageVariants, NotFoundBlock } from 'components/other';
+} from 'components/ui';
 
 import { IFullProductData } from 'api/product/types';
 import { useDeleteProductByIdMutation, useGetAllProductsQuery } from 'api/queries/product';

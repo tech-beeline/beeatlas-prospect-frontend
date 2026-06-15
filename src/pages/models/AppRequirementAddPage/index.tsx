@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import {
     useGetAllChaptersQuery,
@@ -13,6 +13,7 @@ import {
     usePostNfrsToProductMutation,
 } from 'api/queries/product';
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { RequirementGroupFields } from './components';

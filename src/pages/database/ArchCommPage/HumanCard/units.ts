@@ -1,5 +1,7 @@
-import { Icon, Typography } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Icon } from 'components/ui';
+import { Typography } from 'components/ui/Typography';
 
 export const Wrapper = styled.div`
     display: flex;

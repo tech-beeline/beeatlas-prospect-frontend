@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { Button } from '@beeline/design-system-react';
 
 import { Text } from 'components/core';
+import { Button } from 'components/ui';
 
 import * as R from 'router/const';
 

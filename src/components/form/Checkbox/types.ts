@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 export interface ICheckbox {
     name: string;
-    label: string;
+    label: string | ReactNode;
     disabled?: boolean;
 }

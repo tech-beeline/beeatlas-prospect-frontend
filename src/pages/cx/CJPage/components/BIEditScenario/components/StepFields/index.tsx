@@ -1,17 +1,18 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, IconButton, Skeleton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 
 import { Text } from 'components/core';
 import { Autocomplete, TextArea } from 'components/form';
+import { ClampedText } from 'components/interaction';
+import { IconButton } from 'components/ui';
+import { Button, Skeleton } from 'components/ui';
 
 import {
     useGetAllProductsQuery,
     useGetProductStructurizrInterfacesByCmdbQuery,
     useGetSystemTCByIdQuery,
 } from 'api/queries/product';
-import { TooltipContainer } from 'pages/cx/BPMNViewPage/components/TooltipContainer';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { FormValues } from '../../form';
 
@@ -109,7 +110,13 @@ export const StepFields: FC<IStepFields> = ({
         <S.LinkContainer>
             <S.FlexWrapper>
                 <Text variant="subtitle1">
-                    <TooltipContainer text={stepName} tooltipId={`title-${index}`} />
+                    <ClampedText
+                        text={stepName}
+                        tooltipId={`title-${index}`}
+                        noArrow
+                        place="top"
+                        offset={8}
+                    />
                     {/* {selectedTc ? (
                         <TooltipContainer
                             text={selectedTc.name}
@@ -149,9 +156,12 @@ export const StepFields: FC<IStepFields> = ({
                                 onInputChange={(v) => setSearchTextProduct(v)}
                                 makeOption={(option) => {
                                     return (
-                                        <TooltipContainer
+                                        <ClampedText
                                             text={option.value}
                                             tooltipId={`product-name-${index}-${option.id}`}
+                                            noArrow
+                                            place="top"
+                                            offset={8}
                                         />
                                     );
                                 }}
@@ -171,9 +181,12 @@ export const StepFields: FC<IStepFields> = ({
                                 makeOption={(option) => {
                                     return (
                                         <div>
-                                            <TooltipContainer
+                                            <ClampedText
                                                 text={option.value}
                                                 tooltipId={`tc-name-${index}-${option.id}`}
+                                                noArrow
+                                                place="top"
+                                                offset={8}
                                             />
                                             <Text variant="body3" inactive>
                                                 {option.code}
@@ -196,9 +209,12 @@ export const StepFields: FC<IStepFields> = ({
                                 onInputChange={(v) => setSearchTextIface(v)}
                                 makeOption={(option) => {
                                     return (
-                                        <TooltipContainer
+                                        <ClampedText
                                             text={option.value}
                                             tooltipId={`iface-name-${index}-${option.id}`}
+                                            noArrow
+                                            place="top"
+                                            offset={8}
                                         />
                                     );
                                 }}
@@ -217,9 +233,12 @@ export const StepFields: FC<IStepFields> = ({
                                 onInputChange={(v) => setSearchTextOperation(v)}
                                 makeOption={(option) => {
                                     return (
-                                        <TooltipContainer
+                                        <ClampedText
                                             text={option.value}
                                             tooltipId={`op-name-${index}-${option.id}`}
+                                            noArrow
+                                            place="top"
+                                            offset={8}
                                         />
                                     );
                                 }}

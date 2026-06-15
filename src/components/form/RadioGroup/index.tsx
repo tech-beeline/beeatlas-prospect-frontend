@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Radio as DesignSystemRadio } from '@beeline/design-system-react';
+
+import { Radio } from 'components/ui';
 
 import { IRadioGroup } from './types';
 
@@ -15,7 +16,7 @@ export const RadioGroup: FC<IRadioGroup> = ({ name, options, disabled }) => {
             render={({ field }) => (
                 <>
                     {options.map((option) => (
-                        <DesignSystemRadio
+                        <Radio
                             key={option.id}
                             label={option.label}
                             disabled={disabled}

@@ -1,5 +1,7 @@
-import { IconButton, TableData } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { IconButton } from 'components/ui';
+import { TableData } from 'components/ui';
 
 export const FlexContainer = styled.div`
     display: flex;

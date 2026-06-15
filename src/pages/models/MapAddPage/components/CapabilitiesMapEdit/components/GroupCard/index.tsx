@@ -1,6 +1,4 @@
 import React, { CSSProperties, FC } from 'react';
-import { IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import {
     horizontalListSortingStrategy,
     SortableContext,
@@ -10,6 +8,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
 
 import { useModal } from 'hooks';
 import {
@@ -19,6 +18,7 @@ import {
     IPersonalMapSubgroup,
     PersonalMapElementType,
 } from 'pages/models/MapAddPage/types';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IGroupCard, IGroupCardOverlay } from './types';
 import * as S from './units';

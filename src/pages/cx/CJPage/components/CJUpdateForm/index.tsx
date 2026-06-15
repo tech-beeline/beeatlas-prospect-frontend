@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'features/cx';
@@ -9,10 +7,13 @@ import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'featur
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { Autocomplete, TextField } from 'components/form';
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
 
 import { useUpdateCJMutation } from 'api/queries/cj';
 import { usePostUsersInfoMutation } from 'api/queries/profile';
 import { useGetProductsQuery } from 'hooks';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { FormValues, validationSchema } from './form';

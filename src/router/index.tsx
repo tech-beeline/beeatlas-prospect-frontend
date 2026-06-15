@@ -16,7 +16,6 @@ import {
     AdminAppsPage,
     AnalyticalPage,
     AppAddPage,
-    AppInfoPage,
     ApplicationEditPage,
     ApplicationsPage,
     ApplicationsReviewPage,
@@ -42,6 +41,7 @@ import {
     CreateNFRsPage,
     CriteriasPage,
     CXPage,
+    CypherPage,
     DataBasePage,
     E2EDashboardPage,
     E2EPage,
@@ -133,12 +133,6 @@ export const NavigationRouter = () => {
         });
     }, [location]);
 
-    const isProd =
-        window.location.hostname === 'eafdmmart-prod.apps.yd-k03.vimpelcom.ru' ||
-        window.location.hostname === 'beeatlas.vimpelcom.ru' ||
-        window.location.hostname === 'techradar.vimpelcom.ru' ||
-        window.location.hostname === 'tr.vimpelcom.ru';
-
     return (
         <>
             {!PATHS_WITHOUT_HEADER.some((path) => location.pathname?.includes(path)) && (
@@ -160,8 +154,6 @@ export const NavigationRouter = () => {
                     }
                 />
 
-                <Route path={R.APP_INFO_PAGE_PATH} element={<AppInfoPage />} />
-
                 {withAdminRole({
                     path: `${R.ADMIN_PATH}${R.USERS_PATH}`,
                     element: (
@@ -169,6 +161,20 @@ export const NavigationRouter = () => {
                             <MenuPersonalArea />
                             <S.ContentWrapper>
                                 <UsersPage />
+                            </S.ContentWrapper>
+                        </S.RouteWithDrawer>
+                    ),
+                    isAdmin,
+                    isLoading,
+                })}
+
+                {withAdminRole({
+                    path: `${R.ADMIN_PATH}${R.CYPHER_REQUEST_PATH}`,
+                    element: (
+                        <S.RouteWithDrawer>
+                            <MenuPersonalArea />
+                            <S.ContentWrapper>
+                                <CypherPage />
                             </S.ContentWrapper>
                         </S.RouteWithDrawer>
                     ),
@@ -499,7 +505,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <AppsDashboardPage isProd={isProd} />
+                                    <AppsDashboardPage isProd={window.FEATURE_FLAGS.FLAG_IS_PROD} />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -553,7 +559,7 @@ export const NavigationRouter = () => {
                             <S.RouteWithDrawer>
                                 <MenuModels />
                                 <S.ContentWrapper>
-                                    <E2EDashboardPage isProd={isProd} />
+                                    <E2EDashboardPage isProd={window.FEATURE_FLAGS.FLAG_IS_PROD} />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }

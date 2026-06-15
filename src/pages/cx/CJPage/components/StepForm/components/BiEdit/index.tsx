@@ -1,11 +1,13 @@
 import React, { FC, useRef } from 'react';
-import { Button, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { BIForm, dataToFormValues, formValuesToData } from 'features/cx';
 import { FormValues } from 'features/cx/components/BIForm/form';
 import { BIFormRef } from 'features/cx/components/BIForm/types';
 
+import { IconButton } from 'components/ui';
+import { Button } from 'components/ui';
+
 import { useGetBIByIdQuery, useUpdateBIMutation } from 'api/queries/bi';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { Stage } from '../../types';

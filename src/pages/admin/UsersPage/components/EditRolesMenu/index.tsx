@@ -1,11 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Checkbox } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont';
 import { isEqual } from 'lodash';
+
+import { Checkbox } from 'components/ui';
 
 import { useGetAllRolesQuery } from 'api/queries';
 import { useUpdateProfileRolesMutation } from 'api/queries/profile';
 import { useOutsideClick } from 'hooks/useOutsideClick';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { IEditRolesMenu } from './types';
 import * as S from './units';

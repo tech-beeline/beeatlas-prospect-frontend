@@ -1,5 +1,6 @@
-import { Card, ExpansionPanel } from '@beeline/design-system-react';
 import styled from '@emotion/styled';
+
+import { Card, ExpansionPanel } from 'components/ui';
 
 export const Container = styled.div`
     display: flex;
@@ -34,7 +35,7 @@ export const ButtonContainer = styled.div`
 `;
 
 export const CardStyled = styled(Card)`
-    padding: 0px;
+    padding: 0px !important;
 
     overflow: hidden;
 `;

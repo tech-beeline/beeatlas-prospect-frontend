@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, FileUploader, IconButton } from '@beeline/design-system-react';
-import { Icons } from '@beeline/design-tokens/js/iconfont/icons';
 import { AxiosError } from 'axios';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { IconButton } from 'components/ui';
+import { Button, FileUploader } from 'components/ui';
 
 import { useCreateProcessDSLMutation, useCreateProcessJSONMutation } from 'api/queries/camunda';
+import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { ArchitectureErrorTypes, IArchitectureError, IUpdateArchitectureSideblock } from './types';

@@ -1,6 +1,7 @@
-import { TableData } from '@beeline/design-system-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { TableData } from 'components/ui';
 
 export const OverflowContainer = styled.p`
     display: -webkit-box;
