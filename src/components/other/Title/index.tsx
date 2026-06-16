@@ -4,5 +4,5 @@ import { ITitle } from './types';
 import * as S from './units';
 
 export const Title: FC<ITitle> = (props) => {
-    return <S.Title>{props.children}</S.Title>;
+    return <S.Title className="Title">{props.children}</S.Title>;
 };

@@ -1,0 +1,1 @@
+export { InfoWithDiagram } from './InfoWithDiagram';

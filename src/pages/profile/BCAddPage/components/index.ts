@@ -1,0 +1,1 @@
+export { CapabilityAutocomplete } from './CapabilityAutocomplete';

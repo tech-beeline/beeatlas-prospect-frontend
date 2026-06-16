@@ -1,0 +1,80 @@
+import styled from '@emotion/styled';
+
+export const StyledTableData = styled.td`
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+    font-family: 'Beeline Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: var(--color-text-active);
+    padding: 17px 16px;
+    margin: 0;
+    text-align: start;
+    border-bottom: inherit;
+
+    &.dsb_table-cell__vertical-align-top {
+        vertical-align: top;
+    }
+
+    &.dsb_table-cell__vertical-align-center {
+        vertical-align: middle;
+    }
+
+    &.dsb_table-cell__vertical-align-bottom {
+        vertical-align: bottom;
+    }
+
+    &.dsb_table-cell__horizontal-align-left .dsb_table-cell_flex {
+        justify-content: flex-start;
+    }
+
+    &.dsb_table-cell__horizontal-align-center .dsb_table-cell_flex {
+        justify-content: center;
+    }
+
+    &.dsb_table-cell__horizontal-align-right .dsb_table-cell_flex {
+        justify-content: flex-end;
+    }
+
+    &.dsb_table-cell__dense {
+        padding: 6px 16px;
+    }
+
+    &.dsb_table-cell__expandable {
+        position: relative;
+    }
+
+    &.dsb_table-cell__expandable:first-child {
+        padding: 17px 22px;
+    }
+
+    &.dsb_table-cell__expandable:first-child .dsb_table-cell_flex {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &.dsb_table-cell__expandable:first-child::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 4px;
+        background-color: #fdc435;
+    }
+`;
+
+export const CellFlex = styled.div`
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+
+    &.dsb_table-cell__align-right {
+        justify-content: end;
+    }
+`;
+
+export const CellContent = styled.div`
+    text-overflow: ellipsis;
+    display: flex;
+`;

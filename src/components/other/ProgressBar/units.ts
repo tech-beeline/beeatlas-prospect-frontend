@@ -1,15 +1,12 @@
 import styled from '@emotion/styled';
 
-import { theme } from 'styles';
-
 import { IProgressBar } from './types';
 
 export const ProgressBase = styled.div`
     width: 100%;
     height: 4px;
 
-    background-color: ${theme.colors.backgroundGray};
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-x4);
 `;
 
 export const ProgressLine = styled.div<IProgressBar>`
@@ -26,7 +23,7 @@ export const ProgressLine = styled.div<IProgressBar>`
         #030013 115.95%
     );
 
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-x4);
 
     transition: width 1s linear;
 `;

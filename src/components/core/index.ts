@@ -1,4 +1,13 @@
+export { BaseIcon } from './BaseIcon';
 export { ErrorBoundary } from './ErrorBoundary';
 export { Header } from './Header';
+export { IconBadge } from './IconBadge';
 export { Loader } from './Loader';
 export { Logo } from './Logo';
+export { MenuCX } from './MenuCX';
+export { MenuDatabase } from './MenuDatabase';
+export { MenuModels } from './MenuModels';
+export { MenuPersonalArea } from './MenuPersonalArea';
+export { MenuProfile } from './MenuProfile';
+export { Tab, Tabs } from './Tabs';
+export { Text } from './Text';

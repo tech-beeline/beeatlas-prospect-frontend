@@ -1,0 +1,36 @@
+import type { CSSProperties, HTMLAttributes } from 'react';
+
+export type SkeletonVariant = 'line' | 'circle' | 'square' | 'text' | 'title';
+
+export type SkeletonValue = number | string;
+
+export type SkeletonMargin =
+    | {
+          bottom?: SkeletonValue;
+          left?: SkeletonValue;
+          right?: SkeletonValue;
+          top?: SkeletonValue;
+      }
+    | SkeletonValue;
+
+export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
+    /** Включает или отключает анимацию */
+    animated?: boolean;
+    /** Высота */
+    height?: SkeletonValue;
+    /** Внешние отступы */
+    margin?: SkeletonMargin;
+    /** Радиус округления */
+    radius?: SkeletonValue;
+    /** Тип, влияет на форму */
+    variant?: SkeletonVariant;
+    /** Ширина */
+    width?: SkeletonValue;
+}
+
+export interface StyledSkeletonProps {
+    $animated: boolean;
+    $variant: SkeletonVariant;
+}
+
+export type SkeletonStyle = CSSProperties;

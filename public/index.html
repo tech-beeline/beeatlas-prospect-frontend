@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-    <title>Личный кабинет</title>
-
-    <link rel="prefetch" href="/public/fonts/Beeline_Sans-Black.woff2" as="font" crossorigin="anonymous" />
-    <link rel="prefetch" href="/public/fonts/Beeline_Sans-Bold.woff2" as="font" crossorigin="anonymous" />
-    <link rel="prefetch" href="/public/fonts/Beeline_Sans-Medium.woff2" as="font" crossorigin="anonymous" />
-    <link rel="prefetch" href="/public/fonts/Beeline_Sans-Regular.woff2" as="font" crossorigin="anonymous" />
-
-    <!-- <link type="text/css" rel="stylesheet" href="/public/index.css" /> -->
+    <title>Витрина ФДМ</title>
 </head>
 
 <body>
@@ -22,5 +16,33 @@
     <div id="root"></div>
     <div id="modal-root"></div>
 </body>
+
+<script>
+    const isProd = window.location.hostname === 'beeatlas.vimpelcom.ru';
+
+    if (isProd) {
+        var _paq = window._paq = window._paq || [];
+
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+
+        _paq.push(['trackPageView']);
+
+        _paq.push(['enableLinkTracking']);
+
+        (function () {
+
+            var u = "//analytics.vimpelcom.ru/";
+
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+
+            _paq.push(['setSiteId', '23']);
+
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+
+        })();
+    }
+</script>
 
 </html>

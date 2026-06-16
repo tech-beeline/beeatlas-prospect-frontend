@@ -1,0 +1,119 @@
+server {
+    listen       8080;
+    server_name  localhost;
+
+    location /actuator/health/liveness {
+        access_log off;
+        add_header 'Content-Type' 'application/json';
+        return 200 '{"status":"UP"}';
+    }
+
+    location /api-gateway {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /structurizr-backend {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /product/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /arch-graph/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /capability/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /graph-validator/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /cx/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /camunda {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /ambassador {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /obs-dashboard/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /sequence-backend/sequence/ {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /staging-sequence {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /dashboard-service {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /user/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+    
+    location /ff/api {
+        proxy_pass ${NGINX_LOCATION_API_GATEWAY};
+        ${NGINX_LOCATION_API_GATEWAY_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location /api {
+        proxy_pass ${NGINX_LOCATION_API};
+        ${NGINX_LOCATION_API_ADDITIONAL_PARAMS}
+        client_max_body_size 100M;
+    }
+
+    location / {
+        root   /www;
+        index  index.html index.htm;
+        if (!-e $request_filename){
+            rewrite ^(.*)$ /index.html break;
+        }
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}

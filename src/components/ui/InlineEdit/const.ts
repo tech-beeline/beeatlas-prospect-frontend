@@ -1,0 +1,3 @@
+export const DEFAULT_APPLICATION_ROOT_ELEMENT = 'root';
+
+export const INLINE_EDIT_MODAL_MAX_HEIGHT = 56;

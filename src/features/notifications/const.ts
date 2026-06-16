@@ -1,0 +1,4 @@
+export enum NotificationGroups {
+    LANDSCAPE_CHANGES = 'LANDSCAPE_CHANGES',
+    BUSINESS_EVENTS = 'BUSINESS_EVENTS',
+}

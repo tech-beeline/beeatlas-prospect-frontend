@@ -1,0 +1,13 @@
+[
+    {
+        "name": "business_capability.xlsx",
+        "title": "BC",
+        "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+        "name": "tech_capability.xlsx",
+        "title": "TC",
+        "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+]
+

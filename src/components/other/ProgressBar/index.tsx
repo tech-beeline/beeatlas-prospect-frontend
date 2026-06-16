@@ -5,8 +5,8 @@ import * as S from './units';
 
 export const ProgressBar: FC<IProgressBar> = ({ currentProgress, maxProgress }) => {
     return (
-        <S.ProgressBase>
-            <S.ProgressLine {...{ currentProgress, maxProgress }} />
+        <S.ProgressBase className="ProgressBase">
+            <S.ProgressLine className="ProgressLine" {...{ currentProgress, maxProgress }} />
         </S.ProgressBase>
     );
 };
