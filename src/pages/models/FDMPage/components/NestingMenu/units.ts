@@ -7,7 +7,19 @@ import { Skeleton } from 'components/ui';
 export const ResizableStyled = styled(Resizable)`
     position: static !important;
 
-    overflow: hidden auto;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+
+    overflow: hidden;
+`;
+
+export const MenuScroll = styled.div`
+    flex: 1;
+    min-height: 0;
+
+    overflow: auto;
 `;
 
 export const Wrapper = styled.div`

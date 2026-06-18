@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Button } from 'components/ui';
@@ -9,6 +9,7 @@ import * as R from 'router/const';
 
 import { useFDMStore } from '../../store';
 
+import { ItemToScroll } from './components/Item/types';
 import { ExportButton, Item } from './components';
 import * as S from './units';
 
@@ -27,6 +28,7 @@ export const NestingMenu = () => {
     const [params] = useSearchParams();
     const id = Number(params.get('id'));
     const type = String(params.get('type'));
+    const [itemToScroll, setItemToScroll] = useState<ItemToScroll>(null);
 
     useMountEffect(() => {
         (async () => {
@@ -34,6 +36,7 @@ export const NestingMenu = () => {
             if (id && type) {
                 await getParentCapabilities(id, type as ItemTypes);
                 setActiveItem(id, type as ItemTypes);
+                setItemToScroll({ id, type: type as ItemTypes });
             }
         })();
 
@@ -73,13 +76,22 @@ export const NestingMenu = () => {
                         Создать BC
                     </Button>
                 </S.ButtonContainer>
-                <S.RightSide data-testid="Tree">
-                    {loading
-                        ? Array.from({ length: 3 }).map((_, i) => (
-                              <S.SkeletonStyled key={i} height={52} radius={12} />
-                          ))
-                        : items.map((item) => <Item key={item.id} item={item} />)}
-                </S.RightSide>
+                <S.MenuScroll>
+                    <S.RightSide data-testid="Tree">
+                        {loading
+                            ? Array.from({ length: 3 }).map((_, i) => (
+                                  <S.SkeletonStyled key={i} height={52} radius={12} />
+                              ))
+                            : items.map((item) => (
+                                  <Item
+                                      key={item.id}
+                                      item={item}
+                                      itemToScroll={itemToScroll}
+                                      setItemToScroll={setItemToScroll}
+                                  />
+                              ))}
+                    </S.RightSide>
+                </S.MenuScroll>
             </S.ResizableStyled>
         </S.Wrapper>
     );
