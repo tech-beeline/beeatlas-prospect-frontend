@@ -27,31 +27,31 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          # cache: 'npm' # no package-lock.json in the repo
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build frontend
-        run: npm run build
-
-      - name: Prepare build directory
-        run: |
-          if [ -d "dist" ] && [ ! -d "build" ]; then
-            cp -r dist build
-          elif [ ! -d "build" ]; then
-            echo "❌ Neither 'build' nor 'dist' found after build."
-            exit 1
-          fi
-          if [ -d "build" ] && [ -z "$(ls -A build)" ]; then
-            echo "❌ Build directory is empty."
-            exit 1
-          fi
-          echo "✅ Build directory is ready."
+#      - name: Setup Node.js
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: '18'
+#          # cache: 'npm' # no package-lock.json in the repo
+#
+#      - name: Install dependencies
+#        run: npm install
+#
+#      - name: Build frontend
+#        run: npm run build
+#
+#      - name: Prepare build directory
+#        run: |
+#          if [ -d "dist" ] && [ ! -d "build" ]; then
+#            cp -r dist build
+#          elif [ ! -d "build" ]; then
+#            echo "❌ Neither 'build' nor 'dist' found after build."
+#            exit 1
+#          fi
+#          if [ -d "build" ] && [ -z "$(ls -A build)" ]; then
+#            echo "❌ Build directory is empty."
+#            exit 1
+#          fi
+#          echo "✅ Build directory is ready."
 
       - name: Determine image version
         id: version
