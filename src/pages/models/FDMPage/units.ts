@@ -19,6 +19,8 @@ export const Wrapper = styled.div`
 
     border-left: 1px solid var(--color-divider);
 
+    max-height: calc(100vh - 64px);
+
     overflow: auto;
 `;
 

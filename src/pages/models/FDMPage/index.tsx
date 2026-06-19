@@ -225,17 +225,19 @@ export const FDMPage: FC<IFDMPage> = ({ isAdmin }) => {
                         <>
                             {breadcrumbs.length > 1 && (
                                 <Breadcrumbs
-                                    collapsed={breadcrumbs.length > 2}
+                                    collapsed={breadcrumbs.length - 1 > 2}
                                     key={breadcrumbs.length}
                                 >
-                                    {breadcrumbs.map((item, index) => (
-                                        <BreadCrumbsItem
-                                            key={index}
-                                            id={item.id}
-                                            name={item.name}
-                                            type={item.type}
-                                        />
-                                    ))}
+                                    {breadcrumbs
+                                        .slice(0, breadcrumbs.length - 1)
+                                        .map((item, index) => (
+                                            <BreadCrumbsItem
+                                                key={index}
+                                                id={item.id}
+                                                name={item.name}
+                                                type={item.type}
+                                            />
+                                        ))}
                                 </Breadcrumbs>
                             )}
 
