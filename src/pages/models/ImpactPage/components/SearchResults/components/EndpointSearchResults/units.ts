@@ -1,21 +1,5 @@
 import styled from '@emotion/styled';
 
-export const CategoriesContainer = styled.div`
-    margin-top: -8px;
-`;
-
-export const SkeletonContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-`;
-
-export const SubtitleContainer = styled.div`
-    padding-left: 16px;
-
-    margin-bottom: 12px;
-`;
-
 export const SearchCard = styled.div<{ maxWidth?: boolean }>`
     display: flex;
     align-items: center;
@@ -37,23 +21,9 @@ export const SearchCard = styled.div<{ maxWidth?: boolean }>`
     word-break: break-word;
 `;
 
-export const SearchCardTextContainer = styled.div`
+export const ChipsContainer = styled.div`
     display: flex;
-    flex-direction: column;
-`;
-
-export const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-
-    margin-top: 12px;
-`;
-
-export const PaginationContainer = styled.div`
-    flex: 1;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    gap: 8px;
 `;
 
 export const BannerContainer = styled.div`
@@ -79,6 +49,8 @@ export const EndpointContainer = styled.div<{ hovered: boolean }>`
     &:hover {
         & > div:last-child {
             opacity: 1;
+            pointer-events: auto;
+            z-index: 101;
         }
 
         & > div:first-child {
@@ -94,6 +66,8 @@ export const EndpointContainer = styled.div<{ hovered: boolean }>`
         `
         & > div:last-child {
             opacity: 1;
+            pointer-events: auto;
+            z-index: 101;
         }
 
         & > div:first-child {
@@ -113,20 +87,30 @@ export const EndpointSearchCard = styled(SearchCard)`
     cursor: default;
 `;
 
+const opaqueSelectedBackground = `
+    background:
+        linear-gradient(
+            var(--color-background-base-selected),
+            var(--color-background-base-selected)
+        ),
+        var(--color-background-base);
+`;
+
 export const EndpointServersSearchCard = styled(EndpointSearchCard)`
     position: absolute;
     top: 0;
     right: 0;
 
     opacity: 0;
+    pointer-events: none;
 
-    background-color: var(--color-background-base-selected);
+    ${opaqueSelectedBackground}
 
-    z-index: 100;
-
-    &:hover {
+    &&:hover {
         opacity: 1;
-        z-index: 101;
+        pointer-events: auto;
+        z-index: 102;
+        ${opaqueSelectedBackground}
     }
 `;
 
@@ -145,11 +129,9 @@ export const ArrowContainer = styled.div`
     opacity: 0;
 `;
 
-export const NotFoundContainer = styled.div`
-    margin-top: 64px;
-`;
-
-export const ChipsContainer = styled.div`
+export const PaginationContainer = styled.div`
+    flex: 1;
     display: flex;
-    gap: 8px;
+    align-items: flex-end;
+    justify-content: center;
 `;

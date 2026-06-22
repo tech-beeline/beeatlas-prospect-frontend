@@ -7,6 +7,8 @@ export const Container = styled.div`
 export const SearchContainer = styled.div`
     display: flex;
     gap: 24px;
+
+    max-width: 648px;
 `;
 
 export const Dropdown = styled.div`
