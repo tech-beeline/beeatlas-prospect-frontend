@@ -2,7 +2,7 @@ import React, { FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { criticalCodeToNameMap } from 'features/apps';
 
-import { TooltipContainer } from 'components/interaction';
+import { ClampedText, TooltipContainer } from 'components/interaction';
 import { TableHeaderData } from 'components/ui';
 import { Skeleton, Table, TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
@@ -22,9 +22,6 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
 
     const nameRef = useRef<HTMLParagraphElement>(null);
     const showNameTooltip = useShowTooltip(nameRef);
-
-    const ownerRef = useRef<HTMLParagraphElement>(null);
-    const showOwnerTooltip = useShowTooltip(ownerRef);
 
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const showDescriptionTooltip = useShowTooltip(descriptionRef);
@@ -72,20 +69,10 @@ export const ProductTableRow: FC<IProductTableRow> = ({ product, setProductToDel
                         formatNullableString(product.critical)}
                 </TableData>
                 <TableData>
-                    <S.OverflowContainer ref={ownerRef} data-tooltip-id={`owner-${product.id}`}>
-                        {formatNullableString(product.ownerName)}
-                    </S.OverflowContainer>
-                    {showOwnerTooltip && (
-                        <TooltipContainer
-                            largePadding
-                            id={`owner-${product.id}`}
-                            offset={8}
-                            place="bottom"
-                            noArrow
-                        >
-                            {product.ownerName}
-                        </TooltipContainer>
-                    )}
+                    <ClampedText
+                        text={formatNullableString(product.ownerName)}
+                        tooltipId={`owner-${product.id}`}
+                    />
                 </TableData>
                 <TableData>
                     <S.OverflowContainer
