@@ -66,6 +66,8 @@ export const AppAddPage = () => {
     const { control, handleSubmit, watch, reset, setError } = form;
 
     const description = watch('description');
+    const employees = watch('employees');
+    const owner = watch('owner');
 
     const { fields, append, remove } = useFieldArray({ control, name: 'employees' });
 
@@ -82,7 +84,10 @@ export const AppAddPage = () => {
                 owner: usersData
                     ? usersData.find((u) => u.email === appData.ownerEmail)?.id ?? undefined
                     : undefined,
-                employees: employeesData.map((e) => ({ employee: e.id })),
+                employees:
+                    employeesData.length > 0
+                        ? employeesData.map((e) => ({ employee: e.id }))
+                        : [{ employee: undefined }],
             });
         } else {
             reset({ employees: [{}] });
@@ -227,6 +232,7 @@ export const AppAddPage = () => {
                                     disabled={isLoading}
                                     append={append}
                                     remove={remove}
+                                    isOwner={employees?.[index]?.employee === owner}
                                 />
                             ))}
                             <S.ButtonsContainer>

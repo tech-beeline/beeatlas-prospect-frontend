@@ -14,6 +14,7 @@ export const EmployeeField: FC<IEmployeeField> = ({
     disabled,
     append,
     remove,
+    isOwner,
 }) => {
     const [searchText, setSearchText] = useState('');
 
@@ -50,6 +51,7 @@ export const EmployeeField: FC<IEmployeeField> = ({
                     <Button
                         type="button"
                         size="medium"
+                        disabled={isOwner}
                         onClick={() => remove(index)}
                         startIcon={<Icon iconName={Icons.Delete} />}
                     />

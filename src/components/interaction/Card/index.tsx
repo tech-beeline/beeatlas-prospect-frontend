@@ -24,7 +24,7 @@ const Card: FC<ICard> = ({
             className="Card"
             variant={variant}
             withImage={withImage}
-            title={useTitleAsAttribute ? title : String(children)}
+            title={useTitleAsAttribute ? title : undefined}
             {...props}
         >
             <S.TitleWrapper withImage={withImage}>

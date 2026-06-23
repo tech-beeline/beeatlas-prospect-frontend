@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CardVariant } from 'components/interaction';
+import { CardVariant, TooltipContainer } from 'components/interaction';
 
 import * as R from 'router/const';
 import * as STYLES from 'styles/units';
@@ -99,11 +99,26 @@ export const ModelsPage = () => {
                         title="Каталог жизненных ситуаций"
                         to={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`}
                     >
+                        <div data-tooltip-id="life-situations-tooltip">
+                            Жизненная ситуация связывает проблему пользователя с готовыми решениями.
+                            Каждая ситуация закрывается комбинацией паттернов — универсальных
+                            способов действий, которые реализуются через конкретные требования —
+                            четкие шаги к результату. Это обеспечивает переиспользование решений и
+                            прозрачный маршрут
+                        </div>
+                    </S.CardStyled>
+                    <TooltipContainer
+                        id="life-situations-tooltip"
+                        noArrow
+                        offset={60}
+                        place="top"
+                        largePadding
+                    >
                         Жизненная ситуация связывает проблему пользователя с готовыми решениями.
                         Каждая ситуация закрывается комбинацией паттернов — универсальных способов
                         действий, которые реализуются через конкретные требования — четкие шаги к
                         результату. Это обеспечивает переиспользование решений и прозрачный маршрут
-                    </S.CardStyled>
+                    </TooltipContainer>
                 </S.CardContainer>
             </S.ContentWrapper>
         </S.PageWrapper>

@@ -6,4 +6,5 @@ export interface IEmployeeField {
     remove: (index: number) => void;
     usersData: IProfile[];
     disabled: boolean;
+    isOwner?: boolean;
 }
