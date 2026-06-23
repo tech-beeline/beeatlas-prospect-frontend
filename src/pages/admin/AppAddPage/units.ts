@@ -47,10 +47,6 @@ export const FormContainer = styled.div`
     gap: 32px;
 `;
 
-export const Unmargin = styled.div`
-    margin-top: -32px;
-`;
-
 export const FormRow = styled.div`
     display: flex;
     gap: 24px;
@@ -68,4 +64,16 @@ export const ButtonsContainer = styled.div`
     margin-top: 8px;
 
     padding-bottom: 32px;
+`;
+
+export const SubtitleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+export const EmployeesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 `;
