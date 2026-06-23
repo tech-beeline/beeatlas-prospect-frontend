@@ -10,13 +10,16 @@ export const TitleContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    flex: 1;
+    min-width: 0;
 `;
 
 export const TitleRow = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 8px;
+    gap: 16px;
 `;
 
 export const DocumentationContainer = styled.div`

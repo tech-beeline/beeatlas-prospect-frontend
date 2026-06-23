@@ -9,13 +9,17 @@ import { useShowTooltip } from 'hooks';
 import { IClampedText } from './types';
 import * as S from './units';
 
-export const ClampedText: FC<IClampedText> = ({ text, tooltipId, ...tooltipProps }) => {
+export const ClampedText: FC<IClampedText> = ({ text, tooltipId, lines = 2, ...tooltipProps }) => {
     const textRef = useRef<HTMLDivElement>(null);
     const showTooltip = useShowTooltip<HTMLDivElement>(textRef);
 
     return (
         <>
-            <S.ClampedFileName ref={textRef} data-tooltip-id={showTooltip ? tooltipId : undefined}>
+            <S.ClampedFileName
+                ref={textRef}
+                data-tooltip-id={showTooltip ? tooltipId : undefined}
+                lines={lines}
+            >
                 {text}
             </S.ClampedFileName>
 
