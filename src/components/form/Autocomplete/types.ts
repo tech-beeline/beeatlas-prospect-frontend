@@ -4,6 +4,7 @@ interface Option {
     id: number | string;
     value: string;
     code?: string;
+    email?: string;
 }
 
 export interface IAutocomplete {
@@ -19,4 +20,5 @@ export interface IAutocomplete {
     onInputChange: (v: string) => void;
     helperText?: string;
     makeOption?: (option: Option, inputValue: string) => JSX.Element | null;
+    endIcon?: ReactNode;
 }

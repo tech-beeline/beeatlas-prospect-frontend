@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { criticalCodeToNameMap, criticalNameToCodeMap } from 'features/apps';
 
+import { Text } from 'components/core';
 import { Autocomplete, Select, TextArea, TextField } from 'components/form';
 import { TooltipContainer } from 'components/interaction';
 import { IconButton } from 'components/ui';
@@ -55,6 +56,7 @@ export const AppAddPage = () => {
         .map((p) => ({
             id: p.id,
             value: p.full_name,
+            email: p.email,
         }));
 
     const { mutateAsync: updateProduct } = useUpdateProductByCmdbMutation();
@@ -66,8 +68,10 @@ export const AppAddPage = () => {
     const { control, handleSubmit, watch, reset, setError } = form;
 
     const description = watch('description');
+    const employees = watch('employees');
+    const owner = watch('owner');
 
-    const { fields, append, remove } = useFieldArray({ control, name: 'employees' });
+    const { fields, prepend, remove } = useFieldArray({ control, name: 'employees' });
 
     useEffect(() => {
         if (appData && employeesData && usersData) {
@@ -82,7 +86,10 @@ export const AppAddPage = () => {
                 owner: usersData
                     ? usersData.find((u) => u.email === appData.ownerEmail)?.id ?? undefined
                     : undefined,
-                employees: employeesData.map((e) => ({ employee: e.id })),
+                employees:
+                    employeesData.length > 0
+                        ? employeesData.map((e) => ({ employee: e.id }))
+                        : [{ employee: undefined }],
             });
         } else {
             reset({ employees: [{}] });
@@ -181,8 +188,6 @@ export const AppAddPage = () => {
                                         options={CRITICAL_OPTIONS}
                                     />
                                 </S.GrowContainer>
-                            </S.FormRow>
-                            <S.FormRow>
                                 <S.GrowContainer>
                                     <Autocomplete
                                         fullWidth
@@ -191,8 +196,32 @@ export const AppAddPage = () => {
                                         label="Владелец"
                                         options={employeeOptions}
                                         onInputChange={(v) => setOwnerSearchText(v)}
-                                        helperText="Если владельца нет в списке — пусть зайдёт в beeatlas, тогда данные сохранятся и можно будет добавить владельца"
+                                        endIcon={
+                                            <Icon
+                                                data-tooltip-id="owner"
+                                                iconName={Icons.InfoCircled}
+                                                size="large"
+                                            />
+                                        }
+                                        makeOption={(option) => (
+                                            <div>
+                                                <Text variant="body2">{option.value}</Text>
+                                                <Text inactive variant="body3">
+                                                    {option.email}
+                                                </Text>
+                                            </div>
+                                        )}
                                     />
+                                    <TooltipContainer
+                                        largePadding
+                                        noArrow
+                                        place="bottom"
+                                        offset={8}
+                                        id="owner"
+                                    >
+                                        Если владельца нет в списке — пусть зайдёт в beeatlas, тогда
+                                        данные сохранятся и можно будет добавить владельца
+                                    </TooltipContainer>
                                 </S.GrowContainer>
                             </S.FormRow>
                             <S.FormRow>
@@ -207,33 +236,59 @@ export const AppAddPage = () => {
                                     />
                                 </S.GrowContainer>
                             </S.FormRow>
-                            <S.Unmargin>
-                                <S.FormRow>
-                                    <S.GrowContainer>
-                                        <TextField
-                                            fullWidth
-                                            disabled={isLoading}
-                                            name="gitUrl"
-                                            label="Ссылка на git"
-                                        />
-                                    </S.GrowContainer>
-                                </S.FormRow>
-                            </S.Unmargin>
-                            {fields.map((field, index) => (
-                                <EmployeeField
-                                    key={field.id}
-                                    index={index}
-                                    usersData={usersData ?? []}
+
+                            <S.FormRow>
+                                <S.GrowContainer>
+                                    <TextField
+                                        fullWidth
+                                        disabled={isLoading}
+                                        name="gitUrl"
+                                        label="Ссылка на git"
+                                    />
+                                </S.GrowContainer>
+                            </S.FormRow>
+
+                            <S.SubtitleContainer>
+                                <Text variant="subtitle1">Сотрудники</Text>
+                                <Button
+                                    size="medium"
+                                    variant="outlined"
+                                    type="button"
+                                    onClick={() => prepend({ employee: undefined })}
                                     disabled={isLoading}
-                                    append={append}
-                                    remove={remove}
-                                />
-                            ))}
+                                >
+                                    Добавить
+                                </Button>
+                            </S.SubtitleContainer>
+
+                            <S.EmployeesContainer>
+                                {fields.map((field, index) => (
+                                    <EmployeeField
+                                        key={field.id}
+                                        index={index}
+                                        usersData={usersData ?? []}
+                                        disabled={isLoading}
+                                        remove={remove}
+                                        length={fields.length}
+                                        isOwner={employees?.[index]?.employee === owner}
+                                    />
+                                ))}
+                            </S.EmployeesContainer>
                             <S.ButtonsContainer>
-                                <Button onClick={returnToApps} size="medium" type="button">
+                                <Button
+                                    onClick={returnToApps}
+                                    size="medium"
+                                    type="button"
+                                    disabled={isLoading}
+                                >
                                     Отменить
                                 </Button>
-                                <Button size="medium" variant="contained" type="submit">
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    type="submit"
+                                    disabled={isLoading}
+                                >
                                     {paramCmdb ? 'Сохранить изменения' : 'Сохранить'}
                                 </Button>
                             </S.ButtonsContainer>

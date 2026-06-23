@@ -130,32 +130,33 @@ export const ImpactPage = () => {
                                             }}
                                         />
                                     )),
-                                <BreadCrumbsItem
-                                    name=""
-                                    key={Infinity}
-                                    index={Infinity}
-                                    id={Infinity}
-                                />,
                             ]}
                         </Breadcrumbs>
                     </S.BreadCrumbsContainer>
                     <S.AppTitleContainer>
-                        <S.AppTitleIconWrapper>
-                            {nameParam && <Text variant="h4">{nameParam}</Text>}
-                            <IconButton
-                                size="medium"
-                                iconName={Icons.Link}
-                                onClick={handleCopyLinkButtonClick}
-                            />
-                        </S.AppTitleIconWrapper>
-                        <Text variant="subtitle3">
-                            <Link
-                                showIconPermanently
-                                showOuterIcon
-                                title="Общая информация"
-                                url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${cmdbParam}`}
-                            />
-                        </Text>
+                        <S.AppInfoContainer>
+                            <S.AppTitleIconWrapper>
+                                {nameParam && <Text variant="h4">{nameParam}</Text>}
+                                <IconButton
+                                    size="medium"
+                                    iconName={Icons.Link}
+                                    onClick={handleCopyLinkButtonClick}
+                                />
+                            </S.AppTitleIconWrapper>
+                            <Text variant="subtitle3">
+                                <Link
+                                    showIconPermanently
+                                    showOuterIcon
+                                    title="Общая информация"
+                                    url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?cmdb=${cmdbParam}`}
+                                />
+                            </Text>
+                        </S.AppInfoContainer>
+                        {cmdbParam && (
+                            <Text inactive variant="body3">
+                                {cmdbParam}
+                            </Text>
+                        )}
                     </S.AppTitleContainer>
                     <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
                         {TABS.map((tab) => (

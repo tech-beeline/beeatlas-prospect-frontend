@@ -14,6 +14,11 @@ export enum OperationTypes {
     DISCOVERED = 'DISCOVERED',
 }
 
+export enum ServerTypes {
+    GRAPH = 'GRAPH',
+    CMDB = 'CMDB',
+}
+
 export const TABS = [
     {
         id: TabVariant.IN,

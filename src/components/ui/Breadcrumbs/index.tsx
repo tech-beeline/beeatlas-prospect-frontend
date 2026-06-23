@@ -71,11 +71,8 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
                         {link}
                         <meta itemProp="position" content={String(index + 1)} />
                     </S.Item>,
+                    renderSeparator(`separator-${index}`),
                 ];
-
-                if (index < childrenLength - 1) {
-                    nodes.push(renderSeparator(`separator-${index}`));
-                }
 
                 return nodes;
             });
@@ -105,6 +102,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
                 {items[childrenLength - 1]}
                 <meta itemProp="position" content={String(childrenLength)} />
             </S.Item>,
+            renderSeparator('collapsed-separator-last'),
         ];
     };
 

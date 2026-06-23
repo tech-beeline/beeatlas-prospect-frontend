@@ -19,6 +19,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
     onInputChange,
     helperText,
     makeOption,
+    endIcon,
 }) => {
     const {
         control,
@@ -61,6 +62,7 @@ export const Autocomplete: FC<IAutocomplete> = ({
                     renderValue={(v) => v.value}
                     type="select"
                     makeOption={makeOption}
+                    endAdornment={endIcon}
                 />
             )}
         />
