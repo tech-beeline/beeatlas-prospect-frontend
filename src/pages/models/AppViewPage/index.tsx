@@ -61,7 +61,6 @@ export const AppViewPage = () => {
                             navigate(`${R.MODELS_PATH}${R.APPS_PATH}`);
                         }}
                     />
-                    <BreadCrumbsItem name="" index={1} id={1} />
                 </Breadcrumbs>
                 <S.TitleContainer>
                     <S.LabelContainer>

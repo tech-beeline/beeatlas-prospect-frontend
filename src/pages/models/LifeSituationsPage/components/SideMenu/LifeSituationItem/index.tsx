@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { ClampedText } from 'components/interaction';
 import { IconButton } from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
@@ -42,7 +43,9 @@ export const LifeSituationItem: FC<ILifeSituationItem> = ({ item, activeItem }) 
                         />
                     )}
                 </S.IconButtonContainer>
-                <S.Title>{item.name}</S.Title>
+                <S.Title>
+                    <ClampedText text={item.name} tooltipId={`item-${item.id}`} noArrow lines={1} />
+                </S.Title>
             </S.Container>
             {isExpanded && (
                 <>
@@ -64,7 +67,12 @@ export const LifeSituationItem: FC<ILifeSituationItem> = ({ item, activeItem }) 
                                 )
                             }
                         >
-                            {nfr.name}
+                            <ClampedText
+                                text={nfr.name}
+                                tooltipId={`nfr-${nfr.id}`}
+                                lines={1}
+                                noArrow
+                            />
                         </S.ChildContainer>
                     ))}
                 </>

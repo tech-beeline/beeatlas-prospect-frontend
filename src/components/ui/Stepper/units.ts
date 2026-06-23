@@ -56,6 +56,10 @@ export const ScrollIconButton = styled(IconButton)<{ $position: 'left' | 'right'
     border-radius: unset;
     border: none;
 
+    &:hover {
+        background-color: transparent !important;
+    }
+
     ${({ $position }) =>
         $position === 'left'
             ? css`

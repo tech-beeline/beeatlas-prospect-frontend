@@ -54,7 +54,7 @@ export const PatternAddPage = () => {
         <S.PageWrapper>
             <S.Header>
                 <IconButton size="large" iconName={Icons.ArrowLeft} onClick={navigateBack} />
-                <Text variant="body2">Назад</Text>
+                <Text variant="body2">Создание паттерна</Text>
             </S.Header>
             <S.Subheader>
                 <Stepper

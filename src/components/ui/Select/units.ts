@@ -159,6 +159,7 @@ export const OptionsList = styled.div`
 
 export const OptionItem = styled.div`
     display: flex;
+    gap: 16px;
     flex: 0 0 auto;
     width: 100%;
     padding: 12px 16px;

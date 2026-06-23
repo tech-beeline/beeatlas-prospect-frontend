@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const linearTranslateX = keyframes`
@@ -197,19 +197,10 @@ export const CircleProgressIndication = styled.circle<{
 
     ${({ $cycled, $isMini }) =>
         $cycled &&
-        ($isMini
-            ? `
-        animation:
-            ${circleColorsMini} 1300ms linear infinite,
-            ${circleRotateMini} 1300ms linear infinite,
-            ${circleDashMini} 1300ms ease-in infinite;
-    `
-            : `
-        animation:
-            ${circleColors} 1300ms linear infinite,
-            ${circleRotate} 1300ms linear infinite,
-            ${circleDash} 1300ms linear infinite;
-    `)}
+        css`animation:
+            ${$isMini ? circleColorsMini : circleColors} 1300ms linear infinite,
+            ${$isMini ? circleRotateMini : circleRotate} 1300ms linear infinite,
+            ${$isMini ? circleDashMini : circleDash} 1300ms linear infinite;}`}
 `;
 
 export const AnimatedProgressRoot = styled.span`
