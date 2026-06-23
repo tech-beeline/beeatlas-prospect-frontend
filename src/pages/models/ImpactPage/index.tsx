@@ -130,12 +130,6 @@ export const ImpactPage = () => {
                                             }}
                                         />
                                     )),
-                                <BreadCrumbsItem
-                                    name=""
-                                    key={Infinity}
-                                    index={Infinity}
-                                    id={Infinity}
-                                />,
                             ]}
                         </Breadcrumbs>
                     </S.BreadCrumbsContainer>
