@@ -6,3 +6,5 @@ build
 .env
 public/env/env
 /frontend-arhitect-area.iml
+.npmrc
+package-lock.json
