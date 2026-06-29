@@ -23,9 +23,10 @@ FROM ${RUN_IMAGE}
 COPY --chown=nginx:root nginx/templates  /etc/nginx/templates
 COPY --chown=nginx:root --chmod=755 nginx/scripts/*.sh /docker-entrypoint.d/
 
-COPY --from=builder --chown=nginx:root /app/build/ /www/
-
 USER root
+RUN sed -i 's/\r$//' /docker-entrypoint.d/*.sh
+
+COPY --from=builder --chown=nginx:root /app/build/ /www/
 COPY certs/* /certs/
 RUN for c in /certs/*.crt; do echo "" >>  /etc/ssl/certs/ca-certificates.crt; cat $c >> /etc/ssl/certs/ca-certificates.crt; done; rm -rf /certs
 RUN mkdir -p /www/env && chown -R nginx:root /www/env && chmod o+rw /www/env && rm /etc/nginx/conf.d/default.conf
