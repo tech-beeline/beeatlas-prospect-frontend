@@ -63,8 +63,8 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
                     const products = domains[domainIndex].product;
                     if (products.length === 0) return 0;
                     const checkedCount = products.filter((p) => {
-                        const pff = p.fitnessFunctions.find((ff) => ff.id === selectedFf.id);
-                        return pff && pff.isCheck;
+                        const pff = p.fitnessFunctions.find((ff) => ff.ff_id === selectedFf.id);
+                        return pff && pff.is_check;
                     }).length;
                     return (checkedCount / products.length) * 100;
                 };
@@ -81,11 +81,11 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
                     const idx = products.map((_, i) => i);
                     productOrders[di] = idx.sort((a, b) => {
                         const ca =
-                            products[a].fitnessFunctions.find((ff) => ff.id === selectedFf.id)
-                                ?.countSuccess ?? 0;
+                            products[a].fitnessFunctions.find((ff) => ff.ff_id === selectedFf.id)
+                                ?.successDetail ?? 0;
                         const cb =
-                            products[b].fitnessFunctions.find((ff) => ff.id === selectedFf.id)
-                                ?.countSuccess ?? 0;
+                            products[b].fitnessFunctions.find((ff) => ff.ff_id === selectedFf.id)
+                                ?.successDetail ?? 0;
                         if (ca !== cb) return mult * (ca > cb ? 1 : -1);
                         return a - b;
                     });
@@ -282,7 +282,7 @@ export const AnalyticalTable = forwardRef<AnalyticalTableHandle, IAnalyticalTabl
                                     <S.TableDataContent>
                                         <FitnessFunctionLabel
                                             fitnessFunction={product.fitnessFunctions.find(
-                                                (productFF) => productFF.id === ff.id,
+                                                (productFF) => productFF.ff_id === ff.id,
                                             )}
                                         />
                                     </S.TableDataContent>

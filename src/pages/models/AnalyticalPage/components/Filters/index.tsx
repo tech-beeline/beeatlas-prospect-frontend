@@ -1,4 +1,9 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
+import {
+    FitnessFunctionStatus,
+    fitnessFunctionStatuses,
+    fitnessFunctionStatusToNameMap,
+} from 'features/fitness-functions';
 
 import { Text } from 'components/core';
 import { Select } from 'components/ui';
@@ -62,11 +67,26 @@ export const Filters: FC<IFilters> = ({
 
     const fitnessFunctionOptions = useMemo(
         () =>
-            (fitnessFunctionsData?.fitnessFunctionEnum ?? []).map((fitnessFunction) => ({
-                id: fitnessFunction.id,
-                value: fitnessFunction.code,
-                description: fitnessFunction.description,
-            })),
+            (fitnessFunctionsData?.fitnessFunctionEnum ?? [])
+                .filter((fitnessFunction) =>
+                    filterOptions.status ? fitnessFunction.status === filterOptions.status : true,
+                )
+                .map((fitnessFunction) => ({
+                    id: fitnessFunction.id,
+                    value: fitnessFunction.code,
+                    description: fitnessFunction.description,
+                })),
+        [fitnessFunctionsData, filterOptions],
+    );
+
+    const fitnessFunctionStatusesOptions = useMemo(
+        () =>
+            fitnessFunctionStatuses
+                .filter((status) => status !== FitnessFunctionStatus.TEST)
+                .map((fitnessFunctionStatus) => ({
+                    id: fitnessFunctionStatus,
+                    value: fitnessFunctionStatusToNameMap[fitnessFunctionStatus],
+                })),
         [fitnessFunctionsData],
     );
 
@@ -82,12 +102,17 @@ export const Filters: FC<IFilters> = ({
         filterOptions.fitnessFunctions.includes(option.id),
     );
 
+    const selectedFitnessFunctionStatusOptions = fitnessFunctionStatusesOptions.filter(
+        (option) => filterOptions.status === option.id,
+    );
+
     const hasActiveFilters =
         filterOptions.search.trim() !== '' ||
         filterOptions.product.length > 0 ||
         filterOptions.domain.length > 0 ||
         filterOptions.fitnessFunctions.length > 0 ||
-        filterOptions.hideEmpty;
+        filterOptions.hideEmpty ||
+        filterOptions.status !== null;
 
     const searchResults: ISearchResultItem[] = useMemo(() => {
         const query = search.trim().toLowerCase();
@@ -148,6 +173,20 @@ export const Filters: FC<IFilters> = ({
         setFilterOptions((prev) => ({ ...prev, fitnessFunctions: fitnessFunctionIds }));
     };
 
+    const handleFitnessFunctionsStatusChange = (options: Array<{ id: string; value: string }>) => {
+        const fitnessFunctionStatusId = options.map((opt) => opt.id)[0];
+        setFilterOptions((prev) => ({
+            ...prev,
+            status: fitnessFunctionStatusId as FitnessFunctionStatus,
+            fitnessFunctions: filterOptions.fitnessFunctions.filter((ffId) =>
+                (fitnessFunctionsData?.fitnessFunctionEnum ?? [])
+                    .filter((ff) => ff.status === fitnessFunctionStatusId)
+                    .map((ff) => ff.id)
+                    .includes(ffId),
+            ),
+        }));
+    };
+
     const handleResetClick = () => {
         setSearch('');
         setFilterOptions(() => ({
@@ -156,6 +195,7 @@ export const Filters: FC<IFilters> = ({
             fitnessFunctions: [],
             search: '',
             hideEmpty: false,
+            status: null,
         }));
     };
 
@@ -262,6 +302,16 @@ export const Filters: FC<IFilters> = ({
                                 </S.FitnessFunctionDescriptionContainer>
                             </div>
                         )}
+                        disabled={isLoading}
+                    />
+                </S.FlexGrowContainer>
+                <S.FlexGrowContainer>
+                    <Select
+                        fullWidth
+                        placeholder="Статус"
+                        options={fitnessFunctionStatusesOptions}
+                        values={selectedFitnessFunctionStatusOptions}
+                        onChange={handleFitnessFunctionsStatusChange}
                         disabled={isLoading}
                     />
                 </S.FlexGrowContainer>
