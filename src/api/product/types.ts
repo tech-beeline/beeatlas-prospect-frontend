@@ -278,6 +278,12 @@ export type IFitnessFunctionData = {
     id: number;
     code: string;
     description: string;
+    applicability: string;
+    auxiliary_check: boolean;
+    status: string;
+    script: string;
+    method: string;
+    method_synchronous: boolean;
 };
 export interface IFitnessFunctionsAggregationResult {
     domain: IFitnessFunctionDomain[];
@@ -366,7 +372,7 @@ export interface IChapter {
 }
 
 export interface INonFunctionalRequirementFullData extends INonFunctionalRequirement {
-    fitnessFunctions: (IFitnessFunctionData & { docLink: string })[];
+    fitnessFunctions: IFitnessFunctionData[];
     chapters: Omit<IChapter, 'nfr'>[];
     patterns: Omit<IPattern, 'groups' | 'technologies'>[];
 }
