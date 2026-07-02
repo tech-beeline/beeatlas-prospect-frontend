@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-    height: 100vh;
+    height: var(--app-height);
 
     color: var(--color-text-active);
     background-color: var(--color-background-base);
@@ -38,7 +38,7 @@ export const Content = styled.div`
     display: flex;
 
     width: 100%;
-    max-height: calc(100vh - 64px);
+    max-height: calc(var(--app-height) - 64px);
 
     padding: 0px 150px;
 
@@ -50,7 +50,7 @@ export const NotFoundContainer = styled.div`
     justify-content: center;
     align-items: center;
 
-    height: calc(100vh - 64px - 50px);
+    height: calc(var(--app-height) - 64px - 50px);
     width: 100%;
 
     padding-bottom: 100px;

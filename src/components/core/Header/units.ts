@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Icon, Label, Search } from 'components/ui';
 export const Container = styled.div`
     position: fixed;
+    top: var(--top-banner-height, 0px);
 
     display: flex;
     align-items: center;

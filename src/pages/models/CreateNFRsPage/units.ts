@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
 
-    min-height: 100vh;
+    min-height: var(--app-height);
 
     color: var(--color-text-active);
     background-color: var(--color-background-base);

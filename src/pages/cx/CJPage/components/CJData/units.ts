@@ -15,7 +15,8 @@ export const Content = styled.div<{ hasButtons: boolean }>`
     display: flex;
     flex-direction: column;
     gap: var(--size-spacing-x6);
-    height: ${({ hasButtons }) => (hasButtons ? 'calc(100vh - 96px)' : '100vh')};
+    height: ${({ hasButtons }) =>
+        hasButtons ? 'calc(var(--app-height) - 96px)' : 'var(--app-height)'};
     overflow-y: auto;
     padding: var(--size-spacing-x6);
 `;

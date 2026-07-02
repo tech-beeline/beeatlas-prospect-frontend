@@ -5,7 +5,7 @@ export const PageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
 
-    height: 100vh;
+    height: var(--app-height);
     overflow: hidden;
 
     color: var(--color-text-active);
