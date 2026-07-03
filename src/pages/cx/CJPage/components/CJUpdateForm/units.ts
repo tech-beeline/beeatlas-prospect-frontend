@@ -12,7 +12,8 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div<{ hasButtons: boolean }>`
-    height: ${({ hasButtons }) => (hasButtons ? 'calc(100vh - 96px)' : '100vh')};
+    height: ${({ hasButtons }) =>
+        hasButtons ? 'calc(var(--app-height) - 96px)' : 'var(--app-height)'};
     overflow-y: auto;
     padding: 24px;
 `;

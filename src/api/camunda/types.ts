@@ -28,4 +28,22 @@ export interface IProcessForm {
 
 export interface IProcessFullData extends IProcess {
     context: { name: string; value: string }[];
+    statuses: {
+        id: number;
+        name: string;
+        alias: string;
+        isError: boolean;
+        isDone: boolean;
+        createdDate: string;
+    }[];
+}
+
+export interface IProcessStatus {
+    id: number;
+    typeProcessId: number;
+    name: string;
+    alias: string;
+    isDone: boolean;
+    isError: boolean;
+    sequence: number;
 }

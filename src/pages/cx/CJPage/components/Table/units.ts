@@ -18,7 +18,7 @@ export const TableWrapper = styled.div`
     display: flex;
 
     width: 100%;
-    max-height: calc(100vh - 64px);
+    max-height: calc(var(--app-height) - 64px);
 
     color: var(--color-text-active);
 

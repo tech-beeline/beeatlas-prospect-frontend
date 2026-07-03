@@ -8,7 +8,7 @@ export const PageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
 
-    height: 100vh;
+    height: var(--app-height);
 
     color: var(--color-text-active);
     background-color: var(--color-background-base);

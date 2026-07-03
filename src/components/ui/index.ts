@@ -153,6 +153,14 @@ export type {
     TextFieldProps,
     TextFieldSizeVariantsType,
 } from './TextField/types';
+export { Timeline } from './Timeline';
+export type {
+    AtomPosition,
+    DirectionType,
+    StageType,
+    TimelineIconType,
+    TimelineProps,
+} from './Timeline/types';
 export { ToolbarItem } from './ToolbarItem';
 export type { ToolbarItemMenuItem, ToolbarItemProps, ToolbarItemSize } from './ToolbarItem/types';
 export type { AllStatuses, BaseStatuses, ColorTypes } from './types';

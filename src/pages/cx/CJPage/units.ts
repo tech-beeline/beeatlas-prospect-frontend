@@ -4,7 +4,7 @@ import { IconButton } from 'components/ui';
 import { Button } from 'components/ui';
 
 export const PageWrapper = styled.div`
-    height: 100vh;
+    height: var(--app-height);
 
     background-color: var(--color-background-base);
 `;
@@ -154,7 +154,7 @@ export const NotFoundContainer = styled.div`
     justify-content: center;
     align-items: center;
 
-    height: calc(100vh - 64px);
+    height: calc(var(--app-height) - 64px);
 
     padding-bottom: 100px;
 `;

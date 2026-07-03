@@ -17,6 +17,12 @@ export const getProcessById = (id: string | number): AxiosPromise<T.IProcessFull
     });
 };
 
+export const getProcessStatus = (id: string | number): AxiosPromise<T.IProcessStatus[]> => {
+    return Api.get({
+        url: `${GATEWAY_CAMUNDA_URL}api/v1/pipeline/process-status?typeProcessId=${id}`,
+    });
+};
+
 export const uploadWorkspaceJSONFile = (file: File): AxiosPromise<{ docId: number }> => {
     const formData = new FormData();
     formData.append('file', file);

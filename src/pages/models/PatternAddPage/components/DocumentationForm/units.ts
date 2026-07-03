@@ -14,7 +14,7 @@ export const OverflowContainer = styled.div`
     flex: 1;
 
     width: 100%;
-    max-height: calc(100vh - 64px - 56px - 89px);
+    max-height: calc(var(--app-height) - 64px - 56px - 89px);
     padding-top: 32px;
 
     overflow: auto;

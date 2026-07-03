@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     getProcessById,
     getProcessesByCmdb,
+    getProcessStatus,
     startProcess,
     uploadWorkspaceDSLFile,
     uploadWorkspaceJSONFile,
@@ -24,6 +25,27 @@ export const useGetProcessesByCmdbQuery = (cmdb: string | null | undefined) => {
             ),
         enabled: !!cmdb,
         refetchInterval: 10 * 1000,
+    });
+};
+
+export const useGetProcessesById = (
+    id: string | null | undefined,
+    enabled?: boolean,
+    refetchInterval?: number | false,
+) => {
+    return useQuery({
+        queryKey: [CAMUNDA_PREFIX, 'byId', id],
+        queryFn: () => getProcessById(id!).then((res) => res.data),
+        enabled: !!id && (enabled ?? true),
+        refetchInterval,
+    });
+};
+
+export const useGetProcessesStatus = (id: number, enabled?: boolean) => {
+    return useQuery({
+        queryKey: [CAMUNDA_PREFIX, id],
+        queryFn: () => getProcessStatus(id!).then((res) => res.data),
+        enabled: !!id && (enabled ?? true),
     });
 };
 
