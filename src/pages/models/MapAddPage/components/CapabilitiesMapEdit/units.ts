@@ -5,7 +5,7 @@ export const Container = styled.div`
     flex-direction: column;
 
     width: calc(100vw - 395px);
-    height: calc(100vh - 64px);
+    height: calc(var(--app-height) - 64px);
 `;
 
 export const ButtonsContainer = styled.div`

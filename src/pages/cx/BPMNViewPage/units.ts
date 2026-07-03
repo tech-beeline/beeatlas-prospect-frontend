@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: var(--app-height);
     overflow: hidden;
     color: var(--color-text-active);
     background-color: var(--color-background-base);

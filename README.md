@@ -83,6 +83,7 @@ cp public/env/env.example public/env/env
 |---|---|---|
 | `FLAG_IS_PROD` | boolean | Production-режим. Скрывает dev-инструменты (например, ссылку на WebIDE). |
 | `FLAG_IS_DEMO_STAND` | boolean | **Режим демо-стенда.** При `true` используется OIDC-авторизация (Authentik) вместо eAuth. Рекомендуется для open-source и внешних развёртываний. Скрывает корпоративные разделы (дашборды приложений и E2E, обратная связь и др.). |
+| `FLAG_SHOW_TOP_BANNER` | boolean | Показывает верхний баннер с приглашением пройти опрос (`TopBanner` над шапкой). При `false` баннер не отображается. Если пользователь закрыл баннер, он больше не показывается (состояние сохраняется в localStorage). |
 | `FLAG_API_URL` | string | Базовый URL API-шлюза. В dev-режиме запросы идут напрямую на этот адрес; в production — через относительные пути и nginx-прокси. |
 | `FLAG_AUTHENTIK_URL` | string | URL сервера Authentik (OIDC). Используется при `FLAG_IS_DEMO_STAND='true'`. |
 | `FLAG_AUTHENTIK_CLIENT_ID` | string | Client ID приложения в Authentik. |

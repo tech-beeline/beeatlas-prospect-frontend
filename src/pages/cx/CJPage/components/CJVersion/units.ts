@@ -4,7 +4,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
-    height: 100vh;
+    height: var(--app-height);
     padding: 24px;
     overflow-y: auto;
 `;

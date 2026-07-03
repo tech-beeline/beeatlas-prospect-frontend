@@ -1,6 +1,7 @@
 export type FeatureFlags = {
     FLAG_IS_PROD: boolean;
     FLAG_IS_DEMO_STAND: boolean;
+    FLAG_SHOW_TOP_BANNER: boolean;
     FLAG_AUTHENTIK_URL: string;
     FLAG_API_URL: string;
     FLAG_DOC_SERVICE_URL: string;

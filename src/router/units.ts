@@ -15,17 +15,25 @@ export const RouteWrapperOnlyBackgroundStyled = styled(RouteWrapperOnlyBackgroun
     height: 100%;
 `;
 
+export const AppContent = styled.div`
+    --app-height: calc(100vh - var(--top-banner-height, 0px));
+
+    height: 100vh;
+    padding-top: var(--top-banner-height, 0px);
+    box-sizing: border-box;
+`;
+
 export const RouteWithDrawer = styled.div`
     display: flex;
 
-    height: 100vh;
-    padding-top: 64px;
+    height: calc(100vh - var(--top-banner-height, 0px));
+    padding-top: var(--header-height, 64px);
 
     background-color: var(--color-background-base);
 `;
 
 export const ContentWrapper = styled.div<{ hideXOverflow?: boolean }>`
-    height: calc(100vh - 64px);
+    height: calc(100vh - var(--header-height, 64px) - var(--top-banner-height, 0px));
     width: 100%;
 
     overflow-y: auto;
