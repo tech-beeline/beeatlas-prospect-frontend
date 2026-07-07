@@ -12,7 +12,12 @@ export const beelineAuthProvider: IAuthProvider = {
     supportsSignout: false,
     shouldReauthenticateOnPageShow: false,
 
-    async authenticate({ setUserInfo, setIsAuthorizing, setIsError }: AuthFlowContext) {
+    async authenticate({
+        setUserInfo,
+        setIsAuthorizing,
+        setIsError,
+        setBeeatlasUserId,
+    }: AuthFlowContext) {
         if (authInstance.getRefreshToken()) {
             await authInstance.refreshTokens({
                 restartAuthFlowOnFail: true,
@@ -33,6 +38,8 @@ export const beelineAuthProvider: IAuthProvider = {
         if (userData.status !== 200 || Object.entries(userData.data).length === 0) {
             setIsError(true);
         }
+
+        setBeeatlasUserId(userData.data.id);
 
         setIsAuthorizing(false);
     },

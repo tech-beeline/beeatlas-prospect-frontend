@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { CJ_PAGE } from 'features/ai-context/page-context';
 import { dataToFormValues, formValuesToData } from 'features/cx';
 import { useSideSheetStore } from 'features/cx/store';
 
@@ -66,6 +68,12 @@ export const CJPage = () => {
     };
 
     const { openSideSheet, toggleSideSheet, closeSideSheet } = useSideSheetStore();
+
+    usePageContext({
+        page: CJ_PAGE,
+        entityType: 'cj',
+        entityId: data?.id,
+    });
 
     const navigate = useNavigate();
     const location = useLocation();

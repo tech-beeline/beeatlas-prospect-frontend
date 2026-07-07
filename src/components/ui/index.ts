@@ -73,6 +73,8 @@ export { InlineEdit } from './InlineEdit';
 export type { InlineEditFieldProps, InlineEditProps } from './InlineEdit/types';
 export { Label } from './Label';
 export type { LabelProps, LabelType, LabelVariant } from './Label/types';
+export { MessageField } from './MessageField';
+export type { MessageFieldProps } from './MessageField/types';
 export { NavigationDrawer } from './NavigationDrawer';
 export type { GroupItem, Groups, NavigationDrawerProps } from './NavigationDrawer/types';
 export { Pagination } from './Pagination';

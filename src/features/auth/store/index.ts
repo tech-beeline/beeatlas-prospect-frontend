@@ -7,6 +7,7 @@ const defaultValues = {
     userInfo: null,
     isAuthorizing: true,
     isError: false,
+    beeatlasUserId: null,
 };
 
 export const useAuthStore = create<IAuthStore>()(
@@ -15,6 +16,9 @@ export const useAuthStore = create<IAuthStore>()(
             ...defaultValues,
             setUserInfo: (userInfo) => {
                 set(() => ({ userInfo }));
+            },
+            setBeeatlasUserId: (beeatlasUserId) => {
+                set(() => ({ beeatlasUserId }));
             },
             setIsAuthorizing: (isAuthorizing) => {
                 set(() => ({ isAuthorizing }));

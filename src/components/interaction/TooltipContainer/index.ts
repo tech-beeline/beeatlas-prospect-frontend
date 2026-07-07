@@ -9,14 +9,21 @@ export const TooltipContainer = styled(Tooltip)<{
     infoWidth?: boolean;
     overflowY?: boolean;
     hidePaddingRight?: boolean;
+    fixedWidth?: number;
 }>`
     ${({ displayFlex }) => (displayFlex ? 'display: flex;' : '')}
     ${({ displayFlex }) => (displayFlex ? 'flex-direction: column;' : '')}
     ${({ displayFlex, hideGap }) => (displayFlex && !hideGap ? 'gap: 16px;' : '')}
     
 
-    max-width: ${({ largeWidth, infoWidth }) =>
-        largeWidth ? '480px' : infoWidth ? 'max-content' : '300px'};
+    max-width: ${({ largeWidth, fixedWidth, infoWidth }) =>
+        fixedWidth
+            ? `${fixedWidth}px`
+            : largeWidth
+            ? '480px'
+            : infoWidth
+            ? 'max-content'
+            : '300px'};
     width: max-content;
     padding: ${({ largePadding }) => (largePadding ? '16px' : '4px 8px')};
 

@@ -1,0 +1,17 @@
+export { ANALYTICAL_PAGE } from './AnalyticalPage';
+export { APP_VIEW_PAGE } from './AppViewPage';
+export { BI_LIBRARY_PAGE } from './BILibraryPage';
+export { BI_VIEW_PAGE } from './BIViewPage';
+export { CJ_LIBRARY_PAGE } from './CJLibraryPage';
+export { CJ_PAGE } from './CJPage';
+export { E2E_PAGE } from './E2EPage';
+export { FDM_PAGE } from './FDMPage';
+export { IMPACT_PAGE } from './ImpactPage';
+export { LIFE_SITUATIONS_PAGE } from './LifeSituationsPage';
+export { MAP_PAGE } from './MapPage';
+export { PATTERNS_PAGE } from './PatternsPage';
+export { PATTERN_VIEW_PAGE } from './PatternViewPage';
+export { PERSONAL_MAP_PAGE } from './PersonalMapPage';
+export { SEARCH_PAGE } from './SearchPage';
+export { TECHNOLOGY_VIEW_PAGE } from './TechnologyViewPage';
+export { TECH_RADAR_PAGE } from './TechRadarPage';

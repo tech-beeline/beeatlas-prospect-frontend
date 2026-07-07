@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -38,6 +39,11 @@ export const SearchResults: FC<ISearchResults> = ({ search, setBreadcrumbs, visi
             }
         }
     }, [data]);
+
+    useAdditionalPageContext('searchResults', {
+        search,
+        category: searchVariant,
+    });
 
     return (
         <>

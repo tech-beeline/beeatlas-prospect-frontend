@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { NotFoundBlock } from 'components/other';
 
@@ -42,6 +43,8 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
             }
         })();
     }, [paramId, paramType, cmdb]);
+
+    useAdditionalPageContext('interfacesAndMethodsTab', { subtab: interfaceOption });
 
     return (
         <S.Container>

@@ -6,6 +6,7 @@ export { Loader } from './Loader';
 export { Logo } from './Logo';
 export { MenuCX } from './MenuCX';
 export { MenuDatabase } from './MenuDatabase';
+export { MenuMain } from './MenuMain';
 export { MenuModels } from './MenuModels';
 export { MenuPersonalArea } from './MenuPersonalArea';
 export { MenuProfile } from './MenuProfile';
