@@ -27,7 +27,7 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { downloadBpmnFile } from '../CJPage/utils/formatters';
 
-import { FormValues, validationSchema } from './form';
+import { FormValues, getValidationSchema } from './form';
 import * as S from './units';
 
 export const CJAddPage = () => {
@@ -61,7 +61,7 @@ export const CJAddPage = () => {
     const navigate = useNavigate();
 
     const form = useForm<FormValues>({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(getValidationSchema()),
     });
 
     const { handleSubmit, reset, setError } = form;
@@ -75,7 +75,7 @@ export const CJAddPage = () => {
     const onSubmit = handleSubmit(async (values) => {
         const isNewBusinessOwner = values.businessOwner.id === null;
         let businessOwnerId = values.businessOwner.id;
-        if (isNewBusinessOwner) {
+        if (isNewBusinessOwner && window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false) {
             const createData = await postUsersInfo([
                 {
                     email: values.businessOwner.email,
@@ -91,7 +91,7 @@ export const CJAddPage = () => {
         const newTechOwners = filledTechOwners.filter((owner) => owner.id === null);
         let techOwnerIds = filledTechOwners.map((owner) => owner.id);
 
-        if (newTechOwners.length > 0) {
+        if (newTechOwners.length > 0 && window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false) {
             const createData = await postUsersInfo(
                 newTechOwners.map((owner) => ({
                     email: owner.email,
@@ -114,7 +114,10 @@ export const CJAddPage = () => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
-                        businessOwner: businessOwnerId ?? 0,
+                        businessOwner:
+                            window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false
+                                ? businessOwnerId ?? 0
+                                : null,
                         techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                         productId: String(values.product),
                     },
@@ -154,7 +157,10 @@ export const CJAddPage = () => {
                         draft: true,
                         name: values.name,
                         user_portrait: values.userPortrait,
-                        businessOwner: businessOwnerId ?? 0,
+                        businessOwner:
+                            window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false
+                                ? businessOwnerId ?? 0
+                                : null,
                         techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                         productId: String(values.product),
                     },
@@ -291,7 +297,9 @@ export const CJAddPage = () => {
                             </S.RowContainer>
 
                             <S.RowContainer>
-                                <BusinessOwnerField />
+                                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                                    <BusinessOwnerField />
+                                )}
                                 <Autocomplete
                                     fullWidth
                                     disabled={isLoadingProducts}
@@ -302,9 +310,11 @@ export const CJAddPage = () => {
                                 />
                             </S.RowContainer>
 
-                            <S.TechnicalContainer>
-                                <TechOwnerFields />
-                            </S.TechnicalContainer>
+                            {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                                <S.TechnicalContainer>
+                                    <TechOwnerFields />
+                                </S.TechnicalContainer>
+                            )}
                         </S.TextFieldContainer>
                     </S.Content>
                 </form>

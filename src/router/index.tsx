@@ -688,87 +688,91 @@ export const NavigationRouter = () => {
                         }
                     />
 
-                    <Route
-                        path={R.DATA_BASE_PATH}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <DataBasePage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                        <>
+                            <Route
+                                path={R.DATA_BASE_PATH}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <MenuDatabase />
+                                        <S.ContentWrapper>
+                                            <DataBasePage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <ArchCommPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                            <Route
+                                path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}`}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <MenuDatabase />
+                                        <S.ContentWrapper>
+                                            <ArchCommPage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <HowToPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                            <Route
+                                path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_HOW_TO_PATH}`}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <MenuDatabase />
+                                        <S.ContentWrapper>
+                                            <HowToPage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <TemplatesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                            <Route
+                                path={`${R.DATA_BASE_PATH}${R.ARCH_COMM_PATH}${R.ARCH_TEMPLATES_PATH}`}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <MenuDatabase />
+                                        <S.ContentWrapper>
+                                            <TemplatesPage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <TechPolicyPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                            <Route
+                                path={`${R.DATA_BASE_PATH}${R.TECH_POLICY_PATH}`}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <MenuDatabase />
+                                        <S.ContentWrapper>
+                                            <TechPolicyPage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
 
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <MenuDatabase />
-                                <S.ContentWrapper>
-                                    <ServicesPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
-                    <Route
-                        path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
-                        element={
-                            <S.RouteWithDrawer>
-                                <S.ContentWrapper>
-                                    <ConsultationPage />
-                                </S.ContentWrapper>
-                            </S.RouteWithDrawer>
-                        }
-                    />
+                            <Route
+                                path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}`}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <MenuDatabase />
+                                        <S.ContentWrapper>
+                                            <ServicesPage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
+                            <Route
+                                path={`${R.DATA_BASE_PATH}${R.SERVICES_PATH}${R.CONSULTATION_PATH}`}
+                                element={
+                                    <S.RouteWithDrawer>
+                                        <S.ContentWrapper>
+                                            <ConsultationPage />
+                                        </S.ContentWrapper>
+                                    </S.RouteWithDrawer>
+                                }
+                            />
+                        </>
+                    )}
 
                     <Route
                         path={R.CX_PATH}
