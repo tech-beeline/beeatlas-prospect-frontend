@@ -58,7 +58,11 @@ export const ExportButton = () => {
             </Button>
             {showMenu && (
                 <S.Dropdown ref={dropdownRef}>
-                    <S.DropdownItem onClick={handleExportRegistryClick}>Реестр КИИ</S.DropdownItem>
+                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                        <S.DropdownItem onClick={handleExportRegistryClick}>
+                            Реестр КИИ
+                        </S.DropdownItem>
+                    )}
                     <S.DropdownItem onClick={handleExportTechClick}>
                         Список технологий
                     </S.DropdownItem>
