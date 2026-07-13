@@ -1,3 +1,5 @@
+import { FitnessFunctionStatus } from 'features/fitness-functions';
+
 import { IPattern } from 'api/patterns/types';
 
 export interface IProductData {
@@ -255,10 +257,10 @@ export interface IOperationContainer {
 }
 
 export interface IFitnessFunctionCalculationData {
-    id: number;
-    isCheck: boolean;
-    countAll: number;
-    countSuccess: number;
+    ff_id: number;
+    is_check: boolean;
+    countDetail: number;
+    successDetail: number;
 }
 export interface IFitnessFunctionProductData {
     alias: string;
@@ -280,10 +282,10 @@ export type IFitnessFunctionData = {
     description: string;
     applicability: string;
     auxiliary_check: boolean;
-    status: string;
     script: string;
     method: string;
     method_synchronous: boolean;
+    status: FitnessFunctionStatus;
 };
 export interface IFitnessFunctionsAggregationResult {
     domain: IFitnessFunctionDomain[];

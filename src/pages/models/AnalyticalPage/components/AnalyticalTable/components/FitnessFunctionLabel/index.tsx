@@ -20,24 +20,24 @@ export const FitnessFunctionLabel: FC<IFitnessFunctionLabel> = ({ fitnessFunctio
                 <S.LabelStyled
                     variant="outline"
                     type={
-                        fitnessFunction.countSuccess === 0 &&
-                        fitnessFunction.countAll === 0 &&
-                        fitnessFunction.isCheck === false
+                        fitnessFunction.successDetail === 0 &&
+                        fitnessFunction.countDetail === 0 &&
+                        fitnessFunction.is_check === false
                             ? 'error'
-                            : fitnessFunction.countSuccess === fitnessFunction.countAll
+                            : fitnessFunction.successDetail === fitnessFunction.countDetail
                             ? 'success'
-                            : fitnessFunction.countSuccess === 0
+                            : fitnessFunction.successDetail === 0
                             ? 'error'
                             : 'warning'
                     }
                     iconName={
-                        fitnessFunction.countSuccess === 0 &&
-                        fitnessFunction.countAll === 0 &&
-                        fitnessFunction.isCheck === false
+                        fitnessFunction.successDetail === 0 &&
+                        fitnessFunction.countDetail === 0 &&
+                        fitnessFunction.is_check === false
                             ? Icons.Close
-                            : fitnessFunction.countSuccess === fitnessFunction.countAll
+                            : fitnessFunction.successDetail === fitnessFunction.countDetail
                             ? Icons.Check
-                            : fitnessFunction.countSuccess === 0
+                            : fitnessFunction.successDetail === 0
                             ? Icons.Close
                             : Icons.Info
                     }

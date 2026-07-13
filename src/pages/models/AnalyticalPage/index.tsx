@@ -24,6 +24,7 @@ export const AnalyticalPage = () => {
         domain: [],
         fitnessFunctions: [],
         hideEmpty: false,
+        status: null,
     });
 
     const { data, isLoading } = useGetFitnessFunctionsAggregationQuery();
@@ -36,6 +37,7 @@ export const AnalyticalPage = () => {
             selectedDomainIds: new Set(filterOptions.domain),
             selectedProductIds: new Set(filterOptions.product.map((id) => String(id))),
             selectedFitnessFunctionIds: new Set(filterOptions.fitnessFunctions),
+            fitnessFunctionStatus: filterOptions.status,
             hideEmpty: filterOptions.hideEmpty,
         });
     }, [
@@ -44,6 +46,7 @@ export const AnalyticalPage = () => {
         filterOptions.product,
         filterOptions.hideEmpty,
         filterOptions.fitnessFunctions,
+        filterOptions.status,
     ]);
 
     const { correctProductsCount, correctProductsPercent, totalProductsCount } = useMemo(
@@ -89,7 +92,8 @@ export const AnalyticalPage = () => {
                         <Skeleton height={48} radius={12} width={278} />
                         <Skeleton height={48} radius={12} width={278} />
                     </>
-                ) : (
+                ) : filteredFitnessFunctionsData &&
+                  filteredFitnessFunctionsData.fitnessFunctionEnum.length > 0 ? (
                     <>
                         <S.Card>
                             <Text variant="h5">{totalProductsCount}</Text>
@@ -110,11 +114,15 @@ export const AnalyticalPage = () => {
                             </Text>
                         </S.Card>
                     </>
+                ) : (
+                    <></>
                 )}
             </S.CardsContainer>
 
             {filteredFitnessFunctionsData &&
-                (totalProductsCount && totalProductsCount > 0 ? (
+                (totalProductsCount &&
+                totalProductsCount > 0 &&
+                filteredFitnessFunctionsData.fitnessFunctionEnum.length > 0 ? (
                     <AnalyticalTable
                         ref={tableRef}
                         fitnessFunctionsData={filteredFitnessFunctionsData}

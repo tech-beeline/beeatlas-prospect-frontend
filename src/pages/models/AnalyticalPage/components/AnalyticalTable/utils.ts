@@ -78,14 +78,14 @@ export const exportAnalyticalTableToExcel = ({
             const cells = fitnessFunctionsData.fitnessFunctionEnum.map((fitnessFunction) => {
                 const products = domain.product;
                 const productsWithFF = products.filter((product) =>
-                    product.fitnessFunctions.find((ff) => ff.id === fitnessFunction.id),
+                    product.fitnessFunctions.find((ff) => ff.ff_id === fitnessFunction.id),
                 );
 
                 const checkedProducts = productsWithFF.filter((product) => {
                     const productFF = product.fitnessFunctions.find(
-                        (ff) => ff.id === fitnessFunction.id,
+                        (ff) => ff.ff_id === fitnessFunction.id,
                     );
-                    return Boolean(productFF && productFF.isCheck);
+                    return Boolean(productFF && productFF.is_check);
                 });
 
                 // Логика экспорта должна совпадать с `FitnessFunctionProgressBar`.
@@ -103,7 +103,9 @@ export const exportAnalyticalTableToExcel = ({
         const name = product?.name ? `  ${product.name}` : '';
 
         const cells = fitnessFunctionsData.fitnessFunctionEnum.map((fitnessFunction) => {
-            const productFF = product?.fitnessFunctions.find((ff) => ff.id === fitnessFunction.id);
+            const productFF = product?.fitnessFunctions.find(
+                (ff) => ff.ff_id === fitnessFunction.id,
+            );
             if (!productFF) return '';
             return formatCellText(productFF);
         });
