@@ -1,9 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 import { Avatar, Chip, Icon, Pagination } from 'components/ui';
 
+import { ISearchEndpoint } from 'api/graph/types';
 import { OperationTypes } from 'pages/models/ImpactPage/const';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
@@ -18,7 +20,9 @@ export const EndpointSearchResults: FC<IEndpointSearchResults> = ({
     endpoints,
     search,
     visitedPages,
+    setBreadcrumbs,
 }) => {
+    const [, setSearchParams] = useSearchParams();
     const [operationType, setOperationType] = useState<OperationTypes>(OperationTypes.ARCH);
 
     const [page, setPage] = useState(1);
@@ -49,6 +53,19 @@ export const EndpointSearchResults: FC<IEndpointSearchResults> = ({
     const discoveredOperationsPagesCount = Math.ceil(
         (endpoints.discoveredOperations.length ?? 0) / RESULTS_PER_PAGE,
     );
+
+    const handleEndpointClick = (endpoint: ISearchEndpoint) => {
+        if (endpoint.deploymentsNodes && endpoint.deploymentsNodes.length > 0) return;
+        if (!endpoint.product) return;
+
+        setSearchParams({ name: endpoint.product.name, cmdb: endpoint.product.alias });
+        setBreadcrumbs([
+            {
+                name: endpoint.product.name,
+                link: `${R.MODELS_PATH}${R.IMPACT_PATH}?name=${endpoint.product.name}&cmdb=${endpoint.product.alias}`,
+            },
+        ]);
+    };
 
     return (
         <>
@@ -89,7 +106,13 @@ export const EndpointSearchResults: FC<IEndpointSearchResults> = ({
                             hovered={i === 0 && firstEndpointHovered}
                             onMouseEnter={() => setFirstEndpointHovered(false)}
                         >
-                            <S.EndpointSearchCard>
+                            <S.EndpointSearchCard
+                                hasDeployments={
+                                    !!endpoint.deploymentsNodes &&
+                                    endpoint.deploymentsNodes.length > 0
+                                }
+                                onClick={() => handleEndpointClick(endpoint)}
+                            >
                                 <Icon iconName={Icons.Search} size="large" />
                                 <S.SearchCardTextGapContainer>
                                     <div>
@@ -125,7 +148,15 @@ export const EndpointSearchResults: FC<IEndpointSearchResults> = ({
                                             <Text inactive variant="overline">
                                                 CMDB
                                             </Text>
-                                            <Text variant="body2">{endpoint.product?.alias}</Text>
+                                            <Text
+                                                link={
+                                                    !endpoint.deploymentsNodes ||
+                                                    endpoint.deploymentsNodes.length === 0
+                                                }
+                                                variant="body2"
+                                            >
+                                                {endpoint.product?.alias}
+                                            </Text>
                                         </div>
                                     )}
                                     {endpoint.container && (
@@ -149,7 +180,7 @@ export const EndpointSearchResults: FC<IEndpointSearchResults> = ({
                                     <Icon iconName={Icons.ArrowRight} size="large" />
                                 </S.ArrowContainer>
                             </S.EndpointSearchCard>
-                            <S.EndpointServersSearchCard>
+                            <S.EndpointServersSearchCard hasDeployments={false}>
                                 <S.SearchCardTextGapContainer>
                                     {endpoint.deploymentsNodes?.map((node) => (
                                         <div key={node.id}>

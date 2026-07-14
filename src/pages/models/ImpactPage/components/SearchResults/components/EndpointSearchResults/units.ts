@@ -79,12 +79,12 @@ export const EndpointContainer = styled.div<{ hovered: boolean }>`
         `}
 `;
 
-export const EndpointSearchCard = styled(SearchCard)`
+export const EndpointSearchCard = styled(SearchCard)<{ hasDeployments: boolean }>`
     width: calc((100% - 16px) / 2);
 
     height: fit-content;
 
-    cursor: default;
+    cursor: ${({ hasDeployments }) => (hasDeployments ? 'default' : 'pointer')};
 `;
 
 const opaqueSelectedBackground = `
