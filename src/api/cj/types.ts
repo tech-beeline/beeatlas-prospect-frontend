@@ -20,7 +20,7 @@ export interface ICJForm {
     user_portrait?: string | null;
     dashboardLink?: string;
     productId: string;
-    businessOwner: number;
+    businessOwner: number | null;
     techOwners: number[];
 }
 

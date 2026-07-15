@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 
 import { Text } from 'components/core';
-import { Link } from 'components/other';
 import { IconButton } from 'components/ui';
 import { TableBody, TableData, TableHead, TableHeaderData, TableRow } from 'components/ui';
 
@@ -49,7 +48,6 @@ export const FitnessFunctionsRow: FC<IFitnessFunctionsRow> = ({ fitnessFunctions
                                         <TableRow>
                                             <TableHeaderData>Код</TableHeaderData>
                                             <TableHeaderData>Описание проверки</TableHeaderData>
-                                            <TableHeaderData>Методика</TableHeaderData>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -57,9 +55,6 @@ export const FitnessFunctionsRow: FC<IFitnessFunctionsRow> = ({ fitnessFunctions
                                             <TableRow key={fitnessFunction.id}>
                                                 <TableData>{fitnessFunction.code}</TableData>
                                                 <TableData>{fitnessFunction.description}</TableData>
-                                                <TableData>
-                                                    <Link url={fitnessFunction.docLink} />
-                                                </TableData>
                                             </TableRow>
                                         ))}
                                     </TableBody>

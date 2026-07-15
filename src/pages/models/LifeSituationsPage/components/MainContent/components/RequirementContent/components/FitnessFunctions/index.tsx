@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import { TableHeaderData } from 'components/ui';
 import { TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
@@ -24,7 +24,6 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ fitnessFunctions }) =>
                         <TableRow>
                             <TableHeaderData>Код</TableHeaderData>
                             <TableHeaderData>Описание проверки</TableHeaderData>
-                            <TableHeaderData>Методика</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -32,9 +31,6 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ fitnessFunctions }) =>
                             <TableRow key={fitnessFunction.id}>
                                 <TableData>{fitnessFunction.code}</TableData>
                                 <TableData>{fitnessFunction.description}</TableData>
-                                <TableData>
-                                    <Link url={fitnessFunction.docLink} />
-                                </TableData>
                             </TableRow>
                         ))}
                     </TableBody>

@@ -12,14 +12,14 @@ export const FitnessFunctionProgressBar: FC<IFitnessFunctionProgressBar> = ({
     isExpanded,
 }) => {
     const productsWithFF = products.filter((product) =>
-        product.fitnessFunctions.find((ff) => ff.id === fitnessFunction.id),
+        product.fitnessFunctions.find((ff) => ff.ff_id === fitnessFunction.id),
     );
 
     const themeIsDark = useThemeStore((store) => store.themeIsDark);
 
     const checkedProducts = productsWithFF.filter((product) => {
-        const productFF = product.fitnessFunctions.find((ff) => ff.id === fitnessFunction.id);
-        return productFF && productFF.isCheck;
+        const productFF = product.fitnessFunctions.find((ff) => ff.ff_id === fitnessFunction.id);
+        return productFF && productFF.is_check;
     });
 
     const percent = (checkedProducts.length / products.length) * 100;

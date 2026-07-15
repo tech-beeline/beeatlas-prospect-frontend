@@ -43,24 +43,27 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
                             </Text>
                             <Text variant="body2">{formatNullableString(cj.userPortrait)}</Text>
                         </div>
-                        <div>
-                            <Text variant="body3" inactive>
-                                Владелец сценария
-                            </Text>
-                            {!cj.businessOwner && (
-                                <Text variant="body2">{formatNullableString(null)}</Text>
-                            )}
-                            {cj.businessOwner && (
-                                <>
-                                    <Text variant="body2">
-                                        {formatNullableString(cj.businessOwner.fullName)}
-                                    </Text>
-                                    <Text inactive variant="body3">
-                                        {formatNullableString(cj.businessOwner.email)}
-                                    </Text>
-                                </>
-                            )}
-                        </div>
+
+                        {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                            <div>
+                                <Text variant="body3" inactive>
+                                    Владелец сценария
+                                </Text>
+                                {!cj.businessOwner && (
+                                    <Text variant="body2">{formatNullableString(null)}</Text>
+                                )}
+                                {cj.businessOwner && (
+                                    <>
+                                        <Text variant="body2">
+                                            {formatNullableString(cj.businessOwner.fullName)}
+                                        </Text>
+                                        <Text inactive variant="body3">
+                                            {formatNullableString(cj.businessOwner.email)}
+                                        </Text>
+                                    </>
+                                )}
+                            </div>
+                        )}
 
                         <div>
                             <Text variant="body3" inactive>
@@ -79,27 +82,31 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
                             </Text>
                         </div>
 
-                        {cj.techOwners.length === 0 && (
-                            <div>
-                                <Text variant="body3" inactive>
-                                    Технический ответственный
-                                </Text>
-                                <Text variant="body2">{formatNullableString(null)}</Text>
-                            </div>
-                        )}
+                        {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                            <>
+                                {cj.techOwners.length === 0 && (
+                                    <div>
+                                        <Text variant="body3" inactive>
+                                            Технический ответственный
+                                        </Text>
+                                        <Text variant="body2">{formatNullableString(null)}</Text>
+                                    </div>
+                                )}
 
-                        {cj.techOwners.length > 0 &&
-                            cj.techOwners.map((techOwner) => (
-                                <div key={techOwner.id}>
-                                    <Text variant="body3" inactive>
-                                        Технический ответственный
-                                    </Text>
-                                    <Text variant="body2">{techOwner.fullName}</Text>
-                                    <Text inactive variant="body3">
-                                        {techOwner.email}
-                                    </Text>
-                                </div>
-                            ))}
+                                {cj.techOwners.length > 0 &&
+                                    cj.techOwners.map((techOwner) => (
+                                        <div key={techOwner.id}>
+                                            <Text variant="body3" inactive>
+                                                Технический ответственный
+                                            </Text>
+                                            <Text variant="body2">{techOwner.fullName}</Text>
+                                            <Text inactive variant="body3">
+                                                {techOwner.email}
+                                            </Text>
+                                        </div>
+                                    ))}
+                            </>
+                        )}
 
                         <div>
                             <Text variant="body3" inactive>

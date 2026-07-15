@@ -22,17 +22,23 @@ const ownerSchema = object({
 });
 
 const optionalOwnerSchema = object({
-    id: number().nullable().defined(),
-    employeeNumber: string().defined(),
-    login: string().defined(),
-    fullname: string().defined(),
-    email: string().defined(),
-});
+    id: number().nullable().default(null),
+    employeeNumber: string().default(''),
+    login: string().default(''),
+    fullname: string().default(''),
+    email: string().default(''),
+}).default(defaultBusinessOwner);
 
-export const validationSchema = object().shape({
-    name: string().required('Заполните название'),
-    userPortrait: string().nullable().notRequired(),
-    businessOwner: ownerSchema.required('Укажите владельца сценария'),
-    product: number().defined().default(0),
-    techOwner: array().of(optionalOwnerSchema).ensure().default([]),
-});
+export const getValidationSchema = () => {
+    const isDemoStand = window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND;
+
+    return object().shape({
+        name: string().required('Заполните название'),
+        userPortrait: string().nullable().notRequired(),
+        businessOwner: isDemoStand
+            ? optionalOwnerSchema
+            : ownerSchema.required('Укажите владельца сценария'),
+        product: number().defined().default(0),
+        techOwner: array().of(optionalOwnerSchema).ensure().default([]),
+    });
+};

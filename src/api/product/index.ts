@@ -5,6 +5,7 @@ import { formatNullableStringParam } from 'utils/formatters';
 
 import {
     GATEWAY_CAPABILITY_URL,
+    GATEWAY_FF_URL,
     GATEWAY_PRODUCT_URL,
     GATEWAY_STRUCTURIZR_URL,
     GATEWAY_URL,
@@ -180,7 +181,7 @@ export const deleteProductById = (id: string) => {
 export const getFitnessFunctionsAggregation =
     (): AxiosPromise<T.IFitnessFunctionsAggregationResult> => {
         return Api.get({
-            url: `${GATEWAY_PRODUCT_URL}v1/dashboard/fitness-function`,
+            url: `${GATEWAY_FF_URL}v1/dashboard/fitness-function`,
         });
     };
 
@@ -202,7 +203,7 @@ export const getNfrById = (
     id: string | number,
 ): AxiosPromise<T.INonFunctionalRequirementFullData> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/nfr/${id}`,
+        url: `${GATEWAY_PRODUCT_URL}v2/nfr/${id}`,
     });
 };
 
@@ -218,7 +219,7 @@ export const getNfrsByProductAlias = (
     alias: string,
 ): AxiosPromise<T.INonFunctionalRequirementFullData[]> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/nfr/product?alias=${alias}`,
+        url: `${GATEWAY_PRODUCT_URL}v2/nfr/product?alias=${alias}`,
     });
 };
 
@@ -267,13 +268,13 @@ export const patchLifeSituation = (id: number, data: T.ILifeSituationForm) => {
 
 export const getFitnessFunctions = (): AxiosPromise<T.IFitnessFunctionData[]> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/ff`,
+        url: `${GATEWAY_FF_URL}v1/fitness-functions`,
     });
 };
 
 export const postNFR = (data: T.INFRForm): AxiosPromise<{ coreId: number; versionId: number }> => {
     return Api.post({
-        url: `${GATEWAY_PRODUCT_URL}v1/requirement`,
+        url: `${GATEWAY_PRODUCT_URL}v2/requirement`,
         data,
     });
 };
@@ -283,7 +284,7 @@ export const postNFRVersion = (
     data: T.INFRForm,
 ): AxiosPromise<{ versionId: number }> => {
     return Api.post({
-        url: `${GATEWAY_PRODUCT_URL}v1/requirement/version?code=${code}`,
+        url: `${GATEWAY_PRODUCT_URL}v2/requirement/version?code=${code}`,
         data,
     });
 };

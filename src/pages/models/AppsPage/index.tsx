@@ -35,7 +35,7 @@ export const AppsPage = () => {
             fitnessAggregationData.domain.flatMap((d) =>
                 d.product.map((p) => {
                     const checked = p.fitnessFunctions.reduce(
-                        (count, ff) => count + (ff.isCheck ? 1 : 0),
+                        (count, ff) => count + (ff.is_check ? 1 : 0),
                         0,
                     );
 

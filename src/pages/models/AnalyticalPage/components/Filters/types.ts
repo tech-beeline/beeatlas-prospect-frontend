@@ -1,3 +1,5 @@
+import { FitnessFunctionStatus } from 'features/fitness-functions';
+
 import { IFitnessFunctionsAggregationResult } from 'api/product/types';
 
 export interface IFilterOptions {
@@ -6,6 +8,7 @@ export interface IFilterOptions {
     domain: number[];
     fitnessFunctions: number[];
     hideEmpty: boolean;
+    status: FitnessFunctionStatus | null;
 }
 
 export enum SearchResultType {

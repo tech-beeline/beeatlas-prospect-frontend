@@ -1,3 +1,5 @@
+import { FitnessFunctionStatus } from 'features/fitness-functions';
+
 import {
     IFitnessFunctionDomain,
     IFitnessFunctionProductData,
@@ -9,22 +11,33 @@ export const filterFitnessFunctionsAggregation = ({
     selectedDomainIds,
     selectedProductIds,
     selectedFitnessFunctionIds,
+    fitnessFunctionStatus,
     hideEmpty,
 }: {
     data: IFitnessFunctionsAggregationResult;
     selectedDomainIds: Set<number>;
     selectedProductIds: Set<string>;
     selectedFitnessFunctionIds: Set<number>;
+    fitnessFunctionStatus: FitnessFunctionStatus | null;
     hideEmpty: boolean;
 }): IFitnessFunctionsAggregationResult => {
     const isDomainFilterActive = selectedDomainIds.size > 0;
     const isProductFilterActive = selectedProductIds.size > 0;
-    const isFitnessFunctionFilterActive = selectedFitnessFunctionIds.size > 0;
+    const isFitnessFunctionFilterActive =
+        selectedFitnessFunctionIds.size > 0 || fitnessFunctionStatus !== null;
 
     const fitnessFunctionEnum = isFitnessFunctionFilterActive
-        ? data.fitnessFunctionEnum.filter((fitnessFunction) =>
-              selectedFitnessFunctionIds.has(fitnessFunction.id),
-          )
+        ? data.fitnessFunctionEnum
+              .filter((fitnessFunction) =>
+                  selectedFitnessFunctionIds.size > 0
+                      ? selectedFitnessFunctionIds.has(fitnessFunction.id)
+                      : true,
+              )
+              .filter((fitnessFunction) =>
+                  fitnessFunctionStatus !== null
+                      ? fitnessFunction.status === fitnessFunctionStatus
+                      : true,
+              )
         : data.fitnessFunctionEnum;
 
     if (!isDomainFilterActive && !isProductFilterActive) {
@@ -124,8 +137,8 @@ export const getDashboardData = (
 
     const correctProductsCount = totalProductsCount.filter((product) =>
         enumIds.every((id) => {
-            const ff = product.fitnessFunctions.find((x) => x.id === id);
-            return ff?.isCheck === true;
+            const ff = product.fitnessFunctions.find((x) => x.ff_id === id);
+            return ff?.is_check === true;
         }),
     ).length;
 
