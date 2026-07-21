@@ -77,6 +77,8 @@ export const CreateNFRsPage = () => {
             descr: item.description,
         }));
 
+    // @TODO: убрать этот комментарий
+
     const navigateBack = () => {
         navigate(`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`);
     };
