@@ -3,6 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
+import { FitnessFunctionStatus } from 'features/fitness-functions';
 
 import { Text } from 'components/core';
 import { AutocompleteArray, TextArea, TextField } from 'components/form';
@@ -68,11 +69,13 @@ export const CreateNFRsPage = () => {
         value: item.name,
         descr: item.code,
     }));
-    const fitnessFunctionOptions = (fitnessFunctions ?? []).map((item) => ({
-        id: item.id,
-        value: item.code,
-        descr: item.description,
-    }));
+    const fitnessFunctionOptions = (fitnessFunctions ?? [])
+        .filter((ff) => ff.status !== FitnessFunctionStatus.TEST)
+        .map((item) => ({
+            id: item.id,
+            value: item.code,
+            descr: item.description,
+        }));
 
     const navigateBack = () => {
         navigate(`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`);
