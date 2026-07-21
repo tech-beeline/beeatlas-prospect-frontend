@@ -88,17 +88,19 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                     </S.NameContainer>
                 </TableData>
                 {showContextApi && (
-                    <TableData>
-                        <Text inactive={disabled} variant="body3">
-                            {mapicInterface.context}
-                        </Text>
-                    </TableData>
+                    <>
+                        <TableData>
+                            <Text inactive={disabled} variant="body3">
+                                {mapicInterface.context}
+                            </Text>
+                        </TableData>
+                        <TableData>
+                            <Text inactive={disabled} variant="body3">
+                                {formatNullableString(mapicInterface.contextProvider)}
+                            </Text>
+                        </TableData>
+                    </>
                 )}
-                <TableData>
-                    <Text inactive={disabled} variant="body3">
-                        {formatNullableString(mapicInterface.contextProvider)}
-                    </Text>
-                </TableData>
                 {isEditing && (
                     <S.TableDataInput>
                         <S.RelativeContainer>

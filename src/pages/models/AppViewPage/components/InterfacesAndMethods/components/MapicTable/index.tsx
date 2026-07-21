@@ -222,8 +222,12 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, discoveredSources
                         )}
                         <TableRow>
                             <TableHeaderData>Интерфейс mapic</TableHeaderData>
-                            {showContextApi && <TableHeaderData>Контекст api</TableHeaderData>}
-                            <TableHeaderData>Контекст провайдера</TableHeaderData>
+                            {showContextApi && (
+                                <>
+                                    <TableHeaderData>Контекст api</TableHeaderData>
+                                    <TableHeaderData>Контекст провайдера</TableHeaderData>
+                                </>
+                            )}
                             <TableHeaderData>Интерфейс structurizr</TableHeaderData>
                             <TableHeaderData alignRight>
                                 Методы (всего/сопоставленные)
