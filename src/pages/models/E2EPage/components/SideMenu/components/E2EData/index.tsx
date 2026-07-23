@@ -20,12 +20,12 @@ export const E2EData: FC<IE2EData> = ({ activeBiStep, biSteps, isLoading }) => {
     const searchResultsFiltered = biSteps.filter(
         (item) =>
             item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.uid.toLowerCase().includes(searchText.toLowerCase()),
+            item.code.toLowerCase().includes(searchText.toLowerCase()),
     );
 
     const handleSearchResultClick = (item: IStagingSequenceBiStep) => {
         const params = new URLSearchParams(searchParams);
-        params.set('id', String(item.uid));
+        params.set('id', String(item.code));
         params.set('type', E2ETreeItemType.BI_STEP);
         setSearchParams(params);
         setSearchText(item.name);
@@ -51,12 +51,12 @@ export const E2EData: FC<IE2EData> = ({ activeBiStep, biSteps, isLoading }) => {
                         <S.MenuBlock>
                             {searchResultsFiltered.map((item, index) => (
                                 <S.MenuItem
-                                    key={`${item.uid}-${index}`}
+                                    key={`${item.code}-${index}`}
                                     onMouseDown={() => handleSearchResultClick(item)}
                                 >
                                     <Text variant="body2">{item.name}</Text>
                                     <Text inactive variant="body3">
-                                        {item.uid}
+                                        {item.code}
                                     </Text>
                                 </S.MenuItem>
                             ))}
@@ -78,7 +78,7 @@ export const E2EData: FC<IE2EData> = ({ activeBiStep, biSteps, isLoading }) => {
                     ))}
                 {biSteps.map((item, i) => (
                     <ListItem
-                        key={`${i}-${item.uid}`}
+                        key={`${i}-${item.code}`}
                         item={item}
                         activeBiStep={activeBiStep}
                         itemToScroll={itemToScroll}
