@@ -31,7 +31,7 @@ export const E2EPage = () => {
 
     const activeBiStep = useMemo(() => {
         if (!code || !type) return null;
-        return biSteps?.find((item) => item.uid === code) ?? null;
+        return biSteps?.find((item) => item.code === code) ?? null;
     }, [biSteps, code, type]);
 
     return (
