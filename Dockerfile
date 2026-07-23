@@ -33,7 +33,7 @@ RUN mkdir -p /www/env && chown -R nginx:root /www/env && chmod o+rw /www/env && 
 USER nginx
 
 # Переменные окружения (значения по умолчанию)
-ARG VERSION=1.14.1
+ARG VERSION=1.14.2
 ENV APPVERSION=${VERSION}
 ENV FLAG_IS_PROD=true
 ENV FLAG_IS_DEMO_STAND=false
