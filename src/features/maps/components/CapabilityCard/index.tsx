@@ -81,7 +81,7 @@ export const CapabilityCard: FC<ICapabilityCard> = ({
     }
 
     return (
-        <S.GroupCard>
+        <S.GroupCard topLevel={topLevel}>
             <S.GroupCardTitle>{item.name}</S.GroupCardTitle>
             {item.children.map((child) =>
                 child.children.length !== 0 ? (
