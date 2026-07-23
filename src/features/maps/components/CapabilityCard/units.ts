@@ -7,8 +7,12 @@ export const Card = styled.div<{ topLevel?: boolean; withinGrid?: boolean }>`
     flex-direction: column;
 
     width: 100%;
-    ${({ topLevel, withinGrid }) => (topLevel && !withinGrid ? 'min-width: 424px;' : '')}
-    ${({ withinGrid }) => (withinGrid ? '' : 'max-width: 424px;')}
+    box-sizing: border-box;
+    ${({ topLevel, withinGrid }) => {
+        if (withinGrid) return '';
+        if (topLevel) return 'min-width: 424px; max-width: 424px;';
+        return 'max-width: 100%;';
+    }}
 
     ${({ withinGrid }) => (withinGrid ? '' : 'height: fit-content;')}
     
@@ -38,6 +42,8 @@ export const CardText = styled.div`
     font-weight: var(--font-weight-body2);
     font-size: var(--font-size-body2);
     line-height: var(--font-line-height-body2);
+
+    word-break: break-word;
 `;
 
 export const CriteriaContainer = styled.div`
@@ -48,19 +54,23 @@ export const CriteriaContainer = styled.div`
     margin-top: 24px;
 `;
 
-export const GroupCard = styled.div`
+export const GroupCard = styled.div<{ topLevel?: boolean }>`
     display: flex;
     flex-direction: column;
     gap: 16px;
 
-    min-width: 424px;
-    max-width: 424px;
     height: fit-content;
+    box-sizing: border-box;
 
     padding: 16px;
 
     border-radius: 12px;
     border: 1px solid var(--color-divider);
+
+    ${({ topLevel = true }) =>
+        topLevel
+            ? 'min-width: 424px; max-width: 424px;'
+            : 'width: 100%; min-width: 0; max-width: 100%;'}
 `;
 
 export const SubgroupCard = styled.div`
@@ -68,7 +78,10 @@ export const SubgroupCard = styled.div`
     flex-direction: column;
     gap: 16px;
 
+    width: 100%;
+    min-width: 0;
     height: fit-content;
+    box-sizing: border-box;
 
     padding: 16px;
 
@@ -82,6 +95,8 @@ export const GroupCardTitle = styled.div`
     line-height: var(--font-line-height-subtitle2);
 
     margin-bottom: 8px;
+
+    word-break: break-word;
 `;
 
 export const TechCapabilityCard = styled.div`
