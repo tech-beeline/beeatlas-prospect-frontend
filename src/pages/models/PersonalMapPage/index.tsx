@@ -56,7 +56,13 @@ export const PersonalMapPage = () => {
             ),
         });
 
-    const capabilityType = mapData?.type.name === 'TECH_CAPABILITY' ? 'tc' : 'bc';
+    const capabilityType = capabilityId
+        ? capabilityTreeData?.children.length === 0 && !capabilityTreeData?.isDomain
+            ? 'tc'
+            : 'bc'
+        : mapData?.type.name === 'TECH_CAPABILITY'
+        ? 'tc'
+        : 'bc';
 
     const { data: criteriasData, isLoading: isLoadingCriterias } =
         useGetMapCriteriasQuery(capabilityType);
@@ -79,6 +85,7 @@ export const PersonalMapPage = () => {
 
     useEffect(() => {
         setIsExpanded(false);
+        setMapVariant(MapVariant.DEFAULT);
     }, [capabilityId]);
 
     return (
