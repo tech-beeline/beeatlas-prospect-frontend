@@ -14,7 +14,7 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
     return (
         <>
             {isLoading && <Skeleton radius={12} height={100} />}
-            {data && data.bi_step_relations.length === 0 && (
+            {data && data.operationsRelations.length === 0 && (
                 <Text inactive variant="body3">
                     Нет данных
                 </Text>
@@ -22,7 +22,7 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
             {data && (
                 <S.CallsContainer>
                     {callsTree.map((item) => (
-                        <CallTreeItem key={item.name} item={item} level={0} />
+                        <CallTreeItem key={item.id} item={item} level={0} />
                     ))}
                 </S.CallsContainer>
             )}
