@@ -20,7 +20,7 @@ import { useGetUserProductsKeyById } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
 import { Icons } from 'styles/design-tokens/js/iconfont';
-import { formatNullableString } from 'utils/formatters';
+import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { BlurButton } from '../BlurButton';
@@ -74,13 +74,13 @@ export const CommonInfo: FC<ICommonInfo> = ({
 
     const { data: userInfoData } = useGetUserInfoQuery();
 
-    const { mutateAsync } = useRestartProcessMutation();
+    const { mutateAsync: restartProcess } = useRestartProcessMutation();
 
     const handleRefreshClick = async () => {
         if (cmdb && processesData && processesData[0]) {
             try {
                 setTempDisabled(true);
-                await mutateAsync({ processId: processesData[0].id, cmdb });
+                await restartProcess({ processId: processesData[0].id, cmdb });
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
             } catch (e) {
                 setTempDisabled(false);
@@ -104,6 +104,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
         closeModal: closeArchitectureModal,
         modalOpened: isArchitectureModalOpened,
     } = useModal();
+
     return (
         <S.Container>
             <Text inactive variant="body2">
@@ -272,7 +273,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                                         </S.StructurizrIdContainer>
                                     </TableData>
                                     <TableData>
-                                        {dayjs(processesData[0].status.createdDate)
+                                        {dayjs(formatDateToUTC(processesData[0].status.createdDate))
                                             .local()
                                             .format('DD.MM.YYYY, HH:mm')}
                                     </TableData>

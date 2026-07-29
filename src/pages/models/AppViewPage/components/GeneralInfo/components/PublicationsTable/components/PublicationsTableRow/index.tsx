@@ -6,6 +6,7 @@ import { Label, Skeleton, TableData, TableRow, Timeline } from 'components/ui';
 
 import { useGetProcessesById, useGetProcessesStatus } from 'api/queries/camunda';
 import { Icons } from 'styles/design-tokens/js/iconfont';
+import { formatDateToUTC } from 'utils/formatters';
 
 import { getProcessStatus } from './helpers';
 import { IPublicationsTableRow } from './types';
@@ -85,7 +86,7 @@ export const PublicationsTableRow: FC<IPublicationsTableRow> = ({ process }) => 
                         iconName={Icons.NavArrowDown}
                         onClick={() => setIsExpanded(!isExpanded)}
                     />
-                    {`${process.type.name} от ${dayjs(process.status.createdDate)
+                    {`${process.type.name} от ${dayjs(formatDateToUTC(process.status.createdDate))
                         .local()
                         .format('DD.MM.YYYY, HH:mm')}`}
                 </S.TableDataFullWidth>
