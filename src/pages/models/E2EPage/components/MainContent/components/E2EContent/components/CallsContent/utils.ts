@@ -2,91 +2,58 @@ import { IStagingSequenceCallsData } from 'api/staging-sequence/types';
 
 import { ITreeItem } from './types';
 
+type IOperation = IStagingSequenceCallsData['operations'][number];
+type IOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];
+
 const formatOperationNodeName = (
-    operationRef: IStagingSequenceCallsData['operation_refs'][number] | undefined,
-    operationRefId: number,
+    relation: IOperationRelation,
+    operation: IOperation | undefined,
 ): string => {
-    if (!operationRef) {
-        return `Unknown operation #${operationRefId}`;
+    if (!operation) {
+        return `Unknown operation #${relation.relatedOperationId}`;
     }
 
-    const parts: string[] = [
-        operationRef.name || operationRef.uid || `Operation #${operationRefId}`,
-    ];
+    const label = [
+        relation.stereotype,
+        operation.type,
+        `${operation.name};`,
+        `rps=${operation.sla?.rps};`,
+        `latency=${operation.sla?.latency};`,
+        `error_rate=${operation.sla?.errorRate};`,
+        `interface=${operation.interfaceCode};`,
+        `container=${operation.containerCode};`,
+        `product=${operation.productAlias}`,
+    ].join(' ');
 
-    if (typeof operationRef.rps === 'number') {
-        parts.push(`rps=${operationRef.rps}`);
-    }
-    if (typeof operationRef.latency === 'number') {
-        parts.push(`latency=${operationRef.latency}`);
-    }
-    if (typeof operationRef.error_rate === 'number') {
-        parts.push(`error_rate=${operationRef.error_rate}`);
-    }
-    if (operationRef.interface_code) {
-        parts.push(`interface=${operationRef.interface_code}`);
-    }
-    if (operationRef.container_code) {
-        parts.push(`container=${operationRef.container_code}`);
-    }
-    if (operationRef.product_code) {
-        parts.push(`product=${operationRef.product_code}`);
-    }
-
-    return parts.join('; ');
+    return label;
 };
+
+const buildTreeItems = (
+    relations: IOperationRelation[],
+    operationsById: Map<number, IOperation>,
+    pathPrefix = '',
+): ITreeItem[] =>
+    [...relations]
+        .sort((a, b) => a.order - b.order)
+        .map((relation, index) => {
+            const operation = operationsById.get(relation.relatedOperationId);
+            const id = `${pathPrefix}${index}-${relation.relatedOperationId}-${relation.order}`;
+
+            return {
+                id,
+                name: formatOperationNodeName(relation, operation),
+                children: relation.operationsRelations?.length
+                    ? buildTreeItems(relation.operationsRelations, operationsById, `${id}/`)
+                    : [],
+            };
+        });
 
 export const formatCallsTreeData = (data: IStagingSequenceCallsData | undefined): ITreeItem[] => {
     if (!data) {
         return [];
     }
 
-    const roots = [...(data.bi_step_relations ?? [])].sort((a, b) => a.call_order - b.call_order);
-    const relations = data.operation_relations ?? [];
-    const refsById = new Map((data.operation_refs ?? []).map((item) => [item.id, item]));
+    const operationsById = new Map(data.operations.map((operation) => [operation.id, operation]));
 
-    const relationsByOperationRefId = relations.reduce<
-        Map<number, IStagingSequenceCallsData['operation_relations']>
-    >((acc, relation) => {
-        const current = acc.get(relation.operation_ref_id) ?? [];
-        current.push(relation);
-        acc.set(relation.operation_ref_id, current);
-        return acc;
-    }, new Map());
-
-    const buildChildren = (operationRefId: number, visited: Set<number>): ITreeItem[] => {
-        if (visited.has(operationRefId)) {
-            return [];
-        }
-
-        const nestedRelations = [...(relationsByOperationRefId.get(operationRefId) ?? [])].sort(
-            (a, b) => a.call_order - b.call_order,
-        );
-
-        if (!nestedRelations.length) {
-            return [];
-        }
-
-        const nextVisited = new Set(visited);
-        nextVisited.add(operationRefId);
-
-        return nestedRelations.map((relation) => {
-            const childOperationRefId = relation.related_operation_ref_id;
-            const childOperationRef = refsById.get(childOperationRefId);
-
-            return {
-                name: formatOperationNodeName(childOperationRef, childOperationRefId),
-                children: buildChildren(childOperationRefId, nextVisited),
-            };
-        });
-    };
-
-    return roots.map((root) => {
-        const operationRef = refsById.get(root.operation_ref_id);
-
-        return {
-            name: formatOperationNodeName(operationRef, root.operation_ref_id),
-            children: buildChildren(root.operation_ref_id, new Set()),
-        };
-    });
+    return buildTreeItems(data.operationsRelations, operationsById);
 };

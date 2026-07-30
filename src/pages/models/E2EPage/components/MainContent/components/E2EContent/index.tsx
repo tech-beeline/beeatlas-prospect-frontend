@@ -14,7 +14,7 @@ import { formatTabLabel } from './utils';
 export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
 
-    const { data, isLoading } = useGetSequenceCallsByIdQuery(activeBiStep.uid);
+    const { data, isLoading } = useGetSequenceCallsByIdQuery(activeBiStep.code);
 
     return (
         <>
@@ -33,7 +33,7 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
             </S.TabsContainer>
             {tabVariant === TabVariants.CALLS && <CallsContent data={data} isLoading={isLoading} />}
             {tabVariant === TabVariants.RELATED_CJS && (
-                <RelatedCJs data={data} isLoading={isLoading} />
+                <RelatedCJs biStepCode={activeBiStep.biStepCode} />
             )}
         </>
     );

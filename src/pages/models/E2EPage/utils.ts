@@ -19,9 +19,10 @@ export const formatTreeData = (data: IStagingSequenceCJ[] | undefined): IE2ETree
                 cjCode: cj.uid,
                 cjName: cj.name,
             },
-            children: bi.bi_steps.map((biStep) => ({
-                id: String(biStep.id ?? ''),
+            children: bi.biSteps.map((biStep) => ({
+                id: String(biStep.uid ?? ''),
                 code: biStep.uid,
+                e2eCode: biStep.e2eCode,
                 title: biStep.name,
                 type: E2ETreeItemType.BI_STEP,
                 cjData: {
