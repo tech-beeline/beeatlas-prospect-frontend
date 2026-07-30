@@ -115,7 +115,9 @@ export function useRestartProcessMutation() {
         mutationKey: [CAMUNDA_PREFIX, 'restart'],
         mutationFn: async (params: IRestartProcessForm) => {
             const data = await getProcessById(params.processId).then((res) => res.data);
-            const docId = data.context.find((c) => c.name === 'docId')?.value;
+            const docId =
+                data.context.find((c) => c.name === 'docId')?.value ??
+                data.context.find((c) => c.name === 'doc_id')?.value;
 
             if (docId) {
                 await startProcess({

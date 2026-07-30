@@ -57,7 +57,7 @@ export const PublicationsTableRow: FC<IPublicationsTableRow> = ({ process }) => 
 
                         {displayStatus?.createdDate && (
                             <Text variant="body2" inactive>
-                                {dayjs(displayStatus.createdDate)
+                                {dayjs(formatDateToUTC(displayStatus.createdDate))
                                     .local()
                                     .format('DD.MM.YYYY, HH:mm')}
                             </Text>
