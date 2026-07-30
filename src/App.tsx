@@ -28,6 +28,7 @@ const App = () => {
     useAuth();
     useTheme();
 
+    console.log('FEATURE_FLAGS');
     console.log(window.FEATURE_FLAGS);
 
     return (
