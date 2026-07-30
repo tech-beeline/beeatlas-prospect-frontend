@@ -1,13 +1,13 @@
 import { AxiosPromise } from 'axios';
 
-import { GATEWAY_CX_URL, GATEWAY_DASHBOARD_SERVICE_URL, GATEWAY_PRODUCT_URL } from 'api/const';
+import { GATEWAY_DASHBOARD_SERVICE_URL, GATEWAY_STAGING_SEQUENCE_URL } from 'api/const';
 import Api from 'utils/api/axiosWrapper';
 
 import * as T from './types';
 
 export const getStagingSequenceCjTree = (): AxiosPromise<T.IStagingSequenceCJ[]> => {
     return Api.get({
-        url: `${GATEWAY_CX_URL}cx/v1/cj/e2e`,
+        url: `${GATEWAY_STAGING_SEQUENCE_URL}api/v1/cj-tree`,
     });
 };
 
@@ -24,22 +24,14 @@ export const postSequenceAlertById = (uid: string, data: T.IStagingSequenceAlert
     });
 };
 
-export const getSequenceCallsById = (code: string): AxiosPromise<T.IStagingSequenceCallsData> => {
+export const getSequenceCallsById = (uid: string): AxiosPromise<T.IStagingSequenceCallsData> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/e2e/${code}`,
+        url: `${GATEWAY_STAGING_SEQUENCE_URL}api/v1/bi-step-refs/${uid}/sequence`,
     });
 };
 
 export const getStagingSequenceBiSteps = (): AxiosPromise<T.IStagingSequenceBiStep[]> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/e2e`,
-    });
-};
-
-export const getStagingSequenceBiStepByCode = (
-    code: string,
-): AxiosPromise<T.IStagingSequenceBiStepData> => {
-    return Api.get({
-        url: `${GATEWAY_CX_URL}cx/v1/bi-step/${code}`,
+        url: `${GATEWAY_STAGING_SEQUENCE_URL}api/v1/bi-step-refs`,
     });
 };

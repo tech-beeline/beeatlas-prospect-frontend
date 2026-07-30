@@ -10,7 +10,6 @@ export const formatTabLabel = (
         case TabVariants.CALLS:
             return 'Последовательность вызовов';
         case TabVariants.RELATED_CJS:
-            // return data?.cj ? `Связанные CJ (${data.cj.length})` : 'Связанные CJ';
-            return 'Связанные CJ';
+            return data?.cj ? `Связанные CJ (${data.cj.length})` : 'Связанные CJ';
     }
 };
