@@ -91,6 +91,8 @@ export const CommonInfo: FC<ICommonInfo> = ({
     const isUserProduct = (userInfoData?.productsIds ?? []).includes(productId);
     const isAdministrator = userInfoData?.roles?.includes('ADMINISTRATOR');
 
+    const canEditPublication = isUserProduct || isAdministrator;
+
     const { data: keysData } = useGetUserProductsKeyById(productId, {
         enabled: isUserProduct,
     });
@@ -164,7 +166,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                     </Text>
                 </>
             )}
-            {isAdministrator && structurizrApiUrl && structurizrApiUrl !== '' ? (
+            {canEditPublication && structurizrApiUrl && structurizrApiUrl !== '' ? (
                 <S.StructurizrTitle>
                     <Text inactive variant="body2">
                         Structurizr URL
@@ -190,7 +192,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                                 />
                             </S.LinkContainer>
                         </Text>
-                        {isAdministrator && (isUserProduct || isAdministrator) && (
+                        {canEditPublication && (
                             <>
                                 <Button
                                     disabled={
@@ -231,7 +233,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                             </>
                         )}
                     </S.StructurizrTitleContainer>
-                    {isAdministrator && processesData && processesData[0] && (
+                    {processesData && processesData[0] && (
                         <S.TableStyled>
                             <TableHead>
                                 <TableRow>
@@ -293,48 +295,10 @@ export const CommonInfo: FC<ICommonInfo> = ({
                 <Text variant="body2">{formatNullableString(null)}</Text>
             )}
 
-            {/* <Text inactive variant="body2">
-                                Репозиторий архитектуры
-                            </Text>
-                            {productData && (
-                                <Text variant="body2">
-                                    {productData.gitUrl ? (
-                                        <S.LinkContainer>
-                                            <Link title={productData.gitUrl} url={productData.gitUrl} />
-                                            <CopyButton text={productData.gitUrl} message="Ссылка скопирована" />
-                                        </S.LinkContainer>
-                                    ) : (
-                                        formatNullableString(null)
-                                    )}
-                                </Text>
-                            )} */}
-            {/* <Text inactive variant="body2">
-                                Репозитории кода
-                            </Text>
-                            <S.TableStyled>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableHeaderData>Название репозитория</TableHeaderData>
-                                        <TableHeaderData>Ссылка на репозиторий</TableHeaderData>
-                                        <TableHeaderData>Ссылка на контейнер</TableHeaderData>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableData>Текст ячейки</TableData>
-                                        <TableData>
-                                            <Link url="https://bw.beeline.ru/catalog/apps/53" />
-                                        </TableData>
-                                        <TableData>
-                                            <Link url="https://bw.beeline.ru/catalog/apps/53" />
-                                        </TableData>
-                                    </TableRow>
-                                </TableBody>
-                            </S.TableStyled> */}
             {cmdb &&
                 (structurizrApiUrl === null || structurizrApiUrl === '') &&
                 !hasKeyData &&
-                (isAdministrator || isUserProduct) && (
+                canEditPublication && (
                     <>
                         <S.NotFoundContainer>
                             <NotFoundBlock
@@ -351,69 +315,6 @@ export const CommonInfo: FC<ICommonInfo> = ({
                         />
                     </>
                 )}
-            {/* <Text inactive variant="body2">
-                Влияние приложения
-            </Text>
-            <Text variant="body2">
-                <Link
-                    showOuterIcon
-                    showIconPermanently
-                    title="Посмотреть влияние"
-                    url="https://bw.beeline.ru/catalog/apps/53"
-                />
-            </Text>
-            <Text inactive variant="body2">
-                Информация о приложении
-            </Text>
-            <Text variant="body2">
-                <S.LinkContainer>
-                    <Link
-                        title="https://bw.beeline.ru/catalog/apps/53"
-                        url="https://bw.beeline.ru/catalog/apps/53"
-                    />
-                    <CopyButton
-                        text="https://bw.beeline.ru/catalog/apps/53"
-                        message="Ссылка скопирована"
-                    />
-                </S.LinkContainer>
-            </Text>
-            <Text inactive variant="body2">
-                Дашборд приложения
-            </Text>
-            <Text variant="body2">
-                <S.LinkContainer>
-                    <Link
-                        title="https://bw.beeline.ru/catalog/apps/53"
-                        url="https://bw.beeline.ru/catalog/apps/53"
-                    />
-                    <CopyButton
-                        text="https://bw.beeline.ru/catalog/apps/53"
-                        message="Ссылка скопирована"
-                    />
-                </S.LinkContainer>
-            </Text>
-            <Text inactive variant="body2">
-                Workspace Structurizr
-            </Text>
-            {isLoading && <Skeleton height={22} width={200} radius={4} />}
-            {productData && (
-                <Text variant="body2">
-                    {productData.structurizrApiUrl ? (
-                        <S.LinkContainer>
-                            <Link
-                                title={productData.structurizrApiUrl}
-                                url={productData.structurizrApiUrl}
-                            />
-                            <CopyButton
-                                text={productData.structurizrApiUrl}
-                                message="Ссылка скопирована"
-                            />
-                        </S.LinkContainer>
-                    ) : (
-                        formatNullableString(null)
-                    )}
-                </Text>
-            )}*/}
         </S.Container>
     );
 };
