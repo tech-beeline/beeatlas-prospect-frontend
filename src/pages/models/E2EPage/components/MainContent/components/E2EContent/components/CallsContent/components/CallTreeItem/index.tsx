@@ -26,7 +26,7 @@ export const CallTreeItem: FC<ICallTreeItem> = ({ level, item }) => {
             </S.Container>
             {isExpanded &&
                 item.children.map((child) => (
-                    <CallTreeItem key={child.id} item={child} level={level + 1} />
+                    <CallTreeItem key={child.name} item={child} level={level + 1} />
                 ))}
         </>
     );

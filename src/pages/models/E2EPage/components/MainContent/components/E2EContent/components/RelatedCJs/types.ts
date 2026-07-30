@@ -1,3 +1,6 @@
+import { IStagingSequenceCallsData } from 'api/staging-sequence/types';
+
 export interface IRelatedCJs {
-    biStepCode: string | null;
+    data: IStagingSequenceCallsData | undefined;
+    isLoading: boolean;
 }

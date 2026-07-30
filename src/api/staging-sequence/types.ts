@@ -6,22 +6,21 @@ export interface IStagingSequenceCJ {
         name: string;
         uid: string;
         id: string | number | null;
-        biSteps: {
-            // id: number;
+        bi_steps: {
+            id: number;
             uid: string;
-            // bi_step_id: number;
+            bi_step_id: number;
             name: string;
-            e2eCode: string;
         }[];
     }[];
 }
 
 export interface IStagingSequenceBiStep {
     id: number;
-    code: string;
+    uid: string;
+    bi_step_id: number;
+    bi_ref_id: number;
     name: string;
-    description: string | null;
-    biStepCode: string | null;
 }
 
 export interface IStagingSequenceAlert {
@@ -41,54 +40,36 @@ export interface IStagingSequenceAlertForm {
     note: string;
 }
 
-interface IOperation {
-    id: number;
-    name: string;
-    type: string;
-    interfaceCode: string;
-    containerCode: string;
-    productAlias: string;
-    sla: {
-        latency: number;
-        errorRate: number;
-        rps: number;
-    } | null;
-}
-
-interface IOperationRelation {
-    order: number;
-    relatedOperationId: number;
-    stereotype: string;
-    operationsRelations: IOperationRelation[] | null;
-}
-
 export interface IStagingSequenceCallsData {
-    e2e: {
+    id: number;
+    uid: string;
+    bi_uid: string;
+    cj_uid: string;
+    bi_step_uid: string;
+    cj: { id: number; name: string; cj_uid: string }[];
+    bi_step_relations: {
         id: number;
-        code: string;
+        call_order: number;
+        operation_ref_id: number;
+        stereotype: string;
+    }[];
+    operation_relations: {
+        id: number;
+        operation_ref_id: number;
+        call_order: number;
+        related_operation_ref_id: number;
+        stereotype: string;
+    }[];
+    operation_refs: {
+        id: number;
+        operation_id: number;
+        uid: string;
         name: string;
-        description: string;
-        bi_step_code: string;
-    };
-    operationsRelations: IOperationRelation[];
-    operations: IOperation[];
-}
-
-export interface IStagingSequenceEntity {
-    id: number;
-    uid: string;
-    name: string;
-}
-
-export interface IStagingSequenceRelatedCJ {
-    id: number;
-    uid: string;
-    name: string;
-    bDraft: boolean;
-}
-
-export interface IStagingSequenceBiStepData {
-    biStep: IStagingSequenceEntity;
-    bi: IStagingSequenceEntity;
-    cj: IStagingSequenceRelatedCJ[];
+        interface_code: string;
+        container_code: string;
+        product_code: string;
+        rps: number;
+        latency: number;
+        error_rate: number;
+    }[];
 }
