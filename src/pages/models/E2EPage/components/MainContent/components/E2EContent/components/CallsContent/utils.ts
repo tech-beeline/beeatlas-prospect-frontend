@@ -8,35 +8,29 @@ type IOperationRelation = IStagingSequenceCallsData['operationsRelations'][numbe
 const formatOperationNodeName = (
     relation: IOperationRelation,
     operation: IOperation | undefined,
-    isNested: boolean,
 ): string => {
     if (!operation) {
-        return `${isNested ? '–>' : ''}Unknown operation #${relation.relatedOperationId}`;
+        return `Unknown operation #${relation.relatedOperationId}`;
     }
 
     const label = [
         relation.stereotype,
         operation.type,
         `${operation.name};`,
-        'interface',
-        `${operation.interfaceCode};`,
-        'container',
-        `${operation.containerCode};`,
-        'product',
-        `${operation.productAlias};`,
-        'sla:',
         `rps=${operation.sla?.rps};`,
         `latency=${operation.sla?.latency};`,
-        `error rate=${operation.sla?.errorRate}`,
+        `error_rate=${operation.sla?.errorRate};`,
+        `interface=${operation.interfaceCode};`,
+        `container=${operation.containerCode};`,
+        `product=${operation.productAlias}`,
     ].join(' ');
 
-    return isNested ? `–> ${label}` : label;
+    return label;
 };
 
 const buildTreeItems = (
     relations: IOperationRelation[],
     operationsById: Map<number, IOperation>,
-    isNested: boolean,
     pathPrefix = '',
 ): ITreeItem[] =>
     [...relations]
@@ -47,9 +41,9 @@ const buildTreeItems = (
 
             return {
                 id,
-                name: formatOperationNodeName(relation, operation, isNested),
+                name: formatOperationNodeName(relation, operation),
                 children: relation.operationsRelations?.length
-                    ? buildTreeItems(relation.operationsRelations, operationsById, true, `${id}/`)
+                    ? buildTreeItems(relation.operationsRelations, operationsById, `${id}/`)
                     : [],
             };
         });
@@ -61,5 +55,5 @@ export const formatCallsTreeData = (data: IStagingSequenceCallsData | undefined)
 
     const operationsById = new Map(data.operations.map((operation) => [operation.id, operation]));
 
-    return buildTreeItems(data.operationsRelations, operationsById, false);
+    return buildTreeItems(data.operationsRelations, operationsById);
 };
