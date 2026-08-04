@@ -1,45 +1,24 @@
 import React from 'react';
 import { css, Global } from '@emotion/react';
 
-// TODO: вероятно вынести шрифты отдельно
-
 export const GlobalStyles = () => {
     return (
         <Global
             styles={css`
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Regular.woff2') format('woff2');
-                    font-weight: 400;
-                }
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Medium.woff2') format('woff2');
-                    font-weight: 500;
-                }
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Bold.woff2') format('woff2');
-                    font-weight: 700;
-                }
-                @font-face {
-                    font-family: 'Beeline';
-                    src: url('/public/fonts/Beeline_Sans-Black.woff2') format('woff2');
-                    font-weight: 800;
-                }
-
                 *,
                 *::before,
                 *::after {
                     box-sizing: border-box;
                     -webkit-font-smoothing: antialiased;
                     -webkit-tap-highlight-color: transparent;
+                    /* transition: all 0.25s ease-out; */
                 }
 
                 html,
                 body,
                 #root {
                     height: 100%;
+                    /* background-color: var(--color-background-base); */
                 }
 
                 body,
@@ -52,13 +31,29 @@ export const GlobalStyles = () => {
                     -webkit-font-smoothing: antialiased;
                     -moz-osx-font-smoothing: grayscale;
                     text-rendering: optimizeSpeed;
+
+                    transition: all 0.25s ease-out !important;
                 }
 
                 body {
                     margin: 0;
-                    background-color: #ffffff;
+                    background-color: var(--color-background-base);
                     color: #212121;
-                    font-family: 'Beeline', sans-serif;
+                    font-family: 'Beeline Sans', sans-serif;
+                    overflow-wrap: break-word;
+
+                    * {
+                        ::-webkit-scrollbar-thumb {
+                            background-color: var(--color-utilities-scroll-hover);
+
+                            border-radius: var(--size-border-radius-x8);
+                        }
+
+                        ::-webkit-scrollbar {
+                            width: 8px;
+                            height: 8px;
+                        }
+                    }
                 }
 
                 h1,
@@ -75,6 +70,7 @@ export const GlobalStyles = () => {
                 ul,
                 dl {
                     margin-top: 0;
+                    margin-bottom: 0;
                 }
 
                 input,
@@ -85,6 +81,11 @@ export const GlobalStyles = () => {
                     font-family: inherit;
                     font-size: inherit;
                     line-height: inherit;
+                }
+
+                pre {
+                    margin: 0;
+                    font-family: inherit;
                 }
 
                 label {
@@ -117,10 +118,10 @@ export const GlobalStyles = () => {
                     background-color: #fdd835;
                     font-weight: 500;
                     white-space: nowrap;
-                    transition: all 0.2s ease-in-out;
+                    transition: all 0.25s ease-out;
                     user-select: none;
-                    border-radius: 12px;
-                    font-size: 17px;
+                    border-radius: var(--size-border-radius-x6);
+                    font-size: var(--font-size-body2);
                     line-height: 21px;
                     text-decoration: none;
                     color: #212121;
@@ -168,6 +169,63 @@ export const GlobalStyles = () => {
 
                 [contenteditable] {
                     outline: none;
+                }
+
+                a {
+                    all: unset;
+                }
+
+                div[data-floating-ui-portal] {
+                    z-index: 104;
+                    position: relative;
+                }
+
+                /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_inline-edit-modal_positioner > .dsb_card {
+                    padding: 8px;
+                }
+
+                /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_table {
+                    border-radius: var(--size-border-radius-x6);
+                }
+
+                /* @TODO: Убрать с обновлением UI-кита */
+                .dsb_pagination-cell__text-active {
+                    background-color: #fdd835;
+                    border-color: #fdd835;
+                    color: rgba(9, 11, 22, 0.94);
+                }
+                .dsb_pagination-cell__text-active:hover:not(:disabled),
+                .dsb_pagination-cell__text-active:active {
+                    background-color: #fdd835;
+                    border-color: #fdd835;
+                }
+                .dsb_pagination-cell__text-active:focus-visible {
+                    background-color: #fdd835;
+                }
+
+                /* Для постоянного отображения скроллбара на MacOS */
+                &.dsb__select__options {
+                    overflow-y: auto;
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: var(--color-utilities-scroll-hover);
+
+                        border-radius: var(--size-border-radius-x8);
+                    }
+
+                    &::-webkit-scrollbar {
+                        width: 8px;
+                        height: 8px;
+                    }
+                }
+
+                /* @TODO: Неправильный цвет активного чипса в тёмной теме, убрать с новой версией UI-кита */
+                .dsb_chip--active {
+                    & > div > p {
+                        color: rgba(9, 11, 22, 0.94);
+                    }
                 }
             `}
         />
