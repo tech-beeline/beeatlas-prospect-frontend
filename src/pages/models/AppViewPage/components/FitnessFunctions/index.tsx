@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { TableHeaderData } from 'components/ui';
@@ -17,6 +18,8 @@ export const FitnessFunctions: FC<IFitnessFunctions> = ({ cmdb }) => {
         cmdb,
         tab === FitnessFunctionsTab.TRIGGERS ? true : undefined,
     );
+
+    useAdditionalPageContext('fitnessFunctionsTab', tab);
 
     return (
         <S.Container>

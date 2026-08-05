@@ -1,6 +1,9 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import { usePageContext } from 'features/ai-context';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { SEARCH_PAGE } from 'features/ai-context/page-context';
 
 import { Expand } from 'components/other';
 import { Search } from 'components/ui';
@@ -23,6 +26,16 @@ export const SearchPage = () => {
     const [searchInput, setSearchInput] = useState('');
 
     const { data, isLoading, error } = useGetCapabilitiesQuery({ search: request });
+
+    const isTooManyResults =
+        (data?.length && data.length > 200) ||
+        (error && (error as AxiosError).response?.status === 422);
+
+    usePageContext({
+        page: SEARCH_PAGE,
+    });
+
+    useAdditionalPageContext('request', request);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -116,8 +129,7 @@ export const SearchPage = () => {
                 <S.ResultContainer className="ResultContainer">
                     {isLoading ? (
                         Array.from({ length: 3 }).map((_, i) => <ResultCardSkeleton key={i} />)
-                    ) : (data?.length && data.length > 200) ||
-                      (error && (error as AxiosError).response?.status === 422) ? (
+                    ) : isTooManyResults ? (
                         <RefineRequestBlock />
                     ) : data?.length === 0 ? (
                         <NotFoundBlock />

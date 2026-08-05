@@ -3,9 +3,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import {
     Header,
-    MenuCX,
     MenuDatabase,
-    MenuModels,
+    MenuMain,
     MenuPersonalArea,
     MenuProfile,
     TopBanner,
@@ -59,6 +58,7 @@ import {
     MapAddPage,
     MapPage,
     ModelsPage,
+    NewMainPage,
     NotFoundPage,
     NotificationsPage,
     PackagePage,
@@ -158,9 +158,9 @@ export const NavigationRouter = () => {
                         path={R.MAIN_PAGE_PATH}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
-                                    <ModelsPage />
+                                    <NewMainPage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
@@ -408,7 +408,7 @@ export const NavigationRouter = () => {
                         path={R.MODELS_PATH}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <ModelsPage />
                                 </S.ContentWrapper>
@@ -420,7 +420,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.SEARCH_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <SearchPage />
                                 </S.ContentWrapper>
@@ -432,7 +432,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.FDM_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <FDMPage isAdmin={isAdmin} />
                                 </S.ContentWrapper>
@@ -449,7 +449,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.FDM_PATH}${R.HISTORY_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <FDMHistoryPage />
                                 </S.ContentWrapper>
@@ -461,7 +461,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper hideXOverflow>
                                     <TechRadarPage />
                                 </S.ContentWrapper>
@@ -473,7 +473,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.TECH_RADAR_PATH}${R.VIEW_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <TechnologyViewPage />
                                 </S.ContentWrapper>
@@ -485,7 +485,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.MAP_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <MapPage />
                                 </S.ContentWrapper>
@@ -497,7 +497,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.MAP_PATH}${R.PERSONAL_PATH}/:id`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <PersonalMapPage />
                                 </S.ContentWrapper>
@@ -515,7 +515,7 @@ export const NavigationRouter = () => {
                             path={`${R.MODELS_PATH}${R.APPS_OLD_PATH}`}
                             element={
                                 <S.RouteWithDrawer>
-                                    <MenuModels />
+                                    <MenuMain />
                                     <S.ContentWrapper>
                                         <AppsDashboardPage
                                             isProd={window.FEATURE_FLAGS.FLAG_IS_PROD}
@@ -530,7 +530,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.APPS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <AppsPage />
                                 </S.ContentWrapper>
@@ -542,7 +542,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <AppViewPage />
                                 </S.ContentWrapper>
@@ -554,7 +554,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}${R.ARCHITECTURE_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <AppViewArchitecrurePage />
                                 </S.ContentWrapper>
@@ -571,7 +571,7 @@ export const NavigationRouter = () => {
                             path={`${R.MODELS_PATH}${R.E2E_OLD_PATH}`}
                             element={
                                 <S.RouteWithDrawer>
-                                    <MenuModels />
+                                    <MenuMain />
                                     <S.ContentWrapper>
                                         <E2EDashboardPage
                                             isProd={window.FEATURE_FLAGS.FLAG_IS_PROD}
@@ -587,7 +587,7 @@ export const NavigationRouter = () => {
                             path={`${R.MODELS_PATH}${R.E2E_PATH}`}
                             element={
                                 <S.RouteWithDrawer>
-                                    <MenuModels />
+                                    <MenuMain />
                                     <S.ContentWrapper>
                                         <E2EPage />
                                     </S.ContentWrapper>
@@ -600,7 +600,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <ImpactPage />
                                 </S.ContentWrapper>
@@ -612,7 +612,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <AnalyticalPage />
                                 </S.ContentWrapper>
@@ -624,7 +624,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <LifeSituationsPage isAdmin={isAdmin} />
                                 </S.ContentWrapper>
@@ -650,7 +650,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.PATTERNS_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <PatternsPage isAdmin={isAdmin} />
                                 </S.ContentWrapper>
@@ -662,6 +662,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.RULES_PATH}`}
                         element={
                             <S.RouteWithDrawer>
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <RulesPage />
                                 </S.ContentWrapper>
@@ -680,7 +681,7 @@ export const NavigationRouter = () => {
                         path={`${R.MODELS_PATH}${R.PATTERNS_PATH}${R.VIEW_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuModels />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <PatternViewPage isAdmin={isAdmin} />
                                 </S.ContentWrapper>
@@ -778,7 +779,7 @@ export const NavigationRouter = () => {
                         path={R.CX_PATH}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuCX />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <CXPage />
                                 </S.ContentWrapper>
@@ -790,7 +791,7 @@ export const NavigationRouter = () => {
                         path={`${R.CX_PATH}${R.CJ_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuCX />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <CJLibraryPage />
                                 </S.ContentWrapper>
@@ -805,7 +806,7 @@ export const NavigationRouter = () => {
                         path={`${R.CX_PATH}${R.BI_PATH}`}
                         element={
                             <S.RouteWithDrawer>
-                                <MenuCX />
+                                <MenuMain />
                                 <S.ContentWrapper>
                                     <BILibraryPage />
                                 </S.ContentWrapper>

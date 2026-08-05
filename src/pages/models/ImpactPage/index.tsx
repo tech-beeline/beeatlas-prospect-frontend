@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { IMPACT_PAGE } from 'features/ai-context/page-context';
 
 import { Text } from 'components/core';
 import { BreadCrumbsItem } from 'components/interaction';
@@ -69,6 +72,24 @@ export const ImpactPage = () => {
             setVisitedPages([...visitedPages, nameParam]);
         }
     }, [nameParam]);
+
+    usePageContext({
+        page: IMPACT_PAGE,
+        entityType: idParam ? 'deployment' : cmdbParam ? 'system' : undefined,
+        entityId: idParam ?? cmdbParam ?? undefined,
+        activeTab: cmdbParam ? tabVariant : undefined,
+    });
+
+    useAdditionalPageContext(
+        'impactView',
+        searchParam || cmdbParam
+            ? {
+                  search: searchParam ?? undefined,
+                  systemName: nameParam ?? undefined,
+                  notFound: !!notFoundParam,
+              }
+            : null,
+    );
 
     return (
         <S.PageWrapper>

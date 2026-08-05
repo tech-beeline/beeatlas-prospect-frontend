@@ -15,4 +15,5 @@ export interface IDropdownMenu {
     items: IDropdownMenuItem[][];
     children?: ReactNode;
     position?: 'right' | 'left';
+    usePortal?: boolean;
 }

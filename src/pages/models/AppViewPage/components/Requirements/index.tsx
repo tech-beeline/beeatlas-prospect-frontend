@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -67,6 +68,11 @@ export const Requirements: FC<IRequirements> = ({ cmdb }) => {
         setSelectedSearchItemId(nfr.id);
         setSearchText(nfr.name);
     };
+
+    useAdditionalPageContext('requirementsTab', {
+        searchText: searchText || null,
+        selectedRequirementId: selectedSearchItemId,
+    });
 
     return (
         <S.Container>

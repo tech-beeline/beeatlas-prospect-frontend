@@ -1,5 +1,8 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { FDM_PAGE } from 'features/ai-context/page-context';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
@@ -36,7 +39,12 @@ import {
     ViewItemSwitcher,
 } from './components';
 import { MetricsVariants, TABS, TabVariant } from './const';
-import { getItemClassification, itemToNameMap, itemToSubscriptionMessageMap } from './helpers';
+import {
+    getItemClassification,
+    ItemClassification,
+    itemToNameMap,
+    itemToSubscriptionMessageMap,
+} from './helpers';
 import { validateFDMParams } from './helpers';
 import { useFDMStore } from './store';
 import { IFDMPage } from './types';
@@ -214,6 +222,40 @@ export const FDMPage: FC<IFDMPage> = ({ isAdmin }) => {
             navigate(`${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}?id=${activeItem.id}`);
         }
     };
+
+    const entityType = activeItem
+        ? ({
+              [ItemClassification.GROUP]: 'group',
+              [ItemClassification.DOMAIN]: 'domain',
+              [ItemClassification.BUSINESS_CAPABILITY]: 'business-capability',
+              [ItemClassification.TECH_CAPABILITY]: 'tech-capability',
+          }[getItemClassification(activeItem)] as string)
+        : undefined;
+
+    usePageContext({
+        page: FDM_PAGE,
+        entityType,
+        entityId: activeItem?.id,
+        activeTab: tabVariant,
+    });
+
+    useAdditionalPageContext(
+        'metricsVariant',
+        activeItem?.type === ItemTypes.TECH && tabVariant === TabVariant.GENERAL && !versionId
+            ? metricsVariant
+            : null,
+    );
+
+    useAdditionalPageContext(
+        'childrenView',
+        activeItem && tabVariant === TabVariant.GENERAL && !versionId && activeItem.children?.length
+            ? activeViewList === 0
+                ? 'grid'
+                : 'list'
+            : null,
+    );
+
+    useAdditionalPageContext('version', versionId ? { id: Number(versionId) } : null);
 
     return (
         <S.PageWrapper>

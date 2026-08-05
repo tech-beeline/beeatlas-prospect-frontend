@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { usePageContext } from 'features/ai-context';
+import { BI_VIEW_PAGE } from 'features/ai-context/page-context';
 import { dataToFormValues, formValuesToData, StatusBadge, TargetBadge } from 'features/cx';
 
 import { Text } from 'components/core';
@@ -43,6 +45,12 @@ export const BIViewPage = () => {
         (product) => String(product.id) === String(data?.productId),
     );
     const isLoading = isLoadingBI || isLoadingEditability;
+
+    usePageContext({
+        page: BI_VIEW_PAGE,
+        entityType: 'bi',
+        entityId: data?.id,
+    });
 
     const navigate = useNavigate();
 

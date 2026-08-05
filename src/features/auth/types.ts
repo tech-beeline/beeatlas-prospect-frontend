@@ -1,5 +1,6 @@
 export interface AuthFlowContext {
     setUserInfo: (userInfo: Record<string, any> | null) => void;
+    setBeeatlasUserId: (beeatlasUserId: number | null) => void;
     setIsAuthorizing: (isAuthorizing: boolean) => void;
     setIsError: (isError: boolean) => void;
 }

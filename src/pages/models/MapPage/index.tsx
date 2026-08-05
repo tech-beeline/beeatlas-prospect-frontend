@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { MAP_PAGE } from 'features/ai-context/page-context';
 import {
     BreadCrumbsItem,
     CapabilityCard,
@@ -95,6 +98,34 @@ export const MapPage = () => {
         }
         setIsExpanded(false);
     }, [activeItem]);
+
+    const entityType = activeItem
+        ? activeItem.isDomain
+            ? 'domain'
+            : activeItem.children.length === 0
+            ? 'tech-capability'
+            : id
+            ? 'business-capability'
+            : 'group'
+        : undefined;
+
+    usePageContext({
+        page: MAP_PAGE,
+        entityType,
+        entityId: activeItem?.id,
+        activeTab: tabVariant,
+    });
+
+    useAdditionalPageContext(
+        'selectedCriteria',
+        mapVariant !== MapVariant.DEFAULT
+            ? {
+                  id: (mapVariant as IMapCriteria).id,
+                  name: (mapVariant as IMapCriteria).name,
+                  description: (mapVariant as IMapCriteria).description,
+              }
+            : null,
+    );
 
     return (
         <S.PageWrapper>

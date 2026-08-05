@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { CJ_LIBRARY_PAGE } from 'features/ai-context/page-context';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -60,6 +62,10 @@ export const CJLibraryPage = () => {
                 display: createEnumParser(DisplayOptions, DisplayOptions.GRID),
             },
         });
+
+    usePageContext({
+        page: CJ_LIBRARY_PAGE,
+    });
 
     const { data: rawCJs, isLoading } = useGetCJCollectionQuery({
         search: '',

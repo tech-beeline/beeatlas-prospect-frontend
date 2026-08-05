@@ -11,7 +11,8 @@ export type ButtonColorVariants =
     | 'contained'
     | 'outlined'
     | 'plain'
-    | 'overlay';
+    | 'overlay'
+    | 'message';
 
 export type ButtonSizeVariants = 'small' | 'medium' | 'large';
 
@@ -22,7 +23,8 @@ export type ResolvedButtonVariant =
     | 'overlay'
     | 'danger'
     | 'accent-black'
-    | 'accent-white';
+    | 'accent-white'
+    | 'message';
 
 type MergedHTMLAttributes = HTMLAttributes<HTMLElement> &
     ButtonHTMLAttributes<HTMLElement> &

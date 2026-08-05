@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { usePageContext } from 'features/ai-context';
+import { TECHNOLOGY_VIEW_PAGE } from 'features/ai-context/page-context';
 import {
     MarkdownLinkRenderer,
     ringIdToLabelStatusMap,
@@ -58,6 +60,12 @@ export const TechnologyViewPage = () => {
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
 
     const isSubscribed = Boolean(paramId && subscribedTechnologiesIds?.includes(Number(paramId)));
+
+    usePageContext({
+        page: TECHNOLOGY_VIEW_PAGE,
+        entityType: paramId ? 'technology' : undefined,
+        entityId: technologyData?.id,
+    });
 
     const handleTechradarClick = () => {
         navigate(`${R.MODELS_PATH}${R.TECH_RADAR_PATH}?id=${paramId}`);
