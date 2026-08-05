@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { TECH_RADAR_PAGE } from 'features/ai-context/page-context';
 
 import { useGetAllTechnologiesQuery } from 'api/queries/technologies';
 import { ITech } from 'api/technologies/types';
 
+import { MENU, SUB_MENU } from './components/TopMenu/const';
 import {
     ExportButton,
     Filters,
@@ -185,6 +188,21 @@ export const TechRadarPage = () => {
             setZoomed(false);
         }
     };
+
+    const activeTab = useMemo(() => {
+        if (activeMenuItem === 0) return 'all';
+
+        const menuItem = [...MENU, ...SUB_MENU].find((item) => item.id === activeMenuItem);
+
+        return menuItem?.name ?? 'all';
+    }, [activeMenuItem]);
+
+    usePageContext({
+        page: TECH_RADAR_PAGE,
+        entityType: selectedTech ? 'technology' : undefined,
+        entityId: selectedTech?.id,
+        activeTab,
+    });
 
     return (
         <S.PageWrapper>

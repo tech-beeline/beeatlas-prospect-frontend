@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -16,6 +17,8 @@ import * as S from './units';
 
 export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
+
+    useAdditionalPageContext('biStepContentTab', tabVariant);
 
     return (
         <>

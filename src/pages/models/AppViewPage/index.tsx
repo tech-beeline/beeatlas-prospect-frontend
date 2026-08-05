@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { APP_VIEW_PAGE } from 'features/ai-context/page-context';
 import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
@@ -43,6 +45,13 @@ export const AppViewPage = () => {
 
     const { data: productData, isLoading: isLoadingProductData } =
         useGetProductInfoByCmdbQuery(paramCmdb);
+
+    usePageContext({
+        page: APP_VIEW_PAGE,
+        entityType: 'product',
+        entityId: productData?.alias,
+        activeTab: tabVariant,
+    });
 
     return (
         <S.PageWrapper>

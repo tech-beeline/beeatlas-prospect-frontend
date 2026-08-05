@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { useGetProcessesByCmdbQuery } from 'api/queries/camunda';
 
@@ -17,6 +18,8 @@ export const GeneralInfo: FC<IGeneralInfo> = ({
 
     const { data: processesData } = useGetProcessesByCmdbQuery(cmdb);
     const processes = processesData ?? [];
+
+    useAdditionalPageContext('generalInfoTab', { displayOption });
 
     return (
         <>

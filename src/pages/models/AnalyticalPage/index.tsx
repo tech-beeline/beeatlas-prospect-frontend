@@ -1,4 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
+import { usePageContext } from 'features/ai-context';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { ANALYTICAL_PAGE } from 'features/ai-context/page-context';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -64,6 +67,31 @@ export const AnalyticalPage = () => {
             selectedProductIds: filterOptions.product.map((id) => String(id)),
         });
     }, [filteredFitnessFunctionsData, filterOptions.domain, filterOptions.product]);
+
+    usePageContext({
+        page: ANALYTICAL_PAGE,
+    });
+
+    useAdditionalPageContext('filters', {
+        search: filterOptions.search || null,
+        product: filterOptions.product.length > 0 ? filterOptions.product : null,
+        domain: filterOptions.domain.length > 0 ? filterOptions.domain : null,
+        fitnessFunctions:
+            filterOptions.fitnessFunctions.length > 0 ? filterOptions.fitnessFunctions : null,
+        hideEmpty: filterOptions.hideEmpty,
+        status: filterOptions.status,
+    });
+
+    useAdditionalPageContext(
+        'dashboard',
+        !isLoading && filteredFitnessFunctionsData
+            ? {
+                  totalProductsCount,
+                  correctProductsCount,
+                  correctProductsPercent,
+              }
+            : null,
+    );
 
     return (
         <S.PageWrapper>

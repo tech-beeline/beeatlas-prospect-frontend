@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
@@ -52,6 +53,13 @@ export const Patterns: FC<IPatterns> = ({ cmdb }) => {
 
     const hasActiveFilters =
         selectedPatternOption !== null || (patternType !== null && patternType !== PatternType.ALL);
+
+    useAdditionalPageContext('patternsTab', {
+        selectedPattern: selectedPatternOption
+            ? { id: selectedPatternOption.id, name: selectedPatternOption.value }
+            : null,
+        patternType,
+    });
 
     return (
         <S.Container>

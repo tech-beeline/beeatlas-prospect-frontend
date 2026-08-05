@@ -1,8 +1,27 @@
 import styled from '@emotion/styled';
 
 import { Divider, Icon } from 'components/ui';
+
+export const MENU_WIDTH = 280;
+
 export const Container = styled.div`
     position: relative;
+`;
+
+const menuBlockStyles = `
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px 0px;
+    width: ${MENU_WIDTH}px;
+
+    background-color: var(--color-background-medium);
+
+    border-radius: var(--size-border-radius-x6);
+
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
+
+    z-index: 1100;
 `;
 
 export const MenuBlock = styled.div<{ position: 'right' | 'left' }>`
@@ -12,18 +31,13 @@ export const MenuBlock = styled.div<{ position: 'right' | 'left' }>`
 
     transform: translateY(100%);
 
-    flex-direction: column;
+    ${menuBlockStyles}
+`;
 
-    padding: 8px 0px;
-    width: 280px;
+export const MenuBlockPortal = styled.div`
+    position: fixed;
 
-    background-color: var(--color-background-medium);
-
-    border-radius: var(--size-border-radius-x6);
-
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
-
-    z-index: 1000;
+    ${menuBlockStyles}
 `;
 
 export const MenuItem = styled.div<{ disabled?: boolean; danegerous?: boolean }>`

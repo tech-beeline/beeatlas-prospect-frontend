@@ -63,7 +63,10 @@ export const DrawerContainer = styled.nav`
         display: flex;
         flex-direction: column;
         gap: 4px;
-        padding-bottom: 24px;
+
+        &:last-child {
+            padding-bottom: 24px;
+        }
     }
 
     .list__wrapper-title {

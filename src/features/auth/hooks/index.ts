@@ -7,11 +7,13 @@ import { getAuthProvider } from '../providers';
 import { useAuthStore } from '../store';
 
 export const useAuth = () => {
-    const { userInfo, setUserInfo, setIsAuthorizing, setIsError } = useAuthStore();
+    const { userInfo, setUserInfo, setIsAuthorizing, setIsError, setBeeatlasUserId } =
+        useAuthStore();
 
     const authenticate = async () => {
         await getAuthProvider().authenticate({
             setUserInfo,
+            setBeeatlasUserId,
             setIsAuthorizing,
             setIsError,
         });

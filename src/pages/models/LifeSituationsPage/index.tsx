@@ -1,5 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { LIFE_SITUATIONS_PAGE } from 'features/ai-context/page-context';
 
 import { useGetAllChaptersQuery } from 'api/queries/product';
 
@@ -83,6 +85,29 @@ export const LifeSituationsPage: FC<ILifeSituationsPage> = ({ isAdmin }) => {
             });
         }
     }, [chapterId, nfrId, data]);
+
+    const entityType = useMemo(() => {
+        if (!activeItem || activeItem.type === ItemTypes.ERROR) {
+            return undefined;
+        }
+
+        return activeItem.type === ItemTypes.CHAPTER ? 'chapter' : 'nfr';
+    }, [activeItem]);
+
+    const entityId = useMemo(() => {
+        if (!activeItem || activeItem.type === ItemTypes.ERROR) {
+            return undefined;
+        }
+
+        return activeItem.id;
+    }, [activeItem]);
+
+    usePageContext({
+        page: LIFE_SITUATIONS_PAGE,
+        entityType,
+        entityId,
+        activeTab: entityType,
+    });
 
     return (
         <S.PageWrapper>

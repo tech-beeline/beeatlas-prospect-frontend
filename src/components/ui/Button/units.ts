@@ -214,6 +214,28 @@ const variantStyles: Record<ResolvedButtonVariant, ReturnType<typeof css>> = {
             box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.08);
         }
     `,
+    message: css`
+        color: #ffffff;
+        background-color: var(--color-button-plain);
+        border: 1px solid var(--color-button-plain);
+
+        &:not(:disabled):hover {
+            background-color: var(--color-button-plain);
+            border-color: var(--color-button-plain);
+            box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.08);
+        }
+
+        &:not(:disabled):focus-visible {
+            background-color: var(--color-button-plain);
+            border-color: var(--color-border-focused);
+        }
+
+        &:not(:disabled):hover:active {
+            background-color: var(--color-button-plain);
+            border-color: var(--color-button-plain);
+            box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.12);
+        }
+    `,
 };
 
 const getPaddingStyles = ({

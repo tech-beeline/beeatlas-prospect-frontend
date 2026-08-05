@@ -9,10 +9,9 @@ import { IconButton } from 'components/ui';
 import { MAIN_PAGE_PATH } from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
-import { BaseIcon, Logo, Tab, Tabs } from '..';
+import { BaseIcon, Logo } from '..';
 
 import { NotificationsPopup, ProfileIcon } from './components';
-import { TABS, TabVariants } from './const';
 import { IHeader } from './types';
 import * as S from './units';
 import { preventDefault } from './utils';
@@ -39,33 +38,6 @@ export const Header: FC<IHeader> = ({ isAdminPanel, isAdmin }) => {
                 </a>
 
                 {isAdminPanel && isAdmin && <S.LabelStyled title="Консоль администратора" />}
-
-                {!isAdminPanel && (
-                    <Tabs>
-                        {TABS.filter(
-                            (t) =>
-                                !(
-                                    t.id === TabVariants.BASE &&
-                                    window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
-                                ),
-                        ).map((tab, index) => (
-                            <Tab
-                                key={index}
-                                href={tab.url}
-                                isActive={
-                                    location.pathname?.includes(tab.url) ||
-                                    (tab.id === TabVariants.MODELS && location.pathname === '/')
-                                }
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate(tab.url);
-                                }}
-                            >
-                                {tab.name}
-                            </Tab>
-                        ))}
-                    </Tabs>
-                )}
 
                 <S.ControlPanel className="HeaderControlPanel">
                     <S.LinksContainer>

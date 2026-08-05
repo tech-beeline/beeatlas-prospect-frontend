@@ -23,7 +23,12 @@ export const oidcAuthProvider: IAuthProvider = {
     supportsSignout: true,
     shouldReauthenticateOnPageShow: true,
 
-    async authenticate({ setUserInfo, setIsAuthorizing, setIsError }: AuthFlowContext) {
+    async authenticate({
+        setUserInfo,
+        setIsAuthorizing,
+        setIsError,
+        setBeeatlasUserId,
+    }: AuthFlowContext) {
         const user = await userManager.getUser();
         const params = new URLSearchParams(window.location.search);
         const [codeParam, stateParam] = [params.get('code'), params.get('state')];
@@ -47,6 +52,8 @@ export const oidcAuthProvider: IAuthProvider = {
         if (userData.status !== 200 || Object.entries(userData.data).length === 0) {
             setIsError(true);
         }
+
+        setBeeatlasUserId(userData.data.id);
 
         setIsAuthorizing(false);
     },

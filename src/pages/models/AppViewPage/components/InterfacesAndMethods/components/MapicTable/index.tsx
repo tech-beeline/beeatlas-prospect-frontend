@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { AutocompleteControlled } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -75,6 +76,12 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
 
     const [selectedMapicOperation, setSelectedMapicOperation] =
         useState<ISelectedMapicOperation | null>(null);
+
+    useAdditionalPageContext('mapicTable', {
+        selectedOperation: selectedMapicOperation
+            ? { id: selectedMapicOperation.id, name: selectedMapicOperation.value }
+            : null,
+    });
 
     return (
         <>

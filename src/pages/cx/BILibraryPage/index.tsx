@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { BI_LIBRARY_PAGE } from 'features/ai-context/page-context';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { Button, ButtonGroup, Counter, Icon, Search, Skeleton } from 'components/ui';
@@ -52,6 +54,10 @@ export const BILibraryPage = () => {
                 display: createEnumParser(DisplayOptions, DisplayOptions.GRID),
             },
         });
+
+    usePageContext({
+        page: BI_LIBRARY_PAGE,
+    });
 
     const { data: rawBis, isLoading } = useGetBICollectionQuery({
         search: filters.search,

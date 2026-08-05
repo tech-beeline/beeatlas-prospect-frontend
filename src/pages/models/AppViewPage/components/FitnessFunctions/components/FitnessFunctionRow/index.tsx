@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import dayjs from 'dayjs';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 import {
     FitnessFunctionStatus,
     fitnessFunctionStatusToNameMap,
@@ -33,6 +34,18 @@ export const FitnessFunctionRow: FC<IFitnessFunctionRow> = ({ fitnessFunction, t
 
     const firstDetail = fitnessFunction.details?.[0];
     const detailKeys = firstDetail ? Object.keys(firstDetail).filter((key) => key !== 'check') : [];
+
+    useAdditionalPageContext(
+        `fitnessFunction-${fitnessFunction.ff_code}`,
+        expanded
+            ? {
+                  code: fitnessFunction.ff_code,
+                  status: fitnessFunction.status,
+                  description: fitnessFunction.ff_description,
+                  details: fitnessFunction.details,
+              }
+            : null,
+    );
 
     return (
         <>

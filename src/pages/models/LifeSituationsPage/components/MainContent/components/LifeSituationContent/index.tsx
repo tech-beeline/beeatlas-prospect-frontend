@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -21,6 +22,9 @@ export const LifeSituationContent: FC<ILifeSituationContent> = ({ activeItem, is
     const [displayOption, setDisplayOption] = useState(DisplayOptions.TABLE);
 
     const { data } = useGetPatternsByChapterIdQuery(activeItem.id);
+
+    useAdditionalPageContext('chapterContentType', contentTypeOption);
+
     const handleEditButtonClick = () => {
         navigate(
             `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.ADD_PATH}?id=${activeItem.chapterData.id}`,

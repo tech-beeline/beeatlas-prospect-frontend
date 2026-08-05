@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 import { has } from 'lodash';
 
 import { AutocompleteControlled } from 'components/interaction';
@@ -181,6 +182,12 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
             message: 'Вы отписаны от уведомлений',
         });
     };
+
+    useAdditionalPageContext('structurizrTable', {
+        selectedEntity: selectedEntity
+            ? { id: selectedEntity.id, type: selectedEntity.type, name: selectedEntity.value }
+            : null,
+    });
 
     return (
         <>

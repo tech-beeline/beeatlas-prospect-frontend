@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
@@ -33,6 +34,8 @@ export const RequirementContent: FC<IRequirementContent> = ({ activeItem, isAdmi
         useGetUserProductsWithNfrsQuery();
 
     const { mutateAsync: postNfrsToProduct } = usePostNfrsToProductMutation();
+
+    useAdditionalPageContext('nfrExpandedPanel', expandedPanel);
 
     const isAssignButtonDisabled =
         isLoadingProducts ||

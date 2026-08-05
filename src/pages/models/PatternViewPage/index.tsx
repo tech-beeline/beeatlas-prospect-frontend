@@ -1,6 +1,8 @@
 import React, { FC, useState } from 'react';
 import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { PATTERN_VIEW_PAGE } from 'features/ai-context/page-context';
 import { MarkdownLinkRenderer, ringIdToLabelStatusMap } from 'features/technologies';
 import remarkGfm from 'remark-gfm';
 
@@ -72,6 +74,12 @@ export const PatternViewPage: FC<IPatternViewPage> = ({ isAdmin }) => {
     const { mutateAsync: deleteSubscrition } = useDeleteSubscriptionMutation();
 
     const isSubscribed = Boolean(paramId && subscribedPatternsIds?.includes(Number(paramId)));
+
+    usePageContext({
+        page: PATTERN_VIEW_PAGE,
+        entityType: paramId ? 'pattern' : undefined,
+        entityId: patternData?.id,
+    });
 
     const handleSubscribeButtonClick = async () => {
         if (isSubscribed) {

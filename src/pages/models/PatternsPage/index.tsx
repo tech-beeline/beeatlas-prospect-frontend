@@ -1,5 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePageContext } from 'features/ai-context';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { PATTERNS_PAGE } from 'features/ai-context/page-context';
 import { ringIdToLabelStatusMap } from 'features/technologies';
 
 import { Text } from 'components/core';
@@ -80,6 +83,18 @@ export const PatternsPage: FC<IPatternsPage> = ({ isAdmin }) => {
             message: 'Паттерн удален',
         });
     };
+
+    usePageContext({
+        page: PATTERNS_PAGE,
+    });
+
+    useAdditionalPageContext('filters', {
+        search: debouncedSearch || null,
+        filterVariant,
+        technologies: selectedTechnology.length > 0 ? selectedTechnology : null,
+        groups: selectedGroups.length > 0 ? selectedGroups : null,
+    });
+
     return (
         <S.PageWrapper>
             <S.Container>

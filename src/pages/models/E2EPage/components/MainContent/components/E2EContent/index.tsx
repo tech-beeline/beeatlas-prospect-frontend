@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { Tab, Tabs } from 'components/ui';
@@ -13,6 +14,8 @@ import { formatTabLabel } from './utils';
 
 export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
+
+    useAdditionalPageContext('e2eContentTab', tabVariant);
 
     const { data, isLoading } = useGetSequenceCallsByIdQuery(activeBiStep.code);
 
