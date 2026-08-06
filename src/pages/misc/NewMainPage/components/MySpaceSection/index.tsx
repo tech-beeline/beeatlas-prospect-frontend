@@ -8,7 +8,7 @@ import { Icon, IconButton, Skeleton } from 'components/ui';
 import { useGetApplicationsQuery } from 'api/queries/applications';
 import { useGetUserProductsQuery } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
-import { useGetSubscriptionsQuery } from 'api/queries/subscriptions';
+// import { useGetSubscriptionsQuery } from 'api/queries/subscriptions';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { pluralize } from 'utils/helpers';
@@ -25,12 +25,12 @@ export const MySpaceSection = () => {
     const { data: products, isLoading: isLoadingProducts } =
         useGetUserProductsQuery(userProductIds);
 
-    const { data: subscriptions, isLoading: isLoadingSubscriptions } = useGetSubscriptionsQuery();
+    // const { data: subscriptions, isLoading: isLoadingSubscriptions } = useGetSubscriptionsQuery();
     const { data: applications, isLoading: isLoadingApplications } = useGetApplicationsQuery({
         enabled: true,
     });
 
-    const isLoading = isLoadingProducts || isLoadingSubscriptions || isLoadingApplications;
+    const isLoading = isLoadingProducts || isLoadingApplications;
 
     const visibleApps = useMemo(() => {
         const apps = products ?? [];
@@ -56,7 +56,7 @@ export const MySpaceSection = () => {
         [applications],
     );
 
-    const subscriptionsCount = subscriptions?.length ?? 0;
+    // const subscriptionsCount = subscriptions?.length ?? 0;
     const hasHiddenApps = (products?.length ?? 0) > 1;
 
     return (
@@ -119,7 +119,7 @@ export const MySpaceSection = () => {
                             </S.SpaceCardBody>
                         </S.SpaceCard>
 
-                        <S.SpaceCard
+                        {/* <S.SpaceCard
                             role="button"
                             tabIndex={0}
                             onClick={() => navigate(`${R.PROFILE_PATH}${R.SUBSCRIPTIONS_PATH}`)}
@@ -144,7 +144,7 @@ export const MySpaceSection = () => {
                                     )}
                                 </Text>
                             </S.SpaceCardBody>
-                        </S.SpaceCard>
+                        </S.SpaceCard> */}
 
                         <S.SpaceCard
                             role="button"

@@ -8,7 +8,7 @@ export const Section = styled.section`
 
 export const MySpaceGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
 
     @media only screen and (max-width: 1100px) {
