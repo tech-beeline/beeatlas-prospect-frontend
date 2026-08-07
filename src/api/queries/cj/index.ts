@@ -30,6 +30,8 @@ import { deleteCJStep, getCJStepById, patchCJStep, postCJStep } from 'api/cj-ste
 import { deleteCJStepBI, putCJStepBIs } from 'api/cj-step';
 import { ICJStepBIForm } from 'api/cj-step/types';
 
+import { sortCompleteCJData } from './utils';
+
 export const CJ_PREFIX = 'CJ_PREFIX';
 const STEP_PREFIX = 'STEP_PREFIX';
 
@@ -242,7 +244,7 @@ export function useDeleteCJStepMutation() {
 export const useGetCompleteCJDataByIdQuery = (id: string | undefined | null) => {
     return useQuery<ICompleteCJData>({
         queryKey: [CJ_PREFIX, 'complete', id],
-        queryFn: () => getCJById(id!).then((res) => res.data),
+        queryFn: () => getCJById(id!).then((res) => sortCompleteCJData(res.data)),
         enabled: Boolean(id),
     });
 };
