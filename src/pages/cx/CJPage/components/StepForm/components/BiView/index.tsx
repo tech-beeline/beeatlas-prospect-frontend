@@ -8,6 +8,7 @@ import { Button, Label, Skeleton } from 'components/ui';
 
 import { useGetBIByIdQuery, useGetBIEditabilityByIdQuery } from 'api/queries/bi';
 import { useGetCJCollectionByBIIdQuery, useUpdateCJStepBIsMutation } from 'api/queries/cj';
+import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -162,7 +163,7 @@ export const BiView: FC<IBiView> = ({
                                         cjs.map((cj) => (
                                             <div key={cj.id}>
                                                 <Link
-                                                    url={`/cx/cj/add?id=${cj.id}`}
+                                                    url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
                                                     title={cj.name}
                                                 />
                                                 <Text variant="body3" inactive>

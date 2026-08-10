@@ -198,7 +198,7 @@ export const BIViewPage = () => {
                                                 <div key={cj.id}>
                                                     <Link
                                                         key={cj.id}
-                                                        url={`/cx/cj/add?id=${cj.id}`}
+                                                        url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
                                                         title={cj.name}
                                                     />
                                                     <Text variant="body3" inactive>

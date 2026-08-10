@@ -12,6 +12,7 @@ export interface ICJStepData {
     name: string;
     description: string | null;
     id_cj: number;
+    orderTree: string | null;
 }
 
 export interface ICJForm {
