@@ -11,8 +11,8 @@ import { IconButton } from 'components/ui';
 import { Button } from 'components/ui';
 
 import { useUpdateCJMutation } from 'api/queries/cj';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import { usePostUsersInfoMutation } from 'api/queries/profile';
-import { useGetProductsQuery } from 'hooks';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -26,7 +26,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const { mutateAsync: updateCJ, isPending: updatingCj } = useUpdateCJMutation();
     const { mutateAsync: postUsersInfo } = usePostUsersInfoMutation();
-    const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: products, isLoading: isLoadingProducts } = useGetAllProductsQuery();
 
     const productsFiltered = (products ?? []).filter((product) =>
         product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
@@ -89,7 +89,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                             ? businessOwnerId ?? 0
                             : null,
                     techOwners: techOwnerIds.filter((id) => id !== null) as number[],
-                    productId: String(values.product),
+                    id_product: values.product ?? undefined,
                 },
             });
             showSnackbar({ message: 'Изменения сохранены' });

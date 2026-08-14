@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,9 +17,10 @@ import {
     useCreateCJByBPMN,
     useCreateCJWithEmptyStepMutation,
     useUploadBPMNFile,
+    useValidateBPMNByDocIdMutation,
 } from 'api/queries/cj';
-import { useGetAllProductsQuery, useGetUserProductsQuery } from 'api/queries/product';
-import { useGetUserInfoQuery, usePostUsersInfoMutation } from 'api/queries/profile';
+import { useGetAllProductsQuery } from 'api/queries/product';
+import { usePostUsersInfoMutation } from 'api/queries/profile';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
@@ -31,24 +32,19 @@ import { FormValues, getValidationSchema } from './form';
 import * as S from './units';
 
 export const CJAddPage = () => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const [searchTextProduct, setSearchTextProduct] = useState('');
 
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
     const [bpmnFileText, setBpmnFileText] = useState<string | null>(null);
     const [, setIsProcessingBPMN] = useState(false);
-    const { data: userInfo } = useGetUserInfoQuery();
-    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
-    const isAdministrator = userInfo?.roles?.includes('ADMINISTRATOR');
-    const userProductIds = userInfo?.productsIds || [];
     const { mutateAsync: createCJ, isPending: creatingCJ } = useCreateCJWithEmptyStepMutation();
-    const { data: allProducts, isLoading: isLoadingProducts } = useGetAllProductsQuery();
+    const { data: products, isLoading: isLoadingProducts } = useGetAllProductsQuery();
     const { mutateAsync: createCJByBPMN } = useCreateCJByBPMN();
+    const { mutateAsync: validateBPMNByDocId } = useValidateBPMNByDocIdMutation();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
-    const { data: userProducts } = useGetUserProductsQuery(userProductIds);
     const { mutateAsync: postUsersInfo } = usePostUsersInfoMutation();
-
-    const products = isAdministrator ? allProducts : userProducts;
 
     const productsFiltered = (products ?? []).filter((product) =>
         product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
@@ -64,13 +60,7 @@ export const CJAddPage = () => {
         resolver: yupResolver(getValidationSchema()),
     });
 
-    const { handleSubmit, reset, setError } = form;
-
-    useEffect(() => {
-        if (products) {
-            reset({ product: Number.isInteger(products[0]?.id) ? Number(products[0].id) : 1 });
-        }
-    }, [products]);
+    const { handleSubmit, setError } = form;
 
     const onSubmit = handleSubmit(async (values) => {
         const isNewBusinessOwner = values.businessOwner.id === null;
@@ -119,17 +109,16 @@ export const CJAddPage = () => {
                                 ? businessOwnerId ?? 0
                                 : null,
                         techOwners: techOwnerIds.filter((id) => id !== null) as number[],
-                        productId: String(values.product),
+                        id_product: values.product ?? undefined,
                     },
-                    productId: values.product,
-                    bpmn: false,
                 });
 
                 try {
-                    await uploadBPMN({
+                    const { docId } = await uploadBPMN({
                         file: bpmnFile,
                         cjId,
                     });
+                    await validateBPMNByDocId(docId);
 
                     await createCJByBPMN(cjId);
                     setBpmnFile(null);
@@ -138,13 +127,12 @@ export const CJAddPage = () => {
                         search: createSearchParams({ id: cjId }).toString(),
                     });
                 } catch (bpmnError) {
-                    setError('root', {
-                        message:
-                            'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.',
-                    });
+                    const bpmnErrorText =
+                        (bpmnError as any)?.response?.data?.errorMessage ??
+                        'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.';
                     setIsProcessingBPMN(false);
                     setBpmnFile(null);
-                    showSnackbar({ message: `Ошибка валидации файла`, showCloseButton: true });
+                    showSnackbar({ message: bpmnErrorText, showCloseButton: true });
                     navigate({
                         pathname: `${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}`,
                         search: createSearchParams({ id: cjId }).toString(),
@@ -162,10 +150,8 @@ export const CJAddPage = () => {
                                 ? businessOwnerId ?? 0
                                 : null,
                         techOwners: techOwnerIds.filter((id) => id !== null) as number[],
-                        productId: String(values.product),
+                        id_product: values.product ?? undefined,
                     },
-                    productId: values.product,
-                    bpmn: false,
                 });
                 setBpmnFile(null);
 
@@ -303,7 +289,7 @@ export const CJAddPage = () => {
                                 <Autocomplete
                                     fullWidth
                                     disabled={isLoadingProducts}
-                                    label="Приложение*"
+                                    label="Приложение"
                                     name="product"
                                     options={productsOptions}
                                     onInputChange={(v) => setSearchTextProduct(v)}

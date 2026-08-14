@@ -15,7 +15,6 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft'>
     })),
     clientScenario: formValues.clientScenario,
     flowLink: [{ url: formValues.flowLink, descr: '' }].filter((link) => link.url),
-    ucsReaction: formValues.ucsReaction,
     channel:
         formValues.channels?.map((channelId) => ({
             id: channelId,
@@ -32,7 +31,7 @@ export const formValuesToData = (formValues: FormValues): Omit<IBIForm, 'draft'>
             descr: mockup.description,
             url: mockup.value,
         })),
-    productId: String(formValues.product),
+    productId: formValues.product ? String(formValues.product) : null,
     metrics: formValues.metrics,
 });
 
@@ -46,7 +45,6 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
     status: data.status?.id ?? 3,
     clientScenario: data.clientScenario ?? '',
     channels: data.channel?.map((channel) => channel.id) ?? [],
-    ucsReaction: data.ucsReaction ?? '',
     participants:
         data.participants.map((participant) => ({
             descr: participant.descr,
@@ -63,6 +61,6 @@ export const dataToFormValues = (data: IBIData): FormValues => ({
         ? data.mockupLink.map((mockup) => ({ value: mockup.url, description: mockup.descr }))
         : [{ value: '', description: '' }],
     flowLink: data.flowLink[0]?.url ?? '',
-    product: Number(data.productId),
+    product: data.productId ? Number(data.productId) : null,
     metrics: data.metrics ?? '',
 });

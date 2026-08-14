@@ -16,6 +16,7 @@ import {
     postCJByBPMN,
     putCjDashboard,
     uploadBPMNFile,
+    validateBPMNByDocId,
 } from 'api/cj';
 import {
     CJLibraryStatus,
@@ -29,6 +30,7 @@ import {
 import { deleteCJStep, getCJStepById, patchCJStep, postCJStep } from 'api/cj-step';
 import { deleteCJStepBI, putCJStepBIs } from 'api/cj-step';
 import { ICJStepBIForm } from 'api/cj-step/types';
+import { BI_PREFIX } from 'api/queries/bi';
 
 import { sortCompleteCJData } from './utils';
 
@@ -67,13 +69,12 @@ export const useGetCJByIdV1Query = (id: string | undefined | null) => {
 
 interface ICreateCJParams {
     data: ICJForm;
-    productId: number;
 }
 export function useCreateCJMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [CJ_PREFIX, 'create'],
-        mutationFn: (params: ICreateCJParams) => postCJ(params.data, params.productId),
+        mutationFn: (params: ICreateCJParams) => postCJ(params.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
         },
@@ -91,6 +92,13 @@ export function useCreateCJByBPMN() {
     });
 }
 
+export function useValidateBPMNByDocIdMutation() {
+    return useMutation({
+        mutationKey: [CJ_PREFIX, 'validate', 'BPMN'],
+        mutationFn: (docId: string | number) => validateBPMNByDocId(docId),
+    });
+}
+
 interface IUploadBPMNFileParams {
     file: File;
     cjId: string;
@@ -102,7 +110,7 @@ export const useUploadBPMNFile = () => {
     return useMutation({
         mutationKey: [CJ_PREFIX, 'upload'],
         mutationFn: async (params: IUploadBPMNFileParams) => {
-            await uploadBPMNFile(params.file, params.cjId);
+            return await uploadBPMNFile(params.file, params.cjId).then((res) => res.data);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
@@ -112,27 +120,20 @@ export const useUploadBPMNFile = () => {
 
 interface ICreateCJWithEmptyStepParams {
     data: ICJForm;
-    productId: number;
-    bpmn: boolean;
 }
 export function useCreateCJWithEmptyStepMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [CJ_PREFIX, 'createWithStep'],
         mutationFn: async (params: ICreateCJWithEmptyStepParams) => {
-            const cjData = await postCJ(
-                {
-                    ...params.data,
-                    draft: true,
-                },
-                params.productId,
-            );
-            if (params.bpmn === false) {
-                await postCJStep(cjData.data.id, {
-                    name: 'Название этапа',
-                    order: 0,
-                });
-            }
+            const cjData = await postCJ({
+                ...params.data,
+                draft: true,
+            });
+            await postCJStep(cjData.data.id, {
+                name: 'Название этапа',
+                order: 0,
+            });
             return { cjId: cjData.data.id as string };
         },
         onSuccess: () => {
@@ -154,6 +155,7 @@ export function usePartialUpdateCJMutation() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
+            queryClient.invalidateQueries({ queryKey: [BI_PREFIX, 'editability'] });
         },
     });
 }
