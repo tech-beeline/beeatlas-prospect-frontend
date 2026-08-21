@@ -7,7 +7,7 @@ export type FormValues = {
     name: string;
     userPortrait: string | undefined | null;
     businessOwner: OwnerFormValue;
-    product: number;
+    product: number | null;
     techOwner: OwnerFormValue[];
 };
 
@@ -38,7 +38,7 @@ export const getValidationSchema = () => {
         businessOwner: isDemoStand
             ? optionalOwnerSchema
             : ownerSchema.required('Укажите владельца сценария'),
-        product: number().defined().default(0),
+        product: number().defined().nullable(),
         techOwner: array().of(optionalOwnerSchema).ensure().default([]),
     });
 };

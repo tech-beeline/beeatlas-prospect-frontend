@@ -17,7 +17,7 @@ import { IBIData, IBIForm, IRelationForm, ISLAForm } from 'api/bi/types';
 
 import { CJ_PREFIX } from '../cj';
 
-const BI_PREFIX = 'BI_PREFIX';
+export const BI_PREFIX = 'BI_PREFIX';
 
 interface IGetBICollectionParams {
     search: string;

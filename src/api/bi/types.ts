@@ -24,12 +24,11 @@ export interface IBIForm {
         descr: string;
         value: string;
     }[];
-    productId: string;
+    productId: string | null;
     status: {
         id: number;
     };
     target: boolean;
-    ucsReaction: string;
     metrics: string;
 }
 

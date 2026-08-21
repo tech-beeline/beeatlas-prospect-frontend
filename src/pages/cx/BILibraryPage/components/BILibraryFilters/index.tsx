@@ -4,7 +4,7 @@ import { IconButton } from 'components/ui';
 import { Autocomplete, Button, Select } from 'components/ui';
 
 import { useGetBIChannelsQuery } from 'api/queries/bi-library';
-import { useGetProductsQuery } from 'hooks';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { CharacterVariant, ProductVariant, StatusVariant } from './const';
@@ -20,7 +20,7 @@ export const BILibraryFilters: FC<IBILibraryFilters> = ({
 }) => {
     const [productFilterText, setProductFilterText] = useState('');
 
-    const { data: productsData, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: productsData, isLoading: isLoadingProducts } = useGetAllProductsQuery();
     const { data: channels } = useGetBIChannelsQuery();
 
     const productOptions = [
