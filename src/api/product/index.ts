@@ -52,9 +52,10 @@ export const getProductStructurizrInterfacesByCmdb = (
 
 export const getProductMapicInterfacesByCmdb = (
     cmdb: string,
+    sourceType: string,
 ): AxiosPromise<T.IMapicInterfaceData[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}product/v1/product/${cmdb}/interface/mapic`,
+        url: `${GATEWAY_PRODUCT_URL}v2/product/${cmdb}/interface/${sourceType}`,
     });
 };
 
@@ -295,4 +296,8 @@ export const getNFRByPatternId = (
     return Api.get({
         url: `${GATEWAY_PRODUCT_URL}v1/requirement/pattern/${id}`,
     });
+};
+
+export const getDiscoveredSources = (): AxiosPromise<string[]> => {
+    return Api.get({ url: `${GATEWAY_PRODUCT_URL}v1/discovered-interface/sources` });
 };

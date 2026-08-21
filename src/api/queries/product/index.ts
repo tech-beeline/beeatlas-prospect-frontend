@@ -6,6 +6,7 @@ import {
     getAllChapters,
     getAllProducts,
     getDeploymentInfluence,
+    getDiscoveredSources,
     getFitnessFunctions,
     getFitnessFunctionsAggregation,
     getNfr,
@@ -91,11 +92,14 @@ export const useGetProductStructurizrInterfacesByCmdbQuery = (cmdb?: string | nu
     });
 };
 
-export const useGetProductMapicInterfacesByCmdbQuery = (cmdb?: string | null) => {
+export const useGetProductMapicInterfacesByCmdbQuery = (
+    cmdb?: string | null,
+    sourceType?: string,
+) => {
     return useQuery({
-        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'mapic'],
-        queryFn: () => getProductMapicInterfacesByCmdb(cmdb!).then((res) => res.data),
-        enabled: !!cmdb,
+        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, sourceType],
+        queryFn: () => getProductMapicInterfacesByCmdb(cmdb!, sourceType!).then((res) => res.data),
+        enabled: !!cmdb && !!sourceType,
     });
 };
 
@@ -421,5 +425,12 @@ export const useGetNFRByPatternIdQuery = (id: string | number | null) => {
         queryKey: [PRODUCT_PREFIX, 'nfr', 'pattern', id],
         queryFn: () => getNFRByPatternId(id).then((res) => res.data),
         enabled: !!id,
+    });
+};
+
+export const useGetDiscoveredSourcesQuery = () => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'discovered', 'sources'],
+        queryFn: () => getDiscoveredSources().then((res) => res.data),
     });
 };

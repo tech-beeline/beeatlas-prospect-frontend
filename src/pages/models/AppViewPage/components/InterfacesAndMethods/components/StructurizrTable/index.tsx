@@ -37,7 +37,11 @@ import { StructurizrTableRow } from './components';
 import { EntityTypes, ISelectedEntity, IStructurizrTable } from './types';
 import * as S from './units';
 
-export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb }) => {
+export const StructurizrTable: FC<IStructurizrTable> = ({
+    interfaceOption,
+    discoveredSources,
+    cmdb,
+}) => {
     const [params, setSearchParams] = useSearchParams();
     const [hideEmpty, setHideEmpty] = useState(true);
     const [hideDeleted, setHideDeleted] = useState(true);
@@ -284,10 +288,10 @@ export const StructurizrTable: FC<IStructurizrTable> = ({ interfaceOption, cmdb 
                             id: InterfaceOptions.STRUCTURIZR,
                             label: 'Structurizr',
                         },
-                        {
-                            id: InterfaceOptions.MAPIC,
-                            label: 'Mapic',
-                        },
+                        ...discoveredSources.map((source) => ({
+                            id: source,
+                            label: source.slice(0, 1).toUpperCase() + source.slice(1),
+                        })),
                     ]}
                     onChange={(option) => {
                         setSearchText('');
