@@ -190,7 +190,11 @@ export const BiCard: FC<IBiCard> = ({ bi }) => {
                     {cjs &&
                         cjs.map((cj) => (
                             <div key={cj.id}>
-                                <Link key={cj.id} url={`/cx/cj/add?id=${cj.id}`} title={cj.name} />
+                                <Link
+                                    key={cj.id}
+                                    url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
+                                    title={cj.name}
+                                />
                                 <Text variant="body3" inactive>
                                     {cj.uniqueIdent}
                                 </Text>

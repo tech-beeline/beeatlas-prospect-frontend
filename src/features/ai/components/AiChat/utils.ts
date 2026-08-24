@@ -35,7 +35,7 @@ export const groupSessionsByDate = (
     sessions
         .filter((session) => !pinnedKeysSet.has(session.key))
         .forEach((session) => {
-            const date = dayjs(session.updatedAt);
+            const date = dayjs(session.updatedAt ?? session.createdAt);
 
             if (date.isSame(now, 'day')) {
                 today.push(session);

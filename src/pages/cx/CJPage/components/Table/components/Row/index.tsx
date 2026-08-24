@@ -27,7 +27,6 @@ export const Row = <T,>({
     bpmn,
     onOpenStepFormByBiId,
     isBiEditable,
-    canEditCJ,
 }: IRow<T>) => {
     const [hiddenRows, setHiddenRows, showHiddenRows] = useHiddenRowsStore((state) => [
         state.hiddenRows,
@@ -99,7 +98,7 @@ export const Row = <T,>({
                                                 onClick={() => onAddButtonClick(element.stepIndex)}
                                                 variant="outlined"
                                                 size="medium"
-                                                disabled={!draft || bpmn || !canEditCJ}
+                                                disabled={!draft || bpmn}
                                                 startIcon={<Icon iconName={Icons.Add} />}
                                             />
                                         </S.ButtonContainer>

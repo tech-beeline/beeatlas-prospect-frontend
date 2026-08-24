@@ -47,11 +47,12 @@ export const useGetPatternFileByIdQuery = (patternId: string | number | null) =>
             const patternFile = await getPatternFile(Number(patternId), docTypeId).then(
                 (res) => res,
             );
-            const fileName = patternFile.headers['content-disposition']
-                .split('filename=')[1]
-                .replaceAll('"', '');
+            const fileName = (
+                patternFile.headers['content-disposition'].split('filename=')[1] ??
+                patternFile.headers['content-disposition'].split('filename*=')[1]
+            ).replaceAll('"', '');
 
-            return { file: patternFile.data, fileName };
+            return { file: patternFile.data, fileName: decodeURI(fileName) };
         },
         enabled: !!patternId,
     });

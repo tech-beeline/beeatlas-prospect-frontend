@@ -96,7 +96,7 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                                 <Text variant="body3">{formatNullableNumber(biSteps.rps)}</Text>
                             </S.FlexWrapper>
                             <S.FlexWrapper>
-                                <Text variant="overline">LATENSY, MS</Text>
+                                <Text variant="overline">LATENCY, MS</Text>
                                 <Text variant="body3">{formatNullableNumber(biSteps.latency)}</Text>
                             </S.FlexWrapper>
                             <S.FlexWrapper>

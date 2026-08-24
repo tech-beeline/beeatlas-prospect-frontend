@@ -21,12 +21,11 @@ export type FormValues = {
     status: number;
     clientScenario: string;
     flowLink: string;
-    ucsReaction: string;
     participants: ParticipantValues[];
     document: LinkValues[];
     mockup: LinkValues[];
     channels: number[];
-    product: number;
+    product: number | null;
     metrics: string;
 };
 
@@ -40,7 +39,6 @@ export const validationSchema = object().shape({
     status: number().defined().default(0),
     clientScenario: string().defined().default(''),
     flowLink: string().defined().default(''),
-    ucsReaction: string().defined().default(''),
     participants: array()
         .of(
             object({
@@ -78,6 +76,6 @@ export const validationSchema = object().shape({
         .ensure()
         .default([]),
     channels: array().of(number().defined()).ensure().default([]),
-    product: number().defined().default(0),
+    product: number().defined().nullable(),
     metrics: string().defined().default(''),
 });

@@ -8,7 +8,12 @@ import { IconButton } from 'components/ui';
 import { Button, FileUploader, ProgressButton } from 'components/ui';
 import { Typography } from 'components/ui/Typography';
 
-import { CJ_PREFIX, useCreateCJByBPMN, useUploadBPMNFile } from 'api/queries/cj';
+import {
+    CJ_PREFIX,
+    useCreateCJByBPMN,
+    useUploadBPMNFile,
+    useValidateBPMNByDocIdMutation,
+} from 'api/queries/cj';
 import { useModal } from 'hooks';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
@@ -22,8 +27,10 @@ import * as S from './units';
 
 export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, isEmptyCJ }) => {
     const [bpmnFile, setBpmnFile] = useState<File | null>(null);
+    const [bpmnErrorText, setBpmnErrorText] = useState<string | null>(null);
     const [isSideSheetSubmitting, setIsSideSheetSubmitting] = useState(false);
     const { mutateAsync: createCJByBPMN, isPending: isPendingCJ } = useCreateCJByBPMN();
+    const { mutateAsync: validateBPMNByDocId } = useValidateBPMNByDocIdMutation();
     const { mutateAsync: uploadBPMN } = useUploadBPMNFile();
     const queryClient = useQueryClient();
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -34,6 +41,8 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
         }
         event.target.value = '';
     };
+
+    useEffect(() => setBpmnErrorText(null), [bpmnFile]);
 
     const handleRemoveFile = () => {
         setBpmnFile(null);
@@ -58,7 +67,8 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
         }
 
         try {
-            await uploadBPMN({ file: bpmnFile, cjId });
+            const { docId } = await uploadBPMN({ file: bpmnFile, cjId });
+            await validateBPMNByDocId(docId);
             await createCJByBPMN(cjId);
 
             await queryClient.invalidateQueries({
@@ -71,10 +81,10 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
                 showSnackbar({ message: 'Изменения сохранены' });
             }
         } catch (bpmnError) {
-            showSnackbar({ message: 'Ошибка валидации файла', showCloseButton: true });
-            setBpmnFile(null);
-            closeModal();
-            onClose();
+            const errorText =
+                (bpmnError as any)?.response?.data?.errorMessage ??
+                'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.';
+            setBpmnErrorText(errorText);
         } finally {
             if (shouldCloseAfter) {
                 setIsSideSheetSubmitting(false);
@@ -120,6 +130,8 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
                         accept=".bpmn"
                         subTitle="bpmn до 200 кб"
                         onChange={handleFileChange}
+                        error={!!bpmnErrorText}
+                        helperText={bpmnErrorText ?? undefined}
                     />
                     {bpmnFile && (
                         <S.FileNameContainer>

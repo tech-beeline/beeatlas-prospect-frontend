@@ -12,7 +12,7 @@ import {
 } from 'components/form';
 
 import { useGetBIChannelsQuery, useGetBIStatusesQuery } from 'api/queries/bi-library';
-import { useGetProductsQuery } from 'hooks';
+import { useGetAllProductsQuery } from 'api/queries/product';
 
 import { LinksFieldArray } from './components';
 import { FormValues, validationSchema } from './form';
@@ -24,7 +24,7 @@ export const BIForm = forwardRef<BIFormRef, IBIForm>(
         const [searchTextProduct, setSearchTextProduct] = useState('');
         const { data: statuses } = useGetBIStatusesQuery();
 
-        const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
+        const { data: products, isLoading: isLoadingProducts } = useGetAllProductsQuery();
         const productsFiltered = (products ?? []).filter((product) =>
             product.name.toLowerCase().includes(searchTextProduct.toLowerCase()),
         );
@@ -51,7 +51,7 @@ export const BIForm = forwardRef<BIFormRef, IBIForm>(
                 reset(defaultValues);
             } else if (products) {
                 reset({
-                    product: products[0] && String(products[0].id) ? Number(products[0].id) : 1,
+                    product: null,
                     channels: [],
                     document: [{ value: '' }],
                     mockup: [{ value: '' }],
@@ -140,7 +140,7 @@ export const BIForm = forwardRef<BIFormRef, IBIForm>(
 
                                 <MultiSelect
                                     fullWidth
-                                    name="group"
+                                    name="channels"
                                     label="Канал"
                                     options={channelOptions}
                                     disabled={channelLoading}

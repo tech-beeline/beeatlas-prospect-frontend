@@ -12,6 +12,7 @@ export interface ICJStepData {
     name: string;
     description: string | null;
     id_cj: number;
+    orderTree: string | null;
 }
 
 export interface ICJForm {
@@ -19,7 +20,7 @@ export interface ICJForm {
     name: string;
     user_portrait?: string | null;
     dashboardLink?: string;
-    productId: string;
+    id_product?: number;
     businessOwner: number | null;
     techOwners: number[];
 }

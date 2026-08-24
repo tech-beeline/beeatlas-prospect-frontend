@@ -25,7 +25,7 @@ export const mapCJToFormValues = (data: ICompleteCJData): FormValues => ({
         fullname: data.businessOwner?.fullName ?? '',
         email: data.businessOwner?.email ?? '',
     },
-    product: Number(data.productId),
+    product: data.productId ? Number(data.productId) : null,
     techOwner: (data.techOwners ?? []).map((owner) => ({
         id: owner.id ?? null,
         employeeNumber: '',

@@ -5,7 +5,7 @@ import { Autocomplete, Button, Select, Switch } from 'components/ui';
 
 import { CJLibraryStatus } from 'api/cj/types';
 // import { useGetBIChannelsQuery } from 'api/queries/bi-library';
-import { useGetProductsQuery } from 'hooks';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { FormatVariant, ProductVariant } from './const';
@@ -21,7 +21,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
 }) => {
     const [productFilterText, setProductFilterText] = useState('');
 
-    const { data: products, isLoading: isLoadingProducts } = useGetProductsQuery();
+    const { data: products, isLoading: isLoadingProducts } = useGetAllProductsQuery();
     // const { data: channels } = useGetBIChannelsQuery();
     const productOptions = [
         { id: ProductVariant.ALL, value: 'Все' },

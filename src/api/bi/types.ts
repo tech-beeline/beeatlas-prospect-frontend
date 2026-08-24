@@ -24,12 +24,11 @@ export interface IBIForm {
         descr: string;
         value: string;
     }[];
-    productId: string;
+    productId: string | null;
     status: {
         id: number;
     };
     target: boolean;
-    ucsReaction: string;
     metrics: string;
 }
 
@@ -96,6 +95,8 @@ export interface IStepsScenarion {
     errorRate: number;
     rps: number;
     relations: IRelations[];
+    orderTree: string | null;
+    order: number | null;
 }
 
 export interface ISLAForm {
@@ -136,6 +137,8 @@ export interface IBIData {
     metrics: string | null;
     lastModifiedDate: string;
     bpmn: boolean;
+    order: number | null;
+    orderTree: string | null;
 }
 
 export interface IBIEditabilityData {

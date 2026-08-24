@@ -23,7 +23,7 @@ export interface ISession {
     uiContext: string | null;
     description: string | null;
     createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
 }
 
 export interface ISessionMessage {

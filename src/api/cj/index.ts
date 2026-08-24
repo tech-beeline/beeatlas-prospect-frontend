@@ -31,6 +31,11 @@ export const getCJByIdV1 = (id: string): AxiosPromise<T.ICompleteCJData> => {
         url: `${GATEWAY_URL}cx/v1/cj/${id}`,
     });
 };
+export const validateBPMNByDocId = (docId: string | number): AxiosPromise<unknown> => {
+    return Api.get({
+        url: `${GATEWAY_CX_URL}v1/cx/bpmn/cj/validate/${docId}`,
+    });
+};
 
 export const postCJByBPMN = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.patch({
@@ -38,9 +43,9 @@ export const postCJByBPMN = (id: string): AxiosPromise<T.ICompleteCJData> => {
     });
 };
 
-export const postCJ = (data: T.ICJForm, productId: number) => {
+export const postCJ = (data: T.ICJForm) => {
     return Api.post({
-        url: `${GATEWAY_URL}cx/v1/product/${productId}/cj`,
+        url: `${GATEWAY_URL}cx/v1/product/cj`,
         data,
     });
 };
@@ -71,7 +76,7 @@ export const getCJsByBIId = (biId: string): AxiosPromise<T.ICJData[]> => {
     });
 };
 
-export const uploadBPMNFile = (file: File, cjId: string) => {
+export const uploadBPMNFile = (file: File, cjId: string): AxiosPromise<{ docId: number }> => {
     const formData = new FormData();
     formData.append('file', file);
 

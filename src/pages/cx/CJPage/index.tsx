@@ -18,7 +18,7 @@ import {
     useGetCompleteCJDataByIdQuery,
     usePartialUpdateCJMutation,
 } from 'api/queries/cj';
-import { useGetProductsQuery, useModal, useShowTooltip } from 'hooks';
+import { useModal, useShowTooltip } from 'hooks';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { Dialog } from 'widgets/Dialog';
@@ -31,6 +31,10 @@ import * as S from './units';
 export const CJPage = () => {
     const [params] = useSearchParams();
     const paramId = params.get('id');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
+
     const [buttonState, setButtonState] = useState<ButtonState>('default');
     const { modalOpened, openModal, closeModal } = useModal();
     const {
@@ -39,16 +43,10 @@ export const CJPage = () => {
         refetch,
         isFetching: isRefreshingCJ,
     } = useGetCompleteCJDataByIdQuery(paramId);
-    const { data: dataProducts, isLoading: isLoadingProducts } = useGetProductsQuery();
     const { data: versions, isLoading: isLoadingVersions } = useGetCJFileVersionByIdQuery(paramId);
 
     const { mutateAsync: updateBi } = useUpdateBIMutation();
-    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
-    const isLoading = isLoadingCJ || isLoadingProducts;
-
-    const canEditCJ = (dataProducts ?? [])
-        .map((product) => String(product.id))
-        .includes(String(data?.productId ?? data?.idProductExt ?? data?.id_product));
+    const isLoading = isLoadingCJ;
 
     const hasDraftBIs =
         data?.steps
@@ -74,9 +72,6 @@ export const CJPage = () => {
         entityType: 'cj',
         entityId: data?.id,
     });
-
-    const navigate = useNavigate();
-    const location = useLocation();
 
     useEffect(() => {
         return () => {
@@ -278,7 +273,7 @@ export const CJPage = () => {
                                             onClick: () =>
                                                 toggleSideSheet(SideSheetVariants.DATA_CJ),
                                         },
-                                        ...(data?.draft && canEditCJ
+                                        ...(data?.draft
                                             ? [
                                                   {
                                                       title: 'Редактировать данные CJ',
@@ -337,23 +332,20 @@ export const CJPage = () => {
                                 Дашборд в grafana
                             </Button>
 
-                            {canEditCJ && (
-                                <Button
-                                    disabled={!data || data.draft === true || isCreatingDashboard}
-                                    startIcon={<Icon iconName={Icons.GraphUp} />}
-                                    onClick={handleCreateDashboardClick}
-                                >
-                                    Создать дашборд в grafana
-                                </Button>
-                            )}
+                            <Button
+                                disabled={!data || data.draft === true || isCreatingDashboard}
+                                startIcon={<Icon iconName={Icons.GraphUp} />}
+                                onClick={handleCreateDashboardClick}
+                            >
+                                Создать дашборд в grafana
+                            </Button>
                         </>
                     )}
 
                     {isLoadingCJ ? (
                         <Skeleton variant="square" width={127} height={40} />
                     ) : (
-                        data &&
-                        canEditCJ && (
+                        data && (
                             <ProgressButton
                                 key={data.draft ? 'draft' : 'published'}
                                 variant="contained"
@@ -382,7 +374,6 @@ export const CJPage = () => {
                     draft={data.draft}
                     tableData={data.steps}
                     bpmn={data.bpmn}
-                    canEditCJ={canEditCJ}
                 />
             )}
 
