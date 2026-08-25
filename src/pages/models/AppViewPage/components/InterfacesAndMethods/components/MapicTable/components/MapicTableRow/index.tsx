@@ -23,6 +23,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
     mapicInterface,
     sctructurizrInterfaces,
     selectedMapicOperation,
+    showContextApi,
 }) => {
     const rowRef = useRef<HTMLDivElement | null>(null);
     const [expanded, setExpanded] = useState(false);
@@ -86,16 +87,20 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                         </Text>
                     </S.NameContainer>
                 </TableData>
-                <TableData>
-                    <Text inactive={disabled} variant="body3">
-                        {mapicInterface.context}
-                    </Text>
-                </TableData>
-                <TableData>
-                    <Text inactive={disabled} variant="body3">
-                        {formatNullableString(mapicInterface.contextProvider)}
-                    </Text>
-                </TableData>
+                {showContextApi && (
+                    <>
+                        <TableData>
+                            <Text inactive={disabled} variant="body3">
+                                {mapicInterface.context}
+                            </Text>
+                        </TableData>
+                        <TableData>
+                            <Text inactive={disabled} variant="body3">
+                                {formatNullableString(mapicInterface.contextProvider)}
+                            </Text>
+                        </TableData>
+                    </>
+                )}
                 {isEditing && (
                     <S.TableDataInput>
                         <S.RelativeContainer>

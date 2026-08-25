@@ -31,7 +31,7 @@ import { MapicTableRow } from './components';
 import { IMapicTable, ISelectedMapicOperation } from './types';
 import * as S from './units';
 
-export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
+export const MapicTable: FC<IMapicTable> = ({ interfaceOption, discoveredSources, cmdb }) => {
     const [params, setSearchParams] = useSearchParams();
 
     const [hideEmpty, setHideEmpty] = useState(true);
@@ -55,7 +55,7 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
     const { data: structurizrData, isLoading: isLoadingStructurizrData } =
         useGetProductStructurizrInterfacesByCmdbQuery(cmdb);
     const { data: mapicData, isLoading: isLoadingMapicData } =
-        useGetProductMapicInterfacesByCmdbQuery(cmdb);
+        useGetProductMapicInterfacesByCmdbQuery(cmdb, interfaceOption);
 
     const mapicDataFiltered = mapicFilterFunction(mapicData, hideEmpty, hideDeleted);
 
@@ -82,6 +82,8 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
             ? { id: selectedMapicOperation.id, name: selectedMapicOperation.value }
             : null,
     });
+
+    const showContextApi = interfaceOption === 'mapic';
 
     return (
         <>
@@ -185,10 +187,10 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
                             id: InterfaceOptions.STRUCTURIZR,
                             label: 'Structurizr',
                         },
-                        {
-                            id: InterfaceOptions.MAPIC,
-                            label: 'Mapic',
-                        },
+                        ...discoveredSources.map((source) => ({
+                            id: source,
+                            label: source.slice(0, 1).toUpperCase() + source.slice(1),
+                        })),
                     ]}
                     onChange={(option) => {
                         setSearchText('');
@@ -220,8 +222,12 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
                         )}
                         <TableRow>
                             <TableHeaderData>Интерфейс mapic</TableHeaderData>
-                            <TableHeaderData>Контекст api</TableHeaderData>
-                            <TableHeaderData>Контекст провайдера</TableHeaderData>
+                            {showContextApi && (
+                                <>
+                                    <TableHeaderData>Контекст api</TableHeaderData>
+                                    <TableHeaderData>Контекст провайдера</TableHeaderData>
+                                </>
+                            )}
                             <TableHeaderData>Интерфейс structurizr</TableHeaderData>
                             <TableHeaderData alignRight>
                                 Методы (всего/сопоставленные)
@@ -236,6 +242,7 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, cmdb }) => {
                                 mapicInterface={mapicInterface}
                                 sctructurizrInterfaces={structurizrData}
                                 selectedMapicOperation={selectedMapicOperation}
+                                showContextApi={showContextApi}
                             />
                         ))}
                     </TableBody>

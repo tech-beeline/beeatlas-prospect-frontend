@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { formatCallsTreeData } from 'features/e2e';
 
 import { Text } from 'components/core';
 import { Skeleton } from 'components/ui';
@@ -8,7 +9,6 @@ import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
 import { CallTreeItem } from './components';
 import { ICallsContent } from './types';
 import * as S from './units';
-import { formatCallsTreeData } from './utils';
 
 export const CallsContent: FC<ICallsContent> = ({ code }) => {
     const { data, isLoading } = useGetSequenceCallsByIdQuery(code);

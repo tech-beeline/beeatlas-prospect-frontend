@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { formatCallsTreeData } from 'features/e2e';
 
 import { Text } from 'components/core';
 import { Skeleton } from 'components/ui';
@@ -6,7 +7,6 @@ import { Skeleton } from 'components/ui';
 import { CallTreeItem } from './components';
 import { ICallsContent } from './types';
 import * as S from './units';
-import { formatCallsTreeData } from './utils';
 
 export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
     const callsTree = formatCallsTreeData(data);

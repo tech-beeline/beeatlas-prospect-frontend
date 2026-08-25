@@ -26,7 +26,7 @@ export const postSequenceAlertById = (uid: string, data: T.IStagingSequenceAlert
 
 export const getSequenceCallsById = (code: string): AxiosPromise<T.IStagingSequenceCallsData> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/e2e/${code}`,
+        url: `${GATEWAY_PRODUCT_URL}v2/e2e/${code}`,
     });
 };
 

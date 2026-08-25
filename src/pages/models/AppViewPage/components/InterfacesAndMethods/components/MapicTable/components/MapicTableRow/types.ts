@@ -6,4 +6,5 @@ export interface IMapicTableRow {
     mapicInterface: IMapicInterfaceData;
     sctructurizrInterfaces: IStructurizrInterfaceData[];
     selectedMapicOperation: ISelectedMapicOperation | null;
+    showContextApi: boolean;
 }

@@ -38,6 +38,10 @@ export const MenuPersonalArea = () => {
                     ? `${R.ADMIN_PATH}${R.FITNESS_FUNCTIONS_PATH}`
                     : location.pathname.includes(R.CYPHER_REQUEST_PATH)
                     ? `${R.ADMIN_PATH}${R.CYPHER_REQUEST_PATH}`
+                    : location.pathname.includes(R.STAGING_SEARCH_PATH)
+                    ? `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`
+                    : location.pathname.includes(R.STAGING_PATH)
+                    ? `${R.ADMIN_PATH}${R.STAGING_PATH}`
                     : `${R.ADMIN_PATH}${R.TECHNOLOGIES_PATH}`
             }
             groups={[
@@ -88,6 +92,16 @@ export const MenuPersonalArea = () => {
                             icon: Icons.Map,
                             name: 'Cypher\nзапросы',
                             path: `${R.ADMIN_PATH}${R.CYPHER_REQUEST_PATH}`,
+                        },
+                        {
+                            icon: Icons.Pipeline,
+                            name: 'Наблюдаемость\nзапусков\xa0pipeline',
+                            path: `${R.ADMIN_PATH}${R.STAGING_PATH}`,
+                        },
+                        {
+                            icon: Icons.Search,
+                            name: 'Поиск\xa0по\xa0сущностям\nstaging',
+                            path: `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`,
                         },
                     ],
                 },
