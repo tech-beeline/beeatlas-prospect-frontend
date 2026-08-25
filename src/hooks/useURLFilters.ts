@@ -159,6 +159,11 @@ export const createNumberArrayParser =
     (value: string): number[] =>
         value.split(',').filter(Boolean).map(Number);
 
+export const createStringArrayParser =
+    () =>
+    (value: string): string[] =>
+        value.split(',').filter(Boolean);
+
 export const createBooleanParser =
     () =>
     (value: string): boolean =>

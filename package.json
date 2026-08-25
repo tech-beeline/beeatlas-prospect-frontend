@@ -7,15 +7,22 @@
         "start": "cross-env NODE_ENV=development webpack serve --config config/webpack/webpack.dev.js --hot",
         "build": "cross-env NODE_ENV=production webpack --config config/webpack/webpack.prod.js",
         "lint:eslint": "cross-env ./node_modules/.bin/eslint src/ --ext .ts,.tsx --fix",
-        "lint:prettier": "cross-env ./node_modules/.bin/prettier -c --write src",
+        "lint:prettier": "cross-env ./node_modules/.bin/prettier -c src",
+        "lint:prettier:fix": "cross-env ./node_modules/.bin/prettier --write src",
         "lint:tsc": "cross-env ./node_modules/typescript/bin/tsc",
         "lint:stylelint": "cross-env ./node_modules/.bin/stylelint src/**/units.ts",
         "lint": "npm run lint:tsc && npm run lint:eslint && npm run lint:prettier"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm run lint"
+            "pre-commit": "npm run lint:tsc && lint-staged"
         }
+    },
+    "lint-staged": {
+        "src/**/*.{ts,tsx}": [
+            "eslint --fix",
+            "prettier --write"
+        ]
     },
     "dependencies": {
         "@dnd-kit/core": "6.1.0",
@@ -89,6 +96,7 @@
         "html-loader": "3.1.0",
         "html-webpack-plugin": "5.5.0",
         "husky": "4.3.8",
+        "lint-staged": "14.0.1",
         "mini-css-extract-plugin": "2.6.0",
         "path": "0.12.7",
         "prettier": "2.7.0",

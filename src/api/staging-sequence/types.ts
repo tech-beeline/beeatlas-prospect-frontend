@@ -55,10 +55,16 @@ interface IOperation {
     } | null;
 }
 
+export enum EntityRelationType {
+    OPERATION = 'operation',
+    DISCOVERED_OPERATION = 'discovered_operation',
+}
+
 interface IOperationRelation {
     order: number;
     relatedOperationId: number;
     stereotype: string;
+    entityTypeRelatedOperation: EntityRelationType;
     operationsRelations: IOperationRelation[] | null;
 }
 
@@ -72,6 +78,7 @@ export interface IStagingSequenceCallsData {
     };
     operationsRelations: IOperationRelation[];
     operations: IOperation[];
+    discoveredOperations: IOperation[];
 }
 
 export interface IStagingSequenceEntity {

@@ -71,6 +71,12 @@ import {
     RulesPage,
     SearchPage,
     ServicesPage,
+    StagingPage,
+    StagingPipilinePage,
+    StagingPreAdapterPage,
+    StagingSearchArtifactPage,
+    StagingSearchPage,
+    StagingSearchPipelinePage,
     SubscriptionsPage,
     TechnologiesPage,
     TechnologyAddPage,
@@ -397,6 +403,90 @@ export const NavigationRouter = () => {
                                 <MenuPersonalArea />
                                 <S.ContentWrapper>
                                     <CapabilityAddPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.STAGING_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <StagingPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <StagingPreAdapterPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}${R.PIPELINE_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <StagingPipilinePage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <StagingSearchPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <StagingSearchArtifactPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        ),
+                        isAdmin,
+                        isLoading,
+                    })}
+
+                    {withAdminRole({
+                        path: `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}${R.PIPELINE_PATH}`,
+                        element: (
+                            <S.RouteWithDrawer>
+                                <MenuPersonalArea />
+                                <S.ContentWrapper>
+                                    <StagingSearchPipelinePage />
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         ),

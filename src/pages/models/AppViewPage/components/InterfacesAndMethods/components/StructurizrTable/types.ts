@@ -2,6 +2,7 @@ import { InterfaceOptions } from '../../const';
 
 export interface IStructurizrTable {
     interfaceOption: InterfaceOptions;
+    discoveredSources: string[];
 
     cmdb: string;
 }

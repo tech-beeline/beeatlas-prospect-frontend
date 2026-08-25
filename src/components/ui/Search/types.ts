@@ -26,6 +26,7 @@ export interface SearchProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
     onSearch?: (value?: SearchProps['value']) => string | void;
     filterItems?: Array<SearchOption<string>>;
     selectedFilter?: SearchOption<string> | null;
+    filterPlaceholder?: string;
     onFilterChange?: (filterItem: SearchOption<string> | null) => void;
     isAdaptive?: boolean;
     maskConfig?: unknown;

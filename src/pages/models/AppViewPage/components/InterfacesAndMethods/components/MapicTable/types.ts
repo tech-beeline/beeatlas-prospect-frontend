@@ -1,7 +1,6 @@
-import { InterfaceOptions } from '../../const';
-
 export interface IMapicTable {
-    interfaceOption: InterfaceOptions;
+    interfaceOption: string;
+    discoveredSources: string[];
 
     cmdb: string;
 }

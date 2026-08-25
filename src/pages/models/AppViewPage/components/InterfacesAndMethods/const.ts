@@ -1,6 +1,5 @@
 export enum InterfaceOptions {
-    STRUCTURIZR = 'STRUCTURIZR',
-    MAPIC = 'MAPIC',
+    STRUCTURIZR = 'structurizr',
 }
 
 export enum FilterOptions {

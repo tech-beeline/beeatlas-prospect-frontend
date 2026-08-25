@@ -5,6 +5,7 @@ import { useAdditionalPageContext } from 'features/ai-context/hooks';
 import { NotFoundBlock } from 'components/other';
 
 import { getEntityParent } from 'api/product';
+import { useGetDiscoveredSourcesQuery } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
 import { useModal } from 'hooks';
 
@@ -23,12 +24,14 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
     const paramId = params.get('id');
     const paramType = params.get('type');
 
-    const [interfaceOption, setInterfaceOption] = useState(InterfaceOptions.STRUCTURIZR);
+    const [interfaceOption, setInterfaceOption] = useState<InterfaceOptions.STRUCTURIZR | string>(
+        InterfaceOptions.STRUCTURIZR,
+    );
+
+    const { data: discoveredSources } = useGetDiscoveredSourcesQuery();
 
     useEffect(() => {
-        if (Object.values(InterfaceOptions).includes(paramSubtab as InterfaceOptions)) {
-            setInterfaceOption(paramSubtab as InterfaceOptions);
-        }
+        setInterfaceOption(paramSubtab ?? InterfaceOptions.STRUCTURIZR);
     }, [paramSubtab]);
 
     const { openModal, closeModal, modalOpened } = useModal();
@@ -68,13 +71,25 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
                 </>
             ) : (
                 <>
-                    {cmdb && interfaceOption === InterfaceOptions.STRUCTURIZR && (
-                        <StructurizrTable interfaceOption={interfaceOption} cmdb={cmdb} />
-                    )}
+                    {cmdb &&
+                        interfaceOption === InterfaceOptions.STRUCTURIZR &&
+                        discoveredSources && (
+                            <StructurizrTable
+                                interfaceOption={interfaceOption}
+                                discoveredSources={discoveredSources}
+                                cmdb={cmdb}
+                            />
+                        )}
 
-                    {cmdb && interfaceOption === InterfaceOptions.MAPIC && (
-                        <MapicTable interfaceOption={interfaceOption} cmdb={cmdb} />
-                    )}
+                    {cmdb &&
+                        interfaceOption !== InterfaceOptions.STRUCTURIZR &&
+                        discoveredSources && (
+                            <MapicTable
+                                interfaceOption={interfaceOption}
+                                discoveredSources={discoveredSources}
+                                cmdb={cmdb}
+                            />
+                        )}
                 </>
             )}
         </S.Container>

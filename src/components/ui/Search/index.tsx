@@ -5,7 +5,12 @@ import { Divider } from 'components/ui/Divider';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
-import { DEFAULT_DATA_TEST_ID, DEFAULT_SEARCH_SIZE, SEARCH_ICON_SIZE } from './const';
+import {
+    DEFAULT_DATA_TEST_ID,
+    DEFAULT_FILTER_PLACEHOLDER,
+    DEFAULT_SEARCH_SIZE,
+    SEARCH_ICON_SIZE,
+} from './const';
 import { ControlledSearch } from './ControlledSearch';
 import { SearchDropdown } from './SearchDropdown';
 import type { SearchProps } from './types';
@@ -31,6 +36,7 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(
             onClear,
             filterItems,
             selectedFilter,
+            filterPlaceholder = DEFAULT_FILTER_PLACEHOLDER,
             onFilterChange,
             dataTestId = DEFAULT_DATA_TEST_ID,
             disabled,
@@ -123,7 +129,7 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(
                 >
                     <Divider className="dsb_search_categories_vertical-divider" />
                     <span className={classNameLabel} data-testid={`${dataTestId}-selectedFilter`}>
-                        {selectedFilter?.value || 'Категории'}
+                        {selectedFilter?.value || filterPlaceholder}
                     </span>
                     <IconButton
                         dataTestId={`${dataTestId}-arrowBut`}
