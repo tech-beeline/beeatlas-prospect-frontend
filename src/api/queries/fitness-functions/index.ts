@@ -58,7 +58,7 @@ export const useRunFitnessFunctionMutation = () => {
                     const processData = await getProcessById(latestProcess.id).then(
                         (res) => res.data,
                     );
-                    docId = processData.context.find((c) => c.name === 'doc_id')?.value;
+                    docId = processData.context.find((c) => c.name === 'docId')?.value;
                 }
             }
 
