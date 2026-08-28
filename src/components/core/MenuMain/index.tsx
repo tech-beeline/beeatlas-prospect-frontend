@@ -72,6 +72,16 @@ const getMenuGroups = () => [
         ],
     },
     {
+        title: 'Архитектура решения',
+        items: [
+            {
+                icon: Icons.RulerPencil,
+                name: 'Проекты',
+                path: `${R.MODELS_PATH}${R.PROJECTS_PATH}`,
+            },
+        ],
+    },
+    {
         title: 'Техническая архитектура',
         items: [
             {

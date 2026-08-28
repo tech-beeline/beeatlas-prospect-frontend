@@ -1,0 +1,1 @@
+export { CatalogMatchGroup } from './CatalogMatchGroup';
