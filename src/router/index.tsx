@@ -44,6 +44,8 @@ import {
     CypherPage,
     DataBasePage,
     E2EDashboardPage,
+    E2EImportPlantUmlPage,
+    E2EImportPlantUmlVersionPage,
     E2EPage,
     ExportPage,
     FDMHistoryPage,
@@ -108,6 +110,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.NFR_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
 ];
 
 const PATHS_WITHOUT_FEEDBACK = [
@@ -120,6 +123,7 @@ const PATHS_WITHOUT_FEEDBACK = [
     `${R.MODELS_PATH}${R.FDM_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
     `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -683,6 +687,20 @@ export const NavigationRouter = () => {
                                     </S.ContentWrapper>
                                 </S.RouteWithDrawer>
                             }
+                        />
+                    )}
+
+                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                        <Route
+                            path={`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`}
+                            element={<E2EImportPlantUmlPage />}
+                        />
+                    )}
+
+                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
+                        <Route
+                            path={`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}${R.VERSION_PATH}`}
+                            element={<E2EImportPlantUmlVersionPage />}
                         />
                     )}
 

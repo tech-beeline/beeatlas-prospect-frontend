@@ -6,11 +6,13 @@ import {
     getStagingSequenceBiStepByCode,
     getStagingSequenceBiSteps,
     getStagingSequenceCjTree,
+    patchE2E,
+    postE2E,
     postSequenceAlertById,
 } from 'api/staging-sequence';
-import { IStagingSequenceAlertForm } from 'api/staging-sequence/types';
+import { IPatchE2EForm, IPostE2EForm, IStagingSequenceAlertForm } from 'api/staging-sequence/types';
 
-const STAGING_SEQUENCE_PREFIX = 'STAGING_SEQUENCE_PREFIX';
+export const STAGING_SEQUENCE_PREFIX = 'STAGING_SEQUENCE_PREFIX';
 
 export const useGetStagingSequenceCjTreeQuery = () => {
     return useQuery({
@@ -63,5 +65,35 @@ export const useGetStagingSequenceBiStepByCodeQuery = (code: string | null | und
         queryKey: [STAGING_SEQUENCE_PREFIX, 'BI_STEP', code],
         queryFn: () => getStagingSequenceBiStepByCode(code!).then((res) => res.data),
         enabled: Boolean(code),
+    });
+};
+
+export const usePostE2EMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [STAGING_SEQUENCE_PREFIX, 'E2E', 'create'],
+        mutationFn: (params: IPostE2EForm) => postE2E(params),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [STAGING_SEQUENCE_PREFIX],
+            });
+        },
+    });
+};
+
+interface IPatchE2EParams {
+    code: string;
+    data: IPatchE2EForm;
+}
+export const usePatchE2EMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: [STAGING_SEQUENCE_PREFIX, 'E2E', 'create'],
+        mutationFn: (params: IPatchE2EParams) => patchE2E(params.code, params.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [STAGING_SEQUENCE_PREFIX],
+            });
+        },
     });
 };

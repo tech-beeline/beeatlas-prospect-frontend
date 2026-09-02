@@ -1,6 +1,7 @@
 export enum TabVariants {
     CALLS = 'CALLS',
     RELATED_CJS = 'RELATED_CJS',
+    HISTORY = 'HISTORY',
 }
 
 export const TABS = [
@@ -11,5 +12,9 @@ export const TABS = [
     {
         id: TabVariants.RELATED_CJS,
         label: 'Связанные CJ',
+    },
+    {
+        id: TabVariants.HISTORY,
+        label: 'История загрузок',
     },
 ];
