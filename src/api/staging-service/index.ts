@@ -142,11 +142,20 @@ export const validateE2EPlantUmlFile = (
     });
 };
 
+export const getE2EDocumentationTypes = (): AxiosPromise<T.IE2EDocType[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documentations/e2e`,
+    });
+};
+
 export const getE2EPlantUmlFileVersions = (
+    docTypeId: string | number,
     e2eId: string | number,
 ): AxiosPromise<T.IE2EPlantUmlFileVersion[]> => {
     return Api.get({
-        url: `${GATEWAY_URL}document/v1/documents/versions/5/${encodeURIComponent(String(e2eId))}`,
+        url: `${GATEWAY_URL}document/v1/documents/versions/${docTypeId}/${encodeURIComponent(
+            String(e2eId),
+        )}`,
     });
 };
 

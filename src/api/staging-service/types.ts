@@ -205,6 +205,12 @@ export interface IUploadE2EPlantUmlResult {
     docId: number;
 }
 
+export interface IE2EDocType {
+    id: number;
+    docType: string;
+    name: string;
+}
+
 export interface IE2EPlantUmlFileVersion {
     id: string | number;
     key: string | null;

@@ -5,6 +5,7 @@ import {
     getArtifactByUid,
     getArtifactPipelinesSearch,
     getArtifactSearch,
+    getE2EDocumentationTypes,
     getE2EPlantUmlFileVersions,
     getPipelineAnnotationsById,
     getPipelineArtifactTypes,
@@ -150,7 +151,11 @@ export const useValidateE2EPlantUmlQuery = (docId: string | number | null) => {
 export const useGetE2EPlantUmlFileVersionsQuery = (e2eId: string | number | null) => {
     return useQuery({
         queryKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'VERSIONS', e2eId],
-        queryFn: () => getE2EPlantUmlFileVersions(e2eId!).then((res) => res.data),
+        queryFn: async () => {
+            const docTypes = await getE2EDocumentationTypes().then((res) => res.data);
+            const docType = docTypes[0].id ?? '1';
+            return getE2EPlantUmlFileVersions(docType, e2eId!).then((res) => res.data);
+        },
         enabled: e2eId !== null && e2eId !== '',
     });
 };
