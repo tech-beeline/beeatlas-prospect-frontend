@@ -21,3 +21,7 @@ export const NameContainer = styled.div`
     overflow: hidden;
     word-break: break-anywhere;
 `;
+
+export const NotFoundContainer = styled.div`
+    margin-top: 80px;
+`;

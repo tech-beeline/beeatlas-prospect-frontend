@@ -17,12 +17,19 @@ export const ValidationResultForm: FC<IValidationResultForm> = ({ result, onBack
             <PlantUmlValidationResult result={result} />
 
             <S.Footer>
-                <Button type="button" variant="outlined" size="medium" onClick={onBack}>
-                    Назад
-                </Button>
-                <Button type="submit" variant="contained" size="medium" disabled={!result.valid}>
-                    Сохранить
-                </Button>
+                <S.ButtonsContainer>
+                    <Button type="button" variant="outlined" size="medium" onClick={onBack}>
+                        Назад
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        size="medium"
+                        disabled={!result.valid}
+                    >
+                        Сохранить
+                    </Button>
+                </S.ButtonsContainer>
             </S.Footer>
         </S.Form>
     );

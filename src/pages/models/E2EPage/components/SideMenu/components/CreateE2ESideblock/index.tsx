@@ -6,7 +6,7 @@ import { Text } from 'components/core';
 import { Button, IconButton, TextField } from 'components/ui';
 
 import { usePostE2EMutation } from 'api/queries/staging-sequence';
-import { E2ETreeItemType } from 'pages/models/E2EPage/types';
+import { E2EContentOptions, E2ETreeItemType } from 'pages/models/E2EPage/types';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { ICreateE2ESideblock } from './types';
@@ -30,6 +30,7 @@ export const CreateE2ESideblock: FC<ICreateE2ESideblock> = ({ isOpen, onClose })
             operationsRelations: [],
         });
         const params = new URLSearchParams(searchParams);
+        params.set('tab', E2EContentOptions.E2E);
         params.set('id', String(uid));
         params.set('type', E2ETreeItemType.BI_STEP);
         setSearchParams(params);

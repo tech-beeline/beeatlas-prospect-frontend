@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
@@ -20,6 +20,16 @@ import * as S from './units';
 
 export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const subtabParam = searchParams.get('subtab');
+
+    useEffect(() => {
+        if (subtabParam && (Object.values(TabVariants) as string[]).includes(subtabParam)) {
+            setTabVariant(subtabParam as TabVariants);
+        }
+    }, [subtabParam]);
+
     const navigate = useNavigate();
 
     const { modalOpened, openModal, closeModal } = useModal();
@@ -72,7 +82,14 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
                             key={tab.id}
                             label={tab.label}
                             value={tab.id}
-                            onClick={() => setTabVariant(tab.id)}
+                            onClick={() =>
+                                setSearchParams(
+                                    new URLSearchParams({
+                                        ...Object.fromEntries(searchParams),
+                                        subtab: tab.id,
+                                    }),
+                                )
+                            }
                         />
                     ))}
                 </Tabs>

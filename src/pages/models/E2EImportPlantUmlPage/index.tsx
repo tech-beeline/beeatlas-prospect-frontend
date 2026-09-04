@@ -37,6 +37,8 @@ export const E2EImportPlantUmlPage = () => {
     const [searchParams] = useSearchParams();
     const targetId = searchParams.get('id');
     const targetCode = searchParams.get('code');
+    const [file, setFile] = useState<File | null>(null);
+    const [plantUmlText, setPlantUmlText] = useState('');
     const [validationResult, setValidationResult] = useState<IE2EPlantUmlValidationResult | null>(
         null,
     );
@@ -130,6 +132,10 @@ export const E2EImportPlantUmlPage = () => {
             {!validationResult && (
                 <ImportDataForm
                     targetId={targetId}
+                    file={file}
+                    plantUmlText={plantUmlText}
+                    onFileChange={setFile}
+                    onPlantUmlTextChange={setPlantUmlText}
                     isSubmitting={isUploading || isValidating}
                     onSubmit={handleValidate}
                 />
