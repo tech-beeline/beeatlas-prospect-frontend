@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
 
-import { GATEWAY_STAGING_SERVICE_URL } from 'api/const';
+import { GATEWAY_STAGING_SERVICE_URL, GATEWAY_URL } from 'api/const';
 import Api from 'utils/api/axiosWrapper';
 import { formatNullableNumberParam, formatNullableStringParam } from 'utils/formatters';
 
@@ -113,5 +113,46 @@ export const getPipelineAnnotationsById = (
             'offset',
             params.offset,
         )}`,
+    });
+};
+
+export const uploadE2EPlantUmlFile = (
+    file: File,
+    targetId: string,
+): AxiosPromise<T.IUploadE2EPlantUmlResult> => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return Api.post({
+        url: `${GATEWAY_URL}document/v1/documents/E2E_PLANTUML/puml?targetId=${encodeURIComponent(
+            targetId,
+        )}&isPublic=true`,
+        data: formData,
+        headers: {
+            'Content-Disposition': encodeURI(file.name),
+        },
+    });
+};
+
+export const validateE2EPlantUmlFile = (
+    docId: string | number,
+): AxiosPromise<T.IE2EPlantUmlValidationResult> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/e2e/validate/${docId}`,
+    });
+};
+
+export const getE2EPlantUmlFileVersions = (
+    e2eId: string | number,
+): AxiosPromise<T.IE2EPlantUmlFileVersion[]> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/versions/5/${encodeURIComponent(String(e2eId))}`,
+    });
+};
+
+export const downloadE2EPlantUmlFile = (documentId: string | number): AxiosPromise<Blob> => {
+    return Api.get({
+        url: `${GATEWAY_URL}document/v1/documents/${documentId}`,
+        responseType: 'blob',
     });
 };

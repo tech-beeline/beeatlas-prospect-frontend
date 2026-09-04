@@ -7,6 +7,8 @@ export { AppViewPage } from './AppViewPage';
 export { CreateLifeSituationsPage } from './CreateLifeSituationsPage';
 export { CreateNFRsPage } from './CreateNFRsPage';
 export { E2EDashboardPage } from './E2EDashboardPage';
+export { E2EImportPlantUmlPage } from './E2EImportPlantUmlPage';
+export { E2EImportPlantUmlVersionPage } from './E2EImportPlantUmlVersionPage';
 export { E2EPage } from './E2EPage';
 export { FDMHistoryPage } from './FDMHistoryPage';
 export { FDMPage } from './FDMPage';

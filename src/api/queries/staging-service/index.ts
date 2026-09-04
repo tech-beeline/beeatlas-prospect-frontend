@@ -1,9 +1,11 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 
 import {
+    downloadE2EPlantUmlFile,
     getArtifactByUid,
     getArtifactPipelinesSearch,
     getArtifactSearch,
+    getE2EPlantUmlFileVersions,
     getPipelineAnnotationsById,
     getPipelineArtifactTypes,
     getPipelineChildRuns,
@@ -12,6 +14,8 @@ import {
     getPipelineRunDetails,
     getPipelineRuns,
     getRawData,
+    uploadE2EPlantUmlFile,
+    validateE2EPlantUmlFile,
 } from 'api/staging-service';
 import {
     IGetArtifactPipelinesSearchParams,
@@ -111,5 +115,50 @@ export const useGetPipelineAnnotationsQuery = (params: IGetPipelineAnnotationsPa
         queryFn: () => getPipelineAnnotationsById(params).then((res) => res.data),
         enabled: !!params.pipelineId && !!params.search,
         placeholderData: keepPreviousData,
+    });
+};
+
+interface IUploadE2EPlantUmlParams {
+    file: File;
+    targetId: string;
+}
+
+export const useUploadE2EPlantUmlMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'UPLOAD'],
+        mutationFn: ({ file, targetId }: IUploadE2EPlantUmlParams) =>
+            uploadE2EPlantUmlFile(file, targetId).then((res) => res.data),
+    });
+};
+
+export const useValidateE2EPlantUmlMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'VALIDATE'],
+        mutationFn: (docId: string | number) =>
+            validateE2EPlantUmlFile(docId).then((res) => res.data),
+    });
+};
+
+export const useValidateE2EPlantUmlQuery = (docId: string | number | null) => {
+    return useQuery({
+        queryKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'VALIDATION_RESULT', docId],
+        queryFn: () => validateE2EPlantUmlFile(docId!).then((res) => res.data),
+        enabled: docId !== null && docId !== '',
+    });
+};
+
+export const useGetE2EPlantUmlFileVersionsQuery = (e2eId: string | number | null) => {
+    return useQuery({
+        queryKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'VERSIONS', e2eId],
+        queryFn: () => getE2EPlantUmlFileVersions(e2eId!).then((res) => res.data),
+        enabled: e2eId !== null && e2eId !== '',
+    });
+};
+
+export const useDownloadE2EPlantUmlFileMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'DOWNLOAD'],
+        mutationFn: (documentId: string | number) =>
+            downloadE2EPlantUmlFile(documentId).then((res) => res.data),
     });
 };
