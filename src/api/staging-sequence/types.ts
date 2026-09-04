@@ -99,3 +99,28 @@ export interface IStagingSequenceBiStepData {
     bi: IStagingSequenceEntity;
     cj: IStagingSequenceRelatedCJ[];
 }
+
+export interface IPostE2EForm {
+    e2e: {
+        uid: string;
+        name: string;
+        description: string;
+        biStepCode: string;
+    };
+    operationsRelations: {
+        operationVersionId: number;
+        relatedOperationVersionId: number;
+        operationId: string;
+        relatedOperationId: string;
+        order: number;
+        stereoType: string;
+    }[];
+    operations?: unknown[];
+    interfaces?: unknown[];
+    containers?: unknown[];
+    products?: unknown[];
+}
+
+export interface IPatchE2EForm {
+    name: string;
+}

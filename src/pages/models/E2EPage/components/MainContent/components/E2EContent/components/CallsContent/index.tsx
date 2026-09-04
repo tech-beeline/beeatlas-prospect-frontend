@@ -1,8 +1,12 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { formatCallsTreeData } from 'features/e2e';
 
-import { Text } from 'components/core';
-import { Skeleton } from 'components/ui';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Icon, Skeleton } from 'components/ui';
+
+import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { CallTreeItem } from './components';
 import { ICallsContent } from './types';
@@ -11,13 +15,32 @@ import * as S from './units';
 export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
     const callsTree = formatCallsTreeData(data);
 
+    const navigate = useNavigate();
+
     return (
         <>
             {isLoading && <Skeleton radius={12} height={100} />}
             {data && data.operationsRelations.length === 0 && (
-                <Text inactive variant="body3">
-                    Нет данных
-                </Text>
+                <S.NotFoundContainer>
+                    <NotFoundBlock
+                        imageVariant={ImageVariants.EMPTY_BOX}
+                        title="Нет данных"
+                        text="Импортируйте PlantUml в созданный E2E "
+                        buttonText="Импорт PlantUml"
+                        buttonProps={{
+                            startIcon: <Icon iconName={Icons.Import} />,
+                            onClick: () =>
+                                navigate(
+                                    `${R.MODELS_PATH}${R.E2E_PATH}${
+                                        R.IMPORT_PATH
+                                    }?${new URLSearchParams({
+                                        code: data.e2e.code,
+                                        id: String(data.e2e.id),
+                                    }).toString()}`,
+                                ),
+                        }}
+                    />
+                </S.NotFoundContainer>
             )}
             {data && (
                 <S.CallsContainer>

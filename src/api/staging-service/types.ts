@@ -200,3 +200,53 @@ export interface IGetPipelineAnnotationsResults {
     totalCount: number;
     results: IPipelineAnnotation[];
 }
+
+export interface IUploadE2EPlantUmlResult {
+    docId: number;
+}
+
+export interface IE2EPlantUmlFileVersion {
+    id: string | number;
+    key: string | null;
+    created_date: string;
+}
+
+export interface IE2EPlantUmlParticipant {
+    alias: string;
+    name?: string;
+    kind?: string;
+    line: number;
+}
+
+export interface IE2EPlantUmlRecognizedCall {
+    fromAlias: string;
+    toAlias: string;
+    httpMethod: string;
+    path: string;
+    line: number;
+}
+
+export interface IE2EPlantUmlUnrecognizedCall {
+    fromAlias: string;
+    toAlias: string;
+    label: string;
+    line: number;
+}
+
+export interface IE2EPlantUmlNotice {
+    code: string;
+    level: NoticeLevels;
+    message: string;
+    lineFrom: number;
+    lineTo: number;
+    elementRef: string;
+}
+
+export interface IE2EPlantUmlValidationResult {
+    valid: boolean;
+    recognizedParticipants: IE2EPlantUmlParticipant[];
+    unrecognizedParticipants: IE2EPlantUmlParticipant[];
+    recognizedCalls: IE2EPlantUmlRecognizedCall[];
+    unrecognizedCalls: IE2EPlantUmlUnrecognizedCall[];
+    notices: IE2EPlantUmlNotice[];
+}
