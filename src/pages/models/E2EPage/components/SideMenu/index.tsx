@@ -49,7 +49,7 @@ export const SideMenu: FC<ISideMenu> = ({
                         <Text variant="h5">Каталог E2E сценариев</Text>
                         {contentOption === E2EContentOptions.E2E && (
                             <Button variant="primary" size="small" onClick={openModal}>
-                                Создать E2E
+                                Создать шаг E2E процесса
                             </Button>
                         )}
                         <ButtonGroup
