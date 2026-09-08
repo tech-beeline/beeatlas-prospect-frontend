@@ -1,8 +1,7 @@
 import React, { FC, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { Text } from 'components/core';
-import { Link } from 'components/other';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 import {
     IconButton,
     Skeleton,
@@ -67,9 +66,13 @@ export const HistoryTable: FC<IHistoryTable> = ({ versions, isLoading, e2eCode }
 
     if (versions.length === 0) {
         return (
-            <Text inactive variant="body3">
-                Загруженных PlantUML-файлов пока нет
-            </Text>
+            <S.NotFoundContainer>
+                <NotFoundBlock
+                    imageVariant={ImageVariants.EMPTY_BOX}
+                    title="Загруженных PlantUML-файлов пока нет"
+                    text=""
+                />
+            </S.NotFoundContainer>
         );
     }
 

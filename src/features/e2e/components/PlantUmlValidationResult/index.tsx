@@ -1,12 +1,10 @@
 import React, { FC, useState } from 'react';
 
-import { Text } from 'components/core';
+import { IconBadge, Text } from 'components/core';
 import { FloatingNavigation } from 'components/interaction';
 import {
-    Badge,
     Banner,
     Chip,
-    Icon,
     TableBody,
     TableData,
     TableHead,
@@ -98,7 +96,7 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                                 <TableRow>
                                     <TableHeaderData>Название элемента</TableHeaderData>
                                     <TableHeaderData>Тип элемента</TableHeaderData>
-                                    <TableHeaderData>Строка</TableHeaderData>
+                                    <TableHeaderData alignRight>Строка</TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -109,25 +107,28 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                                     <TableRow key={`${participant.alias}-${participant.line}`}>
                                         <TableData>
                                             <S.EntityName>
-                                                <Icon
-                                                    iconName={
+                                                <IconBadge
+                                                    icon={
                                                         participantFilter === 'recognized'
                                                             ? Icons.Check
                                                             : Icons.WarningCircled
                                                     }
-                                                    size="small"
-                                                    type={
+                                                    semantic={
                                                         participantFilter === 'recognized'
                                                             ? 'success'
                                                             : 'warning'
                                                     }
                                                 />
-                                                <span>
-                                                    {participant.name ?? participant.alias}
-                                                    {participant.name && (
-                                                        <S.Alias>{participant.alias}</S.Alias>
+                                                <div>
+                                                    <Text variant="body3">
+                                                        {participant.name ?? participant.alias}
+                                                    </Text>
+                                                    {participant.alias && (
+                                                        <Text inactive variant="caption">
+                                                            {participant.alias}
+                                                        </Text>
                                                     )}
-                                                </span>
+                                                </div>
                                             </S.EntityName>
                                         </TableData>
                                         <TableData>
@@ -135,9 +136,29 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                                                 ? kindNames[participant.kind] ?? participant.kind
                                                 : 'Не распознано'}
                                         </TableData>
-                                        <TableData>{participant.line}</TableData>
+                                        <TableData alignRight>{participant.line}</TableData>
                                     </TableRow>
                                 ))}
+                                {participantFilter === 'recognized' &&
+                                    result.recognizedParticipants.length === 0 && (
+                                        <TableRow>
+                                            <S.TableDataFullWidth colSpan={3}>
+                                                <S.NoDataContainer>
+                                                    <Text variant="subtitle2">Нет элементов</Text>
+                                                </S.NoDataContainer>
+                                            </S.TableDataFullWidth>
+                                        </TableRow>
+                                    )}
+                                {participantFilter === 'unrecognized' &&
+                                    result.unrecognizedParticipants.length === 0 && (
+                                        <TableRow>
+                                            <S.TableDataFullWidth colSpan={3}>
+                                                <S.NoDataContainer>
+                                                    <Text variant="subtitle2">Нет элементов</Text>
+                                                </S.NoDataContainer>
+                                            </S.TableDataFullWidth>
+                                        </TableRow>
+                                    )}
                             </TableBody>
                         </S.Table>
                     </S.ResultSection>
@@ -162,7 +183,7 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                                     <TableHeaderData>Источник</TableHeaderData>
                                     <TableHeaderData>Назначение</TableHeaderData>
                                     <TableHeaderData>Вызов</TableHeaderData>
-                                    <TableHeaderData>Строка</TableHeaderData>
+                                    <TableHeaderData alignRight>Строка</TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -175,15 +196,22 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                                             <TableData>{call.toAlias}</TableData>
                                             <TableData>
                                                 <S.CallValue>
-                                                    <Badge type="secondary" semantic="info">
-                                                        {call.httpMethod}
-                                                    </Badge>
-                                                    {call.path}
+                                                    {`${call.httpMethod} ${call.path}`}
                                                 </S.CallValue>
                                             </TableData>
-                                            <TableData>{call.line}</TableData>
+                                            <TableData alignRight>{call.line}</TableData>
                                         </TableRow>
                                     ))}
+                                {callFilter === 'recognized' &&
+                                    result.recognizedCalls.length === 0 && (
+                                        <TableRow>
+                                            <S.TableDataFullWidth colSpan={4}>
+                                                <S.NoDataContainer>
+                                                    <Text variant="subtitle2">Нет элементов</Text>
+                                                </S.NoDataContainer>
+                                            </S.TableDataFullWidth>
+                                        </TableRow>
+                                    )}
                                 {callFilter === 'unrecognized' &&
                                     result.unrecognizedCalls.map((call) => (
                                         <TableRow
@@ -195,32 +223,60 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                                             <TableData>{call.line}</TableData>
                                         </TableRow>
                                     ))}
+                                {callFilter === 'unrecognized' &&
+                                    result.unrecognizedCalls.length === 0 && (
+                                        <TableRow>
+                                            <S.TableDataFullWidth colSpan={4}>
+                                                <S.NoDataContainer>
+                                                    <Text variant="subtitle2">Нет элементов</Text>
+                                                </S.NoDataContainer>
+                                            </S.TableDataFullWidth>
+                                        </TableRow>
+                                    )}
                             </TableBody>
                         </S.Table>
                     </S.ResultSection>
 
-                    {hasNotices && (
-                        <S.ResultSection id="notices">
-                            <Text variant="subtitle1">Замечания</Text>
-                            <S.NoticeList>
-                                {result.notices.map((notice, index) => (
-                                    <S.NoticeItem
-                                        key={`${notice.code}-${notice.lineFrom}-${index}`}
-                                    >
-                                        <Badge semantic={noticeSemantics[notice.level]}>
-                                            {notice.level}
-                                        </Badge>
-                                        <S.NoticeText>
-                                            {notice.message}
-                                            <span>
-                                                Строки {notice.lineFrom}–{notice.lineTo}
-                                            </span>
-                                        </S.NoticeText>
-                                    </S.NoticeItem>
+                    <S.ResultSection id="notices">
+                        <Text variant="subtitle1">Замечания</Text>
+                        <S.Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableHeaderData>Контекст</TableHeaderData>
+                                    <TableHeaderData alignRight>Строки</TableHeaderData>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {result.notices.map((notice, i) => (
+                                    <TableRow key={`${notice.code}-${notice.lineFrom}-${i}`}>
+                                        <TableData>
+                                            <S.NoticeItem>
+                                                <IconBadge
+                                                    icon={Icons.InfoCircled}
+                                                    semantic={
+                                                        noticeSemantics[notice.level] ?? 'neutral'
+                                                    }
+                                                />
+                                                <div>{notice.message}</div>
+                                            </S.NoticeItem>
+                                        </TableData>
+                                        <TableData alignRight>
+                                            {notice.lineFrom} - {notice.lineTo}
+                                        </TableData>
+                                    </TableRow>
                                 ))}
-                            </S.NoticeList>
-                        </S.ResultSection>
-                    )}
+                                {result.notices.length === 0 && (
+                                    <TableRow>
+                                        <S.TableDataFullWidth colSpan={2}>
+                                            <S.NoDataContainer>
+                                                <Text variant="subtitle2">Нет элементов</Text>
+                                            </S.NoDataContainer>
+                                        </S.TableDataFullWidth>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </S.Table>
+                    </S.ResultSection>
                 </S.Content>
 
                 <S.Navigation>
@@ -228,7 +284,7 @@ export const PlantUmlValidationResult: FC<IPlantUmlValidationResult> = ({ result
                         items={[
                             { id: 'participants', label: 'Участники' },
                             { id: 'calls', label: 'Вызовы' },
-                            ...(hasNotices ? [{ id: 'notices', label: 'Замечания' }] : []),
+                            { id: 'notices', label: 'Замечания' },
                         ]}
                     />
                 </S.Navigation>

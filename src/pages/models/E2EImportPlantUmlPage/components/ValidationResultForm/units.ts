@@ -11,8 +11,18 @@ export const Footer = styled.footer`
     display: flex;
     flex: 0 0 80px;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 16px;
     padding: 16px 24px;
     border-top: 1px solid var(--color-divider);
+`;
+
+export const ButtonsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+
+    width: 100%;
+    max-width: 910px;
 `;
