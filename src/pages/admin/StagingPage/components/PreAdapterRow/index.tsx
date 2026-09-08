@@ -25,17 +25,18 @@ export const PreAdapterRow: FC<IPreAdapterRow> = ({ run }) => {
 
     const showSourceTooltip = useShowTooltip(sourceRef);
 
-    const childPipilinesCount = run.childStats.reduce((acc, v) => acc + v.count, 0);
+    const childPipilinesCount = run.childStatsSnapshot.reduce((acc, v) => acc + v.count, 0);
 
     const successCount =
-        run.childStats.find((v) => v.status === PipelineStatuses.COMPLETED)?.count ?? 0;
+        run.childStatsSnapshot.find((v) => v.status === PipelineStatuses.COMPLETED)?.count ?? 0;
     const inProgressCount =
-        run.childStats
+        run.childStatsSnapshot
             .filter(
                 (v) => ![PipelineStatuses.COMPLETED, PipelineStatuses.FAILED].includes(v.status),
             )
             .reduce((acc, v) => acc + v.count, 0) ?? 0;
-    const errorCount = run.childStats.find((v) => v.status === PipelineStatuses.FAILED)?.count ?? 0;
+    const errorCount =
+        run.childStatsSnapshot.find((v) => v.status === PipelineStatuses.FAILED)?.count ?? 0;
 
     return (
         <TableRow>

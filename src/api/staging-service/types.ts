@@ -23,6 +23,10 @@ export interface IPipileneRun {
         status: PipelineStatuses;
         count: number;
     }[];
+    childStatsSnapshot: {
+        status: PipelineStatuses;
+        count: number;
+    }[];
 }
 
 export interface IPipelineChildRun {
