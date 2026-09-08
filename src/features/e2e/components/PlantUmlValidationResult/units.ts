@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 
-import { Table as UITable } from 'components/ui';
+import { Table as UITable, TableData } from 'components/ui';
 
 export const ScrollArea = styled.div`
     flex: 1;
+    width: 100%;
     min-height: 0;
     overflow-y: auto;
     scroll-behavior: smooth;
@@ -11,7 +12,7 @@ export const ScrollArea = styled.div`
 
 export const Layout = styled.div`
     display: grid;
-    grid-template-columns: minmax(0, 1000px) 256px;
+    grid-template-columns: minmax(128px, 1fr) minmax(0, 910px) minmax(128px, 1fr);
     gap: 24px;
     justify-content: center;
     width: 100%;
@@ -24,9 +25,17 @@ export const Layout = styled.div`
 
 export const Content = styled.div`
     display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    max-width: 910px;
     min-width: 0;
     flex-direction: column;
     gap: 32px;
+
+    @media (max-width: 900px) {
+        grid-column: 1;
+    }
 `;
 
 export const Stats = styled.div`
@@ -78,57 +87,47 @@ export const EntityName = styled.div`
     gap: 12px;
 `;
 
-export const Alias = styled.span`
-    display: block;
-    margin-top: 2px;
-    color: var(--color-text-inactive);
-    font-size: var(--font-size-caption);
-`;
-
 export const CallValue = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
 `;
 
-export const NoticeList = styled.div`
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid var(--color-divider);
-    border-radius: 12px;
-`;
-
 export const NoticeItem = styled.div`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
-    padding: 16px;
-
-    & + & {
-        border-top: 1px solid var(--color-divider);
-    }
-`;
-
-export const NoticeText = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: var(--font-size-body3);
-    line-height: var(--font-line-height-body3);
-
-    span {
-        color: var(--color-text-inactive);
-        font-size: var(--font-size-caption);
-    }
 `;
 
 export const Navigation = styled.aside`
     position: sticky;
-    top: 0;
+    top: 32px;
+    grid-column: 3;
+    grid-row: 1;
     align-self: start;
+    width: 100%;
+    max-width: 128px;
+
+    & > div {
+        width: 100%;
+    }
 
     @media (max-width: 900px) {
         display: none;
     }
+`;
+
+export const TableDataFullWidth = styled(TableData)`
+    & > div > div {
+        width: 100%;
+    }
+`;
+
+export const NoDataContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 24px 0px;
 `;

@@ -7,11 +7,18 @@ export const Form = styled.form`
     flex: 1;
     min-height: 0;
     flex-direction: column;
+    align-items: center;
 `;
 
 export const ScrollArea = styled.div`
     flex: 1;
+
     min-height: 0;
+    width: 100%;
+    max-width: 910px;
+
+    margin: 32px 0px;
+
     overflow-y: auto;
 `;
 
@@ -19,9 +26,6 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 32px;
-    width: min(100%, 1000px);
-    margin: 0 auto;
-    padding: 32px 24px 48px;
 `;
 
 export const FieldGroup = styled.section`
@@ -72,14 +76,19 @@ export const FileActions = styled.div`
 `;
 
 export const Footer = styled.footer`
+    width: 100%;
     display: flex;
-    flex: 0 0 80px;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 16px 24px;
     border-top: 1px solid var(--color-divider);
+`;
 
-    > button {
-        min-width: 120px;
-    }
+export const ButtonContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 100%;
+    max-width: 910px;
 `;

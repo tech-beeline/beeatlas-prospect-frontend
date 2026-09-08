@@ -14,9 +14,15 @@ import * as S from './units';
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 type InputSource = 'file' | 'text';
 
-export const ImportDataForm: FC<IImportDataForm> = ({ targetId, isSubmitting, onSubmit }) => {
-    const [file, setFile] = useState<File | null>(null);
-    const [plantUmlText, setPlantUmlText] = useState('');
+export const ImportDataForm: FC<IImportDataForm> = ({
+    targetId,
+    file,
+    plantUmlText,
+    onFileChange,
+    onPlantUmlTextChange,
+    isSubmitting,
+    onSubmit,
+}) => {
     const [fileErrorText, setFileErrorText] = useState<string | null>(null);
     const [submitErrorText, setSubmitErrorText] = useState<string | null>(null);
     const [submitErrorSource, setSubmitErrorSource] = useState<InputSource | null>(null);
@@ -37,19 +43,19 @@ export const ImportDataForm: FC<IImportDataForm> = ({ targetId, isSubmitting, on
         if (!selectedFile) return;
 
         if (selectedFile.size > MAX_FILE_SIZE) {
-            setFile(null);
+            onFileChange(null);
             setFileErrorText('Размер файла не должен превышать 100 МБ');
             return;
         }
 
         if (!selectedFile.name.toLowerCase().endsWith('.puml')) {
-            setFile(null);
+            onFileChange(null);
             setFileErrorText('Выберите файл в формате .puml');
             return;
         }
 
         setFileErrorText(null);
-        setFile(selectedFile);
+        onFileChange(selectedFile);
     };
 
     const handleDownload = async () => {
@@ -123,7 +129,7 @@ export const ImportDataForm: FC<IImportDataForm> = ({ targetId, isSubmitting, on
                                         iconName={Icons.Delete}
                                         size="medium"
                                         onClick={() => {
-                                            setFile(null);
+                                            onFileChange(null);
                                             setFileErrorText(null);
                                             clearSubmitError();
                                         }}
@@ -151,7 +157,7 @@ export const ImportDataForm: FC<IImportDataForm> = ({ targetId, isSubmitting, on
                             value={plantUmlText}
                             disabled={Boolean(file) || isSubmitting}
                             onChange={(event) => {
-                                setPlantUmlText(event.target.value);
+                                onPlantUmlTextChange(event.target.value);
                                 setFileErrorText(null);
                                 clearSubmitError();
                             }}
@@ -168,14 +174,16 @@ export const ImportDataForm: FC<IImportDataForm> = ({ targetId, isSubmitting, on
                 </S.Content>
             </S.ScrollArea>
             <S.Footer>
-                <ProgressButton
-                    type="submit"
-                    variant="contained"
-                    state={isSubmitting ? 'loading' : 'default'}
-                    disabled={!canSubmit}
-                >
-                    Проверить
-                </ProgressButton>
+                <S.ButtonContainer>
+                    <ProgressButton
+                        type="submit"
+                        variant="contained"
+                        state={isSubmitting ? 'loading' : 'default'}
+                        disabled={!canSubmit}
+                    >
+                        Проверить
+                    </ProgressButton>
+                </S.ButtonContainer>
             </S.Footer>
         </S.Form>
     );

@@ -4,7 +4,7 @@ import { IFloatingNavigation } from './types';
 import * as S from './units';
 
 export const FloatingNavigation: FC<IFloatingNavigation> = ({ items }) => {
-    const [activeId, setActiveId] = useState('');
+    const [activeId, setActiveId] = useState(items[0].id);
 
     const observer = useRef<IntersectionObserver | null>(null);
     const observerFlag = useRef(true);
