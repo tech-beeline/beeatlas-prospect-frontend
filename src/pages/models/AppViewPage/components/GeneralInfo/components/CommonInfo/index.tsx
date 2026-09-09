@@ -18,7 +18,7 @@ import {
 import { useRestartProcessMutation } from 'api/queries/camunda';
 import { useGetUserProductsKeyById } from 'api/queries/product';
 import { useGetUserInfoQuery } from 'api/queries/profile';
-import { useModal } from 'hooks';
+import { useModal, useShowTooltip } from 'hooks';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
@@ -39,6 +39,11 @@ export const CommonInfo: FC<ICommonInfo> = ({
     productId,
     cmdb,
 }) => {
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+    const toggleDescription = () => setIsDescriptionExpanded(!isDescriptionExpanded);
+    const descriptionRef = useRef<HTMLDivElement | null>(null);
+    const showTooltip = useShowTooltip(descriptionRef, !isDescriptionExpanded);
+
     const isUpdating = useRef(false);
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
     useEffect(() => {
@@ -111,10 +116,6 @@ export const CommonInfo: FC<ICommonInfo> = ({
                 Владелец приложения
             </Text>
             <Text variant="body2">{formatNullableString(productData?.ownerName)}</Text>
-            {/* <Text inactive variant="body2">
-                                Архитектор приложения
-                            </Text>
-                            <Text variant="body2">Крестовоздвиженский Филипп Пантелеймонович</Text> */}
             <Text inactive variant="body2">
                 Критичность
             </Text>
@@ -127,6 +128,31 @@ export const CommonInfo: FC<ICommonInfo> = ({
                         }`,
                 )}
             </Text>
+            <Text inactive variant="body2">
+                Описание
+            </Text>
+            <S.DescriptionContainer>
+                <Text variant="body2">
+                    <S.DescriptionText ref={descriptionRef} isExpanded={isDescriptionExpanded}>
+                        {formatNullableString(productData?.description)}
+                    </S.DescriptionText>
+                </Text>
+                {(showTooltip || isDescriptionExpanded) && (
+                    <S.ExpandContainer onClick={toggleDescription}>
+                        <Text link pointer variant="subtitle3">
+                            {isDescriptionExpanded ? 'Свернуть' : 'Показать полностью'}
+                        </Text>
+                        <S.IconContainer>
+                            <Icon
+                                size="small"
+                                iconName={
+                                    isDescriptionExpanded ? Icons.FastArrowTop : Icons.FastArrowDown
+                                }
+                            />
+                        </S.IconContainer>
+                    </S.ExpandContainer>
+                )}
+            </S.DescriptionContainer>
             {isUserProduct && hasKeyData && (
                 <>
                     <Text inactive variant="body2">

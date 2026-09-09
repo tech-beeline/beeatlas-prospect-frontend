@@ -4,7 +4,7 @@ import {
     SetStateAction,
     useCallback,
     useEffect,
-    useRef,
+    useLayoutEffect,
     useState,
 } from 'react';
 
@@ -101,28 +101,33 @@ export const useShowTooltipOld = <T extends HTMLElement>() => {
     return [ref, showTooltip] as [(node: T | null) => void, boolean];
 };
 
-export const useShowTooltip = <T extends HTMLElement>(elementRef: MutableRefObject<T | null>) => {
+export const useShowTooltip = <T extends HTMLElement>(
+    elementRef: MutableRefObject<T | null>,
+    enabled = true,
+) => {
     const [showTooltip, setShowTooltip] = useState(false);
 
-    const observer = useRef(
-        new ResizeObserver((entries) => {
-            if (entries[0]) {
-                setShowTooltip(
-                    (elementRef.current?.scrollWidth ?? 0) >
-                        (elementRef.current?.offsetWidth ?? 0) ||
-                        (elementRef.current?.scrollHeight ?? 0) >
-                            (elementRef.current?.offsetHeight ?? 0),
-                );
-            }
-        }),
-    );
+    useLayoutEffect(() => {
+        const element = elementRef.current;
 
-    useEffect(() => {
-        if (elementRef.current) {
-            observer.current.observe(elementRef.current);
+        if (!element || !enabled) {
+            return;
         }
-        return () => observer.current.disconnect();
-    }, [elementRef, observer]);
+
+        const updateShowTooltip = () => {
+            setShowTooltip(
+                element.scrollWidth > element.offsetWidth ||
+                    element.scrollHeight > element.offsetHeight,
+            );
+        };
+
+        updateShowTooltip();
+
+        const observer = new ResizeObserver(updateShowTooltip);
+        observer.observe(element);
+
+        return () => observer.disconnect();
+    }, [elementRef, enabled]);
 
     return showTooltip;
 };

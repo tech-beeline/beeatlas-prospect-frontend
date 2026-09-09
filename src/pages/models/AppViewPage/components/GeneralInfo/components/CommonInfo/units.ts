@@ -58,3 +58,37 @@ export const NotFoundContainer = styled.div`
 export const TableStyled = styled(Table)`
     width: 100%;
 `;
+
+export const DescriptionContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+`;
+
+export const DescriptionText = styled.div<{ isExpanded: boolean }>`
+    display: -webkit-box;
+    ${({ isExpanded }) => (isExpanded ? '' : '-webkit-line-clamp: 5;')}
+    -webkit-box-orient: vertical;
+
+    max-width: 800px;
+
+    overflow: hidden;
+`;
+
+export const ExpandContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    max-width: fit-content;
+
+    cursor: pointer;
+`;
+
+export const IconContainer = styled.div`
+    max-height: 18px;
+
+    & > span {
+        color: var(--color-text-link);
+    }
+`;
