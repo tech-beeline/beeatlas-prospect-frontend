@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePageContext } from 'features/ai-context';
 import { APP_VIEW_PAGE } from 'features/ai-context/page-context';
-import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
 import { BreadCrumbsItem } from 'components/interaction';
@@ -13,8 +12,6 @@ import * as R from 'router/const';
 
 import {
     Diagrams,
-    // ArchitectureChanges,
-    // E2EProcesses,
     FitnessFunctions,
     GeneralInfo,
     InDevelopment,
@@ -56,11 +53,6 @@ export const AppViewPage = () => {
     return (
         <S.PageWrapper>
             <S.HeaderContainer>
-                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
-                    <S.BannerContainer>
-                        <OldVersionBanner cmdb={paramCmdb} />
-                    </S.BannerContainer>
-                )}
                 <Breadcrumbs>
                     <BreadCrumbsItem
                         name="Каталог приложений"
@@ -133,11 +125,6 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
             {tabVariant === TabVariants.REQUIREMENTS && <Requirements cmdb={paramCmdb} />}
             {tabVariant === TabVariants.DIAGRAMS && <Diagrams cmdb={paramCmdb} />}
-            {/* {tabVariant === TabVariants.E2E_PROCESSES && <E2EProcesses />}
-            {tabVariant === TabVariants.TECH_CAPABILITIES && <TechCapabilities />}
-            {tabVariant === TabVariants.ARCHITECTURE_CHANGES && <ArchitectureChanges />}
-            {tabVariant === TabVariants.DATA && <InDevelopment />}
-            {tabVariant === TabVariants.STANDS && <InDevelopment />} */}
         </S.PageWrapper>
     );
 };

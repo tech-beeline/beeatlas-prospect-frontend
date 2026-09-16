@@ -40,7 +40,7 @@ export const E2EData: FC<IE2EData> = ({ activeBiStep, biSteps, isLoading }) => {
                     <Search
                         fullWidth
                         size="small"
-                        placeholder="Название E2E"
+                        placeholder="Название шага E2E процесса"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         onClear={() => setSearchText('')}
@@ -76,15 +76,16 @@ export const E2EData: FC<IE2EData> = ({ activeBiStep, biSteps, isLoading }) => {
                     Array.from({ length: 3 }).map((_, index) => (
                         <Skeleton key={index} height={48} radius={12} />
                     ))}
-                {biSteps.map((item, i) => (
-                    <ListItem
-                        key={`${i}-${item.code}`}
-                        item={item}
-                        activeBiStep={activeBiStep}
-                        itemToScroll={itemToScroll}
-                        setItemToScroll={setItemToScroll}
-                    />
-                ))}
+                {!isLoading &&
+                    biSteps.map((item, i) => (
+                        <ListItem
+                            key={`${i}-${item.code}`}
+                            item={item}
+                            activeBiStep={activeBiStep}
+                            itemToScroll={itemToScroll}
+                            setItemToScroll={setItemToScroll}
+                        />
+                    ))}
             </S.TreeContainer>
         </>
     );

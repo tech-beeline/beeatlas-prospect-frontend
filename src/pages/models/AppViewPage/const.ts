@@ -34,10 +34,6 @@ export const TABS = [
         id: TabVariants.E2E_PROCESSES,
         label: 'E2E процессы',
     },
-    // {
-    //     id: TabVariants.ARCHITECTURE_CHANGES,
-    //     label: 'Изменения в архитектуре',
-    // },
     {
         id: TabVariants.TECHNOLOGIES,
         label: 'Технологии',
@@ -54,12 +50,4 @@ export const TABS = [
         id: TabVariants.DIAGRAMS,
         label: 'Диаграммы',
     },
-    // {
-    //     id: TabVariants.DATA,
-    //     label: 'Данные',
-    // },
-    // {
-    //     id: TabVariants.STANDS,
-    //     label: 'Стенды',
-    // },
 ];

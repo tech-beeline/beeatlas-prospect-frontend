@@ -62,7 +62,7 @@ export const SideMenu: FC<ISideMenu> = ({
                                 },
                                 {
                                     id: E2EContentOptions.E2E,
-                                    label: `E2E`,
+                                    label: `Шаг E2E процесса`,
                                 },
                             ]}
                             type="secondary"

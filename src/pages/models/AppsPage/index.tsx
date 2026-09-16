@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { OldVersionBanner } from 'features/apps';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
@@ -61,7 +60,6 @@ export const AppsPage = () => {
     return (
         <S.PageWrapper>
             <S.Container>
-                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && <OldVersionBanner />}
                 <S.Header>
                     <Text variant="h4">Каталог приложений</Text>
                 </S.Header>
