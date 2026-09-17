@@ -36,6 +36,8 @@ export const PATTERNS_PATH = '/patterns';
 export const ANALYTICAL_REPORT_PATH = '/analytical-report';
 export const LIFE_SITUATIONS_PATH = '/life-situations';
 export const NFR_PATH = '/nfr';
+export const PROJECTS_PATH = '/projects';
+export const ASSESSMENT_PATH = '/assessment';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';

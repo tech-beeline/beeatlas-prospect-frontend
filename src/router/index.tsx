@@ -68,6 +68,10 @@ import {
     PatternsPage,
     PatternViewPage,
     PersonalMapPage,
+    ProjectAssessmentAddPage,
+    ProjectAssessmentPage,
+    ProjectPage,
+    ProjectsLibraryPage,
     RoleAddPage,
     RolesPage,
     RulesPage,
@@ -111,6 +115,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.MODELS_PATH}${R.LIFE_SITUATIONS_PATH}${R.NFR_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
+    `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}`,
 ];
 
 const PATHS_WITHOUT_FEEDBACK = [
@@ -124,6 +129,7 @@ const PATHS_WITHOUT_FEEDBACK = [
     `${R.MODELS_PATH}${R.ANALYTICAL_REPORT_PATH}`,
     `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
+    `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}`,
 ];
 
 export const NavigationRouter = () => {
@@ -508,6 +514,47 @@ export const NavigationRouter = () => {
                                 </S.ContentWrapper>
                             </S.RouteWithDrawer>
                         }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuMain />
+                                <S.ContentWrapper>
+                                    <ProjectsLibraryPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.VIEW_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuMain />
+                                <S.ContentWrapper>
+                                    <ProjectPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuMain />
+                                <S.ContentWrapper>
+                                    <ProjectAssessmentPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}`}
+                        element={<ProjectAssessmentAddPage />}
                     />
 
                     <Route

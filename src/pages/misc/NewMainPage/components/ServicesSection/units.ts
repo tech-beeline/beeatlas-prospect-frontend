@@ -20,6 +20,12 @@ export const ServicesGrid = styled.div`
     }
 `;
 
+export const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+`;
+
 export const ServiceCategoryCard = styled.div`
     display: flex;
     flex-direction: column;

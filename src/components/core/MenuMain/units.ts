@@ -15,10 +15,20 @@ export const NavigationDrawerStyled = styled(NavigationDrawer)`
         overflow: hidden;
     }
 
+    &.dsb-navigation-drawer--expanded .list-top {
+        ::-webkit-scrollbar-thumb {
+            visibility: visible;
+        }
+    }
+
     .list-top {
         flex: 1 1 auto;
         min-height: 0;
         overflow-y: auto;
+
+        ::-webkit-scrollbar-thumb {
+            visibility: hidden;
+        }
     }
 
     .list {
