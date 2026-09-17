@@ -26,6 +26,8 @@ export const Dropdown = styled.div`
     gap: 16px;
     flex-direction: column;
     align-items: flex-end;
+
+    pointer-events: none;
 `;
 
 export const ComplainButton = styled.div<{ visible: boolean }>`

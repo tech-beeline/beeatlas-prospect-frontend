@@ -39,6 +39,19 @@ export const SERVICE_CATEGORIES: ServiceCategoryData[] = [
         ],
     },
     {
+        title: 'Архитектура решения',
+        items: [
+            {
+                title: 'Проекты',
+                to: `${R.MODELS_PATH}${R.PROJECTS_PATH}`,
+                icon: Icons.RulerPencil,
+                color: 'grey',
+                description:
+                    'Рабочее место для работы над проектами архитектуры решений. Помогает оценить проект, составить и провалидировать HLD, обеспечить связность UseCase и диаграмм последовательностей на ландшафте',
+            },
+        ],
+    },
+    {
         title: 'Бизнес-архитектура',
         items: [
             {
@@ -69,7 +82,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryData[] = [
                 ? []
                 : [
                       {
-                          title: 'Каталог E2E сценариев',
+                          title: 'Каталог E2E-сценариев',
                           to: `${R.MODELS_PATH}${R.E2E_PATH}`,
                           icon: Icons.List,
                           color: 'orange',

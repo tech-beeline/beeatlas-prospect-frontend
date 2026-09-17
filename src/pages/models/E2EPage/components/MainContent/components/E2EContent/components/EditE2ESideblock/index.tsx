@@ -35,7 +35,7 @@ export const EditE2ESideblock: FC<IEditE2ESideblock> = ({ isOpen, onClose, data 
             <S.Container>
                 <S.Content>
                     <S.Title>
-                        <Text variant="h5">Редактирование E2E</Text>
+                        <Text variant="h5">Редактирование шага E2E-сценария</Text>
                         <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                     </S.Title>
                     <TextField

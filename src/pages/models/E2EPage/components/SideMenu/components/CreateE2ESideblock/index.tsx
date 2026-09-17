@@ -42,7 +42,7 @@ export const CreateE2ESideblock: FC<ICreateE2ESideblock> = ({ isOpen, onClose })
             <S.Container>
                 <S.Content>
                     <S.Title>
-                        <Text variant="h5">Создание E2E</Text>
+                        <Text variant="h5">Создание шага E2E-сценария</Text>
                         <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                     </S.Title>
                     <TextField

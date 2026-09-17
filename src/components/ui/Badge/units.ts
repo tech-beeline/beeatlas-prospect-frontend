@@ -14,6 +14,7 @@ export const StyledBadge = styled.span<StyledBadgeProps>`
     gap: ${({ $hasDot }) => ($hasDot ? '6px' : '4px')};
     background-color: ${({ $type, $semantic }) => BADGE_COLORS[$type][$semantic].backgroundColor};
     color: ${({ $type, $semantic }) => BADGE_COLORS[$type][$semantic].color};
+    white-space: nowrap;
 
     ${({ $hasDot, $hasIcon }) =>
         ($hasDot || $hasIcon) &&
