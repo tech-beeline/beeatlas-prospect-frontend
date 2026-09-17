@@ -45,7 +45,7 @@ const getMenuGroups = () => [
                 : [
                       {
                           icon: Icons.List,
-                          name: 'Каталог\xa0E2E\nсценариев',
+                          name: 'Каталог\nE2E-сценариев',
                           path: `${R.MODELS_PATH}${R.E2E_PATH}`,
                       },
                   ]),

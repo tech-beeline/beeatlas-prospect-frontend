@@ -46,9 +46,9 @@ export const SideMenu: FC<ISideMenu> = ({
                     maxWidth={640}
                 >
                     <S.FiltersContainer>
-                        <Text variant="h5">Каталог E2E сценариев</Text>
+                        <Text variant="h5">Каталог E2E-сценариев</Text>
                         <Button variant="primary" size="small" onClick={openModal}>
-                            Создать шаг E2E процесса
+                            Создать шаг E2E-сценария
                         </Button>
                         <ButtonGroup
                             alwaysSelected
@@ -62,7 +62,7 @@ export const SideMenu: FC<ISideMenu> = ({
                                 },
                                 {
                                     id: E2EContentOptions.E2E,
-                                    label: `Шаг E2E процесса`,
+                                    label: `Шаги E2E-сценариев`,
                                 },
                             ]}
                             type="secondary"

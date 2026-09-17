@@ -69,7 +69,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryData[] = [
                 ? []
                 : [
                       {
-                          title: 'Каталог E2E сценариев',
+                          title: 'Каталог E2E-сценариев',
                           to: `${R.MODELS_PATH}${R.E2E_PATH}`,
                           icon: Icons.List,
                           color: 'orange',
