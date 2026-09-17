@@ -8,7 +8,7 @@ export interface IE2EBiStepItem {
     id: string;
     code: string;
     title: string;
-    e2eCode: string;
+    e2eCodes: string[];
     type: E2ETreeItemType.BI_STEP;
     cjData: {
         cjId: string;

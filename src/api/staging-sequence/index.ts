@@ -36,9 +36,9 @@ export const getStagingSequenceBiSteps = (): AxiosPromise<T.IStagingSequenceBiSt
     });
 };
 
-export const postE2E = (data: T.IPostE2EForm) => {
+export const postE2E = (data: T.IPostE2EForm, source: string) => {
     return Api.post({
-        url: `${GATEWAY_PRODUCT_URL}v2/e2e`,
+        url: `${GATEWAY_PRODUCT_URL}v2/e2e?source=${source}`,
         data,
     });
 };

@@ -1,7 +1,11 @@
-import { IE2EPlantUmlValidationResult } from 'api/staging-service/types';
+import { IE2EPlantUmlPipelineResult } from 'api/staging-service/types';
 
 export interface IValidationResultForm {
-    result: IE2EPlantUmlValidationResult;
-    onBack: () => void;
+    result: IE2EPlantUmlPipelineResult;
+    isSaving: boolean;
+    isDeclining: boolean;
+    actionError: string | null;
+    onCancel: () => Promise<void>;
     onSave: () => Promise<void>;
+    onRetryAction: () => Promise<void>;
 }

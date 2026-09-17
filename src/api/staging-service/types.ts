@@ -5,6 +5,7 @@ export enum PipelineStatuses {
     TRANSFORMING = 'transforming',
     SAVING = 'saving',
     PUBLISHING = 'publishing',
+    AWAITING_REVIEW = 'awaiting_review',
     COMPLETED = 'completed',
     FAILED = 'failed',
 }
@@ -255,4 +256,94 @@ export interface IE2EPlantUmlValidationResult {
     recognizedCalls: IE2EPlantUmlRecognizedCall[];
     unrecognizedCalls: IE2EPlantUmlUnrecognizedCall[];
     notices: IE2EPlantUmlNotice[];
+}
+
+export interface IStartE2EPlantUmlPipelineParams {
+    artifactType: 'e2e-plantuml';
+    artifactUid: string;
+    source: 'manual';
+    payload:
+        | {
+              name: string;
+              plantUml: string;
+              biStepCode: string;
+          }
+        | {
+              name: string;
+              docId: string | number;
+              biStepCode: string;
+          };
+}
+
+export interface IE2EPlantUmlPipelineRun {
+    runId: number;
+}
+
+export interface IE2EPlantUmlPipelineConflictResponse {
+    error: string;
+    activeRunId: number;
+}
+
+export type E2EPlantUmlPipelineWaitFor = 'awaiting_review' | 'terminal';
+
+export interface IE2EPlantUmlPipelineParticipant {
+    alias: string;
+    resolved: boolean;
+    productAlias?: string;
+    productName?: string;
+    kind?: string;
+}
+
+export interface IE2EPlantUmlPipelineRequestMatch {
+    status: string;
+    connectionOperationId?: number;
+    operationName?: string;
+    operationType?: string;
+    interfaceCode?: string;
+    interfaceName?: string;
+    containerCode?: string;
+    containerName?: string;
+    productAlias?: string;
+    productName?: string;
+}
+
+export interface IE2EPlantUmlPipelineRequest {
+    order: number;
+    fromAlias: string;
+    toAlias: string;
+    label: string;
+    type?: string;
+    path?: string;
+    unknown: boolean;
+    productAlias?: string;
+    interfaceCode?: string;
+    interfaceName?: string;
+    match?: IE2EPlantUmlPipelineRequestMatch;
+}
+
+export interface IE2EPlantUmlPipelineResult {
+    e2e: {
+        uid: string;
+        name: string;
+        biStepCode: string;
+    };
+    participants: IE2EPlantUmlPipelineParticipant[];
+    requests: IE2EPlantUmlPipelineRequest[];
+}
+
+export interface IE2EPlantUmlPipelineStatus {
+    runId: number;
+    artifactType: string;
+    artifactUid: string;
+    status: PipelineStatuses;
+    stage?: string;
+    noticesCount?: number;
+    result?: IE2EPlantUmlPipelineResult;
+    more: boolean;
+}
+
+export interface IGetE2EPlantUmlPipelineStatusParams {
+    runId: string | number;
+    waitFor: E2EPlantUmlPipelineWaitFor;
+    timeoutMs?: number;
 }

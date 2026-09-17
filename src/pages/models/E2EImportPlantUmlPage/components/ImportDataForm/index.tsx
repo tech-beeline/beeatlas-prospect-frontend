@@ -1,37 +1,51 @@
 import React, { FC, FormEvent, useState } from 'react';
 import dayjs from 'dayjs';
+import { BIStepCodeFields } from 'features/e2e';
 
 import { Text } from 'components/core';
-import { Banner, FileUploader, IconButton, ProgressButton, TextArea } from 'components/ui';
+import {
+    Banner,
+    FileUploader,
+    IconButton,
+    ProgressButton,
+    TextArea,
+    TextField,
+} from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 import { downloadTextFile } from 'utils/helpers';
 
-import { IImportDataForm } from './types';
+import { IImportDataForm, IImportDataFormSubmitError } from './types';
 import * as S from './units';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 type InputSource = 'file' | 'text';
 
 export const ImportDataForm: FC<IImportDataForm> = ({
-    targetId,
+    isNewE2E,
+    name,
+    biStepCode,
     file,
     plantUmlText,
+    onNameChange,
+    onBIStepCodeChange,
     onFileChange,
     onPlantUmlTextChange,
+    onOpenActiveRun,
     isSubmitting,
     onSubmit,
 }) => {
     const [fileErrorText, setFileErrorText] = useState<string | null>(null);
-    const [submitErrorText, setSubmitErrorText] = useState<string | null>(null);
+    const [submitError, setSubmitError] = useState<IImportDataFormSubmitError | null>(null);
     const [submitErrorSource, setSubmitErrorSource] = useState<InputSource | null>(null);
 
     const hasText = Boolean(plantUmlText.trim());
-    const canSubmit = Boolean(targetId) && Boolean(file || hasText) && !isSubmitting;
+    const hasE2EData = !isNewE2E || (Boolean(name.trim()) && Boolean(biStepCode));
+    const canSubmit = hasE2EData && Boolean(file || hasText) && !isSubmitting;
 
     const clearSubmitError = () => {
-        setSubmitErrorText(null);
+        setSubmitError(null);
         setSubmitErrorSource(null);
     };
 
@@ -68,19 +82,12 @@ export const ImportDataForm: FC<IImportDataForm> = ({
         if (!canSubmit) return;
 
         const inputSource: InputSource = file ? 'file' : 'text';
-        const submittedFile =
-            file ??
-            new File([plantUmlText], `e2e-${targetId}.puml`, {
-                type: 'text/plain;charset=utf-8',
-                lastModified: Date.now(),
-            });
-
         clearSubmitError();
 
-        const error = await onSubmit(submittedFile);
+        const error = await onSubmit(file ? { file } : { plantUml: plantUmlText });
 
         if (error) {
-            setSubmitErrorText(error);
+            setSubmitError(error);
             setSubmitErrorSource(inputSource);
         }
     };
@@ -89,6 +96,24 @@ export const ImportDataForm: FC<IImportDataForm> = ({
         <S.Form onSubmit={handleSubmit}>
             <S.ScrollArea>
                 <S.Content>
+                    {isNewE2E && (
+                        <S.FieldGroup>
+                            <Text variant="subtitle1">Данные шага E2E-сценария</Text>
+                            <TextField
+                                fullWidth
+                                label="Название*"
+                                value={name}
+                                disabled={isSubmitting}
+                                onChange={(event) => onNameChange(event.target.value)}
+                            />
+                            <BIStepCodeFields
+                                disabled={isSubmitting}
+                                value={biStepCode}
+                                onChange={onBIStepCodeChange}
+                            />
+                        </S.FieldGroup>
+                    )}
+
                     <Banner
                         iconName={Icons.InfoCircled}
                         title="Для добавления данных доступно два варианта: вставка текста или добавление файла с устройства"
@@ -139,11 +164,22 @@ export const ImportDataForm: FC<IImportDataForm> = ({
                             </S.FileRow>
                         )}
 
-                        {submitErrorText && submitErrorSource === 'file' && (
+                        {submitError && submitErrorSource === 'file' && (
                             <Banner
                                 color="error"
                                 iconName={Icons.WarningCircled}
-                                title={submitErrorText}
+                                title={submitError.message}
+                                actions={
+                                    submitError.activeRunId !== undefined
+                                        ? [
+                                              {
+                                                  label: 'Посмотреть',
+                                                  onClick: () =>
+                                                      onOpenActiveRun(submitError.activeRunId!),
+                                              },
+                                          ]
+                                        : undefined
+                                }
                             />
                         )}
                     </S.FieldGroup>
@@ -163,11 +199,22 @@ export const ImportDataForm: FC<IImportDataForm> = ({
                             }}
                         />
 
-                        {submitErrorText && submitErrorSource === 'text' && (
+                        {submitError && submitErrorSource === 'text' && (
                             <Banner
                                 color="error"
                                 iconName={Icons.WarningCircled}
-                                title={submitErrorText}
+                                title={submitError.message}
+                                actions={
+                                    submitError.activeRunId !== undefined
+                                        ? [
+                                              {
+                                                  label: 'Посмотреть',
+                                                  onClick: () =>
+                                                      onOpenActiveRun(submitError.activeRunId!),
+                                              },
+                                          ]
+                                        : undefined
+                                }
                             />
                         )}
                     </S.FieldGroup>
@@ -181,7 +228,7 @@ export const ImportDataForm: FC<IImportDataForm> = ({
                         state={isSubmitting ? 'loading' : 'default'}
                         disabled={!canSubmit}
                     >
-                        Проверить
+                        Создать
                     </ProgressButton>
                 </S.ButtonContainer>
             </S.Footer>

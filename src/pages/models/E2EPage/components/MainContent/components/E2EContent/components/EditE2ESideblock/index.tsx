@@ -1,10 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
+import { BIStepCodeFields } from 'features/e2e';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { Button, IconButton, TextField } from 'components/ui';
 
-import { usePatchE2EMutation } from 'api/queries/staging-sequence';
+import {
+    useGetStagingSequenceBiStepByCodeQuery,
+    usePatchE2EMutation,
+} from 'api/queries/staging-sequence';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 
 import { IEditE2ESideblock } from './types';
@@ -12,19 +16,24 @@ import * as S from './units';
 
 export const EditE2ESideblock: FC<IEditE2ESideblock> = ({ isOpen, onClose, data }) => {
     const [name, setName] = useState('');
+    const [biStepCode, setBIStepCode] = useState('');
     useEffect(() => {
         if (data) {
             setName(data.e2e.name);
+            setBIStepCode(data.e2e.biStepCode ?? '');
         }
     }, [data]);
 
-    const { mutateAsync: patchE2E } = usePatchE2EMutation();
+    const { data: biStepData, isLoading: isBiStepLoading } = useGetStagingSequenceBiStepByCodeQuery(
+        data?.e2e.biStepCode,
+    );
+    const { mutateAsync: patchE2E, isPending } = usePatchE2EMutation();
 
     const handleEdit = async () => {
         if (data) {
             await patchE2E({
                 code: data.e2e.code,
-                data: { name },
+                data: { name, biStepCode },
             });
             onClose();
         }
@@ -44,12 +53,26 @@ export const EditE2ESideblock: FC<IEditE2ESideblock> = ({ isOpen, onClose, data 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
+                    <BIStepCodeFields
+                        key={data?.e2e.code}
+                        biCode={biStepData?.bi.uid}
+                        biId={biStepData?.bi.id}
+                        disabled={isPending || isBiStepLoading}
+                        value={biStepCode}
+                        onChange={setBIStepCode}
+                    />
                 </S.Content>
                 <S.Footer>
                     <Button fullWidth variant="outlined" size="medium" onClick={onClose}>
                         Закрыть
                     </Button>
-                    <Button fullWidth variant="primary" size="medium" onClick={handleEdit}>
+                    <Button
+                        fullWidth
+                        disabled={!name.trim() || !biStepCode || isPending || isBiStepLoading}
+                        variant="primary"
+                        size="medium"
+                        onClick={handleEdit}
+                    >
                         Сохранить
                     </Button>
                 </S.Footer>
