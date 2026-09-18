@@ -221,7 +221,7 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, discoveredSources
                             </TableRow>
                         )}
                         <TableRow>
-                            <TableHeaderData>Интерфейс mapic</TableHeaderData>
+                            <TableHeaderData>Интерфейс из {interfaceOption}</TableHeaderData>
                             {showContextApi && (
                                 <>
                                     <TableHeaderData>Контекст api</TableHeaderData>
