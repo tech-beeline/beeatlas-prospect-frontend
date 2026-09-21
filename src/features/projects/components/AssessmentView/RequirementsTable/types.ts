@@ -3,6 +3,12 @@ export interface IRequirementTableProps {
     emptyText: string;
     titleHeader?: string;
     descriptionHeader?: string;
+    selectedRequirementIds?: Array<IRequirementTableItem['id']>;
+    onRequirementSelectionChange?: (id: IRequirementTableItem['id'], checked: boolean) => void;
+    onAllRequirementsSelectionChange?: (
+        ids: Array<IRequirementTableItem['id']>,
+        checked: boolean,
+    ) => void;
 }
 
 export interface IRequirementTableItem {
@@ -14,4 +20,6 @@ export interface IRequirementTableItem {
 
 export interface IRequirementTableRowProps {
     requirement: IRequirementTableItem;
+    selected?: boolean;
+    onSelectionChange?: (id: IRequirementTableItem['id'], checked: boolean) => void;
 }

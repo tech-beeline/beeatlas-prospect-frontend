@@ -17,8 +17,11 @@ import * as S from './units';
 
 export const RequirementsStep: FC<IRequirementsStepProps> = ({
     savedData,
+    setSavedData,
     processState,
     progress,
+    phase,
+    processingStartedAt,
     onNext,
     onBack,
     onRestart,
@@ -33,6 +36,40 @@ export const RequirementsStep: FC<IRequirementsStepProps> = ({
 
     const openQuestions = savedData.requirements.filter(
         (req) => req.type === StructureRequirementType.OQ,
+    );
+    const selectedRequirementIds = savedData.selectedRequirementIds;
+
+    const updateSelectedRequirementIds = (update: (currentIds: string[]) => string[]) => {
+        setSavedData((data) => ({
+            ...data,
+            selectedRequirementIds: update(data.selectedRequirementIds),
+        }));
+    };
+
+    const handleRequirementSelectionChange = (id: string | number, checked: boolean) => {
+        const requirementId = String(id);
+        updateSelectedRequirementIds((currentIds) =>
+            checked
+                ? Array.from(new Set([...currentIds, requirementId]))
+                : currentIds.filter((currentId) => currentId !== requirementId),
+        );
+    };
+
+    const handleAllRequirementsSelectionChange = (
+        ids: Array<string | number>,
+        checked: boolean,
+    ) => {
+        const changedIds = new Set(ids.map(String));
+        updateSelectedRequirementIds((currentIds) =>
+            checked
+                ? Array.from(new Set([...currentIds, ...changedIds]))
+                : currentIds.filter((id) => !changedIds.has(id)),
+        );
+    };
+
+    const selectedIds = new Set(selectedRequirementIds);
+    const hasSelectedFunctionalRequirements = functionalRequirements.some(({ id }) =>
+        selectedIds.has(id),
     );
 
     if (processState === 'error') {
@@ -62,9 +99,13 @@ export const RequirementsStep: FC<IRequirementsStepProps> = ({
                     <ProcessingState
                         title="Импортирую требования из текста или Confluence"
                         progress={progress}
+                        startedAt={processingStartedAt}
                         metrics={[
                             { label: 'Обработано', value: `${progress}%` },
-                            { label: 'Этап', value: 'Структурирование' },
+                            {
+                                label: 'Этап',
+                                value: phase === 'merging' ? 'Объединение' : 'Структурирование',
+                            },
                         ]}
                     />
                 </S.StepScroll>
@@ -93,6 +134,11 @@ export const RequirementsStep: FC<IRequirementsStepProps> = ({
                                         description: requirement.description,
                                     }))}
                                     emptyText="Функциональные требования не выявлены"
+                                    selectedRequirementIds={selectedRequirementIds}
+                                    onRequirementSelectionChange={handleRequirementSelectionChange}
+                                    onAllRequirementsSelectionChange={
+                                        handleAllRequirementsSelectionChange
+                                    }
                                 />
                             </S.Section>
                             <S.Section id="assessment-non-functional-requirements">
@@ -105,6 +151,11 @@ export const RequirementsStep: FC<IRequirementsStepProps> = ({
                                         description: requirement.description,
                                     }))}
                                     emptyText="Нефункциональные требования не выявлены"
+                                    selectedRequirementIds={selectedRequirementIds}
+                                    onRequirementSelectionChange={handleRequirementSelectionChange}
+                                    onAllRequirementsSelectionChange={
+                                        handleAllRequirementsSelectionChange
+                                    }
                                 />
                             </S.Section>
                             <S.Section id="assessment-open-questions">
@@ -158,9 +209,9 @@ export const RequirementsStep: FC<IRequirementsStepProps> = ({
                     </Button>
                 }
                 onBack={onBack}
-                onNext={onNext}
+                onNext={() => onNext(selectedRequirementIds)}
                 onRestart={onRestart}
-                nextDisabled={!functionalRequirements.length}
+                nextDisabled={!hasSelectedFunctionalRequirements}
                 nextText="Выявить TC"
             />
         </S.StepLayout>

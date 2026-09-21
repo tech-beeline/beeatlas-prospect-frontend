@@ -27,6 +27,7 @@ export interface IAssessmentFormData {
     businessDescription: string;
 
     requirements: IStructureRequirement[];
+    selectedRequirementIds: string[];
 
     businessCapabilities: IBCCandidate[];
 

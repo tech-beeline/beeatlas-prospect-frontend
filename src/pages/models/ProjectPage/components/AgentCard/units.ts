@@ -12,6 +12,13 @@ export const Card = styled.div`
     background-color: var(--color-background-base);
 `;
 
+export const TitleRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+`;
+
 export const ButtonContainer = styled.div`
     align-self: flex-end;
 

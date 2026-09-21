@@ -37,8 +37,10 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
     setSavedData,
     discoveryState,
     discoveryProgress,
+    discoveryStartedAt,
     catalogState,
     catalogProgress,
+    catalogStartedAt,
     onAnalyze,
     onNext,
     nextLoading,
@@ -91,6 +93,10 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
     } = useModal();
 
     const candidates = savedData.technicalCapabilities;
+    const selectedRequirementIds = new Set(savedData.selectedRequirementIds);
+    const functionalRequirementsForAnalysis = savedData.requirements.filter(
+        ({ id, type }) => type === 'FR' && selectedRequirementIds.has(id),
+    ).length;
     const currentCandidate = candidates[currentIndex];
     const reviewedCount = candidates.filter(({ decision }) => decision !== 'pending').length;
     const reusedCount = candidates.filter(({ decision }) => decision === 'reused').length;
@@ -115,10 +121,25 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
     }>({ candidateId: null, systems: [] });
     const selectedSystems =
         systemFilter.candidateId === currentCandidate?.id ? systemFilter.systems : [];
-    const matchGroups =
-        currentCandidate?.matches.filter(
+    const manuallyAddedCapabilities = (currentCandidate?.selectedCapabilities || []).filter(
+        ({ origin }) => origin === 'manual',
+    );
+    const matchGroups = [
+        ...(manuallyAddedCapabilities.length
+            ? [
+                  {
+                      id: `manual-${currentCandidate?.id}`,
+                      code: 'Выбраны из текущего ландшафта',
+                      name: 'Добавленные ТС',
+                      relevance: 100,
+                      technicalCapabilities: manuallyAddedCapabilities,
+                  },
+              ]
+            : []),
+        ...(currentCandidate?.matches.filter(
             ({ technicalCapabilities }) => technicalCapabilities.length,
-        ) || [];
+        ) || []),
+    ];
     const candidateSystems = Array.from(
         new Set(
             matchGroups.flatMap(({ technicalCapabilities }) =>
@@ -229,12 +250,9 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
 
     const openSaveAsNew = () => {
         if (!currentCandidate) return;
-        setNewTcSystem(currentCandidate.system);
-        setSystemSearch(
-            currentCandidate.system
-                ? `${currentCandidate.system.code} — ${currentCandidate.system.name}`
-                : '',
-        );
+        const selectedSystem = currentCandidate.system || newTcSystem;
+        setNewTcSystem(selectedSystem);
+        setSystemSearch(selectedSystem ? `${selectedSystem.code} — ${selectedSystem.name}` : '');
         setNewTcParentBc(currentCandidate.parentBc);
         setBcSearch(
             currentCandidate.parentBc
@@ -258,7 +276,8 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
     };
 
     const addCapabilities = async (capabilities: ISearchResult[]) => {
-        if (!capabilities.length || manualLoading) return;
+        if (!currentCandidate || !capabilities.length || manualLoading) return;
+        const candidateId = currentCandidate.id;
         setManualLoading(true);
         setManualError(false);
         try {
@@ -271,6 +290,7 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                         name: data.name,
                         description: data.description,
                         relevance: 100,
+                        origin: 'manual' as const,
                         system: data.system?.alias
                             ? { code: data.system.alias, name: data.system.name }
                             : undefined,
@@ -288,30 +308,35 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
             if (!mounted.current) return;
             setSavedData((data) => ({
                 ...data,
-                technicalCapabilities: [
-                    ...data.technicalCapabilities,
-                    ...selected
-                        .filter(
+                technicalCapabilities: data.technicalCapabilities.map((candidate) => {
+                    if (candidate.id !== candidateId) return candidate;
+
+                    const selectedCapabilities = [
+                        ...(candidate.selectedCapabilities ||
+                            (candidate.selectedCapability ? [candidate.selectedCapability] : [])),
+                        ...selected.filter(
                             (tc) =>
-                                !data.technicalCapabilities.some(
-                                    (candidate) => candidate.id === tc.id,
-                                ),
-                        )
-                        .map((tc) => ({
-                            id: tc.id,
-                            name: tc.name,
-                            description: tc.description,
-                            rationale: 'Добавлена пользователем из каталога.',
-                            score: 100,
-                            frIds: [],
-                            systems: tc.systems,
-                            matches: [],
-                            decision: 'reused' as const,
-                            origin: 'manual' as const,
-                            selectedCapability: tc,
-                            selectedCapabilities: [tc],
-                        })),
-                ],
+                                !(
+                                    candidate.selectedCapabilities ||
+                                    (candidate.selectedCapability
+                                        ? [candidate.selectedCapability]
+                                        : [])
+                                ).some(({ code }) => code === tc.code),
+                        ),
+                    ];
+
+                    return {
+                        ...candidate,
+                        decision: 'reused' as const,
+                        selectedCapability: selectedCapabilities[0],
+                        selectedCapabilities,
+                        systems: Array.from(
+                            new Set(selectedCapabilities.flatMap((tc) => tc.systems)),
+                        ),
+                        system: undefined,
+                        parentBc: undefined,
+                    };
+                }),
             }));
         } catch {
             setManualError(true);
@@ -344,11 +369,11 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                         title="Выявление Technical Capability"
                         description="Анализ функциональных требований и формирование кандидатов TC"
                         progress={discoveryProgress}
+                        startedAt={discoveryStartedAt}
                         metrics={[
                             {
                                 label: 'FR для анализа',
-                                value: savedData.requirements.filter(({ type }) => type === 'FR')
-                                    .length,
+                                value: functionalRequirementsForAnalysis,
                             },
                             { label: 'Прогресс', value: `${discoveryProgress}%` },
                         ]}
@@ -367,6 +392,7 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                         title="Поиск TC"
                         description="Сопоставление выявленных TC с возможностями в каталоге"
                         progress={catalogProgress}
+                        startedAt={catalogStartedAt}
                         metrics={[
                             { label: 'Выявленные TC', value: candidates.length },
                             { label: 'Прогресс', value: `${catalogProgress}%` },
@@ -412,7 +438,7 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                                     size="small"
                                     startIcon={<Icon iconName={Icons.Add} />}
                                     variant="outlined"
-                                    disabled={manualLoading}
+                                    disabled={manualLoading || !currentCandidate}
                                     onClick={openAddCapabilitySideblock}
                                 >
                                     Добавить недостающую TC
@@ -583,6 +609,10 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                                                     key={`${currentCandidate.id}-${businessCapability.id}`}
                                                     businessCapability={businessCapability}
                                                     candidateId={currentCandidate.id}
+                                                    manuallyAdded={
+                                                        businessCapability.id ===
+                                                        `manual-${currentCandidate.id}`
+                                                    }
                                                     selectedCapabilities={
                                                         currentCandidate.selectedCapabilities || []
                                                     }
