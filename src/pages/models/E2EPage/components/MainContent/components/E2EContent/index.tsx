@@ -38,37 +38,40 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
     useAdditionalPageContext('e2eContentTab', tabVariant);
 
     const { data, isLoading } = useGetSequenceCallsByIdQuery(activeBiStep.code);
+
     return (
         <>
             <S.TitleContainer>
                 <Text variant="h4">{activeBiStep.name}</Text>
-                <S.ButtonContainer>
-                    <Button
-                        size="small"
-                        startIcon={<Icon iconName={Icons.Edit} />}
-                        data-tooltip-id="edit-button"
-                        onClick={openModal}
-                    />
-                    <TooltipContainer noArrow id="edit-button" place={'top-end' as any}>
-                        Редактировать шаг E2E-сценария
-                    </TooltipContainer>
-                    <Button
-                        size="small"
-                        startIcon={<Icon iconName={Icons.Import} />}
-                        data-tooltip-id="import-button"
-                        onClick={() =>
-                            navigate({
-                                pathname: `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
-                                search: new URLSearchParams({
-                                    code: activeBiStep.code,
-                                }).toString(),
-                            })
-                        }
-                    />
-                    <TooltipContainer noArrow id="import-button" place={'top-end' as any}>
-                        Импортировать PlantUML
-                    </TooltipContainer>
-                </S.ButtonContainer>
+                {data && data.e2e.source !== 'SPARX' && (
+                    <S.ButtonContainer>
+                        <Button
+                            size="small"
+                            startIcon={<Icon iconName={Icons.Edit} />}
+                            data-tooltip-id="edit-button"
+                            onClick={openModal}
+                        />
+                        <TooltipContainer noArrow id="edit-button" place={'top-end' as any}>
+                            Редактировать шаг E2E-сценария
+                        </TooltipContainer>
+                        <Button
+                            size="small"
+                            startIcon={<Icon iconName={Icons.Import} />}
+                            data-tooltip-id="import-button"
+                            onClick={() =>
+                                navigate({
+                                    pathname: `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
+                                    search: new URLSearchParams({
+                                        code: activeBiStep.code,
+                                    }).toString(),
+                                })
+                            }
+                        />
+                        <TooltipContainer noArrow id="import-button" place={'top-end' as any}>
+                            Импортировать PlantUML
+                        </TooltipContainer>
+                    </S.ButtonContainer>
+                )}
             </S.TitleContainer>
             <S.TabsContainer>
                 <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>

@@ -18,6 +18,8 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
 
     const navigate = useNavigate();
 
+    const isSparx = data && data.e2e.source === 'SPARX';
+
     return (
         <>
             {isLoading && <Skeleton radius={12} height={100} />}
@@ -26,20 +28,24 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
                     <NotFoundBlock
                         imageVariant={ImageVariants.EMPTY_BOX}
                         title="Нет данных"
-                        text="Импортируйте PlantUml в созданный E2E "
-                        buttonText="Импорт PlantUml"
-                        buttonProps={{
-                            startIcon: <Icon iconName={Icons.Import} />,
-                            onClick: () =>
-                                navigate(
-                                    `${R.MODELS_PATH}${R.E2E_PATH}${
-                                        R.IMPORT_PATH
-                                    }?${new URLSearchParams({
-                                        code: data.e2e.code,
-                                        id: String(data.e2e.id),
-                                    }).toString()}`,
-                                ),
-                        }}
+                        text={isSparx ? '' : 'Импортируйте PlantUml в созданный E2E '}
+                        buttonText={isSparx ? undefined : 'Импорт PlantUml'}
+                        buttonProps={
+                            isSparx
+                                ? undefined
+                                : {
+                                      startIcon: <Icon iconName={Icons.Import} />,
+                                      onClick: () =>
+                                          navigate(
+                                              `${R.MODELS_PATH}${R.E2E_PATH}${
+                                                  R.IMPORT_PATH
+                                              }?${new URLSearchParams({
+                                                  code: data.e2e.code,
+                                                  id: String(data.e2e.id),
+                                              }).toString()}`,
+                                          ),
+                                  }
+                        }
                     />
                 </S.NotFoundContainer>
             )}
