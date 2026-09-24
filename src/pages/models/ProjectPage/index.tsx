@@ -14,6 +14,8 @@ import { useGetProjectAssessmentsByIdQuery, useGetProjectByIdQuery } from 'api/q
 import * as R from 'router/const';
 import { formatDateToUTC } from 'utils/formatters';
 
+import { draftKey } from '../ProjectAssessmentAddPage/draft';
+
 import { AgentCard, AssessmentCard } from './components';
 import { PROJECT_AGENTS } from './const';
 import * as S from './units';
@@ -66,6 +68,7 @@ export const ProjectPage = () => {
     const currentAssessment = projectAssessments?.slice(0, 1)[0];
     const previousAssessments = projectAssessments?.slice(1);
     const visibleAgents = PROJECT_AGENTS.filter((agent) => agent.type === 'internal');
+    const hasAssessmentDraft = localStorage.getItem(draftKey(String(project.id))) !== null;
 
     const handleRunAgent = (agent: IProjectAgent) => {
         if (agent.id === 1) {
@@ -199,7 +202,12 @@ export const ProjectPage = () => {
                     </S.Chips> */}
                     <S.AgentsGrid>
                         {visibleAgents.map((agent) => (
-                            <AgentCard key={agent.id} agent={agent} onRun={handleRunAgent} />
+                            <AgentCard
+                                key={agent.id}
+                                agent={agent}
+                                hasDraft={agent.id === 1 && hasAssessmentDraft}
+                                onRun={handleRunAgent}
+                            />
                         ))}
                     </S.AgentsGrid>
                 </S.TabContent>

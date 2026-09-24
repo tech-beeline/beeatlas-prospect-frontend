@@ -10,15 +10,24 @@ export const createDraft = () => ({
     savedData: createInitialAssessmentData(),
     requirementsState: 'idle' as ProcessState,
     requirementsTaskId: null as string | null,
+    requirementsStartedAt: null as number | null,
     technicalState: 'idle' as ProcessState,
     technicalTaskId: null as string | null,
+    technicalStartedAt: null as number | null,
     catalogState: 'idle' as ProcessState,
     catalogTaskId: null as string | null,
+    catalogStartedAt: null as number | null,
     assessmentState: 'idle' as ProcessState,
+    assessmentStartedAt: null as number | null,
     impactLevel: AssessmentResults.S,
 });
 export type AssessmentDraft = ReturnType<typeof createDraft>;
 export const draftKey = (projectId: string) => `project-assessment:v1:${projectId}`;
+
+export interface IDraftReadResult {
+    draft: AssessmentDraft;
+    hasError: boolean;
+}
 
 const isSystem = (value: any) =>
     value === undefined ||
@@ -41,20 +50,26 @@ const isCatalogBc = (value: any) =>
     Array.isArray(value.technicalCapabilities) &&
     value.technicalCapabilities.every(isCatalogTc);
 
-export const readDraft = (projectId: string): AssessmentDraft => {
+export const readDraft = (projectId: string): IDraftReadResult => {
     const initial = createDraft();
     try {
-        const value = JSON.parse(localStorage.getItem(draftKey(projectId)) || 'null');
+        const storedDraft = localStorage.getItem(draftKey(projectId));
+        if (storedDraft === null) return { draft: initial, hasError: false };
+
+        const value = JSON.parse(storedDraft);
         if (
             !value ||
             value.version !== 1 ||
             !Object.values(AssessmentStepVariants).includes(value.stepVariant)
         )
-            return initial;
+            return { draft: initial, hasError: true };
         const data = value.savedData;
         if (
             !data ||
             !Array.isArray(data.requirements) ||
+            (data.selectedRequirementIds !== undefined &&
+                (!Array.isArray(data.selectedRequirementIds) ||
+                    !data.selectedRequirementIds.every((id: unknown) => typeof id === 'string'))) ||
             !Array.isArray(data.technicalCapabilities) ||
             !data.requirements.every(
                 (r: any) =>
@@ -84,7 +99,7 @@ export const readDraft = (projectId: string): AssessmentDraft => {
                     ['pending', 'new', 'reused', 'excluded'].includes(tc.decision),
             )
         )
-            return initial;
+            return { draft: initial, hasError: true };
         for (const field of [
             'confluenceUrl',
             'businessDescription',
@@ -93,7 +108,7 @@ export const readDraft = (projectId: string): AssessmentDraft => {
             'pageName',
             'parentUrl',
         ] as const) {
-            if (typeof data[field] !== 'string') return initial;
+            if (typeof data[field] !== 'string') return { draft: initial, hasError: true };
         }
         const draft: AssessmentDraft = {
             ...initial,
@@ -102,6 +117,9 @@ export const readDraft = (projectId: string): AssessmentDraft => {
                 ...initial.savedData,
                 ...data,
                 confluencePat: '',
+                selectedRequirementIds: Array.isArray(data.selectedRequirementIds)
+                    ? Array.from(new Set<string>(data.selectedRequirementIds))
+                    : [],
                 candidateIndex:
                     Number.isInteger(data.candidateIndex) && data.candidateIndex >= 0
                         ? data.candidateIndex
@@ -123,11 +141,19 @@ export const readDraft = (projectId: string): AssessmentDraft => {
                     : state === 'idle'
                     ? 'idle'
                     : 'error';
+            const startedAt = value[`${prefix}StartedAt`];
+            draft[`${prefix}StartedAt`] =
+                typeof startedAt === 'number' && Number.isFinite(startedAt) ? startedAt : null;
         }
         draft.assessmentState = value.assessmentState === 'done' ? 'done' : 'idle';
-        return draft;
+        draft.assessmentStartedAt =
+            typeof value.assessmentStartedAt === 'number' &&
+            Number.isFinite(value.assessmentStartedAt)
+                ? value.assessmentStartedAt
+                : null;
+        return { draft, hasError: false };
     } catch {
-        return initial;
+        return { draft: initial, hasError: true };
     }
 };
 

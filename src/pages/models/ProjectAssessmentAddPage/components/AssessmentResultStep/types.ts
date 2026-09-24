@@ -10,6 +10,7 @@ export interface IAssessmentResultStepProps {
     project: IProjectDto;
     processState: 'starting' | 'processing' | 'done' | 'error';
     progress: number;
+    processingStartedAt?: number | null;
     impactLevel: AssessmentResults;
     onBack: () => void;
 }

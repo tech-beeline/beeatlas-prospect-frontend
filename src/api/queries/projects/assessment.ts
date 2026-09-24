@@ -25,6 +25,7 @@ export interface ICatalogTechnicalCapability {
     description: string;
     relevance: number;
     systems: string[];
+    origin?: 'manual';
     system?: ISystem;
     parentBc?: { code: string; name: string; description?: string };
 }

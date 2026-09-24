@@ -1,22 +1,30 @@
-import React, { FC, useId, useRef } from 'react';
+import React, { FC } from 'react';
 
 import { Text } from 'components/core';
-import { TooltipContainer } from 'components/interaction';
-import { TableData, TableRow } from 'components/ui';
-
-import { useShowTooltip } from 'hooks';
+import { Checkbox, TableData, TableRow } from 'components/ui';
 
 import { IRequirementTableRowProps } from '../../types';
 
 import * as S from './units';
 
-export const RequirementTableRow: FC<IRequirementTableRowProps> = ({ requirement }) => {
-    const descriptionRef = useRef<HTMLDivElement>(null);
-    const showDescriptionTooltip = useShowTooltip(descriptionRef);
-    const tooltipId = `assessment-requirement-${useId().replace(/:/g, '')}`;
-
+export const RequirementTableRow: FC<IRequirementTableRowProps> = ({
+    requirement,
+    selected,
+    onSelectionChange,
+}) => {
     return (
         <TableRow dense>
+            {onSelectionChange && (
+                <TableData>
+                    <Checkbox
+                        aria-label={`Выбрать требование ${requirement.code || requirement.title}`}
+                        checked={selected}
+                        onChange={(event) =>
+                            onSelectionChange(requirement.id, event.target.checked)
+                        }
+                    />
+                </TableData>
+            )}
             <TableData>
                 <S.TitleCell>
                     <Text variant="body3">{requirement.title}</Text>
@@ -28,17 +36,7 @@ export const RequirementTableRow: FC<IRequirementTableRowProps> = ({ requirement
                 </S.TitleCell>
             </TableData>
             <TableData>
-                <S.Description
-                    ref={descriptionRef}
-                    data-tooltip-id={showDescriptionTooltip ? tooltipId : undefined}
-                >
-                    {requirement.description || '—'}
-                </S.Description>
-                {showDescriptionTooltip && (
-                    <TooltipContainer largePadding id={tooltipId} noArrow offset={8} place="bottom">
-                        {requirement.description}
-                    </TooltipContainer>
-                )}
+                <S.Description>{requirement.description || '—'}</S.Description>
             </TableData>
         </TableRow>
     );

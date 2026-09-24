@@ -72,7 +72,7 @@ export const TechCapabilityCard: FC<ITechCapabilityCard> = ({ tc, cmdb }) => {
                             <Text key={operation.id} variant="body2">
                                 <Link
                                     title={`${operation.type} ${operation.name}`}
-                                    url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&subtab=Structurizr&type=arch_operation&id=${operation.id}&hideEmpty=false&hideDeleted=false`}
+                                    url={`${R.MODELS_PATH}${R.APPS_PATH}${R.VIEW_PATH}?tab=INTERFACES_AND_METHODS&subtab=structurizr&type=arch_operation&id=${operation.id}&hideEmpty=false&hideDeleted=false`}
                                 />
                             </Text>
                         ))}

@@ -16,3 +16,7 @@ export const TableStyled = styled(Table)`
 export const TitleHeader = styled(TableHeaderData)`
     width: 36%;
 `;
+
+export const SelectionHeader = styled(TableHeaderData)`
+    width: 56px;
+`;

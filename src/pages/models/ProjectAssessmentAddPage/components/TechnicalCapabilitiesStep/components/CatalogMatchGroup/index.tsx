@@ -19,6 +19,7 @@ interface ICatalogMatchGroupProps {
     businessCapability: ICatalogBusinessCapability;
     candidateId: string;
     selectedCapabilities: ICatalogTechnicalCapability[];
+    manuallyAdded?: boolean;
     onSelect: (capability: ICatalogTechnicalCapability) => void;
 }
 
@@ -26,6 +27,7 @@ export const CatalogMatchGroup: FC<ICatalogMatchGroupProps> = ({
     businessCapability,
     candidateId,
     selectedCapabilities,
+    manuallyAdded = false,
     onSelect,
 }) => {
     const [expanded, setExpanded] = useState(true);
@@ -76,6 +78,11 @@ export const CatalogMatchGroup: FC<ICatalogMatchGroupProps> = ({
                                     <div>
                                         <S.CatalogOptionTitle>
                                             <Text variant="h6">{capability.name}</Text>
+                                            {manuallyAdded && (
+                                                <Badge semantic="success" type="secondary">
+                                                    Переиспользование
+                                                </Badge>
+                                            )}
                                             <Badge
                                                 semantic={getRelevanceSemantic(
                                                     capability.relevance,
