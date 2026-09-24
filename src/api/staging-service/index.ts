@@ -116,17 +116,12 @@ export const getPipelineAnnotationsById = (
     });
 };
 
-export const uploadE2EPlantUmlFile = (
-    file: File,
-    targetId: string,
-): AxiosPromise<T.IUploadE2EPlantUmlResult> => {
+export const uploadE2EPlantUmlFile = (file: File): AxiosPromise<T.IUploadE2EPlantUmlResult> => {
     const formData = new FormData();
     formData.append('file', file);
 
     return Api.post({
-        url: `${GATEWAY_URL}document/v1/documents/E2E_PLANTUML/puml?targetId=${encodeURIComponent(
-            targetId,
-        )}&isPublic=true`,
+        url: `${GATEWAY_URL}document/v1/documents/E2E-PLANTUML/puml?isPublic=true`,
         data: formData,
         headers: {
             'Content-Disposition': encodeURI(file.name),
@@ -139,6 +134,37 @@ export const validateE2EPlantUmlFile = (
 ): AxiosPromise<T.IE2EPlantUmlValidationResult> => {
     return Api.post({
         url: `${GATEWAY_STAGING_SERVICE_URL}v1/e2e/validate/${docId}`,
+    });
+};
+
+export const startE2EPlantUmlPipeline = (
+    data: T.IStartE2EPlantUmlPipelineParams,
+): AxiosPromise<T.IE2EPlantUmlPipelineRun> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs`,
+        data,
+    });
+};
+
+export const getE2EPlantUmlPipelineStatus = (
+    params: T.IGetE2EPlantUmlPipelineStatusParams,
+): AxiosPromise<T.IE2EPlantUmlPipelineStatus> => {
+    return Api.get({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${params.runId}/status?waitFor=${
+            params.waitFor
+        }&timeoutMs=${params.timeoutMs ?? 30000}`,
+    });
+};
+
+export const applyE2EPlantUmlPipeline = (runId: string | number): AxiosPromise<void> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${runId}/apply`,
+    });
+};
+
+export const declineE2EPlantUmlPipeline = (runId: string | number): AxiosPromise<void> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${runId}/decline`,
     });
 };
 

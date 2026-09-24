@@ -13,8 +13,8 @@ export const TABS = [
         id: TabVariants.RELATED_CJS,
         label: 'Связанные CJ',
     },
-    {
-        id: TabVariants.HISTORY,
-        label: 'История загрузок',
-    },
+    // {
+    //     id: TabVariants.HISTORY,
+    //     label: 'История загрузок',
+    // },
 ];

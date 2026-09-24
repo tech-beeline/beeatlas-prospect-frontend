@@ -4,8 +4,7 @@ import { useAdditionalPageContext } from 'features/ai-context/hooks';
 
 import { Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
-import { ImageVariants, NotFoundBlock } from 'components/other';
-import { Button, Icon, Skeleton, Tab, Tabs } from 'components/ui';
+import { Button, Icon, Tab, Tabs } from 'components/ui';
 
 import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
 import { useGetE2EPlantUmlFileVersionsQuery } from 'api/queries/staging-service';
@@ -23,7 +22,6 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const subtabParam = searchParams.get('subtab');
-
     useEffect(() => {
         if (subtabParam && (Object.values(TabVariants) as string[]).includes(subtabParam)) {
             setTabVariant(subtabParam as TabVariants);
@@ -36,44 +34,45 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
 
     const { data: plantUmlVersions, isLoading: isPlantUmlVersionsLoading } =
         useGetE2EPlantUmlFileVersionsQuery(activeBiStep.id);
-    const showImportSuccess = Boolean(plantUmlVersions?.length);
 
     useAdditionalPageContext('e2eContentTab', tabVariant);
 
     const { data, isLoading } = useGetSequenceCallsByIdQuery(activeBiStep.code);
+    const isPlantuml = data && data.e2e.source === 'PLANTUML';
 
     return (
         <>
             <S.TitleContainer>
                 <Text variant="h4">{activeBiStep.name}</Text>
-                <S.ButtonContainer>
-                    <Button
-                        size="small"
-                        startIcon={<Icon iconName={Icons.Edit} />}
-                        data-tooltip-id="edit-button"
-                        onClick={openModal}
-                    />
-                    <TooltipContainer noArrow id="edit-button" place={'top-end' as any}>
-                        Редактировать название
-                    </TooltipContainer>
-                    <Button
-                        size="small"
-                        startIcon={<Icon iconName={Icons.Import} />}
-                        data-tooltip-id="import-button"
-                        onClick={() =>
-                            navigate({
-                                pathname: `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
-                                search: new URLSearchParams({
-                                    id: String(activeBiStep.id),
-                                    code: activeBiStep.code,
-                                }).toString(),
-                            })
-                        }
-                    />
-                    <TooltipContainer noArrow id="import-button" place={'top-end' as any}>
-                        Импортировать PlantUML
-                    </TooltipContainer>
-                </S.ButtonContainer>
+                {isPlantuml && (
+                    <S.ButtonContainer>
+                        <Button
+                            size="small"
+                            startIcon={<Icon iconName={Icons.Edit} />}
+                            data-tooltip-id="edit-button"
+                            onClick={openModal}
+                        />
+                        <TooltipContainer noArrow id="edit-button" place={'top-end' as any}>
+                            Редактировать шаг E2E-сценария
+                        </TooltipContainer>
+                        <Button
+                            size="small"
+                            startIcon={<Icon iconName={Icons.Import} />}
+                            data-tooltip-id="import-button"
+                            onClick={() =>
+                                navigate({
+                                    pathname: `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
+                                    search: new URLSearchParams({
+                                        code: activeBiStep.code,
+                                    }).toString(),
+                                })
+                            }
+                        />
+                        <TooltipContainer noArrow id="import-button" place={'top-end' as any}>
+                            Импортировать PlantUML
+                        </TooltipContainer>
+                    </S.ButtonContainer>
+                )}
             </S.TitleContainer>
             <S.TabsContainer>
                 <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
@@ -94,25 +93,7 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
                     ))}
                 </Tabs>
             </S.TabsContainer>
-            {isPlantUmlVersionsLoading && tabVariant === TabVariants.CALLS && (
-                <Skeleton height={420} radius={12} />
-            )}
-            {!isPlantUmlVersionsLoading && showImportSuccess && tabVariant === TabVariants.CALLS && (
-                <S.ImportSuccess>
-                    <NotFoundBlock
-                        setMinSize={false}
-                        smallImage
-                        imageVariant={ImageVariants.CHECK}
-                        title="Данные загружены"
-                        text="PlantUML импортирован. Отчёт можно посмотреть в истории загрузок"
-                    />
-                </S.ImportSuccess>
-            )}
-            {!isPlantUmlVersionsLoading &&
-                !showImportSuccess &&
-                tabVariant === TabVariants.CALLS && (
-                    <CallsContent data={data} isLoading={isLoading} />
-                )}
+            {tabVariant === TabVariants.CALLS && <CallsContent data={data} isLoading={isLoading} />}
             {tabVariant === TabVariants.RELATED_CJS && (
                 <RelatedCJs biStepCode={activeBiStep.biStepCode} />
             )}

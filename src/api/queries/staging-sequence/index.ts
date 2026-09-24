@@ -53,10 +53,11 @@ export const usePostSequenceAlertByIdMutation = () => {
     });
 };
 
-export const useGetSequenceCallsByIdQuery = (uid: string) => {
+export const useGetSequenceCallsByIdQuery = (uid: string | null) => {
     return useQuery({
         queryKey: [STAGING_SEQUENCE_PREFIX, 'SEQUENCE_CALLS', uid],
-        queryFn: () => getSequenceCallsById(uid).then((res) => res.data),
+        queryFn: () => getSequenceCallsById(uid!).then((res) => res.data),
+        enabled: !!uid,
     });
 };
 
@@ -68,11 +69,15 @@ export const useGetStagingSequenceBiStepByCodeQuery = (code: string | null | und
     });
 };
 
+interface IPostE2EMutationParams {
+    data: IPostE2EForm;
+    source: string;
+}
 export const usePostE2EMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: [STAGING_SEQUENCE_PREFIX, 'E2E', 'create'],
-        mutationFn: (params: IPostE2EForm) => postE2E(params),
+        mutationFn: (params: IPostE2EMutationParams) => postE2E(params.data, params.source),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [STAGING_SEQUENCE_PREFIX],

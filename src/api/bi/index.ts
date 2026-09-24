@@ -41,6 +41,12 @@ export const getBICollection = (
     });
 };
 
+export const getBusinessInteractions = (): AxiosPromise<T.IBIData[]> => {
+    return Api.get({
+        url: `${GATEWAY_CX_URL}cx/v1/library/business-interactions`,
+    });
+};
+
 export const postBI = (data: T.IBIForm) => {
     return Api.post({
         url: `${GATEWAY_URL}cx/v1/bi`,

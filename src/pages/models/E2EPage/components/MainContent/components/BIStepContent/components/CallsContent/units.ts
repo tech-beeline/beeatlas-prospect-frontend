@@ -5,3 +5,10 @@ export const CallsContainer = styled.div`
     flex-direction: column;
     gap: 4px;
 `;
+
+export const ChipsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+`;

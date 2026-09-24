@@ -7,11 +7,9 @@ export interface IStagingSequenceCJ {
         uid: string;
         id: string | number | null;
         biSteps: {
-            // id: number;
             uid: string;
-            // bi_step_id: number;
             name: string;
-            e2eCode: string;
+            e2eCodes: string[];
         }[];
     }[];
 }
@@ -74,7 +72,8 @@ export interface IStagingSequenceCallsData {
         code: string;
         name: string;
         description: string;
-        bi_step_code: string;
+        biStepCode: string;
+        source: string;
     };
     operationsRelations: IOperationRelation[];
     operations: IOperation[];
@@ -123,4 +122,5 @@ export interface IPostE2EForm {
 
 export interface IPatchE2EForm {
     name: string;
+    biStepCode: string;
 }

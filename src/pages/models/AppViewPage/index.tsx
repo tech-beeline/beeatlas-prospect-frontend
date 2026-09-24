@@ -11,6 +11,7 @@ import { useGetProductInfoByCmdbQuery } from 'api/queries/product';
 import * as R from 'router/const';
 
 import {
+    Deployment,
     Diagrams,
     FitnessFunctions,
     GeneralInfo,
@@ -21,13 +22,14 @@ import {
     TechCapabilities,
     Technologies,
 } from './components';
-import { TABS, TabVariants } from './const';
+import { DEPLOYMENT_ENV_PARAM, TABS, TabVariants } from './const';
 import * as S from './units';
 
 export const AppViewPage = () => {
     const [params, setSearchParams] = useSearchParams();
     const paramTab = params.get('tab');
     const paramCmdb = params.get('cmdb');
+    const paramEnv = params.get(DEPLOYMENT_ENV_PARAM);
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.GENERAL_INFO);
 
     useEffect(() => {
@@ -89,7 +91,13 @@ export const AppViewPage = () => {
                             key={tab.id}
                             label={tab.label}
                             value={tab.id}
-                            onClick={() => setSearchParams({ tab: tab.id, cmdb: paramCmdb ?? '' })}
+                            onClick={() =>
+                                setSearchParams({
+                                    tab: tab.id,
+                                    cmdb: paramCmdb ?? '',
+                                    ...(paramEnv ? { [DEPLOYMENT_ENV_PARAM]: paramEnv } : {}),
+                                })
+                            }
                             disabled={
                                 tab.id !== TabVariants.GENERAL_INFO &&
                                 !productData?.structurizrApiUrl
@@ -125,6 +133,7 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
             {tabVariant === TabVariants.REQUIREMENTS && <Requirements cmdb={paramCmdb} />}
             {tabVariant === TabVariants.DIAGRAMS && <Diagrams cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.DEPLOYMENT && <Deployment cmdb={paramCmdb} />}
         </S.PageWrapper>
     );
 };

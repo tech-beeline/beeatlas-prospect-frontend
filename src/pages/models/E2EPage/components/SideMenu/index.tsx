@@ -1,14 +1,14 @@
 import React, { FC, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Text } from 'components/core';
 import { Button, ButtonGroup } from 'components/ui';
 
-import { useModal } from 'hooks';
+import * as R from 'router/const';
 
 import { E2EContentOptions } from '../../types';
 
-import { CJData, CreateE2ESideblock, E2EData } from './components';
+import { CJData, E2EData } from './components';
 import { ISideMenu } from './types';
 import * as S from './units';
 
@@ -21,9 +21,8 @@ export const SideMenu: FC<ISideMenu> = ({
     isLoading,
 }) => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const tab = searchParams.get('tab');
-
-    const { openModal, closeModal, modalOpened } = useModal();
 
     const contentOption = useMemo(() => {
         return (tab as E2EContentOptions) ?? E2EContentOptions.CJ;
@@ -34,59 +33,56 @@ export const SideMenu: FC<ISideMenu> = ({
     };
 
     return (
-        <>
-            <S.SideMenuContainer>
-                <S.ResizableStyled
-                    enable={{ right: true }}
-                    defaultSize={{
-                        width: 410,
-                        height: 'calc(100vh - 64px)',
-                    }}
-                    minWidth={340}
-                    maxWidth={640}
-                >
-                    <S.FiltersContainer>
-                        <Text variant="h5">Каталог E2E-сценариев</Text>
-                        <Button variant="primary" size="small" onClick={openModal}>
-                            Создать шаг E2E-сценария
-                        </Button>
-                        <ButtonGroup
-                            alwaysSelected
-                            fullWidth
-                            selectedOption={{ id: contentOption }}
-                            size="small"
-                            options={[
-                                {
-                                    id: E2EContentOptions.CJ,
-                                    label: `CJ`,
-                                },
-                                {
-                                    id: E2EContentOptions.E2E,
-                                    label: `Шаги E2E-сценариев`,
-                                },
-                            ]}
-                            type="secondary"
-                            onChange={(option) => handleButtonClick(option.id as E2EContentOptions)}
-                        />
-                    </S.FiltersContainer>
-                    {contentOption === E2EContentOptions.CJ && (
-                        <CJData
-                            activeTreeItem={activeTreeItem}
-                            treeData={treeData}
-                            flatTreeData={flatTreeData}
-                            isLoading={isLoading}
-                        />
-                    )}
-                    {contentOption === E2EContentOptions.E2E && (
-                        <E2EData
-                            activeBiStep={activeBiStep}
-                            biSteps={biSteps}
-                            isLoading={isLoading}
-                        />
-                    )}
-                </S.ResizableStyled>
-            </S.SideMenuContainer>
-            <CreateE2ESideblock isOpen={modalOpened} onClose={closeModal} />
-        </>
+        <S.SideMenuContainer>
+            <S.ResizableStyled
+                enable={{ right: true }}
+                defaultSize={{
+                    width: 410,
+                    height: 'calc(100vh - 64px)',
+                }}
+                minWidth={340}
+                maxWidth={640}
+            >
+                <S.FiltersContainer>
+                    <Text variant="h5">Каталог E2E-сценариев</Text>
+                    <Button
+                        variant="primary"
+                        size="small"
+                        onClick={() => navigate(`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`)}
+                    >
+                        Создать шаг E2E-сценария
+                    </Button>
+                    <ButtonGroup
+                        alwaysSelected
+                        fullWidth
+                        selectedOption={{ id: contentOption }}
+                        size="small"
+                        options={[
+                            {
+                                id: E2EContentOptions.CJ,
+                                label: `CJ`,
+                            },
+                            {
+                                id: E2EContentOptions.E2E,
+                                label: `Шаги E2E-сценариев`,
+                            },
+                        ]}
+                        type="secondary"
+                        onChange={(option) => handleButtonClick(option.id as E2EContentOptions)}
+                    />
+                </S.FiltersContainer>
+                {contentOption === E2EContentOptions.CJ && (
+                    <CJData
+                        activeTreeItem={activeTreeItem}
+                        treeData={treeData}
+                        flatTreeData={flatTreeData}
+                        isLoading={isLoading}
+                    />
+                )}
+                {contentOption === E2EContentOptions.E2E && (
+                    <E2EData activeBiStep={activeBiStep} biSteps={biSteps} isLoading={isLoading} />
+                )}
+            </S.ResizableStyled>
+        </S.SideMenuContainer>
     );
 };

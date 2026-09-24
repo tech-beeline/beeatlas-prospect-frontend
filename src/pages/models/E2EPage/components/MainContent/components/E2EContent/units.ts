@@ -16,11 +16,3 @@ export const ButtonContainer = styled.div`
 
     max-height: 40px;
 `;
-
-export const ImportSuccess = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 80px;
-`;

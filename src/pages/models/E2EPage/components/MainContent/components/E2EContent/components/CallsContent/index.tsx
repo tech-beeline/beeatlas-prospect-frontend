@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatCallsTreeData } from 'features/e2e';
 
+import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { Icon, Skeleton } from 'components/ui';
 
@@ -17,6 +18,8 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
 
     const navigate = useNavigate();
 
+    const isPlantuml = data && data.e2e.source === 'PLANTUML';
+
     return (
         <>
             {isLoading && <Skeleton radius={12} height={100} />}
@@ -25,29 +28,36 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
                     <NotFoundBlock
                         imageVariant={ImageVariants.EMPTY_BOX}
                         title="Нет данных"
-                        text="Импортируйте PlantUml в созданный E2E "
-                        buttonText="Импорт PlantUml"
-                        buttonProps={{
-                            startIcon: <Icon iconName={Icons.Import} />,
-                            onClick: () =>
-                                navigate(
-                                    `${R.MODELS_PATH}${R.E2E_PATH}${
-                                        R.IMPORT_PATH
-                                    }?${new URLSearchParams({
-                                        code: data.e2e.code,
-                                        id: String(data.e2e.id),
-                                    }).toString()}`,
-                                ),
-                        }}
+                        text={isPlantuml ? 'Импортируйте PlantUml в созданный E2E' : ''}
+                        buttonText={isPlantuml ? 'Импорт PlantUml' : undefined}
+                        buttonProps={
+                            isPlantuml
+                                ? {
+                                      startIcon: <Icon iconName={Icons.Import} />,
+                                      onClick: () =>
+                                          navigate(
+                                              `${R.MODELS_PATH}${R.E2E_PATH}${
+                                                  R.IMPORT_PATH
+                                              }?${new URLSearchParams({
+                                                  code: data.e2e.code,
+                                                  id: String(data.e2e.id),
+                                              }).toString()}`,
+                                          ),
+                                  }
+                                : undefined
+                        }
                     />
                 </S.NotFoundContainer>
             )}
-            {data && (
-                <S.CallsContainer>
-                    {callsTree.map((item) => (
-                        <CallTreeItem key={item.id} item={item} level={0} />
-                    ))}
-                </S.CallsContainer>
+            {data && data.operationsRelations.length !== 0 && (
+                <>
+                    <Text variant="subtitle3">Последовательность вызовов ({data.e2e.source})</Text>
+                    <S.CallsContainer>
+                        {callsTree.map((item) => (
+                            <CallTreeItem key={item.id} item={item} level={0} />
+                        ))}
+                    </S.CallsContainer>
+                </>
             )}
         </>
     );

@@ -1,12 +1,15 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 
 import {
+    applyE2EPlantUmlPipeline,
+    declineE2EPlantUmlPipeline,
     downloadE2EPlantUmlFile,
     getArtifactByUid,
     getArtifactPipelinesSearch,
     getArtifactSearch,
     getE2EDocumentationTypes,
     getE2EPlantUmlFileVersions,
+    getE2EPlantUmlPipelineStatus,
     getPipelineAnnotationsById,
     getPipelineArtifactTypes,
     getPipelineChildRuns,
@@ -15,15 +18,18 @@ import {
     getPipelineRunDetails,
     getPipelineRuns,
     getRawData,
+    startE2EPlantUmlPipeline,
     uploadE2EPlantUmlFile,
     validateE2EPlantUmlFile,
 } from 'api/staging-service';
 import {
     IGetArtifactPipelinesSearchParams,
     IGetArtifactSearchParams,
+    IGetE2EPlantUmlPipelineStatusParams,
     IGetPipelineAnnotationsParams,
     IGetPipilineChildRunsParams,
     IGetPipilineRunsParams,
+    IStartE2EPlantUmlPipelineParams,
 } from 'api/staging-service/types';
 
 const STAGING_SERVICE_PREFIX = 'STAGING_SERVICE_PREFIX';
@@ -56,11 +62,11 @@ export const useGetPipelineChildRunsQuery = (
     });
 };
 
-export const useGetPipelineRunDetailsQuery = (runId: number | string | null) => {
+export const useGetPipelineRunDetailsQuery = (runId: number | string | null, enabled = true) => {
     return useQuery({
         queryKey: [STAGING_SERVICE_PREFIX, 'PIPILENE_RUN_DETAILS', runId],
         queryFn: () => getPipelineRunDetails(runId!).then((res) => res.data),
-        enabled: !!runId,
+        enabled: !!runId && enabled,
     });
 };
 
@@ -110,25 +116,27 @@ export const useGetArtifactPipelinesSearchQuery = (params: IGetArtifactPipelines
     });
 };
 
-export const useGetPipelineAnnotationsQuery = (params: IGetPipelineAnnotationsParams) => {
+export const useGetPipelineAnnotationsQuery = (
+    params: IGetPipelineAnnotationsParams,
+    enabled = true,
+) => {
     return useQuery({
         queryKey: [STAGING_SERVICE_PREFIX, 'PIPELINE_ANNOTATIONS', params],
         queryFn: () => getPipelineAnnotationsById(params).then((res) => res.data),
-        enabled: !!params.pipelineId && !!params.search,
+        enabled: !!params.pipelineId && !!params.search && enabled,
         placeholderData: keepPreviousData,
     });
 };
 
 interface IUploadE2EPlantUmlParams {
     file: File;
-    targetId: string;
 }
 
 export const useUploadE2EPlantUmlMutation = () => {
     return useMutation({
         mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'UPLOAD'],
-        mutationFn: ({ file, targetId }: IUploadE2EPlantUmlParams) =>
-            uploadE2EPlantUmlFile(file, targetId).then((res) => res.data),
+        mutationFn: ({ file }: IUploadE2EPlantUmlParams) =>
+            uploadE2EPlantUmlFile(file).then((res) => res.data),
     });
 };
 
@@ -145,6 +153,38 @@ export const useValidateE2EPlantUmlQuery = (docId: string | number | null) => {
         queryKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'VALIDATION_RESULT', docId],
         queryFn: () => validateE2EPlantUmlFile(docId!).then((res) => res.data),
         enabled: docId !== null && docId !== '',
+    });
+};
+
+export const useStartE2EPlantUmlPipelineMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'PIPELINE', 'START'],
+        mutationFn: (params: IStartE2EPlantUmlPipelineParams) =>
+            startE2EPlantUmlPipeline(params).then((res) => res.data),
+    });
+};
+
+export const useGetE2EPlantUmlPipelineStatusMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'PIPELINE', 'STATUS'],
+        mutationFn: (params: IGetE2EPlantUmlPipelineStatusParams) =>
+            getE2EPlantUmlPipelineStatus(params).then((res) => res.data),
+    });
+};
+
+export const useApplyE2EPlantUmlPipelineMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'PIPELINE', 'APPLY'],
+        mutationFn: (runId: string | number) =>
+            applyE2EPlantUmlPipeline(runId).then((res) => res.data),
+    });
+};
+
+export const useDeclineE2EPlantUmlPipelineMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'PIPELINE', 'DECLINE'],
+        mutationFn: (runId: string | number) =>
+            declineE2EPlantUmlPipeline(runId).then((res) => res.data),
     });
 };
 
