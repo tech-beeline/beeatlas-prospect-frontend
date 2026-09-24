@@ -20,6 +20,7 @@ export const createInitialAssessmentData = (): IAssessmentFormData => ({
     businessDescription: '',
 
     requirements: [],
+    selectedRequirementIds: [],
 
     businessCapabilities: [],
 

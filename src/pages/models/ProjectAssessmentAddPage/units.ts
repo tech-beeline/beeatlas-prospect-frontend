@@ -46,6 +46,18 @@ export const StepContent = styled.div`
     min-height: 0;
 `;
 
+export const FormFieldset = styled.fieldset`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+`;
+
 export const StepBody = styled.div`
     flex: 1;
     min-height: 0;

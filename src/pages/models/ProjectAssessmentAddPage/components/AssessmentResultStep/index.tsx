@@ -1,9 +1,7 @@
 import React, { FC, useState } from 'react';
-import { AssessmentView } from 'features/projects';
+import { AssessmentView, PublishSideblock } from 'features/projects';
 
-import { SideBlock } from 'components/containers';
-import { Text } from 'components/core';
-import { Banner, Button, Icon, IconButton, TextArea, TextField } from 'components/ui';
+import { Banner, Button, Icon } from 'components/ui';
 
 import { StructureRequirementType } from 'api/projects';
 import { useExportAssessmentMutation, usePublishAssessmentMutation } from 'api/queries/projects';
@@ -24,6 +22,7 @@ export const AssessmentResultStep: FC<IAssessmentResultStepProps> = ({
     project,
     processState,
     progress,
+    processingStartedAt,
     impactLevel,
     onBack,
 }) => {
@@ -57,6 +56,7 @@ export const AssessmentResultStep: FC<IAssessmentResultStepProps> = ({
                         title="Формирую оценку влияния"
                         description="Учитываю выбранные технические возможности и затронутые системы"
                         progress={progress}
+                        startedAt={processingStartedAt}
                         metrics={[
                             {
                                 label: 'Технические возможности',
@@ -194,104 +194,26 @@ export const AssessmentResultStep: FC<IAssessmentResultStepProps> = ({
                 </S.FooterContent>
             </S.Footer>
 
-            <SideBlock
-                large
-                hasBackdrop
+            <PublishSideblock
                 isOpen={publicationOpened}
+                isPending={publishMutation.isPending}
+                ownerName={project.ownerName}
+                pageName={pageName}
+                parentUrl={parentUrl}
+                pat={pat}
+                sourceUrl={savedData.confluenceUrl}
+                businessDescription={savedData.businessDescription}
+                errorMessage={
+                    publishMutation.error ? getErrorMessage(publishMutation.error) : undefined
+                }
                 onClose={() => setPublicationOpened(false)}
-            >
-                <S.PublicationLayout>
-                    <S.PublicationContent>
-                        <S.PublicationHeader>
-                            <div>
-                                <Text variant="h5">Публикация в Confluence</Text>
-                                <Text inactive variant="body3">
-                                    Опубликовать HLD-отчёт как дочернюю страницу Confluence.
-                                </Text>
-                            </div>
-                            <IconButton
-                                aria-label="Закрыть публикацию"
-                                iconName={Icons.Close}
-                                size="large"
-                                onClick={() => setPublicationOpened(false)}
-                            />
-                        </S.PublicationHeader>
-                        {publishMutation.error && (
-                            <Banner
-                                color="error"
-                                iconName={Icons.WarningCircled}
-                                title={getErrorMessage(publishMutation.error)}
-                            />
-                        )}
-                        <TextField
-                            fullWidth
-                            disabled
-                            label="Автор проведения оценки"
-                            value={project.ownerName}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Название страницы*"
-                            value={pageName}
-                            onChange={(event) =>
-                                setSavedData((data) => ({ ...data, pageName: event.target.value }))
-                            }
-                        />
-                        <TextField
-                            fullWidth
-                            label="URL родительской страницы*"
-                            value={parentUrl}
-                            onChange={(event) =>
-                                setSavedData((data) => ({ ...data, parentUrl: event.target.value }))
-                            }
-                        />
-                        <TextField
-                            fullWidth
-                            type="password"
-                            label="Персональный токен доступа (PAT)*"
-                            value={pat}
-                            onChange={(event) => setPat(event.target.value)}
-                        />
-                        <TextField
-                            fullWidth
-                            disabled
-                            label="Ссылка на бизнес-постановку в Confluence"
-                            value={savedData.confluenceUrl}
-                        />
-                        <TextArea
-                            fullWidth
-                            disabled
-                            label="Бизнес-постановка"
-                            rows={5}
-                            value={savedData.businessDescription}
-                        />
-                    </S.PublicationContent>
-                    <S.PublicationFooter>
-                        <Button
-                            fullWidth
-                            size="medium"
-                            variant="outlined"
-                            onClick={() => setPublicationOpened(false)}
-                        >
-                            Закрыть
-                        </Button>
-                        <Button
-                            fullWidth
-                            disabled={
-                                publishMutation.isPending ||
-                                !pageName.trim() ||
-                                !parentUrl.trim() ||
-                                !pat.trim()
-                            }
-                            size="medium"
-                            variant="contained"
-                            onClick={publishAssessment}
-                        >
-                            Опубликовать
-                        </Button>
-                    </S.PublicationFooter>
-                </S.PublicationLayout>
-            </SideBlock>
+                onPublish={publishAssessment}
+                onPageNameChange={(value) => setSavedData((data) => ({ ...data, pageName: value }))}
+                onParentUrlChange={(value) =>
+                    setSavedData((data) => ({ ...data, parentUrl: value }))
+                }
+                onPatChange={setPat}
+            />
         </S.StepLayout>
     );
 };

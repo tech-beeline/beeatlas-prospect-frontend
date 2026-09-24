@@ -36,11 +36,14 @@ import { getAssessmentErrorMessage as getErrorMessage } from './errors';
 import { buildImpact } from './impact';
 import { buildCreateAssessmentDto } from './persistence';
 import * as S from './units';
+import { useDraftTabLock } from './useDraftTabLock';
 
 const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
-    const [draft] = useState(() => readDraft(projectId || ''));
+    const [draftReadResult] = useState(() => readDraft(projectId || ''));
+    const draft = draftReadResult.draft;
     const navigate = useNavigate();
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+    const draftTabLockState = useDraftTabLock(projectId);
     const projectQuery = useGetProjectByIdQuery(projectId);
     const [stepVariant, setStepVariant] = useState(draft.stepVariant);
     const [savedData, setSavedData] = useState(draft.savedData);
@@ -56,11 +59,26 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
     const [requirementsTaskId, setRequirementsTaskId] = useState<string | null>(
         draft.requirementsTaskId,
     );
+    const [requirementsStartedAt, setRequirementsStartedAt] = useState<number | null>(
+        () =>
+            draft.requirementsStartedAt ??
+            (draft.requirementsState === 'processing' ? Date.now() : null),
+    );
     const [technicalState, setTechnicalState] = useState<ProcessState>(draft.technicalState);
     const [technicalTaskId, setTechnicalTaskId] = useState<string | null>(draft.technicalTaskId);
+    const [technicalStartedAt, setTechnicalStartedAt] = useState<number | null>(
+        () =>
+            draft.technicalStartedAt ?? (draft.technicalState === 'processing' ? Date.now() : null),
+    );
     const [catalogState, setCatalogState] = useState<ProcessState>(draft.catalogState);
     const [catalogTaskId, setCatalogTaskId] = useState<string | null>(draft.catalogTaskId);
+    const [catalogStartedAt, setCatalogStartedAt] = useState<number | null>(
+        () => draft.catalogStartedAt ?? (draft.catalogState === 'processing' ? Date.now() : null),
+    );
     const [assessmentState, setAssessmentState] = useState<ProcessState>(draft.assessmentState);
+    const [assessmentStartedAt, setAssessmentStartedAt] = useState<number | null>(
+        draft.assessmentStartedAt,
+    );
     const [impactLevel, setImpactLevel] = useState(draft.impactLevel);
 
     const importMutation = usePostImportAssessmentMutation();
@@ -68,6 +86,23 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
     const technicalMutation = useStartTechnicalCandidatesMutation();
     const catalogMutation = useStartCatalogAnalysisMutation();
     const createAssessmentMutation = useCreateAssessmentMutation();
+    const catalogStarting = useRef(false);
+
+    useEffect(() => {
+        if (draftReadResult.hasError) {
+            showSnackbar({ message: 'Ошибка чтения черновика', showCloseButton: true });
+        }
+    }, [draftReadResult.hasError, showSnackbar]);
+
+    useEffect(() => {
+        if (draftTabLockState === 'locked') {
+            showSnackbar({
+                message:
+                    'Черновик уже открыт в другой вкладке. Редактирование в этой вкладке недоступно',
+                showCloseButton: true,
+            });
+        }
+    }, [draftTabLockState, showSnackbar]);
 
     const requirementsProgressQuery = useGetStrucutreProgressByIdQuery(
         requirementsTaskId,
@@ -98,8 +133,17 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
             setSavedData((data) => ({
                 ...data,
                 requirements: requirementsResultQuery.data.requirements,
+                selectedRequirementIds: [],
+                technicalCapabilities: [],
             }));
+            catalogStarting.current = false;
+            setTechnicalTaskId(null);
+            setCatalogTaskId(null);
+            setTechnicalState('idle');
+            setCatalogState('idle');
+            setAssessmentState('idle');
             setRequirementsState('done');
+            setRequirementsStartedAt(null);
         }
     }, [requirementsResultQuery.data, requirementsState]);
 
@@ -114,8 +158,13 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
                     decision: 'pending',
                     origin: 'discovered',
                 })),
+                candidateIndex: 0,
             }));
+            setCatalogTaskId(null);
+            setCatalogState('idle');
+            setAssessmentState('idle');
             setTechnicalState('done');
+            setTechnicalStartedAt(null);
         }
     }, [technicalResultQuery.data, technicalState]);
 
@@ -142,6 +191,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
                 }),
             }));
             setCatalogState('done');
+            setCatalogStartedAt(null);
         }
     }, [catalogResultQuery.data, catalogState]);
 
@@ -185,7 +235,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
     const assessmentSaved = useRef(false);
     const assessmentSaving = useRef(false);
     useEffect(() => {
-        if (!projectId || assessmentSaved.current) return;
+        if (!projectId || assessmentSaved.current || draftTabLockState !== 'owner') return;
         try {
             writeDraft(projectId, {
                 version: 1,
@@ -198,6 +248,10 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
                 catalogState,
                 catalogTaskId,
                 assessmentState,
+                requirementsStartedAt,
+                technicalStartedAt,
+                catalogStartedAt,
+                assessmentStartedAt,
                 impactLevel,
             });
         } catch {
@@ -220,8 +274,13 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
         catalogState,
         catalogTaskId,
         assessmentState,
+        requirementsStartedAt,
+        technicalStartedAt,
+        catalogStartedAt,
+        assessmentStartedAt,
         impactLevel,
         showSnackbar,
+        draftTabLockState,
     ]);
 
     const currentStepIndex = ASSESSMENT_STEPS.findIndex(({ id }) => id === stepVariant);
@@ -240,7 +299,6 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
     };
 
     const operation = useRef(0);
-    const catalogStarting = useRef(false);
     useEffect(
         () => () => {
             operation.current += 1;
@@ -261,17 +319,11 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
             return;
         }
         const run = ++operation.current;
-        catalogStarting.current = false;
+        setSavedData((data) => ({ ...data, selectedRequirementIds: [] }));
         setRequestError(null);
-        setRequirementsTaskId(null);
-        setTechnicalTaskId(null);
-        setCatalogTaskId(null);
-        setTechnicalState('idle');
-        setCatalogState('idle');
-        setAssessmentState('idle');
+        setRequirementsStartedAt(Date.now());
         setRequirementsState('starting');
         setStepVariant(AssessmentStepVariants.REQUIREMENTS);
-        setSavedData((data) => ({ ...data, requirements: [], technicalCapabilities: [] }));
 
         try {
             const importResult =
@@ -286,52 +338,58 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
                           text: savedData.businessDescription,
                       });
             if (run !== operation.current) return;
-            setSavedData((data) => ({ ...data, rawText: importResult.raw_text, sourceSignature }));
             const structureResult = await structureMutation.mutateAsync({
                 raw_text: importResult.raw_text,
             });
             if (run !== operation.current) return;
+            setSavedData((data) => ({
+                ...data,
+                rawText: importResult.raw_text,
+                sourceSignature,
+            }));
             setRequirementsTaskId(structureResult.task_id);
             setRequirementsState('processing');
         } catch (error) {
             if (run !== operation.current) return;
             setRequirementsState('error');
+            setRequirementsStartedAt(null);
             setRequestError(error);
         }
     };
 
-    const startTechnicalCandidates = async (force = false) => {
+    const startTechnicalCandidates = async (force = false, selectedRequirementIds?: string[]) => {
         if (!force && ['done', 'processing', 'starting'].includes(technicalState)) {
             setStepVariant(AssessmentStepVariants.TECHNICAL_CAPABILITIES);
             return;
         }
         const run = ++operation.current;
         setRequestError(null);
-        setTechnicalTaskId(null);
-        setCatalogTaskId(null);
-        setAssessmentState('idle');
+        setTechnicalStartedAt(Date.now());
         setTechnicalState('starting');
-        setCatalogState('idle');
         setStepVariant(AssessmentStepVariants.TECHNICAL_CAPABILITIES);
-        setSavedData((data) => ({ ...data, technicalCapabilities: [] }));
 
         try {
+            const selectedIds = new Set(selectedRequirementIds ?? savedData.selectedRequirementIds);
             const taskDescription = savedData.rawText
                 ? (await postTCDataDescriptionForAssessment({ raw_content: savedData.rawText }))
                       .data.task_description
                 : '';
             if (run !== operation.current) return;
-            setSavedData((data) => ({ ...data, taskDescription, candidateIndex: 0 }));
             const result = await technicalMutation.mutateAsync({
-                requirements: savedData.requirements,
+                requirements: savedData.requirements.filter(({ id }) => selectedIds.has(id)),
                 taskDescription,
             });
             if (run !== operation.current) return;
+            setSavedData((data) => ({
+                ...data,
+                taskDescription,
+            }));
             setTechnicalTaskId(result.taskId);
             setTechnicalState('processing');
         } catch (error) {
             if (run !== operation.current) return;
             setTechnicalState('error');
+            setTechnicalStartedAt(null);
             setRequestError(error);
         }
     };
@@ -346,6 +404,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
         const run = operation.current;
         setRequestError(null);
         setCatalogTaskId(null);
+        setCatalogStartedAt(Date.now());
         setCatalogState('starting');
 
         try {
@@ -365,6 +424,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
         } catch (error) {
             if (run !== operation.current) return;
             setCatalogState('error');
+            setCatalogStartedAt(null);
             setRequestError(error);
         } finally {
             catalogStarting.current = false;
@@ -377,6 +437,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
         assessmentSaving.current = true;
         const nextImpactLevel = buildImpact(savedData.technicalCapabilities).impactLevel;
         setRequestError(null);
+        setAssessmentStartedAt(Date.now());
 
         try {
             await createAssessmentMutation.mutateAsync(
@@ -391,6 +452,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
             }
             setImpactLevel(nextImpactLevel);
             setAssessmentState('done');
+            setAssessmentStartedAt(null);
             setStepVariant(AssessmentStepVariants.ASSESSMENT);
             showSnackbar({
                 message:
@@ -398,6 +460,7 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
             });
         } catch (error) {
             setRequestError(error);
+            setAssessmentStartedAt(null);
         } finally {
             assessmentSaving.current = false;
         }
@@ -485,65 +548,79 @@ const ProjectAssessmentForm = ({ projectId }: { projectId: string | null }) => {
                     }))}
                 />
             </S.Subheader>
-            <S.StepContent>
-                {requestError ? (
-                    <S.ErrorBannerWrapper>
-                        <Banner
-                            color="error"
-                            iconName={Icons.WarningCircled}
-                            title={getErrorMessage(requestError)}
-                            onClose={() => setRequestError(null)}
-                        />
-                    </S.ErrorBannerWrapper>
-                ) : null}
-                <S.StepBody>
-                    {stepVariant === AssessmentStepVariants.BUSINESS_STATEMENT && (
-                        <BusinessStatementStep
-                            savedData={savedData}
-                            setSavedData={setSavedData}
-                            onNext={() => void startRequirements()}
-                        />
-                    )}
-                    {stepVariant === AssessmentStepVariants.REQUIREMENTS && (
-                        <RequirementsStep
-                            savedData={savedData}
-                            processState={
-                                requirementsState === 'idle' ? 'starting' : requirementsState
-                            }
-                            progress={requirementsProgress}
-                            onBack={() => goToStep(0)}
-                            onNext={() => void startTechnicalCandidates()}
-                            onRestart={() => void startRequirements(true)}
-                        />
-                    )}
-                    {stepVariant === AssessmentStepVariants.TECHNICAL_CAPABILITIES && (
-                        <TechnicalCapabilitiesStep
-                            savedData={savedData}
-                            setSavedData={setSavedData}
-                            discoveryState={technicalState === 'idle' ? 'starting' : technicalState}
-                            discoveryProgress={technicalProgressQuery.data?.progress ?? 10}
-                            catalogState={catalogState}
-                            catalogProgress={catalogProgressQuery.data?.progress ?? 10}
-                            onAnalyze={startCatalogAnalysis}
-                            onBack={() => goToStep(1)}
-                            onNext={() => void startAssessment()}
-                            nextLoading={createAssessmentMutation.isPending}
-                            onRestart={() => void startTechnicalCandidates(true)}
-                        />
-                    )}
-                    {stepVariant === AssessmentStepVariants.ASSESSMENT && (
-                        <AssessmentResultStep
-                            savedData={savedData}
-                            processState={assessmentState === 'idle' ? 'starting' : assessmentState}
-                            progress={100}
-                            impactLevel={impactLevel}
-                            onBack={() => goToStep(2)}
-                            setSavedData={setSavedData}
-                            project={projectQuery.data}
-                        />
-                    )}
-                </S.StepBody>
-            </S.StepContent>
+            <S.FormFieldset disabled={draftTabLockState !== 'owner'}>
+                <S.StepContent>
+                    {requestError ? (
+                        <S.ErrorBannerWrapper>
+                            <Banner
+                                color="error"
+                                iconName={Icons.WarningCircled}
+                                title={getErrorMessage(requestError)}
+                                onClose={() => setRequestError(null)}
+                            />
+                        </S.ErrorBannerWrapper>
+                    ) : null}
+                    <S.StepBody>
+                        {stepVariant === AssessmentStepVariants.BUSINESS_STATEMENT && (
+                            <BusinessStatementStep
+                                savedData={savedData}
+                                setSavedData={setSavedData}
+                                onNext={() => void startRequirements()}
+                            />
+                        )}
+                        {stepVariant === AssessmentStepVariants.REQUIREMENTS && (
+                            <RequirementsStep
+                                savedData={savedData}
+                                setSavedData={setSavedData}
+                                processState={
+                                    requirementsState === 'idle' ? 'starting' : requirementsState
+                                }
+                                progress={requirementsProgress}
+                                phase={requirementsProgressQuery.data?.phase}
+                                processingStartedAt={requirementsStartedAt}
+                                onBack={() => goToStep(0)}
+                                onNext={(selectedRequirementIds) =>
+                                    void startTechnicalCandidates(true, selectedRequirementIds)
+                                }
+                                onRestart={() => void startRequirements(true)}
+                            />
+                        )}
+                        {stepVariant === AssessmentStepVariants.TECHNICAL_CAPABILITIES && (
+                            <TechnicalCapabilitiesStep
+                                savedData={savedData}
+                                setSavedData={setSavedData}
+                                discoveryState={
+                                    technicalState === 'idle' ? 'starting' : technicalState
+                                }
+                                discoveryProgress={technicalProgressQuery.data?.progress ?? 10}
+                                discoveryStartedAt={technicalStartedAt}
+                                catalogState={catalogState}
+                                catalogProgress={catalogProgressQuery.data?.progress ?? 10}
+                                catalogStartedAt={catalogStartedAt}
+                                onAnalyze={startCatalogAnalysis}
+                                onBack={() => goToStep(1)}
+                                onNext={() => void startAssessment()}
+                                nextLoading={createAssessmentMutation.isPending}
+                                onRestart={() => void startTechnicalCandidates(true)}
+                            />
+                        )}
+                        {stepVariant === AssessmentStepVariants.ASSESSMENT && (
+                            <AssessmentResultStep
+                                savedData={savedData}
+                                processState={
+                                    assessmentState === 'idle' ? 'starting' : assessmentState
+                                }
+                                progress={100}
+                                processingStartedAt={assessmentStartedAt}
+                                impactLevel={impactLevel}
+                                onBack={() => goToStep(2)}
+                                setSavedData={setSavedData}
+                                project={projectQuery.data}
+                            />
+                        )}
+                    </S.StepBody>
+                </S.StepContent>
+            </S.FormFieldset>
         </S.PageWrapper>
     );
 };
