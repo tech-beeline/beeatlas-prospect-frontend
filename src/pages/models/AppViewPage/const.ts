@@ -9,6 +9,7 @@ export enum TabVariants {
     PATTERNS = 'PATTERNS',
     REQUIREMENTS = 'REQUIREMENTS',
     DIAGRAMS = 'DIAGRAMS',
+    DEPLOYMENT = 'DEPLOYMENT',
     DATA = 'DATA',
     STANDS = 'STANDS',
 }
@@ -17,6 +18,10 @@ export const TABS = [
     {
         id: TabVariants.GENERAL_INFO,
         label: 'Общая информация',
+    },
+    {
+        id: TabVariants.DEPLOYMENT,
+        label: 'Развёртывание',
     },
     {
         id: TabVariants.INTERFACES_AND_METHODS,
@@ -51,3 +56,5 @@ export const TABS = [
         label: 'Диаграммы',
     },
 ];
+
+export const DEPLOYMENT_ENV_PARAM = 'env';

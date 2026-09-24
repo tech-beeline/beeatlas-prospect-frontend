@@ -8,3 +8,15 @@ public/env/env
 /frontend-arhitect-area.iml
 .npmrc
 package-lock.json
+
+# Локальная отладка на dev-стенде (docker-compose.yml + каталог docker/)
+# и корпоративные сертификаты для неё — не часть приложения, в репозиторий
+# не коммитятся. Если захотите поделиться настройкой с командой — уберите
+# эти строки.
+/docker-compose.yml
+/docker/
+certs/*.crt
+
+# Точка монтирования страницы засева токенов (см. docker-compose.yml):
+# пустой каталог, который создаёт Docker.
+public/__dev
