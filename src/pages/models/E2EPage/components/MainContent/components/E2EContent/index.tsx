@@ -38,12 +38,13 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
     useAdditionalPageContext('e2eContentTab', tabVariant);
 
     const { data, isLoading } = useGetSequenceCallsByIdQuery(activeBiStep.code);
+    const isPlantuml = data && data.e2e.source === 'PLANTUML';
 
     return (
         <>
             <S.TitleContainer>
                 <Text variant="h4">{activeBiStep.name}</Text>
-                {data && data.e2e.source !== 'SPARX' && (
+                {isPlantuml && (
                     <S.ButtonContainer>
                         <Button
                             size="small"

@@ -18,7 +18,7 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
 
     const navigate = useNavigate();
 
-    const isSparx = data && data.e2e.source === 'SPARX';
+    const isPlantuml = data && data.e2e.source === 'PLANTUML';
 
     return (
         <>
@@ -28,12 +28,11 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
                     <NotFoundBlock
                         imageVariant={ImageVariants.EMPTY_BOX}
                         title="Нет данных"
-                        text={isSparx ? '' : 'Импортируйте PlantUml в созданный E2E '}
-                        buttonText={isSparx ? undefined : 'Импорт PlantUml'}
+                        text={isPlantuml ? 'Импортируйте PlantUml в созданный E2E' : ''}
+                        buttonText={isPlantuml ? 'Импорт PlantUml' : undefined}
                         buttonProps={
-                            isSparx
-                                ? undefined
-                                : {
+                            isPlantuml
+                                ? {
                                       startIcon: <Icon iconName={Icons.Import} />,
                                       onClick: () =>
                                           navigate(
@@ -45,6 +44,7 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
                                               }).toString()}`,
                                           ),
                                   }
+                                : undefined
                         }
                     />
                 </S.NotFoundContainer>
