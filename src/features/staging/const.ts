@@ -18,6 +18,7 @@ export const pipelineStatusToNameMap: Record<PipelineStatuses, string> = {
     [PipelineStatuses.TRANSFORMING]: 'Трансформация',
     [PipelineStatuses.SAVING]: 'Сохранение',
     [PipelineStatuses.PUBLISHING]: 'Публикация',
+    [PipelineStatuses.AWAITING_REVIEW]: 'Ожидает проверки',
     [PipelineStatuses.COMPLETED]: 'Завершён',
     [PipelineStatuses.FAILED]: 'Ошибка',
 };
@@ -29,6 +30,7 @@ export const pipelineStatusToSemanticMap: Record<PipelineStatuses, BadgeSemantic
     [PipelineStatuses.TRANSFORMING]: 'info',
     [PipelineStatuses.SAVING]: 'info',
     [PipelineStatuses.PUBLISHING]: 'info',
+    [PipelineStatuses.AWAITING_REVIEW]: 'warning',
     [PipelineStatuses.COMPLETED]: 'success',
     [PipelineStatuses.FAILED]: 'danger',
 };
@@ -40,6 +42,7 @@ export const pipelineStatusToIconMap: Record<PipelineStatuses, Icons> = {
     [PipelineStatuses.TRANSFORMING]: Icons.RefreshDouble,
     [PipelineStatuses.SAVING]: Icons.RefreshDouble,
     [PipelineStatuses.PUBLISHING]: Icons.RefreshDouble,
+    [PipelineStatuses.AWAITING_REVIEW]: Icons.Clock,
     [PipelineStatuses.COMPLETED]: Icons.Check,
     [PipelineStatuses.FAILED]: Icons.WarningCircled,
 };

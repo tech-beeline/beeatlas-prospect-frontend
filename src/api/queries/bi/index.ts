@@ -5,6 +5,7 @@ import {
     getBIById,
     getBICollection,
     getBIEditabilityById,
+    getBusinessInteractions,
     getPlantUML,
     getSequenceDiagram,
     getTechCapibility,
@@ -33,6 +34,13 @@ export const useGetBICollectionQuery = (params: IGetBICollectionParams) => {
                 (res) => res.data,
             ),
         placeholderData: keepPreviousData,
+    });
+};
+
+export const useGetBusinessInteractionsQuery = () => {
+    return useQuery<IBIData[]>({
+        queryKey: [BI_PREFIX, 'business-interactions'],
+        queryFn: () => getBusinessInteractions().then((res) => res.data),
     });
 };
 

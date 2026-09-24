@@ -5,37 +5,41 @@ import { FileUploaderListItem } from 'components/ui';
 export const Form = styled.form`
     display: flex;
     flex: 1;
+    width: 100%;
     min-height: 0;
+    min-width: 0;
     flex-direction: column;
-    align-items: center;
 `;
 
 export const ScrollArea = styled.div`
     flex: 1;
-
-    min-height: 0;
     width: 100%;
-    max-width: 910px;
-
-    margin: 32px 0px;
-
+    min-height: 0;
+    min-width: 0;
+    overflow-x: hidden;
     overflow-y: auto;
 `;
 
 export const Content = styled.div`
     display: flex;
+    box-sizing: border-box;
+    width: min(910px, calc(100% - 48px));
+    min-width: 0;
+    margin: 32px auto;
     flex-direction: column;
     gap: 32px;
 `;
 
 export const FieldGroup = styled.section`
     display: flex;
+    min-width: 0;
     flex-direction: column;
     gap: 16px;
 `;
 
 export const FileRow = styled.div`
     display: flex;
+    min-width: 0;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
@@ -59,7 +63,9 @@ export const FileUploaderListItemStyled = styled(FileUploaderListItem)`
 `;
 
 export const FileName = styled.div`
+    min-width: 0;
     margin-left: -32px;
+    overflow-wrap: anywhere;
 `;
 
 export const FileMetadata = styled.div`
@@ -78,6 +84,7 @@ export const FileActions = styled.div`
 export const Footer = styled.footer`
     width: 100%;
     display: flex;
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
     padding: 16px 24px;

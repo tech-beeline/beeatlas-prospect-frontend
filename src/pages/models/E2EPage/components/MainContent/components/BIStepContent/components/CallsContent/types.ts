@@ -1,5 +1,5 @@
 export interface ICallsContent {
-    code: string;
+    e2eCodes: string[];
 }
 
 export interface ITreeItem {
