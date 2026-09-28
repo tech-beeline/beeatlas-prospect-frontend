@@ -1,14 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 import { Search } from 'components/ui';
 import { Button, Skeleton, TableBody, TableData, TableHead, TableRow } from 'components/ui';
 
-import {
-    useGetAllProductsQuery,
-    useGetFitnessFunctionsAggregationQuery,
-} from 'api/queries/product';
+import { useGetAllProductsQuery } from 'api/queries/product';
 import { useDebounce } from 'hooks';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
@@ -19,37 +16,7 @@ export const AppsPage = () => {
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
 
-    const { data: productsData, isLoading: isLoadingProducts } = useGetAllProductsQuery();
-    const { data: fitnessAggregationData, isLoading: isLoadingFitnessAggregation } =
-        useGetFitnessFunctionsAggregationQuery();
-
-    const isLoading = isLoadingProducts || isLoadingFitnessAggregation;
-
-    const fitnessStatsByAlias = useMemo(() => {
-        if (!fitnessAggregationData) return {};
-
-        const total = fitnessAggregationData.fitnessFunctionEnum.length;
-
-        return Object.fromEntries(
-            fitnessAggregationData.domain.flatMap((d) =>
-                d.product.map((p) => {
-                    const checked = p.fitnessFunctions.reduce(
-                        (count, ff) => count + (ff.is_check ? 1 : 0),
-                        0,
-                    );
-
-                    return [
-                        p.alias,
-                        {
-                            total,
-                            checked,
-                            percent: total ? (checked / total) * 100 : 0,
-                        },
-                    ];
-                }),
-            ),
-        );
-    }, [fitnessAggregationData]);
+    const { data: productsData, isLoading } = useGetAllProductsQuery();
 
     const filteredProducts = (productsData ?? []).filter(
         (product) =>
@@ -91,7 +58,6 @@ export const AppsPage = () => {
                                 <S.TableHeaderDataStyled>
                                     Structurizr&nbsp;OnPremises
                                 </S.TableHeaderDataStyled>
-                                <S.TableHeaderDataStyled>Фитнес-функций</S.TableHeaderDataStyled>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -108,18 +74,6 @@ export const AppsPage = () => {
                                     <TableData>
                                         {product.structurizrApiUrl ? (
                                             <Link url={product.structurizrApiUrl} />
-                                        ) : (
-                                            formatNullableString(null)
-                                        )}
-                                    </TableData>
-                                    <TableData alignRight={true}>
-                                        {fitnessStatsByAlias[product.alias]?.total ? (
-                                            <span>
-                                                {fitnessStatsByAlias[
-                                                    product.alias
-                                                ].percent.toFixed()}
-                                                %
-                                            </span>
                                         ) : (
                                             formatNullableString(null)
                                         )}
