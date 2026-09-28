@@ -1,3 +1,3 @@
 export interface IObservabilityContent {
-    code: string;
+    e2eCodes: string[];
 }

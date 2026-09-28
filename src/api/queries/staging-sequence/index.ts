@@ -28,10 +28,11 @@ export const useGetStagingSequenceBiStepsQuery = () => {
     });
 };
 
-export const useGetSequenceAlertByIdQuery = (uid: string) => {
+export const useGetSequenceAlertByIdQuery = (uid: string | null) => {
     return useQuery({
         queryKey: [STAGING_SEQUENCE_PREFIX, 'SEQUENCE_ALERT', uid],
-        queryFn: () => getSequenceAlertById(uid).then((res) => res.data),
+        queryFn: () => getSequenceAlertById(uid!).then((res) => res.data),
+        enabled: !!uid,
     });
 };
 

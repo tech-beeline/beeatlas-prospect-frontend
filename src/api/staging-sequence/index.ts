@@ -13,13 +13,13 @@ export const getStagingSequenceCjTree = (): AxiosPromise<T.IStagingSequenceCJ[]>
 
 export const getSequenceAlertById = (uid: string): AxiosPromise<T.IStagingSequenceAlert> => {
     return Api.get({
-        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/sequences/${uid}/dashboards/1`,
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v2/sequences/${uid}/dashboards/1`,
     });
 };
 
 export const postSequenceAlertById = (uid: string, data: T.IStagingSequenceAlertForm) => {
     return Api.post({
-        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/sequences/${uid}/dashboards/1`,
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v2/sequences/${uid}/dashboards/1`,
         data,
     });
 };
