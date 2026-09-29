@@ -13,8 +13,16 @@ import { useSnackbarStore } from 'widgets/Snackbar';
 import { ICreateAlertSidebar } from './types';
 import * as S from './units';
 
-export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({ isOpen, onClose, data, code }) => {
+export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
+    isOpen,
+    onClose,
+    data,
+    selectedE2ECode,
+}) => {
     const [comment, setComment] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    useEffect(() => setErrorMessage(null), [comment]);
 
     const userInfo = useAuthStore((store) => store.userInfo);
 
@@ -23,12 +31,23 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({ isOpen, onClose, d
     const { mutateAsync: createSequenceAlert, isPending } = usePostSequenceAlertByIdMutation();
 
     const handleSave = async () => {
-        await createSequenceAlert({
-            uid: code,
-            data: { creator: `${userInfo?.family_name} ${userInfo?.given_name}`, note: comment },
-        });
-        showSnackbar({ message: data ? 'Alerts обновлен' : 'Alerts создан' });
-        onClose();
+        if (!selectedE2ECode) return;
+        setErrorMessage(null);
+        try {
+            await createSequenceAlert({
+                uid: encodeURI(selectedE2ECode),
+                data: {
+                    creator: `${userInfo?.family_name} ${userInfo?.given_name}`,
+                    note: comment,
+                },
+            });
+            showSnackbar({ message: data ? 'Alerts обновлен' : 'Alerts создан' });
+            onClose();
+        } catch (e) {
+            const message =
+                (e as any).response?.data?.errorMessage || (e as any).response?.data?.errorMesssage;
+            setErrorMessage(message);
+        }
     };
 
     useEffect(() => {
@@ -56,6 +75,8 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({ isOpen, onClose, d
                         label="Комментарий"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
+                        error={!!errorMessage}
+                        helperText={errorMessage || undefined}
                     />
                 </S.Content>
                 <S.Footer>
@@ -72,7 +93,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({ isOpen, onClose, d
                             onClick={handleSave}
                             showProgress={isPending}
                             state={isPending ? 'loading' : 'default'}
-                            disabled={isPending}
+                            disabled={!selectedE2ECode || isPending}
                         >
                             {data ? 'Обновить' : 'Создать'}
                         </S.ProgressButtonStyled>

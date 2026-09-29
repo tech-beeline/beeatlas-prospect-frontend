@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
-import { Button, Icon, Skeleton } from 'components/ui';
+import { Button, Chip, Icon, Skeleton } from 'components/ui';
 
 import { useGetSequenceAlertByIdQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
@@ -12,15 +12,33 @@ import { CreateAlertSidebar } from './components';
 import { IObservabilityContent } from './types';
 import * as S from './units';
 
-export const ObservabilityContent: FC<IObservabilityContent> = ({ code }) => {
+export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) => {
+    const [selectedCode, setSelectedCode] = useState<null | string>(null);
+
+    useEffect(() => {
+        setSelectedCode(e2eCodes[0]);
+    }, [e2eCodes]);
+
     const { openModal, closeModal, modalOpened } = useModal();
 
-    const { data, error, isLoading } = useGetSequenceAlertByIdQuery(code);
+    const { data, error, isLoading } = useGetSequenceAlertByIdQuery(selectedCode);
 
     return (
         <>
+            {e2eCodes.length > 1 && (
+                <S.ChipsContainer>
+                    {e2eCodes.map((code) => (
+                        <Chip
+                            key={code}
+                            label={code}
+                            active={selectedCode === code}
+                            onClick={() => setSelectedCode(code)}
+                        />
+                    ))}
+                </S.ChipsContainer>
+            )}
             {isLoading && <Skeleton radius={12} height={100} />}
-            {(data || error) && (
+            {(data || error) && !isLoading && (
                 <S.AlertContainer>
                     <S.TitleContainer>
                         <div>
@@ -88,7 +106,12 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ code }) => {
                     </S.ButtonContainer>
                 </S.AlertContainer>
             )}
-            <CreateAlertSidebar isOpen={modalOpened} onClose={closeModal} data={data} code={code} />
+            <CreateAlertSidebar
+                isOpen={modalOpened}
+                onClose={closeModal}
+                data={data}
+                selectedE2ECode={selectedCode}
+            />
         </>
     );
 };

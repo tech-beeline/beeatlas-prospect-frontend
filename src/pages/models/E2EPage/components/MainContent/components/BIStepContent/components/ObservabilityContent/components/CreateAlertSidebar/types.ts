@@ -4,5 +4,5 @@ export interface ICreateAlertSidebar {
     isOpen: boolean;
     onClose: () => void;
     data?: IStagingSequenceAlert;
-    code: string;
+    selectedE2ECode: string | null;
 }

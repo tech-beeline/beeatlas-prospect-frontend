@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
 
+export const ChipsContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+`;
+
 export const AlertContainer = styled.div`
     display: flex;
     flex-direction: column;
