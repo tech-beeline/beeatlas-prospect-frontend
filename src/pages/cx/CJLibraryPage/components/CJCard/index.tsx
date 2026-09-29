@@ -36,7 +36,6 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
     const { data: allProducts, isLoading: isLoadingAllProducts } = useGetAllProductsQuery();
     const { mutateAsync: deleteCj } = useDeleteCJMutation();
     const productIdStr = String(cj.productId ?? cj.id_product ?? cj.idProductExt);
-    const userProductIds = products?.map((product) => String(product.id)) || [];
     const handleCJClick = (id?: number) => {
         navigate(
             {
@@ -50,7 +49,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
             },
         );
     };
-    const hasAccessToProduct = userProductIds.includes(productIdStr);
+
     const currentProduct = allProducts?.find((product) => String(product.id) === productIdStr);
 
     return (
@@ -77,7 +76,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 title: 'Редактировать',
                                 icon: Icons.Edit,
                                 onClick: () => handleCJClick(cj.id),
-                                disabled: !hasAccessToProduct,
+                                disabled: !cj.draft,
                             },
                         ],
                         [
@@ -86,7 +85,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                                 icon: Icons.Delete,
                                 onClick: async () => deleteCj(String(cj.id)),
                                 dangerous: true,
-                                disabled: !hasAccessToProduct || !cj.draft,
+                                disabled: !cj.draft,
                             },
                         ],
                     ]}
