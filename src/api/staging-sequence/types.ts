@@ -90,7 +90,7 @@ export interface IStagingSequenceRelatedCJ {
     id: number;
     uid: string;
     name: string;
-    bDraft: boolean;
+    bdraft: boolean;
 }
 
 export interface IStagingSequenceBiStepData {

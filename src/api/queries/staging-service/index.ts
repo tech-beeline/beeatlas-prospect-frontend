@@ -2,6 +2,8 @@ import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 
 import {
     applyE2EPlantUmlPipeline,
+    applyProjectUsecasePipeline,
+    cancelProjectUsecasePipeline,
     declineE2EPlantUmlPipeline,
     downloadE2EPlantUmlFile,
     getArtifactByUid,
@@ -17,19 +19,27 @@ import {
     getPipelineRunById,
     getPipelineRunDetails,
     getPipelineRuns,
+    getProjectUsecasePipelineStatus,
     getRawData,
+    saveProjectUsecaseMapping,
     startE2EPlantUmlPipeline,
+    startProjectUsecasePipeline,
     uploadE2EPlantUmlFile,
     validateE2EPlantUmlFile,
 } from 'api/staging-service';
 import {
+    IApplyProjectUsecasePipelineParams,
+    ICancelProjectUsecasePipelineParams,
     IGetArtifactPipelinesSearchParams,
     IGetArtifactSearchParams,
     IGetE2EPlantUmlPipelineStatusParams,
     IGetPipelineAnnotationsParams,
     IGetPipilineChildRunsParams,
     IGetPipilineRunsParams,
+    IGetProjectUsecasePipelineStatusParams,
+    IProjectUsecaseMappingDecision,
     IStartE2EPlantUmlPipelineParams,
+    IStartProjectUsecasePipelineParams,
 } from 'api/staging-service/types';
 
 const STAGING_SERVICE_PREFIX = 'STAGING_SERVICE_PREFIX';
@@ -185,6 +195,51 @@ export const useDeclineE2EPlantUmlPipelineMutation = () => {
         mutationKey: [STAGING_SERVICE_PREFIX, 'E2E_PLANTUML', 'PIPELINE', 'DECLINE'],
         mutationFn: (runId: string | number) =>
             declineE2EPlantUmlPipeline(runId).then((res) => res.data),
+    });
+};
+
+export const useStartProjectUsecasePipelineMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'PROJECT_USECASE', 'PIPELINE', 'START'],
+        mutationFn: (params: IStartProjectUsecasePipelineParams) =>
+            startProjectUsecasePipeline(params).then((res) => res.data),
+    });
+};
+
+export const useGetProjectUsecasePipelineStatusMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'PROJECT_USECASE', 'PIPELINE', 'STATUS'],
+        mutationFn: (params: IGetProjectUsecasePipelineStatusParams) =>
+            getProjectUsecasePipelineStatus(params).then((res) => res.data),
+    });
+};
+
+interface ISaveProjectUsecaseMappingParams {
+    runId: string | number;
+    decision: IProjectUsecaseMappingDecision;
+}
+
+export const useSaveProjectUsecaseMappingMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'PROJECT_USECASE', 'PIPELINE', 'MAPPING'],
+        mutationFn: ({ runId, decision }: ISaveProjectUsecaseMappingParams) =>
+            saveProjectUsecaseMapping(runId, decision).then((res) => res.data),
+    });
+};
+
+export const useApplyProjectUsecasePipelineMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'PROJECT_USECASE', 'PIPELINE', 'APPLY'],
+        mutationFn: (params: IApplyProjectUsecasePipelineParams) =>
+            applyProjectUsecasePipeline(params).then((res) => res.data),
+    });
+};
+
+export const useCancelProjectUsecasePipelineMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'PROJECT_USECASE', 'PIPELINE', 'CANCEL'],
+        mutationFn: (params: ICancelProjectUsecasePipelineParams) =>
+            cancelProjectUsecasePipeline(params).then((res) => res.data),
     });
 };
 

@@ -12,6 +12,11 @@ export const PageWrapper = styled.div`
     background-color: var(--color-background-base);
     color: var(--color-text-active);
 `;
+export const SkeletonContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+`;
 
 export const ProjectHeader = styled.div`
     display: flex;

@@ -66,6 +66,34 @@ export interface IPipelineRunDetails {
     rawDataRefId: number | null;
 }
 
+export interface IArtifactPipelineRunStage {
+    id: number;
+    stageName: string;
+    status: PipelineStatuses;
+    inputData: string;
+    outputData: string;
+    summaryJson: Record<string, unknown> | null;
+    startedAt: string;
+    completedAt: string | null;
+    failureReason: string | null;
+}
+
+export interface IArtifactPipelineRun {
+    runId: number;
+    scanRunId: number;
+    artifactUid: string;
+    artifactName: string;
+    artifactType: string;
+    status: PipelineStatuses;
+    sourceName: string;
+    startedAt: string;
+    executionStartedAt: string;
+    completedAt: string | null;
+    rawDataRefId: number | null;
+    batch: number;
+    stages: IArtifactPipelineRunStage[];
+}
+
 export interface IGetPipilineRunsParams {
     limit?: number;
     offset?: number;
@@ -346,4 +374,173 @@ export interface IGetE2EPlantUmlPipelineStatusParams {
     runId: string | number;
     waitFor: E2EPlantUmlPipelineWaitFor;
     timeoutMs?: number;
+}
+
+export interface IStartProjectUsecasePipelineParams {
+    artifactType: 'usecase';
+    artifactUid: string;
+    source: 'manual';
+    payload: {
+        projectCode: string;
+        name: string;
+        plantUml: string;
+        biStepCode?: string;
+    };
+    supersedesRunId?: number;
+    branch?: string;
+}
+
+export interface IProjectUsecasePipelineRun {
+    runId: number;
+    artifactType: 'usecase';
+    artifactUid: string;
+    status: PipelineStatuses;
+    statusUrl: string;
+}
+
+export type ProjectUsecasePipelineOperationStatus =
+    | 'matched'
+    | 'architect_specified'
+    | 'planned'
+    | 'unmapped';
+
+export interface IProjectUsecasePipelineParticipant {
+    alias: string;
+    name: string;
+    resolved: boolean;
+    productAlias?: string;
+    productName?: string;
+    source?: 'cmdb' | 'architect_decision';
+}
+
+export interface IProjectUsecasePipelineOperationDetails {
+    operationVersionId: number;
+    name: string;
+    type: string;
+    interfaceCode: string;
+    interfaceName: string;
+    containerCode: string;
+    productAlias: string;
+    productName: string;
+}
+
+export interface IProjectUsecasePipelineConnectionOperation {
+    id: number;
+    interfaceId: number;
+    operationType: string;
+    operationName: string;
+    interfaceCode: string;
+    containerCode: string;
+    productAlias: string;
+}
+
+export interface IProjectUsecasePipelineCandidate {
+    status: string;
+    connectionOperationId?: number;
+    operationName?: string;
+    operationType?: string;
+    interfaceCode?: string;
+    productAlias?: string;
+    productName?: string;
+}
+
+export interface IProjectUsecasePipelineStep {
+    partId: string;
+    seq: number;
+    scenarioType: string;
+    stepType: string;
+    name: string;
+    fromAlias: string;
+    stepVersionId: number;
+}
+
+export interface IProjectUsecasePipelineOperation {
+    operationId: string;
+    toAlias: string;
+    type: string;
+    path: string;
+    unknown: boolean;
+    status: ProjectUsecasePipelineOperationStatus;
+    source?: 'auto' | 'architect_decision';
+    reason?: string;
+    suggestion?: string;
+    operation?: IProjectUsecasePipelineOperationDetails;
+    connectionOperation?: IProjectUsecasePipelineConnectionOperation;
+    candidate?: IProjectUsecasePipelineCandidate;
+    steps: IProjectUsecasePipelineStep[];
+}
+
+export interface IProjectUsecasePipelineResult {
+    usecase: {
+        code: string;
+        name: string;
+        biStepCode?: string;
+        projectCode: string;
+    };
+    branch: string;
+    participants: IProjectUsecasePipelineParticipant[];
+    operations: IProjectUsecasePipelineOperation[];
+}
+
+export interface IProjectUsecasePipelineStatus {
+    runId: number;
+    artifactType: 'usecase';
+    artifactUid: string;
+    status: PipelineStatuses | 'reviewing' | 'applying' | 'cancelled';
+    stage: string | null;
+    noticesCount: number;
+    result: IProjectUsecasePipelineResult | null;
+    more: boolean;
+}
+
+export interface IGetProjectUsecasePipelineStatusParams {
+    runId: string | number;
+    waitFor: 'awaiting_review' | 'terminal';
+    timeoutMs?: number;
+}
+
+export type IProjectUsecaseMappingDecision =
+    | {
+          type: 'map_existing';
+          operationId: string;
+          connectionOperation: IProjectUsecasePipelineConnectionOperation;
+          participant: string;
+          productAlias: string;
+      }
+    | {
+          type: 'planned';
+          operationId: string;
+      }
+    | {
+          type: 'product';
+          operationId: string;
+          participant: string;
+          productAlias: string;
+      };
+
+export interface IProjectUsecaseMappingResponse {
+    runId: number;
+    status: 'reviewing';
+    result: IProjectUsecasePipelineResult;
+}
+
+export interface IApplyProjectUsecasePipelineParams {
+    runId: string | number;
+    comment?: string;
+}
+
+export interface IApplyProjectUsecasePipelineResponse {
+    runId: number;
+    status: 'applying';
+    statusUrl: string;
+}
+
+export interface ICancelProjectUsecasePipelineParams {
+    runId: string | number;
+    reason?: string;
+}
+
+export interface ICancelProjectUsecasePipelineResponse {
+    runId: number;
+    status: 'cancelled';
 }

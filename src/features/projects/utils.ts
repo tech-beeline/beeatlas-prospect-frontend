@@ -1,6 +1,7 @@
 import { BadgeSemantic } from 'components/ui';
 
 import { AssessmentResults, ProjectStatuses } from 'api/projects/types';
+import { IProjectUsecaseDetails } from 'api/usecase';
 import { formatNullableString } from 'utils/formatters';
 
 import {
@@ -21,3 +22,13 @@ export const getProjectAssessmentName = (status: AssessmentResults | null): stri
 
 export const getProjectAssessmentSemantic = (status: AssessmentResults | null): BadgeSemantic =>
     status ? assessmentResultToSemanticMap[status] : 'neutral';
+
+export const getProjectUsecaseLatestDate = (
+    usecase: Pick<IProjectUsecaseDetails, 'createdDate' | 'updatedDate'>,
+) => {
+    if (!usecase.updatedDate) return usecase.createdDate;
+
+    return Date.parse(usecase.updatedDate) > Date.parse(usecase.createdDate)
+        ? usecase.updatedDate
+        : usecase.createdDate;
+};

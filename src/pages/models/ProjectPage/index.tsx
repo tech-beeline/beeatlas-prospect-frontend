@@ -11,39 +11,38 @@ import { Badge, Breadcrumbs, Chip, Skeleton, Tab, Tabs } from 'components/ui';
 
 import { IProjectAgent } from 'api/projects/types';
 import { useGetProjectAssessmentsByIdQuery, useGetProjectByIdQuery } from 'api/queries/projects';
+import { useGetProjectUsecasesQuery } from 'api/queries/usecase';
 import * as R from 'router/const';
 import { formatDateToUTC } from 'utils/formatters';
 
 import { draftKey } from '../ProjectAssessmentAddPage/draft';
 
-import { AgentCard, AssessmentCard } from './components';
-import { PROJECT_AGENTS } from './const';
+import { AgentCard, AssessmentCard, UsecaseResults } from './components';
+import { PROJECT_AGENTS, ProjectDataView, ProjectTab } from './const';
 import * as S from './units';
-
-type ProjectTab = 'data' | 'agents';
-type ProjectDataView = 'business' | 'assessment';
-// type AgentView = 'internal' | 'external';
 
 export const ProjectPage = () => {
     const [params] = useSearchParams();
     const id = params.get('id');
     const navigate = useNavigate();
 
-    const [tab, setTab] = useState<ProjectTab>('data');
-    const [dataView, setDataView] = useState<ProjectDataView>('business');
-    // const [agentView, setAgentView] = useState<AgentView>('internal');
+    const [tab, setTab] = useState<ProjectTab>(ProjectTab.DATA);
+    const [dataView, setDataView] = useState<ProjectDataView>(ProjectDataView.BUSINESS);
 
     const { data: project, isLoading: isLoadingProject } = useGetProjectByIdQuery(id);
     const { data: projectAssessments, isLoading: isLoadingAssessments } =
         useGetProjectAssessmentsByIdQuery(id);
+    const { data: usecases = [], isLoading: isLoadingUsecases } = useGetProjectUsecasesQuery(id);
 
-    const isLoading = isLoadingProject || isLoadingAssessments;
+    const isLoading = isLoadingProject || isLoadingAssessments || isLoadingUsecases;
 
     if (isLoading) {
         return (
             <S.PageWrapper>
-                <Skeleton height={180} radius={12} />
-                <Skeleton height={420} radius={12} />
+                <S.SkeletonContainer>
+                    <Skeleton height={180} radius={12} />
+                    <Skeleton height={420} radius={12} />
+                </S.SkeletonContainer>
             </S.PageWrapper>
         );
     }
@@ -74,6 +73,11 @@ export const ProjectPage = () => {
         if (agent.id === 1) {
             navigate(
                 `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}?id=${project.id}`,
+            );
+        }
+        if (agent.id === 2) {
+            navigate(
+                `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}?id=${project.id}`,
             );
         }
     };
@@ -121,35 +125,42 @@ export const ProjectPage = () => {
                 </S.ProjectMeta>
             </S.ProjectHeader>
 
-            <Tabs selectedTabIndex={tab === 'data' ? 0 : 1}>
-                <Tab label="Данные проекта" value="data" onClick={() => setTab('data')} />
-                <Tab label="Агенты" value="agents" onClick={() => setTab('agents')} />
+            <Tabs selectedTabIndex={tab === ProjectTab.DATA ? 0 : 1}>
+                <Tab label="Данные проекта" value="data" onClick={() => setTab(ProjectTab.DATA)} />
+                <Tab label="Агенты" value="agents" onClick={() => setTab(ProjectTab.AGENTS)} />
             </Tabs>
 
-            {tab === 'data' && (
+            {tab === ProjectTab.DATA && (
                 <S.TabContent>
                     <S.Chips>
                         <Chip
-                            active={dataView === 'business'}
+                            active={dataView === ProjectDataView.BUSINESS}
                             label="Бизнес-постановка проекта"
-                            onClick={() => setDataView('business')}
+                            onClick={() => setDataView(ProjectDataView.BUSINESS)}
                         />
                         {hasAssessment && (
                             <Chip
-                                active={dataView === 'assessment'}
+                                active={dataView === ProjectDataView.ASSESSMENT}
                                 label="Оценка"
-                                onClick={() => setDataView('assessment')}
+                                onClick={() => setDataView(ProjectDataView.ASSESSMENT)}
+                            />
+                        )}
+                        {usecases.length > 0 && (
+                            <Chip
+                                active={dataView === ProjectDataView.USECASE}
+                                label="Use Case"
+                                onClick={() => setDataView(ProjectDataView.USECASE)}
                             />
                         )}
                     </S.Chips>
 
-                    {dataView === 'business' && hasAssessment && (
+                    {dataView === ProjectDataView.BUSINESS && hasAssessment && (
                         <S.MarkdownFileContainer>
                             <Markdown>{project.taskDescription}</Markdown>
                         </S.MarkdownFileContainer>
                     )}
 
-                    {dataView === 'business' && !hasAssessment && (
+                    {dataView === ProjectDataView.BUSINESS && !hasAssessment && (
                         <S.EmptyState>
                             <NotFoundBlock
                                 imageVariant={ImageVariants.EMPTY_BOX}
@@ -158,7 +169,7 @@ export const ProjectPage = () => {
                         </S.EmptyState>
                     )}
 
-                    {dataView === 'assessment' && hasAssessment && (
+                    {dataView === ProjectDataView.ASSESSMENT && hasAssessment && (
                         <S.Assessments>
                             <Text variant="subtitle1">Актуальная оценка</Text>
                             {currentAssessment && (
@@ -183,10 +194,12 @@ export const ProjectPage = () => {
                             )}
                         </S.Assessments>
                     )}
+
+                    {dataView === ProjectDataView.USECASE && <UsecaseResults usecases={usecases} />}
                 </S.TabContent>
             )}
 
-            {tab === 'agents' && (
+            {tab === ProjectTab.AGENTS && (
                 <S.TabContent>
                     {/* <S.Chips>
                         <Chip
