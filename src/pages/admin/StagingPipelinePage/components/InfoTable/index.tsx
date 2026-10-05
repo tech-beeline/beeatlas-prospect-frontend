@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import dayjs from 'dayjs';
-import { getPipelineRunDurationMs, RawDataSideblock } from 'features/staging';
+import { RawDataSideblock } from 'features/staging';
 
 import { Text } from 'components/core';
 import { TableBody, TableData, TableHead, TableRow } from 'components/ui';
@@ -13,11 +13,6 @@ import { IInfoTable } from './types';
 import * as S from './units';
 
 export const InfoTable: FC<IInfoTable> = ({ pipelineDetails }) => {
-    const durationMs = getPipelineRunDurationMs(
-        pipelineDetails.startedAt,
-        pipelineDetails.completedAt,
-    );
-
     const { openModal, closeModal, modalOpened } = useModal();
 
     const { data: rawData } = useGetRawDataQuery(pipelineDetails.rawDataRefId);
@@ -62,7 +57,7 @@ export const InfoTable: FC<IInfoTable> = ({ pipelineDetails }) => {
                                       .format('DD.MM.YYYY, HH:mm')
                                 : formatNullableString(null)}
                         </TableData>
-                        <TableData>{durationMs} ms</TableData>
+                        <TableData>{pipelineDetails.durationMs} ms</TableData>
                         <TableData>
                             {pipelineDetails.rawDataRefId ? (
                                 <Text link variant="body3" onClick={openModal}>
