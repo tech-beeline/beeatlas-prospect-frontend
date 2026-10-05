@@ -61,6 +61,7 @@ export interface IPipelineRunDetails {
     sourceName: string;
     startedAt: string;
     completedAt: string;
+    durationMs: number;
     batch: number | null;
     stages: IPipelineStage[];
     rawDataRefId: number | null;
