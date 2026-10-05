@@ -18,15 +18,17 @@ export const AgentCard: FC<IAgentCardProps> = ({ agent, hasDraft = false, onRun 
 
     return (
         <S.Card>
-            <S.TitleRow>
-                <Text link pointer variant="h6" onClick={handleRun}>
-                    {agent.name}
+            <S.InfoContainer>
+                <S.TitleRow>
+                    <Text link pointer variant="h6" onClick={handleRun}>
+                        {agent.name}
+                    </Text>
+                    {hasDraft && <Badge semantic="info">В процессе</Badge>}
+                </S.TitleRow>
+                <Text inactive variant="body2">
+                    {agent.description}
                 </Text>
-                {hasDraft && <Badge semantic="info">В процессе</Badge>}
-            </S.TitleRow>
-            <Text inactive variant="body2">
-                {agent.description}
-            </Text>
+            </S.InfoContainer>
             <S.ButtonContainer>
                 <Button size="small" variant="outlined" onClick={handleRun}>
                     Запустить агента

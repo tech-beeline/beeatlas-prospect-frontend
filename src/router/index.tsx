@@ -72,6 +72,9 @@ import {
     ProjectAssessmentPage,
     ProjectPage,
     ProjectsLibraryPage,
+    ProjectUsecaseAddPage,
+    ProjectUsecaseHistoryPage,
+    ProjectUsecasePage,
     RoleAddPage,
     RolesPage,
     RulesPage,
@@ -116,6 +119,7 @@ const PATHS_WITHOUT_HEADER = [
     `${R.MODELS_PATH}${R.APPS_PATH}${R.REQUIREMENT_PATH}${R.ADD_PATH}`,
     `${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`,
     `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}`,
+    `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}`,
 ];
 
 const PATHS_WITHOUT_FEEDBACK = [
@@ -555,6 +559,35 @@ export const NavigationRouter = () => {
                     <Route
                         path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}`}
                         element={<ProjectAssessmentAddPage />}
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuMain />
+                                <S.ContentWrapper>
+                                    <ProjectUsecasePage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}`}
+                        element={<ProjectUsecaseAddPage />}
+                    />
+
+                    <Route
+                        path={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.HISTORY_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuMain />
+                                <S.ContentWrapper>
+                                    <ProjectUsecaseHistoryPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
                     />
 
                     <Route
