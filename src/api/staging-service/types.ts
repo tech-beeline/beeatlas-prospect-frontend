@@ -18,6 +18,7 @@ export interface IPipileneRun {
     sourceName: string;
     startedAt: string;
     completedAt: string | null;
+    durationMs: number;
     childStats: {
         status: PipelineStatuses;
         count: number;
