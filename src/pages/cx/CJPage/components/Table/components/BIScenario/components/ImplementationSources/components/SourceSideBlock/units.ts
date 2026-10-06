@@ -6,10 +6,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    width: 480px;
+    width: 100%;
     min-height: 100%;
-
-    color: var(--color-text-active);
 `;
 
 export const Content = styled.div<{ hasButtons: boolean }>`
