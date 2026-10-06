@@ -86,6 +86,20 @@ export interface IRelationForm {
     tcId: number | null;
 }
 
+export interface IStepE2E {
+    id: number;
+    name: string;
+    code: string;
+    source: string;
+}
+
+export interface IStepUseCase {
+    id: number;
+    name: string;
+    code: string;
+    projectId: number;
+}
+
 export interface IStepsScenarion {
     name: string;
     id: number;
@@ -95,6 +109,8 @@ export interface IStepsScenarion {
     errorRate: number;
     rps: number;
     relations: IRelations[];
+    e2e?: IStepE2E[];
+    useCases?: IStepUseCase[];
     orderTree: string | null;
     order: number | null;
 }

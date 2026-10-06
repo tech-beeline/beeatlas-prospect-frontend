@@ -112,6 +112,18 @@ export const ResultStep: FC<IResultStepProps> = ({
         operation: IProjectUsecasePipelineOperation,
         selection: IResolutionSelection,
     ) => {
+        if (
+            selection.type === ProjectUsecaseResolutionType.EXISTING &&
+            !getParticipantProduct(operation)
+        ) {
+            const productSaved = await onSaveDecision({
+                type: 'product',
+                participant: operation.toAlias,
+                productAlias: selection.productAlias,
+            });
+            if (!productSaved) return false;
+        }
+
         const saved = await onSaveDecision(
             selection.type === ProjectUsecaseResolutionType.EXISTING
                 ? {

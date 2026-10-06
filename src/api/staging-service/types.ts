@@ -515,7 +515,7 @@ export type IProjectUsecaseMappingDecision =
       }
     | {
           type: 'product';
-          operationId: string;
+          operationId?: string;
           participant: string;
           productAlias: string;
       };
