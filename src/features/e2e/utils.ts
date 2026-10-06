@@ -1,6 +1,6 @@
 import { EntityRelationType, IStagingSequenceCallsData } from 'api/staging-sequence/types';
 
-import { ITreeItem } from './types';
+import { IRootCall, ITreeItem } from './types';
 
 type IOperation = IStagingSequenceCallsData['operations'][number];
 type IOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];
@@ -28,6 +28,15 @@ const formatOperationNodeName = (
     return label;
 };
 
+const getRelatedOperation = (
+    relation: IOperationRelation,
+    operationsById: Map<number, IOperation>,
+    discoveredOperationsById: Map<number, IOperation>,
+): IOperation | undefined =>
+    relation.entityTypeRelatedOperation === EntityRelationType.OPERATION
+        ? operationsById.get(relation.relatedOperationId)
+        : discoveredOperationsById.get(relation.relatedOperationId);
+
 const buildTreeItems = (
     relations: IOperationRelation[],
     operationsById: Map<number, IOperation>,
@@ -37,10 +46,11 @@ const buildTreeItems = (
     [...relations]
         .sort((a, b) => a.order - b.order)
         .map((relation, index) => {
-            const operation =
-                relation.entityTypeRelatedOperation === EntityRelationType.OPERATION
-                    ? operationsById.get(relation.relatedOperationId)
-                    : discoveredOperationsById.get(relation.relatedOperationId);
+            const operation = getRelatedOperation(
+                relation,
+                operationsById,
+                discoveredOperationsById,
+            );
             const id = `${pathPrefix}${index}-${relation.relatedOperationId}-${relation.order}`;
 
             return {
@@ -68,4 +78,24 @@ export const formatCallsTreeData = (data: IStagingSequenceCallsData | undefined)
     );
 
     return buildTreeItems(data.operationsRelations, operationsById, discoveredOperationsById);
+};
+
+export const formatRootCalls = (data: IStagingSequenceCallsData | undefined): IRootCall[] => {
+    if (!data) {
+        return [];
+    }
+
+    const operationsById = new Map(data.operations.map((operation) => [operation.id, operation]));
+    const discoveredOperationsById = new Map(
+        data.discoveredOperations.map((operation) => [operation.id, operation]),
+    );
+
+    return [...data.operationsRelations]
+        .sort((a, b) => a.order - b.order)
+        .map((relation, index) => ({
+            id: `${index}-${relation.relatedOperationId}-${relation.order}`,
+            stereotype: relation.stereotype,
+            operation:
+                getRelatedOperation(relation, operationsById, discoveredOperationsById) ?? null,
+        }));
 };

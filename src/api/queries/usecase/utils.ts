@@ -70,6 +70,36 @@ const getParticipant = (
     return null;
 };
 
+const mapOperationNode = (
+    node: IProjectUsecaseOperationNode,
+    parentApplication: IProjectUsecaseOperationApplication | null,
+): IProjectUsecaseOperationTableItem => {
+    const { discoveredOperation } = node;
+    const connectedOperation = discoveredOperation.operation;
+
+    return {
+        id: node.discoveredOperationId,
+        order: node.order,
+        caller: parentApplication,
+        callee: getApplication(discoveredOperation.discoveredInterface),
+        action: discoveredOperation.description,
+        call: connectedOperation
+            ? joinValues(connectedOperation.type, connectedOperation.name)
+            : joinValues(discoveredOperation.type, discoveredOperation.name),
+        technicalCapability: connectedOperation?.techCapability
+            ? joinValues(
+                  connectedOperation.techCapability.name,
+                  connectedOperation.techCapability.code,
+              )
+            : null,
+        status: getOperationStatus(discoveredOperation.isPlanned, Boolean(connectedOperation)),
+    };
+};
+
+export const mapProjectUsecaseRootOperations = (
+    rootNodes: IProjectUsecaseOperationNode[],
+): IProjectUsecaseOperationTableItem[] => rootNodes.map((node) => mapOperationNode(node, null));
+
 export const mapProjectUsecaseOperations = (
     rootNodes: IProjectUsecaseOperationNode[],
 ): IProjectUsecaseOperationsViewData => {
@@ -80,28 +110,10 @@ export const mapProjectUsecaseOperations = (
         node: IProjectUsecaseOperationNode,
         parentApplication: IProjectUsecaseOperationApplication | null,
     ) => {
-        const { discoveredOperation } = node;
-        const application = getApplication(discoveredOperation.discoveredInterface);
-        const connectedOperation = discoveredOperation.operation;
-        const participant = getParticipant(discoveredOperation.discoveredInterface);
+        const operation = mapOperationNode(node, parentApplication);
+        const participant = getParticipant(node.discoveredOperation.discoveredInterface);
 
-        operations.push({
-            id: node.discoveredOperationId,
-            order: node.order,
-            caller: parentApplication,
-            callee: application,
-            action: discoveredOperation.description,
-            call: connectedOperation
-                ? joinValues(connectedOperation.type, connectedOperation.name)
-                : joinValues(discoveredOperation.type, discoveredOperation.name),
-            technicalCapability: connectedOperation?.techCapability
-                ? joinValues(
-                      connectedOperation.techCapability.name,
-                      connectedOperation.techCapability.code,
-                  )
-                : null,
-            status: getOperationStatus(discoveredOperation.isPlanned, Boolean(connectedOperation)),
-        });
+        operations.push(operation);
 
         if (participant) {
             if (!participants.has(participant.mnemonic)) {
@@ -109,7 +121,7 @@ export const mapProjectUsecaseOperations = (
             }
         }
 
-        node.children.forEach((child) => visitNode(child, application));
+        node.children.forEach((child) => visitNode(child, operation.callee));
     };
 
     rootNodes.forEach((node) => visitNode(node, null));

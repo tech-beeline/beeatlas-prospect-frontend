@@ -16,7 +16,7 @@ import {
     IStartProjectUsecaseImport,
 } from 'api/usecase/types';
 
-import { mapProjectUsecaseOperations } from './utils';
+import { mapProjectUsecaseOperations, mapProjectUsecaseRootOperations } from './utils';
 
 export const PROJECT_USECASE_PREFIX = 'PROJECT_USECASE_PREFIX';
 
@@ -46,6 +46,19 @@ export const useGetProjectUsecaseOperationsQuery = (
         queryFn: () =>
             getProjectUsecaseOperations(projectId!, usecaseId!).then((response) => response.data),
         select: mapProjectUsecaseOperations,
+        enabled: Boolean(projectId && usecaseId),
+    });
+};
+
+export const useGetProjectUsecaseRootOperationsQuery = (
+    projectId?: number | string | null,
+    usecaseId?: number | string | null,
+) => {
+    return useQuery({
+        queryKey: [PROJECT_USECASE_PREFIX, 'OPERATIONS', projectId, usecaseId],
+        queryFn: () =>
+            getProjectUsecaseOperations(projectId!, usecaseId!).then((response) => response.data),
+        select: mapProjectUsecaseRootOperations,
         enabled: Boolean(projectId && usecaseId),
     });
 };
