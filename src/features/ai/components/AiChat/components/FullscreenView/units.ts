@@ -7,6 +7,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
 
+    color: var(--color-text-active);
     background: var(--color-background-base);
 
     z-index: 1000;

@@ -12,6 +12,7 @@ export const Container = styled.div`
     max-height: 886px;
     height: calc(100vh - 64px);
 
+    color: var(--color-text-active);
     background: var(--color-background-base);
     border: 1px solid var(--color-divider);
     border-radius: 12px;
