@@ -75,12 +75,12 @@ export const ProjectPage = () => {
                 `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.ASSESSMENT_PATH}${R.ADD_PATH}?id=${project.id}`,
             );
         }
-        if (agent.id === 2) {
-            navigate(
-                `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}?id=${project.id}`,
-            );
-        }
     };
+
+    const handleCreateUsecase = () =>
+        navigate(
+            `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}?id=${project.id}`,
+        );
 
     return (
         <S.PageWrapper>
@@ -145,13 +145,11 @@ export const ProjectPage = () => {
                                 onClick={() => setDataView(ProjectDataView.ASSESSMENT)}
                             />
                         )}
-                        {usecases.length > 0 && (
-                            <Chip
-                                active={dataView === ProjectDataView.USECASE}
-                                label="Use Case"
-                                onClick={() => setDataView(ProjectDataView.USECASE)}
-                            />
-                        )}
+                        <Chip
+                            active={dataView === ProjectDataView.USECASE}
+                            label="Use Case"
+                            onClick={() => setDataView(ProjectDataView.USECASE)}
+                        />
                     </S.Chips>
 
                     {dataView === ProjectDataView.BUSINESS && hasAssessment && (
@@ -195,7 +193,9 @@ export const ProjectPage = () => {
                         </S.Assessments>
                     )}
 
-                    {dataView === ProjectDataView.USECASE && <UsecaseResults usecases={usecases} />}
+                    {dataView === ProjectDataView.USECASE && (
+                        <UsecaseResults usecases={usecases} onCreate={handleCreateUsecase} />
+                    )}
                 </S.TabContent>
             )}
 

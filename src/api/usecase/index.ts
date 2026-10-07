@@ -7,6 +7,7 @@ import {
     IProjectUsecaseDetails,
     IProjectUsecaseOperationNode,
     IProjectUsecaseSummaryDto,
+    IUsecasesByBiStepCodeGroup,
 } from './types';
 
 export const getProjectUsecases = (
@@ -29,6 +30,15 @@ export const getProjectUsecaseOperations = (
 ): AxiosPromise<IProjectUsecaseOperationNode[]> => {
     return Api.get({
         url: `${GATEWAY_PROJECT_URL}v1/project/${projectId}/use-case/${usecaseId}/operations`,
+    });
+};
+
+export const getUsecasesByBiStepCodes = (
+    biStepCodes: string[],
+): AxiosPromise<IUsecasesByBiStepCodeGroup[]> => {
+    return Api.post({
+        url: `${GATEWAY_PROJECT_URL}v1/project/use-cases/by-bi-step-codes`,
+        data: biStepCodes,
     });
 };
 

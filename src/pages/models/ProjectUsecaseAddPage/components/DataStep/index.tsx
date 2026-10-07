@@ -147,19 +147,19 @@ export const DataStep: FC<IDataStepProps> = ({
                             />
                         )}
                         <S.FormFields>
-                            <S.ChoiceRow role="group" aria-label="Тип сценария">
+                            <S.ChoiceRow role="group" aria-label="Тип Use Case">
                                 <Chip
                                     active={mode === ProjectUsecaseImportMode.NEW}
                                     aria-pressed={mode === ProjectUsecaseImportMode.NEW}
                                     disabled={isFormDisabled}
-                                    label="Новый сценарий"
+                                    label="Новый Use Case"
                                     onClick={() => setValue('mode', ProjectUsecaseImportMode.NEW)}
                                 />
                                 <Chip
                                     active={mode === ProjectUsecaseImportMode.EXISTING}
                                     aria-pressed={mode === ProjectUsecaseImportMode.EXISTING}
                                     disabled={isFormDisabled}
-                                    label="Существующий сценарий"
+                                    label="Существующий Use Case"
                                     onClick={() =>
                                         setValue('mode', ProjectUsecaseImportMode.EXISTING)
                                     }
@@ -171,7 +171,7 @@ export const DataStep: FC<IDataStepProps> = ({
                                         <TextField
                                             disabled={isFormDisabled}
                                             fullWidth
-                                            label="Название сценария*"
+                                            label="Название Use Case*"
                                             name="name"
                                         />
                                     ) : (
@@ -180,9 +180,9 @@ export const DataStep: FC<IDataStepProps> = ({
                                             disabled={isFormDisabled || isUsecasesLoading}
                                             error={Boolean(formState.errors.usecaseId)}
                                             helperText={formState.errors.usecaseId?.message}
-                                            label="Название сценария*"
+                                            label="Название Use Case*"
                                             loading={isUsecasesLoading}
-                                            noOptionsContents="Сценарии проекта не найдены"
+                                            noOptionsContents="Use Case проекта не найдены"
                                             options={scenarioOptions}
                                             renderValue={(option) => option.value.name}
                                             type="select"
@@ -311,7 +311,7 @@ export const DataStep: FC<IDataStepProps> = ({
                             type="submit"
                             variant="contained"
                         >
-                            Импорт в Staging
+                            Импорт
                         </ProgressButton>
                     </S.FooterContent>
                 </S.Footer>

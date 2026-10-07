@@ -76,10 +76,10 @@ export const ScenarioTable = styled(Table)`
     width: 100%;
 `;
 
-export const CellStack = styled.div`
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+export const Relations = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
 `;
 
 export const ClampedCell = styled.div`

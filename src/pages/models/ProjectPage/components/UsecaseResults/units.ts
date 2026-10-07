@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { Table } from 'components/ui';
+import { Button, Table } from 'components/ui';
 
 export const Container = styled.div`
     display: flex;
@@ -28,4 +28,8 @@ export const EmptyState = styled.div`
     align-items: center;
     justify-content: center;
     min-height: 320px;
+`;
+
+export const CreateButton = styled(Button)`
+    margin-left: auto;
 `;

@@ -10,7 +10,7 @@ import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { E2ETreeItemType, IE2EBiStepItem } from '../../../../types';
 
-import { CallsContent, ObservabilityContent } from './components';
+import { CallsContent, ObservabilityContent, UsecaseCallsContent } from './components';
 import { TABS, TabVariants } from './const';
 import { IBIStepContent } from './types';
 import * as S from './units';
@@ -61,6 +61,10 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
             {tabVariant === TabVariants.CALLS &&
                 activeTreeItem.type === E2ETreeItemType.BI_STEP && (
                     <CallsContent e2eCodes={activeTreeItem.e2eCodes} />
+                )}
+            {tabVariant === TabVariants.USECASE_CALLS &&
+                activeTreeItem.type === E2ETreeItemType.BI_STEP && (
+                    <UsecaseCallsContent biStepCode={activeTreeItem.code} />
                 )}
             {tabVariant === TabVariants.OBSERVABILITY &&
                 activeTreeItem.type === E2ETreeItemType.BI_STEP && (

@@ -17,10 +17,11 @@ import {
 import * as R from 'router/const';
 import { formatDateToUTC } from 'utils/formatters';
 
+import { EMPTY_STATE_TEXT } from './const';
 import { IUsecaseResults } from './types';
 import * as S from './units';
 
-export const UsecaseResults: FC<IUsecaseResults> = ({ usecases }) => {
+export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
     const [search, setSearch] = useState('');
     const filteredUsecases = useMemo(() => {
         const normalizedSearch = search.trim().toLocaleLowerCase('ru');
@@ -40,13 +41,27 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases }) => {
 
     const hasFilters = !!search;
 
+    if (usecases.length === 0) {
+        return (
+            <S.EmptyState>
+                <NotFoundBlock
+                    imageVariant={ImageVariants.EMPTY_BOX}
+                    title="Нет созданных Use Case"
+                    text={EMPTY_STATE_TEXT}
+                    buttonText="Создать Use Case"
+                    buttonProps={{ variant: 'primary', onClick: onCreate }}
+                />
+            </S.EmptyState>
+        );
+    }
+
     return (
         <S.Container>
             <S.Filters>
                 <S.FilterControl>
                     <Search
                         fullWidth
-                        placeholder="Поиск по названию или коду сценария"
+                        placeholder="Поиск по названию или коду Use Case"
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         onClear={() => setSearch('')}
@@ -55,6 +70,9 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases }) => {
                 <Button disabled={!hasFilters} variant="plain" onClick={resetFilters}>
                     Сбросить
                 </Button>
+                <S.CreateButton variant="primary" onClick={onCreate}>
+                    Создать Use Case
+                </S.CreateButton>
             </S.Filters>
 
             {filteredUsecases.length === 0 ? (
@@ -69,7 +87,7 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases }) => {
                 <S.TableStyled>
                     <TableHead>
                         <TableRow>
-                            <TableHeaderData>Сценарий</TableHeaderData>
+                            <TableHeaderData>Use Case</TableHeaderData>
                             <TableHeaderData>Дата изменения</TableHeaderData>
                             <TableHeaderData>История</TableHeaderData>
                         </TableRow>
