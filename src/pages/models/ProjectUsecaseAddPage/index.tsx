@@ -14,6 +14,7 @@ import { useGetProjectByIdQuery } from 'api/queries/projects';
 import {
     useApplyProjectUsecasePipelineMutation,
     useCancelProjectUsecasePipelineMutation,
+    useGetPipelineRunDetailsMutation,
     useGetProjectUsecasePipelineStatusMutation,
     useSaveProjectUsecaseMappingMutation,
     useStartProjectUsecasePipelineMutation,
@@ -33,6 +34,7 @@ import { ResultStep } from './components/ResultStep';
 import { UsecaseImportFormValues, validationSchema } from './form';
 import { UsecaseImportStep } from './types';
 import * as S from './units';
+import { getPipelineFailureReason } from './utils';
 
 type PageState = 'form' | 'processing' | 'review' | 'applying' | 'failed' | 'poll-error';
 type PollTarget = 'awaiting_review' | 'terminal';
@@ -73,6 +75,7 @@ export const ProjectUsecaseAddPage = () => {
     const { mutateAsync: startPipeline, isPending: isStartingPipeline } =
         useStartProjectUsecasePipelineMutation();
     const { mutateAsync: getPipelineStatus } = useGetProjectUsecasePipelineStatusMutation();
+    const { mutateAsync: getPipelineRunDetails } = useGetPipelineRunDetailsMutation();
     const { mutateAsync: saveMapping, isPending: isSavingMapping } =
         useSaveProjectUsecaseMappingMutation();
     const { mutateAsync: applyPipeline, isPending: isApplying } =
@@ -162,15 +165,20 @@ export const ProjectUsecaseAddPage = () => {
 
                     if (pollGenerationRef.current !== generation) return;
 
-                    if (
-                        status.status === PipelineStatuses.FAILED ||
-                        status.status === 'cancelled'
-                    ) {
-                        setPipelineError(
-                            status.status === PipelineStatuses.FAILED
-                                ? 'Не удалось обработать PlantUML'
-                                : 'Обработка PlantUML была отменена',
-                        );
+                    if (status.status === PipelineStatuses.FAILED) {
+                        const failureReason = await getPipelineRunDetails(runId)
+                            .then(getPipelineFailureReason)
+                            .catch(() => null);
+
+                        if (pollGenerationRef.current !== generation) return;
+
+                        setPipelineError(failureReason ?? 'Не удалось обработать PlantUML');
+                        setPageState('failed');
+                        return;
+                    }
+
+                    if (status.status === 'cancelled') {
+                        setPipelineError('Обработка PlantUML была отменена');
                         setPageState('failed');
                         return;
                     }
@@ -213,7 +221,7 @@ export const ProjectUsecaseAddPage = () => {
                 setPageState('poll-error');
             }
         },
-        [getPipelineStatus, navigateToCompletedUsecase, runId],
+        [getPipelineRunDetails, getPipelineStatus, navigateToCompletedUsecase, runId],
     );
 
     useEffect(() => {

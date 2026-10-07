@@ -80,6 +80,14 @@ export const useGetPipelineRunDetailsQuery = (runId: number | string | null, ena
     });
 };
 
+export const useGetPipelineRunDetailsMutation = () => {
+    return useMutation({
+        mutationKey: [STAGING_SERVICE_PREFIX, 'PIPILENE_RUN_DETAILS', 'FETCH'],
+        mutationFn: (runId: string | number) =>
+            getPipelineRunDetails(runId).then((res) => res.data),
+    });
+};
+
 export const useGetRawDataQuery = (rawDataRefId?: number | string | null) => {
     return useQuery({
         queryKey: [STAGING_SERVICE_PREFIX, 'RAW_DATA', rawDataRefId],
