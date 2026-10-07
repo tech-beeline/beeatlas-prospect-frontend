@@ -36,16 +36,6 @@ export const SourceItem = styled.button`
     }
 `;
 
-export const SourceDot = styled.span<{ color: string }>`
-    flex-shrink: 0;
-
-    width: 8px;
-    height: 8px;
-
-    background-color: ${({ color }) => color};
-    border-radius: 50%;
-`;
-
 export const SourceText = styled.div`
     display: flex;
     flex-direction: column;

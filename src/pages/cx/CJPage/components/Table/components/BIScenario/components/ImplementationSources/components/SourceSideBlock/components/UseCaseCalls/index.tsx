@@ -20,6 +20,7 @@ export const UseCaseCalls: FC<IUseCaseCalls> = ({ useCase }) => {
 
     return (
         <S.CallsList>
+            <ReadOnlyNote linkTitle="Открыть Use Case" url={getUseCasePageUrl(useCase.id)} />
             {isLoading && <Skeleton radius={12} height={100} />}
             {isError && (
                 <Text variant="body3" inactive>
@@ -38,7 +39,6 @@ export const UseCaseCalls: FC<IUseCaseCalls> = ({ useCase }) => {
                     fields={getUseCaseCallFields(operation)}
                 />
             ))}
-            <ReadOnlyNote linkTitle="Открыть Use Case" url={getUseCasePageUrl(useCase.id)} />
         </S.CallsList>
     );
 };

@@ -44,7 +44,6 @@ export const ImplementationSources: FC<IImplementationSources> = ({ biStep, onOp
                         type="button"
                         onClick={() => setSelectedSource(source)}
                     >
-                        <S.SourceDot color={implementationSourceMeta[source.type].color} />
                         <S.SourceText>
                             <Text variant="caption" inactive>
                                 {implementationSourceMeta[source.type].label}

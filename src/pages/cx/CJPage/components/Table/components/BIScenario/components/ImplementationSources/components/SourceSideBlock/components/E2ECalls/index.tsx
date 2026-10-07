@@ -20,6 +20,7 @@ export const E2ECalls: FC<IE2ECalls> = ({ e2e }) => {
 
     return (
         <S.CallsList>
+            <ReadOnlyNote linkTitle="Открыть E2E" url={getE2EPageUrl(e2e.code)} />
             {isLoading && <Skeleton radius={12} height={100} />}
             {isError && (
                 <Text variant="body3" inactive>
@@ -38,7 +39,6 @@ export const E2ECalls: FC<IE2ECalls> = ({ e2e }) => {
                     fields={getE2ECallFields(call)}
                 />
             ))}
-            <ReadOnlyNote linkTitle="Открыть E2E" url={getE2EPageUrl(e2e.code)} />
         </S.CallsList>
     );
 };
