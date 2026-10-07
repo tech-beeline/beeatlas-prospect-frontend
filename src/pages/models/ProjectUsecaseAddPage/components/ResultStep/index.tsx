@@ -219,6 +219,7 @@ export const ResultStep: FC<IResultStep> = ({
                                     editingOperationIds.includes(operation.operationId)
                                 }
                                 operation={operation}
+                                productLocked={Boolean(getParticipantProduct(operation))}
                                 products={products}
                                 productsLoading={productsLoading}
                                 onDraftChange={(patch) => setDraft(operation, patch)}

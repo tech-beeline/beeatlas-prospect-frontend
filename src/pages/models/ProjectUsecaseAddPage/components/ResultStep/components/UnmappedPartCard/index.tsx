@@ -16,6 +16,7 @@ import { getCardTitle } from './utils';
 
 export const UnmappedPartCard: FC<IUnmappedPartCard> = ({
     operation,
+    productLocked,
     products,
     productsLoading,
     draft,
@@ -77,6 +78,7 @@ export const UnmappedPartCard: FC<IUnmappedPartCard> = ({
                         {draft.type === CallDecisionType.EXISTING &&
                             option.type === CallDecisionType.EXISTING && (
                                 <ExistingMethodFields
+                                    productLocked={productLocked}
                                     products={products}
                                     productsLoading={productsLoading}
                                     draft={draft}

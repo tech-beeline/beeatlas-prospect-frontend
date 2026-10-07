@@ -3,6 +3,7 @@ import { IFullProductData } from 'api/product/types';
 import { IResolutionDraft } from '../../../../../../types';
 
 export interface IExistingMethodFields {
+    productLocked: boolean;
     products: IFullProductData[];
     productsLoading: boolean;
     draft: IResolutionDraft;

@@ -11,6 +11,7 @@ import { IExistingMethodFields } from './types';
 import { findConnectionOperation, getMethodOptions } from './utils';
 
 export const ExistingMethodFields: FC<IExistingMethodFields> = ({
+    productLocked,
     products,
     productsLoading,
     draft,
@@ -28,7 +29,7 @@ export const ExistingMethodFields: FC<IExistingMethodFields> = ({
                 products={products}
                 loading={productsLoading}
                 value={draft.productAlias}
-                disabled={disabled}
+                disabled={disabled || productLocked}
                 onChange={(productAlias) => {
                     setSearch('');
                     onDraftChange({ productAlias, connectionOperation: null });

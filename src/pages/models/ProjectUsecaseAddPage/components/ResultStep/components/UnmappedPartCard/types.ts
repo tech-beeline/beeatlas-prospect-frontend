@@ -5,6 +5,7 @@ import { CallDecisionType, IResolutionDraft } from '../../../../types';
 
 export interface IUnmappedPartCard {
     operation: IProjectUsecasePipelineOperation;
+    productLocked: boolean;
     products: IFullProductData[];
     productsLoading: boolean;
     draft: IResolutionDraft;
