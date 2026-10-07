@@ -1,12 +1,9 @@
-import { ColorTypes } from 'components/ui/types';
-
 import { ProjectUsecaseOperationStatus } from 'api/usecase/types';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
-export const callStatusIconMap: Record<
-    ProjectUsecaseOperationStatus,
-    { iconName: Icons; color: ColorTypes }
-> = {
+import { ICallStatus } from '../CallsWorkspace/types';
+
+export const usecaseCallStatusMap: Record<ProjectUsecaseOperationStatus, ICallStatus> = {
     [ProjectUsecaseOperationStatus.CONFIRMED]: { iconName: Icons.Check, color: 'green' },
     [ProjectUsecaseOperationStatus.REVIEW]: { iconName: Icons.Check, color: 'orange' },
     [ProjectUsecaseOperationStatus.PLANNED]: { iconName: Icons.Clock, color: 'grey' },

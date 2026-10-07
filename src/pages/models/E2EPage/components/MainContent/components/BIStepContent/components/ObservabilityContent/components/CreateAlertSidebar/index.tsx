@@ -3,13 +3,14 @@ import { useAuthStore } from 'features/auth';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
-import { IconButton } from 'components/ui';
+import { IconButton, Select } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
 
 import { usePostSequenceAlertByIdMutation } from 'api/queries/staging-sequence';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
+import { ALERT_SOURCE_OPTIONS, AlertSource } from './const';
 import { ICreateAlertSidebar } from './types';
 import * as S from './units';
 
@@ -18,9 +19,17 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
     onClose,
     data,
     selectedE2ECode,
+    e2eCodes,
+    onSaved,
 }) => {
     const [comment, setComment] = useState('');
+    const [implementation, setImplementation] = useState<string | null>(selectedE2ECode);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const implementationOptions = e2eCodes.map((code) => ({ id: code, value: code }));
+
+    useEffect(() => {
+        if (isOpen) setImplementation(selectedE2ECode);
+    }, [isOpen, selectedE2ECode]);
 
     useEffect(() => setErrorMessage(null), [comment]);
 
@@ -31,17 +40,18 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
     const { mutateAsync: createSequenceAlert, isPending } = usePostSequenceAlertByIdMutation();
 
     const handleSave = async () => {
-        if (!selectedE2ECode) return;
+        if (!implementation) return;
         setErrorMessage(null);
         try {
             await createSequenceAlert({
-                uid: encodeURI(selectedE2ECode),
+                uid: encodeURI(implementation),
                 data: {
                     creator: `${userInfo?.family_name} ${userInfo?.given_name}`,
                     note: comment,
                 },
             });
             showSnackbar({ message: data ? 'Alerts обновлен' : 'Alerts создан' });
+            onSaved(implementation);
             onClose();
         } catch (e) {
             const message =
@@ -70,6 +80,22 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                         <Text variant="h5">{data ? 'Обновление alerts' : 'Создание alerts'}</Text>
                         <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                     </S.TitleContainer>
+                    <Select
+                        fullWidth
+                        label="Источник вызова"
+                        options={ALERT_SOURCE_OPTIONS}
+                        values={ALERT_SOURCE_OPTIONS.filter(({ id }) => id === AlertSource.E2E)}
+                        onChange={() => undefined}
+                    />
+                    <Select
+                        fullWidth
+                        label="Реализация"
+                        options={implementationOptions}
+                        values={implementationOptions.filter(({ id }) => id === implementation)}
+                        onChange={(values) =>
+                            setImplementation(values[0] ? String(values[0].id) : null)
+                        }
+                    />
                     <TextArea
                         fullWidth
                         label="Комментарий"
@@ -93,7 +119,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                             onClick={handleSave}
                             showProgress={isPending}
                             state={isPending ? 'loading' : 'default'}
-                            disabled={!selectedE2ECode || isPending}
+                            disabled={!implementation || isPending}
                         >
                             {data ? 'Обновить' : 'Создать'}
                         </S.ProgressButtonStyled>

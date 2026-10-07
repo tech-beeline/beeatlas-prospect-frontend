@@ -1,21 +1,19 @@
 import React, { FC } from 'react';
 
 import { Text } from 'components/core';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { ICallDetails } from './types';
+import { ICallDetailsPanel } from './types';
 import * as S from './units';
-import { getCallDetailsFields } from './utils';
 
-export const CallDetails: FC<ICallDetails> = ({ call }) => (
+export const CallDetailsPanel: FC<ICallDetailsPanel> = ({ call }) => (
     <S.Panel>
         <Text variant="subtitle2">Данные вызова</Text>
         {!call && (
-            <Text inactive variant="body3">
-                Выберите вызов в дереве
-            </Text>
+            <NotFoundBlock imageVariant={ImageVariants.EMPTY_BOX} text="Выбери вызов из списка" />
         )}
         {call &&
-            getCallDetailsFields(call).map((field) => (
+            call.fields.map((field) => (
                 <S.Field key={field.label}>
                     <Text inactive variant="body3">
                         {field.label}

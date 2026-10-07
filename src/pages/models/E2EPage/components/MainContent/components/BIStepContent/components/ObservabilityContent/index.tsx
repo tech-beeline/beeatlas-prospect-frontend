@@ -2,13 +2,16 @@ import React, { FC, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
-import { Button, Chip, Icon, Skeleton } from 'components/ui';
+import { Button, Icon, Skeleton } from 'components/ui';
 
 import { useGetSequenceAlertByIdQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
+import { ImplementationChips } from '../ImplementationChips';
+
 import { CreateAlertSidebar } from './components';
+import { E2E_ALERT_SOURCE_LABEL } from './const';
 import { IObservabilityContent } from './types';
 import * as S from './units';
 
@@ -25,18 +28,11 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
 
     return (
         <>
-            {e2eCodes.length > 1 && (
-                <S.ChipsContainer>
-                    {e2eCodes.map((code) => (
-                        <Chip
-                            key={code}
-                            label={code}
-                            active={selectedCode === code}
-                            onClick={() => setSelectedCode(code)}
-                        />
-                    ))}
-                </S.ChipsContainer>
-            )}
+            <ImplementationChips
+                implementations={e2eCodes.map((code) => ({ id: code, label: code }))}
+                selectedId={selectedCode}
+                onSelect={setSelectedCode}
+            />
             {isLoading && <Skeleton radius={12} height={100} />}
             {(data || error) && !isLoading && (
                 <S.AlertContainer>
@@ -85,6 +81,18 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
                                     </Text>
                                     <Text variant="body2">{data.creator}</Text>
                                 </div>
+                                <div>
+                                    <Text inactive variant="body3">
+                                        Источник вызова
+                                    </Text>
+                                    <Text variant="body2">{E2E_ALERT_SOURCE_LABEL}</Text>
+                                </div>
+                                <div>
+                                    <Text inactive variant="body3">
+                                        Реализация
+                                    </Text>
+                                    <Text variant="body2">{selectedCode}</Text>
+                                </div>
                             </S.MetadataContainer>
                             <div>
                                 <Text inactive variant="body3">
@@ -111,6 +119,8 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
                 onClose={closeModal}
                 data={data}
                 selectedE2ECode={selectedCode}
+                e2eCodes={e2eCodes}
+                onSaved={setSelectedCode}
             />
         </>
     );

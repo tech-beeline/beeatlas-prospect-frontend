@@ -5,6 +5,7 @@ import { Text } from 'components/core';
 import { Link } from 'components/other';
 import { Icon, Tab, Tabs } from 'components/ui';
 
+import { useGetUsecasesByBiStepCodeQuery } from 'api/queries/usecase';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
@@ -14,9 +15,15 @@ import { CallsContent, ObservabilityContent, UsecaseCallsContent } from './compo
 import { TABS, TabVariants } from './const';
 import { IBIStepContent } from './types';
 import * as S from './units';
+import { getTabLabel } from './utils';
 
 export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
     const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
+    const e2eCodes =
+        activeTreeItem.type === E2ETreeItemType.BI_STEP ? activeTreeItem.e2eCodes : [];
+    const { data: usecases = [] } = useGetUsecasesByBiStepCodeQuery(
+        activeTreeItem.type === E2ETreeItemType.BI_STEP ? activeTreeItem.code : null,
+    );
 
     useAdditionalPageContext('biStepContentTab', tabVariant);
 
@@ -51,7 +58,7 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
                     {TABS.map((tab) => (
                         <Tab
                             key={tab.id}
-                            label={tab.label}
+                            label={getTabLabel(tab.id, tab.label, e2eCodes.length, usecases.length)}
                             value={tab.id}
                             onClick={() => setTabVariant(tab.id)}
                         />

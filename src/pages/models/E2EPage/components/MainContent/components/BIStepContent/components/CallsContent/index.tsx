@@ -1,56 +1,72 @@
-import React, { FC, useEffect, useState } from 'react';
-import { formatCallsTreeData } from 'features/e2e';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import { Text } from 'components/core';
-import { Chip, Skeleton } from 'components/ui';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Skeleton } from 'components/ui';
 
 import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
+import { formatNullableString } from 'utils/formatters';
 
-import { CallTreeItem } from './components';
+import { CallsWorkspace } from '../CallsWorkspace';
+import { ImplementationChips } from '../ImplementationChips';
+
 import { ICallsContent } from './types';
 import * as S from './units';
+import { buildE2ECalls } from './utils';
 
 export const CallsContent: FC<ICallsContent> = ({ e2eCodes }) => {
     const [selectedCode, setSelectedCode] = useState<null | string>(null);
+    const { data, isLoading } = useGetSequenceCallsByIdQuery(selectedCode);
+    const calls = useMemo(() => buildE2ECalls(data), [data]);
+    const implementations = useMemo(
+        () => e2eCodes.map((code) => ({ id: code, label: code })),
+        [e2eCodes],
+    );
 
     useEffect(() => {
-        setSelectedCode(e2eCodes[0]);
+        setSelectedCode(e2eCodes[0] ?? null);
     }, [e2eCodes]);
 
-    const { data, isLoading } = useGetSequenceCallsByIdQuery(selectedCode);
-
-    const callsTree = formatCallsTreeData(data);
+    if (e2eCodes.length === 0) {
+        return (
+            <NotFoundBlock
+                imageVariant={ImageVariants.EMPTY_BOX}
+                title="Нет E2E-сценариев"
+                text="Шаг BI не реализован ни в одном E2E-сценарии"
+            />
+        );
+    }
 
     return (
-        <>
-            {e2eCodes.length > 1 && (
-                <S.ChipsContainer>
-                    {e2eCodes.map((code) => (
-                        <Chip
-                            key={code}
-                            label={code}
-                            active={selectedCode === code}
-                            onClick={() => setSelectedCode(code)}
-                        />
-                    ))}
-                </S.ChipsContainer>
+        <S.Content>
+            <ImplementationChips
+                implementations={implementations}
+                selectedId={selectedCode}
+                onSelect={setSelectedCode}
+            />
+            {data && (
+                <S.Source>
+                    <S.SourceItem>
+                        <Text inactive variant="body3">
+                            Источник:
+                        </Text>
+                        <Text variant="body3">{formatNullableString(data.e2e.name)}</Text>
+                    </S.SourceItem>
+                    <S.SourceItem>
+                        <Text inactive variant="body3">
+                            Загрузка:
+                        </Text>
+                        <Text variant="body3">{formatNullableString(data.e2e.source)}</Text>
+                    </S.SourceItem>
+                </S.Source>
             )}
-            <Text variant="subtitle3">
-                Последовательность вызовов {data?.e2e.source ? `(${data.e2e.source})` : ''}
-            </Text>
             {isLoading && <Skeleton radius={12} height={100} />}
-            {data && data.operationsRelations.length === 0 && (
+            {data && calls.length === 0 && (
                 <Text inactive variant="body3">
                     Нет данных
                 </Text>
             )}
-            {data && (
-                <S.CallsContainer>
-                    {callsTree.map((item) => (
-                        <CallTreeItem key={item.id} item={item} level={0} />
-                    ))}
-                </S.CallsContainer>
-            )}
-        </>
+            {calls.length > 0 && <CallsWorkspace calls={calls} />}
+        </S.Content>
     );
 };

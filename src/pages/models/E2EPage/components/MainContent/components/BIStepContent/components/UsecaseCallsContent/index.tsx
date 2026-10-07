@@ -1,38 +1,41 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import { Text } from 'components/core';
-import { Link } from 'components/other';
-import { Chip, Skeleton } from 'components/ui';
+import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { Skeleton } from 'components/ui';
 
 import {
     useGetProjectUsecaseOperationsTreeQuery,
+    useGetProjectUsecaseQuery,
     useGetUsecasesByBiStepCodeQuery,
 } from 'api/queries/usecase';
 
-import { CallDetails, UsecaseCallTreeItem } from './components';
+import { CallsWorkspace } from '../CallsWorkspace';
+import { ImplementationChips } from '../ImplementationChips';
+
 import { IUsecaseCallsContent } from './types';
 import * as S from './units';
-import { buildUsecaseCallTree, findUsecaseCall, getUsecaseUrl } from './utils';
+import { buildUsecaseCalls, formatUsecaseDate, getUsecaseUrl } from './utils';
 
 export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({ biStepCode }) => {
-    const [selectedUsecaseId, setSelectedUsecaseId] = useState<number | null>(null);
-    const [selectedCallId, setSelectedCallId] = useState<string | null>(null);
+    const [selectedId, setSelectedId] = useState<string | null>(null);
     const { data: usecases = [], isLoading: isUsecasesLoading } =
         useGetUsecasesByBiStepCodeQuery(biStepCode);
-    const selectedUsecase = usecases.find(({ id }) => id === selectedUsecaseId) ?? null;
+    const selected = usecases.find(({ id }) => String(id) === selectedId) ?? null;
+    const { data: details } = useGetProjectUsecaseQuery(selected?.id);
     const { data: nodes, isLoading: isTreeLoading } = useGetProjectUsecaseOperationsTreeQuery(
-        selectedUsecase?.projectId,
-        selectedUsecase?.id,
+        selected?.projectId,
+        selected?.id,
     );
-    const calls = useMemo(() => buildUsecaseCallTree(nodes ?? []), [nodes]);
+    const calls = useMemo(() => buildUsecaseCalls(nodes ?? []), [nodes]);
+    const implementations = useMemo(
+        () => usecases.map(({ id, code }) => ({ id: String(id), label: code })),
+        [usecases],
+    );
 
     useEffect(() => {
-        setSelectedUsecaseId(usecases[0]?.id ?? null);
+        setSelectedId(usecases[0] ? String(usecases[0].id) : null);
     }, [usecases]);
-
-    useEffect(() => {
-        setSelectedCallId(null);
-    }, [selectedUsecaseId]);
 
     if (isUsecasesLoading) {
         return <Skeleton radius={12} height={100} />;
@@ -40,31 +43,30 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({ biStepCode }) =>
 
     if (usecases.length === 0) {
         return (
-            <Text inactive variant="body3">
-                Шаг BI не реализован ни в одном Use Case
-            </Text>
+            <NotFoundBlock
+                imageVariant={ImageVariants.EMPTY_BOX}
+                title="Нет Use Case"
+                text="Шаг BI не реализован ни в одном Use Case"
+            />
         );
     }
 
     return (
         <S.Content>
-            <Text inactive variant="overline">
-                Реализация
-            </Text>
-            <S.ChipsContainer>
-                {usecases.map((usecase) => (
-                    <Chip
-                        key={usecase.id}
-                        label={usecase.name}
-                        active={selectedUsecaseId === usecase.id}
-                        onClick={() => setSelectedUsecaseId(usecase.id)}
-                    />
-                ))}
-            </S.ChipsContainer>
-            {selectedUsecase && (
-                <S.UsecaseLink>
-                    <Link title={selectedUsecase.name} url={getUsecaseUrl(selectedUsecase.id)} />
-                </S.UsecaseLink>
+            <ImplementationChips
+                implementations={implementations}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+            />
+            {selected && (
+                <S.Source>
+                    <Link title={selected.name} url={getUsecaseUrl(selected.id)} />
+                    {details && (
+                        <Text inactive variant="body3">
+                            Дата: {formatUsecaseDate(details)}
+                        </Text>
+                    )}
+                </S.Source>
             )}
             {isTreeLoading && <Skeleton radius={12} height={100} />}
             {nodes && calls.length === 0 && (
@@ -72,22 +74,7 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({ biStepCode }) =>
                     В Use Case нет вызовов
                 </Text>
             )}
-            {calls.length > 0 && (
-                <S.Panels>
-                    <S.TreePanel>
-                        {calls.map((call) => (
-                            <UsecaseCallTreeItem
-                                key={call.id}
-                                call={call}
-                                level={0}
-                                selectedId={selectedCallId}
-                                onSelect={setSelectedCallId}
-                            />
-                        ))}
-                    </S.TreePanel>
-                    <CallDetails call={findUsecaseCall(calls, selectedCallId)} />
-                </S.Panels>
-            )}
+            {calls.length > 0 && <CallsWorkspace calls={calls} />}
         </S.Content>
     );
 };

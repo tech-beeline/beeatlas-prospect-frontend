@@ -1,23 +1,17 @@
 import React, { FC, useState } from 'react';
 
 import { Text } from 'components/core';
+import { TooltipContainer } from 'components/interaction';
 import { Chip, Icon, IconButton } from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
-import { formatNullableString } from 'utils/formatters';
 
-import { callStatusIconMap } from './const';
-import { IUsecaseCallTreeItem } from './types';
+import { ICallTreeRow } from './types';
 import * as S from './units';
 
-export const UsecaseCallTreeItem: FC<IUsecaseCallTreeItem> = ({
-    call,
-    level,
-    selectedId,
-    onSelect,
-}) => {
+export const CallTreeRow: FC<ICallTreeRow> = ({ call, level, selectedId, onSelect }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const status = callStatusIconMap[call.item.status];
+    const tooltipId = `call-product-${call.id}`;
 
     return (
         <>
@@ -38,19 +32,24 @@ export const UsecaseCallTreeItem: FC<IUsecaseCallTreeItem> = ({
                         />
                     )}
                 </S.ExpandButton>
-                <Icon iconName={status.iconName} color={status.color} size="small" />
+                <Icon iconName={call.status.iconName} color={call.status.color} size="small" />
                 <S.Call>
-                    <Text variant="body3">{formatNullableString(call.item.call)}</Text>
+                    <Text variant="body3">{call.call}</Text>
                 </S.Call>
-                {call.item.callee.mnemonic && (
-                    <S.Product>
-                        <Chip label={call.item.callee.mnemonic} />
+                {call.product && (
+                    <S.Product data-tooltip-id={tooltipId}>
+                        <Chip label={call.product} />
                     </S.Product>
+                )}
+                {call.product && call.productTitle && (
+                    <TooltipContainer id={tooltipId} place="top" offset={8} noArrow>
+                        {call.productTitle}
+                    </TooltipContainer>
                 )}
             </S.Row>
             {isExpanded &&
                 call.children.map((child) => (
-                    <UsecaseCallTreeItem
+                    <CallTreeRow
                         key={child.id}
                         call={child}
                         level={level + 1}
