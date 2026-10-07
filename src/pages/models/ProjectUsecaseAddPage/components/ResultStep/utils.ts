@@ -16,7 +16,49 @@ export const getEmptyDraft = (productAlias?: string | null): IResolutionDraft =>
     requirements: '',
 });
 
-export const getStepsCount = (operations: IProjectUsecasePipelineOperation[]) =>
+const isSiblingExistingDraft = (
+    operation: IProjectUsecasePipelineOperation,
+    sibling: IProjectUsecasePipelineOperation,
+    draft: IResolutionDraft | undefined,
+): draft is IResolutionDraft =>
+    sibling.operationId !== operation.operationId &&
+    sibling.toAlias === operation.toAlias &&
+    draft?.type === CallDecisionType.EXISTING;
+
+export const getSiblingProduct = (
+    operation: IProjectUsecasePipelineOperation,
+    operations: IProjectUsecasePipelineOperation[],
+    drafts: Record<string, IResolutionDraft>,
+): string | null => {
+    const sibling = operations.find(
+        (candidate) =>
+            isSiblingExistingDraft(operation, candidate, drafts[candidate.operationId]) &&
+            drafts[candidate.operationId]?.productAlias,
+    );
+    return sibling ? drafts[sibling.operationId]?.productAlias ?? null : null;
+};
+
+export const shareParticipantProduct = (
+    drafts: Record<string, IResolutionDraft>,
+    operations: IProjectUsecasePipelineOperation[],
+    operation: IProjectUsecasePipelineOperation,
+    productAlias: string | null,
+): Record<string, IResolutionDraft> =>
+    operations.reduce((next, sibling) => {
+        const draft = next[sibling.operationId];
+        if (
+            !isSiblingExistingDraft(operation, sibling, draft) ||
+            draft.productAlias === productAlias
+        ) {
+            return next;
+        }
+        return {
+            ...next,
+            [sibling.operationId]: { ...draft, productAlias, connectionOperation: null },
+        };
+    }, drafts);
+
+export const getStepsCount =(operations: IProjectUsecasePipelineOperation[]) =>
     operations.reduce((count, operation) => count + operation.steps.length, 0);
 
 export const isDecisionOperation = (operation: IProjectUsecasePipelineOperation) =>

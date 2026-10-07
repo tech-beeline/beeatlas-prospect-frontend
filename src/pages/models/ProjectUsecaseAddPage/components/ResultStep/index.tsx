@@ -26,11 +26,13 @@ import {
     buildDecisions,
     getEmptyDraft,
     getParticipantBadge,
+    getSiblingProduct,
     getStepsCount,
     isDecisionOperation,
     isDraftComplete,
     isOperationResolved,
     orderDecisions,
+    shareParticipantProduct,
 } from './utils';
 
 export const ResultStep: FC<IResultStep> = ({
@@ -45,6 +47,7 @@ export const ResultStep: FC<IResultStep> = ({
     const { data: products = [], isLoading: productsLoading } = useGetAllProductsQuery();
     const [editingOperationIds, setEditingOperationIds] = useState<string[]>([]);
     const [drafts, setDrafts] = useState<Record<string, IResolutionDraft>>({});
+    const [productOwners, setProductOwners] = useState<Record<string, string>>({});
     const mappedOperations = result.operations.filter(({ status }) => status !== 'unmapped');
     const decisionOperations = result.operations.filter(isDecisionOperation);
     const confirmed = getStepsCount(mappedOperations.filter(({ status }) => status !== 'planned'));
@@ -63,24 +66,67 @@ export const ResultStep: FC<IResultStep> = ({
     const getDraft = (operation: IProjectUsecasePipelineOperation) =>
         drafts[operation.operationId] ?? getEmptyDraft(getParticipantProduct(operation));
 
+    const isProductLocked = (operation: IProjectUsecasePipelineOperation) => {
+        const owner = productOwners[operation.toAlias];
+        return (
+            Boolean(getParticipantProduct(operation)) ||
+            Boolean(owner && owner !== operation.operationId)
+        );
+    };
+
+    const setProductOwner = (operation: IProjectUsecasePipelineOperation, owned: boolean) => {
+        setProductOwners((current) => {
+            const { [operation.toAlias]: owner, ...rest } = current;
+            if (owned) return { ...rest, [operation.toAlias]: operation.operationId };
+            return owner === operation.operationId ? rest : current;
+        });
+    };
+
     const setDraft = (
         operation: IProjectUsecasePipelineOperation,
         patch: Partial<IResolutionDraft>,
     ) => {
-        setDrafts((current) => ({
-            ...current,
-            [operation.operationId]: {
-                ...(current[operation.operationId] ??
-                    getEmptyDraft(getParticipantProduct(operation))),
-                ...patch,
-            },
-        }));
+        const sharesProduct =
+            patch.productAlias !== undefined &&
+            !getParticipantProduct(operation) &&
+            getDraft(operation).type === CallDecisionType.EXISTING;
+
+        if (sharesProduct) setProductOwner(operation, Boolean(patch.productAlias));
+
+        setDrafts((current) => {
+            const next = {
+                ...current,
+                [operation.operationId]: {
+                    ...(current[operation.operationId] ??
+                        getEmptyDraft(getParticipantProduct(operation))),
+                    ...patch,
+                },
+            };
+            return sharesProduct
+                ? shareParticipantProduct(
+                      next,
+                      decisionOperations,
+                      operation,
+                      patch.productAlias ?? null,
+                  )
+                : next;
+        });
     };
 
     const changeType = (operation: IProjectUsecasePipelineOperation, type: CallDecisionType) => {
+        if (type !== CallDecisionType.EXISTING) setProductOwner(operation, false);
+
         setDrafts((current) => ({
             ...current,
-            [operation.operationId]: { ...getEmptyDraft(getParticipantProduct(operation)), type },
+            [operation.operationId]: {
+                ...getEmptyDraft(
+                    getParticipantProduct(operation) ??
+                        (type === CallDecisionType.EXISTING
+                            ? getSiblingProduct(operation, decisionOperations, current)
+                            : null),
+                ),
+                type,
+            },
         }));
     };
 
@@ -219,7 +265,7 @@ export const ResultStep: FC<IResultStep> = ({
                                     editingOperationIds.includes(operation.operationId)
                                 }
                                 operation={operation}
-                                productLocked={Boolean(getParticipantProduct(operation))}
+                                productLocked={isProductLocked(operation)}
                                 products={products}
                                 productsLoading={productsLoading}
                                 onDraftChange={(patch) => setDraft(operation, patch)}
