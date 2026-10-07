@@ -141,6 +141,7 @@ export const Row = <T,>({
                                                 rowId === RowIds.IDENTIFICATOR
                                                     ? onOpenStepFormByBiId
                                                     : undefined,
+                                                bpmn,
                                             );
                                             return (
                                                 <S.Td

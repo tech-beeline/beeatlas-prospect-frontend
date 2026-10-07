@@ -19,8 +19,9 @@ import { stepTypeAvatarMap } from './const';
 import { DiagramView } from './DiagramView';
 import { IBIScenario } from './types';
 import * as S from './units';
+import { isUserTaskStep } from './utils';
 
-export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
+export const BIScenario: FC<IBIScenario> = ({ biSteps, last, bpmn = false }) => {
     const [expanded, setExpanded] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRelation, setSelectedRelation] = useState<typeof biSteps.relations[0] | null>(
@@ -44,17 +45,20 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
         iconName: Icons.Settings,
         color: 'blue',
     };
+    const isLocked = bpmn && isUserTaskStep(biSteps.type);
 
     return (
         <S.ScenarioTd last={last}>
             <S.ScenarionTdWrapper last={last} expanded={expanded}>
                 <S.ScenarionWrapper>
                     <S.ScenationTitleWrapper>
-                        <IconButton
-                            onClick={() => setExpanded(!expanded)}
-                            iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                            size="medium"
-                        />
+                        {!isLocked && (
+                            <IconButton
+                                onClick={() => setExpanded(!expanded)}
+                                iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
+                                size="medium"
+                            />
+                        )}
                         <Avatar
                             variant="circle"
                             icon={<Icon iconName={stepAvatar.iconName} />}
@@ -73,11 +77,17 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                             </Text>
                         </S.FlexWrapper>
                     </S.ScenationTitleWrapper>
-                    <IconButton iconName={Icons.Edit} size="medium" onClick={handleEditScenario} />
+                    {!isLocked && (
+                        <IconButton
+                            iconName={Icons.Edit}
+                            size="medium"
+                            onClick={handleEditScenario}
+                        />
+                    )}
                 </S.ScenarionWrapper>
             </S.ScenarionTdWrapper>
 
-            {expanded && (
+            {expanded && !isLocked && (
                 <S.ScenarioContentWrapper last={last}>
                     <S.SLAWrapper>
                         <S.TitleWrapper>
@@ -109,20 +119,32 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last }) => {
                     <ImplementationSources biStep={biSteps} onOpenDiagram={openDiagram} />
                 </S.ScenarioContentWrapper>
             )}
-            <BIEditSLA
-                isOpen={openSideSheet === SideSheetVariants.EDIT_SLA_BI && payload === biSteps.id}
-                onClose={closeSideSheet}
-                slaId={String(biSteps.id)}
-                data={{ errorRate: biSteps.errorRate, latency: biSteps.latency, rps: biSteps.rps }}
-            />
-            <BIEditScenario
-                isOpen={
-                    openSideSheet === SideSheetVariants.EDIT_SCENARIO_BI && payload === biSteps.id
-                }
-                onClose={closeSideSheet}
-                stepId={biSteps.id}
-                relationsData={biSteps.relations}
-            />
+            {!isLocked && (
+                <>
+                    <BIEditSLA
+                        isOpen={
+                            openSideSheet === SideSheetVariants.EDIT_SLA_BI &&
+                            payload === biSteps.id
+                        }
+                        onClose={closeSideSheet}
+                        slaId={String(biSteps.id)}
+                        data={{
+                            errorRate: biSteps.errorRate,
+                            latency: biSteps.latency,
+                            rps: biSteps.rps,
+                        }}
+                    />
+                    <BIEditScenario
+                        isOpen={
+                            openSideSheet === SideSheetVariants.EDIT_SCENARIO_BI &&
+                            payload === biSteps.id
+                        }
+                        onClose={closeSideSheet}
+                        stepId={biSteps.id}
+                        relationsData={biSteps.relations}
+                    />
+                </>
+            )}
             {isOpen && selectedRelation && (
                 <CustomModal open={isOpen} onClose={() => setIsOpen(false)}>
                     <DiagramView relation={selectedRelation} onClose={() => setIsOpen(false)} />

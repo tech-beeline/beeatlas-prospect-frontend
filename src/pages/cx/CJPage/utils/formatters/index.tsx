@@ -14,7 +14,7 @@ export const formatTarget = (target: boolean) => <TargetBadge target={target} />
 
 export const formatStatus = (status: IStatus) => <StatusBadge status={status} />;
 
-export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
+export const formatScenario = (biSteps: IStepsScenarion[] = [], bpmn = false) => {
     return (
         <>
             {biSteps.length === 0 ? (
@@ -26,6 +26,7 @@ export const formatScenario = (biSteps: IStepsScenarion[] = []) => {
                             key={step.id ?? index}
                             biSteps={step}
                             last={index === biSteps.length - 1}
+                            bpmn={bpmn}
                         />
                     ))}
                 </S.ScenariosWrapper>
