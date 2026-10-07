@@ -83,7 +83,7 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
                                 </div>
                                 <div>
                                     <Text inactive variant="body3">
-                                        Источник вызова
+                                        Тип реализации
                                     </Text>
                                     <Text variant="body2">{E2E_ALERT_SOURCE_LABEL}</Text>
                                 </div>

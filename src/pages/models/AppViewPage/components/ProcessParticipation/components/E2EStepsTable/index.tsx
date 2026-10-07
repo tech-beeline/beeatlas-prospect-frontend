@@ -62,7 +62,7 @@ export const E2EStepsTable: FC<IE2EStepsTable> = ({ cmdb, search }) => {
                                 <TableRow>
                                     <TableHeaderData>Метод</TableHeaderData>
                                     <TableHeaderData>Техническая возможность</TableHeaderData>
-                                    <TableHeaderData>Dynamic</TableHeaderData>
+                                    <TableHeaderData>C4 Dynamic</TableHeaderData>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

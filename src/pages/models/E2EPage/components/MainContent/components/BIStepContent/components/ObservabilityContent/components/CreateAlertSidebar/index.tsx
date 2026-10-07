@@ -82,7 +82,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                     </S.TitleContainer>
                     <Select
                         fullWidth
-                        label="Источник вызова"
+                        label="Тип реализации"
                         options={ALERT_SOURCE_OPTIONS}
                         values={ALERT_SOURCE_OPTIONS.filter(({ id }) => id === AlertSource.E2E)}
                         onChange={() => undefined}

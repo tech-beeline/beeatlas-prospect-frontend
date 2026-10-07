@@ -218,7 +218,7 @@ export const ProjectUsecasePage = () => {
                             <TableHeaderData>Действие</TableHeaderData>
                             <TableHeaderData>Вызов</TableHeaderData>
                             <TableHeaderData>TC</TableHeaderData>
-                            {/* <TableHeaderData>Dynamic</TableHeaderData> */}
+                            <TableHeaderData>C4 Dynamic</TableHeaderData>
                             <TableHeaderData>Статус вызова</TableHeaderData>
                         </TableRow>
                     </TableHead>
@@ -236,6 +236,7 @@ export const ProjectUsecasePage = () => {
                                     <TableData>
                                         {formatNullableString(operation.technicalCapability)}
                                     </TableData>
+                                    <TableData>{formatNullableString(null)}</TableData>
                                     <TableData>
                                         <Badge semantic={status.semantic}>{status.label}</Badge>
                                     </TableData>

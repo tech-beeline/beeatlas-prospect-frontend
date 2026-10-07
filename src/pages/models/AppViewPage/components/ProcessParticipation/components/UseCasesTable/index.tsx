@@ -84,7 +84,7 @@ export const UseCasesTable: FC<IUseCasesTable> = ({ cmdb, search }) => {
                                     <TableHeaderData>Метод</TableHeaderData>
                                     <TableHeaderData>Описание</TableHeaderData>
                                     <TableHeaderData>Техническая возможность</TableHeaderData>
-                                    <TableHeaderData>Dynamic</TableHeaderData>
+                                    <TableHeaderData>C4 Dynamic</TableHeaderData>
                                     <TableHeaderData>Статус метода</TableHeaderData>
                                 </TableRow>
                             </TableHead>
