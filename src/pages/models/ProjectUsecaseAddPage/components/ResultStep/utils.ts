@@ -10,9 +10,6 @@ export const getEmptyDraft = (productAlias?: string | null): IResolutionDraft =>
     type: null,
     productAlias: productAlias ?? null,
     connectionOperation: null,
-    interfaceName: '',
-    interfaceCode: '',
-    protocol: '',
     requirements: '',
 });
 
@@ -73,7 +70,7 @@ export const isDraftComplete = (draft: IResolutionDraft | undefined): boolean =>
             return Boolean(draft.productAlias && draft.connectionOperation);
         case CallDecisionType.DEVELOP:
             return Boolean(
-                draft.productAlias && draft.interfaceCode.trim() && draft.requirements.trim(),
+                draft.productAlias && draft.requirements.trim(),
             );
         case CallDecisionType.EXISTS_UNSPECIFIED:
         case CallDecisionType.NOT_A_CALL:
@@ -145,9 +142,6 @@ export const buildDecisions = (
                     type: 'develop',
                     operationId,
                     productAlias: draft.productAlias,
-                    interfaceCode: draft.interfaceCode.trim(),
-                    interfaceName: draft.interfaceName.trim() || undefined,
-                    protocol: draft.protocol.trim() || undefined,
                     requirements: draft.requirements.trim(),
                 },
             ];

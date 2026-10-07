@@ -519,7 +519,7 @@ export type IProjectUsecaseMappingDecision =
           type: 'develop';
           operationId: string;
           productAlias: string;
-          interfaceCode: string;
+          interfaceCode?: string;
           interfaceName?: string;
           protocol?: string;
           requirements: string;

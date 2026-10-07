@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { TextArea, TextField } from 'components/ui';
+import { TextArea } from 'components/ui';
 
 import * as PageS from '../../../../../../units';
 import { ProductSelect } from '../ProductSelect';
@@ -22,27 +22,6 @@ export const DevelopFields: FC<IDevelopFields> = ({
             value={draft.productAlias}
             disabled={disabled}
             onChange={(productAlias) => onDraftChange({ productAlias })}
-        />
-        <TextField
-            fullWidth
-            disabled={disabled}
-            label="Контейнер / интерфейс"
-            value={draft.interfaceName}
-            onChange={(event) => onDraftChange({ interfaceName: event.target.value })}
-        />
-        <TextField
-            fullWidth
-            disabled={disabled}
-            label="Протокол"
-            value={draft.protocol}
-            onChange={(event) => onDraftChange({ protocol: event.target.value })}
-        />
-        <TextField
-            fullWidth
-            disabled={disabled}
-            label="Код интерфейса*"
-            value={draft.interfaceCode}
-            onChange={(event) => onDraftChange({ interfaceCode: event.target.value })}
         />
         <S.FullRow>
             <TextArea

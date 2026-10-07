@@ -16,8 +16,5 @@ export interface IResolutionDraft {
     type: CallDecisionType | null;
     productAlias: string | null;
     connectionOperation: IProjectUsecasePipelineConnectionOperation | null;
-    interfaceName: string;
-    interfaceCode: string;
-    protocol: string;
     requirements: string;
 }
