@@ -38,7 +38,7 @@ interface IDataStepProps {
     onSubmit: React.FormEventHandler<HTMLFormElement>;
 }
 
-type BIStepOptionValue = Pick<IStepsScenarion, 'name' | 'uniqueIdent'>;
+type BIStepOptionValue = Pick<IStepsScenarion, 'name' | 'uniqueIdent'> & { biName: string };
 
 const matchesSearch = (values: string[], search: string) => {
     const normalizedSearch = search.trim().toLocaleLowerCase('ru');
@@ -88,6 +88,7 @@ export const DataStep: FC<IDataStepProps> = ({
                     value: {
                         name: biStep.name,
                         uniqueIdent: biStep.uniqueIdent,
+                        biName: bi.name,
                     },
                 })),
             ),
@@ -96,7 +97,7 @@ export const DataStep: FC<IDataStepProps> = ({
     const biStepOptions = useMemo(
         () =>
             allBiStepOptions.filter(({ value }) =>
-                matchesSearch([value.name, value.uniqueIdent], biStepSearch),
+                matchesSearch([value.name, value.uniqueIdent, value.biName], biStepSearch),
             ),
         [allBiStepOptions, biStepSearch],
     );
@@ -224,14 +225,17 @@ export const DataStep: FC<IDataStepProps> = ({
                                         loading={isBusinessInteractionsLoading}
                                         noOptionsContents="BI steps не найдены"
                                         options={biStepOptions}
-                                        renderValue={(option) => option.value.name}
+                                        renderValue={(option) =>
+                                            `${option.value.uniqueIdent} — ${option.value.name}`
+                                        }
                                         type="select"
                                         value={selectedBiStep}
                                         makeOption={(option) => (
                                             <div>
                                                 <Text variant="body2">{option.value.name}</Text>
                                                 <Text inactive variant="body3">
-                                                    {option.value.uniqueIdent}
+                                                    {option.value.uniqueIdent} ·{' '}
+                                                    {option.value.biName}
                                                 </Text>
                                             </div>
                                         )}
