@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 
 import { Text } from 'components/core';
-import { Button, Icon, Skeleton } from 'components/ui';
+import { ImageVariants, NotFoundBlock } from 'components/other';
+import { Button, ButtonGroup, Icon, Skeleton } from 'components/ui';
 
 import { useGetSequenceAlertByIdQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
@@ -11,46 +12,105 @@ import { Icons } from 'styles/design-tokens/js/iconfont';
 import { ImplementationChips } from '../ImplementationChips';
 
 import { CreateAlertSidebar } from './components';
-import { E2E_ALERT_SOURCE_LABEL } from './const';
+import {
+    ALERT_SOURCE_LABEL,
+    ALERT_SOURCE_OPTIONS,
+    AlertSource,
+    USECASE_ALERTS_UNAVAILABLE,
+} from './const';
 import { IObservabilityContent } from './types';
 import * as S from './units';
+import { getAlertImplementations, getAvailableAlertSources } from './utils';
 
-export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) => {
-    const [selectedCode, setSelectedCode] = useState<null | string>(null);
+export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes, usecases }) => {
+    const implementations = useMemo(
+        () => getAlertImplementations(e2eCodes, usecases),
+        [e2eCodes, usecases],
+    );
+    const availableSources = getAvailableAlertSources(implementations);
+    const sourcesKey = availableSources.join('|');
+    const [source, setSource] = useState<AlertSource>(availableSources[0] ?? AlertSource.E2E);
+    const sourceImplementations = implementations[source];
+    const implementationsKey = sourceImplementations.map(({ id }) => id).join('|');
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const preferredIdRef = useRef<string | null>(null);
+    const selected = sourceImplementations.find(({ id }) => id === selectedId) ?? null;
 
     useEffect(() => {
-        setSelectedCode(e2eCodes[0]);
-    }, [e2eCodes]);
+        if (!availableSources.includes(source)) setSource(availableSources[0] ?? AlertSource.E2E);
+    }, [sourcesKey]);
+
+    useEffect(() => {
+        const preferredId = preferredIdRef.current;
+        preferredIdRef.current = null;
+        setSelectedId(
+            sourceImplementations.some(({ id }) => id === preferredId)
+                ? preferredId
+                : sourceImplementations[0]?.id ?? null,
+        );
+    }, [source, implementationsKey]);
 
     const { openModal, closeModal, modalOpened } = useModal();
 
-    const { data, error, isLoading } = useGetSequenceAlertByIdQuery(selectedCode);
+    const isE2E = source === AlertSource.E2E;
+    const { data, error, isLoading } = useGetSequenceAlertByIdQuery(isE2E ? selectedId : null);
+
+    const handleSaved = (savedSource: AlertSource, implementationId: string) => {
+        if (savedSource !== source) preferredIdRef.current = implementationId;
+        setSource(savedSource);
+        setSelectedId(implementationId);
+    };
+
+    if (availableSources.length === 0) {
+        return (
+            <NotFoundBlock
+                imageVariant={ImageVariants.EMPTY_BOX}
+                title="Нет реализаций"
+                text="Алерты строятся по вызовам шага E2E-сценария или Use Case, а у шага BI их нет"
+            />
+        );
+    }
 
     return (
         <>
+            {availableSources.length > 1 && (
+                <ButtonGroup
+                    alwaysSelected
+                    size="small"
+                    type="secondary"
+                    selectedOption={{ id: source }}
+                    options={ALERT_SOURCE_OPTIONS}
+                    onChange={(option) => setSource(option.id as AlertSource)}
+                />
+            )}
             <ImplementationChips
-                implementations={e2eCodes.map((code) => ({ id: code, label: code }))}
-                selectedId={selectedCode}
-                onSelect={setSelectedCode}
+                implementations={sourceImplementations}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
             />
-            {isLoading && <Skeleton radius={12} height={100} />}
-            {(data || error) && !isLoading && (
+            {isE2E && isLoading && <Skeleton radius={12} height={100} />}
+            {(!isE2E || ((data || error) && !isLoading)) && (
                 <S.AlertContainer>
                     <S.TitleContainer>
                         <div>
                             <Text variant="subtitle3">Alerts</Text>
-                            {error && (
+                            {!isE2E && (
+                                <Text inactive variant="body3">
+                                    {USECASE_ALERTS_UNAVAILABLE}
+                                </Text>
+                            )}
+                            {isE2E && error && (
                                 <Text inactive variant="body3">
                                     Для этого процесса алерты еще не создавались
                                 </Text>
                             )}
-                            {data && (
+                            {isE2E && data && (
                                 <Text inactive variant="body3">
                                     {data.id}
                                 </Text>
                             )}
                         </div>
-                        {data && (
+                        {isE2E && data && (
                             <S.Badge success={data.status === 'success'}>
                                 <Text variant="body3">
                                     {data.status === 'success' ? 'Успешно' : 'Ошибка'}
@@ -58,7 +118,23 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
                             </S.Badge>
                         )}
                     </S.TitleContainer>
-                    {data && (
+                    {!isE2E && (
+                        <S.MetadataContainer>
+                            <div>
+                                <Text inactive variant="body3">
+                                    Тип реализации
+                                </Text>
+                                <Text variant="body2">{ALERT_SOURCE_LABEL[source]}</Text>
+                            </div>
+                            <div>
+                                <Text inactive variant="body3">
+                                    Реализация
+                                </Text>
+                                <Text variant="body2">{selected?.name}</Text>
+                            </div>
+                        </S.MetadataContainer>
+                    )}
+                    {isE2E && data && (
                         <>
                             <S.MetadataContainer>
                                 <div>
@@ -85,13 +161,13 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
                                     <Text inactive variant="body3">
                                         Тип реализации
                                     </Text>
-                                    <Text variant="body2">{E2E_ALERT_SOURCE_LABEL}</Text>
+                                    <Text variant="body2">{ALERT_SOURCE_LABEL[source]}</Text>
                                 </div>
                                 <div>
                                     <Text inactive variant="body3">
                                         Реализация
                                     </Text>
-                                    <Text variant="body2">{selectedCode}</Text>
+                                    <Text variant="body2">{selectedId}</Text>
                                 </div>
                             </S.MetadataContainer>
                             <div>
@@ -109,7 +185,7 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
                             startIcon={<Icon iconName={Icons.Refresh} />}
                             onClick={openModal}
                         >
-                            {data ? 'Обновить alerts' : 'Создать alerts'}
+                            {isE2E && data ? 'Обновить alerts' : 'Создать alerts'}
                         </Button>
                     </S.ButtonContainer>
                 </S.AlertContainer>
@@ -117,10 +193,11 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes }) =>
             <CreateAlertSidebar
                 isOpen={modalOpened}
                 onClose={closeModal}
-                data={data}
-                selectedE2ECode={selectedCode}
-                e2eCodes={e2eCodes}
-                onSaved={setSelectedCode}
+                data={isE2E ? data : undefined}
+                source={source}
+                selectedId={selectedId}
+                implementations={implementations}
+                onSaved={handleSaved}
             />
         </>
     );

@@ -243,3 +243,13 @@ export const NotFound = styled.div`
     align-items: center;
     justify-content: center;
 `;
+
+export const CodeField = styled.div`
+    & textarea {
+        font-family: var(--font-family-code), monospace;
+        white-space: pre;
+        overflow-wrap: normal;
+        overflow-x: auto;
+        tab-size: 4;
+    }
+`;

@@ -40,7 +40,7 @@ export const DevelopFields: FC<IDevelopFields> = ({
         <TextField
             fullWidth
             disabled={disabled}
-            label="Код интерфейса"
+            label="Код интерфейса*"
             value={draft.interfaceCode}
             onChange={(event) => onDraftChange({ interfaceCode: event.target.value })}
         />
@@ -49,7 +49,7 @@ export const DevelopFields: FC<IDevelopFields> = ({
                 fullWidth
                 autoHeight
                 disabled={disabled}
-                label="Требования к методу"
+                label="Требования к методу*"
                 helperText="Что принимает, что возвращает, какие атрибуты нужны"
                 value={draft.requirements}
                 onChange={(event) => onDraftChange({ requirements: event.target.value })}

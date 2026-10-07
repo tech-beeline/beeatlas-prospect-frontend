@@ -39,7 +39,7 @@ export const ExistingMethodFields: FC<IExistingMethodFields> = ({
                 key={draft.productAlias ?? 'no-product'}
                 fullWidth
                 disabled={disabled || !draft.productAlias}
-                label="Метод"
+                label="Метод*"
                 loading={containersLoading}
                 options={options}
                 renderValue={(option) => option.value}

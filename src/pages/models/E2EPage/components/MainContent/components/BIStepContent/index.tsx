@@ -75,7 +75,7 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
                 )}
             {tabVariant === TabVariants.OBSERVABILITY &&
                 activeTreeItem.type === E2ETreeItemType.BI_STEP && (
-                    <ObservabilityContent e2eCodes={activeTreeItem.e2eCodes} />
+                    <ObservabilityContent e2eCodes={activeTreeItem.e2eCodes} usecases={usecases} />
                 )}
         </>
     );

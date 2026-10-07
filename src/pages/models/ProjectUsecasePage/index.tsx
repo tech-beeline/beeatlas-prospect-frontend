@@ -35,7 +35,7 @@ import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 
-import { RelationCard } from './components';
+import { RelationCard, TechCapabilityCell } from './components';
 import * as S from './units';
 import { getE2EStepUrl } from './utils';
 
@@ -234,9 +234,11 @@ export const ProjectUsecasePage = () => {
                                     <TableData>{formatNullableString(operation.action)}</TableData>
                                     <TableData>{formatNullableString(operation.call)}</TableData>
                                     <TableData>
-                                        {formatNullableString(operation.technicalCapability)}
+                                        <TechCapabilityCell
+                                            techCapability={operation.techCapability}
+                                        />
                                     </TableData>
-                                    <TableData>{formatNullableString(null)}</TableData>
+                                    <TableData>Не найдены</TableData>
                                     <TableData>
                                         <Badge semantic={status.semantic}>{status.label}</Badge>
                                     </TableData>

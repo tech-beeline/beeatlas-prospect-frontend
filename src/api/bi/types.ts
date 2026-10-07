@@ -105,6 +105,7 @@ export interface IStepsScenarion {
     id: number;
     uniqueIdent: string;
     type: string;
+    nameStepType?: string;
     latency: number;
     errorRate: number;
     rps: number;

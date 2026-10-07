@@ -62,6 +62,7 @@ export interface IProjectUsecaseDiscoveredInterface {
 }
 
 export interface IProjectUsecaseTechCapability {
+    id?: number | null;
     code: string | null;
     name: string | null;
 }
@@ -117,6 +118,7 @@ export interface IProjectUsecaseOperationTableItem {
     action: string | null;
     call: string | null;
     technicalCapability: string | null;
+    techCapability: IProjectUsecaseTechCapability | null;
     status: ProjectUsecaseOperationStatus;
 }
 

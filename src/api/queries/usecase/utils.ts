@@ -92,6 +92,7 @@ export const mapProjectUsecaseOperationNode = (
                   connectedOperation.techCapability.code,
               )
             : null,
+        techCapability: connectedOperation?.techCapability ?? null,
         status: getOperationStatus(discoveredOperation.isPlanned, Boolean(connectedOperation)),
     };
 };

@@ -99,3 +99,13 @@ export const ButtonContainer = styled.div`
     width: 100%;
     max-width: 910px;
 `;
+
+export const CodeField = styled.div`
+    & textarea {
+        font-family: var(--font-family-code), monospace;
+        white-space: pre;
+        overflow-wrap: normal;
+        overflow-x: auto;
+        tab-size: 4;
+    }
+`;

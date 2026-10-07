@@ -3,14 +3,15 @@ import { useAuthStore } from 'features/auth';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
-import { IconButton, Select } from 'components/ui';
+import { Banner, IconButton, Select } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
 
 import { usePostSequenceAlertByIdMutation } from 'api/queries/staging-sequence';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { ALERT_SOURCE_OPTIONS, AlertSource } from './const';
+import { ALERT_SOURCE_OPTIONS, AlertSource, USECASE_ALERTS_UNAVAILABLE } from '../../const';
+
 import { ICreateAlertSidebar } from './types';
 import * as S from './units';
 
@@ -18,18 +19,31 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
     isOpen,
     onClose,
     data,
-    selectedE2ECode,
-    e2eCodes,
+    source: initialSource,
+    selectedId,
+    implementations,
     onSaved,
 }) => {
     const [comment, setComment] = useState('');
-    const [implementation, setImplementation] = useState<string | null>(selectedE2ECode);
+    const [source, setSource] = useState<AlertSource>(initialSource);
+    const [implementation, setImplementation] = useState<string | null>(selectedId);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const implementationOptions = e2eCodes.map((code) => ({ id: code, value: code }));
+    const sourceOptions = ALERT_SOURCE_OPTIONS.map(({ id, label }) => ({
+        id,
+        value: label,
+        disabled: implementations[id].length === 0,
+    }));
+    const implementationOptions = implementations[source].map(({ id, name }) => ({
+        id,
+        value: name,
+    }));
+    const isUsecaseSource = source === AlertSource.USE_CASE;
 
     useEffect(() => {
-        if (isOpen) setImplementation(selectedE2ECode);
-    }, [isOpen, selectedE2ECode]);
+        if (!isOpen) return;
+        setSource(initialSource);
+        setImplementation(selectedId);
+    }, [isOpen, initialSource, selectedId]);
 
     useEffect(() => setErrorMessage(null), [comment]);
 
@@ -39,8 +53,13 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
 
     const { mutateAsync: createSequenceAlert, isPending } = usePostSequenceAlertByIdMutation();
 
+    const changeSource = (nextSource: AlertSource) => {
+        setSource(nextSource);
+        setImplementation(implementations[nextSource][0]?.id ?? null);
+    };
+
     const handleSave = async () => {
-        if (!implementation) return;
+        if (!implementation || isUsecaseSource) return;
         setErrorMessage(null);
         try {
             await createSequenceAlert({
@@ -51,7 +70,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                 },
             });
             showSnackbar({ message: data ? 'Alerts обновлен' : 'Alerts создан' });
-            onSaved(implementation);
+            onSaved(source, implementation);
             onClose();
         } catch (e) {
             const message =
@@ -83,9 +102,11 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                     <Select
                         fullWidth
                         label="Тип реализации"
-                        options={ALERT_SOURCE_OPTIONS}
-                        values={ALERT_SOURCE_OPTIONS.filter(({ id }) => id === AlertSource.E2E)}
-                        onChange={() => undefined}
+                        options={sourceOptions}
+                        values={sourceOptions.filter(({ id }) => id === source)}
+                        onChange={(values) =>
+                            values[0] && changeSource(values[0].id as AlertSource)
+                        }
                     />
                     <Select
                         fullWidth
@@ -96,10 +117,14 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                             setImplementation(values[0] ? String(values[0].id) : null)
                         }
                     />
+                    {isUsecaseSource && (
+                        <Banner iconName={Icons.InfoCircled} title={USECASE_ALERTS_UNAVAILABLE} />
+                    )}
                     <TextArea
                         fullWidth
                         label="Комментарий"
                         value={comment}
+                        disabled={isUsecaseSource}
                         onChange={(e) => setComment(e.target.value)}
                         error={!!errorMessage}
                         helperText={errorMessage || undefined}
@@ -119,9 +144,9 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                             onClick={handleSave}
                             showProgress={isPending}
                             state={isPending ? 'loading' : 'default'}
-                            disabled={!implementation || isPending}
+                            disabled={!implementation || isUsecaseSource || isPending}
                         >
-                            {data ? 'Обновить' : 'Создать'}
+                            {data && !isUsecaseSource ? 'Обновить' : 'Создать'}
                         </S.ProgressButtonStyled>
                     </S.ButtonContainer>
                 </S.Footer>

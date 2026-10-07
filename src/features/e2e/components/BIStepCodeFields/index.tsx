@@ -6,6 +6,8 @@ import { type Option, Autocomplete } from 'components/ui';
 import { IBIData, IStepsScenarion } from 'api/bi/types';
 import { useGetBusinessInteractionsQuery } from 'api/queries/bi';
 
+import { isBIStepCodeSearch, isLinkableBIStep } from '../../utils';
+
 import { IBIStepCodeFields } from './types';
 
 type BIOptionValue = Pick<IBIData, 'name' | 'uniqueIdent'>;
@@ -30,7 +32,18 @@ export const BIStepCodeFields: FC<IBIStepCodeFields> = ({
     const initializedBIRelationRef = useRef<string | null>(null);
 
     const { data = [], isLoading } = useGetBusinessInteractionsQuery();
-    const availableBIs = useMemo(() => data.filter((bi) => bi.biSteps.length > 0), [data]);
+    const availableBIs = useMemo(
+        () =>
+            data
+                .map((bi) => ({
+                    ...bi,
+                    biSteps: bi.biSteps.filter(
+                        (biStep) => isLinkableBIStep(biStep) || biStep.uniqueIdent === value,
+                    ),
+                }))
+                .filter((bi) => bi.biSteps.length > 0),
+        [data, value],
+    );
 
     useEffect(() => {
         const biRelationKey = biId != null || biCode ? `${biId ?? ''}:${biCode ?? ''}` : null;
@@ -92,6 +105,21 @@ export const BIStepCodeFields: FC<IBIStepCodeFields> = ({
     const selectedBIStepOption =
         biStepOptions.find((option) => option.value.uniqueIdent === value) ?? null;
 
+    const selectBIStepByCode = (search: string) => {
+        const bi = (selectedBI ? [selectedBI] : availableBIs).find((candidate) =>
+            candidate.biSteps.some((biStep) => isBIStepCodeSearch(biStep.uniqueIdent, search)),
+        );
+        const biStep = bi?.biSteps.find((candidate) =>
+            isBIStepCodeSearch(candidate.uniqueIdent, search),
+        );
+        if (!bi || !biStep) return false;
+
+        setSelectedBIId(bi.id);
+        setBIStepSearch('');
+        onChange(biStep.uniqueIdent);
+        return true;
+    };
+
     const clearBI = () => {
         setSelectedBIId(null);
         setBIStepSearch('');
@@ -119,10 +147,11 @@ export const BIStepCodeFields: FC<IBIStepCodeFields> = ({
                     </div>
                 )}
                 onChange={(option) => {
+                    const bi = availableBIs.find(({ id }) => id === Number(option.id));
                     setSelectedBIId(Number(option.id));
                     setBISearch('');
                     setBIStepSearch('');
-                    onChange('');
+                    onChange(bi?.biSteps.length === 1 ? bi.biSteps[0].uniqueIdent : '');
                 }}
                 onInputChange={(search) => {
                     setBISearch(search);
@@ -157,6 +186,7 @@ export const BIStepCodeFields: FC<IBIStepCodeFields> = ({
                     onChange(option.value.uniqueIdent);
                 }}
                 onInputChange={(search) => {
+                    if (selectBIStepByCode(search)) return;
                     setBIStepSearch(search);
                     onChange('');
                 }}

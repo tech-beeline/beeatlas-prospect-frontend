@@ -186,18 +186,20 @@ export const ImportDataForm: FC<IImportDataForm> = ({
 
                     <S.FieldGroup>
                         <Text variant="subtitle1">Вставить текст</Text>
-                        <TextArea
-                            fullWidth
-                            rows={8}
-                            label="PlantUml"
-                            value={plantUmlText}
-                            disabled={Boolean(file) || isSubmitting}
-                            onChange={(event) => {
-                                onPlantUmlTextChange(event.target.value);
-                                setFileErrorText(null);
-                                clearSubmitError();
-                            }}
-                        />
+                        <S.CodeField>
+                            <TextArea
+                                fullWidth
+                                rows={8}
+                                label="PlantUml"
+                                value={plantUmlText}
+                                disabled={Boolean(file) || isSubmitting}
+                                onChange={(event) => {
+                                    onPlantUmlTextChange(event.target.value);
+                                    setFileErrorText(null);
+                                    clearSubmitError();
+                                }}
+                            />
+                        </S.CodeField>
 
                         {submitError && submitErrorSource === 'text' && (
                             <Banner

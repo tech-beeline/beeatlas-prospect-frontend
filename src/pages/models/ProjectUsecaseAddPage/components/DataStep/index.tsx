@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useMemo, useState } from 'react';
 import { FormProvider, UseFormReturn } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { isBIStepCodeSearch, isLinkableBIStep } from 'features/e2e';
 
 import { Text } from 'components/core';
 import { TextArea, TextField } from 'components/form';
@@ -83,8 +84,8 @@ export const DataStep: FC<IDataStepProps> = ({
     const allBiStepOptions = useMemo<Option<BIStepOptionValue>[]>(
         () =>
             businessInteractions.flatMap((bi) =>
-                bi.biSteps.map((biStep) => ({
-                    id: biStep.uniqueIdent,
+                bi.biSteps.filter(isLinkableBIStep).map((biStep) => ({
+                    id: biStep.id,
                     value: {
                         name: biStep.name,
                         uniqueIdent: biStep.uniqueIdent,
@@ -159,7 +160,7 @@ export const DataStep: FC<IDataStepProps> = ({
                                 <Chip
                                     active={mode === ProjectUsecaseImportMode.EXISTING}
                                     aria-pressed={mode === ProjectUsecaseImportMode.EXISTING}
-                                    disabled={isFormDisabled}
+                                    disabled={isFormDisabled || usecases.length === 0}
                                     label="Существующий Use Case"
                                     onClick={() =>
                                         setValue('mode', ProjectUsecaseImportMode.EXISTING)
@@ -244,8 +245,15 @@ export const DataStep: FC<IDataStepProps> = ({
                                             setValue('biStepCode', option.value.uniqueIdent);
                                         }}
                                         onInputChange={(search) => {
-                                            setBIStepSearch(search);
-                                            setValue('biStepCode', null);
+                                            const pastedBiStep = allBiStepOptions.find(
+                                                ({ value }) =>
+                                                    isBIStepCodeSearch(value.uniqueIdent, search),
+                                            );
+                                            setBIStepSearch(pastedBiStep ? '' : search);
+                                            setValue(
+                                                'biStepCode',
+                                                pastedBiStep?.value.uniqueIdent ?? null,
+                                            );
                                         }}
                                         onInputClear={() => {
                                             setBIStepSearch('');
@@ -256,14 +264,16 @@ export const DataStep: FC<IDataStepProps> = ({
                             </S.FieldsRow>
                             <S.Field>
                                 <Text variant="subtitle1">Вставить PlantUML текстом</Text>
-                                <TextArea
-                                    disabled={Boolean(selectedFile) || isFormDisabled}
-                                    fullWidth
-                                    label="PlantUML"
-                                    name="plantUml"
-                                    helperText="Вставьте текст диаграммы последовательности в нотации PlantUML. Используйте названия систем/контейнеров, соответствующие в ландшафте Beeatlas — так части сценария будут сопоставлены автоматически"
-                                    helperPosition="block"
-                                />
+                                <S.CodeField>
+                                    <TextArea
+                                        disabled={Boolean(selectedFile) || isFormDisabled}
+                                        fullWidth
+                                        label="PlantUML"
+                                        name="plantUml"
+                                        helperText="Вставьте текст диаграммы последовательности в нотации PlantUML. Используйте названия систем/контейнеров, соответствующие в ландшафте Beeatlas — так части сценария будут сопоставлены автоматически"
+                                        helperPosition="block"
+                                    />
+                                </S.CodeField>
                             </S.Field>
                             <S.Field>
                                 <Text variant="subtitle1">Добавить файл</Text>

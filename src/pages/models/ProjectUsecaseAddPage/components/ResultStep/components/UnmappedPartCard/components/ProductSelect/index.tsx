@@ -19,7 +19,7 @@ export const ProductSelect: FC<IProductSelect> = ({
         <Autocomplete
             fullWidth
             disabled={disabled}
-            label="Приложение (мнемоника)"
+            label="Приложение (мнемоника)*"
             loading={loading}
             options={options}
             renderValue={(option) => option.value}

@@ -1,6 +1,16 @@
+import { IStepsScenarion } from 'api/bi/types';
 import { EntityRelationType, IStagingSequenceCallsData } from 'api/staging-sequence/types';
 
 import { IRootCall, ITreeItem } from './types';
+
+const USER_TASK_STEP_TYPE = 'UserTask';
+
+export const isLinkableBIStep = (biStep: Pick<IStepsScenarion, 'nameStepType' | 'type'>) =>
+    (biStep.nameStepType ?? biStep.type) !== USER_TASK_STEP_TYPE;
+
+export const isBIStepCodeSearch = (code: string, search: string) =>
+    Boolean(search.trim()) &&
+    code.toLocaleLowerCase('ru') === search.trim().toLocaleLowerCase('ru');
 
 type IOperation = IStagingSequenceCallsData['operations'][number];
 type IOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];
