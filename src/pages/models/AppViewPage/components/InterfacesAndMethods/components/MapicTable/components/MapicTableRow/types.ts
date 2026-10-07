@@ -7,4 +7,5 @@ export interface IMapicTableRow {
     sctructurizrInterfaces: IStructurizrInterfaceData[];
     selectedMapicOperation: ISelectedMapicOperation | null;
     showContextApi: boolean;
+    interfaceOption: string;
 }

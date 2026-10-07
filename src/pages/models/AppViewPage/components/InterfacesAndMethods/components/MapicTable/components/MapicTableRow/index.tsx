@@ -24,6 +24,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
     sctructurizrInterfaces,
     selectedMapicOperation,
     showContextApi,
+    interfaceOption,
 }) => {
     const rowRef = useRef<HTMLDivElement | null>(null);
     const [expanded, setExpanded] = useState(false);
@@ -191,7 +192,7 @@ export const MapicTableRow: FC<IMapicTableRow> = ({
                             <S.TableStyled>
                                 <TableHead>
                                     <TableRow>
-                                        <TableHeaderData>Метод mapic</TableHeaderData>
+                                        <TableHeaderData>Метод {interfaceOption}</TableHeaderData>
                                         <TableHeaderData>Метод structurizr</TableHeaderData>
                                         <TableHeaderData>Статус</TableHeaderData>
                                     </TableRow>

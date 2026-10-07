@@ -243,6 +243,7 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, discoveredSources
                                 sctructurizrInterfaces={structurizrData}
                                 selectedMapicOperation={selectedMapicOperation}
                                 showContextApi={showContextApi}
+                                interfaceOption={interfaceOption}
                             />
                         ))}
                     </TableBody>
