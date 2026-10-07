@@ -26,6 +26,7 @@ import {
 } from 'api/queries/usecase';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
+import { formatDateToUTC } from 'utils/formatters';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
 import * as S from './units';
@@ -149,7 +150,9 @@ export const ProjectUsecaseHistoryPage = () => {
                             <TableRow key={item.runId}>
                                 <TableData>{item.runId}</TableData>
                                 <TableData>
-                                    {dayjs(item.executionStartedAt).format('DD.MM.YYYY, HH:mm')}
+                                    {dayjs(formatDateToUTC(item.executionStartedAt))
+                                        .local()
+                                        .format('DD.MM.YYYY, HH:mm')}
                                 </TableData>
                                 <TableData>{HISTORY_SOURCE}</TableData>
                                 <TableData>

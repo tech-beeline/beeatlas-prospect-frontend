@@ -33,7 +33,7 @@ import {
 } from 'api/usecase/types';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
-import { formatNullableString } from 'utils/formatters';
+import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 
 import { RelationCard } from './components';
 import * as S from './units';
@@ -176,9 +176,9 @@ export const ProjectUsecasePage = () => {
                             Дата изменения
                         </Text>
                         <Text variant="body2">
-                            {dayjs(getProjectUsecaseLatestDate(usecase)).format(
-                                'DD.MM.YYYY, HH:mm',
-                            )}
+                            {dayjs(formatDateToUTC(getProjectUsecaseLatestDate(usecase)))
+                                .local()
+                                .format('DD.MM.YYYY, HH:mm')}
                         </Text>
                     </S.MetaItem>
                 </S.Meta>
