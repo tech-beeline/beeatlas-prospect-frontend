@@ -36,7 +36,14 @@ import { UsecaseImportStep } from './types';
 import * as S from './units';
 import { getPipelineFailureReason } from './utils';
 
-type PageState = 'form' | 'processing' | 'review' | 'applying' | 'failed' | 'poll-error';
+type PageState =
+    | 'form'
+    | 'processing'
+    | 'review'
+    | 'applying'
+    | 'failed'
+    | 'poll-error'
+    | 'foreign-run';
 type PollTarget = 'awaiting_review' | 'terminal';
 
 const STEPS = [
@@ -70,6 +77,7 @@ export const ProjectUsecaseAddPage = () => {
     const runId = params.get('runId');
     const importPath = `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}`;
     const projectQuery = useGetProjectByIdQuery(projectId ? String(projectId) : null);
+    const projectCode = projectQuery.data?.uniqueIdent;
     const usecasesQuery = useGetProjectUsecasesQuery(projectId);
     const businessInteractionsQuery = useGetBusinessInteractionsQuery();
     const { mutateAsync: startPipeline, isPending: isStartingPipeline } =
@@ -165,6 +173,11 @@ export const ProjectUsecaseAddPage = () => {
 
                     if (pollGenerationRef.current !== generation) return;
 
+                    if (status.result && status.result.usecase.projectCode !== projectCode) {
+                        setPageState('foreign-run');
+                        return;
+                    }
+
                     if (status.status === PipelineStatuses.FAILED) {
                         const failureReason = await getPipelineRunDetails(runId)
                             .then(getPipelineFailureReason)
@@ -221,20 +234,26 @@ export const ProjectUsecaseAddPage = () => {
                 setPageState('poll-error');
             }
         },
-        [getPipelineRunDetails, getPipelineStatus, navigateToCompletedUsecase, runId],
+        [
+            getPipelineRunDetails,
+            getPipelineStatus,
+            navigateToCompletedUsecase,
+            projectCode,
+            runId,
+        ],
     );
 
     useEffect(() => {
-        if (runId) {
-            void pollPipeline('awaiting_review');
-        } else {
+        if (!runId) {
             setPageState('form');
+        } else if (projectCode) {
+            void pollPipeline('awaiting_review');
         }
 
         return () => {
             pollGenerationRef.current += 1;
         };
-    }, [pollPipeline, runId]);
+    }, [pollPipeline, projectCode, runId]);
 
     const navigateToProject = useCallback(() => {
         navigate(
@@ -520,6 +539,18 @@ export const ProjectUsecaseAddPage = () => {
                         color="error"
                         iconName={Icons.WarningCircled}
                         title={pipelineError ?? 'Не удалось обработать PlantUML'}
+                    />
+                    <Button variant="outlined" onClick={returnToForm}>
+                        Вернуться к форме
+                    </Button>
+                </S.Processing>
+            )}
+            {pageState === 'foreign-run' && (
+                <S.Processing>
+                    <Banner
+                        color="error"
+                        iconName={Icons.WarningCircled}
+                        title="Импорт не относится к этому проекту"
                     />
                     <Button variant="outlined" onClick={returnToForm}>
                         Вернуться к форме
