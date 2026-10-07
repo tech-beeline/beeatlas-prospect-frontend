@@ -50,6 +50,12 @@ export const getProductStructurizrInterfacesByCmdb = (
     });
 };
 
+export const getProductE2eSteps = (cmdb: string): AxiosPromise<T.IProductE2eStep[]> => {
+    return Api.get({
+        url: `${GATEWAY_PRODUCT_URL}v1/product/${cmdb}/e2e-steps`,
+    });
+};
+
 export const getProductMapicInterfacesByCmdb = (
     cmdb: string,
     sourceType: string,

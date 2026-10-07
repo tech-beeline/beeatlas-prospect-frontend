@@ -310,3 +310,10 @@ export interface IUsecasesByBiStepCodeGroup {
     biStepCode: string;
     useCases: IUsecaseByBiStepCode[];
 }
+
+export interface IUsecaseOperationsGroup {
+    id: number;
+    name: string;
+    code: string;
+    operationIds: number[];
+}

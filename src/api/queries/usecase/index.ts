@@ -8,6 +8,7 @@ import {
     getProjectUsecaseOperations,
     getProjectUsecases,
     getUsecasesByBiStepCodes,
+    getUsecasesByOperations,
     saveProjectUsecaseResolution,
     startProjectUsecaseImport,
 } from 'api/usecase';
@@ -85,6 +86,14 @@ export const useGetUsecasesByBiStepCodeQuery = (biStepCode?: string | null) => {
             groups.find((group) => group.biStepCode.toLowerCase() === biStepCode!.toLowerCase())
                 ?.useCases ?? [],
         enabled: Boolean(biStepCode),
+    });
+};
+
+export const useGetUsecasesByOperationsQuery = (operationIds: number[]) => {
+    return useQuery({
+        queryKey: [PROJECT_USECASE_PREFIX, 'BY_OPERATIONS', operationIds],
+        queryFn: () => getUsecasesByOperations(operationIds).then((response) => response.data),
+        enabled: operationIds.length > 0,
     });
 };
 

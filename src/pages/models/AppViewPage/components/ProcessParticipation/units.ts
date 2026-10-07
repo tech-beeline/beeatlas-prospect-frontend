@@ -6,6 +6,16 @@ export const Container = styled.div`
     gap: 24px;
 `;
 
+export const Toolbar = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+`;
+
+export const ViewSwitcher = styled.div`
+    width: fit-content;
+`;
+
 export const SearchContainer = styled.div`
     max-width: 648px;
 `;

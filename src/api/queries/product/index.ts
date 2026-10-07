@@ -16,6 +16,7 @@ import {
     getNfrsByProductAlias,
     getNfrsByProductId,
     getOperationsByTechCapabilityId,
+    getProductE2eSteps,
     getProductEmployeesByCmdb,
     getProductFitnessFunctionsByCmdb,
     getProductInfoByCmdb,
@@ -88,6 +89,14 @@ export const useGetProductStructurizrInterfacesByCmdbQuery = (cmdb?: string | nu
     return useQuery({
         queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'structurizr'],
         queryFn: () => getProductStructurizrInterfacesByCmdb(cmdb!).then((res) => res.data),
+        enabled: !!cmdb,
+    });
+};
+
+export const useGetProductE2eStepsQuery = (cmdb?: string | null) => {
+    return useQuery({
+        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'e2e-steps'],
+        queryFn: () => getProductE2eSteps(cmdb!).then((res) => res.data),
         enabled: !!cmdb,
     });
 };

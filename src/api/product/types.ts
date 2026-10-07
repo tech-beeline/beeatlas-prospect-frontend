@@ -113,6 +113,12 @@ export interface IStructurizrContainerData {
     deletedDate: string | null;
 }
 
+export interface IOperationTechCapability {
+    id: number | null;
+    code: string | null;
+    name: string | null;
+}
+
 export interface IMapicInterfaceOperationData {
     id: number;
     name: string;
@@ -125,6 +131,27 @@ export interface IMapicInterfaceOperationData {
         type: string;
     } | null;
     deletedDate: string | null;
+    isPlanned?: boolean;
+    techCapability?: IOperationTechCapability | null;
+}
+
+export interface IProductE2eOperation {
+    id: number;
+    entityType: 'operation' | 'discovered_operation';
+    type: string | null;
+    name: string | null;
+    techCapability: IOperationTechCapability | null;
+}
+
+export interface IProductE2eStep {
+    e2e: {
+        id: number;
+        code: string;
+        name: string | null;
+        biStepCode: string | null;
+        source: string | null;
+    };
+    operations: IProductE2eOperation[];
 }
 
 export interface IMapicInterfaceData {

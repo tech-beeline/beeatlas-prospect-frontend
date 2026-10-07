@@ -1,12 +1,11 @@
 export { ArchitectureChanges } from './ArchitectureChanges';
 export { Deployment } from './Deployment';
 export { Diagrams } from './Diagrams';
-export { E2EProcesses } from './E2EProcesses';
 export { FitnessFunctions } from './FitnessFunctions';
 export { GeneralInfo } from './GeneralInfo';
-export { InDevelopment } from './InDevelopment';
 export { InterfacesAndMethods } from './InterfacesAndMethods';
 export { Patterns } from './Patterns';
+export { ProcessParticipation } from './ProcessParticipation';
 export { Requirements } from './Requirements';
 export { TechCapabilities } from './TechCapabilities';
 export { Technologies } from './Technologies';
