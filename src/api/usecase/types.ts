@@ -56,6 +56,7 @@ export interface IProjectUsecaseOperationProduct {
 }
 
 export interface IProjectUsecaseDiscoveredInterface {
+    name: string | null;
     product: IProjectUsecaseOperationProduct | null;
     productPlanned: string | null;
 }
@@ -77,6 +78,9 @@ export interface IProjectUsecaseDiscoveredOperation {
     description: string | null;
     type: string | null;
     isPlanned: boolean;
+    rps: number | null;
+    latency: number | null;
+    errorRate: number | null;
     discoveredInterface: IProjectUsecaseDiscoveredInterface;
     operation: IProjectUsecaseConnectedOperation | null;
 }
@@ -293,4 +297,16 @@ export interface ISaveProjectUsecaseResolution {
 
 export interface IApplyProjectUsecaseImport {
     importId: number;
+}
+
+export interface IUsecaseByBiStepCode {
+    id: number;
+    name: string;
+    code: string;
+    projectId: number;
+}
+
+export interface IUsecasesByBiStepCodeGroup {
+    biStepCode: string;
+    useCases: IUsecaseByBiStepCode[];
 }

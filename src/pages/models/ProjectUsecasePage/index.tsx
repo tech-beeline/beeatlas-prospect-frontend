@@ -5,7 +5,7 @@ import { getProjectUsecaseLatestDate } from 'features/projects';
 
 import { Text } from 'components/core';
 import { BreadCrumbsItem } from 'components/interaction';
-import { ImageVariants, Link, NotFoundBlock } from 'components/other';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Badge,
     BadgeSemantic,
@@ -35,7 +35,9 @@ import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatNullableString } from 'utils/formatters';
 
+import { RelationCard } from './components';
 import * as S from './units';
+import { getE2EStepUrl } from './utils';
 
 const OPERATION_STATUS_DATA: Record<
     ProjectUsecaseOperationStatus,
@@ -182,34 +184,26 @@ export const ProjectUsecasePage = () => {
                 </S.Meta>
             </S.PageHeader>
 
-            {usecase.biStepCode && biStepData && biStepData.cj.length > 0 && (
+            {usecase.biStepCode && biStepData && (
                 <S.Section>
-                    <Text variant="subtitle1">Связь с CJ</Text>
-                    <S.TableStyled>
-                        <TableHead>
-                            <TableRow>
-                                <TableHeaderData>CJ</TableHeaderData>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {biStepData.cj.map((cj) => (
-                                <TableRow dense key={cj.id}>
-                                    <TableData>
-                                        <S.CellStack>
-                                            <Link
-                                                outer={false}
-                                                title={cj.name}
-                                                url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
-                                            />
-                                            <Text inactive variant="body3">
-                                                {cj.uid}
-                                            </Text>
-                                        </S.CellStack>
-                                    </TableData>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </S.TableStyled>
+                    <Text variant="subtitle1">Связи</Text>
+                    <S.Relations>
+                        {biStepData.cj.map((cj) => (
+                            <RelationCard
+                                key={cj.id}
+                                label="Связанный CJ"
+                                title={cj.name}
+                                code={cj.uid}
+                                url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
+                            />
+                        ))}
+                        <RelationCard
+                            label="Связанный шаг E2E-сценария"
+                            title={biStepData.biStep.name}
+                            code={biStepData.biStep.uid}
+                            url={getE2EStepUrl(biStepData.biStep.uid)}
+                        />
+                    </S.Relations>
                 </S.Section>
             )}
 

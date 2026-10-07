@@ -1,29 +1,23 @@
 import { IProjectUsecasePipelineConnectionOperation } from 'api/staging-service/types';
-import { ProjectUsecaseResolutionType } from 'api/usecase';
 
 export enum UsecaseImportStep {
     DATA = 'DATA',
     RESULT = 'RESULT',
 }
 
-export interface IResolutionDraft {
-    type: ProjectUsecaseResolutionType | null;
-    productAlias: string | null;
-    containerId: number | null;
-    interfaceId: number | null;
-    operationId: number | null;
+export enum CallDecisionType {
+    EXISTING = 'EXISTING',
+    EXISTS_UNSPECIFIED = 'EXISTS_UNSPECIFIED',
+    DEVELOP = 'DEVELOP',
+    NOT_A_CALL = 'NOT_A_CALL',
 }
 
-export type IResolutionSelection =
-    | {
-          type: ProjectUsecaseResolutionType.EXISTING;
-          productAlias: string;
-          connectionOperation: IProjectUsecasePipelineConnectionOperation;
-      }
-    | {
-          type: ProjectUsecaseResolutionType.NEW;
-          productAlias: string;
-      }
-    | {
-          type: ProjectUsecaseResolutionType.PLANNED;
-      };
+export interface IResolutionDraft {
+    type: CallDecisionType | null;
+    productAlias: string | null;
+    connectionOperation: IProjectUsecasePipelineConnectionOperation | null;
+    interfaceName: string;
+    interfaceCode: string;
+    protocol: string;
+    requirements: string;
+}

@@ -19,3 +19,6 @@ export const STATUS_OPTIONS = [
         value: projectUsecaseStatusToNameMap[ProjectUsecaseStatus.PUBLISHED],
     },
 ];
+
+export const EMPTY_STATE_TEXT =
+    'Создайте Use Case из диаграммы PlantUML: шаги, системы-участники и вызовы определятся автоматически. Решения останутся только по вызовам, которые не удалось сопоставить';

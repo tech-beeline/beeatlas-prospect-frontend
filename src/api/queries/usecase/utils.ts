@@ -70,7 +70,7 @@ const getParticipant = (
     return null;
 };
 
-const mapOperationNode = (
+export const mapProjectUsecaseOperationNode = (
     node: IProjectUsecaseOperationNode,
     parentApplication: IProjectUsecaseOperationApplication | null,
 ): IProjectUsecaseOperationTableItem => {
@@ -98,7 +98,8 @@ const mapOperationNode = (
 
 export const mapProjectUsecaseRootOperations = (
     rootNodes: IProjectUsecaseOperationNode[],
-): IProjectUsecaseOperationTableItem[] => rootNodes.map((node) => mapOperationNode(node, null));
+): IProjectUsecaseOperationTableItem[] =>
+    rootNodes.map((node) => mapProjectUsecaseOperationNode(node, null));
 
 export const mapProjectUsecaseOperations = (
     rootNodes: IProjectUsecaseOperationNode[],
@@ -110,7 +111,7 @@ export const mapProjectUsecaseOperations = (
         node: IProjectUsecaseOperationNode,
         parentApplication: IProjectUsecaseOperationApplication | null,
     ) => {
-        const operation = mapOperationNode(node, parentApplication);
+        const operation = mapProjectUsecaseOperationNode(node, parentApplication);
         const participant = getParticipant(node.discoveredOperation.discoveredInterface);
 
         operations.push(operation);

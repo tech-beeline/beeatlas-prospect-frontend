@@ -16,7 +16,7 @@ export const validationSchema = yup
         mode: yup.mixed<ProjectUsecaseImportMode>().required(),
         name: yup.string().when('mode', {
             is: ProjectUsecaseImportMode.NEW,
-            then: (schema) => schema.trim().required('Укажите название сценария'),
+            then: (schema) => schema.trim().required('Укажите название Use Case'),
             otherwise: (schema) => schema.default(''),
         }),
         usecaseId: yup
@@ -24,7 +24,7 @@ export const validationSchema = yup
             .nullable()
             .when('mode', {
                 is: ProjectUsecaseImportMode.EXISTING,
-                then: (schema) => schema.required('Выберите существующий сценарий'),
+                then: (schema) => schema.required('Выберите существующий Use Case'),
                 otherwise: (schema) => schema.nullable(),
             }),
         biStepCode: yup.string().nullable().default(null),

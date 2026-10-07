@@ -404,6 +404,8 @@ export type ProjectUsecasePipelineOperationStatus =
     | 'matched'
     | 'architect_specified'
     | 'planned'
+    | 'exists_unspecified'
+    | 'not_a_call'
     | 'unmapped';
 
 export interface IProjectUsecasePipelineParticipant {
@@ -412,7 +414,7 @@ export interface IProjectUsecasePipelineParticipant {
     resolved: boolean;
     productAlias?: string;
     productName?: string;
-    source?: 'cmdb' | 'architect_decision';
+    source?: 'cmdb' | 'architect_decision' | 'not_a_call';
 }
 
 export interface IProjectUsecasePipelineOperationDetails {
@@ -510,8 +512,17 @@ export type IProjectUsecaseMappingDecision =
           productAlias: string;
       }
     | {
-          type: 'planned';
+          type: 'planned' | 'exists_unspecified' | 'not_a_call';
           operationId: string;
+      }
+    | {
+          type: 'develop';
+          operationId: string;
+          productAlias: string;
+          interfaceCode: string;
+          interfaceName?: string;
+          protocol?: string;
+          requirements: string;
       }
     | {
           type: 'product';

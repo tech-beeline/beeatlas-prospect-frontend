@@ -38,7 +38,7 @@ type PageState = 'form' | 'processing' | 'review' | 'applying' | 'failed' | 'pol
 type PollTarget = 'awaiting_review' | 'terminal';
 
 const STEPS = [
-    { id: UsecaseImportStep.DATA, label: 'Данные сценария' },
+    { id: UsecaseImportStep.DATA, label: 'Данные Use Case' },
     { id: UsecaseImportStep.RESULT, label: 'Результат' },
 ];
 
@@ -242,7 +242,7 @@ export const ProjectUsecaseAddPage = () => {
 
         const selectedUsecase = usecasesQuery.data?.find(({ id }) => id === values.usecaseId);
         if (values.mode === ProjectUsecaseImportMode.EXISTING && !selectedUsecase) {
-            setError('usecaseId', { message: 'Выберите существующий сценарий' });
+            setError('usecaseId', { message: 'Выберите существующий Use Case' });
             return;
         }
 
@@ -328,13 +328,14 @@ export const ProjectUsecaseAddPage = () => {
         );
     };
 
-    const saveDecision = async (decision: IProjectUsecaseMappingDecision) => {
+    const saveDecisions = async (decisions: IProjectUsecaseMappingDecision[]) => {
         if (!runId) return false;
-        setActionError(null);
 
         try {
-            const response = await saveMapping({ runId, decision });
-            setResult(response.result);
+            for (const decision of decisions) {
+                const response = await saveMapping({ runId, decision });
+                setResult(response.result);
+            }
             return true;
         } catch (error) {
             setActionError(
@@ -344,16 +345,18 @@ export const ProjectUsecaseAddPage = () => {
         }
     };
 
-    const applyResult = async () => {
+    const applyResult = async (decisions: IProjectUsecaseMappingDecision[]) => {
         if (!runId) return;
         setActionError(null);
+
+        if (!(await saveDecisions(decisions))) return;
 
         try {
             await applyPipeline({ runId });
             await pollPipeline('terminal');
         } catch (error) {
             setActionError(
-                getRequestErrorMessage(error, 'Не удалось применить сценарий. Попробуйте снова.'),
+                getRequestErrorMessage(error, 'Не удалось применить Use Case. Попробуйте снова.'),
             );
             setPageState('review');
         }
@@ -375,7 +378,7 @@ export const ProjectUsecaseAddPage = () => {
     };
 
     const restartImport = async () => {
-        if (!(await cancelCurrentRun('Пользователь вернулся к редактированию сценария'))) return;
+        if (!(await cancelCurrentRun('Пользователь вернулся к редактированию Use Case'))) return;
         returnToForm();
     };
 
@@ -431,9 +434,9 @@ export const ProjectUsecaseAddPage = () => {
     return (
         <S.PageWrapper>
             <S.Header>
-                <Text variant="subtitle2">Импортирование сценария</Text>
+                <Text variant="subtitle2">Создание Use Case</Text>
                 <IconButton
-                    aria-label="Закрыть импорт"
+                    aria-label="Закрыть создание Use Case"
                     disabled={
                         isStartingPipeline ||
                         isSavingMapping ||
@@ -484,7 +487,7 @@ export const ProjectUsecaseAddPage = () => {
                 <S.Processing>
                     <Progress cycled shape="circle" />
                     <Text variant="subtitle1">
-                        {pageState === 'applying' ? 'Применяем сценарий' : 'Обрабатываем PlantUML'}
+                        {pageState === 'applying' ? 'Применяем Use Case' : 'Обрабатываем PlantUML'}
                     </Text>
                     <Text inactive variant="body2">
                         Пожалуйста, не закрывайте страницу до завершения обработки
@@ -523,9 +526,8 @@ export const ProjectUsecaseAddPage = () => {
                     cancelling={isCancelling}
                     result={result}
                     savingDecision={isSavingMapping}
-                    onApply={() => void applyResult()}
+                    onApply={(decisions) => void applyResult(decisions)}
                     onRestart={() => void restartImport()}
-                    onSaveDecision={saveDecision}
                 />
             )}
         </S.PageWrapper>
