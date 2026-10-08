@@ -1,5 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAdditionalPageContext } from 'features/ai-context/hooks';
+import { BI_STEP_TAB_ID_PARAM, BI_STEP_TAB_PARAM } from 'features/e2e';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -15,10 +17,12 @@ import { CallsContent, ObservabilityContent, UsecaseCallsContent } from './compo
 import { TABS, TabVariants } from './const';
 import { IBIStepContent } from './types';
 import * as S from './units';
-import { getTabLabel } from './utils';
+import { getTabLabel, getTabVariant } from './utils';
 
 export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
-    const [tabVariant, setTabVariant] = useState<TabVariants>(TabVariants.CALLS);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const tabVariant = getTabVariant(searchParams.get(BI_STEP_TAB_PARAM));
+    const implementationId = searchParams.get(BI_STEP_TAB_ID_PARAM);
     const e2eCodes =
         activeTreeItem.type === E2ETreeItemType.BI_STEP ? activeTreeItem.e2eCodes : [];
     const { data: usecases = [] } = useGetUsecasesByBiStepCodeQuery(
@@ -26,6 +30,19 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
     );
 
     useAdditionalPageContext('biStepContentTab', tabVariant);
+
+    const updateParams = (patch: Record<string, string | null>) => {
+        const params = new URLSearchParams(searchParams);
+        Object.entries(patch).forEach(([key, value]) =>
+            value === null ? params.delete(key) : params.set(key, value),
+        );
+        setSearchParams(params, { replace: true });
+    };
+
+    const selectTab = (param: string) =>
+        updateParams({ [BI_STEP_TAB_PARAM]: param, [BI_STEP_TAB_ID_PARAM]: null });
+
+    const selectImplementation = (id: string) => updateParams({ [BI_STEP_TAB_ID_PARAM]: id });
 
     return (
         <>
@@ -60,18 +77,26 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
                             key={tab.id}
                             label={getTabLabel(tab.id, tab.label, e2eCodes.length, usecases.length)}
                             value={tab.id}
-                            onClick={() => setTabVariant(tab.id)}
+                            onClick={() => selectTab(tab.param)}
                         />
                     ))}
                 </Tabs>
             </S.TabsContainer>
             {tabVariant === TabVariants.CALLS &&
                 activeTreeItem.type === E2ETreeItemType.BI_STEP && (
-                    <CallsContent e2eCodes={activeTreeItem.e2eCodes} />
+                    <CallsContent
+                        e2eCodes={activeTreeItem.e2eCodes}
+                        selectedId={implementationId}
+                        onSelect={selectImplementation}
+                    />
                 )}
             {tabVariant === TabVariants.USECASE_CALLS &&
                 activeTreeItem.type === E2ETreeItemType.BI_STEP && (
-                    <UsecaseCallsContent biStepCode={activeTreeItem.code} />
+                    <UsecaseCallsContent
+                        biStepCode={activeTreeItem.code}
+                        selectedId={implementationId}
+                        onSelect={selectImplementation}
+                    />
                 )}
             {tabVariant === TabVariants.OBSERVABILITY &&
                 activeTreeItem.type === E2ETreeItemType.BI_STEP && (

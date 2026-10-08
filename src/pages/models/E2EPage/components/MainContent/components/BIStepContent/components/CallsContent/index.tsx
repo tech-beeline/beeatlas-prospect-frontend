@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
@@ -14,18 +14,15 @@ import { ICallsContent } from './types';
 import * as S from './units';
 import { buildE2ECalls } from './utils';
 
-export const CallsContent: FC<ICallsContent> = ({ e2eCodes }) => {
-    const [selectedCode, setSelectedCode] = useState<null | string>(null);
+export const CallsContent: FC<ICallsContent> = ({ e2eCodes, selectedId, onSelect }) => {
+    const selectedCode =
+        selectedId && e2eCodes.includes(selectedId) ? selectedId : e2eCodes[0] ?? null;
     const { data, isLoading } = useGetSequenceCallsByIdQuery(selectedCode);
     const calls = useMemo(() => buildE2ECalls(data), [data]);
     const implementations = useMemo(
         () => e2eCodes.map((code) => ({ id: code, label: code })),
         [e2eCodes],
     );
-
-    useEffect(() => {
-        setSelectedCode(e2eCodes[0] ?? null);
-    }, [e2eCodes]);
 
     if (e2eCodes.length === 0) {
         return (
@@ -42,7 +39,7 @@ export const CallsContent: FC<ICallsContent> = ({ e2eCodes }) => {
             <ImplementationChips
                 implementations={implementations}
                 selectedId={selectedCode}
-                onSelect={setSelectedCode}
+                onSelect={onSelect}
             />
             {data && (
                 <S.Source>

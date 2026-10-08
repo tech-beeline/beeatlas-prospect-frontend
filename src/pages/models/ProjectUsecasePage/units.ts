@@ -108,3 +108,18 @@ export const NotFoundPage = styled.div`
     padding: 32px;
     background-color: var(--color-background-base);
 `;
+
+export const Filters = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+`;
+
+export const SearchField = styled.div`
+    flex: 1 1 320px;
+    max-width: 560px;
+`;
+
+export const StatusField = styled.div`
+    flex: 0 1 280px;
+`;

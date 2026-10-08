@@ -13,14 +13,14 @@ import { IE2ECalls } from './types';
 import * as S from './units';
 import { getE2ECallFields, getE2EPageUrl } from './utils';
 
-export const E2ECalls: FC<IE2ECalls> = ({ e2e }) => {
+export const E2ECalls: FC<IE2ECalls> = ({ e2e, biStepCode }) => {
     const { data, isLoading, isError } = useGetSequenceCallsByIdQuery(e2e.code);
 
     const calls = useMemo(() => formatRootCalls(data), [data]);
 
     return (
         <S.CallsList>
-            <ReadOnlyNote linkTitle="Открыть E2E" url={getE2EPageUrl(e2e.code)} />
+            <ReadOnlyNote linkTitle="Открыть E2E" url={getE2EPageUrl(biStepCode, e2e.code)} />
             {isLoading && <Skeleton radius={12} height={100} />}
             {isError && (
                 <Text variant="body3" inactive>

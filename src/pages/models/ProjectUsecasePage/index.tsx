@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { getProjectUsecaseLatestDate } from 'features/projects';
@@ -12,6 +12,8 @@ import {
     Breadcrumbs,
     Button,
     Icon,
+    Search,
+    Select,
     Skeleton,
     TableBody,
     TableData,
@@ -37,7 +39,7 @@ import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 
 import { RelationCard, TechCapabilityCell } from './components';
 import * as S from './units';
-import { getE2EStepUrl } from './utils';
+import { filterOperations, getE2EStepUrl } from './utils';
 
 const OPERATION_STATUS_DATA: Record<
     ProjectUsecaseOperationStatus,
@@ -60,6 +62,11 @@ const OPERATION_STATUS_DATA: Record<
         semantic: 'neutral',
     },
 };
+
+const STATUS_FILTER_OPTIONS = Object.values(ProjectUsecaseOperationStatus).map((status) => ({
+    id: status,
+    value: OPERATION_STATUS_DATA[status].label,
+}));
 
 const PARTICIPANT_STATUS_DATA: Record<
     ProjectUsecaseParticipantStatus,
@@ -96,6 +103,12 @@ export const ProjectUsecasePage = () => {
         useGetProjectUsecaseOperationsQuery(usecase?.projectId, usecase?.id);
     const { data: biStepData, isLoading: isBiStepLoading } = useGetStagingSequenceBiStepByCodeQuery(
         usecase?.biStepCode,
+    );
+    const [statusFilter, setStatusFilter] = useState<ProjectUsecaseOperationStatus[]>([]);
+    const [search, setSearch] = useState('');
+    const operations = useMemo(
+        () => filterOperations(operationsData?.operations ?? [], statusFilter, search),
+        [operationsData, statusFilter, search],
     );
 
     const navigateToProjects = () => navigate(`${R.MODELS_PATH}${R.PROJECTS_PATH}`);
@@ -201,7 +214,7 @@ export const ProjectUsecasePage = () => {
                             label="Связанный шаг E2E-сценария"
                             title={biStepData.biStep.name}
                             code={biStepData.biStep.uid}
-                            url={getE2EStepUrl(biStepData.biStep.uid)}
+                            url={getE2EStepUrl(biStepData.biStep.uid, usecaseId)}
                         />
                     </S.Relations>
                 </S.Section>
@@ -209,6 +222,29 @@ export const ProjectUsecasePage = () => {
 
             <S.Section>
                 <Text variant="subtitle1">Сценарий</Text>
+                <S.Filters>
+                    <S.SearchField>
+                        <Search
+                            fullWidth
+                            value={search}
+                            placeholder="Тип или путь метода"
+                            onChange={(event) => setSearch(event.target.value)}
+                            onClear={() => setSearch('')}
+                        />
+                    </S.SearchField>
+                    <S.StatusField>
+                        <Select
+                            fullWidth
+                            multiple
+                            label="Статус вызова"
+                            options={STATUS_FILTER_OPTIONS}
+                            values={STATUS_FILTER_OPTIONS.filter(({ id }) =>
+                                statusFilter.includes(id),
+                            )}
+                            onChange={(values) => setStatusFilter(values.map(({ id }) => id))}
+                        />
+                    </S.StatusField>
+                </S.Filters>
                 <S.ScenarioTable>
                     <TableHead>
                         <TableRow>
@@ -223,7 +259,18 @@ export const ProjectUsecasePage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {operationsData?.operations.map((operation, index) => {
+                        {operations.length === 0 && (
+                            <TableRow dense>
+                                <TableData colSpan={8}>
+                                    <Text inactive variant="body3">
+                                        {operationsData?.operations.length
+                                            ? 'Ничего не найдено'
+                                            : 'Вызовов нет'}
+                                    </Text>
+                                </TableData>
+                            </TableRow>
+                        )}
+                        {operations.map((operation, index) => {
                             const status = OPERATION_STATUS_DATA[operation.status];
 
                             return (

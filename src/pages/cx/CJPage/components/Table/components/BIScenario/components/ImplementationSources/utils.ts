@@ -5,14 +5,13 @@ import { ImplementationSource, ImplementationSourceType } from './types';
 export const getImplementationSources = (biStep: IStepsScenarion): ImplementationSource[] => {
     const sources: ImplementationSource[] = [];
 
-    if (biStep.relations?.length) {
-        sources.push({
-            type: ImplementationSourceType.MANUAL,
-            key: 'manual',
-            name: `Вызовов: ${biStep.relations.length}`,
-            relations: biStep.relations,
-        });
-    }
+    const relations = biStep.relations ?? [];
+    sources.push({
+        type: ImplementationSourceType.MANUAL,
+        key: 'manual',
+        name: relations.length ? `Вызовов: ${relations.length}` : 'Нет вызовов',
+        relations,
+    });
 
     (biStep.useCases ?? []).forEach((useCase) =>
         sources.push({

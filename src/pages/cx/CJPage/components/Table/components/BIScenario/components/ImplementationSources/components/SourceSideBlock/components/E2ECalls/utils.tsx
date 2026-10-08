@@ -1,9 +1,10 @@
 import React from 'react';
+import { BI_STEP_TAB_ID_PARAM, BI_STEP_TAB_PARAM, BiStepTab } from 'features/e2e';
 import { IRootCall } from 'features/e2e/types';
 
 import { Link } from 'components/other';
 
-import { E2EContentOptions, E2ETreeItemType } from 'pages/models/E2EPage/types';
+import { E2ETreeItemType } from 'pages/models/E2EPage/types';
 import * as R from 'router/const';
 import { formatNullableString } from 'utils/formatters';
 
@@ -33,9 +34,10 @@ export const getE2ECallFields = ({ stereotype, operation }: IRootCall): ICallFie
     },
 ];
 
-export const getE2EPageUrl = (code: string): string =>
+export const getE2EPageUrl = (biStepCode: string, e2eCode: string): string =>
     `${R.MODELS_PATH}${R.E2E_PATH}?${new URLSearchParams({
-        tab: E2EContentOptions.E2E,
-        id: code,
+        id: biStepCode,
         type: E2ETreeItemType.BI_STEP,
+        [BI_STEP_TAB_PARAM]: BiStepTab.E2E,
+        [BI_STEP_TAB_ID_PARAM]: e2eCode,
     }).toString()}`;

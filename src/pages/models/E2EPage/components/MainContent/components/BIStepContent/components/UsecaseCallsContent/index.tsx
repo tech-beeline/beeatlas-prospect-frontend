@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
@@ -17,11 +17,17 @@ import { IUsecaseCallsContent } from './types';
 import * as S from './units';
 import { buildUsecaseCalls, formatUsecaseDate, getUsecaseUrl } from './utils';
 
-export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({ biStepCode }) => {
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({
+    biStepCode,
+    selectedId,
+    onSelect,
+}) => {
     const { data: usecases = [], isLoading: isUsecasesLoading } =
         useGetUsecasesByBiStepCodeQuery(biStepCode);
-    const selected = usecases.find(({ id }) => String(id) === selectedId) ?? null;
+    const selected =
+        usecases.find(({ id, code }) => String(id) === selectedId || code === selectedId) ??
+        usecases[0] ??
+        null;
     const { data: details } = useGetProjectUsecaseQuery(selected?.id);
     const { data: nodes, isLoading: isTreeLoading } = useGetProjectUsecaseOperationsTreeQuery(
         selected?.projectId,
@@ -32,10 +38,6 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({ biStepCode }) =>
         () => usecases.map(({ id, code }) => ({ id: String(id), label: code })),
         [usecases],
     );
-
-    useEffect(() => {
-        setSelectedId(usecases[0] ? String(usecases[0].id) : null);
-    }, [usecases]);
 
     if (isUsecasesLoading) {
         return <Skeleton radius={12} height={100} />;
@@ -55,8 +57,8 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({ biStepCode }) =>
         <S.Content>
             <ImplementationChips
                 implementations={implementations}
-                selectedId={selectedId}
-                onSelect={setSelectedId}
+                selectedId={selected ? String(selected.id) : null}
+                onSelect={onSelect}
             />
             {selected && (
                 <S.Source>

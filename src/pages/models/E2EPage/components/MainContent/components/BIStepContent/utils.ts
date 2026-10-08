@@ -1,4 +1,4 @@
-import { TabVariants } from './const';
+import { TABS, TabVariants } from './const';
 
 const withCount = (label: string, count: number) => (count > 1 ? `${label} (${count})` : label);
 
@@ -12,3 +12,6 @@ export const getTabLabel = (
     if (tab === TabVariants.USECASE_CALLS) return withCount(label, usecaseCount);
     return label;
 };
+
+export const getTabVariant = (param: string | null) =>
+    TABS.find((tab) => tab.param === param)?.id ?? TabVariants.CALLS;

@@ -119,11 +119,25 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                                     key={field.id}
                                     index={i}
                                     isLast={i === fields.length - 1}
-                                    totalFields={fields.length}
                                     handleAddClick={handleAddClick}
                                     handleRemoveClick={remove}
                                 />
                             ))}
+                            {fields.length === 0 && (
+                                <S.EmptyCalls>
+                                    <Text inactive variant="body3">
+                                        Ручных вызовов нет
+                                    </Text>
+                                    <Button
+                                        variant="outlined"
+                                        size="small"
+                                        type="button"
+                                        onClick={handleAddClick}
+                                    >
+                                        Добавить вызов
+                                    </Button>
+                                </S.EmptyCalls>
+                            )}
                         </S.Content>
 
                         <S.ButtonContainer>

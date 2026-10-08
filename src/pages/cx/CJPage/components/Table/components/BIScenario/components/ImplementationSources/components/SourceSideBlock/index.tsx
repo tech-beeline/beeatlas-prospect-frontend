@@ -15,11 +15,14 @@ import * as S from './units';
 
 export const SourceSideBlock: FC<ISourceSideBlock> = ({
     source,
+    biStepCode,
     onClose,
     onEditManual,
     onOpenDiagram,
 }) => {
     const isManual = source?.type === ImplementationSourceType.MANUAL;
+    const hasManualCalls =
+        source?.type === ImplementationSourceType.MANUAL && source.relations.length > 0;
 
     return (
         <SideBlock hasBackdrop isOpen={Boolean(source)} onClose={onClose} large>
@@ -38,24 +41,29 @@ export const SourceSideBlock: FC<ISourceSideBlock> = ({
                             <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                         </S.Header>
 
-                        {source.type === ImplementationSourceType.MANUAL && (
+                        {source.type === ImplementationSourceType.MANUAL && hasManualCalls && (
                             <ManualCalls
                                 relations={source.relations}
                                 onOpenDiagram={onOpenDiagram}
                             />
                         )}
+                        {isManual && !hasManualCalls && (
+                            <Text variant="body3" inactive>
+                                Ручных вызовов нет
+                            </Text>
+                        )}
                         {source.type === ImplementationSourceType.USE_CASE && (
                             <UseCaseCalls useCase={source.useCase} />
                         )}
                         {source.type === ImplementationSourceType.E2E && (
-                            <E2ECalls e2e={source.e2e} />
+                            <E2ECalls e2e={source.e2e} biStepCode={biStepCode} />
                         )}
                     </S.Content>
 
                     {isManual && (
                         <S.ButtonContainer>
                             <Button type="button" variant="primary" onClick={onEditManual}>
-                                Редактировать
+                                {hasManualCalls ? 'Редактировать' : 'Добавить вызов'}
                             </Button>
                         </S.ButtonContainer>
                     )}

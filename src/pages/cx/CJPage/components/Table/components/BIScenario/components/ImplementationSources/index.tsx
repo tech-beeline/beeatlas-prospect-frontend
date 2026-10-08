@@ -64,6 +64,7 @@ export const ImplementationSources: FC<IImplementationSources> = ({ biStep, onOp
             </S.SourceList>
             <SourceSideBlock
                 source={selectedSource}
+                biStepCode={biStep.uniqueIdent}
                 onClose={() => setSelectedSource(null)}
                 onEditManual={handleEditManual}
                 onOpenDiagram={onOpenDiagram}
