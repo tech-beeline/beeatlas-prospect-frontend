@@ -3,6 +3,7 @@ import { IUsecaseByBiStepCode } from 'api/usecase/types';
 import { AlertSource } from './const';
 
 export interface IObservabilityContent {
+    biStepCode: string;
     e2eCodes: string[];
     usecases: IUsecaseByBiStepCode[];
 }

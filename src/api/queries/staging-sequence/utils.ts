@@ -14,4 +14,5 @@ export const toSequenceAlert = ({
     created: version.created,
     creator: version.creator ?? '',
     note: version.note ?? context?.message ?? '',
+    sourceUid: context?.uid ?? null,
 });

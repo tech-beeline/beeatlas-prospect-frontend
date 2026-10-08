@@ -32,6 +32,7 @@ export interface IStagingSequenceAlert {
     created: string;
     creator: string;
     note: string;
+    sourceUid: string | null;
 }
 
 export interface IPipelineRunForm {

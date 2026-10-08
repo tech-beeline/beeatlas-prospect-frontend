@@ -17,3 +17,14 @@ export const getAlertImplementations = (
 
 export const getAvailableAlertSources = (implementations: IAlertImplementations) =>
     Object.values(AlertSource).filter((source) => implementations[source].length > 0);
+
+export const findImplementation = (
+    implementations: IAlertImplementations,
+    implementationId: string | null | undefined,
+) => {
+    for (const source of Object.values(AlertSource)) {
+        const implementation = implementations[source].find(({ id }) => id === implementationId);
+        if (implementation) return { source, implementation };
+    }
+    return null;
+};
