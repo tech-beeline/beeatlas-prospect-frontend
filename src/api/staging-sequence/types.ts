@@ -121,12 +121,26 @@ interface IOperation {
     interfaceCode: string;
     containerCode: string;
     productAlias: string;
-    sla: {
-        latency: number;
-        errorRate: number;
-        rps: number;
+    sla: IOperationSla | null;
+    operation?: IConnectedOperation | null;
+}
+
+interface IOperationSla {
+    latency: number | null;
+    errorRate: number | null;
+    rps: number | null;
+}
+
+interface IConnectedOperation {
+    id: number;
+    name: string;
+    type: string;
+    sla: IOperationSla | null;
+    interface: {
+        id: number;
+        code: string | null;
+        container: { id: number; code: string | null } | null;
     } | null;
-    operation?: { id: number; name: string; type: string } | null;
 }
 
 export enum EntityRelationType {

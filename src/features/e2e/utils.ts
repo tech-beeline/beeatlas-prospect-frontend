@@ -15,6 +15,33 @@ export const isBIStepCodeSearch = (code: string, search: string) =>
 type IOperation = IStagingSequenceCallsData['operations'][number];
 type IOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];
 
+export const withConnectedOperation = (operation: IOperation): IOperation => {
+    const connected = operation.operation;
+    if (!connected) return operation;
+
+    return {
+        ...operation,
+        sla: {
+            rps: connected.sla?.rps ?? operation.sla?.rps ?? null,
+            latency: connected.sla?.latency ?? operation.sla?.latency ?? null,
+            errorRate: connected.sla?.errorRate ?? operation.sla?.errorRate ?? null,
+        },
+        interfaceCode: connected.interface?.code ?? operation.interfaceCode,
+        containerCode: connected.interface?.container?.code ?? operation.containerCode,
+    };
+};
+
+export const getOperationsById = (data: IStagingSequenceCallsData) =>
+    new Map(data.operations.map((operation) => [operation.id, operation]));
+
+export const getDiscoveredOperationsById = (data: IStagingSequenceCallsData) =>
+    new Map(
+        data.discoveredOperations.map((operation) => [
+            operation.id,
+            withConnectedOperation(operation),
+        ]),
+    );
+
 const formatOperationNodeName = (
     relation: IOperationRelation,
     operation: IOperation | undefined,
@@ -82,10 +109,8 @@ export const formatCallsTreeData = (data: IStagingSequenceCallsData | undefined)
         return [];
     }
 
-    const operationsById = new Map(data.operations.map((operation) => [operation.id, operation]));
-    const discoveredOperationsById = new Map(
-        data.discoveredOperations.map((operation) => [operation.id, operation]),
-    );
+    const operationsById = getOperationsById(data);
+    const discoveredOperationsById = getDiscoveredOperationsById(data);
 
     return buildTreeItems(data.operationsRelations, operationsById, discoveredOperationsById);
 };
@@ -95,10 +120,8 @@ export const formatRootCalls = (data: IStagingSequenceCallsData | undefined): IR
         return [];
     }
 
-    const operationsById = new Map(data.operations.map((operation) => [operation.id, operation]));
-    const discoveredOperationsById = new Map(
-        data.discoveredOperations.map((operation) => [operation.id, operation]),
-    );
+    const operationsById = getOperationsById(data);
+    const discoveredOperationsById = getDiscoveredOperationsById(data);
 
     return [...data.operationsRelations]
         .sort((a, b) => a.order - b.order)

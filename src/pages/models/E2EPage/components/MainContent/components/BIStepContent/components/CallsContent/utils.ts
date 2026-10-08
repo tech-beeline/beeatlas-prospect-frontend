@@ -1,3 +1,5 @@
+import { getDiscoveredOperationsById, getOperationsById } from 'features/e2e';
+
 import { EntityRelationType, IStagingSequenceCallsData } from 'api/staging-sequence/types';
 import { formatNullableString } from 'utils/formatters';
 
@@ -59,10 +61,8 @@ const buildCalls = (
 export const buildE2ECalls = (data: IStagingSequenceCallsData | undefined): ICallNode[] => {
     if (!data) return [];
 
-    const operationsById = new Map(data.operations.map((operation) => [operation.id, operation]));
-    const discoveredOperationsById = new Map(
-        data.discoveredOperations.map((operation) => [operation.id, operation]),
-    );
+    const operationsById = getOperationsById(data);
+    const discoveredOperationsById = getDiscoveredOperationsById(data);
 
     return buildCalls(data.operationsRelations, operationsById, discoveredOperationsById);
 };
