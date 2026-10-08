@@ -1,10 +1,10 @@
-import { IDashboardVersionRun, IStagingSequenceAlert } from 'api/staging-sequence/types';
+import { IDashboardVersionRun, IDashboardVersionStatus } from 'api/staging-sequence/types';
 
-export const toSequenceAlert = ({
+export const toDashboardVersionStatus = ({
     status,
     context,
     dashboard_version: version,
-}: IDashboardVersionRun): IStagingSequenceAlert => ({
+}: IDashboardVersionRun): IDashboardVersionStatus => ({
     id: version.id,
     uid: version.uid,
     name: version.name,

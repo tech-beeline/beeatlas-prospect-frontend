@@ -6,7 +6,10 @@ import { Text } from 'components/core';
 import { Banner, IconButton, Select } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
 
-import { usePostPipelineRunMutation } from 'api/queries/staging-sequence';
+import {
+    usePostPipelineRunMutation,
+    usePostSequenceAlertByIdMutation,
+} from 'api/queries/staging-sequence';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -14,7 +17,10 @@ import {
     ALERT_SOURCE_OPTIONS,
     AlertSource,
     E2E_DASHBOARD_PIPELINE,
-    USECASE_ALERTS_UNAVAILABLE,
+    PUBLISH_TARGET_NAME,
+    PUBLISH_TARGET_TITLE,
+    PUBLISH_TARGET_USECASE_UNAVAILABLE,
+    PublishTarget,
 } from '../../const';
 
 import { ICreateAlertSidebar } from './types';
@@ -23,6 +29,7 @@ import * as S from './units';
 export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
     isOpen,
     onClose,
+    target,
     data,
     source: initialSource,
     selectedId,
@@ -56,7 +63,10 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
 
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
-    const { mutateAsync: runPipeline, isPending } = usePostPipelineRunMutation();
+    const { mutateAsync: createSequenceAlert, isPending: isAlertPending } =
+        usePostSequenceAlertByIdMutation();
+    const { mutateAsync: runPipeline, isPending: isRunPending } = usePostPipelineRunMutation();
+    const isPending = isAlertPending || isRunPending;
 
     const changeSource = (nextSource: AlertSource) => {
         setSource(nextSource);
@@ -67,15 +77,21 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
         if (!implementation || isUsecaseSource) return;
         setErrorMessage(null);
         try {
-            await runPipeline({
-                code: E2E_DASHBOARD_PIPELINE,
-                data: {
-                    uid: implementation,
-                    message: comment || undefined,
-                    creator: `${userInfo?.family_name} ${userInfo?.given_name}`,
-                },
+            const creator = `${userInfo?.family_name} ${userInfo?.given_name}`;
+            if (target === PublishTarget.ALERTS) {
+                await createSequenceAlert({
+                    uid: encodeURI(implementation),
+                    data: { creator, note: comment },
+                });
+            } else {
+                await runPipeline({
+                    code: E2E_DASHBOARD_PIPELINE,
+                    data: { uid: implementation, message: comment || undefined, creator },
+                });
+            }
+            showSnackbar({
+                message: `${PUBLISH_TARGET_TITLE[target]} ${data ? 'обновлен' : 'создан'}`,
             });
-            showSnackbar({ message: data ? 'Alerts обновлен' : 'Alerts создан' });
             onSaved(source, implementation);
             onClose();
         } catch (e) {
@@ -102,7 +118,9 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
             <S.Container>
                 <S.Content>
                     <S.TitleContainer>
-                        <Text variant="h5">{data ? 'Обновление alerts' : 'Создание alerts'}</Text>
+                        <Text variant="h5">
+                            {`${data ? 'Обновление' : 'Создание'} ${PUBLISH_TARGET_NAME[target]}`}
+                        </Text>
                         <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                     </S.TitleContainer>
                     <Select
@@ -124,7 +142,10 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                         }
                     />
                     {isUsecaseSource && (
-                        <Banner iconName={Icons.InfoCircled} title={USECASE_ALERTS_UNAVAILABLE} />
+                        <Banner
+                            iconName={Icons.InfoCircled}
+                            title={PUBLISH_TARGET_USECASE_UNAVAILABLE[target]}
+                        />
                     )}
                     <TextArea
                         fullWidth

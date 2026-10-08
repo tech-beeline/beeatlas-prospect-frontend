@@ -32,6 +32,14 @@ export interface IStagingSequenceAlert {
     created: string;
     creator: string;
     note: string;
+}
+
+export interface IStagingSequenceAlertForm {
+    creator: string;
+    note: string;
+}
+
+export interface IDashboardVersionStatus extends IStagingSequenceAlert {
     sourceUid: string | null;
 }
 
