@@ -126,6 +126,7 @@ interface IOperation {
         errorRate: number;
         rps: number;
     } | null;
+    operation?: { id: number; name: string; type: string } | null;
 }
 
 export enum EntityRelationType {

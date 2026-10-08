@@ -48,6 +48,12 @@ export const PUBLISH_TARGET_EMPTY: Record<PublishTarget, string> = {
     [PublishTarget.DASHBOARD]: 'Для этого шага дашборд еще не создавался',
 };
 
+export const PUBLISH_TARGET_UNMATCHED: Record<PublishTarget, string> = {
+    [PublishTarget.ALERTS]:
+        'Методы не найдены в архитектуре — цепочка вызовов для алертов по ним не построится:',
+    [PublishTarget.DASHBOARD]: 'Методы не найдены в архитектуре и не попадут в дашборд:',
+};
+
 export const PUBLISH_TARGET_USECASE_UNAVAILABLE: Record<PublishTarget, string> = {
     [PublishTarget.ALERTS]: USECASE_ALERTS_UNAVAILABLE,
     [PublishTarget.DASHBOARD]: USECASE_DASHBOARD_UNAVAILABLE,

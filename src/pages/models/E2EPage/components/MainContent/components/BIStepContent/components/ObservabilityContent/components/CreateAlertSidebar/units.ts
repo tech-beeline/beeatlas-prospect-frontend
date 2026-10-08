@@ -41,3 +41,11 @@ export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boole
         display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
     }
 `;
+
+export const MethodsList = styled.ul`
+    margin: 8px 0 0;
+    padding-left: 20px;
+
+    font-family: var(--font-family-code), monospace;
+    word-break: break-all;
+`;

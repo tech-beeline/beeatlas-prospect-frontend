@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useAuthStore } from 'features/auth';
 
 import { SideBlock } from 'components/containers';
@@ -7,6 +7,7 @@ import { Banner, IconButton, Select } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
 
 import {
+    useGetSequenceCallsByIdQuery,
     usePostPipelineRunMutation,
     usePostSequenceAlertByIdMutation,
 } from 'api/queries/staging-sequence';
@@ -19,12 +20,14 @@ import {
     E2E_DASHBOARD_PIPELINE,
     PUBLISH_TARGET_NAME,
     PUBLISH_TARGET_TITLE,
+    PUBLISH_TARGET_UNMATCHED,
     PUBLISH_TARGET_USECASE_UNAVAILABLE,
     PublishTarget,
 } from '../../const';
 
 import { ICreateAlertSidebar } from './types';
 import * as S from './units';
+import { getUnmatchedMethods } from './utils';
 
 export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
     isOpen,
@@ -49,6 +52,10 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
         value: name,
     }));
     const isUsecaseSource = source === AlertSource.USE_CASE;
+    const { data: calls } = useGetSequenceCallsByIdQuery(
+        isOpen && !isUsecaseSource ? implementation : null,
+    );
+    const unmatchedMethods = useMemo(() => getUnmatchedMethods(calls), [calls]);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -143,6 +150,22 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                         <Banner
                             iconName={Icons.InfoCircled}
                             title={PUBLISH_TARGET_USECASE_UNAVAILABLE[target]}
+                        />
+                    )}
+                    {!isUsecaseSource && unmatchedMethods.length > 0 && (
+                        <Banner
+                            color={target === PublishTarget.ALERTS ? 'error' : 'warning'}
+                            iconName={Icons.WarningCircled}
+                            title={
+                                <>
+                                    {PUBLISH_TARGET_UNMATCHED[target]}
+                                    <S.MethodsList>
+                                        {unmatchedMethods.map((method) => (
+                                            <li key={method}>{method}</li>
+                                        ))}
+                                    </S.MethodsList>
+                                </>
+                            }
                         />
                     )}
                     <TextArea
