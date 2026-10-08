@@ -1,25 +1,18 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 
 import { ImageVariants, NotFoundBlock } from 'components/other';
-import { ButtonGroup } from 'components/ui';
 
-import {
-    useGetDashboardVersionQuery,
-    useGetSequenceAlertByIdQuery,
-} from 'api/queries/staging-sequence';
+import { useGetDashboardVersionQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
 
-import { ImplementationChips } from '../ImplementationChips';
-
 import { CreateAlertSidebar, PublishCard } from './components';
-import { ALERT_SOURCE_OPTIONS, AlertSource, E2E_DASHBOARD_PIPELINE, PublishTarget } from './const';
+import { AlertSource, PUBLISH_TARGET_PIPELINE, PublishTarget } from './const';
 import { IObservabilityContent } from './types';
 import {
     findImplementation,
-    getAlertCardContent,
     getAlertImplementations,
     getAvailableAlertSources,
-    getDashboardCardContent,
+    getPublishCardContent,
 } from './utils';
 
 export const ObservabilityContent: FC<IObservabilityContent> = ({
@@ -32,46 +25,26 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({
         [e2eCodes, usecases],
     );
     const availableSources = getAvailableAlertSources(implementations);
-    const sourcesKey = availableSources.join('|');
-    const [source, setSource] = useState<AlertSource>(availableSources[0] ?? AlertSource.E2E);
-    const sourceImplementations = implementations[source];
-    const implementationsKey = sourceImplementations.map(({ id }) => id).join('|');
-    const [selectedId, setSelectedId] = useState<string | null>(null);
     const [target, setTarget] = useState<PublishTarget>(PublishTarget.ALERTS);
-    const preferredIdRef = useRef<string | null>(null);
-    const selected = sourceImplementations.find(({ id }) => id === selectedId) ?? null;
-
-    useEffect(() => {
-        if (!availableSources.includes(source)) setSource(availableSources[0] ?? AlertSource.E2E);
-    }, [sourcesKey]);
-
-    useEffect(() => {
-        const preferredId = preferredIdRef.current;
-        preferredIdRef.current = null;
-        setSelectedId(
-            sourceImplementations.some(({ id }) => id === preferredId)
-                ? preferredId
-                : sourceImplementations[0]?.id ?? null,
-        );
-    }, [source, implementationsKey]);
-
     const { openModal, closeModal, modalOpened } = useModal();
 
-    const isE2E = source === AlertSource.E2E;
-    const alert = useGetSequenceAlertByIdQuery(isE2E ? selectedId : null);
-    const dashboard = useGetDashboardVersionQuery(E2E_DASHBOARD_PIPELINE, biStepCode);
-    const built = findImplementation(implementations, dashboard.data?.sourceUid);
-    const alertData = isE2E ? alert.data : undefined;
+    const alerts = useGetDashboardVersionQuery(
+        PUBLISH_TARGET_PIPELINE[PublishTarget.ALERTS],
+        biStepCode,
+    );
+    const dashboard = useGetDashboardVersionQuery(
+        PUBLISH_TARGET_PIPELINE[PublishTarget.DASHBOARD],
+        biStepCode,
+    );
+    const builtAlerts = findImplementation(implementations, alerts.data?.sourceUid);
+    const builtDashboard = findImplementation(implementations, dashboard.data?.sourceUid);
+    const targetData = target === PublishTarget.ALERTS ? alerts.data : dashboard.data;
+    const targetBuilt = target === PublishTarget.ALERTS ? builtAlerts : builtDashboard;
+    const defaultSource = availableSources[0] ?? AlertSource.E2E;
 
     const openSidebar = (nextTarget: PublishTarget) => {
         setTarget(nextTarget);
         openModal();
-    };
-
-    const handleSaved = (savedSource: AlertSource, implementationId: string) => {
-        if (savedSource !== source) preferredIdRef.current = implementationId;
-        setSource(savedSource);
-        setSelectedId(implementationId);
     };
 
     if (availableSources.length === 0) {
@@ -86,49 +59,38 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({
 
     return (
         <>
-            {availableSources.length > 1 && (
-                <ButtonGroup
-                    alwaysSelected
-                    size="small"
-                    type="secondary"
-                    selectedOption={{ id: source }}
-                    options={ALERT_SOURCE_OPTIONS}
-                    onChange={(option) => setSource(option.id as AlertSource)}
-                />
-            )}
-            <ImplementationChips
-                implementations={sourceImplementations}
-                selectedId={selectedId}
-                onSelect={setSelectedId}
-            />
             <PublishCard
-                isLoading={isE2E && alert.isLoading}
+                isLoading={alerts.isLoading}
                 onAction={() => openSidebar(PublishTarget.ALERTS)}
-                {...getAlertCardContent({
-                    source,
-                    selected,
-                    data: alertData,
-                    hasError: !!alert.error,
+                {...getPublishCardContent({
+                    target: PublishTarget.ALERTS,
+                    data: alerts.data,
+                    hasError: !!alerts.error,
+                    built: builtAlerts,
                 })}
             />
             <PublishCard
                 isLoading={dashboard.isLoading}
                 onAction={() => openSidebar(PublishTarget.DASHBOARD)}
-                {...getDashboardCardContent({
+                {...getPublishCardContent({
+                    target: PublishTarget.DASHBOARD,
                     data: dashboard.data,
                     hasError: !!dashboard.error,
-                    built,
+                    built: builtDashboard,
                 })}
             />
             <CreateAlertSidebar
                 isOpen={modalOpened}
                 onClose={closeModal}
                 target={target}
-                data={target === PublishTarget.ALERTS ? alertData : dashboard.data}
-                source={source}
-                selectedId={selectedId}
+                data={targetData}
+                source={targetBuilt?.source ?? defaultSource}
+                selectedId={
+                    targetBuilt?.implementation.id ??
+                    implementations[defaultSource][0]?.id ??
+                    null
+                }
                 implementations={implementations}
-                onSaved={handleSaved}
             />
         </>
     );

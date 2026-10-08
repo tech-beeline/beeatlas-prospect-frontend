@@ -11,5 +11,4 @@ export interface ICreateAlertSidebar {
     source: AlertSource;
     selectedId: string | null;
     implementations: IAlertImplementations;
-    onSaved: (source: AlertSource, implementationId: string) => void;
 }

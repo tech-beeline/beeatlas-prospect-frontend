@@ -11,6 +11,7 @@ export interface IPublishCard {
     descriptions: string[];
     status?: string;
     fields: IPublishCardField[];
+    url: string | null;
     note?: string;
     actionLabel: string;
     onAction: () => void;

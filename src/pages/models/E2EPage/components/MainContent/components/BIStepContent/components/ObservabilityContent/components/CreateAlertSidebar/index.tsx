@@ -34,7 +34,6 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
     source: initialSource,
     selectedId,
     implementations,
-    onSaved,
 }) => {
     const [comment, setComment] = useState('');
     const [source, setSource] = useState<AlertSource>(initialSource);
@@ -92,7 +91,6 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
             showSnackbar({
                 message: `${PUBLISH_TARGET_TITLE[target]} ${data ? 'обновлен' : 'создан'}`,
             });
-            onSaved(source, implementation);
             onClose();
         } catch (e) {
             const message =

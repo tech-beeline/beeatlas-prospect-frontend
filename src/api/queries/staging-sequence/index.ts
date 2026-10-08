@@ -59,6 +59,9 @@ export const usePostSequenceAlertByIdMutation = () => {
             queryClient.invalidateQueries({
                 queryKey: [STAGING_SEQUENCE_PREFIX, 'SEQUENCE_ALERT'],
             });
+            queryClient.invalidateQueries({
+                queryKey: [STAGING_SEQUENCE_PREFIX, 'DASHBOARD_VERSION'],
+            });
         },
     });
 };

@@ -1,23 +1,18 @@
 import dayjs from 'dayjs';
 
-import { IDashboardVersionStatus, IStagingSequenceAlert } from 'api/staging-sequence/types';
+import { IDashboardVersionStatus } from 'api/staging-sequence/types';
 import { IUsecaseByBiStepCode } from 'api/usecase/types';
 
 import { IPublishCard, IPublishCardField } from './components/PublishCard/types';
 import {
     ALERT_SOURCE_LABEL,
     AlertSource,
+    PUBLISH_TARGET_EMPTY,
     PUBLISH_TARGET_NAME,
     PUBLISH_TARGET_TITLE,
     PublishTarget,
-    USECASE_ALERTS_UNAVAILABLE,
 } from './const';
-import {
-    IAlertCardParams,
-    IAlertImplementations,
-    IBuiltImplementation,
-    IDashboardCardParams,
-} from './types';
+import { IAlertImplementations, IBuiltImplementation, IPublishCardParams } from './types';
 
 type PublishCardContent = Omit<IPublishCard, 'isLoading' | 'onAction'>;
 
@@ -50,69 +45,28 @@ export const findImplementation = (
 const getActionLabel = (target: PublishTarget, exists: boolean) =>
     `${exists ? 'Обновить' : 'Создать'} ${PUBLISH_TARGET_NAME[target]}`;
 
-const getVersionFields = (data: IStagingSequenceAlert): IPublishCardField[] => [
+const getVersionFields = (
+    data: IDashboardVersionStatus,
+    built: IBuiltImplementation | null,
+): IPublishCardField[] => [
     { label: 'Версия', value: data.version },
     { label: 'Дата генерации', value: dayjs(data.created).local().format('DD.MM.YYYY, HH:mm:ss') },
     { label: 'Инициатор', value: data.creator },
+    { label: 'Тип реализации', value: built ? ALERT_SOURCE_LABEL[built.source] : '—' },
+    { label: 'Реализация', value: built?.implementation.name ?? data.sourceUid ?? '—' },
 ];
 
-const getDashboardFields = (
-    data: IDashboardVersionStatus,
-    built: IBuiltImplementation | null,
-): IPublishCardField[] => {
-    const fields = getVersionFields(data);
-    if (built) fields.push({ label: 'Тип реализации', value: ALERT_SOURCE_LABEL[built.source] });
-    fields.push({ label: 'Реализация', value: built?.implementation.name ?? data.sourceUid });
-    return fields;
-};
-
-export const getAlertCardContent = ({
-    source,
-    selected,
-    data,
-    hasError,
-}: IAlertCardParams): PublishCardContent => {
-    const sourceFields = [
-        { label: 'Тип реализации', value: ALERT_SOURCE_LABEL[source] },
-        { label: 'Реализация', value: selected?.name },
-    ];
-
-    if (source !== AlertSource.E2E) {
-        return {
-            title: PUBLISH_TARGET_TITLE[PublishTarget.ALERTS],
-            descriptions: [USECASE_ALERTS_UNAVAILABLE],
-            fields: sourceFields,
-            actionLabel: getActionLabel(PublishTarget.ALERTS, false),
-        };
-    }
-
-    return {
-        title: PUBLISH_TARGET_TITLE[PublishTarget.ALERTS],
-        descriptions: data
-            ? [String(data.id)]
-            : hasError
-            ? ['Для этого процесса алерты еще не создавались']
-            : [],
-        status: data?.status,
-        fields: data ? [...getVersionFields(data), ...sourceFields] : [],
-        note: data?.note,
-        actionLabel: getActionLabel(PublishTarget.ALERTS, !!data),
-    };
-};
-
-export const getDashboardCardContent = ({
+export const getPublishCardContent = ({
+    target,
     data,
     hasError,
     built,
-}: IDashboardCardParams): PublishCardContent => ({
-    title: PUBLISH_TARGET_TITLE[PublishTarget.DASHBOARD],
-    descriptions: data
-        ? [String(data.id)]
-        : hasError
-        ? ['Для этого шага дашборд еще не создавался']
-        : [],
+}: IPublishCardParams): PublishCardContent => ({
+    title: PUBLISH_TARGET_TITLE[target],
+    descriptions: data ? [String(data.id)] : hasError ? [PUBLISH_TARGET_EMPTY[target]] : [],
     status: data?.status,
-    fields: data ? getDashboardFields(data, built) : [],
+    fields: data ? getVersionFields(data, built) : [],
+    url: data?.url ?? null,
     note: data?.note,
-    actionLabel: getActionLabel(PublishTarget.DASHBOARD, !!data),
+    actionLabel: getActionLabel(target, !!data),
 });

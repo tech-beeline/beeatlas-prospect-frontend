@@ -1,7 +1,7 @@
-import { IDashboardVersionStatus, IStagingSequenceAlert } from 'api/staging-sequence/types';
+import { IDashboardVersionStatus } from 'api/staging-sequence/types';
 import { IUsecaseByBiStepCode } from 'api/usecase/types';
 
-import { AlertSource } from './const';
+import { AlertSource, PublishTarget } from './const';
 
 export interface IObservabilityContent {
     biStepCode: string;
@@ -25,14 +25,8 @@ export interface IBuiltImplementation {
     implementation: IAlertImplementation;
 }
 
-export interface IAlertCardParams {
-    source: AlertSource;
-    selected: IAlertImplementation | null;
-    data?: IStagingSequenceAlert;
-    hasError: boolean;
-}
-
-export interface IDashboardCardParams {
+export interface IPublishCardParams {
+    target: PublishTarget;
     data?: IDashboardVersionStatus;
     hasError: boolean;
     built: IBuiltImplementation | null;

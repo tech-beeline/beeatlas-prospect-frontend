@@ -18,6 +18,8 @@ export const USECASE_ALERTS_UNAVAILABLE =
 
 export const E2E_DASHBOARD_PIPELINE = 'e2e-dashboard';
 
+export const E2E_ALERTS_PIPELINE = 'e2e_sequence_alerts';
+
 export const USECASE_DASHBOARD_UNAVAILABLE =
     'Dashboard по Use Case пока не строится: сервис дашбордов дорабатывается';
 
@@ -34,6 +36,16 @@ export const PUBLISH_TARGET_NAME: Record<PublishTarget, string> = {
 export const PUBLISH_TARGET_TITLE: Record<PublishTarget, string> = {
     [PublishTarget.ALERTS]: 'Alerts',
     [PublishTarget.DASHBOARD]: 'Dashboard',
+};
+
+export const PUBLISH_TARGET_PIPELINE: Record<PublishTarget, string> = {
+    [PublishTarget.ALERTS]: E2E_ALERTS_PIPELINE,
+    [PublishTarget.DASHBOARD]: E2E_DASHBOARD_PIPELINE,
+};
+
+export const PUBLISH_TARGET_EMPTY: Record<PublishTarget, string> = {
+    [PublishTarget.ALERTS]: 'Для этого шага алерты еще не создавались',
+    [PublishTarget.DASHBOARD]: 'Для этого шага дашборд еще не создавался',
 };
 
 export const PUBLISH_TARGET_USECASE_UNAVAILABLE: Record<PublishTarget, string> = {

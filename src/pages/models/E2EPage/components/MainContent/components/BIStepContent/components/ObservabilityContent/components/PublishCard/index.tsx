@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { Text } from 'components/core';
+import { Link } from 'components/other';
 import { Button, Icon, Skeleton } from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
@@ -14,6 +15,7 @@ export const PublishCard: FC<IPublishCard> = ({
     descriptions,
     status,
     fields,
+    url,
     note,
     actionLabel,
     onAction,
@@ -47,6 +49,14 @@ export const PublishCard: FC<IPublishCard> = ({
                             <Text variant="body2">{value}</Text>
                         </div>
                     ))}
+                    {url && (
+                        <div>
+                            <Text inactive variant="body3">
+                                Ссылка
+                            </Text>
+                            <Link title="Открыть" url={url} />
+                        </div>
+                    )}
                 </S.MetadataContainer>
             )}
             {note !== undefined && (

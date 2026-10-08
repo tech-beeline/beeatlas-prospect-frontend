@@ -15,4 +15,5 @@ export const toDashboardVersionStatus = ({
     creator: version.creator ?? '',
     note: version.note ?? context?.message ?? '',
     sourceUid: context?.uid ?? null,
+    url: version.url ?? null,
 });

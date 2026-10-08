@@ -41,6 +41,7 @@ export interface IStagingSequenceAlertForm {
 
 export interface IDashboardVersionStatus extends IStagingSequenceAlert {
     sourceUid: string | null;
+    url: string | null;
 }
 
 export interface IPipelineRunForm {
@@ -97,6 +98,7 @@ export interface IDashboardVersion {
     created: string;
     creator: string | null;
     note: string | null;
+    url?: string | null;
 }
 
 export interface IDashboardVersionRun {
