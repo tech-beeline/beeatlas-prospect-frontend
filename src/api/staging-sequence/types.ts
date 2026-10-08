@@ -39,6 +39,81 @@ export interface IStagingSequenceAlertForm {
     note: string;
 }
 
+export interface IDashboardVersionStatus extends IStagingSequenceAlert {
+    sourceUid: string | null;
+    url: string | null;
+}
+
+export interface IPipelineRunForm {
+    uid: string;
+    folder_uid?: string;
+    message?: string;
+    creator?: string;
+}
+
+export type PipelineRunStatus = 'in_progress' | 'success' | 'failed' | 'partial';
+
+export interface IPipelineStageRun {
+    stage_code: string;
+    status: PipelineRunStatus;
+    started_at: string;
+    finished_at: string | null;
+    error_message: string | null;
+}
+
+interface IPipelineRunContext {
+    uid: string;
+    template_id: number;
+    folder_uid?: string;
+    message?: string;
+    dashboard_type?: string;
+}
+
+interface IPipelineRunResult {
+    success: boolean;
+    target_ref: string;
+    message: string | null;
+}
+
+export interface IPipelineRun {
+    id: number;
+    pipeline_code: string;
+    status: PipelineRunStatus;
+    trigger: string;
+    started_at: string;
+    finished_at: string | null;
+    context: IPipelineRunContext;
+    stage_runs: IPipelineStageRun[];
+    result: IPipelineRunResult;
+}
+
+export interface IDashboardVersion {
+    id: number;
+    dashboard_type: string;
+    uid: string;
+    template_id: number;
+    name: string;
+    version: number;
+    status: string;
+    created: string;
+    creator: string | null;
+    note: string | null;
+    url?: string | null;
+}
+
+export interface IDashboardVersionRun {
+    id: number | null;
+    pipeline_code: string;
+    status: PipelineRunStatus | null;
+    trigger: string | null;
+    started_at: string | null;
+    finished_at: string | null;
+    context: IPipelineRunContext | null;
+    stage_runs: IPipelineStageRun[];
+    result: IPipelineRunResult | null;
+    dashboard_version: IDashboardVersion;
+}
+
 interface IOperation {
     id: number;
     name: string;
@@ -46,10 +121,25 @@ interface IOperation {
     interfaceCode: string;
     containerCode: string;
     productAlias: string;
-    sla: {
-        latency: number;
-        errorRate: number;
-        rps: number;
+    sla: IOperationSla | null;
+    operation?: IConnectedOperation | null;
+}
+
+interface IOperationSla {
+    latency: number | null;
+    errorRate: number | null;
+    rps: number | null;
+}
+
+interface IConnectedOperation {
+    id: number;
+    name: string;
+    type: string;
+    sla: IOperationSla | null;
+    interface: {
+        id: number;
+        code: string | null;
+        container: { id: number; code: string | null } | null;
     } | null;
 }
 
@@ -90,7 +180,7 @@ export interface IStagingSequenceRelatedCJ {
     id: number;
     uid: string;
     name: string;
-    bDraft: boolean;
+    bdraft: boolean;
 }
 
 export interface IStagingSequenceBiStepData {

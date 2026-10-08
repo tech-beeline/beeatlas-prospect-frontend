@@ -24,7 +24,6 @@ export const StepFields: FC<IStepFields> = ({
     handleAddClick,
     handleRemoveClick,
     isLast,
-    totalFields,
 }) => {
     const [searchTextProduct, setSearchTextProduct] = useState('');
     const [searchTextTC, setSearchTextTC] = useState('');
@@ -131,15 +130,13 @@ export const StepFields: FC<IStepFields> = ({
                         `Вызов ${index + 1}`
                     )} */}
                 </Text>
-                {totalFields > 1 && (
-                    <IconButton
-                        variant="plain"
-                        size="medium"
-                        iconName={Icons.Delete}
-                        type="button"
-                        onClick={() => handleRemoveClick(index)}
-                    />
-                )}
+                <IconButton
+                    variant="plain"
+                    size="medium"
+                    iconName={Icons.Delete}
+                    type="button"
+                    onClick={() => handleRemoveClick(index)}
+                />
             </S.FlexWrapper>
             <S.LinkWrapper>
                 <S.LinkBlock>

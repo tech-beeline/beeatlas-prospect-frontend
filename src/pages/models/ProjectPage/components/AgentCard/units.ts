@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 export const Card = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 12px;
 
     padding: 24px;
@@ -10,6 +11,12 @@ export const Card = styled.div`
     border: 1px solid var(--color-divider);
     border-radius: var(--size-border-radius-x6);
     background-color: var(--color-background-base);
+`;
+
+export const InfoContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 `;
 
 export const TitleRow = styled.div`

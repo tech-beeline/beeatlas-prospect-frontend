@@ -59,12 +59,10 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
 
     const { modalOpened, openModal, closeModal } = useModal();
 
-    const handleSubmit = async (shouldCloseAfter = false) => {
+    const handleSubmit = async () => {
         if (!bpmnFile) return;
 
-        if (shouldCloseAfter) {
-            setIsSideSheetSubmitting(true);
-        }
+        setIsSideSheetSubmitting(true);
 
         try {
             const { docId } = await uploadBPMN({ file: bpmnFile, cjId });
@@ -75,41 +73,28 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
                 queryKey: [CJ_PREFIX],
             });
 
-            if (shouldCloseAfter) {
-                setBpmnFile(null);
-                onClose();
-                showSnackbar({ message: 'Изменения сохранены' });
-            }
+            setBpmnFile(null);
+            onClose();
+            showSnackbar({ message: 'Изменения сохранены' });
         } catch (bpmnError) {
             const errorText =
                 (bpmnError as any)?.response?.data?.errorMessage ??
                 'Ошибка при обработке BPMN файла. Проверьте формат файла и попробуйте снова.';
             setBpmnErrorText(errorText);
         } finally {
-            if (shouldCloseAfter) {
-                setIsSideSheetSubmitting(false);
-            }
+            setIsSideSheetSubmitting(false);
+            closeModal();
         }
     };
 
     const handleSaveClick = () => {
         if (isEmptyCJ) {
-            handleSubmit(true);
+            handleSubmit();
         } else {
             openModal();
         }
     };
 
-    useEffect(() => {
-        if (!isRefreshing && !isPendingCJ) {
-            if (modalOpened) {
-                setBpmnFile(null);
-                closeModal();
-                onClose();
-                showSnackbar({ message: 'Изменения сохранены' });
-            }
-        }
-    }, [isRefreshing, isPendingCJ]);
     return (
         <SideBlock isOpen={isOpen} onClose={onClose} large={true} hasBackdrop>
             <S.Container>
@@ -194,7 +179,7 @@ export const CJImport: FC<ICJImport> = ({ isOpen, onClose, cjId, isRefreshing, i
                 title="Сохранить новую версию?"
                 opened={modalOpened}
                 confirmText="Сохранить"
-                onConfirm={() => handleSubmit(false)}
+                onConfirm={handleSubmit}
                 onClose={closeModal}
                 isPending={isLoading}
             >

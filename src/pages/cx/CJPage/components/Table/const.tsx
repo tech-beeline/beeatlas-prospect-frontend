@@ -3,7 +3,7 @@ import React from 'react';
 import { Text } from 'components/core';
 import { Link } from 'components/other';
 
-import { IBIData, IBILink } from 'api/bi/types';
+import { IBIData, IBILink, IStepsScenarion } from 'api/bi/types';
 import { formatScenario, formatStatus, formatTarget } from 'pages/cx/CJPage/utils/formatters';
 import { formatNullableString } from 'utils/formatters';
 
@@ -83,7 +83,11 @@ export const rowsData: RowData<any>[] = [
     {
         rowId: RowIds.SCENARION_BI,
         label: 'Шаги сценария BI',
-        formatData: formatScenario,
+        formatData: (
+            biSteps: IStepsScenarion[],
+            _onOpen?: (biId: number) => void,
+            bpmn?: boolean,
+        ) => formatScenario(biSteps, bpmn),
         parseData: (bi: IBIData) => bi.biSteps,
     },
     {

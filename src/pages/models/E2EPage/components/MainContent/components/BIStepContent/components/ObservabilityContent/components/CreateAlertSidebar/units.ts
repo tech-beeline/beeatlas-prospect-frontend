@@ -7,13 +7,18 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
-    height: 100%;
+    height: var(--app-height);
+    min-height: 0;
 `;
 
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
+
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
 
     padding: 24px;
 `;
@@ -40,4 +45,16 @@ export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boole
     .dsb-button-progress__svg {
         display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
     }
+`;
+
+export const MethodsList = styled.ul`
+    max-height: 240px;
+    margin: 8px 0 0;
+    padding-left: 20px;
+    overflow-y: auto;
+
+    font-family: var(--font-family-code), monospace;
+    font-size: var(--font-size-caption);
+    line-height: var(--font-line-height-caption);
+    word-break: break-all;
 `;

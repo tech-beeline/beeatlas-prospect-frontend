@@ -61,6 +61,24 @@ export const getRawData = (rawDataRefId: number | string): AxiosPromise<Record<s
     });
 };
 
+export const getPipelineRunsByArtifact = (
+    artifactUid: string,
+): AxiosPromise<T.IArtifactPipelineRun[]> => {
+    return Api.get({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/by-artifact`,
+        params: { 'artifact-uid': artifactUid },
+    });
+};
+
+export const downloadProjectUsecaseRawData = (
+    rawDataRefId: number | string,
+): AxiosPromise<string> => {
+    return Api.get({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/raw-data/${rawDataRefId}`,
+        responseType: 'text',
+    });
+};
+
 export const getPipelineDataSources = (): AxiosPromise<T.IPipelineDataSource[]> => {
     return Api.get({
         url: `${GATEWAY_STAGING_SERVICE_URL}v1/data-sources`,
@@ -165,6 +183,55 @@ export const applyE2EPlantUmlPipeline = (runId: string | number): AxiosPromise<v
 export const declineE2EPlantUmlPipeline = (runId: string | number): AxiosPromise<void> => {
     return Api.post({
         url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${runId}/decline`,
+    });
+};
+
+export const startProjectUsecasePipeline = (
+    data: T.IStartProjectUsecasePipelineParams,
+): AxiosPromise<T.IProjectUsecasePipelineRun> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs`,
+        data,
+    });
+};
+
+export const getProjectUsecasePipelineStatus = (
+    params: T.IGetProjectUsecasePipelineStatusParams,
+): AxiosPromise<T.IProjectUsecasePipelineStatus> => {
+    return Api.get({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${params.runId}/status`,
+        params: {
+            waitFor: params.waitFor,
+            timeoutMs: params.timeoutMs ?? 30000,
+        },
+    });
+};
+
+export const saveProjectUsecaseMapping = (
+    runId: string | number,
+    data: T.IProjectUsecaseMappingDecision,
+): AxiosPromise<T.IProjectUsecaseMappingResponse> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${runId}/usecase-mappings`,
+        data,
+    });
+};
+
+export const applyProjectUsecasePipeline = (
+    params: T.IApplyProjectUsecasePipelineParams,
+): AxiosPromise<T.IApplyProjectUsecasePipelineResponse> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${params.runId}/apply`,
+        data: params.comment ? { comment: params.comment } : {},
+    });
+};
+
+export const cancelProjectUsecasePipeline = (
+    params: T.ICancelProjectUsecasePipelineParams,
+): AxiosPromise<T.ICancelProjectUsecasePipelineResponse> => {
+    return Api.post({
+        url: `${GATEWAY_STAGING_SERVICE_URL}v1/pipeline-runs/${params.runId}/cancel`,
+        data: params.reason ? { reason: params.reason } : {},
     });
 };
 

@@ -1,7 +1,6 @@
 import React, { FC, useRef } from 'react';
 import dayjs from 'dayjs';
 import {
-    getPipelineRunDurationMs,
     pipelineStatusToIconMap,
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
@@ -37,7 +36,6 @@ export const PreAdapterRow: FC<IPreAdapterRow> = ({ run }) => {
             )
             .reduce((acc, v) => acc + v.count, 0) ?? 0;
     const errorCount = run.childStats.find((v) => v.status === PipelineStatuses.FAILED)?.count ?? 0;
-    const durationMs = getPipelineRunDurationMs(run.startedAt, run.completedAt);
 
     return (
         <TableRow>
@@ -76,7 +74,7 @@ export const PreAdapterRow: FC<IPreAdapterRow> = ({ run }) => {
                     ? dayjs(formatDateToUTC(run.completedAt)).local().format('DD.MM.YYYY, HH:mm')
                     : formatNullableString(null)}
             </TableData>
-            <TableData>{durationMs} ms</TableData>
+            <TableData>{run.durationMs} ms</TableData>
             <TableData>
                 <Link
                     outer={false}

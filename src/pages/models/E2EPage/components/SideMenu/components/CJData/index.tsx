@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { BI_STEP_TAB_ID_PARAM } from 'features/e2e';
 
 import { Text } from 'components/core';
 import { Search, Skeleton } from 'components/ui';
@@ -27,6 +28,7 @@ export const CJData: FC<ICJData> = ({ activeTreeItem, treeData, flatTreeData, is
         const params = new URLSearchParams(searchParams);
         params.set('id', String(item.code));
         params.set('type', item.type);
+        params.delete(BI_STEP_TAB_ID_PARAM);
         setSearchParams(params);
         setSearchText(item.title);
         setMenuOpened(false);

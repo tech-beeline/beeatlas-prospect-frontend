@@ -1,9 +1,11 @@
+import { IStagingSequenceCallsData } from 'api/staging-sequence/types';
+
 export interface ICallsContent {
     e2eCodes: string[];
+    selectedId: string | null;
+    onSelect: (id: string) => void;
 }
 
-export interface ITreeItem {
-    id: string;
-    name: string;
-    children: ITreeItem[];
-}
+export type IE2EOperation = IStagingSequenceCallsData['operations'][number];
+
+export type IE2EOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];

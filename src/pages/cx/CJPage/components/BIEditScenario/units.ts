@@ -80,3 +80,10 @@ export const ButtonContainer = styled.div`
         width: 100%;
     }
 `;
+
+export const EmptyCalls = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+`;

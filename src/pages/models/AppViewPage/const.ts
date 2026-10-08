@@ -37,7 +37,7 @@ export const TABS = [
     },
     {
         id: TabVariants.E2E_PROCESSES,
-        label: 'E2E процессы',
+        label: 'Участие в процессах',
     },
     {
         id: TabVariants.TECHNOLOGIES,

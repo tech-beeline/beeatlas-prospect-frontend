@@ -1,94 +1,97 @@
-import React, { FC } from 'react';
-import dayjs from 'dayjs';
+import React, { FC, useMemo, useState } from 'react';
 
-import { Text } from 'components/core';
-import { Button, Icon, Skeleton } from 'components/ui';
+import { ImageVariants, NotFoundBlock } from 'components/other';
 
-import { useGetSequenceAlertByIdQuery } from 'api/queries/staging-sequence';
+import { useGetDashboardVersionQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
-import { Icons } from 'styles/design-tokens/js/iconfont';
 
-import { CreateAlertSidebar } from './components';
+import { CreateAlertSidebar, PublishCard } from './components';
+import { AlertSource, PUBLISH_TARGET_PIPELINE, PublishTarget } from './const';
 import { IObservabilityContent } from './types';
-import * as S from './units';
+import {
+    findImplementation,
+    getAlertImplementations,
+    getAvailableAlertSources,
+    getPublishCardContent,
+} from './utils';
 
-export const ObservabilityContent: FC<IObservabilityContent> = ({ code }) => {
+export const ObservabilityContent: FC<IObservabilityContent> = ({
+    biStepCode,
+    e2eCodes,
+    usecases,
+}) => {
+    const implementations = useMemo(
+        () => getAlertImplementations(e2eCodes, usecases),
+        [e2eCodes, usecases],
+    );
+    const availableSources = getAvailableAlertSources(implementations);
+    const [target, setTarget] = useState<PublishTarget>(PublishTarget.ALERTS);
     const { openModal, closeModal, modalOpened } = useModal();
 
-    const { data, error, isLoading } = useGetSequenceAlertByIdQuery(code);
+    const alerts = useGetDashboardVersionQuery(
+        PUBLISH_TARGET_PIPELINE[PublishTarget.ALERTS],
+        biStepCode,
+    );
+    const dashboard = useGetDashboardVersionQuery(
+        PUBLISH_TARGET_PIPELINE[PublishTarget.DASHBOARD],
+        biStepCode,
+    );
+    const builtAlerts = findImplementation(implementations, alerts.data?.sourceUid);
+    const builtDashboard = findImplementation(implementations, dashboard.data?.sourceUid);
+    const targetData = target === PublishTarget.ALERTS ? alerts.data : dashboard.data;
+    const targetBuilt = target === PublishTarget.ALERTS ? builtAlerts : builtDashboard;
+    const defaultSource = availableSources[0] ?? AlertSource.E2E;
+
+    const openSidebar = (nextTarget: PublishTarget) => {
+        setTarget(nextTarget);
+        openModal();
+    };
+
+    if (availableSources.length === 0) {
+        return (
+            <NotFoundBlock
+                imageVariant={ImageVariants.EMPTY_BOX}
+                title="Нет реализаций"
+                text="Алерты строятся по вызовам шага E2E-сценария или Use Case, а у шага BI их нет"
+            />
+        );
+    }
 
     return (
         <>
-            {isLoading && <Skeleton radius={12} height={100} />}
-            {(data || error) && (
-                <S.AlertContainer>
-                    <S.TitleContainer>
-                        <div>
-                            <Text variant="subtitle3">Alerts</Text>
-                            {error && (
-                                <Text inactive variant="body3">
-                                    Для этого процесса алерты еще не создавались
-                                </Text>
-                            )}
-                            {data && (
-                                <Text inactive variant="body3">
-                                    {data.id}
-                                </Text>
-                            )}
-                        </div>
-                        {data && (
-                            <S.Badge success={data.status === 'success'}>
-                                <Text variant="body3">
-                                    {data.status === 'success' ? 'Успешно' : 'Ошибка'}
-                                </Text>
-                            </S.Badge>
-                        )}
-                    </S.TitleContainer>
-                    {data && (
-                        <>
-                            <S.MetadataContainer>
-                                <div>
-                                    <Text inactive variant="body3">
-                                        Версия
-                                    </Text>
-                                    <Text variant="body2">{data.version}</Text>
-                                </div>
-                                <div>
-                                    <Text inactive variant="body3">
-                                        Дата генерации
-                                    </Text>
-                                    <Text variant="body2">
-                                        {dayjs(data.created).local().format('DD.MM.YYYY, HH:mm:ss')}
-                                    </Text>
-                                </div>
-                                <div>
-                                    <Text inactive variant="body3">
-                                        Инициатор
-                                    </Text>
-                                    <Text variant="body2">{data.creator}</Text>
-                                </div>
-                            </S.MetadataContainer>
-                            <div>
-                                <Text inactive variant="body3">
-                                    Комментарий
-                                </Text>
-                                <Text variant="body2">{data.note}</Text>
-                            </div>
-                        </>
-                    )}
-                    <S.ButtonContainer>
-                        <Button
-                            variant="outlined"
-                            size="medium"
-                            startIcon={<Icon iconName={Icons.Refresh} />}
-                            onClick={openModal}
-                        >
-                            {data ? 'Обновить alerts' : 'Создать alerts'}
-                        </Button>
-                    </S.ButtonContainer>
-                </S.AlertContainer>
-            )}
-            <CreateAlertSidebar isOpen={modalOpened} onClose={closeModal} data={data} code={code} />
+            <PublishCard
+                isLoading={alerts.isLoading}
+                onAction={() => openSidebar(PublishTarget.ALERTS)}
+                {...getPublishCardContent({
+                    target: PublishTarget.ALERTS,
+                    data: alerts.data,
+                    hasError: !!alerts.error,
+                    built: builtAlerts,
+                })}
+            />
+            <PublishCard
+                isLoading={dashboard.isLoading}
+                onAction={() => openSidebar(PublishTarget.DASHBOARD)}
+                {...getPublishCardContent({
+                    target: PublishTarget.DASHBOARD,
+                    data: dashboard.data,
+                    hasError: !!dashboard.error,
+                    built: builtDashboard,
+                })}
+            />
+            <CreateAlertSidebar
+                isOpen={modalOpened}
+                onClose={closeModal}
+                target={target}
+                data={targetData}
+                source={targetBuilt?.source ?? defaultSource}
+                selectedId={
+                    targetBuilt?.implementation.id ??
+                    implementations[defaultSource][0]?.id ??
+                    null
+                }
+                implementations={implementations}
+            />
         </>
     );
 };

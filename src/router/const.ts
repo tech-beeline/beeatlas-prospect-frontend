@@ -38,6 +38,7 @@ export const LIFE_SITUATIONS_PATH = '/life-situations';
 export const NFR_PATH = '/nfr';
 export const PROJECTS_PATH = '/projects';
 export const ASSESSMENT_PATH = '/assessment';
+export const USECASE_PATH = '/usecase';
 
 // техрадар
 export const TECH_RADAR_PATH = '/tech-radar';

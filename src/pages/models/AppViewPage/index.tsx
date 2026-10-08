@@ -15,9 +15,9 @@ import {
     Diagrams,
     FitnessFunctions,
     GeneralInfo,
-    InDevelopment,
     InterfacesAndMethods,
     Patterns,
+    ProcessParticipation,
     Requirements,
     TechCapabilities,
     Technologies,
@@ -127,8 +127,9 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.TECH_CAPABILITIES && productData && (
                 <TechCapabilities productId={productData.id} cmdb={paramCmdb ?? ''} />
             )}
-            {tabVariant === TabVariants.E2E_PROCESSES &&
-                !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <InDevelopment cmdb={paramCmdb} />}
+            {tabVariant === TabVariants.E2E_PROCESSES && !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                <ProcessParticipation cmdb={paramCmdb} />
+            )}
             {tabVariant === TabVariants.TECHNOLOGIES && <Technologies cmdb={paramCmdb} />}
             {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
             {tabVariant === TabVariants.REQUIREMENTS && <Requirements cmdb={paramCmdb} />}

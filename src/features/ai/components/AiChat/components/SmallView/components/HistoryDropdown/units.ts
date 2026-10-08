@@ -20,6 +20,7 @@ export const MenuBlock = styled.div`
     padding: 16px;
     overflow-y: auto;
 
+    color: var(--color-text-active);
     background-color: var(--color-background-medium);
     border-radius: var(--size-border-radius-x6);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);

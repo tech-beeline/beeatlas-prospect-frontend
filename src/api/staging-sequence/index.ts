@@ -13,13 +13,32 @@ export const getStagingSequenceCjTree = (): AxiosPromise<T.IStagingSequenceCJ[]>
 
 export const getSequenceAlertById = (uid: string): AxiosPromise<T.IStagingSequenceAlert> => {
     return Api.get({
-        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/sequences/${uid}/dashboards/1`,
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v2/sequences/${uid}/dashboards/1`,
     });
 };
 
 export const postSequenceAlertById = (uid: string, data: T.IStagingSequenceAlertForm) => {
     return Api.post({
-        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/sequences/${uid}/dashboards/1`,
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v2/sequences/${uid}/dashboards/1`,
+        data,
+    });
+};
+
+export const getDashboardVersion = (
+    pipelineCode: string,
+    uid: string,
+): AxiosPromise<T.IDashboardVersionRun> => {
+    return Api.get({
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/dashboard-versions/${pipelineCode}/${uid}`,
+    });
+};
+
+export const postPipelineRun = (
+    code: string,
+    data: T.IPipelineRunForm,
+): AxiosPromise<T.IPipelineRun> => {
+    return Api.post({
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/pipelines/${code}/run`,
         data,
     });
 };
