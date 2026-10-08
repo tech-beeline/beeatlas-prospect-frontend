@@ -154,7 +154,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                     )}
                     {!isUsecaseSource && unmatchedMethods.length > 0 && (
                         <Banner
-                            color={target === PublishTarget.ALERTS ? 'error' : 'warning'}
+                            color="warning"
                             iconName={Icons.WarningCircled}
                             title={
                                 <>

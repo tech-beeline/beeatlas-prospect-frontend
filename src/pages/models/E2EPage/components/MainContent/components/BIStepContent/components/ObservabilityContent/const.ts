@@ -50,7 +50,7 @@ export const PUBLISH_TARGET_EMPTY: Record<PublishTarget, string> = {
 
 export const PUBLISH_TARGET_UNMATCHED: Record<PublishTarget, string> = {
     [PublishTarget.ALERTS]:
-        'Методы не найдены в архитектуре — цепочка вызовов для алертов по ним не построится:',
+        'Методы не найдены в архитектуре — цепочка вызовов будет построена до первого некорректного вызова:',
     [PublishTarget.DASHBOARD]: 'Методы не найдены в архитектуре и не попадут в дашборд:',
 };
 
