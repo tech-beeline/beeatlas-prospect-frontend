@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
     getDashboardVersion,
+    getSequenceAlertById,
     getSequenceCallsById,
     getStagingSequenceBiStepByCode,
     getStagingSequenceBiSteps,
@@ -9,6 +10,7 @@ import {
     patchE2E,
     postE2E,
     postPipelineRun,
+    postSequenceAlertById,
 } from 'api/staging-sequence';
 import {
     IPatchE2EForm,
