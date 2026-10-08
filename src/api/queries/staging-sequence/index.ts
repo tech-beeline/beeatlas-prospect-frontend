@@ -1,16 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
-    getSequenceAlertById,
+    getDashboardVersion,
     getSequenceCallsById,
     getStagingSequenceBiStepByCode,
     getStagingSequenceBiSteps,
     getStagingSequenceCjTree,
     patchE2E,
     postE2E,
-    postSequenceAlertById,
+    postPipelineRun,
 } from 'api/staging-sequence';
-import { IPatchE2EForm, IPostE2EForm, IStagingSequenceAlertForm } from 'api/staging-sequence/types';
+import { IPatchE2EForm, IPipelineRunForm, IPostE2EForm } from 'api/staging-sequence/types';
+
+import { toSequenceAlert } from './utils';
 
 export const STAGING_SEQUENCE_PREFIX = 'STAGING_SEQUENCE_PREFIX';
 
@@ -28,27 +30,28 @@ export const useGetStagingSequenceBiStepsQuery = () => {
     });
 };
 
-export const useGetSequenceAlertByIdQuery = (uid: string | null) => {
+export const useGetDashboardVersionQuery = (pipelineCode: string, uid: string | null) => {
     return useQuery({
-        queryKey: [STAGING_SEQUENCE_PREFIX, 'SEQUENCE_ALERT', uid],
-        queryFn: () => getSequenceAlertById(uid!).then((res) => res.data),
+        queryKey: [STAGING_SEQUENCE_PREFIX, 'DASHBOARD_VERSION', pipelineCode, uid],
+        queryFn: () =>
+            getDashboardVersion(pipelineCode, uid!).then((res) => toSequenceAlert(res.data)),
         enabled: !!uid,
     });
 };
 
-interface IUsePostSequenceAlertByIdMutationParams {
-    uid: string;
-    data: IStagingSequenceAlertForm;
+interface IUsePostPipelineRunMutationParams {
+    code: string;
+    data: IPipelineRunForm;
 }
-export const usePostSequenceAlertByIdMutation = () => {
+export const usePostPipelineRunMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationKey: [STAGING_SEQUENCE_PREFIX, 'SEQUENCE_ALERT', 'create'],
-        mutationFn: (params: IUsePostSequenceAlertByIdMutationParams) =>
-            postSequenceAlertById(params.uid, params.data),
-        onSuccess: () => {
+        mutationKey: [STAGING_SEQUENCE_PREFIX, 'PIPELINE_RUN', 'create'],
+        mutationFn: (params: IUsePostPipelineRunMutationParams) =>
+            postPipelineRun(params.code, params.data),
+        onSettled: () => {
             queryClient.invalidateQueries({
-                queryKey: [STAGING_SEQUENCE_PREFIX, 'SEQUENCE_ALERT'],
+                queryKey: [STAGING_SEQUENCE_PREFIX, 'DASHBOARD_VERSION'],
             });
         },
     });

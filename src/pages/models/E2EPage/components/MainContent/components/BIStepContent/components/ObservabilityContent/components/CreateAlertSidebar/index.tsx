@@ -6,11 +6,16 @@ import { Text } from 'components/core';
 import { Banner, IconButton, Select } from 'components/ui';
 import { Button, TextArea } from 'components/ui';
 
-import { usePostSequenceAlertByIdMutation } from 'api/queries/staging-sequence';
+import { usePostPipelineRunMutation } from 'api/queries/staging-sequence';
 import { Icons } from 'styles/design-tokens/js/iconfont/icons';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
-import { ALERT_SOURCE_OPTIONS, AlertSource, USECASE_ALERTS_UNAVAILABLE } from '../../const';
+import {
+    ALERT_SOURCE_OPTIONS,
+    AlertSource,
+    E2E_DASHBOARD_PIPELINE,
+    USECASE_ALERTS_UNAVAILABLE,
+} from '../../const';
 
 import { ICreateAlertSidebar } from './types';
 import * as S from './units';
@@ -51,7 +56,7 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
 
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
-    const { mutateAsync: createSequenceAlert, isPending } = usePostSequenceAlertByIdMutation();
+    const { mutateAsync: runPipeline, isPending } = usePostPipelineRunMutation();
 
     const changeSource = (nextSource: AlertSource) => {
         setSource(nextSource);
@@ -62,11 +67,12 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
         if (!implementation || isUsecaseSource) return;
         setErrorMessage(null);
         try {
-            await createSequenceAlert({
-                uid: encodeURI(implementation),
+            await runPipeline({
+                code: E2E_DASHBOARD_PIPELINE,
                 data: {
+                    uid: implementation,
+                    message: comment || undefined,
                     creator: `${userInfo?.family_name} ${userInfo?.given_name}`,
-                    note: comment,
                 },
             });
             showSnackbar({ message: data ? 'Alerts обновлен' : 'Alerts создан' });

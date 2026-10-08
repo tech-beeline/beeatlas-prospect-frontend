@@ -5,7 +5,7 @@ import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { Button, ButtonGroup, Icon, Skeleton } from 'components/ui';
 
-import { useGetSequenceAlertByIdQuery } from 'api/queries/staging-sequence';
+import { useGetDashboardVersionQuery } from 'api/queries/staging-sequence';
 import { useModal } from 'hooks';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
@@ -16,6 +16,7 @@ import {
     ALERT_SOURCE_LABEL,
     ALERT_SOURCE_OPTIONS,
     AlertSource,
+    E2E_DASHBOARD_PIPELINE,
     USECASE_ALERTS_UNAVAILABLE,
 } from './const';
 import { IObservabilityContent } from './types';
@@ -53,7 +54,10 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({ e2eCodes, usec
     const { openModal, closeModal, modalOpened } = useModal();
 
     const isE2E = source === AlertSource.E2E;
-    const { data, error, isLoading } = useGetSequenceAlertByIdQuery(isE2E ? selectedId : null);
+    const { data, error, isLoading } = useGetDashboardVersionQuery(
+        E2E_DASHBOARD_PIPELINE,
+        isE2E ? selectedId : null,
+    );
 
     const handleSaved = (savedSource: AlertSource, implementationId: string) => {
         if (savedSource !== source) preferredIdRef.current = implementationId;

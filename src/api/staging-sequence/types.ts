@@ -34,9 +34,73 @@ export interface IStagingSequenceAlert {
     note: string;
 }
 
-export interface IStagingSequenceAlertForm {
-    creator: string;
-    note: string;
+export interface IPipelineRunForm {
+    uid: string;
+    folder_uid?: string;
+    message?: string;
+    creator?: string;
+}
+
+export type PipelineRunStatus = 'in_progress' | 'success' | 'failed' | 'partial';
+
+export interface IPipelineStageRun {
+    stage_code: string;
+    status: PipelineRunStatus;
+    started_at: string;
+    finished_at: string | null;
+    error_message: string | null;
+}
+
+interface IPipelineRunContext {
+    uid: string;
+    template_id: number;
+    folder_uid?: string;
+    message?: string;
+    dashboard_type?: string;
+}
+
+interface IPipelineRunResult {
+    success: boolean;
+    target_ref: string;
+    message: string | null;
+}
+
+export interface IPipelineRun {
+    id: number;
+    pipeline_code: string;
+    status: PipelineRunStatus;
+    trigger: string;
+    started_at: string;
+    finished_at: string | null;
+    context: IPipelineRunContext;
+    stage_runs: IPipelineStageRun[];
+    result: IPipelineRunResult;
+}
+
+export interface IDashboardVersion {
+    id: number;
+    dashboard_type: string;
+    uid: string;
+    template_id: number;
+    name: string;
+    version: number;
+    status: string;
+    created: string;
+    creator: string | null;
+    note: string | null;
+}
+
+export interface IDashboardVersionRun {
+    id: number | null;
+    pipeline_code: string;
+    status: PipelineRunStatus | null;
+    trigger: string | null;
+    started_at: string | null;
+    finished_at: string | null;
+    context: IPipelineRunContext | null;
+    stage_runs: IPipelineStageRun[];
+    result: IPipelineRunResult | null;
+    dashboard_version: IDashboardVersion;
 }
 
 interface IOperation {

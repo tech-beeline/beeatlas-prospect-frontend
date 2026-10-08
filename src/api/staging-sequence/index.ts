@@ -11,15 +11,21 @@ export const getStagingSequenceCjTree = (): AxiosPromise<T.IStagingSequenceCJ[]>
     });
 };
 
-export const getSequenceAlertById = (uid: string): AxiosPromise<T.IStagingSequenceAlert> => {
+export const getDashboardVersion = (
+    pipelineCode: string,
+    uid: string,
+): AxiosPromise<T.IDashboardVersionRun> => {
     return Api.get({
-        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v2/sequences/${uid}/dashboards/1`,
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/dashboard-versions/${pipelineCode}/${uid}`,
     });
 };
 
-export const postSequenceAlertById = (uid: string, data: T.IStagingSequenceAlertForm) => {
+export const postPipelineRun = (
+    code: string,
+    data: T.IPipelineRunForm,
+): AxiosPromise<T.IPipelineRun> => {
     return Api.post({
-        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v2/sequences/${uid}/dashboards/1`,
+        url: `${GATEWAY_DASHBOARD_SERVICE_URL}api/v1/pipelines/${code}/run`,
         data,
     });
 };

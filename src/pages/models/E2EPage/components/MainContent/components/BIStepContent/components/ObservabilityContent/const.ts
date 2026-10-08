@@ -15,3 +15,5 @@ export const ALERT_SOURCE_OPTIONS = [
 
 export const USECASE_ALERTS_UNAVAILABLE =
     'Алерты по Use Case пока не строятся: сервис дашбордов дорабатывается';
+
+export const E2E_DASHBOARD_PIPELINE = 'e2e-dashboard';
