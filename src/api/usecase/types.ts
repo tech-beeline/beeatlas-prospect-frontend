@@ -71,6 +71,16 @@ export interface IProjectUsecaseConnectedOperation {
     name: string | null;
     type: string | null;
     techCapability: IProjectUsecaseTechCapability | null;
+    sla?: {
+        rps: number | null;
+        latency: number | null;
+        errorRate: number | null;
+    } | null;
+    interface?: {
+        id: number;
+        code: string | null;
+        container: { id: number; code: string | null } | null;
+    } | null;
 }
 
 export interface IProjectUsecaseDiscoveredOperation {

@@ -26,7 +26,8 @@ export const buildUsecaseCalls = (
         .map((node, index) => {
             const item = mapProjectUsecaseOperationNode(node, parentApplication);
             const { discoveredOperation } = node;
-            const operation = discoveredOperation.operation ?? discoveredOperation;
+            const connected = discoveredOperation.operation;
+            const operation = connected ?? discoveredOperation;
             const id = `${pathPrefix}${index}-${node.discoveredOperationId}`;
 
             return {
@@ -39,14 +40,31 @@ export const buildUsecaseCalls = (
                     { label: 'Метод', value: formatNullableString(item.call) },
                     { label: 'Тип', value: formatNullableString(operation.type) },
                     { label: 'Путь', value: formatNullableString(operation.name) },
-                    { label: 'RPS', value: formatMetric(discoveredOperation.rps) },
-                    { label: 'Latency', value: formatMetric(discoveredOperation.latency) },
-                    { label: 'Error rate', value: formatMetric(discoveredOperation.errorRate) },
+                    {
+                        label: 'RPS',
+                        value: formatMetric(connected?.sla?.rps ?? discoveredOperation.rps),
+                    },
+                    {
+                        label: 'Latency',
+                        value: formatMetric(connected?.sla?.latency ?? discoveredOperation.latency),
+                    },
+                    {
+                        label: 'Error rate',
+                        value: formatMetric(
+                            connected?.sla?.errorRate ?? discoveredOperation.errorRate,
+                        ),
+                    },
                     {
                         label: 'Интерфейс',
-                        value: formatNullableString(discoveredOperation.discoveredInterface.name),
+                        value: formatNullableString(
+                            connected?.interface?.code ??
+                                discoveredOperation.discoveredInterface.name,
+                        ),
                     },
-                    { label: 'Контейнер', value: formatNullableString(null) },
+                    {
+                        label: 'Контейнер',
+                        value: formatNullableString(connected?.interface?.container?.code),
+                    },
                 ],
                 children: buildUsecaseCalls(node.children, item.callee, `${id}/`),
             };
