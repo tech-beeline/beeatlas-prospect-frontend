@@ -24,6 +24,7 @@ import { OPERATION_STATUS_BADGE } from './const';
 import { IResultStep } from './types';
 import {
     buildDecisions,
+    getDefaultDraft,
     getEmptyDraft,
     getParticipantBadge,
     getSiblingProduct,
@@ -55,16 +56,18 @@ export const ResultStep: FC<IResultStep> = ({
         result.operations.filter(({ status }) => status === 'unmapped'),
     );
     const planned = getStepsCount(mappedOperations.filter(({ status }) => status === 'planned'));
-    const remaining = decisionOperations.filter(
-        (operation) => !isOperationResolved(operation, drafts[operation.operationId]),
-    ).length;
     const disabled = savingDecision || applying || cancelling;
 
     const getParticipantProduct = (operation: IProjectUsecasePipelineOperation) =>
         result.participants.find(({ alias }) => alias === operation.toAlias)?.productAlias;
 
     const getDraft = (operation: IProjectUsecasePipelineOperation) =>
-        drafts[operation.operationId] ?? getEmptyDraft(getParticipantProduct(operation));
+        drafts[operation.operationId] ??
+        getDefaultDraft(operation, getParticipantProduct(operation));
+
+    const remaining = decisionOperations.filter(
+        (operation) => !isOperationResolved(operation, getDraft(operation)),
+    ).length;
 
     const isProductLocked = (operation: IProjectUsecasePipelineOperation) => {
         const owner = productOwners[operation.toAlias];
@@ -98,7 +101,7 @@ export const ResultStep: FC<IResultStep> = ({
                 ...current,
                 [operation.operationId]: {
                     ...(current[operation.operationId] ??
-                        getEmptyDraft(getParticipantProduct(operation))),
+                        getDefaultDraft(operation, getParticipantProduct(operation))),
                     ...patch,
                 },
             };
@@ -132,8 +135,8 @@ export const ResultStep: FC<IResultStep> = ({
 
     const applyDecisions = () => {
         const decisions = decisionOperations.flatMap((operation) => {
-            const draft = drafts[operation.operationId];
-            return draft && isDraftComplete(draft)
+            const draft = getDraft(operation);
+            return isDraftComplete(draft)
                 ? buildDecisions(operation, draft, getParticipantProduct(operation))
                 : [];
         });
