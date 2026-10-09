@@ -13,6 +13,14 @@ export const getEmptyDraft = (productAlias?: string | null): IResolutionDraft =>
     requirements: '',
 });
 
+export const getDefaultDraft = (
+    operation: IProjectUsecasePipelineOperation,
+    productAlias?: string | null,
+): IResolutionDraft => ({
+    ...getEmptyDraft(productAlias),
+    type: operation.status === 'unmapped' ? CallDecisionType.NOT_A_CALL : null,
+});
+
 const isSiblingExistingDraft = (
     operation: IProjectUsecasePipelineOperation,
     sibling: IProjectUsecasePipelineOperation,
