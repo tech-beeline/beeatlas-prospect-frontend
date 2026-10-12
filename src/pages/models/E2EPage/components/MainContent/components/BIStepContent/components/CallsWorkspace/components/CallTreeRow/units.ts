@@ -30,6 +30,12 @@ export const Call = styled.div`
     min-width: 0;
 
     word-break: break-all;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const Product = styled.div`

@@ -4,6 +4,9 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    flex: 1;
+    min-height: 0;
 `;
 
 export const Source = styled.div`

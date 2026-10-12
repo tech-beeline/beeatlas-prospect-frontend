@@ -15,4 +15,5 @@ export interface IPublishCard {
     note?: string;
     actionLabel: string;
     onAction: () => void;
+    hasData: boolean;
 }

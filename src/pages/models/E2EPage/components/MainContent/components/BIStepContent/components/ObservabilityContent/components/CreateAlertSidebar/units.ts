@@ -47,11 +47,12 @@ export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boole
     }
 `;
 
-export const MethodsList = styled.ul`
-    max-height: 240px;
-    margin: 8px 0 0;
-    padding-left: 20px;
-    overflow-y: auto;
+export const MethodsList = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    margin-top: 12px;
 
     font-family: var(--font-family-code), monospace;
     font-size: var(--font-size-caption);

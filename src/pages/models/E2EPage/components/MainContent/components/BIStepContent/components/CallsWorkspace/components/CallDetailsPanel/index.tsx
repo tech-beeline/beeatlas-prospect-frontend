@@ -10,7 +10,14 @@ export const CallDetailsPanel: FC<ICallDetailsPanel> = ({ call }) => (
     <S.Panel>
         <Text variant="subtitle2">Данные вызова</Text>
         {!call && (
-            <NotFoundBlock imageVariant={ImageVariants.EMPTY_BOX} text="Выбери вызов из списка" />
+            <S.NotFoundContainer>
+                <NotFoundBlock
+                    smallImage
+                    setMinSize={false}
+                    imageVariant={ImageVariants.EMPTY_BOX}
+                    text="Выбери вызов из списка"
+                />
+            </S.NotFoundContainer>
         )}
         {call &&
             call.fields.map((field) => (

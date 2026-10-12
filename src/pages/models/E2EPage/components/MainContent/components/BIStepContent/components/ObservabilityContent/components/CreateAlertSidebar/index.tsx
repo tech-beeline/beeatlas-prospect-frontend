@@ -157,14 +157,14 @@ export const CreateAlertSidebar: FC<ICreateAlertSidebar> = ({
                             color="warning"
                             iconName={Icons.WarningCircled}
                             title={
-                                <>
+                                <div>
                                     {PUBLISH_TARGET_UNMATCHED[target]}
                                     <S.MethodsList>
                                         {unmatchedMethods.map((method) => (
-                                            <li key={method}>{method}</li>
+                                            <div key={method}>{method}</div>
                                         ))}
                                     </S.MethodsList>
-                                </>
+                                </div>
                             }
                         />
                     )}
