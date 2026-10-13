@@ -69,4 +69,5 @@ export const getPublishCardContent = ({
     url: data?.url ?? null,
     note: data?.note,
     actionLabel: getActionLabel(target, !!data),
+    hasData: !!data,
 });

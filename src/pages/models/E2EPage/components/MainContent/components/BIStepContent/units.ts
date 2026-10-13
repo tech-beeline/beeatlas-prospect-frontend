@@ -1,5 +1,14 @@
 import styled from '@emotion/styled';
 
+export const Content = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 24px;
+
+    min-height: 0;
+`;
+
 export const TitleContainer = styled.div`
     display: flex;
     flex-direction: column;

@@ -23,6 +23,10 @@ export interface IPipileneRun {
         status: PipelineStatuses;
         count: number;
     }[];
+    childStatsSnapshot: {
+        status: PipelineStatuses;
+        count: number;
+    }[];
 }
 
 export interface IPipelineChildRun {
@@ -61,8 +65,9 @@ export interface IPipelineRunDetails {
     status: PipelineStatuses;
     sourceName: string;
     startedAt: string;
-    completedAt: string;
     durationMs: number;
+    executionStartedAt: string | null;
+    completedAt: string | null;
     batch: number | null;
     stages: IPipelineStage[];
     rawDataRefId: number | null;

@@ -23,8 +23,7 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const tabVariant = getTabVariant(searchParams.get(BI_STEP_TAB_PARAM));
     const implementationId = searchParams.get(BI_STEP_TAB_ID_PARAM);
-    const e2eCodes =
-        activeTreeItem.type === E2ETreeItemType.BI_STEP ? activeTreeItem.e2eCodes : [];
+    const e2eCodes = activeTreeItem.type === E2ETreeItemType.BI_STEP ? activeTreeItem.e2eCodes : [];
     const { data: usecases = [] } = useGetUsecasesByBiStepCodeQuery(
         activeTreeItem.type === E2ETreeItemType.BI_STEP ? activeTreeItem.code : null,
     );
@@ -45,7 +44,7 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
     const selectImplementation = (id: string) => updateParams({ [BI_STEP_TAB_ID_PARAM]: id });
 
     return (
-        <>
+        <S.Content>
             <S.TitleContainer>
                 <S.BreadcrumbsContainer>
                     <Link
@@ -106,6 +105,6 @@ export const BIStepContent: FC<IBIStepContent> = ({ activeTreeItem }) => {
                         usecases={usecases}
                     />
                 )}
-        </>
+        </S.Content>
     );
 };

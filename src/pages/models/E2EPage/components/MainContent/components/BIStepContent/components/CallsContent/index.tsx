@@ -44,22 +44,22 @@ export const CallsContent: FC<ICallsContent> = ({ e2eCodes, selectedId, onSelect
             {data && (
                 <S.Source>
                     <S.SourceItem>
-                        <Text inactive variant="body3">
+                        <Text inactive variant="body2">
                             Источник:
                         </Text>
-                        <Text variant="body3">{formatNullableString(data.e2e.name)}</Text>
+                        <Text variant="body2">{formatNullableString(data.e2e.name)}</Text>
                     </S.SourceItem>
                     <S.SourceItem>
-                        <Text inactive variant="body3">
+                        <Text inactive variant="body2">
                             Загрузка:
                         </Text>
-                        <Text variant="body3">{formatNullableString(data.e2e.source)}</Text>
+                        <Text variant="body2">{formatNullableString(data.e2e.source)}</Text>
                     </S.SourceItem>
                 </S.Source>
             )}
             {isLoading && <Skeleton radius={12} height={100} />}
             {data && calls.length === 0 && (
-                <Text inactive variant="body3">
+                <Text inactive variant="body2">
                     Нет данных
                 </Text>
             )}

@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 
-import { Text } from 'components/core';
+import { IconBadge, Text } from 'components/core';
 import { TooltipContainer } from 'components/interaction';
-import { Chip, Icon, IconButton } from 'components/ui';
+import { Chip, IconButton } from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
@@ -32,7 +32,7 @@ export const CallTreeRow: FC<ICallTreeRow> = ({ call, level, selectedId, onSelec
                         />
                     )}
                 </S.ExpandButton>
-                <Icon iconName={call.status.iconName} color={call.status.color} size="small" />
+                <IconBadge icon={call.status.iconName} semantic={call.status.color} />
                 <S.Call>
                     <Text variant="body3">{call.call}</Text>
                 </S.Call>

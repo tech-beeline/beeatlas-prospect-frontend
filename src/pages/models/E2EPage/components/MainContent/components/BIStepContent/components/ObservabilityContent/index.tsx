@@ -86,9 +86,7 @@ export const ObservabilityContent: FC<IObservabilityContent> = ({
                 data={targetData}
                 source={targetBuilt?.source ?? defaultSource}
                 selectedId={
-                    targetBuilt?.implementation.id ??
-                    implementations[defaultSource][0]?.id ??
-                    null
+                    targetBuilt?.implementation.id ?? implementations[defaultSource][0]?.id ?? null
                 }
                 implementations={implementations}
             />

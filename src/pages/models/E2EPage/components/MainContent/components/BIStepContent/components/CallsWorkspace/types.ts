@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { ColorTypes } from 'components/ui/types';
+import { BadgeSemantic } from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
@@ -11,7 +11,7 @@ export interface ICallField {
 
 export interface ICallStatus {
     iconName: Icons;
-    color: ColorTypes;
+    color: BadgeSemantic;
 }
 
 export interface ICallNode {

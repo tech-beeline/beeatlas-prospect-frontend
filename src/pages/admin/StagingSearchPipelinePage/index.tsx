@@ -116,7 +116,7 @@ export const StagingSearchPipelinePage = () => {
                     <S.FiltersContainer>
                         <Search
                             fullWidth
-                            placeholder="Название"
+                            placeholder="Поиск"
                             value={search}
                             onChange={(event) => {
                                 setSearch(event.target.value);

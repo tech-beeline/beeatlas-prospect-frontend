@@ -19,6 +19,7 @@ export const PublishCard: FC<IPublishCard> = ({
     note,
     actionLabel,
     onAction,
+    hasData,
 }) => {
     if (isLoading) return <Skeleton radius={12} height={100} />;
 
@@ -71,7 +72,7 @@ export const PublishCard: FC<IPublishCard> = ({
                 <Button
                     variant="outlined"
                     size="medium"
-                    startIcon={<Icon iconName={Icons.Refresh} />}
+                    startIcon={hasData ? <Icon iconName={Icons.Refresh} /> : undefined}
                     onClick={onAction}
                 >
                     {actionLabel}

@@ -45,11 +45,13 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({
 
     if (usecases.length === 0) {
         return (
-            <NotFoundBlock
-                imageVariant={ImageVariants.EMPTY_BOX}
-                title="Нет Use Case"
-                text="Шаг BI не реализован ни в одном Use Case"
-            />
+            <S.NotFoundContainer>
+                <NotFoundBlock
+                    imageVariant={ImageVariants.EMPTY_BOX}
+                    title="Нет Use Case"
+                    text="Шаг BI не реализован ни в одном Use Case"
+                />
+            </S.NotFoundContainer>
         );
     }
 
@@ -62,9 +64,11 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({
             />
             {selected && (
                 <S.Source>
-                    <Link title={selected.name} url={getUsecaseUrl(selected.id)} />
+                    <Text variant="body2">
+                        <Link title={selected.name} url={getUsecaseUrl(selected.id)} />
+                    </Text>
                     {details && (
-                        <Text inactive variant="body3">
+                        <Text inactive variant="body2">
                             Дата: {formatUsecaseDate(details)}
                         </Text>
                     )}

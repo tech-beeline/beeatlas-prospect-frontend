@@ -4,6 +4,9 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    flex: 1;
+    min-height: 0;
 `;
 
 export const Source = styled.div`
@@ -17,4 +20,12 @@ export const Source = styled.div`
 
     border: 1px solid var(--color-divider);
     border-radius: 12px;
+`;
+
+export const NotFoundContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 1;
 `;
