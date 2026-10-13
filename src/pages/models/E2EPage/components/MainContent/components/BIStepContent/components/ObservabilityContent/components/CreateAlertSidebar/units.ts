@@ -47,21 +47,26 @@ export const ProgressButtonStyled = styled(ProgressButton)<{ showProgress: boole
     }
 `;
 
+export const BannerTitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+`;
+
 export const MethodsList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
 
-    margin-top: 12px;
     margin-right: -16px;
-
     padding-right: 16px;
 
-    font-family: var(--font-family-code), monospace;
+    font-family: monospace;
     font-size: var(--font-size-caption);
     line-height: var(--font-line-height-caption);
     word-break: break-all;
 
     max-height: 350px;
+    overflow-x: hidden;
     overflow-y: auto;
 `;
