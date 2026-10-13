@@ -44,7 +44,7 @@ export const GlobalStyles = () => {
 
                     * {
                         ::-webkit-scrollbar-thumb {
-                            background-color: var(--color-utilities-scroll-hover);
+                            background-color: var(--color-utilities-scroll);
 
                             border-radius: var(--size-border-radius-x8);
                         }
@@ -210,7 +210,7 @@ export const GlobalStyles = () => {
                     overflow-y: auto;
 
                     &::-webkit-scrollbar-thumb {
-                        background-color: var(--color-utilities-scroll-hover);
+                        background-color: var(--color-utilities-scroll);
 
                         border-radius: var(--size-border-radius-x8);
                     }

@@ -38,7 +38,7 @@ export const Content = styled.div`
     padding-bottom: 32px;
 
     &::-webkit-scrollbar-thumb {
-        background-color: var(--color-utilities-scroll-hover);
+        background-color: var(--color-utilities-scroll);
 
         border-radius: var(--size-border-radius-x8);
     }
