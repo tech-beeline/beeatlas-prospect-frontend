@@ -8,7 +8,7 @@ interface IOrderSortable {
 const sortByOrder = <T extends IOrderSortable>(items: T[], bpmn: boolean): T[] =>
     [...items].sort((a, b) =>
         bpmn
-            ? String(a.orderTree).localeCompare(String(b.orderTree))
+            ? String(a.orderTree).localeCompare(String(b.orderTree), undefined, { numeric: true })
             : (a.order ?? 0) - (b.order ?? 0),
     );
 
