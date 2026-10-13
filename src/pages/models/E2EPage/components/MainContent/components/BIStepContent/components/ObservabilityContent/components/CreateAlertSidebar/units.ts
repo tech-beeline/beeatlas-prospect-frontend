@@ -53,9 +53,15 @@ export const MethodsList = styled.div`
     gap: 4px;
 
     margin-top: 12px;
+    margin-right: -16px;
+
+    padding-right: 16px;
 
     font-family: var(--font-family-code), monospace;
     font-size: var(--font-size-caption);
     line-height: var(--font-line-height-caption);
     word-break: break-all;
+
+    max-height: 350px;
+    overflow-y: auto;
 `;

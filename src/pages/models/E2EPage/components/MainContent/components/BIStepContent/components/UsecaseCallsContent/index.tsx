@@ -45,11 +45,13 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({
 
     if (usecases.length === 0) {
         return (
-            <NotFoundBlock
-                imageVariant={ImageVariants.EMPTY_BOX}
-                title="Нет Use Case"
-                text="Шаг BI не реализован ни в одном Use Case"
-            />
+            <S.NotFoundContainer>
+                <NotFoundBlock
+                    imageVariant={ImageVariants.EMPTY_BOX}
+                    title="Нет Use Case"
+                    text="Шаг BI не реализован ни в одном Use Case"
+                />
+            </S.NotFoundContainer>
         );
     }
 
