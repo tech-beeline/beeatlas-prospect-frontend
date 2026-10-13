@@ -150,10 +150,7 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(
                             setOpen(false);
                         }}
                         makeOption={(item) => <span>{item.value}</span>}
-                        onOutsideClick={() => {
-                            setOpen(false);
-                            onClear?.();
-                        }}
+                        onOutsideClick={() => setOpen(false)}
                         isOpen={isOpen}
                         handleSetOpen={setOpen}
                         dataTestId={`${dataTestId}-dropdown`}

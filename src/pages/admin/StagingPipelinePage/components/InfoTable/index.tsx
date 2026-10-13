@@ -46,7 +46,11 @@ export const InfoTable: FC<IInfoTable> = ({ pipelineDetails }) => {
                         <TableData>{formatNullableString(pipelineDetails.batch)}</TableData>
                         <TableData>{formatNullableString(pipelineDetails.sourceName)}</TableData>
                         <TableData>
-                            {dayjs(formatDateToUTC(pipelineDetails.startedAt))
+                            {dayjs(
+                                formatDateToUTC(
+                                    pipelineDetails.executionStartedAt ?? pipelineDetails.startedAt,
+                                ),
+                            )
                                 .local()
                                 .format('DD.MM.YYYY, HH:mm')}
                         </TableData>

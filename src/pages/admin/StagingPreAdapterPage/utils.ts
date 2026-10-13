@@ -5,17 +5,22 @@ export const getChildPipelineStats = (pipelineRun?: IPipileneRun | null) => {
         return null;
     }
 
-    const childPipilinesCount = pipelineRun?.childStats.reduce((acc, v) => acc + v.count, 0);
+    const childPipilinesCount = pipelineRun?.childStatsSnapshot.reduce(
+        (acc, v) => acc + v.count,
+        0,
+    );
     const successCount =
-        pipelineRun?.childStats.find((v) => v.status === PipelineStatuses.COMPLETED)?.count ?? 0;
+        pipelineRun?.childStatsSnapshot.find((v) => v.status === PipelineStatuses.COMPLETED)
+            ?.count ?? 0;
     const inProgressCount =
-        pipelineRun?.childStats
+        pipelineRun?.childStatsSnapshot
             .filter(
                 (v) => ![PipelineStatuses.COMPLETED, PipelineStatuses.FAILED].includes(v.status),
             )
             .reduce((acc, v) => acc + v.count, 0) ?? 0;
     const errorCount =
-        pipelineRun?.childStats.find((v) => v.status === PipelineStatuses.FAILED)?.count ?? 0;
+        pipelineRun?.childStatsSnapshot.find((v) => v.status === PipelineStatuses.FAILED)?.count ??
+        0;
 
     return {
         total: childPipilinesCount,
