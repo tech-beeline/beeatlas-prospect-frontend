@@ -149,6 +149,7 @@ export { Tabs } from './Tabs';
 export type { TabsProps } from './Tabs/types';
 export { TextArea } from './TextArea';
 export type { TextAreaProps, TextAreaSize } from './TextArea/types';
+export { TextareaChips } from './TextareaChips';
 export { TextField } from './TextField';
 export type {
     HelperPositionType,

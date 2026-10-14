@@ -4,6 +4,7 @@ import { IconButton } from 'components/ui';
 import { Autocomplete, Button, Select, Switch } from 'components/ui';
 
 import { CJLibraryStatus } from 'api/cj/types';
+import { useGetAllCJTagsQuery } from 'api/queries/cj';
 // import { useGetBIChannelsQuery } from 'api/queries/bi-library';
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { Icons } from 'styles/design-tokens/js/iconfont';
@@ -22,6 +23,7 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
     const [productFilterText, setProductFilterText] = useState('');
 
     const { data: products, isLoading: isLoadingProducts } = useGetAllProductsQuery();
+    const { data: tags, isLoading: isLoadingTags } = useGetAllCJTagsQuery();
     // const { data: channels } = useGetBIChannelsQuery();
     const productOptions = [
         { id: ProductVariant.ALL, value: 'Все' },
@@ -139,32 +141,21 @@ export const CJLibraryFilters: FC<ICJLibraryFilters> = ({
                                 setFilterOptions({ ...filterOptions, format: values[0].id })
                             }
                         />
-                        {/* <Select
-                            fullWidth
-                            multiple
-                            label="Каналы"
-                            options={channelOptions}
-                            values={
-                                filterOptions.channel
-                                    .map((id) => channelOptions.find((opt) => opt.id === id))
-                                    .filter(Boolean) as Array<{ id: number; value: string }>
-                            }
-                            onChange={(values) =>
-                                setFilterOptions({
-                                    ...filterOptions,
-                                    channel: values.map((v) => v.id),
-                                })
-                            }
-                        />
                         <Select
                             fullWidth
                             label="Теги"
-                            options={formatOptions}
-                            values={[]}
+                            options={(tags ?? []).map((tag) => ({ id: tag, value: tag }))}
+                            disabled={isLoadingTags}
+                            multiple
+                            filter
                             onChange={(values) =>
-                                setFilterOptions({ ...filterOptions, format: values[0].id })
+                                setFilterOptions({
+                                    ...filterOptions,
+                                    tags: values.map((v) => v.value),
+                                })
                             }
-                        /> */}
+                            values={filterOptions.tags.map((tag) => ({ id: tag, value: tag }))}
+                        />
                     </S.FiltersContainer>
                 </S.MainContent>
                 <S.ButtonContainer>

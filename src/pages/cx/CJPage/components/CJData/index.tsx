@@ -5,7 +5,7 @@ import { useSideSheetStore } from 'features/cx/store';
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
 import { IconButton } from 'components/ui';
-import { Button, Skeleton } from 'components/ui';
+import { Button, Chip, Skeleton } from 'components/ui';
 
 import { useGetAllProductsQuery } from 'api/queries/product';
 import { Icons } from 'styles/design-tokens/js/iconfont';
@@ -108,6 +108,19 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
                             </>
                         )}
 
+                        <div>
+                            <Text variant="body3" inactive>
+                                Теги
+                            </Text>
+                            <S.Tags>
+                                {(cj.tags ?? []).map((tag, index) => (
+                                    <Chip key={`${tag}-${index}`} label={tag} />
+                                ))}
+                                {!cj.tags?.length && (
+                                    <Text variant="body2">{formatNullableString(null)}</Text>
+                                )}
+                            </S.Tags>
+                        </div>
                         <div>
                             <Text variant="body3" inactive>
                                 Автор CJ

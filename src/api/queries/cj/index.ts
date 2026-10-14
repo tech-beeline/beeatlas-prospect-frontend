@@ -3,6 +3,7 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import {
     deleteCJ,
     getAllCJs,
+    getAllCJTags,
     getBPMNFile,
     getBPMNFileData,
     getBPMNFileVersion,
@@ -36,6 +37,13 @@ import { sortCompleteCJData } from './utils';
 
 export const CJ_PREFIX = 'CJ_PREFIX';
 const STEP_PREFIX = 'STEP_PREFIX';
+
+export const useGetAllCJTagsQuery = () => {
+    return useQuery<string[]>({
+        queryKey: [CJ_PREFIX, 'tags'],
+        queryFn: () => getAllCJTags().then((res) => res.data),
+    });
+};
 
 interface IGetCJCollectionParams {
     search: string;

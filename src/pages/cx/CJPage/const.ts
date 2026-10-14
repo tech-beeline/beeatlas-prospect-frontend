@@ -17,6 +17,7 @@ export type ButtonState = 'default' | 'loading' | 'success';
 
 export const mapCJToFormValues = (data: ICompleteCJData): FormValues => ({
     name: data.name,
+    tags: data.tags ?? [],
     userPortrait: data.userPortrait,
     businessOwner: {
         id: data.businessOwner?.id ?? null,
