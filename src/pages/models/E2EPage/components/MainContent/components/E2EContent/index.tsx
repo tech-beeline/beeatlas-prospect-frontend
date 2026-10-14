@@ -43,7 +43,12 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
     return (
         <>
             <S.TitleContainer>
-                <Text variant="h4">{activeBiStep.name}</Text>
+                <S.NameContainer>
+                    <Text variant="h4">{activeBiStep.name}</Text>
+                    <Text inactive variant="body3">
+                        {activeBiStep.code}
+                    </Text>
+                </S.NameContainer>
                 {isPlantuml && (
                     <S.ButtonContainer>
                         <Button
@@ -74,25 +79,30 @@ export const E2EContent: FC<IE2EContent> = ({ activeBiStep }) => {
                     </S.ButtonContainer>
                 )}
             </S.TitleContainer>
-            <S.TabsContainer>
-                <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
-                    {TABS.map((tab) => (
-                        <Tab
-                            key={tab.id}
-                            label={tab.label}
-                            value={tab.id}
-                            onClick={() =>
-                                setSearchParams(
-                                    new URLSearchParams({
-                                        ...Object.fromEntries(searchParams),
-                                        subtab: tab.id,
-                                    }),
-                                )
-                            }
-                        />
-                    ))}
-                </Tabs>
-            </S.TabsContainer>
+            {data && (
+                <S.TabsContainer>
+                    <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
+                        {TABS.map((tab) => (
+                            <Tab
+                                key={tab.id}
+                                label={
+                                    tab.label +
+                                    (tab.id === TabVariants.CALLS ? ` (${data.e2e.source})` : '')
+                                }
+                                value={tab.id}
+                                onClick={() =>
+                                    setSearchParams(
+                                        new URLSearchParams({
+                                            ...Object.fromEntries(searchParams),
+                                            subtab: tab.id,
+                                        }),
+                                    )
+                                }
+                            />
+                        ))}
+                    </Tabs>
+                </S.TabsContainer>
+            )}
             {tabVariant === TabVariants.CALLS && <CallsContent data={data} isLoading={isLoading} />}
             {tabVariant === TabVariants.RELATED_CJS && (
                 <RelatedCJs biStepCode={activeBiStep.biStepCode} />

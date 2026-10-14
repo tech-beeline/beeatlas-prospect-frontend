@@ -4,6 +4,12 @@ export const TabsContainer = styled.div`
     margin-top: -12px;
 `;
 
+export const NameContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+`;
+
 export const TitleContainer = styled.div`
     display: flex;
     justify-content: space-between;
