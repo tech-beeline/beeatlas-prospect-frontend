@@ -23,6 +23,7 @@ export interface ICJForm {
     id_product?: number;
     businessOwner: number | null;
     techOwners: number[];
+    tags?: string[];
 }
 
 export interface ICJAuthor {
@@ -35,6 +36,7 @@ export interface ICJData {
     id: number;
     name: string;
     userPortrait: string;
+    tags: string[];
     lastModifiedDate: string;
     draft: boolean;
     id_user_profile: number;

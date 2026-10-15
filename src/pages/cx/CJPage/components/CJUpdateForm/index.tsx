@@ -6,7 +6,7 @@ import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'featur
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
-import { Autocomplete, TextField } from 'components/form';
+import { Autocomplete, TextareaChips, TextField } from 'components/form';
 import { IconButton } from 'components/ui';
 import { Button } from 'components/ui';
 
@@ -38,6 +38,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
     const form = useForm<FormValues>({
         resolver: yupResolver(getValidationSchema()),
+        defaultValues: { tags: [] },
     });
 
     const { handleSubmit, reset, setError } = form;
@@ -90,6 +91,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                             : null,
                     techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                     id_product: values.product ?? undefined,
+                    tags: values.tags,
                 },
             });
             showSnackbar({ message: 'Изменения сохранены' });
@@ -131,6 +133,8 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                                     disabled={isLoadingProducts}
                                     onInputChange={(v) => setSearchTextProduct(v)}
                                 />
+
+                                <TextareaChips key={String(isOpen)} name="tags" label="Теги" />
 
                                 {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
                                     <TechOwnerFields smallButton />

@@ -8,7 +8,7 @@ import { BusinessOwnerField, getFilledTechOwners, TechOwnerFields } from 'featur
 
 import { PageFormContainer } from 'components/containers';
 import { Text } from 'components/core';
-import { Autocomplete, TextField } from 'components/form';
+import { Autocomplete, TextareaChips, TextField } from 'components/form';
 import { IconButton } from 'components/ui';
 import { Banner, FileUploader } from 'components/ui';
 import { Typography } from 'components/ui/Typography';
@@ -58,6 +58,7 @@ export const CJAddPage = () => {
 
     const form = useForm<FormValues>({
         resolver: yupResolver(getValidationSchema()),
+        defaultValues: { tags: [] },
     });
 
     const { handleSubmit, setError } = form;
@@ -110,6 +111,7 @@ export const CJAddPage = () => {
                                 : null,
                         techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                         id_product: values.product ?? undefined,
+                        tags: values.tags,
                     },
                 });
 
@@ -151,6 +153,7 @@ export const CJAddPage = () => {
                                 : null,
                         techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                         id_product: values.product ?? undefined,
+                        tags: values.tags,
                     },
                 });
                 setBpmnFile(null);
@@ -295,6 +298,8 @@ export const CJAddPage = () => {
                                     onInputChange={(v) => setSearchTextProduct(v)}
                                 />
                             </S.RowContainer>
+
+                            <TextareaChips name="tags" label="Теги" />
 
                             {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
                                 <S.TechnicalContainer>

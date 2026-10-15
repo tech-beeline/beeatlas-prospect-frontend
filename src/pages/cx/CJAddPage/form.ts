@@ -5,6 +5,7 @@ export type { OwnerFormValue };
 
 export type FormValues = {
     name: string;
+    tags: string[];
     userPortrait: string | undefined | null;
     businessOwner: OwnerFormValue;
     product: number | null;
@@ -34,6 +35,7 @@ export const getValidationSchema = () => {
 
     return object().shape({
         name: string().required('Заполните название'),
+        tags: array().of(string().defined()).ensure().default([]),
         userPortrait: string().nullable().notRequired(),
         businessOwner: isDemoStand
             ? optionalOwnerSchema
