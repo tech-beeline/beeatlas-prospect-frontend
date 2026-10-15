@@ -1,6 +1,5 @@
 export interface IUseCasesTable {
     cmdb: string | null;
-    search: string;
 }
 
 export enum UsecaseMethodStatus {

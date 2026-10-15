@@ -21,7 +21,6 @@ export const buildE2ERows = (steps: IProductE2eStep[]): IParticipationRow<IProdu
         code: e2e.biStepCode ?? e2e.code,
         url: e2e.biStepCode ? getE2EStepUrl(e2e.biStepCode) : null,
         methods: operations,
-        expanded: false,
     }));
 
 export const getE2EMethodSearchValues = (operation: IProductE2eOperation) => [

@@ -27,7 +27,6 @@ export const buildUsecaseRows = (
             const operation = operations.get(id);
             return operation ? [operation] : [];
         }),
-        expanded: false,
     }));
 
 export const formatUsecaseMethod = (operation: IMapicInterfaceOperationData) =>
