@@ -19,16 +19,14 @@ export const OpenQuestionsList: FC<IOpenQuestionsListProps> = ({
 
     return (
         <S.List>
-            <S.CardStyled border="default">
-                {questions.map((question) => (
-                    <S.Question key={question.id}>
-                        <Text variant="body2">{question.code || '—'}</Text>
-                        <Text inactive variant="body3">
-                            {question.text || '—'}
-                        </Text>
-                    </S.Question>
-                ))}
-            </S.CardStyled>
+            {questions.map((question, index) => (
+                <S.CardStyled key={question.id} border="default">
+                    <Text inactive variant="body3">
+                        {question.code}
+                    </Text>
+                    <Text variant="body2">{question.text || '—'}</Text>
+                </S.CardStyled>
+            ))}
         </S.List>
     );
 };

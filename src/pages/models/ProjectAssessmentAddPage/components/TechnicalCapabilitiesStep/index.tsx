@@ -3,6 +3,7 @@ import { AddCapabilitySideblock } from 'features/projects';
 
 import { SideBlock } from 'components/containers';
 import { Text } from 'components/core';
+import { ChipsScrollabele } from 'components/interaction';
 import { Autocomplete, Badge, Banner, Button, Chip, Icon, IconButton } from 'components/ui';
 
 import { getTechCapabilityById } from 'api/capability';
@@ -582,7 +583,7 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                                         </Text>
                                     )}
                                     {showCatalogMatches && candidateSystems.length > 0 && (
-                                        <S.SystemChips>
+                                        <ChipsScrollabele>
                                             {candidateSystems.map((system) => (
                                                 <Chip
                                                     key={system}
@@ -591,7 +592,7 @@ export const TechnicalCapabilitiesStep: FC<ITechnicalCapabilitiesStepProps> = ({
                                                     onClick={() => toggleSystemFilter(system)}
                                                 />
                                             ))}
-                                        </S.SystemChips>
+                                        </ChipsScrollabele>
                                     )}
                                 </S.ReviewHeader>
 
