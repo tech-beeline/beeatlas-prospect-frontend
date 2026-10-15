@@ -63,3 +63,10 @@ export const LabelContainer = styled.div`
     flex-direction: row;
     gap: 8px;
 `;
+
+export const Tags = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+`;

@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatCallsTreeData } from 'features/e2e';
 
-import { Text } from 'components/core';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { Icon, Skeleton } from 'components/ui';
 
@@ -51,7 +50,6 @@ export const CallsContent: FC<ICallsContent> = ({ data, isLoading }) => {
             )}
             {data && data.operationsRelations.length !== 0 && (
                 <>
-                    <Text variant="subtitle3">Последовательность вызовов ({data.e2e.source})</Text>
                     <S.CallsContainer>
                         {callsTree.map((item) => (
                             <CallTreeItem key={item.id} item={item} level={0} />

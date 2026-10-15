@@ -57,3 +57,10 @@ export const ButtonContainer = styled.div`
         width: 100%;
     }
 `;
+
+export const Tags = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+`;

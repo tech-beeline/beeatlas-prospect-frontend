@@ -96,9 +96,13 @@ export const ImportDataForm: FC<IImportDataForm> = ({
         <S.Form onSubmit={handleSubmit}>
             <S.ScrollArea>
                 <S.Content>
+                    <Banner
+                        iconName={Icons.InfoCircled}
+                        title="Для добавления данных доступно два варианта: вставка текста или добавление файла с устройства"
+                    />
+
                     {isNewE2E && (
                         <S.FieldGroup>
-                            <Text variant="subtitle1">Данные шага E2E-сценария</Text>
                             <TextField
                                 fullWidth
                                 label="Название*"
@@ -113,11 +117,6 @@ export const ImportDataForm: FC<IImportDataForm> = ({
                             />
                         </S.FieldGroup>
                     )}
-
-                    <Banner
-                        iconName={Icons.InfoCircled}
-                        title="Для добавления данных доступно два варианта: вставка текста или добавление файла с устройства"
-                    />
 
                     <S.FieldGroup>
                         <Text variant="subtitle1">Добавить файл</Text>
@@ -230,7 +229,7 @@ export const ImportDataForm: FC<IImportDataForm> = ({
                         state={isSubmitting ? 'loading' : 'default'}
                         disabled={!canSubmit}
                     >
-                        Создать
+                        {isNewE2E ? 'Создать' : 'Импорт'}
                     </ProgressButton>
                 </S.ButtonContainer>
             </S.Footer>

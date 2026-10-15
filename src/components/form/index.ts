@@ -8,4 +8,5 @@ export { RadioGroup } from './RadioGroup';
 export { RadioGroupBoolean } from './RadioGroupBoolean';
 export { Select } from './Select';
 export { TextArea } from './TextArea';
+export { TextareaChips } from './TextareaChips';
 export { TextField } from './TextField';

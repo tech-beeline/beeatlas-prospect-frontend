@@ -61,12 +61,6 @@ export const ValidationResultForm: FC<IValidationResultForm> = ({
                         <S.Summary>
                             <div>
                                 <Text inactive variant="body3">
-                                    Название
-                                </Text>
-                                <Text variant="body2">{result.e2e.name}</Text>
-                            </div>
-                            <div>
-                                <Text inactive variant="body3">
                                     Код шага BI
                                 </Text>
                                 <Text variant="body2">{result.e2e.biStepCode}</Text>

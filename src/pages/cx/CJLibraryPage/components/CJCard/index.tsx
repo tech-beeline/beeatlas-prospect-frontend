@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { Text } from 'components/core';
 import { DropdownMenu } from 'components/interaction';
 import { ClampedText } from 'components/interaction';
-import { Badge, Skeleton } from 'components/ui';
+import { Badge, Chip, Skeleton } from 'components/ui';
 
 import { useDeleteCJMutation } from 'api/queries/cj';
 import { useGetAllProductsQuery } from 'api/queries/product';
@@ -106,7 +106,7 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                 </Text>
             </S.TitleContainer>
             <S.Description ref={descriptionRef} clampLines={!expandDescription}>
-                {cj.userPortrait ?? cj.user_portrait}
+                {formatNullableString(cj.userPortrait ?? cj.user_portrait)}
             </S.Description>
             {showExpandButton && (
                 <Text
@@ -129,6 +129,17 @@ export const CJCard: FC<ICJCard> = ({ cj }) => {
                         formatNullableString(currentProduct?.name)
                     )}
                 </Text>
+            </S.DateContainer>
+            <S.DateContainer>
+                <Text inactive variant="body3">
+                    Теги
+                </Text>
+                <S.Tags>
+                    {(cj.tags ?? []).map((tag, index) => (
+                        <Chip key={`${tag}-${index}`} label={tag} />
+                    ))}
+                    {!cj.tags?.length && <Text variant="body2">{formatNullableString(null)}</Text>}
+                </S.Tags>
             </S.DateContainer>
             <S.DateContainer>
                 <Text inactive variant="body3">

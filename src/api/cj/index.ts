@@ -20,6 +20,12 @@ export const getAllCJs = (
     });
 };
 
+export const getAllCJTags = (): AxiosPromise<string[]> => {
+    return Api.get({
+        url: `${GATEWAY_CX_URL}cx/v1/cj/tags`,
+    });
+};
+
 export const getCJById = (id: string): AxiosPromise<T.ICompleteCJData> => {
     return Api.get({
         url: `${GATEWAY_URL}cx/v2/cj/${id}`,

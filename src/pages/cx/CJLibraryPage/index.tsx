@@ -15,6 +15,7 @@ import {
     createEnumParser,
     createNumberArrayParser,
     createNumberOrEnumParser,
+    createStringArrayParser,
     useURLFilters,
 } from 'hooks/useURLFilters';
 import * as R from 'router/const';
@@ -48,6 +49,7 @@ export const CJLibraryPage = () => {
                 status: CJLibraryStatus.ALL,
                 format: FormatVariant.ALL,
                 channel: [],
+                tags: [],
                 grafana: false,
                 display: DisplayOptions.GRID,
             },
@@ -58,6 +60,7 @@ export const CJLibraryPage = () => {
                 status: createEnumParser(CJLibraryStatus, CJLibraryStatus.ALL),
                 format: createEnumParser(FormatVariant, FormatVariant.ALL),
                 channel: createNumberArrayParser(),
+                tags: createStringArrayParser(),
                 grafana: createBooleanParser(),
                 display: createEnumParser(DisplayOptions, DisplayOptions.GRID),
             },
@@ -95,6 +98,9 @@ export const CJLibraryPage = () => {
         }
         if (filters.grafana) {
             result = result.filter((cj) => !!cj.dashboardLink);
+        }
+        if (filters.tags.length > 0) {
+            result = result.filter((cj) => filters.tags.some((tag) => cj.tags?.includes(tag)));
         }
 
         return result;

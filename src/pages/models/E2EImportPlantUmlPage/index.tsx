@@ -41,6 +41,7 @@ import { E2EContentOptions, E2ETreeItemType } from 'pages/models/E2EPage/types';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { safeNavigateBack } from 'utils/helpers';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { PlantUmlInput } from './components/ImportDataForm/types';
 import { ImportDataForm, ValidationResultForm } from './components';
@@ -55,7 +56,7 @@ type PageState = 'form' | 'processing' | 'review' | 'applying' | 'failed' | 'pol
 type ReviewAction = 'apply' | 'decline';
 
 const STEPS = [
-    { id: StepVariants.DATA, label: 'Данные решения' },
+    { id: StepVariants.DATA, label: 'Данные шага E2E-сценария' },
     { id: StepVariants.RESULT, label: 'Результат' },
 ];
 
@@ -80,6 +81,8 @@ export const E2EImportPlantUmlPage = () => {
     const runId = searchParams.get('runId');
     const [draftTargetCode] = useState(() => searchParams.get('code'));
     const isNewE2E = !draftTargetCode;
+
+    const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
 
     const [name, setName] = useState('');
     const [biStepCode, setBIStepCode] = useState('');
@@ -153,6 +156,7 @@ export const E2EImportPlantUmlPage = () => {
 
                     if (status.status === PipelineStatuses.COMPLETED) {
                         await navigateToCompletedE2E(status.artifactUid);
+                        showSnackbar({ message: 'Результат проверки сохранен' });
                         return;
                     }
 
@@ -376,11 +380,11 @@ export const E2EImportPlantUmlPage = () => {
         <S.PageWrapper>
             <S.Header>
                 <Text variant="subtitle2">
-                    {runId
-                        ? 'Обработка PlantUML'
-                        : isNewE2E
+                    {isNewE2E
                         ? 'Создание шага E2E-сценария'
-                        : 'Импортирование PlantUML'}
+                        : `Импортирование PlantUML ${
+                              targetE2EStep?.name ? `в '${targetE2EStep.name}'` : ''
+                          }`}
                 </Text>
                 <IconButton
                     size="large"
