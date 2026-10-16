@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - '[0-9]*.[0-9]*.[0-9]*'
 
 env:
   REGISTRY: ghcr.io
@@ -13,9 +11,6 @@ env:
 
 jobs:
   build-and-push:
-    if: |
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -27,40 +22,22 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v4
-#        with:
-#          node-version: '18'
-#          # cache: 'npm' # no package-lock.json in the repo
-#
-#      - name: Install dependencies
-#        run: npm install
-#
-#      - name: Build frontend
-#        run: npm run build
-#
-#      - name: Prepare build directory
-#        run: |
-#          if [ -d "dist" ] && [ ! -d "build" ]; then
-#            cp -r dist build
-#          elif [ ! -d "build" ]; then
-#            echo "❌ Neither 'build' nor 'dist' found after build."
-#            exit 1
-#          fi
-#          if [ -d "build" ] && [ -z "$(ls -A build)" ]; then
-#            echo "❌ Build directory is empty."
-#            exit 1
-#          fi
-#          echo "✅ Build directory is ready."
-
-      - name: Determine image version
+      - name: Read version from Dockerfile
         id: version
         run: |
-          VERSION=$(git describe --tags 2>/dev/null || echo "dev")
+          VERSION=$(grep -E '^ARG VERSION=' Dockerfile | head -n1 | cut -d= -f2 | tr -d '[:space:]')
+          if [ -z "$VERSION" ]; then
+            echo "❌ Could not read ARG VERSION from Dockerfile"
+            exit 1
+          fi
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "ℹ️ Version: ${VERSION}"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Log in to Container Registry
         uses: docker/login-action@v3
@@ -68,9 +45,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
