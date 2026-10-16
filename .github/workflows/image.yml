@@ -22,12 +22,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Read version from Dockerfile
+      - name: Read version from .bumpversion.cfg
         id: version
         run: |
-          VERSION=$(grep -E '^ARG VERSION=' Dockerfile | head -n1 | cut -d= -f2 | tr -d '[:space:]')
+          VERSION=$(grep -E '^current_version[[:space:]]*=' .bumpversion.cfg | head -n1 | cut -d= -f2 | tr -d '[:space:]')
           if [ -z "$VERSION" ]; then
-            echo "❌ Could not read ARG VERSION from Dockerfile"
+            echo "❌ Could not read current_version from .bumpversion.cfg"
             exit 1
           fi
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
