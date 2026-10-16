@@ -71,7 +71,7 @@ export const E2EStepsTable: FC<IE2EStepsTable> = ({ cmdb }) => {
                 <TableHead>
                     <TableRow>
                         <TableHeaderData>Шаг E2E-сценария</TableHeaderData>
-                        <TableHeaderData>Методы</TableHeaderData>
+                        <TableHeaderData alignRight>Методы</TableHeaderData>
                     </TableRow>
                 </TableHead>
                 <TableBody>

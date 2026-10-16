@@ -16,9 +16,6 @@ export const Menu = styled.div`
     padding: 8px 0px;
     width: 100%;
 
-    max-height: 540px;
-    overflow-y: auto;
-
     background-color: var(--color-background-medium);
 
     border-radius: var(--size-border-radius-x6);
@@ -26,6 +23,11 @@ export const Menu = styled.div`
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 4px 30px rgba(0, 0, 0, 0.1);
 
     z-index: 1000;
+`;
+
+export const Scrollable = styled.div`
+    max-height: 540px;
+    overflow-y: auto;
 `;
 
 export const MenuItem = styled.div<{ customContent?: boolean }>`

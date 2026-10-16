@@ -62,7 +62,7 @@ export const ParticipationRow: FC<IParticipationRowProps> = ({
                         </S.NameText>
                     </S.NameContainer>
                 </TableData>
-                <TableData>{methodsCount}</TableData>
+                <TableData alignRight>{methodsCount}</TableData>
             </S.RowStyled>
             {expanded && (
                 <TableRow>

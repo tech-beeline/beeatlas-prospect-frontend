@@ -85,7 +85,7 @@ export const UseCasesTable: FC<IUseCasesTable> = ({ cmdb }) => {
                 <TableHead>
                     <TableRow>
                         <TableHeaderData>Use Case</TableHeaderData>
-                        <TableHeaderData>Методы</TableHeaderData>
+                        <TableHeaderData alignRight>Методы</TableHeaderData>
                     </TableRow>
                 </TableHead>
                 <TableBody>

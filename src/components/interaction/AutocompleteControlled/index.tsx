@@ -62,22 +62,24 @@ export const AutocompleteControlled = <T extends { id: number; value: string }>(
             />
             {modalOpened && (
                 <S.Menu>
-                    {options.length === 0 && emptyText && (
-                        <S.EmptyState>
-                            <Text variant="body2" inactive>
-                                {emptyText}
-                            </Text>
-                        </S.EmptyState>
-                    )}
-                    {options.map((o) => (
-                        <MenuItem
-                            key={o.id}
-                            searchText={searchText}
-                            option={o}
-                            onChange={onChange}
-                            renderOption={renderOption}
-                        ></MenuItem>
-                    ))}
+                    <S.Scrollable>
+                        {options.length === 0 && emptyText && (
+                            <S.EmptyState>
+                                <Text variant="body2" inactive>
+                                    {emptyText}
+                                </Text>
+                            </S.EmptyState>
+                        )}
+                        {options.map((o) => (
+                            <MenuItem
+                                key={o.id}
+                                searchText={searchText}
+                                option={o}
+                                onChange={onChange}
+                                renderOption={renderOption}
+                            ></MenuItem>
+                        ))}
+                    </S.Scrollable>
                 </S.Menu>
             )}
         </S.Container>
