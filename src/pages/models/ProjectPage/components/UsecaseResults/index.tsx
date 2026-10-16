@@ -4,15 +4,7 @@ import { getProjectUsecaseLatestDate } from 'features/projects';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
-import {
-    Button,
-    Search,
-    TableBody,
-    TableData,
-    TableHead,
-    TableHeaderData,
-    TableRow,
-} from 'components/ui';
+import { Search, TableBody, TableData, TableHead, TableHeaderData, TableRow } from 'components/ui';
 
 import * as R from 'router/const';
 import { formatDateToUTC } from 'utils/formatters';
@@ -34,12 +26,6 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                 usecase.code.toLocaleLowerCase('ru').includes(normalizedSearch),
         );
     }, [search, usecases]);
-
-    const resetFilters = () => {
-        setSearch('');
-    };
-
-    const hasFilters = !!search;
 
     if (usecases.length === 0) {
         return (
@@ -67,10 +53,7 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                         onClear={() => setSearch('')}
                     />
                 </S.FilterControl>
-                <Button disabled={!hasFilters} variant="plain" onClick={resetFilters}>
-                    Сбросить
-                </Button>
-                <S.CreateButton variant="primary" onClick={onCreate}>
+                <S.CreateButton variant="primary" size="medium" onClick={onCreate}>
                     Создать Use Case
                 </S.CreateButton>
             </S.Filters>
@@ -94,7 +77,7 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                     </TableHead>
                     <TableBody>
                         {filteredUsecases.map((usecase) => (
-                            <TableRow dense key={usecase.id}>
+                            <TableRow dense minHeight={52} key={usecase.id}>
                                 <TableData>
                                     <div>
                                         <Link

@@ -110,6 +110,10 @@ export const ProjectUsecasePage = () => {
         () => filterOperations(operationsData?.operations ?? [], statusFilter, search),
         [operationsData, statusFilter, search],
     );
+    const handleResetButtonClick = () => {
+        setSearch('');
+        setStatusFilter([]);
+    };
 
     const navigateToProjects = () => navigate(`${R.MODELS_PATH}${R.PROJECTS_PATH}`);
     const navigateToProject = () => {
@@ -244,6 +248,14 @@ export const ProjectUsecasePage = () => {
                             onChange={(values) => setStatusFilter(values.map(({ id }) => id))}
                         />
                     </S.StatusField>
+                    <Button
+                        disabled={!search && statusFilter.length === 0}
+                        variant="plain"
+                        size="medium"
+                        onClick={handleResetButtonClick}
+                    >
+                        Сбросить
+                    </Button>
                 </S.Filters>
                 <S.ScenarioTable>
                     <TableHead>
@@ -254,13 +266,13 @@ export const ProjectUsecasePage = () => {
                             <TableHeaderData>Действие</TableHeaderData>
                             <TableHeaderData>Вызов</TableHeaderData>
                             <TableHeaderData>TC</TableHeaderData>
-                            <TableHeaderData>C4 Dynamic</TableHeaderData>
+                            <TableHeaderData>Dynamics C4</TableHeaderData>
                             <TableHeaderData>Статус вызова</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {operations.length === 0 && (
-                            <TableRow dense>
+                            <TableRow dense minHeight={52}>
                                 <TableData colSpan={8}>
                                     <Text inactive variant="body3">
                                         {operationsData?.operations.length
@@ -274,7 +286,7 @@ export const ProjectUsecasePage = () => {
                             const status = OPERATION_STATUS_DATA[operation.status];
 
                             return (
-                                <TableRow dense key={`${operation.id}-${index}`}>
+                                <TableRow dense minHeight={52} key={`${operation.id}-${index}`}>
                                     <TableData>{operation.order}</TableData>
                                     <TableData>{renderApplication(operation.caller)}</TableData>
                                     <TableData>{renderApplication(operation.callee)}</TableData>
@@ -285,7 +297,7 @@ export const ProjectUsecasePage = () => {
                                             techCapability={operation.techCapability}
                                         />
                                     </TableData>
-                                    <TableData>Не найдены</TableData>
+                                    <TableData>{formatNullableString(null)}</TableData>
                                     <TableData>
                                         <Badge semantic={status.semantic}>{status.label}</Badge>
                                     </TableData>
@@ -311,7 +323,11 @@ export const ProjectUsecasePage = () => {
                             const status = PARTICIPANT_STATUS_DATA[participant.status];
 
                             return (
-                                <TableRow dense key={`${participant.mnemonic}-${index}`}>
+                                <TableRow
+                                    dense
+                                    minHeight={52}
+                                    key={`${participant.mnemonic}-${index}`}
+                                >
                                     <TableData>
                                         {formatNullableString(participant.mnemonic)}
                                     </TableData>

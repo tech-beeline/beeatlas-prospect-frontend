@@ -185,7 +185,7 @@ export const ResultStep: FC<IResultStep> = ({
                                 {result.participants.map((participant) => {
                                     const badge = getParticipantBadge(participant);
                                     return (
-                                        <TableRow dense key={participant.alias}>
+                                        <TableRow dense minHeight={52} key={participant.alias}>
                                             <TableData>{participant.alias}</TableData>
                                             <TableData>
                                                 {participant.productName ?? participant.name}
@@ -219,6 +219,7 @@ export const ResultStep: FC<IResultStep> = ({
                                     operation.steps.map((step) => (
                                         <TableRow
                                             dense
+                                            minHeight={52}
                                             key={`${operation.operationId}-${step.partId}`}
                                         >
                                             <TableData>{step.partId}</TableData>

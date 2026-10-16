@@ -40,6 +40,8 @@ export const Text = styled.div<{ marginTop?: boolean }>`
     text-align: center;
 
     margin-top: ${({ marginTop }) => (marginTop ? '8px' : '0px')};
+
+    max-width: 612px;
 `;
 
 export const ButtonContainer = styled.div`

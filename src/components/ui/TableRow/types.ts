@@ -6,6 +6,7 @@ export interface TableRowProps extends TableHTMLAttributes<HTMLTableRowElement> 
     selected?: boolean;
     hover?: boolean;
     dense?: boolean;
+    minHeight?: number;
     alignRight?: boolean;
     horizontalAlign?: TableHorizontalAlign;
     verticalAlign?: TableVerticalAlign;

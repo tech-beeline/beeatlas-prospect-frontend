@@ -10,6 +10,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
             selected = false,
             hover = false,
             dense = false,
+            minHeight,
             alignRight = false,
             horizontalAlign,
             verticalAlign,
@@ -45,6 +46,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
         return (
             <S.StyledTableRow
                 ref={ref}
+                $minHeight={minHeight}
                 data-testid="TableRow"
                 className={resolvedClassName}
                 {...props}

@@ -147,7 +147,7 @@ export const ProjectUsecaseHistoryPage = () => {
                     </TableHead>
                     <TableBody>
                         {history.map((item) => (
-                            <TableRow key={item.runId}>
+                            <TableRow dense minHeight={52} key={item.runId}>
                                 <TableData>{item.runId}</TableData>
                                 <TableData>
                                     {dayjs(formatDateToUTC(item.executionStartedAt))
