@@ -5,7 +5,7 @@ import { formatNullableString } from 'utils/formatters';
 
 import { ICallNode } from '../CallsWorkspace/types';
 
-import { e2eCallStatusMap, UNKNOWN_OPERATION_STATUS } from './const';
+import { SUCCESS_OPERATION_STATUS, UNKNOWN_OPERATION_STATUS } from './const';
 import { IE2EOperation, IE2EOperationRelation } from './types';
 
 const formatMetric = (value: number | null | undefined) =>
@@ -33,9 +33,7 @@ const buildCalls = (
                 id,
                 call,
                 product: operation?.productAlias ?? null,
-                status: operation
-                    ? e2eCallStatusMap[relation.entityTypeRelatedOperation]
-                    : UNKNOWN_OPERATION_STATUS,
+                status: operation ? SUCCESS_OPERATION_STATUS : UNKNOWN_OPERATION_STATUS,
                 fields: [
                     { label: 'Метод', value: call },
                     { label: 'Тип', value: formatNullableString(operation?.type) },

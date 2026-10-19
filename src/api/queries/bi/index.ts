@@ -146,9 +146,11 @@ export function useUpdateBIStepRelations() {
     return useMutation({
         mutationKey: [BI_PREFIX, 'update', 'StepRelations'],
         mutationFn: ({ id, data }: IUpdateBIStepRelations) => putStepRelationsBI(id, data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] });
-            queryClient.invalidateQueries({ queryKey: [BI_PREFIX] });
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [CJ_PREFIX] }),
+                queryClient.invalidateQueries({ queryKey: [BI_PREFIX] }),
+            ]);
         },
     });
 }

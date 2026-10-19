@@ -9,4 +9,5 @@ export interface ICallCard {
     title: string;
     fields: ICallField[];
     actions?: ReactNode;
+    onExpandedChange?: (expanded: boolean) => void;
 }

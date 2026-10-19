@@ -57,10 +57,6 @@ export const getManualCallFields = (relation: IRelations): ICallField[] => [
                 formatNullableString(null)
             ),
     },
-    {
-        label: 'ОПИСАНИЕ',
-        value: formatNullableString(relation.description),
-    },
 ];
 
 export const canShowSequenceDiagram = (relation: IRelations): boolean =>

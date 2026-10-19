@@ -6,12 +6,12 @@ import { Skeleton } from 'components/ui';
 
 import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
 
-import { CallCard } from '../CallCard';
+import { E2ECall } from '../E2ECall';
 import { ReadOnlyNote } from '../ReadOnlyNote';
 
 import { IE2ECalls } from './types';
 import * as S from './units';
-import { getE2ECallFields, getE2EPageUrl } from './utils';
+import { getE2EPageUrl } from './utils';
 
 export const E2ECalls: FC<IE2ECalls> = ({ e2e, biStepCode }) => {
     const { data, isLoading, isError } = useGetSequenceCallsByIdQuery(e2e.code);
@@ -19,8 +19,12 @@ export const E2ECalls: FC<IE2ECalls> = ({ e2e, biStepCode }) => {
     const calls = useMemo(() => formatRootCalls(data), [data]);
 
     return (
-        <S.CallsList>
-            <ReadOnlyNote linkTitle="Открыть E2E" url={getE2EPageUrl(biStepCode, e2e.code)} />
+        <S.Container>
+            <ReadOnlyNote
+                linkTitle={e2e.name || e2e.code}
+                url={getE2EPageUrl(biStepCode, e2e.code)}
+            />
+            <Text variant="subtitle2">Вызовы</Text>
             {isLoading && <Skeleton radius={12} height={100} />}
             {isError && (
                 <Text variant="body3" inactive>
@@ -32,13 +36,13 @@ export const E2ECalls: FC<IE2ECalls> = ({ e2e, biStepCode }) => {
                     В E2E нет вызовов
                 </Text>
             )}
-            {calls.map((call, index) => (
-                <CallCard
-                    key={call.id}
-                    title={`Вызов ${index + 1}`}
-                    fields={getE2ECallFields(call)}
-                />
-            ))}
-        </S.CallsList>
+            {calls.length > 0 && (
+                <S.CallsList>
+                    {calls.map((call, index) => (
+                        <E2ECall key={call.id} call={call} index={index} />
+                    ))}
+                </S.CallsList>
+            )}
+        </S.Container>
     );
 };

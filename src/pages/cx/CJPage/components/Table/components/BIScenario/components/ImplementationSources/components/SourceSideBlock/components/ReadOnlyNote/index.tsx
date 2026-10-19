@@ -8,7 +8,9 @@ import * as S from './units';
 
 export const ReadOnlyNote: FC<IReadOnlyNote> = ({ linkTitle, url }) => (
     <S.Note>
-        <Text variant="body3">Только чтение — изменить можно в источнике</Text>
+        <Text variant="overline" inactive>
+            Источник
+        </Text>
         <Link title={linkTitle} url={url} />
     </S.Note>
 );

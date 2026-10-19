@@ -79,6 +79,7 @@ export interface IRelations {
 }
 
 export interface IRelationForm {
+    id?: number;
     description: string;
     interfaceId: number | null;
     operationId: number | null;

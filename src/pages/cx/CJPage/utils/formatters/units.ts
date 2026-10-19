@@ -19,4 +19,6 @@ export const FlexContainer = styled.div`
 export const ScenariosWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    gap: 16px;
+    padding: 16px;
 `;

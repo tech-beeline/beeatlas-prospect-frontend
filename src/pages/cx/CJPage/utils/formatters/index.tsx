@@ -22,12 +22,7 @@ export const formatScenario = (biSteps: IStepsScenarion[] = [], bpmn = false) =>
             ) : (
                 <S.ScenariosWrapper>
                     {biSteps.map((step, index) => (
-                        <BIScenario
-                            key={step.id ?? index}
-                            biSteps={step}
-                            last={index === biSteps.length - 1}
-                            bpmn={bpmn}
-                        />
+                        <BIScenario key={step.id ?? index} biSteps={step} bpmn={bpmn} />
                     ))}
                 </S.ScenariosWrapper>
             )}

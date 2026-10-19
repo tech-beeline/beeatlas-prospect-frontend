@@ -4,25 +4,26 @@ import { useSideSheetStore } from 'features/cx/store';
 
 import { Text } from 'components/core';
 import { ClampedText } from 'components/interaction';
-import { IconButton } from 'components/ui';
 import { Avatar, Icon } from 'components/ui';
 
 import { SideSheetVariants } from 'pages/cx/CJPage/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
-import { formatNullableNumber, formatNullableString } from 'utils/formatters';
+import { formatNullableString } from 'utils/formatters';
 
 import { BIEditScenario } from '../../../BIEditScenario';
+import { ManualCallEditor } from '../../../BIEditScenario/types';
 import { BIEditSLA } from '../../../BIEditSLA';
 
-import { ImplementationSources } from './components';
+import { ImplementationSources, SLA } from './components';
 import { stepTypeAvatarMap } from './const';
 import { DiagramView } from './DiagramView';
 import { IBIScenario } from './types';
 import * as S from './units';
 import { isUserTaskStep } from './utils';
 
-export const BIScenario: FC<IBIScenario> = ({ biSteps, last, bpmn = false }) => {
+export const BIScenario: FC<IBIScenario> = ({ biSteps, bpmn = false }) => {
     const [expanded, setExpanded] = useState(false);
+    const [manualEditor, setManualEditor] = useState<ManualCallEditor>({ mode: 'initial' });
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRelation, setSelectedRelation] = useState<typeof biSteps.relations[0] | null>(
         null,
@@ -38,7 +39,8 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last, bpmn = false }) => 
         toggleSideSheet(SideSheetVariants.EDIT_SLA_BI, biSteps.id);
     };
 
-    const handleEditScenario = () => {
+    const handleEditScenario = (editor: ManualCallEditor) => {
+        setManualEditor(editor);
         toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI, biSteps.id);
     };
     const stepAvatar = stepTypeAvatarMap[biSteps.type as keyof typeof stepTypeAvatarMap] ?? {
@@ -48,76 +50,43 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last, bpmn = false }) => 
     const isLocked = bpmn && isUserTaskStep(biSteps.type);
 
     return (
-        <S.ScenarioTd last={last}>
-            <S.ScenarionTdWrapper last={last} expanded={expanded}>
-                <S.ScenarionWrapper>
-                    <S.ScenationTitleWrapper>
-                        {!isLocked && (
-                            <IconButton
-                                onClick={() => setExpanded(!expanded)}
-                                iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown}
-                                size="medium"
-                            />
-                        )}
-                        <Avatar
-                            variant="circle"
-                            icon={<Icon iconName={stepAvatar.iconName} />}
-                            color={stepAvatar.color}
-                        />
-                        <S.FlexWrapper gap="4">
-                            <ClampedText
-                                text={biSteps.name}
-                                tooltipId={`title-${biSteps.id}`}
-                                noArrow
-                                place="top"
-                                offset={8}
-                            />
-                            <Text variant="caption">
-                                {formatNullableString(biSteps.uniqueIdent)}
-                            </Text>
-                        </S.FlexWrapper>
-                    </S.ScenationTitleWrapper>
-                    {!isLocked && (
-                        <IconButton
-                            iconName={Icons.Edit}
-                            size="medium"
-                            onClick={handleEditScenario}
-                        />
-                    )}
-                </S.ScenarionWrapper>
-            </S.ScenarionTdWrapper>
+        <S.ScenarioCard>
+            <S.ScenarioHeader
+                type="button"
+                expanded={expanded && !isLocked}
+                disabled={isLocked}
+                aria-expanded={!isLocked ? expanded : undefined}
+                onClick={() => setExpanded(!expanded)}
+            >
+                <Avatar
+                    variant="circle"
+                    icon={<Icon iconName={stepAvatar.iconName} />}
+                    color={stepAvatar.color}
+                />
+                <S.Title>
+                    <ClampedText
+                        text={biSteps.name}
+                        tooltipId={`title-${biSteps.id}`}
+                        noArrow
+                        place="top"
+                        offset={8}
+                    />
+                    <Text variant="caption" inactive>
+                        {formatNullableString(biSteps.uniqueIdent)}
+                    </Text>
+                </S.Title>
+                {!isLocked && <Icon iconName={expanded ? Icons.NavArrowUp : Icons.NavArrowDown} />}
+            </S.ScenarioHeader>
 
             {expanded && !isLocked && (
-                <S.ScenarioContentWrapper last={last}>
-                    <S.SLAWrapper>
-                        <S.TitleWrapper>
-                            <Text variant="body3">SLA</Text>
-                            <IconButton
-                                iconName={Icons.Edit}
-                                size="medium"
-                                onClick={handleEditSLA}
-                            />
-                        </S.TitleWrapper>
-                        <S.SLAContent>
-                            <S.FlexWrapper>
-                                <Text variant="overline">RPS</Text>
-                                <Text variant="body3">{formatNullableNumber(biSteps.rps)}</Text>
-                            </S.FlexWrapper>
-                            <S.FlexWrapper>
-                                <Text variant="overline">LATENCY, MS</Text>
-                                <Text variant="body3">{formatNullableNumber(biSteps.latency)}</Text>
-                            </S.FlexWrapper>
-                            <S.FlexWrapper>
-                                <Text variant="overline">ERROR RATE, %</Text>
-                                <Text variant="body3">
-                                    {formatNullableNumber(biSteps.errorRate)}
-                                </Text>
-                            </S.FlexWrapper>
-                        </S.SLAContent>
-                    </S.SLAWrapper>
-
-                    <ImplementationSources biStep={biSteps} onOpenDiagram={openDiagram} />
-                </S.ScenarioContentWrapper>
+                <S.ScenarioContent>
+                    <SLA biStep={biSteps} onEdit={handleEditSLA} />
+                    <ImplementationSources
+                        biStep={biSteps}
+                        onOpenDiagram={openDiagram}
+                        onEditManual={handleEditScenario}
+                    />
+                </S.ScenarioContent>
             )}
             {!isLocked && (
                 <>
@@ -141,6 +110,8 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last, bpmn = false }) => 
                         }
                         onClose={closeSideSheet}
                         stepId={biSteps.id}
+                        mode={manualEditor.mode}
+                        relationId={manualEditor.relationId}
                         relationsData={biSteps.relations}
                     />
                 </>
@@ -150,6 +121,6 @@ export const BIScenario: FC<IBIScenario> = ({ biSteps, last, bpmn = false }) => 
                     <DiagramView relation={selectedRelation} onClose={() => setIsOpen(false)} />
                 </CustomModal>
             )}
-        </S.ScenarioTd>
+        </S.ScenarioCard>
     );
 };

@@ -125,10 +125,17 @@ export const formatRootCalls = (data: IStagingSequenceCallsData | undefined): IR
 
     return [...data.operationsRelations]
         .sort((a, b) => a.order - b.order)
-        .map((relation, index) => ({
-            id: `${index}-${relation.relatedOperationId}-${relation.order}`,
-            stereotype: relation.stereotype,
-            operation:
-                getRelatedOperation(relation, operationsById, discoveredOperationsById) ?? null,
-        }));
+        .map((relation, index) => {
+            const operation =
+                getRelatedOperation(relation, operationsById, discoveredOperationsById) ?? null;
+            return {
+                id: `${index}-${relation.relatedOperationId}-${relation.order}`,
+                stereotype: relation.stereotype,
+                operation,
+                operationId:
+                    relation.entityTypeRelatedOperation === EntityRelationType.OPERATION
+                        ? operation?.id ?? null
+                        : operation?.operation?.id ?? null,
+            };
+        });
 };

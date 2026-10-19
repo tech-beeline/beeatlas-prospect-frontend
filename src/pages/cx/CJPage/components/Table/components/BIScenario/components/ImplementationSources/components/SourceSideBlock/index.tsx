@@ -16,6 +16,7 @@ import * as S from './units';
 export const SourceSideBlock: FC<ISourceSideBlock> = ({
     source,
     biStepCode,
+    biStepId,
     onClose,
     onEditManual,
     onOpenDiagram,
@@ -28,22 +29,30 @@ export const SourceSideBlock: FC<ISourceSideBlock> = ({
         <SideBlock hasBackdrop isOpen={Boolean(source)} onClose={onClose} large>
             {source && (
                 <S.Container>
-                    <S.Content hasButtons={isManual}>
+                    <S.Content>
                         <S.Header>
                             <S.TitleWrapper>
                                 <S.SideBlockTitle>
-                                    {implementationSourceMeta[source.type].label}
+                                    {source.type === ImplementationSourceType.E2E
+                                        ? `Шаг E2E-сценария (${source.e2e.source})`
+                                        : implementationSourceMeta[source.type].label}
                                 </S.SideBlockTitle>
-                                <Text variant="body3" inactive>
-                                    {source.name}
-                                </Text>
+                                {!isManual && (
+                                    <Text variant="body3" inactive>
+                                        Ручная настройка невозможна. Только чтение — изменить можно
+                                        в источнике
+                                    </Text>
+                                )}
                             </S.TitleWrapper>
                             <IconButton iconName={Icons.Close} onClick={onClose} size="large" />
                         </S.Header>
 
+                        {isManual && <Text variant="subtitle2">Вызовы</Text>}
                         {source.type === ImplementationSourceType.MANUAL && hasManualCalls && (
                             <ManualCalls
                                 relations={source.relations}
+                                biStepId={biStepId}
+                                onEdit={(relationId) => onEditManual({ mode: 'edit', relationId })}
                                 onOpenDiagram={onOpenDiagram}
                             />
                         )}
@@ -62,8 +71,15 @@ export const SourceSideBlock: FC<ISourceSideBlock> = ({
 
                     {isManual && (
                         <S.ButtonContainer>
-                            <Button type="button" variant="primary" onClick={onEditManual}>
-                                {hasManualCalls ? 'Редактировать' : 'Добавить вызов'}
+                            <Button type="button" variant="outlined" onClick={onClose}>
+                                Закрыть
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="primary"
+                                onClick={() => onEditManual({ mode: 'add' })}
+                            >
+                                Добавить вызов
                             </Button>
                         </S.ButtonContainer>
                     )}
