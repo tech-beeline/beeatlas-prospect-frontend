@@ -170,7 +170,10 @@ export const NavigationRouter = () => {
                 </>
             )}
             {!PATHS_WITHOUT_FEEDBACK.some((path) => location.pathname?.includes(path)) &&
-                !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && <FeedbackButton />}
+                !(
+                    window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND &&
+                    window.FEATURE_FLAGS.FLAG_HIDE_AI_ASSISTANT
+                ) && <FeedbackButton />}
 
             <S.AppContent>
                 <Routes>

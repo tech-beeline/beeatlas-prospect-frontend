@@ -36,32 +36,38 @@ export const FeedbackButton = () => {
         <>
             <S.Container hidden={isAiChatOpen}>
                 <S.Dropdown ref={dropdownRef}>
-                    <S.AIButton visible={expanded}>
-                        <S.FABStyled
-                            onClick={handleAiButtonClick}
-                            type="extended"
-                            iconName={Icons.AiAssistant}
-                        >
-                            AI-помощник
-                        </S.FABStyled>
-                    </S.AIButton>
-                    <S.ComplainButton visible={expanded}>
-                        <S.FABStyled
-                            onClick={handleBlameButtonClick}
-                            type="extended"
-                            iconName={Icons.MessageAlert}
-                        >
-                            Пожаловаться на данные
-                        </S.FABStyled>
-                    </S.ComplainButton>
+                    {!window.FEATURE_FLAGS.FLAG_HIDE_AI_ASSISTANT && (
+                        <S.AIButton visible={expanded}>
+                            <S.FABStyled
+                                onClick={handleAiButtonClick}
+                                type="extended"
+                                iconName={Icons.AiAssistant}
+                            >
+                                AI-помощник
+                            </S.FABStyled>
+                        </S.AIButton>
+                    )}
+                    {!window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                        <S.ComplainButton visible={expanded}>
+                            <S.FABStyled
+                                onClick={handleBlameButtonClick}
+                                type="extended"
+                                iconName={Icons.MessageAlert}
+                            >
+                                Пожаловаться на данные
+                            </S.FABStyled>
+                        </S.ComplainButton>
+                    )}
                 </S.Dropdown>
                 <S.FABStyled
                     ref={iconRef}
                     onClick={handleQuestionButtonClick}
                     iconName={expanded ? Icons.Close : Icons.AiAssistant}
                 />
-                <BlameSideblock isOpen={modalOpened} onClose={closeModal} />
-                <AiChat />
+                {!window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
+                    <BlameSideblock isOpen={modalOpened} onClose={closeModal} />
+                )}
+                {!window.FEATURE_FLAGS.FLAG_HIDE_AI_ASSISTANT && <AiChat />}
             </S.Container>
         </>
     );
