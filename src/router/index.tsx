@@ -759,33 +759,27 @@ export const NavigationRouter = () => {
                         />
                     )}
 
-                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
-                        <Route
-                            path={`${R.MODELS_PATH}${R.E2E_PATH}`}
-                            element={
-                                <S.RouteWithDrawer>
-                                    <MenuMain />
-                                    <S.ContentWrapper>
-                                        <E2EPage />
-                                    </S.ContentWrapper>
-                                </S.RouteWithDrawer>
-                            }
-                        />
-                    )}
+                    <Route
+                        path={`${R.MODELS_PATH}${R.E2E_PATH}`}
+                        element={
+                            <S.RouteWithDrawer>
+                                <MenuMain />
+                                <S.ContentWrapper>
+                                    <E2EPage />
+                                </S.ContentWrapper>
+                            </S.RouteWithDrawer>
+                        }
+                    />
 
-                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
-                        <Route
-                            path={`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`}
-                            element={<E2EImportPlantUmlPage />}
-                        />
-                    )}
+                    <Route
+                        path={`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}`}
+                        element={<E2EImportPlantUmlPage />}
+                    />
 
-                    {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
-                        <Route
-                            path={`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}${R.VERSION_PATH}`}
-                            element={<E2EImportPlantUmlVersionPage />}
-                        />
-                    )}
+                    <Route
+                        path={`${R.MODELS_PATH}${R.E2E_PATH}${R.IMPORT_PATH}${R.VERSION_PATH}`}
+                        element={<E2EImportPlantUmlVersionPage />}
+                    />
 
                     <Route
                         path={`${R.MODELS_PATH}${R.IMPACT_PATH}`}
