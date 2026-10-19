@@ -1,3 +1,4 @@
+import { IArtifactPipelineRun, PipelineStatuses } from 'api/staging-service/types';
 import {
     IProjectUsecaseDiscoveredInterface,
     IProjectUsecaseOperationApplication,
@@ -130,3 +131,18 @@ export const mapProjectUsecaseOperations = (
 
     return { operations, participants: Array.from(participants.values()) };
 };
+
+export const getLatestCompletedUsecaseRun = (runs: IArtifactPipelineRun[]) =>
+    runs
+        .filter(({ status }) => status === PipelineStatuses.COMPLETED)
+        .reduce<IArtifactPipelineRun | null>((latest, run) => {
+            if (!latest) return run;
+            const difference =
+                Date.parse(run.executionStartedAt || run.startedAt) -
+                Date.parse(latest.executionStartedAt || latest.startedAt);
+
+            return difference > 0 ||
+                ((!Number.isFinite(difference) || difference === 0) && run.runId > latest.runId)
+                ? run
+                : latest;
+        }, null);

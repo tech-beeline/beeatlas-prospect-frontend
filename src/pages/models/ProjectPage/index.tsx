@@ -194,7 +194,15 @@ export const ProjectPage = () => {
                     )}
 
                     {dataView === ProjectDataView.USECASE && (
-                        <UsecaseResults usecases={usecases} onCreate={handleCreateUsecase} />
+                        <UsecaseResults
+                            usecases={usecases}
+                            onCreate={handleCreateUsecase}
+                            onEdit={(usecaseId) =>
+                                navigate(
+                                    `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}?id=${project.id}&usecaseId=${usecaseId}`,
+                                )
+                            }
+                        />
                     )}
                 </S.TabContent>
             )}

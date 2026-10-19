@@ -12,6 +12,7 @@ export interface ICallDecisionOption {
 }
 
 export interface IResultStep {
+    isEditing: boolean;
     result: IProjectUsecasePipelineResult;
     savingDecision: boolean;
     applying: boolean;

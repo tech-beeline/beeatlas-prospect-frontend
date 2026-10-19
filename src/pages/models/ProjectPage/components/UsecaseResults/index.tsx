@@ -4,16 +4,25 @@ import { getProjectUsecaseLatestDate } from 'features/projects';
 
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
-import { Search, TableBody, TableData, TableHead, TableHeaderData, TableRow } from 'components/ui';
+import {
+    IconButton,
+    Search,
+    TableBody,
+    TableData,
+    TableHead,
+    TableHeaderData,
+    TableRow,
+} from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatDateToUTC } from 'utils/formatters';
 
 import { EMPTY_STATE_TEXT } from './const';
 import { IUsecaseResults } from './types';
 import * as S from './units';
 
-export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
+export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate, onEdit }) => {
     const [search, setSearch] = useState('');
     const filteredUsecases = useMemo(() => {
         const normalizedSearch = search.trim().toLocaleLowerCase('ru');
@@ -73,6 +82,7 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                             <TableHeaderData>Use Case</TableHeaderData>
                             <TableHeaderData>Дата изменения</TableHeaderData>
                             <TableHeaderData>История</TableHeaderData>
+                            <TableHeaderData />
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -100,6 +110,14 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                                         outer={false}
                                         title="Посмотреть"
                                         url={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.HISTORY_PATH}?id=${usecase.id}`}
+                                    />
+                                </TableData>
+                                <TableData alignRight={true}>
+                                    <IconButton
+                                        aria-label={`Редактировать ${usecase.name}`}
+                                        iconName={Icons.Edit}
+                                        size="medium"
+                                        onClick={() => onEdit(usecase.id)}
                                     />
                                 </TableData>
                             </TableRow>

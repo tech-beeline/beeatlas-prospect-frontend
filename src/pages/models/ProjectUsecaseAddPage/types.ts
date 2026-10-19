@@ -18,3 +18,20 @@ export interface IResolutionDraft {
     connectionOperation: IProjectUsecasePipelineConnectionOperation | null;
     requirements: string;
 }
+
+export type PageState =
+    | 'form'
+    | 'processing'
+    | 'review'
+    | 'applying'
+    | 'failed'
+    | 'poll-error'
+    | 'foreign-run';
+export type PollTarget = 'awaiting_review' | 'terminal';
+
+export interface IRequestError {
+    activeRunId?: number;
+    error?: string;
+    errorMessage?: string;
+    message?: string;
+}

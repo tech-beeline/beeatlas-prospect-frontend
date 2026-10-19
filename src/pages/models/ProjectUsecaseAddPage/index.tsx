@@ -19,7 +19,12 @@ import {
     useSaveProjectUsecaseMappingMutation,
     useStartProjectUsecasePipelineMutation,
 } from 'api/queries/staging-service';
-import { PROJECT_USECASE_PREFIX, useGetProjectUsecasesQuery } from 'api/queries/usecase';
+import {
+    PROJECT_USECASE_PREFIX,
+    useGetProjectUsecasePlantUmlQuery,
+    useGetProjectUsecaseQuery,
+    useGetProjectUsecasesQuery,
+} from 'api/queries/usecase';
 import {
     IProjectUsecaseMappingDecision,
     IProjectUsecasePipelineResult,
@@ -28,46 +33,15 @@ import {
 import { getProjectUsecases, ProjectUsecaseImportMode } from 'api/usecase';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { DataStep } from './components/DataStep';
 import { ResultStep } from './components/ResultStep';
+import { STEPS } from './const';
 import { UsecaseImportFormValues, validationSchema } from './form';
-import { UsecaseImportStep } from './types';
+import { IRequestError, PageState, PollTarget, UsecaseImportStep } from './types';
 import * as S from './units';
-import { getPipelineFailureReason } from './utils';
-
-type PageState =
-    | 'form'
-    | 'processing'
-    | 'review'
-    | 'applying'
-    | 'failed'
-    | 'poll-error'
-    | 'foreign-run';
-type PollTarget = 'awaiting_review' | 'terminal';
-
-const STEPS = [
-    { id: UsecaseImportStep.DATA, label: 'Данные Use Case' },
-    { id: UsecaseImportStep.RESULT, label: 'Результат' },
-];
-
-interface IRequestError {
-    activeRunId?: number;
-    error?: string;
-    errorMessage?: string;
-    message?: string;
-}
-
-const getRequestErrorMessage = (error: unknown, fallback: string) => {
-    const requestError = error as AxiosError<IRequestError>;
-
-    return (
-        requestError.response?.data?.errorMessage ??
-        requestError.response?.data?.message ??
-        requestError.response?.data?.error ??
-        (error instanceof Error ? error.message : fallback)
-    );
-};
+import { getPipelineFailureReason, getRequestErrorMessage } from './utils';
 
 export const ProjectUsecaseAddPage = () => {
     const [params] = useSearchParams();
@@ -75,6 +49,9 @@ export const ProjectUsecaseAddPage = () => {
     const queryClient = useQueryClient();
     const projectId = Number(params.get('id')) || null;
     const runId = params.get('runId');
+    const editUsecaseId = Number(params.get('usecaseId')) || null;
+    const isEditing = Boolean(editUsecaseId);
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
     const importPath = `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}`;
     const projectQuery = useGetProjectByIdQuery(projectId ? String(projectId) : null);
     const projectCode = projectQuery.data?.uniqueIdent;
@@ -103,23 +80,70 @@ export const ProjectUsecaseAddPage = () => {
     const form = useForm<UsecaseImportFormValues>({
         resolver: yupResolver(validationSchema) as Resolver<UsecaseImportFormValues>,
         defaultValues: {
-            mode: ProjectUsecaseImportMode.NEW,
+            mode: isEditing ? ProjectUsecaseImportMode.EXISTING : ProjectUsecaseImportMode.NEW,
             name: '',
-            usecaseId: null,
+            usecaseId: editUsecaseId,
             biStepCode: null,
             plantUml: '',
             file: null,
         },
     });
-    const { handleSubmit, setError, setValue, watch } = form;
+    const { handleSubmit, setError, setValue, watch, reset, getValues } = form;
     const mode = watch('mode');
     const name = watch('name');
     const usecaseId = watch('usecaseId');
+    const selectedUsecaseQuery = useGetProjectUsecaseQuery(usecaseId);
+    const plantUmlQuery = useGetProjectUsecasePlantUmlQuery(
+        selectedUsecaseQuery.data?.projectId === projectId ? selectedUsecaseQuery.data.code : null,
+        mode === ProjectUsecaseImportMode.EXISTING && !runId,
+    );
+    const initializedPlantUmlRef = useRef<number | null>(null);
+    useEffect(() => {
+        initializedPlantUmlRef.current = null;
+        setValue('plantUml', '');
+        setValue('file', null);
+    }, [usecaseId, setValue]);
+    useEffect(() => {
+        if (
+            runId ||
+            !usecaseId ||
+            plantUmlQuery.isFetching ||
+            !plantUmlQuery.isSuccess ||
+            initializedPlantUmlRef.current === usecaseId
+        )
+            return;
+        initializedPlantUmlRef.current = usecaseId;
+        reset({ ...getValues(), plantUml: plantUmlQuery.data, file: null });
+    }, [
+        runId,
+        usecaseId,
+        plantUmlQuery.isFetching,
+        plantUmlQuery.isSuccess,
+        plantUmlQuery.data,
+        reset,
+        getValues,
+    ]);
+    const initializedUsecaseRef = useRef<number | null>(null);
+    useEffect(() => {
+        const usecase = selectedUsecaseQuery.data;
+        if (
+            !usecase ||
+            usecase.projectId !== projectId ||
+            initializedUsecaseRef.current === usecase.id
+        )
+            return;
+        initializedUsecaseRef.current = usecase.id;
+        reset({ ...getValues(), biStepCode: usecase.biStepCode });
+    }, [selectedUsecaseQuery.data, projectId, reset, getValues]);
     const plantUml = watch('plantUml');
     const file = watch('file');
     const hasScenario =
         mode === ProjectUsecaseImportMode.NEW ? Boolean(name.trim()) : Boolean(usecaseId);
-    const canSubmit = hasScenario && Boolean(plantUml.trim() || file);
+    const canSubmit =
+        hasScenario &&
+        Boolean(plantUml.trim() || file) &&
+        (mode !== ProjectUsecaseImportMode.EXISTING ||
+            (selectedUsecaseQuery.data?.projectId === projectId && !selectedUsecaseQuery.isError));
 
     useEffect(() => {
         if (mode === ProjectUsecaseImportMode.NEW) setValue('usecaseId', null);
@@ -131,8 +155,14 @@ export const ProjectUsecaseAddPage = () => {
             if (!projectId) return;
 
             await queryClient.invalidateQueries({
-                queryKey: [PROJECT_USECASE_PREFIX, 'LIST', projectId],
+                queryKey: [PROJECT_USECASE_PREFIX],
             });
+
+            if (editUsecaseId) {
+                showSnackbar({ message: 'Изменения сохранены' });
+                navigate(`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}?id=${editUsecaseId}`);
+                return;
+            }
 
             try {
                 const usecases = await getProjectUsecases(projectId).then(({ data }) => data);
@@ -140,6 +170,12 @@ export const ProjectUsecaseAddPage = () => {
                     ({ code }) => code === usecaseCode || code === artifactUid,
                 );
                 if (usecase) {
+                    showSnackbar({
+                        message:
+                            isEditing || mode === ProjectUsecaseImportMode.EXISTING
+                                ? 'Изменения сохранены'
+                                : 'Сценарий создан',
+                    });
                     navigate(
                         `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}?id=${usecase.id}`,
                     );
@@ -151,7 +187,7 @@ export const ProjectUsecaseAddPage = () => {
 
             navigate(`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.VIEW_PATH}?id=${projectId}`);
         },
-        [navigate, projectId, queryClient],
+        [navigate, projectId, queryClient, showSnackbar, isEditing, mode, editUsecaseId],
     );
 
     const pollPipeline = useCallback(
@@ -234,13 +270,7 @@ export const ProjectUsecaseAddPage = () => {
                 setPageState('poll-error');
             }
         },
-        [
-            getPipelineRunDetails,
-            getPipelineStatus,
-            navigateToCompletedUsecase,
-            projectCode,
-            runId,
-        ],
+        [getPipelineRunDetails, getPipelineStatus, navigateToCompletedUsecase, projectCode, runId],
     );
 
     useEffect(() => {
@@ -257,11 +287,13 @@ export const ProjectUsecaseAddPage = () => {
 
     const navigateToProject = useCallback(() => {
         navigate(
-            projectId
+            editUsecaseId
+                ? `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}?id=${editUsecaseId}`
+                : projectId
                 ? `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.VIEW_PATH}?id=${projectId}`
                 : `${R.MODELS_PATH}${R.PROJECTS_PATH}`,
         );
-    }, [navigate, projectId]);
+    }, [navigate, projectId, editUsecaseId]);
 
     const submitImport = handleSubmit(async (values) => {
         if (!projectId || !projectQuery.data) return;
@@ -303,6 +335,7 @@ export const ProjectUsecaseAddPage = () => {
                     search: new URLSearchParams({
                         id: String(projectId),
                         runId: String(pipeline.runId),
+                        ...(values.usecaseId ? { usecaseId: String(values.usecaseId) } : {}),
                     }).toString(),
                 },
                 { replace: true },
@@ -333,6 +366,7 @@ export const ProjectUsecaseAddPage = () => {
                 search: new URLSearchParams({
                     id: String(projectId),
                     runId: String(targetRunId),
+                    ...(editUsecaseId ? { usecaseId: String(editUsecaseId) } : {}),
                 }).toString(),
             },
             { replace: true },
@@ -349,7 +383,12 @@ export const ProjectUsecaseAddPage = () => {
         navigate(
             {
                 pathname: importPath,
-                search: projectId ? new URLSearchParams({ id: String(projectId) }).toString() : '',
+                search: projectId
+                    ? new URLSearchParams({
+                          id: String(projectId),
+                          ...(editUsecaseId ? { usecaseId: String(editUsecaseId) } : {}),
+                      }).toString()
+                    : '',
             },
             { replace: true },
         );
@@ -461,9 +500,13 @@ export const ProjectUsecaseAddPage = () => {
     return (
         <S.PageWrapper>
             <S.Header>
-                <Text variant="subtitle2">Создание Use Case</Text>
+                <Text variant="subtitle2">
+                    {isEditing ? 'Редактирование сценария' : 'Создание Use Case'}
+                </Text>
                 <IconButton
-                    aria-label="Закрыть создание Use Case"
+                    aria-label={
+                        isEditing ? 'Закрыть редактирование сценария' : 'Закрыть создание Use Case'
+                    }
                     disabled={
                         isStartingPipeline ||
                         isSavingMapping ||
@@ -496,16 +539,30 @@ export const ProjectUsecaseAddPage = () => {
             {pageState === 'form' && (
                 <DataStep
                     form={form}
+                    isEditing={isEditing}
                     usecases={usecasesQuery.data ?? []}
                     businessInteractions={businessInteractionsQuery.data ?? []}
                     isUsecasesLoading={usecasesQuery.isLoading}
                     isBusinessInteractionsLoading={businessInteractionsQuery.isLoading}
-                    isUsecasesError={usecasesQuery.isError}
+                    isUsecasesError={usecasesQuery.isError || selectedUsecaseQuery.isError}
                     isBusinessInteractionsError={businessInteractionsQuery.isError}
-                    isFormDisabled={!projectId || isStartingPipeline}
+                    isFormDisabled={
+                        !projectId ||
+                        isStartingPipeline ||
+                        selectedUsecaseQuery.isFetching ||
+                        plantUmlQuery.isFetching
+                    }
                     isSubmitting={isStartingPipeline}
                     canSubmit={canSubmit}
-                    submitError={startError}
+                    submitError={
+                        startError ??
+                        (plantUmlQuery.isError
+                            ? {
+                                  message:
+                                      'Не удалось загрузить исходный PlantUML. Добавьте текст или файл вручную.',
+                              }
+                            : null)
+                    }
                     onOpenActiveRun={openPipelineRun}
                     onSubmit={submitImport}
                 />
@@ -560,6 +617,7 @@ export const ProjectUsecaseAddPage = () => {
             {pageState === 'review' && result && (
                 <ResultStep
                     key={runId}
+                    isEditing={isEditing || mode === ProjectUsecaseImportMode.EXISTING}
                     actionError={actionError}
                     applying={isApplying}
                     cancelling={isCancelling}

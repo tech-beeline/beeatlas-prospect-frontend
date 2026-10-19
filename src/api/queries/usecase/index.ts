@@ -18,7 +18,11 @@ import {
     IStartProjectUsecaseImport,
 } from 'api/usecase/types';
 
-import { mapProjectUsecaseOperations, mapProjectUsecaseRootOperations } from './utils';
+import {
+    getLatestCompletedUsecaseRun,
+    mapProjectUsecaseOperations,
+    mapProjectUsecaseRootOperations,
+} from './utils';
 
 export const PROJECT_USECASE_PREFIX = 'PROJECT_USECASE_PREFIX';
 
@@ -80,8 +84,7 @@ export const useGetProjectUsecaseOperationsTreeQuery = (
 export const useGetUsecasesByBiStepCodeQuery = (biStepCode?: string | null) => {
     return useQuery({
         queryKey: [PROJECT_USECASE_PREFIX, 'BY_BI_STEP', biStepCode],
-        queryFn: () =>
-            getUsecasesByBiStepCodes([biStepCode!]).then((response) => response.data),
+        queryFn: () => getUsecasesByBiStepCodes([biStepCode!]).then((response) => response.data),
         select: (groups) =>
             groups.find((group) => group.biStepCode.toLowerCase() === biStepCode!.toLowerCase())
                 ?.useCases ?? [],
@@ -102,6 +105,23 @@ export const useGetProjectUsecaseHistoryQuery = (artifactUid?: string | null) =>
         queryKey: [PROJECT_USECASE_PREFIX, 'HISTORY', artifactUid],
         queryFn: () => getPipelineRunsByArtifact(artifactUid!).then((response) => response.data),
         enabled: Boolean(artifactUid),
+    });
+};
+
+export const useGetProjectUsecasePlantUmlQuery = (artifactUid?: string | null, enabled = true) => {
+    return useQuery({
+        queryKey: [PROJECT_USECASE_PREFIX, 'PLANT_UML', artifactUid],
+        queryFn: async () => {
+            if (!artifactUid) throw new Error('Не указан код сценария');
+            const { data: runs } = await getPipelineRunsByArtifact(artifactUid);
+            const run = getLatestCompletedUsecaseRun(runs);
+            if (!run || run.rawDataRefId === null) {
+                throw new Error('PlantUML последнего завершённого импорта недоступен');
+            }
+            const { data } = await downloadProjectUsecaseRawData(run.rawDataRefId);
+            return data;
+        },
+        enabled: Boolean(artifactUid) && enabled,
     });
 };
 

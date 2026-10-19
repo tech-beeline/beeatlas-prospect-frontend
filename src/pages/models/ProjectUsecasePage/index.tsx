@@ -8,10 +8,9 @@ import { BreadCrumbsItem } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Badge,
-    BadgeSemantic,
     Breadcrumbs,
     Button,
-    Icon,
+    IconButton,
     Search,
     Select,
     Skeleton,
@@ -28,67 +27,16 @@ import {
     useGetProjectUsecaseOperationsQuery,
     useGetProjectUsecaseQuery,
 } from 'api/queries/usecase';
-import {
-    IProjectUsecaseOperationApplication,
-    ProjectUsecaseOperationStatus,
-    ProjectUsecaseParticipantStatus,
-} from 'api/usecase/types';
+import { ProjectUsecaseOperationStatus } from 'api/usecase/types';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 
+import { ExportButton } from './components/ExportButton';
 import { RelationCard, TechCapabilityCell } from './components';
+import { OPERATION_STATUS_DATA, PARTICIPANT_STATUS_DATA, STATUS_FILTER_OPTIONS } from './const';
 import * as S from './units';
-import { filterOperations, getE2EStepUrl } from './utils';
-
-const OPERATION_STATUS_DATA: Record<
-    ProjectUsecaseOperationStatus,
-    { label: string; semantic: BadgeSemantic }
-> = {
-    [ProjectUsecaseOperationStatus.CONFIRMED]: {
-        label: 'Подтвержден',
-        semantic: 'success',
-    },
-    [ProjectUsecaseOperationStatus.NOT_MAPPED]: {
-        label: 'Не смапирован',
-        semantic: 'danger',
-    },
-    [ProjectUsecaseOperationStatus.REVIEW]: {
-        label: 'Ревью',
-        semantic: 'warning',
-    },
-    [ProjectUsecaseOperationStatus.PLANNED]: {
-        label: 'Планируется',
-        semantic: 'neutral',
-    },
-};
-
-const STATUS_FILTER_OPTIONS = Object.values(ProjectUsecaseOperationStatus).map((status) => ({
-    id: status,
-    value: OPERATION_STATUS_DATA[status].label,
-}));
-
-const PARTICIPANT_STATUS_DATA: Record<
-    ProjectUsecaseParticipantStatus,
-    { label: string; semantic: BadgeSemantic }
-> = {
-    [ProjectUsecaseParticipantStatus.CONFIRMED]: {
-        label: 'Подтвержден',
-        semantic: 'success',
-    },
-    [ProjectUsecaseParticipantStatus.NOT_CONFIRMED]: {
-        label: 'Не подтвержден',
-        semantic: 'danger',
-    },
-};
-
-const renderApplication = (application: IProjectUsecaseOperationApplication | null) => {
-    if (!application) return formatNullableString(null);
-
-    const mnemonic = formatNullableString(application.mnemonic);
-
-    return application.isPlanned ? `${mnemonic} (Планируется)` : mnemonic;
-};
+import { filterOperations, getE2EStepUrl, renderApplication } from './utils';
 
 export const ProjectUsecasePage = () => {
     const [params] = useSearchParams();
@@ -172,18 +120,35 @@ export const ProjectUsecasePage = () => {
                         </div>
                     </S.TitleGroup>
                     <S.Actions>
-                        <Button
+                        <ExportButton
+                            usecase={usecase}
+                            data={operationsData}
+                            relations={biStepData}
+                        />
+                        <IconButton
+                            aria-label="История импорта"
+                            title="История импорта"
                             size="medium"
-                            startIcon={<Icon iconName={Icons.Clock} />}
+                            iconName={Icons.Clock}
                             variant="outlined"
                             onClick={() =>
                                 navigate(
                                     `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.HISTORY_PATH}?id=${usecase.id}`,
                                 )
                             }
-                        >
-                            История импорта
-                        </Button>
+                        />
+                        <IconButton
+                            aria-label="Редактировать"
+                            title="Редактировать"
+                            size="medium"
+                            iconName={Icons.Edit}
+                            variant="outlined"
+                            onClick={() =>
+                                navigate(
+                                    `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}?id=${usecase.projectId}&usecaseId=${usecase.id}`,
+                                )
+                            }
+                        />
                     </S.Actions>
                 </S.HeaderRow>
 

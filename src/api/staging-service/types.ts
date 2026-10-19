@@ -8,6 +8,8 @@ export enum PipelineStatuses {
     AWAITING_REVIEW = 'awaiting_review',
     COMPLETED = 'completed',
     FAILED = 'failed',
+    CANCELLED = 'cancelled',
+    APPLYING = 'applying',
 }
 
 export interface IPipileneRun {
