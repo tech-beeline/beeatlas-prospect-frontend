@@ -45,7 +45,7 @@ export const postPipelineRun = (
 
 export const getSequenceCallsById = (code: string): AxiosPromise<T.IStagingSequenceCallsData> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v2/e2e/${code}`,
+        url: `${GATEWAY_PRODUCT_URL}v3/e2e/${code}`,
     });
 };
 

@@ -10,5 +10,5 @@ export interface IRootCall {
     id: string;
     operationId: number | null;
     stereotype: string;
-    operation: IStagingSequenceCallsData['operations'][number] | null;
+    operation: IStagingSequenceCallsData['discoveredOperations'][number] | null;
 }
