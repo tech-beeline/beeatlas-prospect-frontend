@@ -16,6 +16,7 @@ import {
     Badge,
     Breadcrumbs,
     Button,
+    Search,
     Select,
     Skeleton,
     TableBody,
@@ -31,6 +32,7 @@ import {
     useGetRawDataQuery,
 } from 'api/queries/staging-service';
 import { IPipelineChildRun } from 'api/staging-service/types';
+import { useDebounce } from 'hooks';
 import * as R from 'router/const';
 
 import { ChildPipelineRow } from './components';
@@ -48,12 +50,14 @@ export const StagingPreAdapterPage = () => {
     const [filterValues, setFilterValues] = useState<IChildPipelineFilterValues>(
         initialChildPipelineFilterValues,
     );
+    const searchDebounced = useDebounce(filterValues.search);
 
     const { data: pipelineRun, isLoading: isPipeleneRunLoading } = useGetPipelineRunById(runId);
     const { data: childRuns, isLoading: isChildRunsLoading } = useGetPipelineChildRunsQuery(runId, {
         limit: itemsCountOnPage,
         offset: (countPage - 1) * itemsCountOnPage,
         status: filterValues.status,
+        artifactQuery: encodeURIComponent(searchDebounced),
     });
     const stats = getChildPipelineStats(pipelineRun);
 
@@ -136,6 +140,13 @@ export const StagingPreAdapterPage = () => {
             )}
 
             <S.FiltersContainer>
+                <Search
+                    fullWidth
+                    placeholder="Поиск по uid и названию артефакта"
+                    value={filterValues.search}
+                    onChange={(e) => setFilterValues({ ...filterValues, search: e.target.value })}
+                    onClear={() => setFilterValues({ ...filterValues, search: '' })}
+                />
                 <Select
                     fullWidth
                     placeholder="Статус"

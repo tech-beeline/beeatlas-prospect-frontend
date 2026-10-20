@@ -120,6 +120,7 @@ export interface IGetPipelineRunsResults {
 }
 
 export interface IGetPipilineChildRunsParams {
+    artifactQuery?: string;
     limit?: number;
     offset?: number;
     status?: PipelineStatuses | null;

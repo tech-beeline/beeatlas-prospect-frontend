@@ -29,13 +29,9 @@ export const TitleContainer = styled.div`
 
 export const FiltersContainer = styled.div`
     display: grid;
-    grid-template-columns: minmax(100px, 260px) 115px;
+    grid-template-columns: minmax(100px, 544px) minmax(100px, 260px) 115px;
     align-items: end;
     gap: 24px;
-`;
-
-export const SearchContainer = styled.div`
-    grid-column: span 2;
 `;
 
 export const CardsContainer = styled.div`

@@ -43,7 +43,7 @@ export const getPipelineChildRuns = (
         )}${formatNullableNumberParam('offset', params.offset)}${formatNullableStringParam(
             'status',
             params.status,
-        )}`,
+        )}${formatNullableStringParam('artifactQuery', params.artifactQuery)}`,
     });
 };
 

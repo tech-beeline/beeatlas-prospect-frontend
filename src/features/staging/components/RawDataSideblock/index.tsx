@@ -5,13 +5,17 @@ import { Text } from 'components/core';
 import { Button, Icon } from 'components/ui';
 
 import { Icons } from 'styles/design-tokens/js/iconfont';
+import { useSnackbarStore } from 'widgets/Snackbar';
 
 import { IRawDataSideblock } from './types';
 import * as S from './units';
 
 export const RawDataSideblock: FC<IRawDataSideblock> = ({ isOpen, onClose, data }) => {
+    const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+
     const handleCopyClick = async () => {
         await navigator.clipboard.writeText(data?.rawData || '');
+        showSnackbar({ message: 'Данные скопированы в буфер обмена' });
     };
 
     return (
