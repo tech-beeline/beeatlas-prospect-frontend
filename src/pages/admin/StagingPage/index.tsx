@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import {
-    initialStagingFilterValues,
     pipelineStatusOptions,
     pipelineStatusToNameMap,
+    useStagingURLFilters,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -27,18 +27,19 @@ import {
 } from 'api/queries/staging-service';
 
 import { PreAdapterRow } from './components';
-import { IStagingFilterValues } from './types';
 import * as S from './units';
 
 export const StagingPage = () => {
-    const [filterValues, setFilterValues] = useState<IStagingFilterValues>(
-        initialStagingFilterValues,
-    );
+    const {
+        filters: filterValues,
+        setFilters: setFilterValues,
+        resetFilters,
+    } = useStagingURLFilters('runs');
     const hasTwoDates =
         filterValues.dateRange && filterValues.dateRange[0] && filterValues.dateRange[1];
 
-    const [countPage, setCountPage] = useState(1);
-    const [itemsCountOnPage, setItemsCountOnPage] = useState(10);
+    const countPage = filterValues.page;
+    const itemsCountOnPage = filterValues.pageSize;
 
     const { data: pipileneRuns, isLoading: isPipileneRunsLoading } = useGetPipelineRunsQuery({
         limit: itemsCountOnPage,
@@ -66,10 +67,6 @@ export const StagingPage = () => {
 
     const isLoading = isPipileneRunsLoading || isLoadingDataSources || isLoadingArtifactTypes;
 
-    useEffect(() => {
-        setCountPage(1);
-    }, [filterValues]);
-
     const isResetButtonActive =
         filterValues.dateRange.length > 0 ||
         filterValues.status !== null ||
@@ -78,8 +75,7 @@ export const StagingPage = () => {
         filterValues.search.length > 0;
 
     const handleResetButtonClick = () => {
-        setFilterValues(initialStagingFilterValues);
-        setCountPage(1);
+        resetFilters();
     };
 
     return (
@@ -92,9 +88,9 @@ export const StagingPage = () => {
                         placeholder="Поиск по ID и конфигурации"
                         value={filterValues.search}
                         onChange={(e) =>
-                            setFilterValues({ ...filterValues, search: e.target.value })
+                            setFilterValues({ search: e.target.value })
                         }
-                        onClear={() => setFilterValues({ ...filterValues, search: '' })}
+                        onClear={() => setFilterValues({ search: '' })}
                     />
                 </S.SearchContainer>
                 <div />
@@ -104,9 +100,7 @@ export const StagingPage = () => {
                     fullWidth
                     placeholder="Дата"
                     value={filterValues.dateRange}
-                    onChange={(dates) =>
-                        setFilterValues({ ...filterValues, dateRange: dates ?? [] })
-                    }
+                    onChange={(dates) => setFilterValues({ dateRange: dates ?? [] })}
                 />
                 <Select
                     fullWidth
@@ -125,7 +119,6 @@ export const StagingPage = () => {
                     }
                     onChange={(values) =>
                         setFilterValues({
-                            ...filterValues,
                             status: values[0]?.id ?? null,
                         })
                     }
@@ -137,13 +130,12 @@ export const StagingPage = () => {
                     options={artifactTypesOptions}
                     values={
                         filterValues.type
-                            ? [artifactTypesOptions.find((ds) => ds.id === filterValues.type)!]
+                            ? artifactTypesOptions.filter((ds) => ds.id === filterValues.type)
                             : []
                     }
                     onChange={(values) =>
                         setFilterValues({
-                            ...filterValues,
-                            type: values[0].id,
+                            type: values[0]?.id ?? null,
                         })
                     }
                 />
@@ -154,13 +146,12 @@ export const StagingPage = () => {
                     options={dataSourcesOptions}
                     values={
                         filterValues.source
-                            ? [dataSourcesOptions.find((ds) => ds.id === filterValues.source)!]
+                            ? dataSourcesOptions.filter((ds) => ds.id === filterValues.source)
                             : []
                     }
                     onChange={(values) =>
                         setFilterValues({
-                            ...filterValues,
-                            source: values[0].id,
+                            source: values[0]?.id ?? null,
                         })
                     }
                 />
@@ -202,8 +193,7 @@ export const StagingPage = () => {
                             <TableData colSpan={9} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
-                                        setCountPage(e.page);
-                                        setItemsCountOnPage(e.rowsPerPage);
+                                        setFilterValues({ page: e.page, pageSize: e.rowsPerPage });
                                     }}
                                     page={countPage}
                                     rowsCount={pipileneRuns.totalCount}

@@ -5,6 +5,7 @@ import {
     pipelineStatusToIconMap,
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
+    useStagingUrl,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -19,6 +20,7 @@ import { IPipelineRow } from './types';
 import * as S from './units';
 
 export const PipelineRow: FC<IPipelineRow> = ({ pipeline }) => {
+    const stagingUrl = useStagingUrl();
     const [isExpanded, setIsExpanded] = useState(false);
     const navigate = useNavigate();
 
@@ -44,7 +46,11 @@ export const PipelineRow: FC<IPipelineRow> = ({ pipeline }) => {
                             variant="body3"
                             onClick={() =>
                                 navigate(
-                                    `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}${R.PIPELINE_PATH}?id=${pipeline.id}`,
+                                    stagingUrl(
+                                        `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}${R.PIPELINE_PATH}`,
+                                        ['entities', 'artifact'],
+                                        { id: String(pipeline.id) },
+                                    ),
                                     {
                                         state: {
                                             artifactUid: pipeline.artifactUid,

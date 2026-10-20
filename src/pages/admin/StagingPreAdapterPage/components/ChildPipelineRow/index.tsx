@@ -5,6 +5,7 @@ import {
     pipelineStatusToIconMap,
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
+    useStagingUrl,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -24,6 +25,7 @@ export const ChildPipelineRow: FC<IChildPipelineRow> = ({
     preAdapterRunId,
     setSelectedPipeline,
 }) => {
+    const stagingUrl = useStagingUrl();
     const artifactUidRef = useRef<HTMLDivElement>(null);
     const artifactNameRef = useRef<HTMLDivElement>(null);
     const sourceRef = useRef<HTMLDivElement>(null);
@@ -40,9 +42,11 @@ export const ChildPipelineRow: FC<IChildPipelineRow> = ({
                 <Link
                     outer={false}
                     title={String(pipeline.id)}
-                    url={`${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}${
-                        R.PIPELINE_PATH
-                    }?id=${pipeline.id}&preAdapterRunId=${String(preAdapterRunId)}`}
+                    url={stagingUrl(
+                        `${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}${R.PIPELINE_PATH}`,
+                        ['runs', 'children'],
+                        { id: String(pipeline.id), preAdapterRunId: String(preAdapterRunId) },
+                    )}
                 />
             </TableData>
             <TableData>

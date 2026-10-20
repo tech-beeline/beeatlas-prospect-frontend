@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
     artifactStatusToIconMap,
     artifactStatusToNameMap,
     artifactStatusToSemanticMap,
+    useStagingUrl,
+    useStagingURLFilters,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -35,6 +37,7 @@ import { LimitOptions } from './const';
 import * as S from './units';
 
 export const StagingSearchArtifactPage = () => {
+    const stagingUrl = useStagingUrl();
     const navigate = useNavigate();
     const [params] = useSearchParams();
     const uid = params.get('uid');
@@ -45,13 +48,16 @@ export const StagingSearchArtifactPage = () => {
         type,
     );
 
-    const [limit, setLimit] = useState(LimitOptions.TEN);
+    const { filters, setFilters } = useStagingURLFilters('artifact');
+    const limit = filters.depth;
+    const setLimit = (depth: string) => setFilters({ depth });
     const limitOptions = Object.values(LimitOptions).map((value) => ({
         id: value,
         value: `Последние ${value} выгрузок`,
     }));
 
-    const [search, setSearch] = useState('');
+    const search = filters.search;
+    const setSearch = (search: string) => setFilters({ search });
     const searchDebounced = useDebounce(search);
 
     const { data: searchData, isLoading: isLoadingSearchData } = useGetArtifactPipelinesSearchQuery(
@@ -71,7 +77,11 @@ export const StagingSearchArtifactPage = () => {
                         name="Поиск по сущностям staging"
                         index={0}
                         id={0}
-                        onClick={() => navigate(`${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`)}
+                        onClick={() =>
+                            navigate(
+                                stagingUrl(`${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`, ['entities']),
+                            )
+                        }
                     />
                 </Breadcrumbs>
                 {isLoadingArtifact && <Skeleton height={32} radius={12} width={150} />}

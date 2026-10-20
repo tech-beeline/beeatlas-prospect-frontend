@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useStagingURLFilters } from 'features/staging';
 
 import { Text } from 'components/core';
 import { Search, Skeleton } from 'components/ui';
@@ -13,9 +14,12 @@ import { SearchCard } from './components';
 import * as S from './units';
 
 export const StagingSearchPage = () => {
-    const [search, setSearch] = useState('');
+    const { filters, setFilters } = useStagingURLFilters('entities');
+    const search = filters.search;
+    const setSearch = (search: string) => setFilters({ search });
     const searchDebounced = useDebounce(search);
-    const [selectedArtifactType, setSelectedArtifactType] = useState<string | null>(null);
+    const selectedArtifactType = filters.type;
+    const setSelectedArtifactType = (type: string | null) => setFilters({ type });
 
     const { data: searchData, isLoading: isLoadingSearchData } = useGetArtifactSearchQuery({
         name: encodeURI(searchDebounced),
