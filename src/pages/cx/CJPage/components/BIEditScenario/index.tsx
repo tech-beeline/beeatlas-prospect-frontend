@@ -127,8 +127,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({
                                     key={field.id}
                                     index={i}
                                     isLast={i === fields.length - 1}
-                                    singleCall={mode !== 'initial'}
-                                    hideTitle={mode === 'add'}
+                                    singleCall={mode === 'edit'}
                                     handleAddClick={handleAddClick}
                                     handleRemoveClick={remove}
                                 />

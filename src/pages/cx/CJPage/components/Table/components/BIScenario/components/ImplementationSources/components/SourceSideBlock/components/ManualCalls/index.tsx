@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { TooltipContainer as HoverTooltip } from 'components/interaction';
+// import { TooltipContainer as HoverTooltip } from 'components/interaction';
 import { IconButton } from 'components/ui';
 
 import { useUpdateBIStepRelations } from 'api/queries/bi';
@@ -13,9 +13,10 @@ import { CallCard } from '../CallCard';
 
 import { IManualCalls } from './types';
 import * as S from './units';
-import { canShowSequenceDiagram, getManualCallFields } from './utils';
+// import { canShowSequenceDiagram } from './utils';
+import { getManualCallFields } from './utils';
 
-export const ManualCalls: FC<IManualCalls> = ({ relations, biStepId, onOpenDiagram, onEdit }) => {
+export const ManualCalls: FC<IManualCalls> = ({ relations, biStepId, onEdit }) => {
     const [deletingId, setDeletingId] = useState<number | null>(null);
     const { mutateAsync, isPending } = useUpdateBIStepRelations();
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
@@ -60,7 +61,7 @@ export const ManualCalls: FC<IManualCalls> = ({ relations, biStepId, onOpenDiagr
                                     disabled={isPending}
                                     onClick={() => setDeletingId(relation.id)}
                                 />
-                                <IconButton
+                                {/* <IconButton
                                     aria-label="Просмотр диаграммы"
                                     data-tooltip-id={`source-sequence-diagram-${relation.id}`}
                                     variant="outlined"
@@ -76,7 +77,7 @@ export const ManualCalls: FC<IManualCalls> = ({ relations, biStepId, onOpenDiagr
                                     noArrow
                                 >
                                     Просмотр диаграммы последовательности
-                                </HoverTooltip>
+                                </HoverTooltip> */}
                                 <IconButton
                                     aria-label="Редактировать вызов"
                                     title="Редактировать вызов"

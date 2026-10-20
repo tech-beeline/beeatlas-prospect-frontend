@@ -45,8 +45,8 @@ export const buildRelationsUpdate = (
         operationId: step.operation ?? null,
     }));
     if (editor.mode === 'initial') return updated;
+    if (editor.mode === 'add') return [...relations.map(relationToDto), ...updated];
     if (updated.length !== 1) throw new Error('Ожидается один вызов');
-    if (editor.mode === 'add') return [...relations.map(relationToDto), updated[0]];
     if (!relations.some((relation) => relation.id === editor.relationId)) {
         throw new Error('Вызов больше не существует');
     }
