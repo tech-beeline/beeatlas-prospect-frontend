@@ -1,5 +1,5 @@
 export interface IRelationCard {
-    label: string;
+    type: 'CJ' | 'ST';
     title: string;
     code: string;
     url: string;

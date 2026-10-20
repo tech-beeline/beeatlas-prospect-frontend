@@ -173,14 +173,14 @@ export const ProjectUsecasePage = () => {
                         {biStepData.cj.map((cj) => (
                             <RelationCard
                                 key={cj.id}
-                                label="Связанный CJ"
+                                type="CJ"
                                 title={cj.name}
                                 code={cj.uid}
                                 url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
                             />
                         ))}
                         <RelationCard
-                            label="Связанный шаг E2E-сценария"
+                            type="ST"
                             title={biStepData.biStep.name}
                             code={biStepData.biStep.uid}
                             url={getE2EStepUrl(biStepData.biStep.uid, usecaseId)}
@@ -196,31 +196,33 @@ export const ProjectUsecasePage = () => {
                         <Search
                             fullWidth
                             value={search}
-                            placeholder="Тип или путь метода"
+                            placeholder="Поиск по типу или пути метода"
                             onChange={(event) => setSearch(event.target.value)}
                             onClear={() => setSearch('')}
                         />
                     </S.SearchField>
-                    <S.StatusField>
-                        <Select
-                            fullWidth
-                            multiple
-                            label="Статус вызова"
-                            options={STATUS_FILTER_OPTIONS}
-                            values={STATUS_FILTER_OPTIONS.filter(({ id }) =>
-                                statusFilter.includes(id),
-                            )}
-                            onChange={(values) => setStatusFilter(values.map(({ id }) => id))}
-                        />
-                    </S.StatusField>
-                    <Button
-                        disabled={!search && statusFilter.length === 0}
-                        variant="plain"
-                        size="medium"
-                        onClick={handleResetButtonClick}
-                    >
-                        Сбросить
-                    </Button>
+                    <S.FlexContainer>
+                        <S.StatusField>
+                            <Select
+                                fullWidth
+                                multiple
+                                label="Статус вызова"
+                                options={STATUS_FILTER_OPTIONS}
+                                values={STATUS_FILTER_OPTIONS.filter(({ id }) =>
+                                    statusFilter.includes(id),
+                                )}
+                                onChange={(values) => setStatusFilter(values.map(({ id }) => id))}
+                            />
+                        </S.StatusField>
+                        <Button
+                            disabled={!search && statusFilter.length === 0}
+                            variant="plain"
+                            size="medium"
+                            onClick={handleResetButtonClick}
+                        >
+                            Сбросить
+                        </Button>
+                    </S.FlexContainer>
                 </S.Filters>
                 <S.ScenarioTable>
                     <TableHead>

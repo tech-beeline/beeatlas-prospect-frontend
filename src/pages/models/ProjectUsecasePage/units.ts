@@ -110,14 +110,18 @@ export const NotFoundPage = styled.div`
 `;
 
 export const Filters = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+`;
+
+export const FlexContainer = styled.div`
     display: flex;
-    flex-wrap: wrap;
     gap: 24px;
 `;
 
 export const SearchField = styled.div`
-    flex: 1 1 320px;
-    max-width: 560px;
+    flex: 1;
 `;
 
 export const StatusField = styled.div`
