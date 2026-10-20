@@ -31,15 +31,11 @@ const optionalOwnerSchema = object({
 }).default(defaultBusinessOwner);
 
 export const getValidationSchema = () => {
-    const isDemoStand = window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND;
-
     return object().shape({
         name: string().required('Заполните название'),
         tags: array().of(string().defined()).ensure().default([]),
         userPortrait: string().nullable().notRequired(),
-        businessOwner: isDemoStand
-            ? optionalOwnerSchema
-            : ownerSchema.required('Укажите владельца сценария'),
+        businessOwner: ownerSchema.required('Укажите владельца сценария'),
         product: number().defined().nullable(),
         techOwner: array().of(optionalOwnerSchema).ensure().default([]),
     });
