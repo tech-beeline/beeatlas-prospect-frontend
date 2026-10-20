@@ -71,6 +71,7 @@ export interface IPipelineRunDetails {
     executionStartedAt: string | null;
     completedAt: string | null;
     batch: number | null;
+    scanRunId: number | null;
     stages: IPipelineStage[];
     rawDataRefId: number | null;
 }

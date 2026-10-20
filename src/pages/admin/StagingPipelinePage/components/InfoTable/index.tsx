@@ -42,7 +42,7 @@ export const InfoTable: FC<IInfoTable> = ({ pipelineDetails }) => {
                         <TableData>{pipelineDetails.artifactUid}</TableData>
                         <TableData>{pipelineDetails.artifactName}</TableData>
                         <TableData>{pipelineDetails.artifactType}</TableData>
-                        <TableData>{formatNullableString(null)}</TableData>
+                        <TableData>{formatNullableString(pipelineDetails.scanRunId)}</TableData>
                         <TableData>{formatNullableString(pipelineDetails.batch)}</TableData>
                         <TableData>{formatNullableString(pipelineDetails.sourceName)}</TableData>
                         <TableData>
