@@ -183,7 +183,7 @@ export const MapicTable: FC<IMapicTable> = ({ interfaceOption, discoveredSources
                 size="small"
                 options={[
                     {
-                        id: InterfaceOptions.STRUCTURIZR,
+                        id: InterfaceOptions.STRUCTURIZR_ARCHITECTURE,
                         label: 'Structurizr',
                     },
                     ...discoveredSources.map((source) => ({

@@ -87,7 +87,7 @@ export const useGetProductStructurizrContainerByCmdbQuery = (cmdb?: string | nul
 
 export const useGetProductStructurizrInterfacesByCmdbQuery = (cmdb?: string | null) => {
     return useQuery({
-        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'structurizr'],
+        queryKey: [PRODUCT_PREFIX, 'cmdb', cmdb, 'structurizr-architecture'],
         queryFn: () => getProductStructurizrInterfacesByCmdb(cmdb!).then((res) => res.data),
         enabled: !!cmdb,
     });

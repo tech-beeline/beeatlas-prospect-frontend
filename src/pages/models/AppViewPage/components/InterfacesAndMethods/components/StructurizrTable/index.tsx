@@ -284,7 +284,7 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                 size="small"
                 options={[
                     {
-                        id: InterfaceOptions.STRUCTURIZR,
+                        id: InterfaceOptions.STRUCTURIZR_ARCHITECTURE,
                         label: 'Structurizr',
                     },
                     ...discoveredSources.map((source) => ({

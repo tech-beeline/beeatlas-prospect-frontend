@@ -1,5 +1,5 @@
 export enum InterfaceOptions {
-    STRUCTURIZR = 'structurizr',
+    STRUCTURIZR_ARCHITECTURE = 'structurizr_architecture',
 }
 
 export enum FilterOptions {
