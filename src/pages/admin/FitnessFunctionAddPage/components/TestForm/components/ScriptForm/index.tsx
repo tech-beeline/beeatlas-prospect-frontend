@@ -44,8 +44,7 @@ export const ScriptForm: FC<IScriptForm> = ({ setStepVariant, savedData, paramId
         isPending: isRunningFitnessFunctionMutation,
         error: runFitnessFunctionError,
     } = useRunFitnessFunctionMutation();
-    const runErrorMessage = (runFitnessFunctionError as AxiosError<{ errorMessage?: string }>)
-        ?.response?.data?.errorMessage;
+    const runErrorMessage = runFitnessFunctionError?.message;
 
     const { mutateAsync: postFitnessFunctionStatus, isPending: isStatusChanging } =
         usePostFitnessFunctionStatusMutation();

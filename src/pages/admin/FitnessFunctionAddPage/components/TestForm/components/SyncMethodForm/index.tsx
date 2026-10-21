@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
 import { FitnessFunctionRunResultsTable, FitnessFunctionStatus } from 'features/fitness-functions';
 
 import { Text } from 'components/core';
@@ -35,8 +34,7 @@ export const SyncMethodForm: FC<ISyncMethodForm> = ({ setStepVariant, savedData 
         isPending: isRunningFitnessFunctionMutation,
         error: runFitnessFunctionError,
     } = useRunFitnessFunctionMutation();
-    const errorMessage = (runFitnessFunctionError as AxiosError<{ errorMessage?: string }>)
-        ?.response?.data?.errorMessage;
+    const runErrorMessage = runFitnessFunctionError?.message;
 
     const { mutateAsync: postFitnessFunctionStatus, isPending: isStatusChanging } =
         usePostFitnessFunctionStatusMutation();
@@ -114,8 +112,8 @@ export const SyncMethodForm: FC<ISyncMethodForm> = ({ setStepVariant, savedData 
                                 </S.OptionText>
                             </S.OptionContent>
                         )}
-                        error={!!errorMessage}
-                        helperText={errorMessage}
+                        error={!!runErrorMessage}
+                        helperText={runErrorMessage}
                     />
                 </S.GrowContainer>
                 <S.ProgressButtonStyled

@@ -58,3 +58,8 @@ export interface IProductFitnessFunctionsCompleteData {
     product_code: string;
     results: IProductFitnessFunctions[];
 }
+
+export interface IRunFitnessFunctionError {
+    errorMessage?: string;
+    detail?: string;
+}

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 
 import { getProcessById, getProcessesByCmdb } from 'api/camunda';
 import {
@@ -9,7 +10,7 @@ import {
     putFitnessFunction,
     runFitnessFunction,
 } from 'api/fitness-functions';
-import { IFitnessFunctionForm } from 'api/fitness-functions/types';
+import { IFitnessFunctionForm, IRunFitnessFunctionError } from 'api/fitness-functions/types';
 
 const FITNESS_FUNCTIONS_PREFIX = 'FITNESS_FUNCTIONS_PREFIX';
 
@@ -43,29 +44,43 @@ interface IRunFitnessFunctionMutationParams {
 export const useRunFitnessFunctionMutation = () => {
     return useMutation({
         mutationFn: async (data: IRunFitnessFunctionMutationParams) => {
-            let docId: string | undefined;
+            try {
+                let docId: string | undefined;
 
-            if (data.useStructurizr) {
-                const processes = await getProcessesByCmdb(data.cmdb).then((res) => res.data);
+                if (data.useStructurizr) {
+                    const processes = await getProcessesByCmdb(data.cmdb).then((res) => res.data);
 
-                if (processes.length > 0) {
-                    const latestProcess = processes.reduce((latest, process) =>
-                        new Date(process.status.createdDate).getTime() >
-                        new Date(latest.status.createdDate).getTime()
-                            ? process
-                            : latest,
-                    );
-                    const processData = await getProcessById(latestProcess.id).then(
-                        (res) => res.data,
-                    );
-                    docId = processData.context.find((c) => c.name === 'docId')?.value;
+                    if (processes.length > 0) {
+                        const latestProcess = processes.reduce((latest, process) =>
+                            new Date(process.status.createdDate).getTime() >
+                            new Date(latest.status.createdDate).getTime()
+                                ? process
+                                : latest,
+                        );
+                        const processData = await getProcessById(latestProcess.id).then(
+                            (res) => res.data,
+                        );
+                        docId = processData.context.find((c) => c.name === 'docId')?.value;
+                    }
                 }
-            }
 
-            const result = await runFitnessFunction(data.code, data.cmdb, docId).then(
-                (res) => res.data,
-            );
-            return result;
+                const result = await runFitnessFunction(data.code, data.cmdb, docId).then(
+                    (res) => res.data,
+                );
+                return result;
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    const errorData = (error as AxiosError<IRunFitnessFunctionError>).response
+                        ?.data;
+                    const message = errorData?.errorMessage ?? errorData?.detail;
+
+                    if (message) {
+                        throw new Error(message);
+                    }
+                }
+
+                throw error;
+            }
         },
     });
 };
