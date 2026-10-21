@@ -19,6 +19,7 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
     onClose,
     cmdb,
     setTempDisabled,
+    onProcessStarted,
 }) => {
     const [error, setError] = useState<IArchitectureError | null>(null);
     const showSnackbar = useSnackbarStore((store) => store.showSnackbar);
@@ -49,7 +50,12 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
         if (fileList[0] && fileList[0].name.split('.')[1] === 'json') {
             try {
                 setTempDisabled(true);
-                await createJSONProcess({ file: fileList[0], cmdb });
+                const businessKey = await createJSONProcess({ file: fileList[0], cmdb });
+                if (!businessKey) {
+                    setTempDisabled(false);
+                    return;
+                }
+                onProcessStarted?.(businessKey);
                 showSnackbar({ message: 'Идет процесс обновления данных' });
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
                 onClose();
@@ -69,7 +75,8 @@ export const UpdateArchitectureSideblock: FC<IUpdateArchitectureSideblock> = ({
             try {
                 setTempDisabled(true);
                 const fileEncoded = await toBase64(fileList[0]);
-                await createDSLProcess({ workspace: fileEncoded, cmdb });
+                const businessKey = await createDSLProcess({ workspace: fileEncoded, cmdb });
+                onProcessStarted?.(businessKey);
                 showSnackbar({ message: 'Идет процесс обновления данных' });
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
                 onClose();

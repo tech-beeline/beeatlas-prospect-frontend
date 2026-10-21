@@ -3,6 +3,7 @@ export interface IUpdateArchitectureSideblock {
     onClose: () => void;
     cmdb: string;
     setTempDisabled: (flag: boolean) => void;
+    onProcessStarted?: (businessKey: string) => void;
 }
 
 export enum ArchitectureErrorTypes {
