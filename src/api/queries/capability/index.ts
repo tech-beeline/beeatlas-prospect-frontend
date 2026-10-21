@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 
 import {
     deleteBusinessCapabilityByCode,
@@ -84,28 +85,51 @@ export const useGetCapabilityDescriptionQuery = (name: string) => {
     return useQuery({
         queryKey: [CAPABILITY_PREFIX, 'promt', name],
         queryFn: async () => {
-            const res = await getPromtByAlias('bc_description_generate').then((res) => res.data);
-            const resGeneration = await postDescriptionByPromt({
-                messages: [
-                    {
-                        role: 'user',
-                        content: res.promt.replace('<!!!>', name),
-                    },
-                ],
-                model: res.model,
-                stream: false,
-            }).then((res) => res.data);
+            try {
+                const res = await getPromtByAlias('bc_description_generate').then(
+                    (res) => res.data,
+                );
+                const resGeneration = await postDescriptionByPromt({
+                    messages: [
+                        {
+                            role: 'user',
+                            content: res.promt.replace('<!!!>', name),
+                        },
+                    ],
+                    model: res.model,
+                    stream: false,
+                }).then((res) => res.data);
 
-            const descriptionParsed = JSON.parse(
-                resGeneration?.choices[0]?.message?.content
-                    ?.replace('```json', '')
-                    .replace('```', ''),
-            )?.descr;
+                const descriptionParsed = JSON.parse(
+                    resGeneration?.choices[0]?.message?.content
+                        ?.replace('```json', '')
+                        .replace('```', ''),
+                )?.descr;
 
-            if (descriptionParsed) {
-                return descriptionParsed;
-            } else {
-                throw new Error();
+                if (descriptionParsed) {
+                    return descriptionParsed;
+                } else {
+                    throw new Error('Ошибка генерации определения');
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        throw new Error(
+                            'Генерация описания временно недоступна из-за перегруженности корпоративной ИИ платформы',
+                        );
+                    }
+
+                    const data = error.response?.data as
+                        | { error?: { message?: unknown } }
+                        | undefined;
+                    const message = data?.error?.message;
+
+                    if (typeof message === 'string' && message) {
+                        throw new Error(message);
+                    }
+                }
+
+                throw new Error('Ошибка генерации определения');
             }
         },
         enabled: false,
