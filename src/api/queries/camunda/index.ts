@@ -61,14 +61,16 @@ export function useCreateProcessJSONMutation() {
             const { docId } = await uploadWorkspaceJSONFile(params.file).then((res) => res.data);
             const { valid } = await getWorkspaceValidationByDocId(docId).then((res) => res.data);
             if (valid) {
+                const businessKey = `${params.cmdb}_${docId}_${Date.now()}`;
                 await startProcess({
-                    businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
+                    businessKey,
                     isSync: true,
                     variables: {
                         cmdb: { value: params.cmdb, type: 'String' },
                         docId: { value: String(docId), type: 'Integer' },
                     },
                 });
+                return businessKey;
             }
         },
         onSuccess: () => {
@@ -89,8 +91,9 @@ export function useCreateProcessDSLMutation() {
             const { doc_id } = await uploadWorkspaceDSLFile({ workspace: params.workspace }).then(
                 (res) => res.data,
             );
+            const businessKey = `${params.cmdb}_${doc_id}_${Date.now()}`;
             await startProcess({
-                businessKey: `${params.cmdb}_${doc_id}_${Date.now()}`,
+                businessKey,
                 isSync: true,
                 variables: {
                     cmdb: { value: params.cmdb, type: 'String' },
@@ -98,6 +101,7 @@ export function useCreateProcessDSLMutation() {
                 },
             });
             setTimeout(() => queryClient.invalidateQueries({ queryKey: [CAMUNDA_PREFIX] }), 1000);
+            return businessKey;
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CAMUNDA_PREFIX] });
@@ -119,16 +123,20 @@ export function useRestartProcessMutation() {
                 data.context.find((c) => c.name === 'docId')?.value ??
                 data.context.find((c) => c.name === 'doc_id')?.value;
 
-            if (docId) {
-                await startProcess({
-                    businessKey: `${params.cmdb}_${docId}_${Date.now()}`,
-                    isSync: true,
-                    variables: {
-                        cmdb: { value: params.cmdb, type: 'String' },
-                        docId: { value: String(docId), type: 'Integer' },
-                    },
-                });
+            if (!docId) {
+                throw new Error('Не найден документ для обновления данных');
             }
+
+            const businessKey = `${params.cmdb}_${docId}_${Date.now()}`;
+            await startProcess({
+                businessKey,
+                isSync: true,
+                variables: {
+                    cmdb: { value: params.cmdb, type: 'String' },
+                    docId: { value: String(docId), type: 'Integer' },
+                },
+            });
+            return businessKey;
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [CAMUNDA_PREFIX] });
