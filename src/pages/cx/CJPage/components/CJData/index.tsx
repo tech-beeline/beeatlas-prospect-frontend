@@ -32,10 +32,10 @@ export const CJData: FC<ICJData> = ({ onClose, cj, isOpen }) => {
 
                     <S.TextFieldContainer>
                         <div>
-                            <Text variant="body3" inactive>
-                                Название
-                            </Text>
                             <Text variant="body2">{cj.name}</Text>
+                            <Text variant="body3" inactive>
+                                {cj.uniqueIdent}
+                            </Text>
                         </div>
                         <div>
                             <Text variant="body3" inactive>
