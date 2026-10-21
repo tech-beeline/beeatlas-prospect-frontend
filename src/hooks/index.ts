@@ -111,6 +111,7 @@ export const useShowTooltip = <T extends HTMLElement>(
         const element = elementRef.current;
 
         if (!element || !enabled) {
+            setShowTooltip(false);
             return;
         }
 
@@ -127,7 +128,7 @@ export const useShowTooltip = <T extends HTMLElement>(
         observer.observe(element);
 
         return () => observer.disconnect();
-    }, [elementRef, enabled]);
+    });
 
     return showTooltip;
 };

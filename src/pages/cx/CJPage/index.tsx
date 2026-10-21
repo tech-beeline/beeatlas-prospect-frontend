@@ -167,6 +167,7 @@ export const CJPage = () => {
 
     const descriptionRef = useRef<HTMLDivElement>(null);
     const showDescriptionTooltip = useShowTooltip<HTMLDivElement>(descriptionRef);
+    const description = data?.userPortrait || 'Портрет пользователя: не заполнен';
 
     const handleOpenBPMN = () => {
         if (!data) return;
@@ -217,7 +218,7 @@ export const CJPage = () => {
                                     </TooltipContainer>
                                 )}
                                 <S.Desription data-tooltip-id="description" ref={descriptionRef}>
-                                    {data?.userPortrait}
+                                    {description}
                                 </S.Desription>
                                 {showDescriptionTooltip && (
                                     <TooltipContainer
@@ -227,7 +228,7 @@ export const CJPage = () => {
                                         place="bottom"
                                         noArrow
                                     >
-                                        {data?.userPortrait}
+                                        {description}
                                     </TooltipContainer>
                                 )}
                             </div>
