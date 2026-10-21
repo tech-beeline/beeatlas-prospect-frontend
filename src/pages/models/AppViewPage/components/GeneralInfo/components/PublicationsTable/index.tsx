@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { TableBody, TableHead, TableRow } from 'components/ui';
 
-import { PublicationsTableRow } from './components/PublicationsTableRow';
+import { PublicationsTableRow } from './components';
 import { IPublicationsTable } from './types';
 import * as S from './units';
 
