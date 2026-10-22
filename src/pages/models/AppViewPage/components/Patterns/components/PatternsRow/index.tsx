@@ -6,6 +6,7 @@ import { Link } from 'components/other';
 import { Label, TableData, TableRow } from 'components/ui';
 
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 
 import * as S from '../../units';
 
@@ -55,6 +56,18 @@ export const PatternsRow: FC<IPatternsRow> = ({ pattern }) => {
                     )}
                 />
             </S.TechnologiesColumnData>
+            <TableData>
+                {pattern.isCheck === null ? (
+                    formatNullableString(null)
+                ) : (
+                    <Label
+                        title={pattern.isCheck ? 'Успешно' : 'Ошибка'}
+                        variant="contained"
+                        type={pattern.isCheck ? 'success' : 'error'}
+                    />
+                )}
+            </TableData>
+            <TableData>{formatNullableString(pattern.resultDetails)}</TableData>
         </TableRow>
     );
 };

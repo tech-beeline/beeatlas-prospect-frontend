@@ -29,7 +29,9 @@ export const RequirementRow: FC<IRequirementRow> = ({
     const showDescriptionTooltip = useShowTooltip(descriptionRef);
 
     const isImplemented = nfr.patterns.some((pattern) =>
-        productPatterns.some((p) => p.id === pattern.id),
+        productPatterns.some(
+            (p) => p.isCheck === true && (p.code === pattern.code || p.id === pattern.id),
+        ),
     );
 
     return (

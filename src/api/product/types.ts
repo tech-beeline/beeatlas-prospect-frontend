@@ -320,6 +320,8 @@ export interface IFitnessFunctionsAggregationResult {
 }
 
 export interface IProductPattern {
+    isCheck: boolean | null;
+    resultDetails: string | null;
     code: string;
     createDate: string;
     deleteDate: string | null;

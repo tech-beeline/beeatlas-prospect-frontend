@@ -10,6 +10,7 @@ import {
     Skeleton,
     TableBody,
     TableHead,
+    TableHeaderData,
     TableRow,
 } from 'components/ui';
 
@@ -157,6 +158,8 @@ export const Patterns: FC<IPatterns> = ({ cmdb }) => {
                             <S.TableHeaderDataMaxWidth>Паттерн</S.TableHeaderDataMaxWidth>
                             <S.TypeColumnHeader>Тип</S.TypeColumnHeader>
                             <S.TechnologiesColumnHeader>Технологии</S.TechnologiesColumnHeader>
+                            <TableHeaderData>Результаты проверки</TableHeaderData>
+                            <TableHeaderData>Детали проверки</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
