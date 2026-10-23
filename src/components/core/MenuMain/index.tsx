@@ -40,15 +40,11 @@ const getMenuGroups = () => [
                 name: 'Карта\xa0возможностей',
                 path: `${R.MODELS_PATH}${R.MAP_PATH}`,
             },
-            ...(window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
-                ? []
-                : [
-                      {
-                          icon: Icons.List,
-                          name: 'Каталог\nE2E-сценариев',
-                          path: `${R.MODELS_PATH}${R.E2E_PATH}`,
-                      },
-                  ]),
+            {
+                icon: Icons.List,
+                name: 'Каталог\nE2E-сценариев',
+                path: `${R.MODELS_PATH}${R.E2E_PATH}`,
+            },
         ],
     },
     {

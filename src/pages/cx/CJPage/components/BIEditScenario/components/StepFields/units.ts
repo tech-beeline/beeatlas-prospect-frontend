@@ -45,7 +45,7 @@ export const LinkContainer = styled.div`
     flex-direction: column;
     gap: 24px;
 
-    padding-top: 32px;
+    padding-top: 24px;
 `;
 
 export const LinkBlock = styled.div`

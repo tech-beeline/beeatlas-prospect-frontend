@@ -8,10 +8,9 @@ import { BreadCrumbsItem } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import {
     Badge,
-    BadgeSemantic,
     Breadcrumbs,
     Button,
-    Icon,
+    IconButton,
     Search,
     Select,
     Skeleton,
@@ -28,67 +27,16 @@ import {
     useGetProjectUsecaseOperationsQuery,
     useGetProjectUsecaseQuery,
 } from 'api/queries/usecase';
-import {
-    IProjectUsecaseOperationApplication,
-    ProjectUsecaseOperationStatus,
-    ProjectUsecaseParticipantStatus,
-} from 'api/usecase/types';
+import { ProjectUsecaseOperationStatus } from 'api/usecase/types';
 import * as R from 'router/const';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatDateToUTC, formatNullableString } from 'utils/formatters';
 
+import { ExportButton } from './components/ExportButton';
 import { RelationCard, TechCapabilityCell } from './components';
+import { OPERATION_STATUS_DATA, PARTICIPANT_STATUS_DATA, STATUS_FILTER_OPTIONS } from './const';
 import * as S from './units';
-import { filterOperations, getE2EStepUrl } from './utils';
-
-const OPERATION_STATUS_DATA: Record<
-    ProjectUsecaseOperationStatus,
-    { label: string; semantic: BadgeSemantic }
-> = {
-    [ProjectUsecaseOperationStatus.CONFIRMED]: {
-        label: 'Подтвержден',
-        semantic: 'success',
-    },
-    [ProjectUsecaseOperationStatus.NOT_MAPPED]: {
-        label: 'Не смапирован',
-        semantic: 'danger',
-    },
-    [ProjectUsecaseOperationStatus.REVIEW]: {
-        label: 'Ревью',
-        semantic: 'warning',
-    },
-    [ProjectUsecaseOperationStatus.PLANNED]: {
-        label: 'Планируется',
-        semantic: 'neutral',
-    },
-};
-
-const STATUS_FILTER_OPTIONS = Object.values(ProjectUsecaseOperationStatus).map((status) => ({
-    id: status,
-    value: OPERATION_STATUS_DATA[status].label,
-}));
-
-const PARTICIPANT_STATUS_DATA: Record<
-    ProjectUsecaseParticipantStatus,
-    { label: string; semantic: BadgeSemantic }
-> = {
-    [ProjectUsecaseParticipantStatus.CONFIRMED]: {
-        label: 'Подтвержден',
-        semantic: 'success',
-    },
-    [ProjectUsecaseParticipantStatus.NOT_CONFIRMED]: {
-        label: 'Не подтвержден',
-        semantic: 'danger',
-    },
-};
-
-const renderApplication = (application: IProjectUsecaseOperationApplication | null) => {
-    if (!application) return formatNullableString(null);
-
-    const mnemonic = formatNullableString(application.mnemonic);
-
-    return application.isPlanned ? `${mnemonic} (Планируется)` : mnemonic;
-};
+import { filterOperations, getE2EStepUrl, renderApplication } from './utils';
 
 export const ProjectUsecasePage = () => {
     const [params] = useSearchParams();
@@ -110,6 +58,10 @@ export const ProjectUsecasePage = () => {
         () => filterOperations(operationsData?.operations ?? [], statusFilter, search),
         [operationsData, statusFilter, search],
     );
+    const handleResetButtonClick = () => {
+        setSearch('');
+        setStatusFilter([]);
+    };
 
     const navigateToProjects = () => navigate(`${R.MODELS_PATH}${R.PROJECTS_PATH}`);
     const navigateToProject = () => {
@@ -168,18 +120,35 @@ export const ProjectUsecasePage = () => {
                         </div>
                     </S.TitleGroup>
                     <S.Actions>
-                        <Button
+                        <ExportButton
+                            usecase={usecase}
+                            data={operationsData}
+                            relations={biStepData}
+                        />
+                        <IconButton
+                            aria-label="История импорта"
+                            title="История импорта"
                             size="medium"
-                            startIcon={<Icon iconName={Icons.Clock} />}
+                            iconName={Icons.Clock}
                             variant="outlined"
                             onClick={() =>
                                 navigate(
                                     `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.HISTORY_PATH}?id=${usecase.id}`,
                                 )
                             }
-                        >
-                            История импорта
-                        </Button>
+                        />
+                        <IconButton
+                            aria-label="Редактировать"
+                            title="Редактировать"
+                            size="medium"
+                            iconName={Icons.Edit}
+                            variant="outlined"
+                            onClick={() =>
+                                navigate(
+                                    `${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.ADD_PATH}?id=${usecase.projectId}&usecaseId=${usecase.id}`,
+                                )
+                            }
+                        />
                     </S.Actions>
                 </S.HeaderRow>
 
@@ -204,14 +173,14 @@ export const ProjectUsecasePage = () => {
                         {biStepData.cj.map((cj) => (
                             <RelationCard
                                 key={cj.id}
-                                label="Связанный CJ"
+                                type="CJ"
                                 title={cj.name}
                                 code={cj.uid}
                                 url={`${R.CX_PATH}${R.CJ_PATH}${R.VIEW_PATH}?id=${cj.id}`}
                             />
                         ))}
                         <RelationCard
-                            label="Связанный шаг E2E-сценария"
+                            type="ST"
                             title={biStepData.biStep.name}
                             code={biStepData.biStep.uid}
                             url={getE2EStepUrl(biStepData.biStep.uid, usecaseId)}
@@ -227,23 +196,33 @@ export const ProjectUsecasePage = () => {
                         <Search
                             fullWidth
                             value={search}
-                            placeholder="Тип или путь метода"
+                            placeholder="Поиск по типу или пути метода"
                             onChange={(event) => setSearch(event.target.value)}
                             onClear={() => setSearch('')}
                         />
                     </S.SearchField>
-                    <S.StatusField>
-                        <Select
-                            fullWidth
-                            multiple
-                            label="Статус вызова"
-                            options={STATUS_FILTER_OPTIONS}
-                            values={STATUS_FILTER_OPTIONS.filter(({ id }) =>
-                                statusFilter.includes(id),
-                            )}
-                            onChange={(values) => setStatusFilter(values.map(({ id }) => id))}
-                        />
-                    </S.StatusField>
+                    <S.FlexContainer>
+                        <S.StatusField>
+                            <Select
+                                fullWidth
+                                multiple
+                                label="Статус вызова"
+                                options={STATUS_FILTER_OPTIONS}
+                                values={STATUS_FILTER_OPTIONS.filter(({ id }) =>
+                                    statusFilter.includes(id),
+                                )}
+                                onChange={(values) => setStatusFilter(values.map(({ id }) => id))}
+                            />
+                        </S.StatusField>
+                        <Button
+                            disabled={!search && statusFilter.length === 0}
+                            variant="plain"
+                            size="medium"
+                            onClick={handleResetButtonClick}
+                        >
+                            Сбросить
+                        </Button>
+                    </S.FlexContainer>
                 </S.Filters>
                 <S.ScenarioTable>
                     <TableHead>
@@ -254,13 +233,13 @@ export const ProjectUsecasePage = () => {
                             <TableHeaderData>Действие</TableHeaderData>
                             <TableHeaderData>Вызов</TableHeaderData>
                             <TableHeaderData>TC</TableHeaderData>
-                            <TableHeaderData>C4 Dynamic</TableHeaderData>
+                            <TableHeaderData>Dynamics C4</TableHeaderData>
                             <TableHeaderData>Статус вызова</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {operations.length === 0 && (
-                            <TableRow dense>
+                            <TableRow dense minHeight={52}>
                                 <TableData colSpan={8}>
                                     <Text inactive variant="body3">
                                         {operationsData?.operations.length
@@ -274,7 +253,7 @@ export const ProjectUsecasePage = () => {
                             const status = OPERATION_STATUS_DATA[operation.status];
 
                             return (
-                                <TableRow dense key={`${operation.id}-${index}`}>
+                                <TableRow dense minHeight={52} key={`${operation.id}-${index}`}>
                                     <TableData>{operation.order}</TableData>
                                     <TableData>{renderApplication(operation.caller)}</TableData>
                                     <TableData>{renderApplication(operation.callee)}</TableData>
@@ -285,7 +264,7 @@ export const ProjectUsecasePage = () => {
                                             techCapability={operation.techCapability}
                                         />
                                     </TableData>
-                                    <TableData>Не найдены</TableData>
+                                    <TableData>{formatNullableString(null)}</TableData>
                                     <TableData>
                                         <Badge semantic={status.semantic}>{status.label}</Badge>
                                     </TableData>
@@ -311,7 +290,11 @@ export const ProjectUsecasePage = () => {
                             const status = PARTICIPANT_STATUS_DATA[participant.status];
 
                             return (
-                                <TableRow dense key={`${participant.mnemonic}-${index}`}>
+                                <TableRow
+                                    dense
+                                    minHeight={52}
+                                    key={`${participant.mnemonic}-${index}`}
+                                >
                                     <TableData>
                                         {formatNullableString(participant.mnemonic)}
                                     </TableData>

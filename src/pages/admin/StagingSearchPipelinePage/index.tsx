@@ -8,6 +8,8 @@ import {
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
     RawDataSideblock,
+    useStagingUrl,
+    useStagingURLFilters,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -38,14 +40,17 @@ import { formatNullableString } from 'utils/formatters';
 import * as S from './units';
 
 export const StagingSearchPipelinePage = () => {
+    const stagingUrl = useStagingUrl();
     const [params] = useSearchParams();
     const pipelineId = params.get('id');
     const navigate = useNavigate();
 
-    const [search, setSearch] = useState('');
+    const { filters, setFilters } = useStagingURLFilters('annotations');
+    const search = filters.search;
+    const setSearch = (search: string) => setFilters({ search });
     const searchDebounced = useDebounce(search);
-    const [page, setPage] = useState(1);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const page = filters.page;
+    const rowsPerPage = filters.pageSize;
 
     const [selectedRawDataRefId, setSelectedRawDataRefId] = useState<number | null>(null);
     const { data: rawData } = useGetRawDataQuery(selectedRawDataRefId);
@@ -61,7 +66,6 @@ export const StagingSearchPipelinePage = () => {
 
     const resetFilters = () => {
         setSearch('');
-        setPage(1);
     };
 
     const hasActiveFilters = Boolean(search);
@@ -75,7 +79,13 @@ export const StagingSearchPipelinePage = () => {
                             name="Поиск по сущностям staging"
                             index={0}
                             id={0}
-                            onClick={() => navigate(`${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`)}
+                            onClick={() =>
+                                navigate(
+                                    stagingUrl(`${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}`, [
+                                        'entities',
+                                    ]),
+                                )
+                            }
                         />
                         <BreadCrumbsItem
                             name={pipelineDetails.artifactName}
@@ -83,7 +93,14 @@ export const StagingSearchPipelinePage = () => {
                             id={1}
                             onClick={() =>
                                 navigate(
-                                    `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}?uid=${pipelineDetails.artifactUid}&type=${pipelineDetails.artifactType}`,
+                                    stagingUrl(
+                                        `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}`,
+                                        ['entities', 'artifact'],
+                                        {
+                                            uid: pipelineDetails.artifactUid,
+                                            type: pipelineDetails.artifactType,
+                                        },
+                                    ),
                                 )
                             }
                         />
@@ -120,11 +137,9 @@ export const StagingSearchPipelinePage = () => {
                             value={search}
                             onChange={(event) => {
                                 setSearch(event.target.value);
-                                setPage(1);
                             }}
                             onClear={() => {
                                 setSearch('');
-                                setPage(1);
                             }}
                         />
                         <Button
@@ -185,8 +200,10 @@ export const StagingSearchPipelinePage = () => {
                                     <TableData colSpan={4} alignRight>
                                         <TablePagination
                                             onUserActions={(event) => {
-                                                setPage(event.page);
-                                                setRowsPerPage(event.rowsPerPage);
+                                                setFilters({
+                                                    page: event.page,
+                                                    pageSize: event.rowsPerPage,
+                                                });
                                             }}
                                             page={page}
                                             rowsCount={annotations.totalCount}

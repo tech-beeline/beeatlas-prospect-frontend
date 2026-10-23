@@ -1,11 +1,13 @@
 import { BI_STEP_TAB_ID_PARAM, BI_STEP_TAB_PARAM, BiStepTab } from 'features/e2e';
 
 import {
+    IProjectUsecaseOperationApplication,
     IProjectUsecaseOperationTableItem,
     ProjectUsecaseOperationStatus,
 } from 'api/usecase/types';
 import { E2ETreeItemType } from 'pages/models/E2EPage/types';
 import * as R from 'router/const';
+import { formatNullableString } from 'utils/formatters';
 
 export const getE2EStepUrl = (biStepCode: string, usecaseId: string | null) =>
     `${R.MODELS_PATH}${R.E2E_PATH}?${new URLSearchParams({
@@ -27,4 +29,12 @@ export const filterOperations = (
             (statuses.length === 0 || statuses.includes(status)) &&
             (!normalizedSearch || (call ?? '').toLocaleLowerCase('ru').includes(normalizedSearch)),
     );
+};
+
+export const renderApplication = (application: IProjectUsecaseOperationApplication | null) => {
+    if (!application) return formatNullableString(null);
+
+    const mnemonic = formatNullableString(application.mnemonic);
+
+    return application.isPlanned ? `${mnemonic} (Планируется)` : mnemonic;
 };

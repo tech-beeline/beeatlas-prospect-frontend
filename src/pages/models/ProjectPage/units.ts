@@ -117,6 +117,9 @@ export const NotFoundPage = styled.div`
 `;
 
 export const MarkdownFileContainer = styled.div`
+    max-width: 800px;
+    overflow-wrap: anywhere;
+
     font-size: var(--font-size-body2);
     font-weight: var(--font-weight-body2);
     line-height: var(--font-line-height-body2);

@@ -189,7 +189,13 @@ export const SectionTitle = styled.div`
 `;
 
 export const TableStyled = styled(Table)`
-    width: 100%;
+    width: calc(100% - 2px);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+
+    .dsb_table-header-cell_flex {
+        overflow-wrap: break-word;
+    }
 `;
 
 export const UnmappedCard = styled.article`

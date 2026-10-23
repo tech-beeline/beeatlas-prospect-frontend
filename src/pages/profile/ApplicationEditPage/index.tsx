@@ -137,7 +137,7 @@ export const ApplicationEditPage: FC<IApplicationEditPage> = ({ review }) => {
 
     useEffect(() => {
         if (generationError) {
-            setError('description', { message: 'Ошибка генерации определения' });
+            setError('description', { message: generationError.message });
         }
     }, [generationError]);
 

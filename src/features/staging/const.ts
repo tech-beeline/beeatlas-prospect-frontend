@@ -21,6 +21,8 @@ export const pipelineStatusToNameMap: Record<PipelineStatuses, string> = {
     [PipelineStatuses.AWAITING_REVIEW]: 'Ожидает проверки',
     [PipelineStatuses.COMPLETED]: 'Завершён',
     [PipelineStatuses.FAILED]: 'Ошибка',
+    [PipelineStatuses.CANCELLED]: 'Отменён',
+    [PipelineStatuses.APPLYING]: 'Применяется',
 };
 
 export const pipelineStatusToSemanticMap: Record<PipelineStatuses, BadgeSemantic> = {
@@ -33,6 +35,8 @@ export const pipelineStatusToSemanticMap: Record<PipelineStatuses, BadgeSemantic
     [PipelineStatuses.AWAITING_REVIEW]: 'warning',
     [PipelineStatuses.COMPLETED]: 'success',
     [PipelineStatuses.FAILED]: 'danger',
+    [PipelineStatuses.CANCELLED]: 'danger',
+    [PipelineStatuses.APPLYING]: 'neutral',
 };
 
 export const pipelineStatusToIconMap: Record<PipelineStatuses, Icons> = {
@@ -45,6 +49,8 @@ export const pipelineStatusToIconMap: Record<PipelineStatuses, Icons> = {
     [PipelineStatuses.AWAITING_REVIEW]: Icons.Clock,
     [PipelineStatuses.COMPLETED]: Icons.Check,
     [PipelineStatuses.FAILED]: Icons.WarningCircled,
+    [PipelineStatuses.CANCELLED]: Icons.WarningCircled,
+    [PipelineStatuses.APPLYING]: Icons.Clock,
 };
 
 export enum PipelineStepStatus {

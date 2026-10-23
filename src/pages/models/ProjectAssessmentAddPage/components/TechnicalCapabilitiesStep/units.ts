@@ -124,12 +124,6 @@ export const SystemFilters = styled.div`
     gap: 8px;
 `;
 
-export const SystemChips = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-`;
-
 export const Systems = styled.div`
     display: flex;
     flex-wrap: wrap;

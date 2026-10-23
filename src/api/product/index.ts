@@ -161,7 +161,7 @@ export const getProductAliasAvailability = (
 
 export const getProductPatterns = (alias: string): AxiosPromise<T.IProductPattern[]> => {
     return Api.get({
-        url: `${GATEWAY_PRODUCT_URL}v1/product/${alias}/patterns`,
+        url: `${GATEWAY_PRODUCT_URL}v2/product/${alias}/patterns`,
     });
 };
 

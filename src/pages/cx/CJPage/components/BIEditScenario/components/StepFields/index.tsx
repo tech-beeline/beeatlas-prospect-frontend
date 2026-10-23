@@ -24,6 +24,8 @@ export const StepFields: FC<IStepFields> = ({
     handleAddClick,
     handleRemoveClick,
     isLast,
+    singleCall = false,
+    hideTitle = false,
 }) => {
     const [searchTextProduct, setSearchTextProduct] = useState('');
     const [searchTextTC, setSearchTextTC] = useState('');
@@ -107,37 +109,28 @@ export const StepFields: FC<IStepFields> = ({
     }));
     return (
         <S.LinkContainer>
-            <S.FlexWrapper>
-                <Text variant="subtitle1">
-                    <ClampedText
-                        text={stepName}
-                        tooltipId={`title-${index}`}
-                        noArrow
-                        place="top"
-                        offset={8}
-                    />
-                    {/* {selectedTc ? (
-                        <TooltipContainer
-                            text={selectedTc.name}
-                            tooltipId={`title-relation-${index}-tc-${selectedTc.id}`}
+            {!hideTitle && (
+                <S.FlexWrapper>
+                    <Text variant="subtitle1">
+                        <ClampedText
+                            text={stepName}
+                            tooltipId={`title-${index}`}
+                            noArrow
+                            place="top"
+                            offset={8}
                         />
-                    ) : selectedProduct ? (
-                        <TooltipContainer
-                            text={selectedProduct.name}
-                            tooltipId={`title-relation-product-${index}-${selectedProduct.id}`}
+                    </Text>
+                    {!singleCall && (
+                        <IconButton
+                            variant="plain"
+                            size="medium"
+                            iconName={Icons.Delete}
+                            type="button"
+                            onClick={() => handleRemoveClick(index)}
                         />
-                    ) : (
-                        `Вызов ${index + 1}`
-                    )} */}
-                </Text>
-                <IconButton
-                    variant="plain"
-                    size="medium"
-                    iconName={Icons.Delete}
-                    type="button"
-                    onClick={() => handleRemoveClick(index)}
-                />
-            </S.FlexWrapper>
+                    )}
+                </S.FlexWrapper>
+            )}
             <S.LinkWrapper>
                 <S.LinkBlock>
                     <S.LinkTextField>
@@ -245,7 +238,7 @@ export const StepFields: FC<IStepFields> = ({
                     </S.LinkTextField>
                 </S.LinkBlock>
             </S.LinkWrapper>
-            {isLast && (
+            {isLast && !singleCall && (
                 <S.ButtonContainer>
                     <Button variant="outlined" size="small" type="button" onClick={handleAddClick}>
                         Добавить вызов

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Text } from 'components/core';
 import { Skeleton } from 'components/ui';
 
-import { useGetProjectUsecaseRootOperationsQuery } from 'api/queries/usecase';
+import { useGetProjectUsecaseOperationsTreeQuery } from 'api/queries/usecase';
 
 import { CallCard } from '../CallCard';
 import { ReadOnlyNote } from '../ReadOnlyNote';
@@ -13,14 +13,19 @@ import * as S from './units';
 import { getUseCaseCallFields, getUseCasePageUrl } from './utils';
 
 export const UseCaseCalls: FC<IUseCaseCalls> = ({ useCase }) => {
-    const { data: operations, isLoading, isError } = useGetProjectUsecaseRootOperationsQuery(
-        useCase.projectId,
-        useCase.id,
-    );
+    const {
+        data: operations,
+        isLoading,
+        isError,
+    } = useGetProjectUsecaseOperationsTreeQuery(useCase.projectId, useCase.id);
 
     return (
-        <S.CallsList>
-            <ReadOnlyNote linkTitle="Открыть Use Case" url={getUseCasePageUrl(useCase.id)} />
+        <S.Container>
+            <ReadOnlyNote
+                linkTitle={useCase.name || useCase.code}
+                url={getUseCasePageUrl(useCase.id)}
+            />
+            <Text variant="subtitle2">Вызовы</Text>
             {isLoading && <Skeleton radius={12} height={100} />}
             {isError && (
                 <Text variant="body3" inactive>
@@ -32,13 +37,22 @@ export const UseCaseCalls: FC<IUseCaseCalls> = ({ useCase }) => {
                     В Use Case нет вызовов
                 </Text>
             )}
-            {operations?.map((operation, index) => (
-                <CallCard
-                    key={operation.id}
-                    title={`Вызов ${index + 1}`}
-                    fields={getUseCaseCallFields(operation)}
-                />
-            ))}
-        </S.CallsList>
+            {Boolean(operations?.length) && (
+                <S.CallsList>
+                    {operations?.map((operation, index) => (
+                        <CallCard
+                            key={`${operation.discoveredOperationId}-${index}`}
+                            title={
+                                operation.discoveredOperation.description ||
+                                operation.discoveredOperation.operation?.techCapability?.name ||
+                                operation.discoveredOperation.name ||
+                                `Вызов ${index + 1}`
+                            }
+                            fields={getUseCaseCallFields(operation)}
+                        />
+                    ))}
+                </S.CallsList>
+            )}
+        </S.Container>
     );
 };

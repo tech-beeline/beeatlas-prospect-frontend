@@ -10,6 +10,7 @@ import {
     Skeleton,
     TableBody,
     TableHead,
+    TableHeaderData,
     TableRow,
 } from 'components/ui';
 
@@ -41,7 +42,7 @@ export const Patterns: FC<IPatterns> = ({ cmdb }) => {
             }
             return (
                 p.name.toLowerCase().includes(q) ||
-                p.technologies.some((t) => t.label.toLowerCase().includes(q))
+                (p.technologies ?? []).some((t) => t.label.toLowerCase().includes(q))
             );
         })
         .map((p) => ({ id: p.id, value: p.name }));
@@ -157,6 +158,8 @@ export const Patterns: FC<IPatterns> = ({ cmdb }) => {
                             <S.TableHeaderDataMaxWidth>Паттерн</S.TableHeaderDataMaxWidth>
                             <S.TypeColumnHeader>Тип</S.TypeColumnHeader>
                             <S.TechnologiesColumnHeader>Технологии</S.TechnologiesColumnHeader>
+                            <TableHeaderData>Результаты проверки</TableHeaderData>
+                            <TableHeaderData>Дата проверки</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>

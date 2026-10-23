@@ -1,9 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Text } from 'components/core';
 import {
     Badge,
     Banner,
+    Button,
+    Icon,
     ProgressButton,
     TableBody,
     TableData,
@@ -17,11 +19,12 @@ import { IProjectUsecasePipelineOperation } from 'api/staging-service/types';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 
 import { CallDecisionType, IResolutionDraft } from '../../types';
-import * as S from '../../units';
+import * as Layout from '../../units';
 
 import { UnmappedPartCard } from './components';
 import { OPERATION_STATUS_BADGE } from './const';
 import { IResultStep } from './types';
+import * as S from './units';
 import {
     buildDecisions,
     getDefaultDraft,
@@ -38,6 +41,7 @@ import {
 
 export const ResultStep: FC<IResultStep> = ({
     result,
+    isEditing,
     savingDecision,
     applying,
     cancelling,
@@ -46,6 +50,7 @@ export const ResultStep: FC<IResultStep> = ({
     onApply,
 }) => {
     const { data: products = [], isLoading: productsLoading } = useGetAllProductsQuery();
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [editingOperationIds, setEditingOperationIds] = useState<string[]>([]);
     const [drafts, setDrafts] = useState<Record<string, IResolutionDraft>>({});
     const [productOwners, setProductOwners] = useState<Record<string, string>>({});
@@ -62,12 +67,42 @@ export const ResultStep: FC<IResultStep> = ({
         result.participants.find(({ alias }) => alias === operation.toAlias)?.productAlias;
 
     const getDraft = (operation: IProjectUsecasePipelineOperation) =>
-        drafts[operation.operationId] ??
-        getDefaultDraft(operation, getParticipantProduct(operation));
+        drafts[operation.operationId] ?? getEmptyDraft(getParticipantProduct(operation));
 
     const remaining = decisionOperations.filter(
         (operation) => !isOperationResolved(operation, getDraft(operation)),
     ).length;
+
+    const currentOperation = decisionOperations[currentIndex];
+    const currentOperationId = currentOperation?.operationId;
+    const currentProduct = currentOperation && getParticipantProduct(currentOperation);
+    const currentStatus = currentOperation?.status;
+
+    useEffect(() => {
+        if (!currentOperationId) return;
+        setDrafts((current) =>
+            current[currentOperationId]
+                ? current
+                : {
+                      ...current,
+                      [currentOperationId]: {
+                          ...getEmptyDraft(currentProduct),
+                          type: currentStatus === 'unmapped' ? CallDecisionType.NOT_A_CALL : null,
+                      },
+                  },
+        );
+    }, [currentOperationId, currentProduct, currentStatus]);
+
+    const resolvedCount = decisionOperations.length - remaining;
+    const decisionCounts = decisionOperations.reduce<Record<string, number>>(
+        (counts, operation) => {
+            const draft = getDraft(operation);
+            const type = draft.type ?? operation.status;
+            if (isOperationResolved(operation, draft)) counts[type] = (counts[type] ?? 0) + 1;
+            return counts;
+        },
+        {},
+    );
 
     const isProductLocked = (operation: IProjectUsecasePipelineOperation) => {
         const owner = productOwners[operation.toAlias];
@@ -145,35 +180,35 @@ export const ResultStep: FC<IResultStep> = ({
 
     return (
         <>
-            <S.ScrollArea>
-                <S.Content>
+            <Layout.ScrollArea>
+                <Layout.Content>
                     <Text variant="subtitle1">Staging собрал Use Case из PlantUML</Text>
                     {actionError && (
                         <Banner color="error" iconName={Icons.WarningCircled} title={actionError} />
                     )}
-                    <S.Summary>
-                        <S.SummaryCard $semantic="success">
+                    <Layout.Summary>
+                        <Layout.SummaryCard $semantic="success">
                             <Text variant="h4">{confirmed}</Text>
                             <Text inactive variant="subtitle3">
                                 Подтверждено
                             </Text>
-                        </S.SummaryCard>
-                        <S.SummaryCard $semantic="warning">
+                        </Layout.SummaryCard>
+                        <Layout.SummaryCard $semantic="warning">
                             <Text variant="h4">{unresolved}</Text>
                             <Text inactive variant="subtitle3">
                                 Требуют решения
                             </Text>
-                        </S.SummaryCard>
-                        <S.SummaryCard $semantic="neutral">
+                        </Layout.SummaryCard>
+                        <Layout.SummaryCard $semantic="neutral">
                             <Text variant="h4">{planned}</Text>
                             <Text inactive variant="subtitle3">
                                 Планируется
                             </Text>
-                        </S.SummaryCard>
-                    </S.Summary>
-                    <S.Section>
+                        </Layout.SummaryCard>
+                    </Layout.Summary>
+                    <Layout.Section>
                         <Text variant="subtitle1">Список участников</Text>
-                        <S.TableStyled>
+                        <Layout.TableStyled>
                             <TableHead>
                                 <TableRow>
                                     <TableHeaderData>Мнемоника</TableHeaderData>
@@ -185,7 +220,7 @@ export const ResultStep: FC<IResultStep> = ({
                                 {result.participants.map((participant) => {
                                     const badge = getParticipantBadge(participant);
                                     return (
-                                        <TableRow dense key={participant.alias}>
+                                        <TableRow dense minHeight={52} key={participant.alias}>
                                             <TableData>{participant.alias}</TableData>
                                             <TableData>
                                                 {participant.productName ?? participant.name}
@@ -199,11 +234,11 @@ export const ResultStep: FC<IResultStep> = ({
                                     );
                                 })}
                             </TableBody>
-                        </S.TableStyled>
-                    </S.Section>
-                    <S.Section>
+                        </Layout.TableStyled>
+                    </Layout.Section>
+                    <Layout.Section>
                         <Text variant="subtitle1">Смаппированные части</Text>
-                        <S.TableStyled>
+                        <Layout.TableStyled>
                             <TableHead>
                                 <TableRow>
                                     <TableHeaderData>Шаг</TableHeaderData>
@@ -219,6 +254,7 @@ export const ResultStep: FC<IResultStep> = ({
                                     operation.steps.map((step) => (
                                         <TableRow
                                             dense
+                                            minHeight={52}
                                             key={`${operation.operationId}-${step.partId}`}
                                         >
                                             <TableData>{step.partId}</TableData>
@@ -249,48 +285,94 @@ export const ResultStep: FC<IResultStep> = ({
                                     )),
                                 )}
                             </TableBody>
-                        </S.TableStyled>
-                    </S.Section>
-                    <S.Section>
-                        <S.SectionTitle>
-                            <Text variant="subtitle1">Несмаппированные части</Text>
-                            <Text inactive variant="body3">
-                                Кол-во частей: {decisionOperations.length}
-                            </Text>
-                        </S.SectionTitle>
-                        {decisionOperations.map((operation) => (
+                        </Layout.TableStyled>
+                    </Layout.Section>
+                    <Layout.Section>
+                        {unresolved > 0 && <Text variant="subtitle1">Несмаппированные части</Text>}
+                        {currentOperation && (
+                            <S.ReviewSummary>
+                                <S.Pagination>
+                                    <Button
+                                        aria-label="Предыдущая часть"
+                                        disabled={disabled || currentIndex === 0}
+                                        startIcon={<Icon iconName={Icons.NavArrowLeft} />}
+                                        size="small"
+                                        onClick={() => setCurrentIndex((index) => index - 1)}
+                                    />
+                                    <Text variant="h6">
+                                        {currentIndex + 1}/{decisionOperations.length}
+                                    </Text>
+                                    <Button
+                                        aria-label="Следующая часть"
+                                        disabled={
+                                            disabled ||
+                                            currentIndex === decisionOperations.length - 1
+                                        }
+                                        startIcon={<Icon iconName={Icons.NavArrowRight} />}
+                                        size="small"
+                                        onClick={() => setCurrentIndex((index) => index + 1)}
+                                    />
+                                    <Text variant="body2">
+                                        Маппинг: {resolvedCount} из {decisionOperations.length} —{' '}
+                                        {Math.round(
+                                            (resolvedCount / decisionOperations.length) * 100,
+                                        )}
+                                        %
+                                    </Text>
+                                </S.Pagination>
+                                <S.Metrics>
+                                    <Text inactive variant="body3">
+                                        В спецификации:{' '}
+                                        {(decisionCounts[CallDecisionType.EXISTING] ?? 0) +
+                                            (decisionCounts.architect_specified ?? 0) +
+                                            (decisionCounts.matched ?? 0)}
+                                    </Text>
+                                    <Text inactive variant="body3">
+                                        Вне спецификации:{' '}
+                                        {(decisionCounts[CallDecisionType.EXISTS_UNSPECIFIED] ??
+                                            0) + (decisionCounts.exists_unspecified ?? 0)}
+                                    </Text>
+                                    <Text inactive variant="body3">
+                                        К разработке:{' '}
+                                        {(decisionCounts[CallDecisionType.DEVELOP] ?? 0) +
+                                            (decisionCounts.planned ?? 0)}
+                                    </Text>
+                                    <Text inactive variant="body3">
+                                        Не вызов:{' '}
+                                        {(decisionCounts[CallDecisionType.NOT_A_CALL] ?? 0) +
+                                            (decisionCounts.not_a_call ?? 0)}
+                                    </Text>
+                                </S.Metrics>
+                            </S.ReviewSummary>
+                        )}
+                        {currentOperation && (
                             <UnmappedPartCard
-                                key={operation.operationId}
+                                key={currentOperation.operationId}
                                 disabled={disabled}
-                                draft={getDraft(operation)}
+                                draft={getDraft(currentOperation)}
                                 isEditing={
-                                    operation.status === 'unmapped' ||
-                                    editingOperationIds.includes(operation.operationId)
+                                    currentOperation.status === 'unmapped' ||
+                                    editingOperationIds.includes(currentOperation.operationId)
                                 }
-                                operation={operation}
-                                productLocked={isProductLocked(operation)}
+                                operation={currentOperation}
+                                productLocked={isProductLocked(currentOperation)}
                                 products={products}
                                 productsLoading={productsLoading}
-                                onDraftChange={(patch) => setDraft(operation, patch)}
+                                onDraftChange={(patch) => setDraft(currentOperation, patch)}
                                 onEdit={() =>
                                     setEditingOperationIds((current) => [
                                         ...current,
-                                        operation.operationId,
+                                        currentOperation.operationId,
                                     ])
                                 }
-                                onTypeChange={(type) => changeType(operation, type)}
+                                onTypeChange={(type) => changeType(currentOperation, type)}
                             />
-                        ))}
-                    </S.Section>
-                </S.Content>
-            </S.ScrollArea>
-            <S.Footer>
-                <S.FooterContent>
-                    {remaining > 0 && (
-                        <Text inactive variant="body3">
-                            Осталось решений: {remaining}
-                        </Text>
-                    )}
+                        )}
+                    </Layout.Section>
+                </Layout.Content>
+            </Layout.ScrollArea>
+            <Layout.Footer>
+                <Layout.FooterContent>
                     <ProgressButton
                         disabled={disabled}
                         size="medium"
@@ -299,7 +381,7 @@ export const ResultStep: FC<IResultStep> = ({
                         variant="outlined"
                         onClick={onRestart}
                     >
-                        Переделать Use Case
+                        {isEditing ? 'Переделать сценарий' : 'Переделать Use Case'}
                     </ProgressButton>
                     <ProgressButton
                         disabled={disabled || remaining > 0}
@@ -309,10 +391,10 @@ export const ResultStep: FC<IResultStep> = ({
                         variant="contained"
                         onClick={applyDecisions}
                     >
-                        Применить Use Case
+                        {isEditing ? 'Применить изменения сценария' : 'Применить Use Case'}
                     </ProgressButton>
-                </S.FooterContent>
-            </S.Footer>
+                </Layout.FooterContent>
+            </Layout.Footer>
         </>
     );
 };

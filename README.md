@@ -83,6 +83,7 @@ cp public/env/env.example public/env/env
 |---|---|---|
 | `FLAG_IS_PROD` | boolean | Production-режим. Скрывает dev-инструменты (например, ссылку на WebIDE). |
 | `FLAG_IS_DEMO_STAND` | boolean | **Режим демо-стенда.** При `true` используется OIDC-авторизация (Authentik) вместо eAuth. Рекомендуется для open-source и внешних развёртываний. Скрывает корпоративные разделы (дашборды приложений и E2E, обратная связь и др.). |
+| `FLAG_HIDE_AI_ASSISTANT` | boolean | Скрывает кнопку AI-помощника и его чат при `true`. По умолчанию `false`. Не влияет на доступность обратной связи. |
 | `FLAG_SHOW_TOP_BANNER` | boolean | Показывает верхний баннер с приглашением пройти опрос (`TopBanner` над шапкой). При `false` баннер не отображается. Если пользователь закрыл баннер, он больше не показывается (состояние сохраняется в localStorage). |
 | `FLAG_API_URL` | string | Базовый URL API-шлюза. В dev-режиме запросы идут напрямую на этот адрес; в production — через относительные пути и nginx-прокси. |
 | `FLAG_AUTHENTIK_URL` | string | URL сервера Authentik (OIDC). Используется при `FLAG_IS_DEMO_STAND='true'`. |
@@ -93,6 +94,13 @@ cp public/env/env.example public/env/env
 | `FLAG_TEMPLATE_URL` | string | URL шаблонов материалов. Используется на странице «Шаблоны» в разделе базы знаний для открытия презентаций и документов. |
 | `FLAG_DASHBOARD_URL` | string | Базовый URL встроенных дашбордов. Используется для iframe-страниц «Приложения» (`/systems`) и «E2E» (`/e2e`). Доступны только при `FLAG_IS_DEMO_STAND='false'`. |
 | `FLAG_ANALYTICS_URL` | string | Базовый URL сервера Matomo для счётчика аналитики. Формат: **protocol-relative URL со слэшем в конце** — `'//host/'` (два слэша в начале, один в конце). К значению дописываются `matomo.php` и `matomo.js`, поэтому завершающий `/` обязателен. Пример: `'//analytics.example.com/'`. |
+
+Поведение `FeedbackButton` (на страницах, где он разрешён настройками маршрутизации):
+
+- При `FLAG_IS_DEMO_STAND='false'` и `FLAG_HIDE_AI_ASSISTANT='false'` доступны обе кнопки.
+- При `FLAG_IS_DEMO_STAND='true'` и `FLAG_HIDE_AI_ASSISTANT='false'` доступен только AI-помощник.
+- При `FLAG_IS_DEMO_STAND='false'` и `FLAG_HIDE_AI_ASSISTANT='true'` доступна только обратная связь.
+- При обоих флагах `true` весь `FeedbackButton` скрыт.
 
 #### Только для локальной разработки
 

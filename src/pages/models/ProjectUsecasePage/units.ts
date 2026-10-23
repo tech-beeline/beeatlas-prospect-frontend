@@ -5,7 +5,7 @@ import { Table } from 'components/ui';
 export const PageWrapper = styled.main`
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
     width: 100%;
     min-width: 900px;
     min-height: 100%;
@@ -53,7 +53,7 @@ export const Meta = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 48px;
-    margin-top: 8px;
+    margin-top: 4px;
 `;
 
 export const MetaItem = styled.div`
@@ -79,7 +79,7 @@ export const ScenarioTable = styled(Table)`
 export const Relations = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 24px;
 `;
 
 export const ClampedCell = styled.div`
@@ -110,14 +110,18 @@ export const NotFoundPage = styled.div`
 `;
 
 export const Filters = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+`;
+
+export const FlexContainer = styled.div`
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+    gap: 24px;
 `;
 
 export const SearchField = styled.div`
-    flex: 1 1 320px;
-    max-width: 560px;
+    flex: 1;
 `;
 
 export const StatusField = styled.div`

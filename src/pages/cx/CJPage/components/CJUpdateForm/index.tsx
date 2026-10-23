@@ -48,7 +48,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
     const onSubmit = handleSubmit(async (values) => {
         const isNewBusinessOwner = values.businessOwner.id === null;
         let businessOwnerId = values.businessOwner.id;
-        if (isNewBusinessOwner && window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false) {
+        if (isNewBusinessOwner) {
             const createData = await postUsersInfo([
                 {
                     email: values.businessOwner.email,
@@ -64,7 +64,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
         const newTechOwners = filledTechOwners.filter((owner) => owner.id === null);
         let techOwnerIds = filledTechOwners.map((owner) => owner.id);
 
-        if (newTechOwners.length > 0 && window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false) {
+        if (newTechOwners.length > 0) {
             const createData = await postUsersInfo(
                 newTechOwners.map((owner) => ({
                     email: owner.email,
@@ -85,10 +85,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
                 data: {
                     name: values.name,
                     user_portrait: values.userPortrait,
-                    businessOwner:
-                        window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false
-                            ? businessOwnerId ?? 0
-                            : null,
+                    businessOwner: businessOwnerId ?? 0,
                     techOwners: techOwnerIds.filter((id) => id !== null) as number[],
                     id_product: values.product ?? undefined,
                     tags: values.tags,
@@ -121,9 +118,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
                                 <TextField label="Портрет пользователя" name="userPortrait" />
 
-                                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
-                                    <BusinessOwnerField />
-                                )}
+                                <BusinessOwnerField />
 
                                 <Autocomplete
                                     label="Приложение"
@@ -136,9 +131,7 @@ export const CJUpdateForm: FC<ICJUpdateForm> = ({ values, cjId, isOpen, onClose 
 
                                 <TextareaChips key={String(isOpen)} name="tags" label="Теги" />
 
-                                {window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND === false && (
-                                    <TechOwnerFields smallButton />
-                                )}
+                                <TechOwnerFields smallButton />
                             </S.TextFieldContainer>
                         </S.Content>
 

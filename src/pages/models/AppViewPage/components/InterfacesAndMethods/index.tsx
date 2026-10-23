@@ -24,14 +24,14 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
     const paramId = params.get('id');
     const paramType = params.get('type');
 
-    const [interfaceOption, setInterfaceOption] = useState<InterfaceOptions.STRUCTURIZR | string>(
-        InterfaceOptions.STRUCTURIZR,
-    );
+    const [interfaceOption, setInterfaceOption] = useState<
+        InterfaceOptions.STRUCTURIZR_ARCHITECTURE | string
+    >(InterfaceOptions.STRUCTURIZR_ARCHITECTURE);
 
     const { data: discoveredSources } = useGetDiscoveredSourcesQuery();
 
     useEffect(() => {
-        setInterfaceOption(paramSubtab ?? InterfaceOptions.STRUCTURIZR);
+        setInterfaceOption(paramSubtab ?? InterfaceOptions.STRUCTURIZR_ARCHITECTURE);
     }, [paramSubtab]);
 
     const { openModal, closeModal, modalOpened } = useModal();
@@ -72,7 +72,7 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
             ) : (
                 <>
                     {cmdb &&
-                        interfaceOption === InterfaceOptions.STRUCTURIZR &&
+                        interfaceOption === InterfaceOptions.STRUCTURIZR_ARCHITECTURE &&
                         discoveredSources && (
                             <StructurizrTable
                                 interfaceOption={interfaceOption}
@@ -82,7 +82,7 @@ export const InterfacesAndMethods: FC<IInterfacesAndMethods> = ({
                         )}
 
                     {cmdb &&
-                        interfaceOption !== InterfaceOptions.STRUCTURIZR &&
+                        interfaceOption !== InterfaceOptions.STRUCTURIZR_ARCHITECTURE &&
                         discoveredSources && (
                             <MapicTable
                                 interfaceOption={interfaceOption}

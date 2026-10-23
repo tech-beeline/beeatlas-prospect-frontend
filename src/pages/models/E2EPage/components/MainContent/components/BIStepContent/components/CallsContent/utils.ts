@@ -1,11 +1,11 @@
-import { getDiscoveredOperationsById, getOperationsById } from 'features/e2e';
+import { getDiscoveredOperationsById } from 'features/e2e';
 
-import { EntityRelationType, IStagingSequenceCallsData } from 'api/staging-sequence/types';
+import { IStagingSequenceCallsData } from 'api/staging-sequence/types';
 import { formatNullableString } from 'utils/formatters';
 
 import { ICallNode } from '../CallsWorkspace/types';
 
-import { e2eCallStatusMap, UNKNOWN_OPERATION_STATUS } from './const';
+import { SUCCESS_OPERATION_STATUS, UNKNOWN_OPERATION_STATUS } from './const';
 import { IE2EOperation, IE2EOperationRelation } from './types';
 
 const formatMetric = (value: number | null | undefined) =>
@@ -13,17 +13,13 @@ const formatMetric = (value: number | null | undefined) =>
 
 const buildCalls = (
     relations: IE2EOperationRelation[],
-    operationsById: Map<number, IE2EOperation>,
     discoveredOperationsById: Map<number, IE2EOperation>,
     pathPrefix = '',
 ): ICallNode[] =>
     [...relations]
         .sort((a, b) => a.order - b.order)
         .map((relation, index) => {
-            const operation =
-                relation.entityTypeRelatedOperation === EntityRelationType.OPERATION
-                    ? operationsById.get(relation.relatedOperationId)
-                    : discoveredOperationsById.get(relation.relatedOperationId);
+            const operation = discoveredOperationsById.get(relation.relatedOperationId);
             const id = `${pathPrefix}${index}-${relation.relatedOperationId}-${relation.order}`;
             const call = operation
                 ? `${operation.type} ${operation.name}`
@@ -33,9 +29,7 @@ const buildCalls = (
                 id,
                 call,
                 product: operation?.productAlias ?? null,
-                status: operation
-                    ? e2eCallStatusMap[relation.entityTypeRelatedOperation]
-                    : UNKNOWN_OPERATION_STATUS,
+                status: operation ? SUCCESS_OPERATION_STATUS : UNKNOWN_OPERATION_STATUS,
                 fields: [
                     { label: 'Метод', value: call },
                     { label: 'Тип', value: formatNullableString(operation?.type) },
@@ -48,12 +42,7 @@ const buildCalls = (
                     { label: 'Контейнер', value: formatNullableString(operation?.containerCode) },
                 ],
                 children: relation.operationsRelations?.length
-                    ? buildCalls(
-                          relation.operationsRelations,
-                          operationsById,
-                          discoveredOperationsById,
-                          `${id}/`,
-                      )
+                    ? buildCalls(relation.operationsRelations, discoveredOperationsById, `${id}/`)
                     : [],
             };
         });
@@ -61,8 +50,7 @@ const buildCalls = (
 export const buildE2ECalls = (data: IStagingSequenceCallsData | undefined): ICallNode[] => {
     if (!data) return [];
 
-    const operationsById = getOperationsById(data);
     const discoveredOperationsById = getDiscoveredOperationsById(data);
 
-    return buildCalls(data.operationsRelations, operationsById, discoveredOperationsById);
+    return buildCalls(data.operationsRelations, discoveredOperationsById);
 };

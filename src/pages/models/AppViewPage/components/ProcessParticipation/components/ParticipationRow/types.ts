@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
 
+import { IParticipationSearchOption } from '../../types';
+
 export interface IParticipationRowProps {
     title: string;
     code: string;
     url: string | null;
     methodsCount: number;
-    expanded: boolean;
+    selection: IParticipationSearchOption | null;
     children: ReactNode;
 }

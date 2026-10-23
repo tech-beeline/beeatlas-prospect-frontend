@@ -25,7 +25,7 @@ export function filterProductPatterns(
 
         return (
             p.name.toLowerCase().includes(q) ||
-            p.technologies.some((t) => t.label.toLowerCase().includes(q))
+            (p.technologies ?? []).some((t) => t.label.toLowerCase().includes(q))
         );
     });
 }

@@ -65,6 +65,7 @@ export const PublicationsTableRow: FC<IPublicationsTableRow> = ({ process }) => 
                     </>
                 ),
                 error: isCurrentErrorStep,
+                text: isCurrentErrorStep ? currentProcessStatus.message ?? undefined : undefined,
             };
         }) ?? [];
 

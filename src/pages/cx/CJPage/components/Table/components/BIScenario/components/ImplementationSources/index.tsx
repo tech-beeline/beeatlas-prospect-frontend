@@ -1,72 +1,60 @@
 import React, { FC, useState } from 'react';
-import { useSideSheetStore } from 'features/cx/store';
 
-import { Text } from 'components/core';
-import { ClampedText } from 'components/interaction';
-import { Icon } from 'components/ui';
+import { Button } from 'components/ui';
 
-import { SideSheetVariants } from 'pages/cx/CJPage/const';
-import { Icons } from 'styles/design-tokens/js/iconfont';
-
-import { SourceSideBlock } from './components';
-import { implementationSourceMeta } from './const';
-import { IImplementationSources, ImplementationSource } from './types';
+import { SourceCard, SourceSideBlock } from './components';
+import { IImplementationSources, ImplementationSourceType } from './types';
 import * as S from './units';
 import { getImplementationSources } from './utils';
 
-export const ImplementationSources: FC<IImplementationSources> = ({ biStep, onOpenDiagram }) => {
-    const [selectedSource, setSelectedSource] = useState<ImplementationSource | null>(null);
-    const toggleSideSheet = useSideSheetStore((state) => state.toggleSideSheet);
+export const ImplementationSources: FC<IImplementationSources> = ({
+    biStep,
+    onOpenDiagram,
+    onEditManual,
+}) => {
+    const [selectedSourceKey, setSelectedSourceKey] = useState<string | null>(null);
 
     const sources = getImplementationSources(biStep);
 
-    const handleEditManual = () => {
-        setSelectedSource(null);
-        toggleSideSheet(SideSheetVariants.EDIT_SCENARIO_BI, biStep.id);
-    };
-
-    if (sources.length === 0) {
-        return (
-            <S.EmptyContainer>
-                <Text inactive variant="body3">
-                    У шага сценария BI нет реализаций
-                </Text>
-            </S.EmptyContainer>
-        );
-    }
+    const selectedSource =
+        sources.find((source) => source.key === selectedSourceKey) ??
+        (selectedSourceKey === 'manual'
+            ? {
+                  key: 'manual',
+                  type: ImplementationSourceType.MANUAL as const,
+                  name: 'Реализация, настроенная вручную',
+                  relations: biStep.relations ?? [],
+              }
+            : null);
 
     return (
         <>
             <S.SourceList>
                 {sources.map((source) => (
-                    <S.SourceItem
+                    <SourceCard
                         key={source.key}
-                        type="button"
-                        onClick={() => setSelectedSource(source)}
-                    >
-                        <S.SourceText>
-                            <Text variant="caption" inactive>
-                                {implementationSourceMeta[source.type].label}
-                            </Text>
-                            <Text variant="subtitle3">
-                                <ClampedText
-                                    text={source.name}
-                                    tooltipId={`source-${biStep.id}-${source.key}`}
-                                    noArrow
-                                    place="top"
-                                    offset={8}
-                                />
-                            </Text>
-                        </S.SourceText>
-                        <Icon iconName={Icons.NavArrowRight} />
-                    </S.SourceItem>
+                        source={source}
+                        biStepId={biStep.id}
+                        onClick={() => setSelectedSourceKey(source.key)}
+                    />
                 ))}
+                {!biStep.relations?.length && (
+                    <Button
+                        type="button"
+                        variant="outlined"
+                        fullWidth
+                        onClick={() => onEditManual({ mode: 'initial' })}
+                    >
+                        Добавить реализацию вручную
+                    </Button>
+                )}
             </S.SourceList>
             <SourceSideBlock
                 source={selectedSource}
                 biStepCode={biStep.uniqueIdent}
-                onClose={() => setSelectedSource(null)}
-                onEditManual={handleEditManual}
+                biStepId={biStep.id}
+                onClose={() => setSelectedSourceKey(null)}
+                onEditManual={onEditManual}
                 onOpenDiagram={onOpenDiagram}
             />
         </>

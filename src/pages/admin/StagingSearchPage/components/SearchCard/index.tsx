@@ -5,6 +5,7 @@ import {
     artifactStatusToIconMap,
     artifactStatusToNameMap,
     artifactStatusToSemanticMap,
+    useStagingUrl,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -17,6 +18,7 @@ import { ISearchCard } from './types';
 import * as S from './units';
 
 export const SearchCard: FC<ISearchCard> = ({ searchResult, artifactTypes }) => {
+    const stagingUrl = useStagingUrl();
     const navigate = useNavigate();
 
     const artifactTypeName =
@@ -25,7 +27,10 @@ export const SearchCard: FC<ISearchCard> = ({ searchResult, artifactTypes }) => 
 
     const handleNameClick = () => {
         navigate(
-            `${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}?uid=${searchResult.extUid}&type=${artifactTypeName}`,
+            stagingUrl(`${R.ADMIN_PATH}${R.STAGING_SEARCH_PATH}${R.ARTIFACT_PATH}`, ['entities'], {
+                uid: searchResult.extUid,
+                type: artifactTypeName,
+            }),
         );
     };
 

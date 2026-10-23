@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useMemo, useState } from 'react';
-import { FormProvider, UseFormReturn } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { isBIStepCodeSearch, isLinkableBIStep } from 'features/e2e';
 
@@ -15,40 +15,18 @@ import {
     ProgressButton,
 } from 'components/ui';
 
-import { IBIData, IStepsScenarion } from 'api/bi/types';
 import { IProjectUsecaseSummaryDto, ProjectUsecaseImportMode } from 'api/usecase';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatSize } from 'utils/formatters';
 
-import { UsecaseImportFormValues } from '../../form';
 import * as S from '../../units';
 
-interface IDataStepProps {
-    form: UseFormReturn<UsecaseImportFormValues>;
-    usecases: IProjectUsecaseSummaryDto[];
-    businessInteractions: IBIData[];
-    isUsecasesLoading: boolean;
-    isBusinessInteractionsLoading: boolean;
-    isUsecasesError: boolean;
-    isBusinessInteractionsError: boolean;
-    isFormDisabled: boolean;
-    isSubmitting: boolean;
-    canSubmit: boolean;
-    submitError: { message: string; activeRunId?: number } | null;
-    onOpenActiveRun: (runId: number) => void;
-    onSubmit: React.FormEventHandler<HTMLFormElement>;
-}
-
-type BIStepOptionValue = Pick<IStepsScenarion, 'name' | 'uniqueIdent'> & { biName: string };
-
-const matchesSearch = (values: string[], search: string) => {
-    const normalizedSearch = search.trim().toLocaleLowerCase('ru');
-
-    return values.some((value) => value.toLocaleLowerCase('ru').includes(normalizedSearch));
-};
+import { BIStepOptionValue, IDataStepProps } from './types';
+import { matchesSearch } from './utils';
 
 export const DataStep: FC<IDataStepProps> = ({
     form,
+    isEditing,
     usecases,
     businessInteractions,
     isUsecasesLoading,
@@ -149,31 +127,39 @@ export const DataStep: FC<IDataStepProps> = ({
                             />
                         )}
                         <S.FormFields>
-                            <S.ChoiceRow role="group" aria-label="Тип Use Case">
-                                <Chip
-                                    active={mode === ProjectUsecaseImportMode.NEW}
-                                    aria-pressed={mode === ProjectUsecaseImportMode.NEW}
-                                    disabled={isFormDisabled}
-                                    label="Новый Use Case"
-                                    onClick={() => setValue('mode', ProjectUsecaseImportMode.NEW)}
-                                />
-                                <Chip
-                                    active={mode === ProjectUsecaseImportMode.EXISTING}
-                                    aria-pressed={mode === ProjectUsecaseImportMode.EXISTING}
-                                    disabled={isFormDisabled || usecases.length === 0}
-                                    label="Существующий Use Case"
-                                    onClick={() =>
-                                        setValue('mode', ProjectUsecaseImportMode.EXISTING)
-                                    }
-                                />
-                            </S.ChoiceRow>
+                            {!isEditing && (
+                                <S.ChoiceRow role="group" aria-label="Тип Use Case">
+                                    <Chip
+                                        active={mode === ProjectUsecaseImportMode.NEW}
+                                        aria-pressed={mode === ProjectUsecaseImportMode.NEW}
+                                        disabled={isFormDisabled}
+                                        label="Новый Use Case"
+                                        onClick={() =>
+                                            setValue('mode', ProjectUsecaseImportMode.NEW)
+                                        }
+                                    />
+                                    <Chip
+                                        active={mode === ProjectUsecaseImportMode.EXISTING}
+                                        aria-pressed={mode === ProjectUsecaseImportMode.EXISTING}
+                                        disabled={isFormDisabled || usecases.length === 0}
+                                        label="Существующий Use Case"
+                                        onClick={() =>
+                                            setValue('mode', ProjectUsecaseImportMode.EXISTING)
+                                        }
+                                    />
+                                </S.ChoiceRow>
+                            )}
                             <S.FieldsRow>
                                 <S.Field>
                                     {mode === ProjectUsecaseImportMode.NEW ? (
                                         <TextField
                                             disabled={isFormDisabled}
                                             fullWidth
-                                            label="Название Use Case*"
+                                            label={
+                                                isEditing
+                                                    ? 'Название сценария*'
+                                                    : 'Название Use Case*'
+                                            }
                                             name="name"
                                         />
                                     ) : (
@@ -182,7 +168,11 @@ export const DataStep: FC<IDataStepProps> = ({
                                             disabled={isFormDisabled || isUsecasesLoading}
                                             error={Boolean(formState.errors.usecaseId)}
                                             helperText={formState.errors.usecaseId?.message}
-                                            label="Название Use Case*"
+                                            label={
+                                                isEditing
+                                                    ? 'Название сценария*'
+                                                    : 'Название Use Case*'
+                                            }
                                             loading={isUsecasesLoading}
                                             noOptionsContents="Use Case проекта не найдены"
                                             options={scenarioOptions}

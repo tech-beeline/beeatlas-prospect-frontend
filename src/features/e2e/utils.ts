@@ -1,5 +1,5 @@
 import { IStepsScenarion } from 'api/bi/types';
-import { EntityRelationType, IStagingSequenceCallsData } from 'api/staging-sequence/types';
+import { IStagingSequenceCallsData } from 'api/staging-sequence/types';
 
 import { IRootCall, ITreeItem } from './types';
 
@@ -12,7 +12,7 @@ export const isBIStepCodeSearch = (code: string, search: string) =>
     Boolean(search.trim()) &&
     code.toLocaleLowerCase('ru') === search.trim().toLocaleLowerCase('ru');
 
-type IOperation = IStagingSequenceCallsData['operations'][number];
+type IOperation = IStagingSequenceCallsData['discoveredOperations'][number];
 type IOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];
 
 export const withConnectedOperation = (operation: IOperation): IOperation => {
@@ -30,9 +30,6 @@ export const withConnectedOperation = (operation: IOperation): IOperation => {
         containerCode: connected.interface?.container?.code ?? operation.containerCode,
     };
 };
-
-export const getOperationsById = (data: IStagingSequenceCallsData) =>
-    new Map(data.operations.map((operation) => [operation.id, operation]));
 
 export const getDiscoveredOperationsById = (data: IStagingSequenceCallsData) =>
     new Map(
@@ -65,29 +62,15 @@ const formatOperationNodeName = (
     return label;
 };
 
-const getRelatedOperation = (
-    relation: IOperationRelation,
-    operationsById: Map<number, IOperation>,
-    discoveredOperationsById: Map<number, IOperation>,
-): IOperation | undefined =>
-    relation.entityTypeRelatedOperation === EntityRelationType.OPERATION
-        ? operationsById.get(relation.relatedOperationId)
-        : discoveredOperationsById.get(relation.relatedOperationId);
-
 const buildTreeItems = (
     relations: IOperationRelation[],
-    operationsById: Map<number, IOperation>,
     discoveredOperationsById: Map<number, IOperation>,
     pathPrefix = '',
 ): ITreeItem[] =>
     [...relations]
         .sort((a, b) => a.order - b.order)
         .map((relation, index) => {
-            const operation = getRelatedOperation(
-                relation,
-                operationsById,
-                discoveredOperationsById,
-            );
+            const operation = discoveredOperationsById.get(relation.relatedOperationId);
             const id = `${pathPrefix}${index}-${relation.relatedOperationId}-${relation.order}`;
 
             return {
@@ -96,7 +79,6 @@ const buildTreeItems = (
                 children: relation.operationsRelations?.length
                     ? buildTreeItems(
                           relation.operationsRelations,
-                          operationsById,
                           discoveredOperationsById,
                           `${id}/`,
                       )
@@ -109,10 +91,9 @@ export const formatCallsTreeData = (data: IStagingSequenceCallsData | undefined)
         return [];
     }
 
-    const operationsById = getOperationsById(data);
     const discoveredOperationsById = getDiscoveredOperationsById(data);
 
-    return buildTreeItems(data.operationsRelations, operationsById, discoveredOperationsById);
+    return buildTreeItems(data.operationsRelations, discoveredOperationsById);
 };
 
 export const formatRootCalls = (data: IStagingSequenceCallsData | undefined): IRootCall[] => {
@@ -120,15 +101,17 @@ export const formatRootCalls = (data: IStagingSequenceCallsData | undefined): IR
         return [];
     }
 
-    const operationsById = getOperationsById(data);
     const discoveredOperationsById = getDiscoveredOperationsById(data);
 
     return [...data.operationsRelations]
         .sort((a, b) => a.order - b.order)
-        .map((relation, index) => ({
-            id: `${index}-${relation.relatedOperationId}-${relation.order}`,
-            stereotype: relation.stereotype,
-            operation:
-                getRelatedOperation(relation, operationsById, discoveredOperationsById) ?? null,
-        }));
+        .map((relation, index) => {
+            const operation = discoveredOperationsById.get(relation.relatedOperationId) ?? null;
+            return {
+                id: `${index}-${relation.relatedOperationId}-${relation.order}`,
+                stereotype: relation.stereotype,
+                operation,
+                operationId: operation?.operation?.id ?? null,
+            };
+        });
 };

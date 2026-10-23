@@ -14,9 +14,7 @@ import * as S from './units';
 import { reduceE2EData } from './utils';
 
 export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
-    const [tableVariant, setTableVariant] = useState(
-        window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND ? TableVariant.TC : TableVariant.E2E,
-    );
+    const [tableVariant, setTableVariant] = useState(TableVariant.E2E);
     const { data: e2eData, isLoading: isLoadingE2EData } = useGetSystemE2EQuery(encodeURI(cmdb));
     const e2eDataReduced = reduceE2EData(e2eData);
 
@@ -31,19 +29,13 @@ export const E2ETCTable: FC<IE2ETCTable> = ({ cmdb }) => {
         <>
             {isLoading && <Skeleton height={50} radius={12} />}
 
-            {(window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND || e2eData) && tcData && (
+            {e2eData && tcData && (
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableData colSpan={5}>
                                 <S.FlexContainer>
-                                    {CHIPS.filter(
-                                        (c) =>
-                                            !(
-                                                c.value === TableVariant.E2E &&
-                                                window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
-                                            ),
-                                    ).map((chip) => (
+                                    {CHIPS.map((chip) => (
                                         <Chip
                                             key={chip.value}
                                             label={chip.label}

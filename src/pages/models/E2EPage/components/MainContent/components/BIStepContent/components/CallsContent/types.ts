@@ -6,6 +6,6 @@ export interface ICallsContent {
     onSelect: (id: string) => void;
 }
 
-export type IE2EOperation = IStagingSequenceCallsData['operations'][number];
+export type IE2EOperation = IStagingSequenceCallsData['discoveredOperations'][number];
 
 export type IE2EOperationRelation = IStagingSequenceCallsData['operationsRelations'][number];

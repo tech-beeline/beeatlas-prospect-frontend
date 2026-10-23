@@ -8,5 +8,12 @@ export interface IParticipationRow<T> {
     code: string;
     url: string | null;
     methods: T[];
-    expanded: boolean;
+}
+
+export interface IParticipationSearchOption {
+    id: number;
+    value: string;
+    code: string;
+    rowKey: string;
+    methodIndex?: number;
 }

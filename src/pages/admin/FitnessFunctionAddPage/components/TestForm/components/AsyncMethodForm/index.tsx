@@ -35,7 +35,9 @@ export const AsyncMethodForm: FC<IAsyncMethodForm> = ({ setStepVariant, savedDat
         mutateAsync: runFitnessFunction,
         data: runFitnessFunctionResult,
         isPending: isRunningFitnessFunctionMutation,
+        error: runFitnessFunctionError,
     } = useRunFitnessFunctionMutation();
+    const runErrorMessage = runFitnessFunctionError?.message;
 
     const { mutateAsync: postFitnessFunctionStatus, isPending: isStatusChanging } =
         usePostFitnessFunctionStatusMutation();
@@ -124,6 +126,8 @@ export const AsyncMethodForm: FC<IAsyncMethodForm> = ({ setStepVariant, savedDat
                                 </S.OptionText>
                             </S.OptionContent>
                         )}
+                        error={!!runErrorMessage}
+                        helperText={runErrorMessage}
                     />
                 </S.GrowContainer>
                 <S.ProgressButtonStyled

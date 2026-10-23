@@ -31,6 +31,7 @@ export interface IProcessFullData extends IProcess {
     statuses: {
         id: number;
         name: string;
+        message?: string | null;
         alias: string;
         isError: boolean;
         isDone: boolean;

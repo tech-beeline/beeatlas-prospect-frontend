@@ -1,4 +1,5 @@
 import { IRelations, IStepE2E, IStepsScenarion, IStepUseCase } from 'api/bi/types';
+import { ManualCallEditor } from 'pages/cx/CJPage/components/BIEditScenario/types';
 
 export enum ImplementationSourceType {
     MANUAL = 'MANUAL',
@@ -32,4 +33,5 @@ export type ImplementationSource = IManualSource | IUseCaseSource | IE2ESource;
 export interface IImplementationSources {
     biStep: IStepsScenarion;
     onOpenDiagram: (relation: IRelations) => void;
+    onEditManual: (editor: ManualCallEditor) => void;
 }

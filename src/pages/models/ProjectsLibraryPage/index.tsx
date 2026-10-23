@@ -116,8 +116,6 @@ export const ProjectsLibraryPage = () => {
                         onClear={() => setSearch('')}
                     />
                 </S.SearchContainer>
-                <div />
-                <div />
                 <Autocomplete
                     key={ownerId}
                     fullWidth

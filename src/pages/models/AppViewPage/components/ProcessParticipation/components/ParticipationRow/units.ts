@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { TableRow } from 'components/ui';
+import { TableData, TableRow } from 'components/ui';
 
 export const RowStyled = styled(TableRow)<{ expanded: boolean }>`
     background-color: ${({ expanded }) =>
@@ -19,7 +19,21 @@ export const NameText = styled.div`
 `;
 
 export const NestedContainer = styled.div`
-    padding: 16px 16px 16px 24px;
+    width: 100%;
+    padding: 24px;
+
+    & > table {
+        width: 100%;
+        margin: 0;
+    }
 
     border-left: 4px solid var(--color-background-brand);
+`;
+
+export const NestedCell = styled(TableData)`
+    padding: 0;
+
+    & > div > div {
+        width: 100%;
+    }
 `;

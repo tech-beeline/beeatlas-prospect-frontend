@@ -23,11 +23,26 @@ export const PageHeader = styled.div`
 
 export const SearchContainer = styled.div`
     grid-column: span 2;
+    min-width: 0;
+
+    @media (min-width: 1440px) {
+        grid-column: auto;
+    }
 `;
 
 export const FiltersContainer = styled.div`
     display: grid;
     grid-template-columns: 260px 260px 160px 116px;
+
+    @media (max-width: 1439px) {
+        > :nth-child(2) {
+            grid-column: 1;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        grid-template-columns: minmax(220px, 544px) minmax(180px, 260px) minmax(140px, 200px) 160px 116px;
+    }
     align-items: center;
     gap: 24px;
 `;

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 
 import { Text } from 'components/core';
 import { Search } from 'components/ui';
@@ -13,10 +13,12 @@ export const MenuItem = <T extends { id: number; value: string }>({
     searchText,
     option,
     onChange,
+    renderOption,
 }: {
     searchText: string;
     option: T;
-    onChange: (option: any) => void;
+    onChange: (option: T) => void;
+    renderOption?: (option: T) => ReactNode;
 }) => {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -24,13 +26,14 @@ export const MenuItem = <T extends { id: number; value: string }>({
 
     return (
         <S.MenuItem
+            customContent={!!renderOption}
             ref={ref}
             key={option.id}
             onMouseDown={() => {
                 onChange(option);
             }}
         >
-            <Text variant="body2">{text}</Text>
+            {renderOption ? renderOption(option) : <Text variant="body2">{text}</Text>}
         </S.MenuItem>
     );
 };
@@ -42,6 +45,8 @@ export const AutocompleteControlled = <T extends { id: number; value: string }>(
     options,
     onChange,
     onClear,
+    emptyText,
+    renderOption,
 }: IAutocompleteControlled<T>) => {
     const { openModal, closeModal, modalOpened } = useModal();
     return (
@@ -57,14 +62,24 @@ export const AutocompleteControlled = <T extends { id: number; value: string }>(
             />
             {modalOpened && (
                 <S.Menu>
-                    {options.map((o) => (
-                        <MenuItem
-                            key={o.id}
-                            searchText={searchText}
-                            option={o}
-                            onChange={onChange}
-                        ></MenuItem>
-                    ))}
+                    <S.Scrollable>
+                        {options.length === 0 && emptyText && (
+                            <S.EmptyState>
+                                <Text variant="body2" inactive>
+                                    {emptyText}
+                                </Text>
+                            </S.EmptyState>
+                        )}
+                        {options.map((o) => (
+                            <MenuItem
+                                key={o.id}
+                                searchText={searchText}
+                                option={o}
+                                onChange={onChange}
+                                renderOption={renderOption}
+                            ></MenuItem>
+                        ))}
+                    </S.Scrollable>
                 </S.Menu>
             )}
         </S.Container>

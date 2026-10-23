@@ -320,27 +320,32 @@ export interface IFitnessFunctionsAggregationResult {
 }
 
 export interface IProductPattern {
+    isCheck: boolean | null;
+    resultDetails: string | null;
     code: string;
     createDate: string;
     deleteDate: string | null;
+    checkedAt: string | null;
     id: number;
     isAntiPattern: boolean;
     name: string;
     rule: string;
-    technologies: {
-        id: number;
-        label: string;
-        ring: {
-            id: number;
-            name: string;
-            order: number;
-        };
-        sector: {
-            id: number;
-            name: string;
-            order: number;
-        };
-    }[];
+    technologies:
+        | {
+              id: number;
+              label: string;
+              ring: {
+                  id: number;
+                  name: string;
+                  order: number;
+              };
+              sector: {
+                  id: number;
+                  name: string;
+                  order: number;
+              };
+          }[]
+        | null;
     updateDate: string;
 }
 

@@ -5,7 +5,7 @@ import { getProjectUsecaseLatestDate } from 'features/projects';
 import { Text } from 'components/core';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 import {
-    Button,
+    IconButton,
     Search,
     TableBody,
     TableData,
@@ -15,13 +15,14 @@ import {
 } from 'components/ui';
 
 import * as R from 'router/const';
+import { Icons } from 'styles/design-tokens/js/iconfont';
 import { formatDateToUTC } from 'utils/formatters';
 
 import { EMPTY_STATE_TEXT } from './const';
 import { IUsecaseResults } from './types';
 import * as S from './units';
 
-export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
+export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate, onEdit }) => {
     const [search, setSearch] = useState('');
     const filteredUsecases = useMemo(() => {
         const normalizedSearch = search.trim().toLocaleLowerCase('ru');
@@ -34,12 +35,6 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                 usecase.code.toLocaleLowerCase('ru').includes(normalizedSearch),
         );
     }, [search, usecases]);
-
-    const resetFilters = () => {
-        setSearch('');
-    };
-
-    const hasFilters = !!search;
 
     if (usecases.length === 0) {
         return (
@@ -67,10 +62,7 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                         onClear={() => setSearch('')}
                     />
                 </S.FilterControl>
-                <Button disabled={!hasFilters} variant="plain" onClick={resetFilters}>
-                    Сбросить
-                </Button>
-                <S.CreateButton variant="primary" onClick={onCreate}>
+                <S.CreateButton variant="primary" size="medium" onClick={onCreate}>
                     Создать Use Case
                 </S.CreateButton>
             </S.Filters>
@@ -90,11 +82,12 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                             <TableHeaderData>Use Case</TableHeaderData>
                             <TableHeaderData>Дата изменения</TableHeaderData>
                             <TableHeaderData>История</TableHeaderData>
+                            <TableHeaderData />
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredUsecases.map((usecase) => (
-                            <TableRow dense key={usecase.id}>
+                            <TableRow dense minHeight={52} key={usecase.id}>
                                 <TableData>
                                     <div>
                                         <Link
@@ -117,6 +110,14 @@ export const UsecaseResults: FC<IUsecaseResults> = ({ usecases, onCreate }) => {
                                         outer={false}
                                         title="Посмотреть"
                                         url={`${R.MODELS_PATH}${R.PROJECTS_PATH}${R.USECASE_PATH}${R.HISTORY_PATH}?id=${usecase.id}`}
+                                    />
+                                </TableData>
+                                <TableData alignRight={true}>
+                                    <IconButton
+                                        aria-label={`Редактировать ${usecase.name}`}
+                                        iconName={Icons.Edit}
+                                        size="medium"
+                                        onClick={() => onEdit(usecase.id)}
                                     />
                                 </TableData>
                             </TableRow>

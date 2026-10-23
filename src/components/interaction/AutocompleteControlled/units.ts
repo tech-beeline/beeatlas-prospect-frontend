@@ -16,9 +16,6 @@ export const Menu = styled.div`
     padding: 8px 0px;
     width: 100%;
 
-    max-height: 600px;
-    overflow-y: auto;
-
     background-color: var(--color-background-medium);
 
     border-radius: var(--size-border-radius-x6);
@@ -28,9 +25,14 @@ export const Menu = styled.div`
     z-index: 1000;
 `;
 
-export const MenuItem = styled.div`
+export const Scrollable = styled.div`
+    max-height: 540px;
+    overflow-y: auto;
+`;
+
+export const MenuItem = styled.div<{ customContent?: boolean }>`
     padding: 12px 16px;
-    max-height: 46px;
+    max-height: ${({ customContent }) => (customContent ? 'none' : '46px')};
 
     overflow: hidden;
     white-space: nowrap;
@@ -43,4 +45,8 @@ export const MenuItem = styled.div`
     &:hover {
         background-color: var(--color-background-base-hover);
     }
+`;
+
+export const EmptyState = styled.div`
+    padding: 12px 16px;
 `;

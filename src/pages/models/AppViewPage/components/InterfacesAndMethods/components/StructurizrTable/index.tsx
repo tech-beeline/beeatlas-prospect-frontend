@@ -278,32 +278,30 @@ export const StructurizrTable: FC<IStructurizrTable> = ({
                 </Button>
             </S.ActionsContainer>
 
-            {!window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
-                <ButtonGroup
-                    alwaysSelected
-                    selectedOption={{ id: interfaceOption }}
-                    size="small"
-                    options={[
-                        {
-                            id: InterfaceOptions.STRUCTURIZR,
-                            label: 'Structurizr',
-                        },
-                        ...discoveredSources.map((source) => ({
-                            id: source,
-                            label: source.slice(0, 1).toUpperCase() + source.slice(1),
-                        })),
-                    ]}
-                    onChange={(option) => {
-                        setSearchText('');
-                        setSearchParams(
-                            new URLSearchParams({
-                                ...Object.fromEntries(params),
-                                subtab: option.id ?? '',
-                            }),
-                        );
-                    }}
-                />
-            )}
+            <ButtonGroup
+                alwaysSelected
+                selectedOption={{ id: interfaceOption }}
+                size="small"
+                options={[
+                    {
+                        id: InterfaceOptions.STRUCTURIZR_ARCHITECTURE,
+                        label: 'Structurizr',
+                    },
+                    ...discoveredSources.map((source) => ({
+                        id: source,
+                        label: source.slice(0, 1).toUpperCase() + source.slice(1),
+                    })),
+                ]}
+                onChange={(option) => {
+                    setSearchText('');
+                    setSearchParams(
+                        new URLSearchParams({
+                            ...Object.fromEntries(params),
+                            subtab: option.id ?? '',
+                        }),
+                    );
+                }}
+            />
 
             {isLoadingContainerData && <Skeleton height={300} />}
             {containerDataFiltered && containerDataFiltered.length !== 0 && (

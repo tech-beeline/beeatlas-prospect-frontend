@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 
-export const StyledTableRow = styled.tr`
+export const StyledTableRow = styled.tr<{ $minHeight?: number }>`
+    /* Для table-row height задаёт минимум и допускает рост по содержимому. */
+    height: ${({ $minHeight }) => ($minHeight === undefined ? undefined : `${$minHeight}px`)};
+
     border-bottom: 1px solid var(--color-border);
 
     &.dsb_table-row__selected {

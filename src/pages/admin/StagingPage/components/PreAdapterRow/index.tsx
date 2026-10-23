@@ -4,6 +4,7 @@ import {
     pipelineStatusToIconMap,
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
+    useStagingUrl,
 } from 'features/staging';
 
 import { IconBadge } from 'components/core';
@@ -21,6 +22,7 @@ import { IPreAdapterRow } from './types';
 import * as S from './units';
 
 export const PreAdapterRow: FC<IPreAdapterRow> = ({ run }) => {
+    const stagingUrl = useStagingUrl();
     const sourceRef = useRef<HTMLDivElement>(null);
 
     const showSourceTooltip = useShowTooltip(sourceRef);
@@ -80,7 +82,11 @@ export const PreAdapterRow: FC<IPreAdapterRow> = ({ run }) => {
                 <Link
                     outer={false}
                     title={`Посмотреть (${childPipilinesCount})`}
-                    url={`${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}?id=${run.id}`}
+                    url={stagingUrl(
+                        `${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}`,
+                        ['runs'],
+                        { id: String(run.id) },
+                    )}
                 />
             </TableData>
             <S.TableDataMaxWidth>

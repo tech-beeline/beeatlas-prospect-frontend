@@ -8,6 +8,8 @@ export enum PipelineStatuses {
     AWAITING_REVIEW = 'awaiting_review',
     COMPLETED = 'completed',
     FAILED = 'failed',
+    CANCELLED = 'cancelled',
+    APPLYING = 'applying',
 }
 
 export interface IPipileneRun {
@@ -69,6 +71,7 @@ export interface IPipelineRunDetails {
     executionStartedAt: string | null;
     completedAt: string | null;
     batch: number | null;
+    scanRunId: number | null;
     stages: IPipelineStage[];
     rawDataRefId: number | null;
 }
@@ -117,6 +120,7 @@ export interface IGetPipelineRunsResults {
 }
 
 export interface IGetPipilineChildRunsParams {
+    artifactQuery?: string;
     limit?: number;
     offset?: number;
     status?: PipelineStatuses | null;

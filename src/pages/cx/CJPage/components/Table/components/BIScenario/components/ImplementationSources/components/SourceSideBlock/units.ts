@@ -1,25 +1,28 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-    position: relative;
-
     display: flex;
     flex-direction: column;
 
     width: 100%;
-    min-height: 100%;
+    height: 100%;
+    overflow: hidden;
 `;
 
-export const Content = styled.div<{ hasButtons: boolean }>`
+export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 24px;
 
-    height: ${({ hasButtons }) =>
-        hasButtons ? 'calc(var(--app-height) - 96px)' : 'var(--app-height)'};
+    flex: 1;
+    min-height: 0;
     padding: 24px;
 
     overflow-y: auto;
+
+    > * {
+        flex-shrink: 0;
+    }
 `;
 
 export const Header = styled.div`
@@ -42,15 +45,14 @@ export const SideBlockTitle = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
     display: flex;
 
     width: 100%;
-    height: 96px;
-    padding: 24px;
+    height: 88px;
+    flex-shrink: 0;
+    gap: 16px;
+    background-color: var(--color-background-base);
+    padding: 16px 24px 24px;
 
     border-top: 1px solid var(--color-divider);
 

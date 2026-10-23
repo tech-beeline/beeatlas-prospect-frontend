@@ -1,8 +1,10 @@
 import React, { FC, useMemo } from 'react';
 
 import { Text } from 'components/core';
+import { ChipsScrollabele } from 'components/interaction';
 import { ImageVariants, Link, NotFoundBlock } from 'components/other';
 import { Skeleton } from 'components/ui';
+import { Chip } from 'components/ui';
 
 import {
     useGetProjectUsecaseOperationsTreeQuery,
@@ -11,7 +13,6 @@ import {
 } from 'api/queries/usecase';
 
 import { CallsWorkspace } from '../CallsWorkspace';
-import { ImplementationChips } from '../ImplementationChips';
 
 import { IUsecaseCallsContent } from './types';
 import * as S from './units';
@@ -57,11 +58,25 @@ export const UsecaseCallsContent: FC<IUsecaseCallsContent> = ({
 
     return (
         <S.Content>
-            <ImplementationChips
-                implementations={implementations}
-                selectedId={selected ? String(selected.id) : null}
-                onSelect={onSelect}
-            />
+            {implementations.length > 1 && (
+                <S.ImplementationFilters>
+                    <Text inactive variant="overline">
+                        Реализация
+                    </Text>
+                    <ChipsScrollabele>
+                        {implementations.map((implementation) => (
+                            <Chip
+                                key={implementation.id}
+                                label={implementation.label}
+                                active={
+                                    (selected ? String(selected.id) : null) === implementation.id
+                                }
+                                onClick={() => onSelect(implementation.id)}
+                            />
+                        ))}
+                    </ChipsScrollabele>
+                </S.ImplementationFilters>
+            )}
             {selected && (
                 <S.Source>
                     <Text variant="body2">

@@ -1,14 +1,15 @@
 import React, { FC, useMemo } from 'react';
 
 import { Text } from 'components/core';
+import { ChipsScrollabele } from 'components/interaction';
 import { ImageVariants, NotFoundBlock } from 'components/other';
 import { Skeleton } from 'components/ui';
+import { Chip } from 'components/ui';
 
 import { useGetSequenceCallsByIdQuery } from 'api/queries/staging-sequence';
 import { formatNullableString } from 'utils/formatters';
 
 import { CallsWorkspace } from '../CallsWorkspace';
-import { ImplementationChips } from '../ImplementationChips';
 
 import { ICallsContent } from './types';
 import * as S from './units';
@@ -36,11 +37,23 @@ export const CallsContent: FC<ICallsContent> = ({ e2eCodes, selectedId, onSelect
 
     return (
         <S.Content>
-            <ImplementationChips
-                implementations={implementations}
-                selectedId={selectedCode}
-                onSelect={onSelect}
-            />
+            {implementations.length > 1 && (
+                <S.ImplementationFilters>
+                    <Text inactive variant="overline">
+                        Реализация
+                    </Text>
+                    <ChipsScrollabele>
+                        {implementations.map((implementation) => (
+                            <Chip
+                                key={implementation.id}
+                                label={implementation.label}
+                                active={selectedCode === implementation.id}
+                                onClick={() => onSelect(implementation.id)}
+                            />
+                        ))}
+                    </ChipsScrollabele>
+                </S.ImplementationFilters>
+            )}
             {data && (
                 <S.Source>
                     <S.SourceItem>

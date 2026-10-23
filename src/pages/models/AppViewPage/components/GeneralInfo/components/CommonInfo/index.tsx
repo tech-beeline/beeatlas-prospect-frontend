@@ -8,6 +8,7 @@ import {
     Button,
     Icon,
     Progress,
+    Skeleton,
     TableBody,
     TableData,
     TableHead,
@@ -65,6 +66,20 @@ export const CommonInfo: FC<ICommonInfo> = ({
         }
     }, [processesData]);
     const [tempDisabled, setTempDisabled] = useState(false);
+    const [pendingProcessBusinessKey, setPendingProcessBusinessKey] = useState<string | null>(null);
+    const latestProcess = processesData?.[0];
+    const isWaitingForProcess =
+        pendingProcessBusinessKey !== null &&
+        !processesData?.some((process) => process.businessKey === pendingProcessBusinessKey);
+    const isProcessRunning =
+        isWaitingForProcess ||
+        !!(latestProcess && !latestProcess.status.isDone && !latestProcess.status.isError);
+
+    useEffect(() => {
+        if (pendingProcessBusinessKey && !isWaitingForProcess) {
+            setPendingProcessBusinessKey(null);
+        }
+    }, [pendingProcessBusinessKey, isWaitingForProcess]);
 
     const [blurState, setBlurState] = useState({
         apiKey: true,
@@ -85,10 +100,12 @@ export const CommonInfo: FC<ICommonInfo> = ({
         if (cmdb && processesData && processesData[0]) {
             try {
                 setTempDisabled(true);
-                await restartProcess({ processId: processesData[0].id, cmdb });
+                const businessKey = await restartProcess({ processId: processesData[0].id, cmdb });
+                setPendingProcessBusinessKey(businessKey);
                 setTimeout(() => setTempDisabled(false), 15 * 1000);
             } catch (e) {
                 setTempDisabled(false);
+                showSnackbar({ message: 'Не удалось запустить обновление данных' });
             }
         }
     };
@@ -224,12 +241,9 @@ export const CommonInfo: FC<ICommonInfo> = ({
                                 <Button
                                     disabled={
                                         tempDisabled ||
+                                        isProcessRunning ||
                                         !processesData ||
-                                        !processesData[0] ||
-                                        !(
-                                            processesData[0].status.isDone ||
-                                            processesData[0].status.isError
-                                        )
+                                        !processesData[0]
                                     }
                                     data-tooltip-id="refresh"
                                     variant="outlined"
@@ -240,15 +254,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                                     Обновить
                                 </TooltipContainer>
                                 <Button
-                                    disabled={
-                                        tempDisabled ||
-                                        (processesData &&
-                                            processesData[0] &&
-                                            !(
-                                                processesData[0].status.isDone ||
-                                                processesData[0].status.isError
-                                            ))
-                                    }
+                                    disabled={tempDisabled || isProcessRunning}
                                     data-tooltip-id="upload"
                                     variant="outlined"
                                     startIcon={<Icon iconName={Icons.Download} />}
@@ -274,10 +280,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                                 <TableRow>
                                     <TableData>
                                         <S.StructurizrIdContainer>
-                                            {!(
-                                                processesData[0].status.isDone ||
-                                                processesData[0].status.isError
-                                            ) && (
+                                            {isProcessRunning && (
                                                 <S.ProgressContainer>
                                                     <Progress
                                                         cycled
@@ -295,16 +298,40 @@ export const CommonInfo: FC<ICommonInfo> = ({
                                                     </TooltipContainer>
                                                 </S.ProgressContainer>
                                             )}
-                                            {processesData[0].procId}
+                                            {isWaitingForProcess ? (
+                                                <Skeleton height={20} width={160} radius={4} />
+                                            ) : (
+                                                processesData[0].procId
+                                            )}
                                         </S.StructurizrIdContainer>
                                     </TableData>
                                     <TableData>
-                                        {dayjs(formatDateToUTC(processesData[0].status.createdDate))
-                                            .local()
-                                            .format('DD.MM.YYYY, HH:mm')}
+                                        {isWaitingForProcess ? (
+                                            <Skeleton height={20} width={120} radius={4} />
+                                        ) : (
+                                            dayjs(
+                                                formatDateToUTC(
+                                                    processesData[0].status.createdDate,
+                                                ),
+                                            )
+                                                .local()
+                                                .format('DD.MM.YYYY, HH:mm')
+                                        )}
                                     </TableData>
-                                    <TableData>{processesData[0].type.name}</TableData>
-                                    <TableData>{processesData[0].status.name}</TableData>
+                                    <TableData>
+                                        {isWaitingForProcess ? (
+                                            <Skeleton height={20} width={120} radius={4} />
+                                        ) : (
+                                            processesData[0].type.name
+                                        )}
+                                    </TableData>
+                                    <TableData>
+                                        {isWaitingForProcess ? (
+                                            <Skeleton height={20} width={120} radius={4} />
+                                        ) : (
+                                            processesData[0].status.name
+                                        )}
+                                    </TableData>
                                 </TableRow>
                             </TableBody>
                         </S.TableStyled>
@@ -315,6 +342,7 @@ export const CommonInfo: FC<ICommonInfo> = ({
                             onClose={closeArchitectureModal}
                             cmdb={cmdb}
                             setTempDisabled={setTempDisabled}
+                            onProcessStarted={setPendingProcessBusinessKey}
                         />
                     )}
                 </S.StructurizrContainer>

@@ -18,7 +18,9 @@ export const PatternRow: FC<IPatternRow> = ({ pattern, productPatterns }) => {
 
     const { data, isLoading } = useGetNfrsByPatternIdQuery(pattern.id, isExpanded);
 
-    const isImplemented = productPatterns.some((p) => p.id === pattern.id);
+    const isImplemented = productPatterns.some(
+        (p) => p.isCheck === true && (p.code === pattern.code || p.id === pattern.id),
+    );
 
     return (
         <>

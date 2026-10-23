@@ -2,6 +2,7 @@ export { Accordion } from './Accordion';
 export { AutocompleteControlled } from './AutocompleteControlled';
 export { BreadCrumbsItem } from './BreadCrumbsItem';
 export { Card, CardVariant } from './Card';
+export { ChipsScrollabele } from './ChipsScrollabele';
 export { ClampedText } from './ClampedText';
 export { DropdownMenu } from './DropdownMenu';
 export { DropdownMenuControlled } from './DropdownMenuControlled';

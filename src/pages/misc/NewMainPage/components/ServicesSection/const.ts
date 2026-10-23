@@ -78,18 +78,14 @@ export const SERVICE_CATEGORIES: ServiceCategoryData[] = [
                 description:
                     'Это инструмент, который позволяет анализировать и контролировать состояние возможностей в рамках функционально-доменной модели',
             },
-            ...(window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
-                ? []
-                : [
-                      {
-                          title: 'Каталог E2E-сценариев',
-                          to: `${R.MODELS_PATH}${R.E2E_PATH}`,
-                          icon: Icons.List,
-                          color: 'orange',
-                          description:
-                              'Содержит список сценариев и подробную информацию о них, включая проверку их описания',
-                      } as ServiceItemData,
-                  ]),
+            {
+                title: 'Каталог E2E-сценариев',
+                to: `${R.MODELS_PATH}${R.E2E_PATH}`,
+                icon: Icons.List,
+                color: 'orange',
+                description:
+                    'Содержит список сценариев и подробную информацию о них, включая проверку их описания',
+            },
         ],
     },
     {

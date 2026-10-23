@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SideBlock } from 'components/containers';
@@ -9,7 +8,6 @@ import { IconButton } from 'components/ui';
 import { Button, ProgressButton } from 'components/ui';
 
 import { useUpdateBIStepRelations } from 'api/queries/bi';
-import { useGetCompleteCJDataByIdQuery } from 'api/queries/cj';
 import { Icons } from 'styles/design-tokens/js/iconfont';
 import { useSnackbarStore } from 'widgets/Snackbar';
 
@@ -17,19 +15,23 @@ import { StepFields } from './components';
 import { FormValues, validationSchema } from './form';
 import { IBIEditScenario } from './types';
 import * as S from './units';
+import { buildRelationsUpdate, relationToFormValues } from './utils';
 
-export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, relationsData }) => {
+export const BIEditScenario: FC<IBIEditScenario> = ({
+    isOpen,
+    onClose,
+    stepId,
+    relationsData,
+    mode,
+    relationId,
+}) => {
     const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
-
-    const [params] = useSearchParams();
-    const paramId = params.get('id');
-
-    const { refetch } = useGetCompleteCJDataByIdQuery(paramId);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const form = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
+        defaultValues: { steps: [] },
     });
 
     const { handleSubmit, control, reset, formState } = form;
@@ -43,24 +45,21 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
     const { mutateAsync } = useUpdateBIStepRelations();
 
     const onSubmit = handleSubmit(async (values: FormValues) => {
+        if (isSubmitting) return;
         setIsSubmitting(true);
 
-        await mutateAsync({
-            id: String(stepId),
-            data: values.steps.map((step) => ({
-                id: step.id ?? undefined,
-                description: step.description,
-                productId: step.product ?? null,
-                tcId: step.tc ?? null,
-                interfaceId: step.iface ?? null,
-                operationId: step.operation ?? null,
-            })),
-        });
-        await refetch();
-
-        showSnackbar({ message: 'Изменения сохранены' });
-        setIsSubmitting(false);
-        onClose();
+        try {
+            await mutateAsync({
+                id: String(stepId),
+                data: buildRelationsUpdate(relationsData, values.steps, { mode, relationId }),
+            });
+            showSnackbar({ message: 'Изменения сохранены' });
+            onClose();
+        } catch {
+            showSnackbar({ message: 'Не удалось сохранить вызов' });
+        } finally {
+            setIsSubmitting(false);
+        }
     });
 
     const handleAddClick = () => {
@@ -68,6 +67,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
     };
 
     const handleClose = () => {
+        if (isSubmitting) return;
         if (isDirty) {
             showSnackbar({ message: 'Изменения не сохранены' });
         }
@@ -77,26 +77,28 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
     useEffect(() => {
         if (!isOpen) return;
 
+        const selectedRelations =
+            mode === 'edit'
+                ? relationsData.filter((relation) => relation.id === relationId)
+                : mode === 'initial'
+                ? relationsData
+                : [];
         reset({
             steps:
-                relationsData.length === 0
-                    ? [{ description: '', stepName: 'Вызов 1' }]
-                    : relationsData.map((relation, i) => ({
-                          id: relation.id,
-                          product: relation.productId,
-                          tc: relation.tcId,
-                          iface: relation.interfaceId,
-                          operation: relation.operationId,
-                          description: relation.description,
-                          stepName:
-                              relation.tcName ??
-                              relation.operation ??
-                              relation.interfaceName ??
-                              relation.productName ??
-                              `Вызов ${i + 1}`,
-                      })),
+                selectedRelations.length > 0
+                    ? selectedRelations.map(relationToFormValues)
+                    : [
+                          {
+                              product: null,
+                              tc: null,
+                              iface: null,
+                              operation: null,
+                              description: '',
+                              stepName: 'Вызов 1',
+                          },
+                      ],
         });
-    }, [isOpen, relationsData]);
+    }, [isOpen, relationsData, mode, relationId, reset]);
 
     return (
         <SideBlock hasBackdrop isOpen={isOpen} onClose={handleClose} large>
@@ -105,7 +107,13 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                     <form onSubmit={onSubmit}>
                         <S.Content hasButtons>
                             <S.FlexWrapper>
-                                <Text variant="h5">Редактирование шага сценария BI</Text>
+                                <Text variant="h5">
+                                    {mode === 'edit'
+                                        ? 'Редактировать вызов'
+                                        : mode === 'add'
+                                        ? 'Добавить вызов'
+                                        : 'Добавить реализацию вручную'}
+                                </Text>
 
                                 <IconButton
                                     iconName={Icons.Close}
@@ -119,6 +127,7 @@ export const BIEditScenario: FC<IBIEditScenario> = ({ isOpen, onClose, stepId, r
                                     key={field.id}
                                     index={i}
                                     isLast={i === fields.length - 1}
+                                    singleCall={mode === 'edit'}
                                     handleAddClick={handleAddClick}
                                     handleRemoveClick={remove}
                                 />

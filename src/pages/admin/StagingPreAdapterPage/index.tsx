@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
-    initialChildPipelineFilterValues,
     pipelineStatusOptions,
     pipelineStatusToIconMap,
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
     RawDataSideblock,
+    useStagingUrl,
+    useStagingURLFilters,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -16,6 +17,7 @@ import {
     Badge,
     Breadcrumbs,
     Button,
+    Search,
     Select,
     Skeleton,
     TableBody,
@@ -31,29 +33,35 @@ import {
     useGetRawDataQuery,
 } from 'api/queries/staging-service';
 import { IPipelineChildRun } from 'api/staging-service/types';
+import { useDebounce } from 'hooks';
 import * as R from 'router/const';
 
 import { ChildPipelineRow } from './components';
-import { IChildPipelineFilterValues } from './types';
 import * as S from './units';
 import { getChildPipelineStats } from './utils';
 
 export const StagingPreAdapterPage = () => {
+    const stagingUrl = useStagingUrl();
     const [params] = useSearchParams();
     const runId = params.get('id');
     const navigate = useNavigate();
 
-    const [countPage, setCountPage] = useState(1);
-    const [itemsCountOnPage, setItemsCountOnPage] = useState(10);
-    const [filterValues, setFilterValues] = useState<IChildPipelineFilterValues>(
-        initialChildPipelineFilterValues,
-    );
+    const {
+        filters: filterValues,
+        setFilters: setFilterValues,
+        resetFilters,
+    } = useStagingURLFilters('children');
+    const countPage = filterValues.page;
+    const itemsCountOnPage = filterValues.pageSize;
+
+    const searchDebounced = useDebounce(filterValues.search);
 
     const { data: pipelineRun, isLoading: isPipeleneRunLoading } = useGetPipelineRunById(runId);
     const { data: childRuns, isLoading: isChildRunsLoading } = useGetPipelineChildRunsQuery(runId, {
         limit: itemsCountOnPage,
         offset: (countPage - 1) * itemsCountOnPage,
         status: filterValues.status,
+        artifactQuery: encodeURIComponent(searchDebounced),
     });
     const stats = getChildPipelineStats(pipelineRun);
 
@@ -62,15 +70,6 @@ export const StagingPreAdapterPage = () => {
     const [selectedPipeline, setSelectedPipeline] = useState<IPipelineChildRun | null>(null);
     const { data: rawData } = useGetRawDataQuery(selectedPipeline?.rawDataRefId);
 
-    useEffect(() => {
-        setFilterValues(initialChildPipelineFilterValues);
-        setCountPage(1);
-    }, [runId]);
-
-    useEffect(() => {
-        setCountPage(1);
-    }, [filterValues]);
-
     const isResetButtonActive =
         filterValues.status !== null ||
         filterValues.type !== null ||
@@ -78,8 +77,7 @@ export const StagingPreAdapterPage = () => {
         filterValues.search.length > 0;
 
     const handleResetButtonClick = () => {
-        setFilterValues(initialChildPipelineFilterValues);
-        setCountPage(1);
+        resetFilters();
     };
 
     return (
@@ -90,7 +88,9 @@ export const StagingPreAdapterPage = () => {
                         name="Наблюдаемость запусков pipeline"
                         index={0}
                         id={0}
-                        onClick={() => navigate(`${R.ADMIN_PATH}${R.STAGING_PATH}`)}
+                        onClick={() =>
+                            navigate(stagingUrl(`${R.ADMIN_PATH}${R.STAGING_PATH}`, ['runs']))
+                        }
                     />
                 </Breadcrumbs>
 
@@ -136,6 +136,13 @@ export const StagingPreAdapterPage = () => {
             )}
 
             <S.FiltersContainer>
+                <Search
+                    fullWidth
+                    placeholder="Поиск по uid и названию артефакта"
+                    value={filterValues.search}
+                    onChange={(e) => setFilterValues({ search: e.target.value })}
+                    onClear={() => setFilterValues({ search: '' })}
+                />
                 <Select
                     fullWidth
                     placeholder="Статус"
@@ -152,7 +159,6 @@ export const StagingPreAdapterPage = () => {
                     }
                     onChange={(values) =>
                         setFilterValues({
-                            ...filterValues,
                             status: values[0]?.id ?? null,
                         })
                     }
@@ -200,8 +206,7 @@ export const StagingPreAdapterPage = () => {
                             <TableData colSpan={9} alignRight>
                                 <TablePagination
                                     onUserActions={(e) => {
-                                        setCountPage(e.page);
-                                        setItemsCountOnPage(e.rowsPerPage);
+                                        setFilterValues({ page: e.page, pageSize: e.rowsPerPage });
                                     }}
                                     page={countPage}
                                     rowsCount={childRuns.totalCount}

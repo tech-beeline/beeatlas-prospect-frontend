@@ -82,11 +82,7 @@ export const AppViewPage = () => {
             </S.HeaderContainer>
             <S.TabsContainer>
                 <Tabs selectedTabIndex={TABS.findIndex((tab) => tab.id === tabVariant)}>
-                    {TABS.filter((tab) =>
-                        window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND
-                            ? ![TabVariants.E2E_PROCESSES].includes(tab.id)
-                            : true,
-                    ).map((tab) => (
+                    {TABS.map((tab) => (
                         <Tab
                             key={tab.id}
                             label={tab.label}
@@ -127,9 +123,7 @@ export const AppViewPage = () => {
             {tabVariant === TabVariants.TECH_CAPABILITIES && productData && (
                 <TechCapabilities productId={productData.id} cmdb={paramCmdb ?? ''} />
             )}
-            {tabVariant === TabVariants.E2E_PROCESSES && !window.FEATURE_FLAGS.FLAG_IS_DEMO_STAND && (
-                <ProcessParticipation cmdb={paramCmdb} />
-            )}
+            {tabVariant === TabVariants.E2E_PROCESSES && <ProcessParticipation cmdb={paramCmdb} />}
             {tabVariant === TabVariants.TECHNOLOGIES && <Technologies cmdb={paramCmdb} />}
             {tabVariant === TabVariants.PATTERNS && <Patterns cmdb={paramCmdb} />}
             {tabVariant === TabVariants.REQUIREMENTS && <Requirements cmdb={paramCmdb} />}

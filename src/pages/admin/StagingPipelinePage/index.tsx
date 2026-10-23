@@ -5,6 +5,7 @@ import {
     pipelineStatusToIconMap,
     pipelineStatusToNameMap,
     pipelineStatusToSemanticMap,
+    useStagingUrl,
 } from 'features/staging';
 
 import { Text } from 'components/core';
@@ -19,6 +20,7 @@ import { DetailsTable, InfoTable } from './components';
 import * as S from './units';
 
 export const StagingPipilinePage = () => {
+    const stagingUrl = useStagingUrl();
     const [params] = useSearchParams();
     const pipelineId = params.get('id');
     const preAdapterRunId = params.get('preAdapterRunId');
@@ -37,7 +39,9 @@ export const StagingPipilinePage = () => {
                             name="Наблюдаемость запусков pipeline"
                             index={0}
                             id={0}
-                            onClick={() => navigate(`${R.ADMIN_PATH}${R.STAGING_PATH}`)}
+                            onClick={() =>
+                                navigate(stagingUrl(`${R.ADMIN_PATH}${R.STAGING_PATH}`, ['runs']))
+                            }
                         />
                     </Breadcrumbs>
                 )}
@@ -47,7 +51,9 @@ export const StagingPipilinePage = () => {
                             name="Наблюдаемость запусков pipeline"
                             index={0}
                             id={0}
-                            onClick={() => navigate(`${R.ADMIN_PATH}${R.STAGING_PATH}`)}
+                            onClick={() =>
+                                navigate(stagingUrl(`${R.ADMIN_PATH}${R.STAGING_PATH}`, ['runs']))
+                            }
                         />
                         <BreadCrumbsItem
                             name={String(preAdapterRunId)}
@@ -55,7 +61,11 @@ export const StagingPipilinePage = () => {
                             id={1}
                             onClick={() =>
                                 navigate(
-                                    `${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}?id=${preAdapterRunId}`,
+                                    stagingUrl(
+                                        `${R.ADMIN_PATH}${R.STAGING_PATH}${R.PRE_ADAPTER_PATH}`,
+                                        ['runs', 'children'],
+                                        { id: String(preAdapterRunId) },
+                                    ),
                                 )
                             }
                         />

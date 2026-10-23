@@ -60,12 +60,14 @@ export const PublishCard: FC<IPublishCard> = ({
                     )}
                 </S.MetadataContainer>
             )}
-            {note !== undefined && (
+            {note && (
                 <div>
                     <Text inactive variant="body3">
                         Комментарий
                     </Text>
-                    <Text variant="body2">{note}</Text>
+                    <Text variant="body2">
+                        <S.CommentContainer dangerouslySetInnerHTML={{ __html: note }} />
+                    </Text>
                 </div>
             )}
             <S.ButtonContainer>

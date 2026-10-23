@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import { Text } from 'components/core';
 import { Link } from 'components/other';
@@ -14,18 +14,35 @@ export const ParticipationRow: FC<IParticipationRowProps> = ({
     code,
     url,
     methodsCount,
-    expanded: defaultExpanded,
+    selection,
     children,
 }) => {
-    const [expanded, setExpanded] = useState(defaultExpanded);
+    const [expanded, setExpanded] = useState(false);
+    const rowRef = useRef<HTMLTableRowElement>(null);
+    const nestedRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setExpanded(defaultExpanded);
-    }, [defaultExpanded]);
+        if (selection) setExpanded(true);
+    }, [selection]);
+
+    useEffect(() => {
+        if (!selection || !expanded) return;
+        const target =
+            selection.methodIndex === undefined
+                ? rowRef.current
+                : nestedRef.current?.querySelector(
+                      `[data-method-index="${selection.methodIndex}"]`,
+                  );
+        target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, [selection, expanded]);
 
     return (
         <>
-            <S.RowStyled expanded={expanded}>
+            <S.RowStyled
+                ref={rowRef}
+                expanded={expanded}
+                selected={!!selection && selection.methodIndex === undefined}
+            >
                 <TableData>
                     <S.NameContainer>
                         <IconButton
@@ -45,13 +62,13 @@ export const ParticipationRow: FC<IParticipationRowProps> = ({
                         </S.NameText>
                     </S.NameContainer>
                 </TableData>
-                <TableData>{methodsCount}</TableData>
+                <TableData alignRight>{methodsCount}</TableData>
             </S.RowStyled>
             {expanded && (
                 <TableRow>
-                    <TableData colSpan={2}>
-                        <S.NestedContainer>{children}</S.NestedContainer>
-                    </TableData>
+                    <S.NestedCell colSpan={2}>
+                        <S.NestedContainer ref={nestedRef}>{children}</S.NestedContainer>
+                    </S.NestedCell>
                 </TableRow>
             )}
         </>
