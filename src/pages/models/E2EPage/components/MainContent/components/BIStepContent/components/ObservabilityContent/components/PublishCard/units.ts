@@ -46,3 +46,17 @@ export const ButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
 `;
+
+export const CommentContainer = styled.div`
+    white-space: pre-wrap;
+
+    a {
+        color: var(--color-text-link);
+
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+`;
