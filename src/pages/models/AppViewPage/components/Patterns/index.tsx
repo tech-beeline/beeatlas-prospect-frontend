@@ -42,7 +42,7 @@ export const Patterns: FC<IPatterns> = ({ cmdb }) => {
             }
             return (
                 p.name.toLowerCase().includes(q) ||
-                p.technologies.some((t) => t.label.toLowerCase().includes(q))
+                (p.technologies ?? []).some((t) => t.label.toLowerCase().includes(q))
             );
         })
         .map((p) => ({ id: p.id, value: p.name }));
@@ -159,7 +159,7 @@ export const Patterns: FC<IPatterns> = ({ cmdb }) => {
                             <S.TypeColumnHeader>Тип</S.TypeColumnHeader>
                             <S.TechnologiesColumnHeader>Технологии</S.TechnologiesColumnHeader>
                             <TableHeaderData>Результаты проверки</TableHeaderData>
-                            <TableHeaderData>Детали проверки</TableHeaderData>
+                            <TableHeaderData>Дата проверки</TableHeaderData>
                         </TableRow>
                     </TableHead>
                     <TableBody>
